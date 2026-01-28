@@ -1,0 +1,32 @@
+title: Exfiltration Over C2 Channel (MACOS - unified_logging)
+id: f78524bf-e2bc-4486-85a4-6ffb257c708d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: APT3
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.apt3

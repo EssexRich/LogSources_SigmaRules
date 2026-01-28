@@ -1,0 +1,29 @@
+title: Acquire Infrastructure (GOOGLE - workspace)
+id: 356db7ea-155c-4ee2-9411-5eda7d5a1127
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.
+  Threat Actor: Indrik Spider
+references:
+  - https://attack.mitre.org/techniques/T1583/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583
+  - actor.indrik_spider

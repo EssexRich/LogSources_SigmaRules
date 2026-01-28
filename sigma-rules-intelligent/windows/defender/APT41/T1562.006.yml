@@ -1,0 +1,31 @@
+title: Indicator Blocking (WINDOWS - defender)
+id: 73a6a7ee-445e-480e-b1df-15e0449913e2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.006.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1562.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'clear-log'
+      - '/Trace'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.006
+  - actor.apt41

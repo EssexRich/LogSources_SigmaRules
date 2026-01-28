@@ -1,0 +1,32 @@
+title: Portable Executable Injection (WINDOWS - sysmon)
+id: 1e07eff0-8c17-40d9-b9dd-4e7f5427781a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.002.
+  Threat Actor: Gorgon Group
+references:
+  - https://attack.mitre.org/techniques/T1055.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.002
+  - actor.gorgon_group

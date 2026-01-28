@@ -1,0 +1,32 @@
+title: System Network Connections Discovery (WINDOWS - security)
+id: aa94ea2f-cae5-49a7-8a08-161a36adae3d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: APT3
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.apt3

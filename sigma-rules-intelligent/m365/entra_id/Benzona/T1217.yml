@@ -1,0 +1,29 @@
+title: Browser Information Discovery (M365 - entra_id)
+id: 7162ed07-1d3e-4b96-b79a-61268f338d73
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1217.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1217/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1217
+  - actor.benzona

@@ -1,0 +1,32 @@
+title: Steal Web Session Cookie (MACOS - unified_logging)
+id: d5700ce8-d19a-45c5-b929-c6d5ab847f6f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1539.
+  Threat Actor: Evilnum
+references:
+  - https://attack.mitre.org/techniques/T1539/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1539
+  - actor.evilnum

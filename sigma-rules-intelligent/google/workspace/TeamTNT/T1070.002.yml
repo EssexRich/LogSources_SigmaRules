@@ -1,0 +1,29 @@
+title: Clear Linux or Mac System Logs (GOOGLE - workspace)
+id: 67917af0-d90b-4701-ba2e-c7a11f3f5a58
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.002.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1070.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.002
+  - actor.teamtnt

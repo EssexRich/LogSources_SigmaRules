@@ -1,0 +1,32 @@
+title: T8610 (MACOS - unified_logging)
+id: 26ddf3f2-cbaa-43eb-9b32-a3be3c7c6461
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8610.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T8610/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8610
+  - actor.stormous

@@ -1,0 +1,32 @@
+title: Multi-Stage Channels (WINDOWS - sysmon)
+id: 9de65e30-5cfb-41ad-8007-dd60d01e4be7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1104.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1104/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1104
+  - actor.brain_cipher

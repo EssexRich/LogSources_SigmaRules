@@ -1,0 +1,32 @@
+title: Client Configurations (WINDOWS - security)
+id: 0e680e24-bd4e-4eb7-ad62-d0f3fe9ce1fa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1592.004.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1592.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1592.004
+  - actor.hafnium

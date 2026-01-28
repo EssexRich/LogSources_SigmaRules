@@ -1,0 +1,32 @@
+title: IDE Tunneling (WINDOWS - security)
+id: fb626d40-40e8-491f-8461-556641fbd269
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.001.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1219.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219.001
+  - actor.mustang_panda

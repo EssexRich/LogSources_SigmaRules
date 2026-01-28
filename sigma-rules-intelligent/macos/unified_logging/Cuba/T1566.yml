@@ -1,0 +1,30 @@
+title: Phishing (MACOS - unified_logging)
+id: 0920b1be-c5b0-4233-b184-9da08f30f3c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+  Threat Actor: Cuba
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '/Script Editor'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566
+  - actor.cuba

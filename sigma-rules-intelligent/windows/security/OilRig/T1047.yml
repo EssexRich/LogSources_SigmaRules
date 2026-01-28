@@ -1,0 +1,35 @@
+title: Windows Management Instrumentation (WINDOWS - security)
+id: 1c04788d-b8e0-402f-96dc-1072f67c9f12
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|endswith|contains:
+      - '\WmiPrvSE.exe'
+    RelativeTargetName|endswith|contains:
+      - '\wbem\wbemcomn.dll'
+    CommandLine|contains|all|contains:
+      - 'reg'
+      - ' add '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.oilrig

@@ -1,0 +1,32 @@
+title: Windows Management Instrumentation (MACOS - unified_logging)
+id: 3e807632-4217-46d1-b7e7-ee872733d5f3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.apt29

@@ -1,0 +1,29 @@
+title: Web Service (GOOGLE - workspace)
+id: 2b9fb7c6-f5dd-474c-9d5f-1b559431c478
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.
+  Threat Actor: Inception
+references:
+  - https://attack.mitre.org/techniques/T1102/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102
+  - actor.inception

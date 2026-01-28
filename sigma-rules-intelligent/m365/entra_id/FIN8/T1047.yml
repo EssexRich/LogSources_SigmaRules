@@ -1,0 +1,29 @@
+title: Windows Management Instrumentation (M365 - entra_id)
+id: 0a9c662a-f0db-40d9-a4e0-fdc10fc475a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: FIN8
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.fin8

@@ -1,0 +1,29 @@
+title: Code Signing (GOOGLE - workspace)
+id: d6ad5d54-4a1e-40f0-83da-2da977b0acb3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1553.002.
+  Threat Actor: Patchwork
+references:
+  - https://attack.mitre.org/techniques/T1553.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1553.002
+  - actor.patchwork

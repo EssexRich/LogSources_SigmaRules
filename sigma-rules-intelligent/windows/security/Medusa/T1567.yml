@@ -1,0 +1,32 @@
+title: Exfiltration Over Web Service (WINDOWS - security)
+id: d53c14f6-5649-4909-925e-b038162cc4a7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1567/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '/in:'
+      - '/out:'
+      - '/uri:'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567
+  - actor.medusa

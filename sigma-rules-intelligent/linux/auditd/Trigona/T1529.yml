@@ -1,0 +1,43 @@
+title: System Shutdown/Reboot (LINUX - auditd)
+id: 0ac4c89b-5d55-403b-8f9a-ae4906951eff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1529.
+  Threat Actor: Trigona
+references:
+  - https://attack.mitre.org/techniques/T1529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'PATH'
+    shutdowncmd|contains:
+      - 'shutdown'
+      - 'reboot'
+      - 'halt'
+    name|endswith|contains:
+      - '/sysrq'
+      - '/sysctl.conf'
+      - '/sysrq-trigger'
+    Image|endswith|contains:
+      - '/esxcli'
+    CommandLine|contains|all|contains:
+      - 'vm process'
+      - 'kill'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1529
+  - actor.trigona

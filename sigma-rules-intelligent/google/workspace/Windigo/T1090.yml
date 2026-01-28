@@ -1,0 +1,29 @@
+title: Proxy (GOOGLE - workspace)
+id: 6c40c703-0de5-4f7a-a53e-341845622d9d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.
+  Threat Actor: Windigo
+references:
+  - https://attack.mitre.org/techniques/T1090/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090
+  - actor.windigo

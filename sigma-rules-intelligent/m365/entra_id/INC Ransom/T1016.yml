@@ -1,0 +1,29 @@
+title: System Network Configuration Discovery (M365 - entra_id)
+id: 137760e6-97aa-4411-86c0-e06b6fa3929f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.inc_ransom

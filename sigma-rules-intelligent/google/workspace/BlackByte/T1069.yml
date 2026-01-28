@@ -1,0 +1,29 @@
+title: Permission Groups Discovery (GOOGLE - workspace)
+id: 7ad913c7-1af5-4ab5-ac7e-be8b24b73b82
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.blackbyte

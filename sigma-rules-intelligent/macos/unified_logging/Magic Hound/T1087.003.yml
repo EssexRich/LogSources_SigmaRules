@@ -1,0 +1,32 @@
+title: Email Account (MACOS - unified_logging)
+id: 4a7fc63f-cf2a-486c-9edb-16fbbc17f0b2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.003.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1087.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.003
+  - actor.magic_hound

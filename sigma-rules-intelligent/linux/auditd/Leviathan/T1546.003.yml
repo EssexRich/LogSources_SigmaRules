@@ -1,0 +1,32 @@
+title: Windows Management Instrumentation Event Subscription (LINUX - auditd)
+id: 1340cbcb-0439-48cb-afc4-0d5a06db0427
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1546.003.
+  Threat Actor: Leviathan
+references:
+  - https://attack.mitre.org/techniques/T1546.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1546.003
+  - actor.leviathan

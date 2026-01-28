@@ -1,0 +1,29 @@
+title: Code Repositories (M365 - entra_id)
+id: b459ae9b-bdae-4414-9770-357f80d4b713
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1593.003.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1593.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1593.003
+  - actor.hafnium

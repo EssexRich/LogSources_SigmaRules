@@ -1,0 +1,29 @@
+title: Peripheral Device Discovery (GOOGLE - workspace)
+id: abe633a4-ba4a-46c3-9b67-cba07ea1b502
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1120.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1120/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1120
+  - actor.bianlian

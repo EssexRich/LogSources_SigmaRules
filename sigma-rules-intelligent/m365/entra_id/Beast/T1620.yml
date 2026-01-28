@@ -1,0 +1,29 @@
+title: Reflective Code Loading (M365 - entra_id)
+id: 0c330c99-c8e9-4c99-88c6-b9627468ee6c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1620.
+  Threat Actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1620/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1620
+  - actor.beast

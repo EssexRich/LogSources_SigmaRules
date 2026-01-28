@@ -1,0 +1,29 @@
+title: Exfiltration Over C2 Channel (M365 - entra_id)
+id: 5ccf7b5b-a064-45ea-aa47-31492e5e2060
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: ZIRCONIUM
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.zirconium

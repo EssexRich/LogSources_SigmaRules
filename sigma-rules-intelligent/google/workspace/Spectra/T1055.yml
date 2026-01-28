@@ -1,0 +1,29 @@
+title: Process Injection (GOOGLE - workspace)
+id: 6e764b9a-0076-4ef8-ba3f-0974d9ce6081
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.spectra

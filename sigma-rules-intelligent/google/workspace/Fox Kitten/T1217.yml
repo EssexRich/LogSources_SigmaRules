@@ -1,0 +1,29 @@
+title: Browser Information Discovery (GOOGLE - workspace)
+id: 8b9063b9-d0e0-4bea-a3e0-ee66dd8029fc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1217.
+  Threat Actor: Fox Kitten
+references:
+  - https://attack.mitre.org/techniques/T1217/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1217
+  - actor.fox_kitten

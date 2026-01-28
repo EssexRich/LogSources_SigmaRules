@@ -1,0 +1,32 @@
+title: Password Managers (WINDOWS - defender)
+id: 1e066294-a752-4c88-813c-453d4b83f1c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.005.
+  Threat Actor: Fox Kitten
+references:
+  - https://attack.mitre.org/techniques/T1555.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.005
+  - actor.fox_kitten

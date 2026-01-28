@@ -1,0 +1,29 @@
+title: Phishing (M365 - entra_id)
+id: f9e5bd19-c51d-4b57-8e8d-5412c611297c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566
+  - actor.lockbit

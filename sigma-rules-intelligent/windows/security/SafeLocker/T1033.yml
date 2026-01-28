@@ -1,0 +1,33 @@
+title: System Owner/User Discovery (WINDOWS - security)
+id: 2d161e79-6b01-4abd-8963-6435a71482a9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\SharpLdapWhoami.exe'
+    CommandLine|contains|all|contains:
+      - 'Get-ADComputer '
+      - ' -Filter \*'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.safelocker

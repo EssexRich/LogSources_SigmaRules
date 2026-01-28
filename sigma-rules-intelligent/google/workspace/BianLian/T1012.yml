@@ -1,0 +1,29 @@
+title: Query Registry (GOOGLE - workspace)
+id: 239506b9-a3a9-47d1-b1b0-47cbccd17495
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.bianlian

@@ -1,0 +1,32 @@
+title: Multi-Factor Authentication Request Generation (LINUX - auditd)
+id: dc69fe96-e041-4831-9e98-1bb0e0b4a5eb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1621.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1621/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1621
+  - actor.safepay

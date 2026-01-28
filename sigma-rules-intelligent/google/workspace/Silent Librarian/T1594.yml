@@ -1,0 +1,29 @@
+title: Search Victim-Owned Websites (GOOGLE - workspace)
+id: 27311136-b307-4a8a-b6cb-87cef5b0b72c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1594.
+  Threat Actor: Silent Librarian
+references:
+  - https://attack.mitre.org/techniques/T1594/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1594
+  - actor.silent_librarian

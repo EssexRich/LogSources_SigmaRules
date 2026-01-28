@@ -1,0 +1,29 @@
+title: IP Addresses (GOOGLE - workspace)
+id: 6b54b7d4-687d-4712-904d-419961b2c273
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1590.005.
+  Threat Actor: Andariel
+references:
+  - https://attack.mitre.org/techniques/T1590.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1590.005
+  - actor.andariel

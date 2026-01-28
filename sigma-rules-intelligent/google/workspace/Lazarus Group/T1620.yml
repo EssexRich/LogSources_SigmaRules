@@ -1,0 +1,29 @@
+title: Reflective Code Loading (GOOGLE - workspace)
+id: 979f5e50-5aee-4c99-b275-630135ae102c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1620.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1620/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1620
+  - actor.lazarus_group

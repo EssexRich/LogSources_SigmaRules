@@ -1,0 +1,32 @@
+title: T2972 (WINDOWS - sysmon)
+id: d8da5d88-f25d-4c1f-ae23-ab6cd197bdfd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T2972.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T2972/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T2972
+  - actor.benzona

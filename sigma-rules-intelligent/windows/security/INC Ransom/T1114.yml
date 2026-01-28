@@ -1,0 +1,32 @@
+title: Email Collection (WINDOWS - security)
+id: 39fded1e-5e3c-45ae-a920-d07e00b6f956
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1114.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1114/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Workstation|contains:
+      - 'RULER'
+    CommandLine|contains|contains:
+      - 'Add-PSSnapin'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1114
+  - actor.inc_ransom

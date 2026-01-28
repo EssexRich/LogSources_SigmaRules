@@ -1,0 +1,29 @@
+title: Masquerading (GOOGLE - workspace)
+id: fad5fe19-2a85-4899-b853-a86625b05586
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: TA551
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.ta551

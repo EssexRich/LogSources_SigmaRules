@@ -1,0 +1,29 @@
+title: Clipboard Data (M365 - entra_id)
+id: 446646ce-aa77-413b-81fb-cdf28a8da1b9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1115.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1115/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1115
+  - actor.spectra

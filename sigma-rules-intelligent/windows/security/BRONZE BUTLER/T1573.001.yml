@@ -1,0 +1,32 @@
+title: Symmetric Cryptography (WINDOWS - security)
+id: 8644ee15-47fd-414f-be20-1a06c1dedaa4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.001.
+  Threat Actor: BRONZE BUTLER
+references:
+  - https://attack.mitre.org/techniques/T1573.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.001
+  - actor.bronze_butler

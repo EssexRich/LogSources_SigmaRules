@@ -1,0 +1,29 @@
+title: Mail Protocols (GOOGLE - workspace)
+id: 5f2f269b-3305-4ed7-aeb2-74e2932b183e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.003.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1071.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.003
+  - actor.apt32

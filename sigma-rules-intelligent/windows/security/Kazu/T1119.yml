@@ -1,0 +1,39 @@
+title: Automated Collection (WINDOWS - security)
+id: c8b4ec48-1143-42cc-b980-77703c8bbc7a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '.doc'
+      - '.docx'
+      - '.xls'
+    CommandLine|contains|all|contains:
+      - 'dir '
+      - ' /b '
+      - ' /s '
+    ParentCommandLine|contains|contains:
+      - ' > %TEMP%\'
+      - ' > %TMP%\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.kazu

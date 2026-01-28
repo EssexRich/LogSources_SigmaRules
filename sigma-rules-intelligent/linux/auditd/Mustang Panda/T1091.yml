@@ -1,0 +1,32 @@
+title: Replication Through Removable Media (LINUX - auditd)
+id: 0cd28fa4-cefb-44c9-9f9b-d09f731d50a0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091
+  - actor.mustang_panda

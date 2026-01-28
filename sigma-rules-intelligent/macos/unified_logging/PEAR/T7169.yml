@@ -1,0 +1,32 @@
+title: T7169 (MACOS - unified_logging)
+id: b5094af8-a6fb-4420-858e-f0d453456002
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7169.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T7169/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7169
+  - actor.pear

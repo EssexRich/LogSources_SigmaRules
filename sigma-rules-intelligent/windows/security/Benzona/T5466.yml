@@ -1,0 +1,32 @@
+title: T5466 (WINDOWS - security)
+id: 1248ea06-fd73-4156-9af3-392327c2b424
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5466.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T5466/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5466
+  - actor.benzona

@@ -1,0 +1,32 @@
+title: Credentials from Web Browsers (WINDOWS - security)
+id: fdeb9ed8-2abb-4cdf-bce3-486d69a55bf3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+  Threat Actor: ZIRCONIUM
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '\User Data\'
+      - '\Opera Software\'
+      - '\ChromiumViewer\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003
+  - actor.zirconium

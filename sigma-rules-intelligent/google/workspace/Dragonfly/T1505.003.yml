@@ -1,0 +1,29 @@
+title: Web Shell (GOOGLE - workspace)
+id: 7477336f-3527-47d6-9ab8-3404654eb495
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1505.003.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1505.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1505.003
+  - actor.dragonfly

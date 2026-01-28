@@ -1,0 +1,32 @@
+title: Internet Connection Discovery (MACOS - unified_logging)
+id: 4895b302-74df-4e4e-ba23-0cd48f4d0d64
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.001.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1016.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016.001
+  - actor.gamaredon_group

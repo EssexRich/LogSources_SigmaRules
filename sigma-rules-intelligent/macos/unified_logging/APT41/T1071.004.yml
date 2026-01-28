@@ -1,0 +1,32 @@
+title: DNS (MACOS - unified_logging)
+id: 4818b844-c3f0-426e-9f0b-d4d5f18d0b97
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.004.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1071.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.004
+  - actor.apt41

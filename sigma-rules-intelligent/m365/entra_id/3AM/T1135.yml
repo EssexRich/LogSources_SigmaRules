@@ -1,0 +1,29 @@
+title: Network Share Discovery (M365 - entra_id)
+id: c287be8d-ac65-4067-989b-8a2e0304c2aa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.3am

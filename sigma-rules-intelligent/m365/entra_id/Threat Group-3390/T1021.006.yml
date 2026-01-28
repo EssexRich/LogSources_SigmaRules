@@ -1,0 +1,29 @@
+title: Windows Remote Management (M365 - entra_id)
+id: 47031168-0366-4152-bb25-e153355f1e54
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.006.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1021.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.006
+  - actor.threat_group-3390

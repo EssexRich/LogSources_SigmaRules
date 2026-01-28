@@ -1,0 +1,35 @@
+title: Network Service Discovery (WINDOWS - security)
+id: 7c7d4f40-3d11-435c-ae07-3f32797acdef
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Offline_Winpwn'
+      - 'WinPwn '
+      - 'WinPwn.exe'
+    CommandLine|contains|all|contains:
+      - '/portable'
+      - '/lng'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.devman's_ransomware

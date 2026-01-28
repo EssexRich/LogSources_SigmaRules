@@ -1,0 +1,32 @@
+title: Application Window Discovery (WINDOWS - defender)
+id: 718fe1a6-97f1-4e27-9333-0317a9f2f961
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1010.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1010
+  - actor.spectra

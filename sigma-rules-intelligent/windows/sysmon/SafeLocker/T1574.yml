@@ -1,0 +1,37 @@
+title: Hijack Execution Flow (WINDOWS - sysmon)
+id: 096a992f-f6fa-45a9-844e-c2077fea24ac
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1574/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\register-cimprovider.exe'
+    CommandLine|contains|all|contains:
+      - '-path'
+      - 'dll'
+    CommandLine|contains|contains:
+      - '.ax'
+      - '.cpl'
+      - '.dll'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574
+  - actor.safelocker

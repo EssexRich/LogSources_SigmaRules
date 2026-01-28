@@ -1,0 +1,29 @@
+title: Screen Capture (GOOGLE - workspace)
+id: 94b23ec1-e912-4eac-9e84-5b5932711a9a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.inc_ransom

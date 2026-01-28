@@ -1,0 +1,32 @@
+title: IP Addresses (WINDOWS - defender)
+id: 2ea9ec7d-edb3-416b-a258-d68558f3de08
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1590.005.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1590.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1590.005
+  - actor.magic_hound

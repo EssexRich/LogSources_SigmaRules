@@ -1,0 +1,33 @@
+title: Indicator Removal (WINDOWS - sysmon)
+id: a5b63fa4-36b0-4479-ace2-33214cf6daff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'unload'
+    CommandLine|contains|all|contains:
+      - 'unload'
+      - 'sysmon'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070
+  - actor.brain_cipher

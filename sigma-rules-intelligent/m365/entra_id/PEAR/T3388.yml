@@ -1,0 +1,29 @@
+title: T3388 (M365 - entra_id)
+id: 2fc92326-e808-4fa5-b77d-37e7c9d67e9a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3388.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T3388/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3388
+  - actor.pear

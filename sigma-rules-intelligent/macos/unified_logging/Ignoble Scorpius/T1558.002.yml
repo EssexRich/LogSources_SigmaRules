@@ -1,0 +1,32 @@
+title: Silver Ticket (MACOS - unified_logging)
+id: 0d8d8aaf-3424-4d06-a84b-4f09944c46ec
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.002.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1558.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558.002
+  - actor.ignoble_scorpius

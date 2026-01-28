@@ -1,0 +1,32 @@
+title: Disable or Modify System Firewall (WINDOWS - defender)
+id: 13b168a8-8256-461f-93eb-74b2b88db66a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.004.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1562.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'firewall '
+      - 'add '
+      - 'tcp '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.004
+  - actor.teamtnt

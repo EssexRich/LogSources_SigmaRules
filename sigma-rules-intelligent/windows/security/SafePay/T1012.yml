@@ -1,0 +1,30 @@
+title: Query Registry (WINDOWS - security)
+id: 0dc301f1-0b09-4d43-b557-7a2c9f69b2c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ObjectType|contains:
+      - 'Key'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.safepay

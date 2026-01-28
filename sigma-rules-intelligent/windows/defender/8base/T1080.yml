@@ -1,0 +1,32 @@
+title: Taint Shared Content (WINDOWS - defender)
+id: b34b4b47-0055-495e-bfbc-813d0675266c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1080.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1080/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1080
+  - actor.8base

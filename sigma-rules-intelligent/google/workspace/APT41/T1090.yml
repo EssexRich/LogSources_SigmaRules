@@ -1,0 +1,29 @@
+title: Proxy (GOOGLE - workspace)
+id: 0a6c89d9-a98a-4368-81d6-57c5e7f3e8c2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1090/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090
+  - actor.apt41

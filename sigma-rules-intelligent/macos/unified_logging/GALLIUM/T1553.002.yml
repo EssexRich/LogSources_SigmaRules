@@ -1,0 +1,32 @@
+title: Code Signing (MACOS - unified_logging)
+id: f59da3ab-3cf0-4601-918b-41b08872e81e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1553.002.
+  Threat Actor: GALLIUM
+references:
+  - https://attack.mitre.org/techniques/T1553.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1553.002
+  - actor.gallium

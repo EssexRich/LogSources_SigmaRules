@@ -1,0 +1,32 @@
+title: Local Account (WINDOWS - security)
+id: d942ce51-ae50-4900-b105-6f9039757c18
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.001.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1087.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'domain admins'
+      - ' administrator'
+      - ' administrateur'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.001
+  - actor.threat_group-3390

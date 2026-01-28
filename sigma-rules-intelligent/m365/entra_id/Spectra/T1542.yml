@@ -1,0 +1,29 @@
+title: Pre-OS Boot (M365 - entra_id)
+id: d94b0ec6-09c1-4d8c-9d6c-fa04002eb1b5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1542.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1542/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1542
+  - actor.spectra

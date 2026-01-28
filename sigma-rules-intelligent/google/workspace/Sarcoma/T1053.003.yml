@@ -1,0 +1,29 @@
+title: Cron (GOOGLE - workspace)
+id: 7d8b619f-d4bb-4cb5-b84c-2e33f2631f92
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.003.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1053.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.003
+  - actor.sarcoma

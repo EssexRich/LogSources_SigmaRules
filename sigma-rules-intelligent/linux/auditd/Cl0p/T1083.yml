@@ -1,0 +1,36 @@
+title: File and Directory Discovery (LINUX - auditd)
+id: 07ad6d0c-6cf9-43f0-94c9-23b4e67d684b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'EXECVE'
+    a0|contains:
+      - 'getcap'
+    Image|endswith|contains:
+      - '/getcap'
+    CommandLine|contains|contains:
+      - ' -r '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.cl0p

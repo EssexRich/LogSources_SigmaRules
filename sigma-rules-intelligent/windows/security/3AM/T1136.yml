@@ -1,0 +1,32 @@
+title: Create Account (WINDOWS - security)
+id: 3ff4b789-1aa6-444a-ba5b-651f6f8a7b94
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.
+  Threat Actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1136/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136
+  - actor.3am

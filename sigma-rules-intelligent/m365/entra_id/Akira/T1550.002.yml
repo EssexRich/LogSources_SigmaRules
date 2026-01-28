@@ -1,0 +1,29 @@
+title: Pass the Hash (M365 - entra_id)
+id: 53a94cf6-bdf9-4584-abb0-be667190c947
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1550.002.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1550.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1550.002
+  - actor.akira

@@ -1,0 +1,32 @@
+title: T5466 (LINUX - auditd)
+id: 21cd8ca4-fa0a-489e-99e9-65e8e5d7bcf2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5466.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T5466/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5466
+  - actor.benzona

@@ -1,0 +1,32 @@
+title: Encrypted Channel (WINDOWS - defender)
+id: ac12bdcf-ebea-4b4b-af4a-2e2073e6a0aa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573
+  - actor.alphv-blackcat

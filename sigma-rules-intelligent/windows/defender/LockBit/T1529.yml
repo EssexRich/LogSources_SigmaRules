@@ -1,0 +1,32 @@
+title: System Shutdown/Reboot (WINDOWS - defender)
+id: e758a468-cb6b-49ff-bbc4-ee8a3cd95be1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1529.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\shutdown.exe'
+    CommandLine|contains|contains:
+      - '/l'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1529
+  - actor.lockbit

@@ -1,0 +1,29 @@
+title: Unsecured Credentials (M365 - entra_id)
+id: b811f9fc-b610-425d-86d9-d1639820a2b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1552/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552
+  - actor.play

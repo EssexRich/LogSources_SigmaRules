@@ -1,0 +1,35 @@
+title: OS Credential Dumping (WINDOWS - security)
+id: 0f64ef2f-46d1-4f86-8f95-416cec612fa7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: Axiom
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ObjectName|endswith|contains:
+      - '\wceaux.dll'
+    ObjectType|contains:
+      - 'File'
+    CommandLine|contains|all|contains:
+      - 'esentutl'
+      - ' /p'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.axiom

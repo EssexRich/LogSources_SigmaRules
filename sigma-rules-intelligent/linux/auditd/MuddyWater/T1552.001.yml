@@ -1,0 +1,39 @@
+title: Credentials In Files (LINUX - auditd)
+id: 82a256e3-45b0-4bdd-b36b-9a92541a1af4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.001.
+  Threat Actor: MuddyWater
+references:
+  - https://attack.mitre.org/techniques/T1552.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'EXECVE'
+    |all|contains:
+      - 'grep'
+      - 'password'
+    Image|endswith|contains:
+      - '/trufflehog'
+    CommandLine|contains|contains:
+      - ' docker --image '
+      - ' Git '
+      - ' GitHub '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.001
+  - actor.muddywater

@@ -1,0 +1,33 @@
+title: Scheduled Task/Job (WINDOWS - security)
+id: fa90147b-4077-418e-8de5-6c0f9987c6db
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\crackmapexec.exe'
+    CommandLine|contains|contains:
+      - ' -t schtask -c '
+      - ' -t startupfolder -c '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.blackbyte

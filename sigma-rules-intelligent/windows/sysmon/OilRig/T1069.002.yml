@@ -1,0 +1,32 @@
+title: Domain Groups (WINDOWS - sysmon)
+id: dc9a1c9d-9d3d-4438-a492-5a3d58a7150c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.002.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1069.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Add-Exfiltration'
+      - 'Add-Persistence'
+      - 'Add-RegBackdoor'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.002
+  - actor.oilrig

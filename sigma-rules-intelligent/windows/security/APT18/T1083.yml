@@ -1,0 +1,32 @@
+title: File and Directory Discovery (WINDOWS - security)
+id: 985d4cdf-8792-4993-9fea-e1326dbe1633
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: APT18
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\notepad.exe'
+    ParentImage|endswith|contains:
+      - '\explorer.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.apt18

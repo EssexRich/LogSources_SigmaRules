@@ -1,0 +1,38 @@
+title: PowerShell (WINDOWS - defender)
+id: 4d350bbd-9c05-4649-835f-f72e6fcbbae7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.001.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1059.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\cmd.exe'
+    CommandLine|contains|all|contains:
+      - ' net use http'
+      - '& start /b '
+      - '\DavWWWRoot\'
+    CommandLine|contains|contains:
+      - '/cwhoami'
+      - '/cpowershell'
+      - '/cschtasks'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.001
+  - actor.play

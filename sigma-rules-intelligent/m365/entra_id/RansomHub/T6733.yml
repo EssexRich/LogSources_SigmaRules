@@ -1,0 +1,29 @@
+title: T6733 (M365 - entra_id)
+id: a800a7ea-83b6-4392-bd09-e11bcc2e1e8a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6733.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T6733/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6733
+  - actor.ransomhub

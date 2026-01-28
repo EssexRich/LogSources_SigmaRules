@@ -1,0 +1,30 @@
+title: Service Stop (WINDOWS - defender)
+id: 94a5b5cd-0fad-4d40-bb37-b65869c2b259
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1489.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1489/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - ' stop '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1489
+  - actor.ransomhub

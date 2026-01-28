@@ -1,0 +1,29 @@
+title: Native API (GOOGLE - workspace)
+id: 6bc1b199-4a8e-4a38-911b-1723052d2b84
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+  Threat Actor: APT37
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106
+  - actor.apt37

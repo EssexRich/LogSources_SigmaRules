@@ -1,0 +1,29 @@
+title: T4980 (M365 - entra_id)
+id: f5b74fc3-1d2a-4226-a70f-cca0891dd90c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4980.
+  Threat Actor: Chaos
+references:
+  - https://attack.mitre.org/techniques/T4980/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4980
+  - actor.chaos

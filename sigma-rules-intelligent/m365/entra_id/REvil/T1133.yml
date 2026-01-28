@@ -1,0 +1,29 @@
+title: External Remote Services (M365 - entra_id)
+id: 516a8290-0a12-4f64-973a-110cdbb6ca24
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.revil

@@ -1,0 +1,32 @@
+title: Upload Malware (WINDOWS - security)
+id: b976fa17-4604-484b-92a8-9c01d6160c9c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.001.
+  Threat Actor: TA505
+references:
+  - https://attack.mitre.org/techniques/T1608.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.001
+  - actor.ta505

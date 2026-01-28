@@ -1,0 +1,29 @@
+title: Archive via Custom Method (GOOGLE - workspace)
+id: 6122a09e-75a5-4723-9788-3c782522b5a1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.003.
+  Threat Actor: Lotus Blossom
+references:
+  - https://attack.mitre.org/techniques/T1560.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.003
+  - actor.lotus_blossom

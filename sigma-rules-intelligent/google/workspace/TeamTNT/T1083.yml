@@ -1,0 +1,29 @@
+title: File and Directory Discovery (GOOGLE - workspace)
+id: 5f0b29aa-b7bb-43cc-89bd-6ca17a4a4094
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.teamtnt

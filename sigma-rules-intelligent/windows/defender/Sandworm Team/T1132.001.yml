@@ -1,0 +1,32 @@
+title: Standard Encoding (WINDOWS - defender)
+id: 39686352-3fca-4aac-924f-d85ff02a405c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1132.001.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1132.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'FromBase64String'
+      - 'MemoryStream'
+      - 'H4sI'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1132.001
+  - actor.sandworm_team

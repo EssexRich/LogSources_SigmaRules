@@ -1,0 +1,33 @@
+title: System Owner/User Discovery (WINDOWS - defender)
+id: c5eb228d-967d-49af-b8de-32d8e436b0da
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\SharpLdapWhoami.exe'
+    CommandLine|contains|all|contains:
+      - 'Get-ADComputer '
+      - ' -Filter \*'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.threat_group-3390

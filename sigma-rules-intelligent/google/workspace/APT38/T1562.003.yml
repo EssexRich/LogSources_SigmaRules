@@ -1,0 +1,29 @@
+title: Impair Command History Logging (GOOGLE - workspace)
+id: a1371988-971f-4f05-a49f-9fc11435f78f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.003.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1562.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.003
+  - actor.apt38

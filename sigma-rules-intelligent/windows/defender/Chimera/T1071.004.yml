@@ -1,0 +1,32 @@
+title: DNS (WINDOWS - defender)
+id: f1a9941e-7d89-4e3a-96fe-ae2882e72910
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.004.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1071.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.004
+  - actor.chimera

@@ -1,0 +1,29 @@
+title: Modify Registry (M365 - entra_id)
+id: 1e9cc309-ed5f-46b1-8ce4-f26b5dcc6c95
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.sarcoma

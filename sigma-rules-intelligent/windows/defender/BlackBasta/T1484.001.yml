@@ -1,0 +1,33 @@
+title: Group Policy Modification (WINDOWS - defender)
+id: c5f81803-d1a8-42f1-9e3e-0200040a501d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1484.001.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1484.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'gpme.msc'
+      - 'gpobject:'
+    CommandLine|contains|contains:
+      - '\SOFTWARE\Policies\Microsoft\Windows\System'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1484.001
+  - actor.blackbasta

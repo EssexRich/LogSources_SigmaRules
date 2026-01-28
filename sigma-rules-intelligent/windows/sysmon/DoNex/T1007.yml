@@ -1,0 +1,33 @@
+title: System Service Discovery (WINDOWS - sysmon)
+id: 3889b5d5-fe57-4b4d-b62d-7ba776474c09
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1007.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\PCHunter64.exe'
+      - '\PCHunter32.exe'
+    CommandLine|contains|contains:
+      - 'query'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1007
+  - actor.donex

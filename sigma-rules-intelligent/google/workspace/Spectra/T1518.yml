@@ -1,0 +1,29 @@
+title: Software Discovery (GOOGLE - workspace)
+id: ea6b1061-d073-46db-9a58-deaf22e10466
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1518/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518
+  - actor.spectra

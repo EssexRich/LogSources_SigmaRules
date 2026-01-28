@@ -1,0 +1,31 @@
+title: Clear Command History (WINDOWS - defender)
+id: edbeb481-44c4-4a49-8cf3-a774d3689e08
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.003.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1070.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - ' del'
+      - '\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.003
+  - actor.lazarus_group

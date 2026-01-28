@@ -1,0 +1,29 @@
+title: Time Based Checks (M365 - entra_id)
+id: 0e7277b3-5417-4b5d-81e8-4c8f7d5a1a60
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1497.003.
+  Threat Actor: Trigona
+references:
+  - https://attack.mitre.org/techniques/T1497.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1497.003
+  - actor.trigona

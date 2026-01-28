@@ -1,0 +1,29 @@
+title: VNC (GOOGLE - workspace)
+id: 38a51499-c6b5-4317-ada8-071d766858d6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.005.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1021.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.005
+  - actor.gamaredon_group

@@ -1,0 +1,29 @@
+title: Clear Linux or Mac System Logs (GOOGLE - workspace)
+id: 48392bfd-f63c-4891-adb5-03d2261407a8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.002.
+  Threat Actor: Rocke
+references:
+  - https://attack.mitre.org/techniques/T1070.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.002
+  - actor.rocke

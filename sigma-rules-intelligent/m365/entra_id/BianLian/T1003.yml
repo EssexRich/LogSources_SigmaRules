@@ -1,0 +1,29 @@
+title: OS Credential Dumping (M365 - entra_id)
+id: 17354df5-1940-426d-9fa4-28d79818ed6a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.bianlian

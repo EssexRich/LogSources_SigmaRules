@@ -1,0 +1,32 @@
+title: External Remote Services (MACOS - unified_logging)
+id: b9fdc343-a72e-483a-9964-66d1b58d1097
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: Leviathan
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '/TeamViewer_Service'
+    Image|endswith|contains:
+      - '/TeamViewer_Desktop'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.leviathan

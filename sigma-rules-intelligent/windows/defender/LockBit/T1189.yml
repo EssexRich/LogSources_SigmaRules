@@ -1,0 +1,32 @@
+title: Drive-by Compromise (WINDOWS - defender)
+id: 7e4d55bf-b46a-46b2-80ea-6250ef34640e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1189.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1189/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1189
+  - actor.lockbit

@@ -1,0 +1,32 @@
+title: Visual Basic (WINDOWS - sysmon)
+id: 4cfeda7d-c98e-4f4b-8e13-bbd0d233fee4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.005.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1059.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\cscript.exe'
+      - '\excel.exe'
+      - '\mshta.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.005
+  - actor.brain_cipher

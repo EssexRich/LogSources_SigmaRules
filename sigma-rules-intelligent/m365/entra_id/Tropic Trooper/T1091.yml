@@ -1,0 +1,29 @@
+title: Replication Through Removable Media (M365 - entra_id)
+id: dfedc78a-9410-435e-8b22-7f5bb4782e85
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091
+  - actor.tropic_trooper

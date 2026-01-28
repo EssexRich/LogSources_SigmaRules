@@ -1,0 +1,29 @@
+title: Masquerade Task or Service (M365 - entra_id)
+id: 6c309e53-764a-4e71-a3ed-ea5b48c53607
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.004.
+  Threat Actor: PROMETHIUM
+references:
+  - https://attack.mitre.org/techniques/T1036.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.004
+  - actor.promethium

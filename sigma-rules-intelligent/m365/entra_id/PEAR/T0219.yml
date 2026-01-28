@@ -1,0 +1,29 @@
+title: T0219 (M365 - entra_id)
+id: 9e277c90-5037-4812-82e7-e0ea5b9d5a85
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0219.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T0219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0219
+  - actor.pear

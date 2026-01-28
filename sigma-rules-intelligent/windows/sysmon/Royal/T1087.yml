@@ -1,0 +1,35 @@
+title: Account Discovery (WINDOWS - sysmon)
+id: 2dd43c47-72dc-4321-94e2-7ef1b64ea7c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.
+  Threat Actor: Royal
+references:
+  - https://attack.mitre.org/techniques/T1087/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - ' applicationsinfo'
+      - ' browserinfo'
+      - ' eventsinfo'
+    CommandLine|contains|all|contains:
+      - 'nslookup'
+      - '_ldap._tcp.dc._msdcs.'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087
+  - actor.royal

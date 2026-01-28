@@ -1,0 +1,29 @@
+title: Hidden Files and Directories (M365 - entra_id)
+id: 8314c22b-dcc0-4ab9-800e-4004741c4c5e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.001.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1564.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.001
+  - actor.safelocker

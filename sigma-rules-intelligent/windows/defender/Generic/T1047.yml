@@ -1,0 +1,41 @@
+title: Windows Management Instrumentation (WINDOWS - defender)
+id: 1ede9f67-b905-476d-a62c-793ef3f32b8d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: Generic
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'reg'
+      - ' add '
+    ParentImage|endswith|contains:
+      - '\hh.exe'
+    Image|endswith|contains:
+      - '\CertReq.exe'
+      - '\CertUtil.exe'
+      - '\cmd.exe'
+    CommandLine|contains|contains:
+      - '.application'
+      - '\AppData\Local\Temp\'
+      - '\Content.Outlook\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.generic

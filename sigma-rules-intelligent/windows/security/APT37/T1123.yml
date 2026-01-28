@@ -1,0 +1,35 @@
+title: Audio Capture (WINDOWS - security)
+id: 279694d8-b352-4bc3-8adc-ea887cad9a36
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1123.
+  Threat Actor: APT37
+references:
+  - https://attack.mitre.org/techniques/T1123/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ObjectName|contains|contains:
+      - '\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone\NonPackaged'
+      - '\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged'
+    CommandLine|contains|contains:
+      - '/FILE'
+    Image|endswith|contains:
+      - '\SoundRecorder.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1123
+  - actor.apt37

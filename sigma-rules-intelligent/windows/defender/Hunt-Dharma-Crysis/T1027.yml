@@ -1,0 +1,35 @@
+title: Obfuscated Files or Information (WINDOWS - defender)
+id: 5362d1fe-1fac-43b5-b920-8e0401fabbd4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|windash|contains:
+      - '-decode '
+      - '-decodehex '
+    CommandLine|contains|contains:
+      - 'urlcache '
+      - 'verifyctl '
+      - 'URL '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.hunt-dharma-crysis

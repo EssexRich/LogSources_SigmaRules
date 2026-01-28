@@ -1,0 +1,32 @@
+title: Local Account (LINUX - auditd)
+id: d3408e14-dceb-4d32-b226-6b0de4cafa2c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.001.
+  Threat Actor: Fox Kitten
+references:
+  - https://attack.mitre.org/techniques/T1087.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '/lastlog'
+    CommandLine|contains|contains:
+      - ''x:0:''
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.001
+  - actor.fox_kitten

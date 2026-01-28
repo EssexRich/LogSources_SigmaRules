@@ -1,0 +1,29 @@
+title: T4718 (M365 - entra_id)
+id: abfb87f3-4236-4860-925d-ef90d85ef3fd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4718.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T4718/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4718
+  - actor.lockbit

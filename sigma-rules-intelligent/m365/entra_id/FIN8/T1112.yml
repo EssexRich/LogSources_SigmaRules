@@ -1,0 +1,29 @@
+title: Modify Registry (M365 - entra_id)
+id: 89cd905d-9dc3-46e7-9399-5bc6df6b1359
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: FIN8
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.fin8

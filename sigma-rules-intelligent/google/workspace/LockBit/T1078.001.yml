@@ -1,0 +1,29 @@
+title: Default Accounts (GOOGLE - workspace)
+id: eaae1107-417b-48f0-823e-e8e880dabd4d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1078.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.001
+  - actor.lockbit

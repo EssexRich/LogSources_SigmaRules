@@ -1,0 +1,29 @@
+title: Indirect Command Execution (M365 - entra_id)
+id: 95788d44-acce-492a-ba38-aa956eea24d4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202
+  - actor.safepay

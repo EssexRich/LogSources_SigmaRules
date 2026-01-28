@@ -1,0 +1,29 @@
+title: T0838 (M365 - entra_id)
+id: ecfd11b0-1e2c-4526-b788-9ed03cc82a85
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0838.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T0838/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0838
+  - actor.cephalus

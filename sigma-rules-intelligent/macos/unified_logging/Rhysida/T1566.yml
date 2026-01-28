@@ -1,0 +1,30 @@
+title: Phishing (MACOS - unified_logging)
+id: df497a08-8e46-4811-b5b8-7f736b4afdae
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '/Script Editor'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566
+  - actor.rhysida

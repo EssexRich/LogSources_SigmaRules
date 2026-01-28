@@ -1,0 +1,32 @@
+title: Automated Exfiltration (WINDOWS - sysmon)
+id: d73b51b5-a4cb-4bf8-9c8c-6eaf7e7f1458
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1020.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1020/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1020
+  - actor.tropic_trooper

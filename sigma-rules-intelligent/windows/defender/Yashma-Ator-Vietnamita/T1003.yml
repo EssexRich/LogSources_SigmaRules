@@ -1,0 +1,37 @@
+title: OS Credential Dumping (WINDOWS - defender)
+id: 2a6c7bd6-ee93-42af-b002-d6ada09de050
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'esentutl'
+      - ' /p'
+    Hashes|contains|contains:
+      - 'IMPHASH=BCCA3C247B619DCD13C8CDFF5F123932'
+      - 'IMPHASH=3A19059BD7688CB88E70005F18EFC439'
+      - 'IMPHASH=bf6223a49e45d99094406777eb6004ba'
+    Company|contains:
+      - 'Cube0x0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.yashma-ator-vietnamita

@@ -1,0 +1,29 @@
+title: Software Deployment Tools (M365 - entra_id)
+id: 0c51f897-2d7a-4231-b0ae-ced7395754e7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072
+  - actor.apt32

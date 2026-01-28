@@ -1,0 +1,32 @@
+title: File and Directory Discovery (WINDOWS - sysmon)
+id: 5637761f-f766-4443-aaef-02d752e0cc42
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\notepad.exe'
+    ParentImage|endswith|contains:
+      - '\explorer.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.tropic_trooper

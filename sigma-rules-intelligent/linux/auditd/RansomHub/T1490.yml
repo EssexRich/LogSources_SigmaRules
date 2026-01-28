@@ -1,0 +1,32 @@
+title: Inhibit System Recovery (LINUX - auditd)
+id: 257a66a6-1402-40fc-ae02-3c5100f938d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.ransomhub

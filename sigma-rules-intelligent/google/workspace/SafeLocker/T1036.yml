@@ -1,0 +1,29 @@
+title: Masquerading (GOOGLE - workspace)
+id: d1c5b81e-51c1-4398-af32-5f4ef30a2c63
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.safelocker

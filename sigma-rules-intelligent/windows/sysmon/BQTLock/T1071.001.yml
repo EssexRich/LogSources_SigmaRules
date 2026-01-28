@@ -1,0 +1,37 @@
+title: Web Protocols (WINDOWS - sysmon)
+id: 7fe78f74-f969-4c29-9980-f44ae909fc41
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.001.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1071.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|endswith|contains:
+      - '.exe tunnel'
+    CommandLine|contains|all|contains:
+      - '.exe tunnel'
+      - '--accept-server-license-terms'
+    ParentImage|contains|contains:
+      - '\servers\Stable-'
+    ParentImage|endswith|contains:
+      - '\server\node.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.001
+  - actor.bqtlock

@@ -1,0 +1,32 @@
+title: File and Directory Discovery (WINDOWS - security)
+id: be300c09-0685-4683-8549-3f90eb9bc2be
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: DORRRA
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\notepad.exe'
+    ParentImage|endswith|contains:
+      - '\explorer.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.dorrra

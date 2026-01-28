@@ -1,0 +1,32 @@
+title: Clear Linux or Mac System Logs (WINDOWS - security)
+id: af5cf961-ffab-428b-aab3-04618a25552f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.002.
+  Threat Actor: Rocke
+references:
+  - https://attack.mitre.org/techniques/T1070.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.002
+  - actor.rocke

@@ -1,0 +1,29 @@
+title: JavaScript (GOOGLE - workspace)
+id: 0e6a724f-5e0b-4799-9712-32fcbbcefd40
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.007.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1059.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.007
+  - actor.inc_ransom

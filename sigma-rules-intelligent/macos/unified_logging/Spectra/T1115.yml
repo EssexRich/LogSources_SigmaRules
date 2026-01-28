@@ -1,0 +1,32 @@
+title: Clipboard Data (MACOS - unified_logging)
+id: 31769437-852c-4fc4-a35b-d6225f64bc57
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1115.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1115/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'osascript'
+      - ' -e '
+      - 'clipboard'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1115
+  - actor.spectra

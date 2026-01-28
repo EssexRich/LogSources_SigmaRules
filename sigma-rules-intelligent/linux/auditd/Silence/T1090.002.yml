@@ -1,0 +1,32 @@
+title: External Proxy (LINUX - auditd)
+id: b16c133d-c333-4849-926a-0dea333780f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.002.
+  Threat Actor: Silence
+references:
+  - https://attack.mitre.org/techniques/T1090.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.002
+  - actor.silence

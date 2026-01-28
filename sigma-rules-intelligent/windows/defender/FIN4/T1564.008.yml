@@ -1,0 +1,32 @@
+title: Email Hiding Rules (WINDOWS - defender)
+id: 6501a3a0-7275-46da-917f-2e9e3a203c59
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.008.
+  Threat Actor: FIN4
+references:
+  - https://attack.mitre.org/techniques/T1564.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.008
+  - actor.fin4

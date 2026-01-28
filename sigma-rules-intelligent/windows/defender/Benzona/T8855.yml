@@ -1,0 +1,32 @@
+title: T8855 (WINDOWS - defender)
+id: 699fff50-16e9-4bd7-8a9e-7f22e82fe515
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8855.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T8855/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8855
+  - actor.benzona

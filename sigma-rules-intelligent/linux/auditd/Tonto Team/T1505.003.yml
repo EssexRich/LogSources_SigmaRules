@@ -1,0 +1,40 @@
+title: Web Shell (LINUX - auditd)
+id: 36910f66-c2f7-4822-a672-f41699b0d348
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1505.003.
+  Threat Actor: Tonto Team
+references:
+  - https://attack.mitre.org/techniques/T1505.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'SYSCALL'
+    SYSCALL|contains:
+      - 'execve'
+      - 'execveat'
+    ParentImage|endswith|contains:
+      - '/httpd'
+      - '/lighttpd'
+      - '/nginx'
+    ParentCommandLine|contains|all|contains:
+      - '/bin/java'
+      - 'tomcat'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1505.003
+  - actor.tonto_team

@@ -1,0 +1,29 @@
+title: Automated Exfiltration (GOOGLE - workspace)
+id: 3f66f087-e66a-4f42-80cc-a7b2cef5968f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1020.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1020/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1020
+  - actor.ke3chang

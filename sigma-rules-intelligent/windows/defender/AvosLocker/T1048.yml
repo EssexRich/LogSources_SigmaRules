@@ -1,0 +1,31 @@
+title: Exfiltration Over Alternative Protocol (WINDOWS - defender)
+id: 66f2d214-6d8d-477c-9e20-84423e743ecc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '\\\\*\\*$'
+      - '\Sysvol\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048
+  - actor.avoslocker

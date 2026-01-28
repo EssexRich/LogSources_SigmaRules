@@ -1,0 +1,29 @@
+title: SSH (GOOGLE - workspace)
+id: 33a0e870-d134-4c57-af39-40aa3d2bb33d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.004.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1021.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.004
+  - actor.oilrig

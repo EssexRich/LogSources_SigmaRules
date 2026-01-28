@@ -1,0 +1,32 @@
+title: Dynamic Data Exchange (WINDOWS - security)
+id: cb78e1d1-abff-4c75-84e7-932519a9d403
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.002.
+  Threat Actor: Gallmaker
+references:
+  - https://attack.mitre.org/techniques/T1559.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559.002
+  - actor.gallmaker

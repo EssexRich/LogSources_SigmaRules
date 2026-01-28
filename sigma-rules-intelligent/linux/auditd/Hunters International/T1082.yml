@@ -1,0 +1,36 @@
+title: System Information Discovery (LINUX - auditd)
+id: cf7f7e19-fff6-423d-b91f-951948427b8e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'SYSCALL'
+    name|contains:
+      - '/sys/class/dmi/id/bios_version'
+      - '/sys/class/dmi/id/product_name'
+      - '/sys/class/dmi/id/chassis_vendor'
+    SYSCALL|contains:
+      - 'sysinfo'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.hunters_international

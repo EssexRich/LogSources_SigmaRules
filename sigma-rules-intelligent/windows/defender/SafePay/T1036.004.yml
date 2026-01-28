@@ -1,0 +1,30 @@
+title: Masquerade Task or Service (WINDOWS - defender)
+id: 63e0c89c-4ffc-47ec-829e-79d6e9f69d47
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.004.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1036.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|windash|contains:
+      - ' /create '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.004
+  - actor.safepay

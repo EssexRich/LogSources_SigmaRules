@@ -1,0 +1,35 @@
+title: Query Registry (WINDOWS - defender)
+id: 464d40d1-2ca0-4576-a7eb-184c74cdb81f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\PCHunter64.exe'
+      - '\PCHunter32.exe'
+    CommandLine|contains|contains:
+      - 'query'
+    CommandLine|contains|windash|contains:
+      - ' -E '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.safelocker

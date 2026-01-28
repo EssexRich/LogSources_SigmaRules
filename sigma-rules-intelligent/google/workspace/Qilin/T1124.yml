@@ -1,0 +1,29 @@
+title: System Time Discovery (GOOGLE - workspace)
+id: 975359d6-f4c6-4d60-8fdf-8aa60c351df3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1124.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1124/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1124
+  - actor.qilin

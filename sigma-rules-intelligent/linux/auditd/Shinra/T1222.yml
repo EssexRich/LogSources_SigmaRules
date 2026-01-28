@@ -1,0 +1,32 @@
+title: File and Directory Permissions Modification (LINUX - auditd)
+id: fa3aeef9-7578-4fc2-9e89-2145ded09990
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1222.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1222/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1222
+  - actor.shinra

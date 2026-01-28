@@ -1,0 +1,32 @@
+title: Steal Web Session Cookie (LINUX - auditd)
+id: 512f7693-e4e9-43c6-bc95-1ad74e82d68a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1539.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1539/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1539
+  - actor.sandworm_team

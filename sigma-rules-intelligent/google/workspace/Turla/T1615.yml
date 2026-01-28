@@ -1,0 +1,29 @@
+title: Group Policy Discovery (GOOGLE - workspace)
+id: 7234b6bb-05be-48f2-a21a-6b549ddc8273
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1615.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1615/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1615
+  - actor.turla

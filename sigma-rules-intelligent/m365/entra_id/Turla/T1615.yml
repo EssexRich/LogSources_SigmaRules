@@ -1,0 +1,29 @@
+title: Group Policy Discovery (M365 - entra_id)
+id: 385460ba-2e1c-402d-be15-df0c2bf07215
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1615.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1615/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1615
+  - actor.turla

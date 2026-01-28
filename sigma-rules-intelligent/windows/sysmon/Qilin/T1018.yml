@@ -1,0 +1,32 @@
+title: Remote System Discovery (WINDOWS - sysmon)
+id: 559d7cb3-8284-4445-8a93-b78d339b0d8a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1018.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1018/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'domainlist'
+      - 'trustdmp'
+      - 'dcmodes'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1018
+  - actor.qilin

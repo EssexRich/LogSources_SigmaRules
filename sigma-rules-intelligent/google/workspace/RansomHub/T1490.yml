@@ -1,0 +1,29 @@
+title: Inhibit System Recovery (GOOGLE - workspace)
+id: a64f9835-b8d8-42d7-b542-bcf9f7e38963
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.ransomhub

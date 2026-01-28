@@ -1,0 +1,29 @@
+title: Web Service (GOOGLE - workspace)
+id: 83f5d1fc-70ec-4da7-86f1-e7fa1b343e67
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.
+  Threat Actor: Rocke
+references:
+  - https://attack.mitre.org/techniques/T1102/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102
+  - actor.rocke

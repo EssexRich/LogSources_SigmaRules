@@ -1,0 +1,43 @@
+title: Command and Scripting Interpreter (MACOS - unified_logging)
+id: 6ab813bd-2c54-48a3-b908-b5bd581b4595
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '/package_script_service'
+      - '/installer'
+    Image|endswith|contains:
+      - '/bash'
+      - '/curl'
+      - '/dash'
+    CommandLine|contains|all|contains:
+      - '/Volumes/'
+      - 'enc'
+      - '-base64'
+    ParentImage|contains|contains:
+      - 'com.apple.WebKit.WebContent'
+      - 'firefox'
+      - 'Google Chrome Helper'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.rhysida

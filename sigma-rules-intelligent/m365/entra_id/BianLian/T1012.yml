@@ -1,0 +1,29 @@
+title: Query Registry (M365 - entra_id)
+id: 705b6d5a-d4d0-40d6-9816-a7a0fdf0de2d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.bianlian

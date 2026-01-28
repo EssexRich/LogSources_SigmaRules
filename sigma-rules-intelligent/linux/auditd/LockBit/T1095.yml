@@ -1,0 +1,32 @@
+title: Non-Application Layer Protocol (LINUX - auditd)
+id: 44a717ac-6a33-41f6-8e81-aaa3964f316f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1095.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1095/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1095
+  - actor.lockbit

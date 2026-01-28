@@ -1,0 +1,29 @@
+title: Use Alternate Authentication Material (M365 - entra_id)
+id: b6f92cf6-c348-4dc2-8069-65808534e9eb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1550.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1550/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1550
+  - actor.hive

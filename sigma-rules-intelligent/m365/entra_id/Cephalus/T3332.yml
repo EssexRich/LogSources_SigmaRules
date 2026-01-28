@@ -1,0 +1,29 @@
+title: T3332 (M365 - entra_id)
+id: 6e797d7f-8b3d-48bf-8192-dc1796665644
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3332.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T3332/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3332
+  - actor.cephalus

@@ -1,0 +1,29 @@
+title: Email Addresses (M365 - entra_id)
+id: abbc2c0b-9cb3-499c-afa7-5bd3cc9b4dda
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1589.002.
+  Threat Actor: TA551
+references:
+  - https://attack.mitre.org/techniques/T1589.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1589.002
+  - actor.ta551

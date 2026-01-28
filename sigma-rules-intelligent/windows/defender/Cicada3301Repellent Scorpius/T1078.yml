@@ -1,0 +1,32 @@
+title: Valid Accounts (WINDOWS - defender)
+id: d61f95f5-d869-4314-86e1-3eb7b348ef80
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: Cicada3301Repellent Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - ' use '
+      - ':*\\'
+      - '/USER:* *'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.cicada3301repellent_scorpius

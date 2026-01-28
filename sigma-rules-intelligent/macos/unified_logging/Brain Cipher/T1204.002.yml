@@ -1,0 +1,36 @@
+title: Malicious File (MACOS - unified_logging)
+id: f19fb2c3-eceb-4741-a5fd-1e6d7aff88d6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|contains|contains:
+      - 'Microsoft Word'
+      - 'Microsoft Excel'
+      - 'Microsoft PowerPoint'
+    Image|endswith|contains:
+      - '/bash'
+      - '/curl'
+      - '/dash'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002
+  - actor.brain_cipher

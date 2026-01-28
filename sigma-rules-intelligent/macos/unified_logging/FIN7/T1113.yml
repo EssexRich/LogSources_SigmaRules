@@ -1,0 +1,30 @@
+title: Screen Capture (MACOS - unified_logging)
+id: 377a1613-1d1b-4dde-9943-71d0cf9fc410
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - '/usr/sbin/screencapture'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.fin7

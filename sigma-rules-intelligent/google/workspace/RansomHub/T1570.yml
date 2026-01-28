@@ -1,0 +1,29 @@
+title: Lateral Tool Transfer (GOOGLE - workspace)
+id: a9c03fc8-10b3-4fc4-ba68-98311a7d81c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570
+  - actor.ransomhub

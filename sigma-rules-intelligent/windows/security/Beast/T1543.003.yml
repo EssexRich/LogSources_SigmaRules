@@ -1,0 +1,37 @@
+title: Windows Service (WINDOWS - security)
+id: 30769f6d-25ac-49af-892e-e35bb9fafab9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.003.
+  Threat Actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1543.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ServiceFileName|contains|all|contains:
+      - 'ADMIN$'
+      - '.exe'
+    ServiceName|contains|contains:
+      - 'AmmyyAdmin'
+      - 'AnyDesk'
+      - 'Atera'
+    CommandLine|contains|contains:
+      - ' disable '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.003
+  - actor.beast

@@ -1,0 +1,29 @@
+title: T3388 (GOOGLE - workspace)
+id: f67729d2-d82c-428d-ae75-62019e0bb3b3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3388.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T3388/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3388
+  - actor.pear

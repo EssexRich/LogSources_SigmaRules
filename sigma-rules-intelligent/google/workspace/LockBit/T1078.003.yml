@@ -1,0 +1,29 @@
+title: Local Accounts (GOOGLE - workspace)
+id: 6c9f48b0-dca7-4361-b24a-789d26cd1a91
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.003.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1078.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.003
+  - actor.lockbit

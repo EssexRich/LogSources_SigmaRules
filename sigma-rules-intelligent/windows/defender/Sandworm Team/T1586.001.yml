@@ -1,0 +1,32 @@
+title: Social Media Accounts (WINDOWS - defender)
+id: e688df3c-4181-419d-81b4-eaf4cb3619aa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1586.001.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1586.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1586.001
+  - actor.sandworm_team

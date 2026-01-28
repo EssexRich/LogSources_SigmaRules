@@ -1,0 +1,35 @@
+title: Obfuscated Files or Information (WINDOWS - sysmon)
+id: 600de415-0abd-4541-935d-5ab53d244bdd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: KageNoHitobito
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|windash|contains:
+      - '-decode '
+      - '-decodehex '
+    CommandLine|contains|contains:
+      - 'urlcache '
+      - 'verifyctl '
+      - 'URL '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.kagenohitobito

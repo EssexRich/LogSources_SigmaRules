@@ -1,0 +1,29 @@
+title: Application Layer Protocol (M365 - entra_id)
+id: 328b734f-e571-4309-8d3c-cac5151158a1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.qilin

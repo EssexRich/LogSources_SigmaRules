@@ -1,0 +1,41 @@
+title: Windows Management Instrumentation (WINDOWS - sysmon)
+id: dde9264c-b7c8-4199-8693-059053b5533a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: Indrik Spider
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'reg'
+      - ' add '
+    ParentImage|endswith|contains:
+      - '\hh.exe'
+    Image|endswith|contains:
+      - '\CertReq.exe'
+      - '\CertUtil.exe'
+      - '\cmd.exe'
+    CommandLine|contains|contains:
+      - '.application'
+      - '\AppData\Local\Temp\'
+      - '\Content.Outlook\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.indrik_spider

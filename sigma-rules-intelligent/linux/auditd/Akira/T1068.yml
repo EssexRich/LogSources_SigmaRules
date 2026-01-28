@@ -1,0 +1,39 @@
+title: Exploitation for Privilege Escalation (LINUX - auditd)
+id: 3726d8f0-157c-4eff-925c-d57c6eb025c2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    a1|startswith|contains:
+      - '--cpu-priority'
+    a2|startswith|contains:
+      - '--cpu-priority'
+    Image|endswith|contains:
+      - '/sudo'
+    CommandLine|contains|contains:
+      - ' --chroot '
+      - 'sudo -R '
+    User|contains:
+      - 'root'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.akira

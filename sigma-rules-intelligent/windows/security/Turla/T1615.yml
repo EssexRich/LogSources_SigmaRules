@@ -1,0 +1,32 @@
+title: Group Policy Discovery (WINDOWS - security)
+id: 688db202-aa43-462d-ae30-e96851d269ab
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1615.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1615/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\gpresult.exe'
+    CommandLine|contains|contains:
+      - 'gatherNetworkInfo.vbs'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1615
+  - actor.turla

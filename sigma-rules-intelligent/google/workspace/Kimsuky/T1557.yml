@@ -1,0 +1,29 @@
+title: Adversary-in-the-Middle (GOOGLE - workspace)
+id: 29fd3453-db2b-4bd2-8c7f-beb8eae9b04a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1557.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1557/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1557
+  - actor.kimsuky

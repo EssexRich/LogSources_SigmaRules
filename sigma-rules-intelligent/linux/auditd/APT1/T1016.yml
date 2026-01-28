@@ -1,0 +1,34 @@
+title: System Network Configuration Discovery (LINUX - auditd)
+id: f54d186b-8d18-49de-9a7f-2b558b9450b0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: APT1
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '/firewall-cmd'
+      - '/ufw'
+      - '/iptables'
+    CommandLine|contains|contains:
+      - '/etc/resolv.conf'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.apt1

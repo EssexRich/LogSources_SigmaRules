@@ -1,0 +1,29 @@
+title: System Network Configuration Discovery (GOOGLE - workspace)
+id: ae8cee5a-a732-4135-ac20-e41791d9f2b0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: Darkhotel
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.darkhotel

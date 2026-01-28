@@ -1,0 +1,38 @@
+title: Process Injection (WINDOWS - defender)
+id: 5bad35b4-e2a8-418e-bdef-3f19088691f2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\CoercedPotato.exe'
+    CommandLine|contains:
+      - 'dllhost.exe'
+      - 'dllhost'
+    CommandLine|contains|contains:
+      - ' --exploitId '
+    CommandLine|contains|all|contains:
+      - ' /am51'
+      - ' /password'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.rhysida

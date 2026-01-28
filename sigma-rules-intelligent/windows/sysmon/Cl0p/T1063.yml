@@ -1,0 +1,32 @@
+title: Security Software Discovery (WINDOWS - sysmon)
+id: ce6d7237-5812-410c-8eb0-2a4391991030
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1063.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1063/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1063
+  - actor.cl0p

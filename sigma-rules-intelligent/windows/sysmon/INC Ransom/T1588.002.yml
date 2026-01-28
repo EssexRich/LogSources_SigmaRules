@@ -1,0 +1,38 @@
+title: Tool (WINDOWS - sysmon)
+id: 6b794828-73e6-4a8b-a02a-d9c84f0f3bef
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.002.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1588.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Hashes|contains|contains:
+      - 'IMPHASH=BCCA3C247B619DCD13C8CDFF5F123932'
+      - 'IMPHASH=3A19059BD7688CB88E70005F18EFC439'
+      - 'IMPHASH=bf6223a49e45d99094406777eb6004ba'
+    Company|contains:
+      - 'Cube0x0'
+    Product|contains:
+      - 'Sysinternals DebugView'
+    OriginalFileName|contains:
+      - 'Dbgview.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.002
+  - actor.inc_ransom

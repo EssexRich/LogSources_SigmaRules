@@ -1,0 +1,29 @@
+title: Indicator Removal (GOOGLE - workspace)
+id: 98b49deb-b167-4a90-b87f-a37226e96df0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070
+  - actor.inc_ransom

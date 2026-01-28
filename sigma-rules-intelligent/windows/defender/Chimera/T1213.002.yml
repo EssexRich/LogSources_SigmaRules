@@ -1,0 +1,32 @@
+title: Sharepoint (WINDOWS - defender)
+id: f31b2050-f385-418e-8617-12bd9da61342
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1213.002.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1213.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1213.002
+  - actor.chimera

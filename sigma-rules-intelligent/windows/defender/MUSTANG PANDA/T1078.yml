@@ -1,0 +1,32 @@
+title: Valid Accounts (WINDOWS - defender)
+id: 9bd9e3bc-31f0-4aaa-a052-963d816870ca
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: MUSTANG PANDA
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - ' use '
+      - ':*\\'
+      - '/USER:* *'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.mustang_panda

@@ -1,0 +1,32 @@
+title: Fileless Storage (WINDOWS - defender)
+id: d44ee3fb-ed66-4a74-a6aa-8aef4ac156cd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.011.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1027.011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.011
+  - actor.turla

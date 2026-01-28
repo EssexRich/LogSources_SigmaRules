@@ -1,0 +1,32 @@
+title: Exfiltration to Cloud Storage (MACOS - unified_logging)
+id: 21d7ee47-8b88-4c41-957a-9dbe024628c1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.002.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1567.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567.002
+  - actor.global

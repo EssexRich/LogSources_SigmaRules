@@ -1,0 +1,32 @@
+title: Data from Removable Media (LINUX - auditd)
+id: 52a1340e-d2f9-46de-aa25-3d781c9fae4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1025.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1025/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1025
+  - actor.oilrig

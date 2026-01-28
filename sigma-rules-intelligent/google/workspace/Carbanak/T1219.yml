@@ -1,0 +1,29 @@
+title: Remote Access Tools (GOOGLE - workspace)
+id: ce5c04f0-2994-4b21-9ed2-3dee8e1e7bd7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: Carbanak
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.carbanak

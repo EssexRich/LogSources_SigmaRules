@@ -1,0 +1,32 @@
+title: External Remote Services (LINUX - auditd)
+id: 431c1274-dd3c-4572-8979-5309d17f98ce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: APT18
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '/TeamViewer_Service'
+    Image|endswith|contains:
+      - '/TeamViewer_Desktop'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.apt18

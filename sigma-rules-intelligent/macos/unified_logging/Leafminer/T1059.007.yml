@@ -1,0 +1,38 @@
+title: JavaScript (MACOS - unified_logging)
+id: f317f2c7-4f9b-46db-855a-2fe18a3ae663
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.007.
+  Threat Actor: Leafminer
+references:
+  - https://attack.mitre.org/techniques/T1059.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '/package_script_service'
+      - '/installer'
+    Image|endswith|contains:
+      - '/sh'
+      - '/bash'
+      - '/dash'
+    CommandLine|contains|all|contains:
+      - 'osacompile'
+      - 'curl'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.007
+  - actor.leafminer

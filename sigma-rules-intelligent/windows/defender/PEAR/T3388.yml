@@ -1,0 +1,32 @@
+title: T3388 (WINDOWS - defender)
+id: ab1d5fae-5a4f-4742-8ddf-6d7f8b94ade7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3388.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T3388/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3388
+  - actor.pear

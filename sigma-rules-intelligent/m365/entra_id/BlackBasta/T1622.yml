@@ -1,0 +1,29 @@
+title: Debugger Evasion (M365 - entra_id)
+id: 158728c8-9426-4780-a135-09a40ff30e2b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1622.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1622/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1622
+  - actor.blackbasta

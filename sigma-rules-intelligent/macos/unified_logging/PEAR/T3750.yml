@@ -1,0 +1,32 @@
+title: T3750 (MACOS - unified_logging)
+id: fb9b3254-85ae-4d4e-83a0-d30ecbfa9dbf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3750.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T3750/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3750
+  - actor.pear

@@ -1,0 +1,29 @@
+title: Modify Registry (M365 - entra_id)
+id: e8762f50-ba80-4f7a-b7aa-26703e91aa0c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.magic_hound

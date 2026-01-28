@@ -1,0 +1,34 @@
+title: Service Execution (WINDOWS - defender)
+id: c0f73b42-548f-4027-b8ee-61ad60167b28
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.002.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1569.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - ' start '
+    Image|endswith|contains:
+      - '\csexec.exe'
+    Description|contains:
+      - 'csexec'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569.002
+  - actor.lockbit

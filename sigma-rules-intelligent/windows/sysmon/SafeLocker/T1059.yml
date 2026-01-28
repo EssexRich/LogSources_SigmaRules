@@ -1,0 +1,38 @@
+title: Command and Scripting Interpreter (WINDOWS - sysmon)
+id: 40921813-de90-47ae-9e79-6b83f9c974b6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\csrss.exe'
+      - '\ctfmon.exe'
+      - '\dllhost.exe'
+    Image|endswith|contains:
+      - '\cmd.exe'
+    CommandLine|contains|contains:
+      - '^^'
+      - '^|^'
+      - ',;,'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.safelocker

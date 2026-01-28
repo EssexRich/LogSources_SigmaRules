@@ -1,0 +1,38 @@
+title: Software Discovery (WINDOWS - sysmon)
+id: 3eac8e35-3fc5-4d1e-8277-7d7891d14487
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1518/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Offline_Winpwn'
+      - 'WinPwn '
+      - 'WinPwn.exe'
+    Image|endswith|contains:
+      - '\reg.exe'
+    CommandLine|contains|all|contains:
+      - 'query'
+      - '\software\'
+      - '/v'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518
+  - actor.lynx

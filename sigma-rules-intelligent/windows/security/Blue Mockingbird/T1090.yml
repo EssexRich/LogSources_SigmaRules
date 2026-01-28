@@ -1,0 +1,37 @@
+title: Proxy (WINDOWS - security)
+id: 78248c93-25f6-4a24-89d1-e6e123e91123
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.
+  Threat Actor: Blue Mockingbird
+references:
+  - https://attack.mitre.org/techniques/T1090/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - ' tunnel '
+      - ' run '
+    CommandLine|contains|contains:
+      - '.exe -tran '
+      - '.exe -slave '
+    Image|endswith|contains:
+      - '\htran.exe'
+      - '\lcx.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090
+  - actor.blue_mockingbird

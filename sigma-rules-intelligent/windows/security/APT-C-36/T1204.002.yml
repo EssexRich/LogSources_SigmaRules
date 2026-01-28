@@ -1,0 +1,40 @@
+title: Malicious File (WINDOWS - security)
+id: 7e949b6a-5e4f-4d53-a68c-39580475c7ab
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+  Threat Actor: APT-C-36
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'cod.msc'
+      - 'fdp.msc'
+      - 'ftr.msc'
+    Image|endswith|contains:
+      - '\AppVLP.exe'
+      - '\bash.exe'
+      - '\cmd.exe'
+    OriginalFileName|contains:
+      - 'popupwrapper.exe'
+    ParentImage|endswith|contains:
+      - '\OUTLOOK.EXE'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002
+  - actor.apt-c-36

@@ -1,0 +1,32 @@
+title: Compromise Software Supply Chain (MACOS - unified_logging)
+id: 30e46e3d-12ca-4064-9b71-da5149b40630
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1195.002.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1195.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1195.002
+  - actor.blacksuit

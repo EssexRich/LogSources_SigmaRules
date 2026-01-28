@@ -1,0 +1,29 @@
+title: T6733 (M365 - entra_id)
+id: d47b06fd-e20d-4ffa-964f-36c8b17ce6f0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6733.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T6733/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6733
+  - actor.lockbit

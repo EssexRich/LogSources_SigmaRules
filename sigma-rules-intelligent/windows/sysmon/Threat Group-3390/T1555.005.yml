@@ -1,0 +1,32 @@
+title: Password Managers (WINDOWS - sysmon)
+id: e84e1d5e-273d-4893-a65b-e2f8b7f5bd5c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.005.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1555.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.005
+  - actor.threat_group-3390

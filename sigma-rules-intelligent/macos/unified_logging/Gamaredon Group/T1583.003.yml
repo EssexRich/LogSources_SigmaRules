@@ -1,0 +1,32 @@
+title: Virtual Private Server (MACOS - unified_logging)
+id: c0d58f8f-f3e4-42a6-9eab-8ffe12a27d40
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.003.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1583.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.003
+  - actor.gamaredon_group

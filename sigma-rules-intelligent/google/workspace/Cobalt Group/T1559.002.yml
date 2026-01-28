@@ -1,0 +1,29 @@
+title: Dynamic Data Exchange (GOOGLE - workspace)
+id: 96c690e3-c23a-46b9-a22b-b76b9ce82c4c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.002.
+  Threat Actor: Cobalt Group
+references:
+  - https://attack.mitre.org/techniques/T1559.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559.002
+  - actor.cobalt_group

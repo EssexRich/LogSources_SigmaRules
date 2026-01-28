@@ -1,0 +1,33 @@
+title: Windows Management Instrumentation Event Subscription (WINDOWS - sysmon)
+id: a64e6704-6b68-4ba3-8a02-54899398fb8b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1546.003.
+  Threat Actor: Rancor
+references:
+  - https://attack.mitre.org/techniques/T1546.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\EdgeTransport.exe'
+    CommandLine|contains|all|contains:
+      - 'ActiveScriptEventConsumer'
+      - ' CREATE '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1546.003
+  - actor.rancor

@@ -1,0 +1,32 @@
+title: Cron (WINDOWS - security)
+id: a1670912-4516-4488-93a6-068907207e44
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.003.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1053.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.003
+  - actor.apt38

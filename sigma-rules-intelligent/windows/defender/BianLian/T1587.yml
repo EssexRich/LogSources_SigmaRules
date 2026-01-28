@@ -1,0 +1,31 @@
+title: Develop Capabilities (WINDOWS - defender)
+id: 395ce457-b57d-4774-8446-2b882ce1d49e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1587/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'xyz123456.exe'
+      - 'PurpleSharp'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587
+  - actor.bianlian

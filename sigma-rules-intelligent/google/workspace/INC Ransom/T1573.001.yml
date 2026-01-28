@@ -1,0 +1,29 @@
+title: Symmetric Cryptography (GOOGLE - workspace)
+id: 7dfb457f-59b7-49c1-b1f6-39f295d4835b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.001.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1573.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.001
+  - actor.inc_ransom

@@ -1,0 +1,32 @@
+title: Social Media Accounts (MACOS - unified_logging)
+id: 6f117137-a938-4a95-888e-21288c2e56a1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1586.001.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1586.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1586.001
+  - actor.sandworm_team

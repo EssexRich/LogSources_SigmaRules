@@ -1,0 +1,31 @@
+title: Lateral Tool Transfer (WINDOWS - defender)
+id: 449755f2-f124-44a8-a306-33cf5626672c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains:
+      - 'rundll32.exe'
+      - 'rundll32'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570
+  - actor.blacksuit

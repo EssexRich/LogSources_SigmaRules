@@ -1,0 +1,29 @@
+title: Email Addresses (GOOGLE - workspace)
+id: 110bfd99-fe7f-46c7-9b67-165338411d7b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1589.002.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1589.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1589.002
+  - actor.magic_hound

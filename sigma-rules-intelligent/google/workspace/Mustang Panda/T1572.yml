@@ -1,0 +1,29 @@
+title: Protocol Tunneling (GOOGLE - workspace)
+id: ec48e580-f28f-4200-9fa5-1b9fbe39dffd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1572.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1572/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1572
+  - actor.mustang_panda

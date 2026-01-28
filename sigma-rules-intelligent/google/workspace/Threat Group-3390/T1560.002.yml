@@ -1,0 +1,29 @@
+title: Archive via Library (GOOGLE - workspace)
+id: d0b06b93-5d67-4aa3-bebe-93b3dd06ebdf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.002.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1560.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.002
+  - actor.threat_group-3390

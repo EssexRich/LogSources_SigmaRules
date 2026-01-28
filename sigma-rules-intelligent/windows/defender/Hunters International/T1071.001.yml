@@ -1,0 +1,37 @@
+title: Web Protocols (WINDOWS - defender)
+id: 695e7d3a-1c99-4b17-8854-25df98ac7ae3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.001.
+  Threat Actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1071.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|endswith|contains:
+      - '.exe tunnel'
+    CommandLine|contains|all|contains:
+      - '.exe tunnel'
+      - '--accept-server-license-terms'
+    ParentImage|contains|contains:
+      - '\servers\Stable-'
+    ParentImage|endswith|contains:
+      - '\server\node.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.001
+  - actor.hunters_international

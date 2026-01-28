@@ -1,0 +1,32 @@
+title: Obfuscated Files or Information (MACOS - unified_logging)
+id: 8820b99d-d4b2-43ce-85f5-dc8a71a05780
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - '/usr/bin/base64'
+    CommandLine|contains|contains:
+      - '-d'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.nitrogen

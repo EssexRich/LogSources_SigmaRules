@@ -1,0 +1,32 @@
+title: Local Account (WINDOWS - defender)
+id: 138b4489-4261-46e5-a78a-d95eae98ea20
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.001.
+  Threat Actor: admin@338
+references:
+  - https://attack.mitre.org/techniques/T1087.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'domain admins'
+      - ' administrator'
+      - ' administrateur'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.001
+  - actor.admin@338

@@ -1,0 +1,31 @@
+title: Obfuscated Files or Information (WINDOWS - security)
+id: 76c133ad-bfb0-45d7-9aef-a3ea4cd3a2a0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: Magaskosh
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ServiceFileName|contains|all|contains:
+      - 'cmd'
+      - 'powershell'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.magaskosh

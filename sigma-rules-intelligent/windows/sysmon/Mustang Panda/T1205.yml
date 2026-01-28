@@ -1,0 +1,32 @@
+title: Traffic Signaling (WINDOWS - sysmon)
+id: a8af9365-ca8b-4986-a29d-8f1c2dab9814
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1205.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1205/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1205
+  - actor.mustang_panda

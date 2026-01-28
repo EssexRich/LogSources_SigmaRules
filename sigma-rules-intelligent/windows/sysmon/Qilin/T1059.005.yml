@@ -1,0 +1,32 @@
+title: Visual Basic (WINDOWS - sysmon)
+id: d87aec20-a6b2-43fe-8461-da7e93f3b66b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.005.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1059.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\cscript.exe'
+      - '\excel.exe'
+      - '\mshta.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.005
+  - actor.qilin

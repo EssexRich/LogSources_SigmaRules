@@ -1,0 +1,35 @@
+title: Valid Accounts (MACOS - unified_logging)
+id: 84be61c9-081e-4e3d-b825-1d65cd23d472
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: Cicada3301Repellent Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '/sysadminctl'
+    CommandLine|contains|contains:
+      - ' -d '
+    CommandLine|contains|all|contains:
+      - ' -guestAccount'
+      - ' on'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.cicada3301repellent_scorpius

@@ -1,0 +1,40 @@
+title: Malicious File (WINDOWS - security)
+id: 21bdaabf-f3c2-4c4e-8f77-c2b17627b514
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'cod.msc'
+      - 'fdp.msc'
+      - 'ftr.msc'
+    Image|endswith|contains:
+      - '\AppVLP.exe'
+      - '\bash.exe'
+      - '\cmd.exe'
+    OriginalFileName|contains:
+      - 'popupwrapper.exe'
+    ParentImage|endswith|contains:
+      - '\OUTLOOK.EXE'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002
+  - actor.apt28

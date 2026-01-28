@@ -1,0 +1,29 @@
+title: Portable Executable Injection (GOOGLE - workspace)
+id: 8e6374c9-bc1d-41fc-ac06-ffd8055730f7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.002.
+  Threat Actor: Rocke
+references:
+  - https://attack.mitre.org/techniques/T1055.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.002
+  - actor.rocke

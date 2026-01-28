@@ -1,0 +1,29 @@
+title: T3181 (GOOGLE - workspace)
+id: 8738a476-983c-49ef-83f9-ea3b5d7ff5d5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3181.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T3181/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3181
+  - actor.pear

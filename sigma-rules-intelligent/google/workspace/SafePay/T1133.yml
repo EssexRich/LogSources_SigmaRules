@@ -1,0 +1,29 @@
+title: External Remote Services (GOOGLE - workspace)
+id: 4bd85e92-b5ef-47f3-8a13-06100612616a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.safepay

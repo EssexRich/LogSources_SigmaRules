@@ -1,0 +1,32 @@
+title: Exfiltration Over Web Service (WINDOWS - security)
+id: 65e44c0c-55c2-41cd-aa09-fea00d17242a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.
+  Threat Actor: AlphaLocker
+references:
+  - https://attack.mitre.org/techniques/T1567/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '/in:'
+      - '/out:'
+      - '/uri:'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567
+  - actor.alphalocker

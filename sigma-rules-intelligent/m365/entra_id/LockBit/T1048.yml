@@ -1,0 +1,29 @@
+title: Exfiltration Over Alternative Protocol (M365 - entra_id)
+id: b8e248ae-606f-42e2-b72f-37086b759c1c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048
+  - actor.lockbit

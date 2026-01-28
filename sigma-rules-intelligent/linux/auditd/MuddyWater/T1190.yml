@@ -1,0 +1,30 @@
+title: Exploit Public-Facing Application (LINUX - auditd)
+id: 6302f094-4af2-43c2-9821-0b707f24e9c7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: MuddyWater
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    User|contains:
+      - 'root'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.muddywater

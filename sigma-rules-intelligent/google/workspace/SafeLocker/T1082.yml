@@ -1,0 +1,29 @@
+title: System Information Discovery (GOOGLE - workspace)
+id: 10a5f735-18df-4a7f-bfb4-6ac159507ac6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.safelocker

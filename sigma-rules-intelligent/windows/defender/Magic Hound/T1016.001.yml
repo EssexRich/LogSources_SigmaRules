@@ -1,0 +1,32 @@
+title: Internet Connection Discovery (WINDOWS - defender)
+id: e959acf9-6b92-479f-bfb3-132471eb8f09
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.001.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1016.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016.001
+  - actor.magic_hound

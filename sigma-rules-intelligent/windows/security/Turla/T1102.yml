@@ -1,0 +1,42 @@
+title: Web Service (WINDOWS - security)
+id: 91af59aa-e319-475e-9146-33f99fce8870
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1102/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - ' tunnel '
+      - ' run '
+    CommandLine|contains|contains:
+      - '-config '
+      - '-credentials-contents '
+      - '-credentials-file '
+    ParentImage|contains|all|contains:
+      - '\ManageEngine\ServiceDesk\'
+      - '\java.exe'
+    Image|endswith|contains:
+      - '\AppVLP.exe'
+      - '\bash.exe'
+      - '\bitsadmin.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102
+  - actor.turla

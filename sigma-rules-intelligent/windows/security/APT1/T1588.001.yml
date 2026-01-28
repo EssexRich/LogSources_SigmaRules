@@ -1,0 +1,32 @@
+title: Malware (WINDOWS - security)
+id: 28b49a82-e850-4750-a6d0-119a582c5989
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.001.
+  Threat Actor: APT1
+references:
+  - https://attack.mitre.org/techniques/T1588.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.001
+  - actor.apt1

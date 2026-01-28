@@ -1,0 +1,32 @@
+title: Junk Code Insertion (WINDOWS - defender)
+id: 628ca443-3f57-44d1-93e6-3a4ac68cbe0f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.016.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1027.016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.016
+  - actor.safepay

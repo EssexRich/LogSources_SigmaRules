@@ -1,0 +1,30 @@
+title: Peripheral Device Discovery (WINDOWS - sysmon)
+id: b307545b-1243-4a34-9c31-bee773a7cbd1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1120.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1120/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'drives'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1120
+  - actor.oilrig

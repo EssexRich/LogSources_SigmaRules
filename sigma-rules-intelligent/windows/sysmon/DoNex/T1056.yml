@@ -1,0 +1,32 @@
+title: Input Capture (WINDOWS - sysmon)
+id: fb57c08f-17a7-41c9-a138-cb9d643c9449
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1056/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056
+  - actor.donex

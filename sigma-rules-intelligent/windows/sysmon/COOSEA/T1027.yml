@@ -1,0 +1,35 @@
+title: Obfuscated Files or Information (WINDOWS - sysmon)
+id: 4b29a37c-d960-4c51-b421-22038c429563
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|windash|contains:
+      - '-decode '
+      - '-decodehex '
+    CommandLine|contains|contains:
+      - 'urlcache '
+      - 'verifyctl '
+      - 'URL '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.coosea

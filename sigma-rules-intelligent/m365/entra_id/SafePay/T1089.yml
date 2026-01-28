@@ -1,0 +1,29 @@
+title: Disabling Security Tools (M365 - entra_id)
+id: 7a2f596b-3a2a-4e77-8461-a624406ee0f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1089.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1089/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1089
+  - actor.safepay

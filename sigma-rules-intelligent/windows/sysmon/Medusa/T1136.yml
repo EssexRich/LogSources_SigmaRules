@@ -1,0 +1,32 @@
+title: Create Account (WINDOWS - sysmon)
+id: 6d551f0d-323e-4a3c-b4c2-43b2d5aa1b80
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1136/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136
+  - actor.medusa

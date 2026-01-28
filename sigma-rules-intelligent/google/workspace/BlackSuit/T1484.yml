@@ -1,0 +1,29 @@
+title: Domain or Tenant Policy Modification (GOOGLE - workspace)
+id: 42ba9196-3570-4156-b6cf-b1da9bdecaad
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1484.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1484/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1484
+  - actor.blacksuit

@@ -1,0 +1,29 @@
+title: Digital Certificates (M365 - entra_id)
+id: 97096c33-4484-428e-b071-8ffd48615091
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.003.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1587.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587.003
+  - actor.gamaredon_group

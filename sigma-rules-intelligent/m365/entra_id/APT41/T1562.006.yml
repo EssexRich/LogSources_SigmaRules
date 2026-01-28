@@ -1,0 +1,29 @@
+title: Indicator Blocking (M365 - entra_id)
+id: 377c3024-fdce-45a2-9fa5-d8d2a80417c4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.006.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1562.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.006
+  - actor.apt41

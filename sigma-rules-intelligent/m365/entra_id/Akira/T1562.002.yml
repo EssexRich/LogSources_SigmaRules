@@ -1,0 +1,29 @@
+title: Disable Windows Event Logging (M365 - entra_id)
+id: a9e3ad88-94f6-47dd-9f81-a6627d839a2f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.002.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1562.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.002
+  - actor.akira

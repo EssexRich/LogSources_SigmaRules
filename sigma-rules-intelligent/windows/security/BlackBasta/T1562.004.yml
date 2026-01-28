@@ -1,0 +1,32 @@
+title: Disable or Modify System Firewall (WINDOWS - security)
+id: 859c5ccb-7ad7-47e8-9b68-05551949190b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.004.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1562.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'firewall '
+      - 'add '
+      - 'tcp '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.004
+  - actor.blackbasta

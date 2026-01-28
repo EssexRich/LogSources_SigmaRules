@@ -1,0 +1,32 @@
+title: System Network Configuration Discovery (WINDOWS - security)
+id: e9af9c7d-9ae5-42c6-8913-2f8738ab98b7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'netsh'
+      - 'show '
+      - 'firewall '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.tropic_trooper

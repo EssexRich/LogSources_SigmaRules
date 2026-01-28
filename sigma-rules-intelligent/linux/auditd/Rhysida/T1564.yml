@@ -1,0 +1,33 @@
+title: Hide Artifacts (LINUX - auditd)
+id: 3f91a6a4-ed91-4276-be84-0aa18c58ee08
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '/mount'
+    CommandLine|contains|all|contains:
+      - 'hidepid=2'
+      - ' -o '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.rhysida

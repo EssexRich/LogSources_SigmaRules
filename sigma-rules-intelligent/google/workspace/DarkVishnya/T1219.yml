@@ -1,0 +1,29 @@
+title: Remote Access Tools (GOOGLE - workspace)
+id: d4e234c5-1178-406c-a20d-c87534098c12
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: DarkVishnya
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.darkvishnya

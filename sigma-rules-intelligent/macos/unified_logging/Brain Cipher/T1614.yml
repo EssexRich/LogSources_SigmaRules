@@ -1,0 +1,32 @@
+title: System Location Discovery (MACOS - unified_logging)
+id: 5a0c22ba-3edf-4f67-a041-9d0d740dc7ba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1614/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614
+  - actor.brain_cipher

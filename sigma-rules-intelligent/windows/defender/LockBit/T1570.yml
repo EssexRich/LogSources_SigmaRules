@@ -1,0 +1,31 @@
+title: Lateral Tool Transfer (WINDOWS - defender)
+id: 0835f206-2d7b-4cb6-919e-bd31db8e312d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains:
+      - 'rundll32.exe'
+      - 'rundll32'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570
+  - actor.lockbit

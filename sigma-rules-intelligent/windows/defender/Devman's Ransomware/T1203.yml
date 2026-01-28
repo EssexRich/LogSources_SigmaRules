@@ -1,0 +1,35 @@
+title: Exploitation for Client Execution (WINDOWS - defender)
+id: fac67ac7-7df9-49d8-b540-1718ea6bd9fe
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\Hwp.exe'
+    Image|endswith|contains:
+      - '\gbb.exe'
+    CommandLine|contains|contains:
+      - 'jre1.'
+      - 'jdk1.'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.devman's_ransomware

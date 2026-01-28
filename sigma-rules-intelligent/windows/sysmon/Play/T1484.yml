@@ -1,0 +1,32 @@
+title: Domain or Tenant Policy Modification (WINDOWS - sysmon)
+id: 8eeee2fe-60ee-40f6-a60b-76b723bb5b52
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1484.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1484/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1484
+  - actor.play

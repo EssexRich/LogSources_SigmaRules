@@ -1,0 +1,29 @@
+title: External Proxy (GOOGLE - workspace)
+id: df177edc-e6d9-4307-8d6d-a3f2a5d234a0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.002.
+  Threat Actor: menuPass
+references:
+  - https://attack.mitre.org/techniques/T1090.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.002
+  - actor.menupass

@@ -1,0 +1,32 @@
+title: Malicious Link (WINDOWS - defender)
+id: 1c14c2d7-54fa-423e-83a9-3ba9ffd3909c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.001.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1204.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\explorer.exe'
+    CommandLine|contains|contains:
+      - '#'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.001
+  - actor.benzona

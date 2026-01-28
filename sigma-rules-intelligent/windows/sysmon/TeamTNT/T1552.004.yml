@@ -1,0 +1,30 @@
+title: Private Keys (WINDOWS - sysmon)
+id: 9bd9173c-9bc8-4e9d-99c0-9ebeac81dcb1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.004.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1552.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'dir '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.004
+  - actor.teamtnt

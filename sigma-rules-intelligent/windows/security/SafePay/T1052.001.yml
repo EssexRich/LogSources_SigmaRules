@@ -1,0 +1,32 @@
+title: Exfiltration over USB (WINDOWS - security)
+id: 455fe7fc-fc77-4a53-b7d2-d62918a2c5bd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1052.001.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1052.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1052.001
+  - actor.safepay

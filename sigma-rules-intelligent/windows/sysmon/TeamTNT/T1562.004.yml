@@ -1,0 +1,32 @@
+title: Disable or Modify System Firewall (WINDOWS - sysmon)
+id: 7c10cf12-7d39-4fe4-bb85-b7cc6f4d0f38
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.004.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1562.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'firewall '
+      - 'add '
+      - 'tcp '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.004
+  - actor.teamtnt

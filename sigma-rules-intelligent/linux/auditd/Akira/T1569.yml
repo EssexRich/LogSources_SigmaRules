@@ -1,0 +1,32 @@
+title: System Services (LINUX - auditd)
+id: 0b7ae9b2-6e39-49a3-a4c7-fa80ed15d033
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1569/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569
+  - actor.akira

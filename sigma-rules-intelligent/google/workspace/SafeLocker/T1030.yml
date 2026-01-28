@@ -1,0 +1,29 @@
+title: Data Transfer Size Limits (GOOGLE - workspace)
+id: 895ccace-0e54-400b-b56a-354179185f31
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1030.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1030/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1030
+  - actor.safelocker

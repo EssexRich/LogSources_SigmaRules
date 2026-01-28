@@ -1,0 +1,29 @@
+title: Keylogging (GOOGLE - workspace)
+id: 70c4d651-b52e-408f-b94a-954b77b1ba09
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.001.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1056.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056.001
+  - actor.interlock

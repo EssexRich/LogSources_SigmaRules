@@ -1,0 +1,29 @@
+title: Protocol Tunneling (M365 - entra_id)
+id: 6ebd4042-c938-434e-b36c-de0710d48431
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1572.
+  Threat Actor: Cobalt Group
+references:
+  - https://attack.mitre.org/techniques/T1572/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1572
+  - actor.cobalt_group

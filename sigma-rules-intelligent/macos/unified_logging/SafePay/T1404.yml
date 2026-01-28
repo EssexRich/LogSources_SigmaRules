@@ -1,0 +1,32 @@
+title: T1404 (MACOS - unified_logging)
+id: 14283afd-63b9-44fb-b14d-f76fd7027896
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1404.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1404/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1404
+  - actor.safepay

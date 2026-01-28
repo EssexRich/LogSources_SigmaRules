@@ -1,0 +1,29 @@
+title: T6133 (M365 - entra_id)
+id: b464da2c-aec9-4d00-a838-e9f7e8864f8b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6133.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T6133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6133
+  - actor.kazu

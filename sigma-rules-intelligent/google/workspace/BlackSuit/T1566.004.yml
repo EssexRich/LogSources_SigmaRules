@@ -1,0 +1,29 @@
+title: Spearphishing Voice (GOOGLE - workspace)
+id: 2a61e4e9-1cd0-4ac7-9335-a6a95e7e03ee
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.004.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1566.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.004
+  - actor.blacksuit

@@ -1,0 +1,35 @@
+title: Indicator Removal from Tools (WINDOWS - security)
+id: c3a300cc-ee38-4668-aaa8-fb046dfef29d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.005.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1027.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ObjectName|endswith|contains:
+      - '.AAA'
+      - '.ZZZ'
+    CommandLine|contains|contains:
+      - 'join*split'
+      - '( $ShellId[1]+$ShellId[13]+'x')'
+      - '( $PSHome[*]+$PSHOME[*]+'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.005
+  - actor.shinra

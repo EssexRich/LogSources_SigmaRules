@@ -1,0 +1,38 @@
+title: Process Injection (WINDOWS - security)
+id: 85cf2a5e-a317-4c82-95e2-f4e8f4d1bbbc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\CoercedPotato.exe'
+    CommandLine|contains:
+      - 'dllhost.exe'
+      - 'dllhost'
+    CommandLine|contains|contains:
+      - ' --exploitId '
+    CommandLine|contains|all|contains:
+      - ' /am51'
+      - ' /password'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.gamaredon_group

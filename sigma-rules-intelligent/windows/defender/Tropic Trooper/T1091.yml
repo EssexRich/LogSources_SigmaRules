@@ -1,0 +1,32 @@
+title: Replication Through Removable Media (WINDOWS - defender)
+id: 9502aee5-683b-4f67-9384-3cd7d683ff3a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091
+  - actor.tropic_trooper

@@ -1,0 +1,30 @@
+title: Indicator Removal from Tools (WINDOWS - sysmon)
+id: 3266b887-6e77-40fd-9a16-59819d8f4f5e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.005.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1027.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '--set-'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.005
+  - actor.donex

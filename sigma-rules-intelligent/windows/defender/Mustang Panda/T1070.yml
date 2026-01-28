@@ -1,0 +1,33 @@
+title: Indicator Removal (WINDOWS - defender)
+id: 24cb06bc-4524-4c6f-8557-f32e294a3bf7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'unload'
+    CommandLine|contains|all|contains:
+      - 'unload'
+      - 'sysmon'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070
+  - actor.mustang_panda

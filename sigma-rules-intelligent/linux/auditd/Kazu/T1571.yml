@@ -1,0 +1,32 @@
+title: Non-Standard Port (LINUX - auditd)
+id: 9781e5b5-6f28-4179-815e-e0ec690d6c9d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1571.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1571/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1571
+  - actor.kazu

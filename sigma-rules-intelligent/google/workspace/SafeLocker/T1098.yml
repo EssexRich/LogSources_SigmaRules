@@ -1,0 +1,29 @@
+title: Account Manipulation (GOOGLE - workspace)
+id: 13035fce-0fe0-45e5-9fe8-894a60924a67
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1098/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098
+  - actor.safelocker

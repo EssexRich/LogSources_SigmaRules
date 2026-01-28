@@ -1,0 +1,36 @@
+title: Exfiltration to Cloud Storage (WINDOWS - sysmon)
+id: 8449f9e8-8b4d-408d-8dab-0a49455b5163
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.002.
+  Threat Actor: Nefilim
+references:
+  - https://attack.mitre.org/techniques/T1567.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - '--config '
+      - '--no-check-certificate '
+      - ' copy '
+    CommandLine|contains|contains:
+      - 'sftp:'
+      - 'rest:http'
+      - 's3:s3.'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567.002
+  - actor.nefilim

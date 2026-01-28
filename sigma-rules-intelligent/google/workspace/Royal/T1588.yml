@@ -1,0 +1,29 @@
+title: Obtain Capabilities (GOOGLE - workspace)
+id: 71224173-45d4-4b88-802b-bda19f2aaf7f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.
+  Threat Actor: Royal
+references:
+  - https://attack.mitre.org/techniques/T1588/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588
+  - actor.royal

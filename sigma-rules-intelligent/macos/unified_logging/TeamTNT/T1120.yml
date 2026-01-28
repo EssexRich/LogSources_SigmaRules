@@ -1,0 +1,32 @@
+title: Peripheral Device Discovery (MACOS - unified_logging)
+id: f0b7e9e3-8fe1-43db-ab58-35e5b2270142
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1120.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1120/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1120
+  - actor.teamtnt

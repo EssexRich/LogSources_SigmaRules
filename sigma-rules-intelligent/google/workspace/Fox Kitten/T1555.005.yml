@@ -1,0 +1,29 @@
+title: Password Managers (GOOGLE - workspace)
+id: 76e7b75e-bfe5-4060-95c2-9f146ed15471
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.005.
+  Threat Actor: Fox Kitten
+references:
+  - https://attack.mitre.org/techniques/T1555.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.005
+  - actor.fox_kitten

@@ -1,0 +1,30 @@
+title: Software Deployment Tools (WINDOWS - defender)
+id: a2f3db8b-557a-4305-ac13-161302178589
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Company|contains:
+      - 'Microsoft Corporation'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072
+  - actor.apt32

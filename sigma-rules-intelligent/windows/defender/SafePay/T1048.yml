@@ -1,0 +1,31 @@
+title: Exfiltration Over Alternative Protocol (WINDOWS - defender)
+id: 05e0d13d-eb6f-4dfd-b5de-db3eea232f42
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '\\\\*\\*$'
+      - '\Sysvol\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048
+  - actor.safepay

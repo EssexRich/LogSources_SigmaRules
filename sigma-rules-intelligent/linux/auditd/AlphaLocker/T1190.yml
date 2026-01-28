@@ -1,0 +1,30 @@
+title: Exploit Public-Facing Application (LINUX - auditd)
+id: 87c63b09-ba6b-4173-a03f-84803625ae13
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: AlphaLocker
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    User|contains:
+      - 'root'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.alphalocker

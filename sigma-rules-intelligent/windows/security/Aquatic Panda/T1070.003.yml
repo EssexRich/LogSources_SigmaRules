@@ -1,0 +1,31 @@
+title: Clear Command History (WINDOWS - security)
+id: dc8b9468-c387-4736-a4e3-e26889d04462
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.003.
+  Threat Actor: Aquatic Panda
+references:
+  - https://attack.mitre.org/techniques/T1070.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - ' del'
+      - '\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.003
+  - actor.aquatic_panda

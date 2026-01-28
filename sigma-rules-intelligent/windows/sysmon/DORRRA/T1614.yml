@@ -1,0 +1,32 @@
+title: System Location Discovery (WINDOWS - sysmon)
+id: 5739f3de-1ff5-413d-b216-b0be80c9cba1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.
+  Threat Actor: DORRRA
+references:
+  - https://attack.mitre.org/techniques/T1614/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614
+  - actor.dorrra

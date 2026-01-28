@@ -1,0 +1,29 @@
+title: System Owner/User Discovery (M365 - entra_id)
+id: 4d8a038d-677f-45e4-ad09-6d2907466941
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.bianlian

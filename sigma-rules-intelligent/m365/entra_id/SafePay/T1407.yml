@@ -1,0 +1,29 @@
+title: T1407 (M365 - entra_id)
+id: f8e82a6c-546d-46c3-a108-7729e0da4f46
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1407.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1407/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1407
+  - actor.safepay

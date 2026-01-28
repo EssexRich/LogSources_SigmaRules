@@ -1,0 +1,32 @@
+title: Pass the Hash (LINUX - auditd)
+id: 00d8257d-86ea-41f6-a47c-abcea886382c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1550.002.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1550.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1550.002
+  - actor.alphv-blackcat

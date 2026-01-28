@@ -1,0 +1,32 @@
+title: Permission Groups Discovery (WINDOWS - defender)
+id: 258c1a77-ff41-43c9-b30c-1cb1330c9d5d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Add-Exfiltration'
+      - 'Add-Persistence'
+      - 'Add-RegBackdoor'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.apt41

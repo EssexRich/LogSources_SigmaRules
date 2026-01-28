@@ -1,0 +1,39 @@
+title: Process Discovery (WINDOWS - defender)
+id: b857a74a-93bf-4c9b-96a8-148f36adf5a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1057.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1057/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'ipconfig*|*find'
+      - 'net*|*find'
+      - 'netstat*|*find'
+    CommandLine|contains|all|contains:
+      - 'cmd.exe /c TASKLIST /V |'
+      - 'FIND /I'
+      - '\xampp\'
+    Image|endswith|contains:
+      - '\PCHunter64.exe'
+      - '\PCHunter32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1057
+  - actor.turla

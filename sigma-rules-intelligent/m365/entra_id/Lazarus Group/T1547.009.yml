@@ -1,0 +1,29 @@
+title: Shortcut Modification (M365 - entra_id)
+id: fbf4b1f7-dd30-4c57-8f9b-d4e8678e38fe
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.009.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1547.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547.009
+  - actor.lazarus_group

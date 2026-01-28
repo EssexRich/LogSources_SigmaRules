@@ -1,0 +1,32 @@
+title: Virtualization/Sandbox Evasion (WINDOWS - sysmon)
+id: 6ca13b4b-65bc-4b8c-8236-faa6830e4406
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1497.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1497/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1497
+  - actor.8base

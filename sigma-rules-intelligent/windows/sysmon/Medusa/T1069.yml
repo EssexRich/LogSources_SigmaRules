@@ -1,0 +1,32 @@
+title: Permission Groups Discovery (WINDOWS - sysmon)
+id: 145ea9b9-c6e6-48e1-bc47-7196ad585ca0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Add-Exfiltration'
+      - 'Add-Persistence'
+      - 'Add-RegBackdoor'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.medusa

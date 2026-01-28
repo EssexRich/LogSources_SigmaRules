@@ -1,0 +1,32 @@
+title: T7869 (MACOS - unified_logging)
+id: 6e0bed05-43f0-42ff-a757-71496db4b530
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7869.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T7869/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7869
+  - actor.cephalus

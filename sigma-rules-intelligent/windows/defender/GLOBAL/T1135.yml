@@ -1,0 +1,37 @@
+title: Network Share Discovery (WINDOWS - defender)
+id: 7c5f24ee-f9fb-4b4a-9f53-bfcd9e3cc302
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\cmd.exe'
+      - '\powershell.exe'
+      - '\pwsh.exe'
+    Image|endswith|contains:
+      - '\explorer.exe'
+    CommandLine|contains|all|contains:
+      - '/portable'
+      - '/lng'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.global

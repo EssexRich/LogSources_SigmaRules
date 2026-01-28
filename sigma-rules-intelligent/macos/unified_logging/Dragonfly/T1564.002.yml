@@ -1,0 +1,32 @@
+title: Hidden Users (MACOS - unified_logging)
+id: 9cb504ae-611f-4027-81dd-95cf10744f72
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.002.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1564.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '/dscl'
+    CommandLine|contains|contains:
+      - 'create'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.002
+  - actor.dragonfly

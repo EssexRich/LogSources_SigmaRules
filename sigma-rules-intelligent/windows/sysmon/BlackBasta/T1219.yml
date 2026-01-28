@@ -1,0 +1,37 @@
+title: Remote Access Tools (WINDOWS - sysmon)
+id: fde9e87b-b04c-4ef2-b17f-9b6c8c4bfae6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains|contains:
+      - '\TacticalAgent\tacticalrmm.exe'
+    CommandLine|contains|all|contains:
+      - '.exe tunnel'
+      - '--accept-server-license-terms'
+    ParentImage|endswith|contains:
+      - '\Velociraptor.exe'
+    CommandLine|endswith|contains:
+      - '.exe tunnel'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.blackbasta

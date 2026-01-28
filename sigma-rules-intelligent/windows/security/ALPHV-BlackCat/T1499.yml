@@ -1,0 +1,32 @@
+title: Endpoint Denial of Service (WINDOWS - security)
+id: ca24aa0f-dc0b-44a7-b3bf-2c4bc3e7ab2d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1499.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1499/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1499
+  - actor.alphv-blackcat

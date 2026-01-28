@@ -1,0 +1,32 @@
+title: Local Data Staging (LINUX - auditd)
+id: c40456f9-f3a4-4d0d-9fd8-812a26f122bf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.001.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1074.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074.001
+  - actor.safepay

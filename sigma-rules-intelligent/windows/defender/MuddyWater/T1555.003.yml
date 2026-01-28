@@ -1,0 +1,32 @@
+title: Credentials from Web Browsers (WINDOWS - defender)
+id: 5cea6727-2b37-46be-8bae-57043579878e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+  Threat Actor: MuddyWater
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '\User Data\'
+      - '\Opera Software\'
+      - '\ChromiumViewer\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003
+  - actor.muddywater

@@ -1,0 +1,29 @@
+title: Software Discovery (GOOGLE - workspace)
+id: 0cb614c9-c133-4672-9084-a0cb1d79889c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1518/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518
+  - actor.safepay

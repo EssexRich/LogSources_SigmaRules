@@ -1,0 +1,29 @@
+title: Email Hiding Rules (GOOGLE - workspace)
+id: 570f7691-dbf1-489a-ba7d-4ec1e7b9dd1d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.008.
+  Threat Actor: FIN4
+references:
+  - https://attack.mitre.org/techniques/T1564.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.008
+  - actor.fin4

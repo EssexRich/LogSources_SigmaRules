@@ -1,0 +1,43 @@
+title: Malware (WINDOWS - security)
+id: 65a8f947-1999-4935-ae6b-874780fd73d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.001.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1587.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\csexec.exe'
+    Description|contains:
+      - 'csexec'
+    CommandLine|contains|windash|contains:
+      - ' -s cmd'
+      - ' -s -i cmd'
+      - ' -i -s cmd'
+    CommandLine|contains|contains:
+      - '\\\\localhost'
+      - '\\\\127.'
+    CommandLine|contains|all|contains:
+      - 'accepteula'
+      - ' -u '
+      - ' -p '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587.001
+  - actor.apt29

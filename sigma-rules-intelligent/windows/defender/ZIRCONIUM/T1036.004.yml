@@ -1,0 +1,30 @@
+title: Masquerade Task or Service (WINDOWS - defender)
+id: cd2372ee-2a46-4a99-95ec-5395c15d6c77
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.004.
+  Threat Actor: ZIRCONIUM
+references:
+  - https://attack.mitre.org/techniques/T1036.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|windash|contains:
+      - ' /create '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.004
+  - actor.zirconium

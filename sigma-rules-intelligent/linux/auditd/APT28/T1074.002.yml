@@ -1,0 +1,32 @@
+title: Remote Data Staging (LINUX - auditd)
+id: 21b592fd-1c66-4a72-9114-6390366a402b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.002.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1074.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074.002
+  - actor.apt28

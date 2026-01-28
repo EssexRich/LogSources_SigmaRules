@@ -1,0 +1,29 @@
+title: Botnet (GOOGLE - workspace)
+id: f7490eed-46cb-4530-8a20-dfe8ee5e070d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.005.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1584.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.005
+  - actor.sandworm_team

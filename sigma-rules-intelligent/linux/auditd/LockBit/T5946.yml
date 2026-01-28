@@ -1,0 +1,32 @@
+title: T5946 (LINUX - auditd)
+id: a05ae396-1827-4aa5-902b-6d4db0e334b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5946.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T5946/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5946
+  - actor.lockbit

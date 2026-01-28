@@ -1,0 +1,31 @@
+title: Password Filter DLL (WINDOWS - defender)
+id: 5cda5275-0323-4c19-abab-5fbebd18ea95
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1556.002.
+  Threat Actor: Strider
+references:
+  - https://attack.mitre.org/techniques/T1556.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - '/export'
+      - '/cfg'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1556.002
+  - actor.strider

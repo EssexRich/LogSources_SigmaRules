@@ -1,0 +1,32 @@
+title: Malvertising (WINDOWS - security)
+id: 8dc48741-2dc8-4824-aacc-b7a91837c1b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.008.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1583.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.008
+  - actor.nitrogen

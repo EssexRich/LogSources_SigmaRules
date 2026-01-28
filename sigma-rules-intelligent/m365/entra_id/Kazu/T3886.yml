@@ -1,0 +1,29 @@
+title: T3886 (M365 - entra_id)
+id: 4d6f8056-17d0-4bed-9267-bb6292249002
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3886.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T3886/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3886
+  - actor.kazu

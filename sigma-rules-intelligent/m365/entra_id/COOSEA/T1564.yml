@@ -1,0 +1,29 @@
+title: Hide Artifacts (M365 - entra_id)
+id: ac8dce53-05b5-4279-9315-39c9a09522e4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.coosea

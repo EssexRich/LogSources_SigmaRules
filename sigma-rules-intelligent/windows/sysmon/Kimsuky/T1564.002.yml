@@ -1,0 +1,33 @@
+title: Hidden Users (WINDOWS - sysmon)
+id: 08965e8d-5966-4917-8cd5-00f4d3ecfe4b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.002.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1564.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\reg.exe'
+    CommandLine|contains|all|contains:
+      - '/export'
+      - '/cfg'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.002
+  - actor.kimsuky

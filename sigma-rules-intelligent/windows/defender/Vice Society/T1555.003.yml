@@ -1,0 +1,32 @@
+title: Credentials from Web Browsers (WINDOWS - defender)
+id: 39f75e4e-5a04-4f7e-ac7b-ef882f042837
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '\User Data\'
+      - '\Opera Software\'
+      - '\ChromiumViewer\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003
+  - actor.vice_society

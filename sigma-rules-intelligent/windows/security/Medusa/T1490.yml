@@ -1,0 +1,33 @@
+title: Inhibit System Recovery (WINDOWS - security)
+id: dfa93fb5-fb1d-411c-999a-5a678b7025ea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Win32_ShadowCopy'
+    CommandLine|contains|all|contains:
+      - 'copy '
+      - '\\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.medusa

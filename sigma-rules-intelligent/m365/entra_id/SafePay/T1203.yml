@@ -1,0 +1,29 @@
+title: Exploitation for Client Execution (M365 - entra_id)
+id: 37d7ea84-1795-463e-9113-17cd0ad90e6a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.safepay

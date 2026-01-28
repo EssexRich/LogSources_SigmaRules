@@ -1,0 +1,29 @@
+title: Modify Registry (M365 - entra_id)
+id: 4341ff5b-8aaa-4e6e-9afb-24f21eb9f7ea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.lockbit

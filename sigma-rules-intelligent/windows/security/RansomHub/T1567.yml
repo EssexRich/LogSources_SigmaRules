@@ -1,0 +1,32 @@
+title: Exfiltration Over Web Service (WINDOWS - security)
+id: cf8d25b6-429d-4258-9da5-d305332a827e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1567/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '/in:'
+      - '/out:'
+      - '/uri:'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567
+  - actor.ransomhub

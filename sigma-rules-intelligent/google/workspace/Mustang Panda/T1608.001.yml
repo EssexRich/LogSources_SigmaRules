@@ -1,0 +1,29 @@
+title: Upload Malware (GOOGLE - workspace)
+id: c38a94fe-8be1-4570-9940-9b33d115ae73
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.001.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1608.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.001
+  - actor.mustang_panda

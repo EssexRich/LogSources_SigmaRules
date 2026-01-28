@@ -1,0 +1,29 @@
+title: LNK Icon Smuggling (GOOGLE - workspace)
+id: d217c6b8-6dd3-4ecc-8bc8-e38a4c63a33f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.012.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1027.012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.012
+  - actor.kimsuky

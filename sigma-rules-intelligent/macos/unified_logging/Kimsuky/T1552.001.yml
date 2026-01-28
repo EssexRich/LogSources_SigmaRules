@@ -1,0 +1,32 @@
+title: Credentials In Files (MACOS - unified_logging)
+id: 0a2ee81b-bf33-497c-bc01-c9b2dc4b022c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.001.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1552.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '/grep'
+    CommandLine|contains|contains:
+      - 'password'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.001
+  - actor.kimsuky

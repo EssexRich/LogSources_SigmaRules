@@ -1,0 +1,29 @@
+title: Remote Services (GOOGLE - workspace)
+id: 6c9e9b52-fe8e-462f-af3a-4fa986c753cb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021
+  - actor.ransomhub

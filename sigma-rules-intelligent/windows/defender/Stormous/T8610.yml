@@ -1,0 +1,32 @@
+title: T8610 (WINDOWS - defender)
+id: 0c38f45b-49bd-4db4-b21f-2553128c60ec
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8610.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T8610/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8610
+  - actor.stormous

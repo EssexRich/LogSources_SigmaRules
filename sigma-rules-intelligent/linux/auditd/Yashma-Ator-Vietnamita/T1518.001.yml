@@ -1,0 +1,35 @@
+title: Security Software Discovery (LINUX - auditd)
+id: d538e1ed-bd58-43fe-aff6-6c4d89ecec6c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.001.
+  Threat Actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1518.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '/grep'
+      - '/egrep'
+    CommandLine|contains|contains:
+      - 'nessusd'
+      - 'td-agent'
+      - 'packetbeat'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518.001
+  - actor.yashma-ator-vietnamita

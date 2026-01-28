@@ -1,0 +1,29 @@
+title: System Owner/User Discovery (GOOGLE - workspace)
+id: 846bd1b8-3418-4d81-b5c7-504ae904e74b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.hafnium

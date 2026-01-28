@@ -1,0 +1,37 @@
+title: Modify Registry (WINDOWS - security)
+id: a626292f-ca7e-4d86-b373-25b51f46dc32
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ObjectName|endswith|contains:
+      - '\SOFTWARE\Microsoft\.NETFramework'
+    ObjectName|contains|all|contains:
+      - '\REGISTRY\MACHINE\SYSTEM'
+      - 'ControlSet'
+      - '\Control\Lsa'
+    ObjectName|contains|contains:
+      - 'WINEVT\Publishers\{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'
+      - 'WINEVT\Channels\Microsoft-Windows-Sysmon/Operational'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.kimsuky

@@ -1,0 +1,29 @@
+title: Screen Capture (M365 - entra_id)
+id: 9760e5d2-0e04-4a35-aa3e-0ab1bc88f155
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: Silence
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.silence

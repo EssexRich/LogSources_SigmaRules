@@ -1,0 +1,32 @@
+title: Non-Application Layer Protocol (LINUX - auditd)
+id: 2b10e02a-8827-407e-97ab-2773a9a7cbe9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1095.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1095/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1095
+  - actor.safelocker

@@ -1,0 +1,33 @@
+title: Keylogging (LINUX - auditd)
+id: ebbcec01-e91d-4cae-9f84-363f971f08d6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.001.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1056.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'PATH'
+    name|contains:
+      - '/etc/pam.d/system-auth'
+      - '/etc/pam.d/password-auth'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056.001
+  - actor.lynx

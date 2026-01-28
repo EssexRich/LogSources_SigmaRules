@@ -1,0 +1,35 @@
+title: Msiexec (WINDOWS - security)
+id: 056a6170-1860-4956-a9a6-8e03c7ea7d66
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.007.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1218.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|windash|contains:
+      - ' -y'
+    Image|endswith|contains:
+      - '\msiexec.exe'
+    ParentCommandLine|contains|all|contains:
+      - 'MsiExec.exe'
+      - '-Embedding '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.007
+  - actor.apt38

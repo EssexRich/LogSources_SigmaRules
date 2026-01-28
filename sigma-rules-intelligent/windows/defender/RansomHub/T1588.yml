@@ -1,0 +1,32 @@
+title: Obtain Capabilities (WINDOWS - defender)
+id: 75da30cb-0f1c-46b3-948d-c694006472c7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1588/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588
+  - actor.ransomhub

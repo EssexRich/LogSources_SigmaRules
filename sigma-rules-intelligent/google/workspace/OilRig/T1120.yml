@@ -1,0 +1,29 @@
+title: Peripheral Device Discovery (GOOGLE - workspace)
+id: 2a10d6f2-1e41-4a4a-897c-22c2f3508200
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1120.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1120/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1120
+  - actor.oilrig

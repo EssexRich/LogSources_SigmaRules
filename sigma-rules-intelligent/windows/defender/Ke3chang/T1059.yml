@@ -1,0 +1,38 @@
+title: Command and Scripting Interpreter (WINDOWS - defender)
+id: a4edc349-08b5-44c6-b34f-c8f07337a932
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\csrss.exe'
+      - '\ctfmon.exe'
+      - '\dllhost.exe'
+    Image|endswith|contains:
+      - '\cmd.exe'
+    CommandLine|contains|contains:
+      - '^^'
+      - '^|^'
+      - ',;,'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.ke3chang

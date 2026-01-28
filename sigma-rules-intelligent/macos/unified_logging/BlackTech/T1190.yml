@@ -1,0 +1,32 @@
+title: Exploit Public-Facing Application (MACOS - unified_logging)
+id: fecfa172-20fc-40c5-a38e-32d508613e8a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: BlackTech
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.blacktech

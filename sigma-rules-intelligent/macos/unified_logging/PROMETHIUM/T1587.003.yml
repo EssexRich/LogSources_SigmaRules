@@ -1,0 +1,32 @@
+title: Digital Certificates (MACOS - unified_logging)
+id: fda8e5e2-4385-4874-92fb-02111073cfc4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.003.
+  Threat Actor: PROMETHIUM
+references:
+  - https://attack.mitre.org/techniques/T1587.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587.003
+  - actor.promethium

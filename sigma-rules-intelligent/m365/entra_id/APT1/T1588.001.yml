@@ -1,0 +1,29 @@
+title: Malware (M365 - entra_id)
+id: bdc2681f-55ae-434f-8789-88cbecf0953c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.001.
+  Threat Actor: APT1
+references:
+  - https://attack.mitre.org/techniques/T1588.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.001
+  - actor.apt1

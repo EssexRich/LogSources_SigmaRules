@@ -1,0 +1,33 @@
+title: Inhibit System Recovery (WINDOWS - sysmon)
+id: daef7438-84bf-4270-a923-356a2bfb13c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Win32_ShadowCopy'
+    CommandLine|contains|all|contains:
+      - 'copy '
+      - '\\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.bqtlock

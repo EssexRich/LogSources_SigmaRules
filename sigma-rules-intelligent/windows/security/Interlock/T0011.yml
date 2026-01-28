@@ -1,0 +1,32 @@
+title: T0011 (WINDOWS - security)
+id: d474594f-86e7-44ab-a367-2795a541e58d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0011.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T0011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0011
+  - actor.interlock

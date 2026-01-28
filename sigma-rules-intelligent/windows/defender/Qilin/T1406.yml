@@ -1,0 +1,32 @@
+title: T1406 (WINDOWS - defender)
+id: eead184d-cc6e-4bc9-a066-002c0ce95a65
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1406.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1406/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1406
+  - actor.qilin

@@ -1,0 +1,32 @@
+title: Command Obfuscation (LINUX - auditd)
+id: 33a19017-f4be-4d86-b849-d7ae246b7e68
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.010.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1027.010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.010
+  - actor.brain_cipher

@@ -1,0 +1,32 @@
+title: Remote Access Tools (MACOS - unified_logging)
+id: 6c0818de-b5dd-4880-8e23-206c0b9101a8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: Royal
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.royal

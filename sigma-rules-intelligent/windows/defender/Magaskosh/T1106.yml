@@ -1,0 +1,35 @@
+title: Native API (WINDOWS - defender)
+id: ed1fe12f-f845-4c47-b951-bbb0ffd89b81
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+  Threat Actor: Magaskosh
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Offline_Winpwn'
+      - 'WinPwn '
+      - 'WinPwn.exe'
+    Image|endswith|contains:
+      - '\rundll32.exe'
+      - '\cmd.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106
+  - actor.magaskosh

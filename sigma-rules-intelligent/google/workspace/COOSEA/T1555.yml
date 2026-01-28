@@ -1,0 +1,29 @@
+title: Credentials from Password Stores (GOOGLE - workspace)
+id: 7d94484b-e197-4465-be35-667134d71b93
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.coosea

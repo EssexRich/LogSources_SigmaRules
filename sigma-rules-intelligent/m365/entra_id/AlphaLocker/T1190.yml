@@ -1,0 +1,29 @@
+title: Exploit Public-Facing Application (M365 - entra_id)
+id: c1b258be-6689-4eb8-8600-acbf902cb4f2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: AlphaLocker
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.alphalocker

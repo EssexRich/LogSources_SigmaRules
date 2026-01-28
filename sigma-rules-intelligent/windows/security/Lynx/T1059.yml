@@ -1,0 +1,40 @@
+title: Command and Scripting Interpreter (WINDOWS - security)
+id: 7c0cd39f-31c5-40ca-8bf7-f0f27d120b47
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Workstation|contains:
+      - 'RULER'
+    ParentImage|endswith|contains:
+      - '\ArcSOC.exe'
+    Image|endswith|contains:
+      - '\cmd.exe'
+      - '\cscript.exe'
+      - '\mshta.exe'
+    CommandLine|contains|contains:
+      - '^^'
+      - '^|^'
+      - ',;,'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.lynx

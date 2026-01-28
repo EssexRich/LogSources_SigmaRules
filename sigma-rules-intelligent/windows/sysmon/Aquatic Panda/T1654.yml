@@ -1,0 +1,32 @@
+title: Log Enumeration (WINDOWS - sysmon)
+id: e1082c87-2664-43d4-adae-78609d6484c9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1654.
+  Threat Actor: Aquatic Panda
+references:
+  - https://attack.mitre.org/techniques/T1654/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1654
+  - actor.aquatic_panda

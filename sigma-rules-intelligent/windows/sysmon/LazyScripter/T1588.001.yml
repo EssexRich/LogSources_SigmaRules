@@ -1,0 +1,32 @@
+title: Malware (WINDOWS - sysmon)
+id: 211b5d5f-9968-474a-9bfe-b9fda33caae6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.001.
+  Threat Actor: LazyScripter
+references:
+  - https://attack.mitre.org/techniques/T1588.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.001
+  - actor.lazyscripter

@@ -1,0 +1,32 @@
+title: File/Path Exclusions (WINDOWS - sysmon)
+id: 6f7638bb-7722-4b8e-83e3-eadf78e10b14
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.012.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1564.012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.012
+  - actor.turla

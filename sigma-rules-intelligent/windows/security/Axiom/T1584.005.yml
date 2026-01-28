@@ -1,0 +1,32 @@
+title: Botnet (WINDOWS - security)
+id: adcd1b18-9127-40e1-abce-b438fb306dc9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.005.
+  Threat Actor: Axiom
+references:
+  - https://attack.mitre.org/techniques/T1584.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.005
+  - actor.axiom

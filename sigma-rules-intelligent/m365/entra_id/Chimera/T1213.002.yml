@@ -1,0 +1,29 @@
+title: Sharepoint (M365 - entra_id)
+id: f1320dac-a93e-46c2-be54-148f266571f9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1213.002.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1213.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1213.002
+  - actor.chimera

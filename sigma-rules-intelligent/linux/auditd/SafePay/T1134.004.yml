@@ -1,0 +1,32 @@
+title: Parent PID Spoofing (LINUX - auditd)
+id: b2d86eee-5585-4152-afbb-6dcc97f77266
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.004.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1134.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.004
+  - actor.safepay

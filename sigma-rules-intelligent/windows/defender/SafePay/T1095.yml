@@ -1,0 +1,36 @@
+title: Non-Application Layer Protocol (WINDOWS - defender)
+id: 2de1802d-b73f-49e4-a358-6f27af8d846e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1095.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1095/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\nc.exe'
+      - '\ncat.exe'
+      - '\netcat.exe'
+    CommandLine|contains|contains:
+      - ' -lvp '
+      - ' -lvnp'
+      - ' -l -v -p '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1095
+  - actor.safepay

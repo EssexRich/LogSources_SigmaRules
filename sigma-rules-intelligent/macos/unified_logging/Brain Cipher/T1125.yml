@@ -1,0 +1,32 @@
+title: Video Capture (MACOS - unified_logging)
+id: 7535143e-aca9-42c1-9c67-d8b52eb56644
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1125.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1125/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1125
+  - actor.brain_cipher

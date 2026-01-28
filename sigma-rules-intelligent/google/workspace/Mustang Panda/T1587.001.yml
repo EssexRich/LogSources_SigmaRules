@@ -1,0 +1,29 @@
+title: Malware (GOOGLE - workspace)
+id: 3ea21eba-00f3-4b7b-8afc-70f874b0f314
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.001.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1587.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587.001
+  - actor.mustang_panda

@@ -1,0 +1,29 @@
+title: System Network Configuration Discovery (GOOGLE - workspace)
+id: ba81c009-a76a-4eed-93f9-ab2d7a9279e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: admin@338
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.admin@338

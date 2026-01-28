@@ -1,0 +1,29 @@
+title: Obfuscated Files or Information (M365 - entra_id)
+id: d6d0daea-ff39-400b-a5ed-04b72e0b57b6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.global

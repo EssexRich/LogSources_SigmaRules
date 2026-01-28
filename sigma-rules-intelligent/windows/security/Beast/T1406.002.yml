@@ -1,0 +1,32 @@
+title: T1406.002 (WINDOWS - security)
+id: 704d51f4-844f-4f74-90ba-354ee608e4dd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1406.002.
+  Threat Actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1406.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1406.002
+  - actor.beast

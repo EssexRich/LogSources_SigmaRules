@@ -1,0 +1,32 @@
+title: Impair Defenses (MACOS - unified_logging)
+id: 9a45dabf-8f2b-414e-bc3c-d87033aa79dc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562
+  - actor.blackbasta

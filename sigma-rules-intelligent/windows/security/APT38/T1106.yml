@@ -1,0 +1,35 @@
+title: Native API (WINDOWS - security)
+id: f58d03ab-c18d-4011-b286-8b3cd0c2ce2c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Offline_Winpwn'
+      - 'WinPwn '
+      - 'WinPwn.exe'
+    Image|endswith|contains:
+      - '\rundll32.exe'
+      - '\cmd.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106
+  - actor.apt38

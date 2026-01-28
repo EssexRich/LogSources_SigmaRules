@@ -1,0 +1,33 @@
+title: Impair Defenses (WINDOWS - defender)
+id: 3974e3a9-fd4a-472a-963a-fe0bc4e2b75f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'unload'
+    CommandLine|contains|all|contains:
+      - 'unload'
+      - 'sysmon'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562
+  - actor.bqtlock

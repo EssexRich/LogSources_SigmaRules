@@ -1,0 +1,29 @@
+title: Valid Accounts (M365 - entra_id)
+id: 8f2a8cd9-38c4-4e82-80b2-80b50f941301
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.global

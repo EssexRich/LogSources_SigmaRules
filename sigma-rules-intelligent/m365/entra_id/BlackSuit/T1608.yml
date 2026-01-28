@@ -1,0 +1,29 @@
+title: Stage Capabilities (M365 - entra_id)
+id: f75c6106-be2f-42e9-a4c9-e7be0ac9e9c4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1608/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608
+  - actor.blacksuit

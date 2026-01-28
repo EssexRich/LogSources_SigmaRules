@@ -1,0 +1,35 @@
+title: Modify Registry (WINDOWS - sysmon)
+id: da158ef9-0d1b-4092-8fff-323152b18672
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\dnscmd.exe'
+    CommandLine|contains|all|contains:
+      - ' add '
+      - '\SYSTEM\CurrentControlSet\Control\MiniNt'
+    CommandLine|contains|contains:
+      - 'add'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.kimsuky

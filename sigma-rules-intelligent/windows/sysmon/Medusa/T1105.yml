@@ -1,0 +1,38 @@
+title: Ingress Tool Transfer (WINDOWS - sysmon)
+id: c59f3fa1-ad77-4a14-868f-52a7dfa31dcb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\brave.exe'
+      - '\chrome.exe'
+      - '\msedge.exe'
+    CommandLine|contains|contains:
+      - 'http'
+    CommandLine|contains|all|contains:
+      - '--headless'
+      - 'dump-dom'
+      - 'http'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105
+  - actor.medusa

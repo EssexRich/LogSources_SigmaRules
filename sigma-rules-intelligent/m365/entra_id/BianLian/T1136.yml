@@ -1,0 +1,29 @@
+title: Create Account (M365 - entra_id)
+id: 70c2621f-2d14-405b-8c0e-535f4853d371
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1136/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136
+  - actor.bianlian

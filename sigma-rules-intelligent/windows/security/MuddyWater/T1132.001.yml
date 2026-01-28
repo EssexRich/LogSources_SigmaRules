@@ -1,0 +1,32 @@
+title: Standard Encoding (WINDOWS - security)
+id: 45bbb845-e4b3-47a9-a4cf-cd64a1d84652
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1132.001.
+  Threat Actor: MuddyWater
+references:
+  - https://attack.mitre.org/techniques/T1132.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'FromBase64String'
+      - 'MemoryStream'
+      - 'H4sI'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1132.001
+  - actor.muddywater

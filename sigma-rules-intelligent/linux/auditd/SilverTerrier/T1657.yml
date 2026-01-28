@@ -1,0 +1,32 @@
+title: Financial Theft (LINUX - auditd)
+id: b2027a2c-8be3-4ee7-bb16-e1d61fbb5876
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1657.
+  Threat Actor: SilverTerrier
+references:
+  - https://attack.mitre.org/techniques/T1657/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1657
+  - actor.silverterrier

@@ -1,0 +1,29 @@
+title: Drive-by Compromise (GOOGLE - workspace)
+id: 7fa013a2-d2e4-4c8a-81d2-565f36c2529e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1189.
+  Threat Actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1189/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1189
+  - actor.hunters_international

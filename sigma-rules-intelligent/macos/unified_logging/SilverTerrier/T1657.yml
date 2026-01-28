@@ -1,0 +1,32 @@
+title: Financial Theft (MACOS - unified_logging)
+id: 126e3945-67f0-4e43-9977-f3fb0bb6a5db
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1657.
+  Threat Actor: SilverTerrier
+references:
+  - https://attack.mitre.org/techniques/T1657/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1657
+  - actor.silverterrier

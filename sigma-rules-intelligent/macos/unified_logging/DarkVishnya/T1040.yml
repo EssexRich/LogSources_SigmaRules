@@ -1,0 +1,31 @@
+title: Network Sniffing (MACOS - unified_logging)
+id: c1248905-f41c-40c7-ad4d-47156c99be65
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1040.
+  Threat Actor: DarkVishnya
+references:
+  - https://attack.mitre.org/techniques/T1040/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '/tcpdump'
+      - '/tshark'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1040
+  - actor.darkvishnya

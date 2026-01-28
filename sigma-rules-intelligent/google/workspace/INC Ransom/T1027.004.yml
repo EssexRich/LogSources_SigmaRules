@@ -1,0 +1,29 @@
+title: Compile After Delivery (GOOGLE - workspace)
+id: dcf38f4d-cce3-4640-a4f1-2d42a4b177cd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.004.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1027.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.004
+  - actor.inc_ransom

@@ -1,0 +1,32 @@
+title: Disk Structure Wipe (WINDOWS - security)
+id: 499b82f6-0e4e-47bb-9fbd-366552e1540f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1561.002.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1561.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1561.002
+  - actor.sandworm_team

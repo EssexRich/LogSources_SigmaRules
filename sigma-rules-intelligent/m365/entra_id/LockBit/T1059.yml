@@ -1,0 +1,29 @@
+title: Command and Scripting Interpreter (M365 - entra_id)
+id: 221b6e7d-b426-40af-a579-6242a65766cb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.lockbit

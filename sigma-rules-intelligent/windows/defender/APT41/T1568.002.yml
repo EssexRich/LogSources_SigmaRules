@@ -1,0 +1,32 @@
+title: Domain Generation Algorithms (WINDOWS - defender)
+id: 6547b981-79a9-449f-9e53-e62c0178439d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.002.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1568.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568.002
+  - actor.apt41

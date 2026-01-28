@@ -1,0 +1,36 @@
+title: Command Obfuscation (WINDOWS - defender)
+id: 190718a0-5a2b-4ec8-beaa-86ba436a3400
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.010.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1027.010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - '-ComObject'
+      - 'InstallProduct('
+      - '.Insert('
+    CommandLine|contains|contains:
+      - '#'
+    ParentImage|endswith|contains:
+      - '\explorer.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.010
+  - actor.lynx

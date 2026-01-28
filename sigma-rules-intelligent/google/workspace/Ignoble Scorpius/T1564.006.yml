@@ -1,0 +1,29 @@
+title: Run Virtual Instance (GOOGLE - workspace)
+id: ed294db9-e232-4147-b82f-e061e9d37fd4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.006.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1564.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.006
+  - actor.ignoble_scorpius

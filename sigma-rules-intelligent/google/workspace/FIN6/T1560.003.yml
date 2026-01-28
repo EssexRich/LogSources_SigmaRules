@@ -1,0 +1,29 @@
+title: Archive via Custom Method (GOOGLE - workspace)
+id: 80486204-1f6d-41a7-8ac6-d21ba40d2b65
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.003.
+  Threat Actor: FIN6
+references:
+  - https://attack.mitre.org/techniques/T1560.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.003
+  - actor.fin6

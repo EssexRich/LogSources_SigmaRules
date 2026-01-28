@@ -1,0 +1,30 @@
+title: Clipboard Data (WINDOWS - defender)
+id: ae83f32e-8326-47de-9b8c-3ed9beb4cb04
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1115.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1115/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Get-Clipboard'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1115
+  - actor.lynx

@@ -1,0 +1,29 @@
+title: Masquerading (M365 - entra_id)
+id: 2e0a8ad9-35d5-46f4-9d21-788dbede5191
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: menuPass
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.menupass

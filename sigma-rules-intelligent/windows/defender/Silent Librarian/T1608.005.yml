@@ -1,0 +1,32 @@
+title: Link Target (WINDOWS - defender)
+id: 2163a761-771a-4639-be87-8d2ba63bb646
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.005.
+  Threat Actor: Silent Librarian
+references:
+  - https://attack.mitre.org/techniques/T1608.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.005
+  - actor.silent_librarian

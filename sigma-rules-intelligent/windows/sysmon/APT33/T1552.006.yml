@@ -1,0 +1,36 @@
+title: Group Policy Preferences (WINDOWS - sysmon)
+id: 900ac8ec-9707-42c0-a32e-1771a80c3a83
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.006.
+  Threat Actor: APT33
+references:
+  - https://attack.mitre.org/techniques/T1552.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'cpassword'
+      - '\sysvol\'
+      - '.xml'
+    CommandLine|contains|contains:
+      - '"Everyone"'
+      - ''Everyone''
+      - '"BUILTIN\\"'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.006
+  - actor.apt33

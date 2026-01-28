@@ -1,0 +1,29 @@
+title: Internet Connection Discovery (GOOGLE - workspace)
+id: 0264c038-0129-4f2b-b9a0-2726b99f28cc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1016.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016.001
+  - actor.lockbit

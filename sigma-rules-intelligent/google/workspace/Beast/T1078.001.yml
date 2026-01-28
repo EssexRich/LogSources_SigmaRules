@@ -1,0 +1,29 @@
+title: Default Accounts (GOOGLE - workspace)
+id: 601ede89-3441-48a0-ae71-52edcb9e7212
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.001.
+  Threat Actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1078.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.001
+  - actor.beast

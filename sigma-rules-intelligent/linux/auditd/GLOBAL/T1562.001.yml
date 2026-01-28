@@ -1,0 +1,38 @@
+title: Disable or Modify Tools (LINUX - auditd)
+id: da82d297-7580-4744-9316-3185057e7bab
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.001.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1562.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'SYSCALL'
+    SYSCALL|contains:
+      - 'personality'
+    Image|endswith|contains:
+      - '/esxcli'
+    CommandLine|contains|all|contains:
+      - 'system'
+      - 'syslog'
+      - 'config'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.001
+  - actor.global

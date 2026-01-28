@@ -1,0 +1,32 @@
+title: Email Hiding Rules (WINDOWS - sysmon)
+id: b2aa53c5-c912-4f97-b4e6-6963d967ad22
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.008.
+  Threat Actor: FIN4
+references:
+  - https://attack.mitre.org/techniques/T1564.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.008
+  - actor.fin4

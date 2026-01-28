@@ -1,0 +1,32 @@
+title: LSA Secrets (WINDOWS - defender)
+id: fce6be20-231b-4a3d-a796-c19c522e28e2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.004.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1003.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - ' save '
+      - ' export '
+      - ' ˢave '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.004
+  - actor.inc_ransom

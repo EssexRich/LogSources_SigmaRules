@@ -1,0 +1,29 @@
+title: Search Open Technical Databases (GOOGLE - workspace)
+id: 03b5ae78-0e29-4094-8c0a-a7f7215930b3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1596.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1596/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1596
+  - actor.kimsuky

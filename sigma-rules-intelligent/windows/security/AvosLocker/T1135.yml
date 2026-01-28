@@ -1,0 +1,37 @@
+title: Network Share Discovery (WINDOWS - security)
+id: 6d76c0e2-6ef2-4faa-9e85-4caaa3deb392
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\cmd.exe'
+      - '\powershell.exe'
+      - '\pwsh.exe'
+    Image|endswith|contains:
+      - '\explorer.exe'
+    CommandLine|contains|all|contains:
+      - '/portable'
+      - '/lng'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.avoslocker

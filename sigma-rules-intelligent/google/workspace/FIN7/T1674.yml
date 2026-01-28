@@ -1,0 +1,29 @@
+title: Input Injection (GOOGLE - workspace)
+id: bb1d5060-b8b8-4335-9f96-9c044ef107fb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1674.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1674/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1674
+  - actor.fin7

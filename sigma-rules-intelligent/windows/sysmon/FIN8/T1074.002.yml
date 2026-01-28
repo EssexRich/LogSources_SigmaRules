@@ -1,0 +1,32 @@
+title: Remote Data Staging (WINDOWS - sysmon)
+id: dbe50c86-db1f-4d13-b0f8-65ad14417101
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.002.
+  Threat Actor: FIN8
+references:
+  - https://attack.mitre.org/techniques/T1074.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074.002
+  - actor.fin8

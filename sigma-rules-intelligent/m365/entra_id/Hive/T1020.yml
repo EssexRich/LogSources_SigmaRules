@@ -1,0 +1,29 @@
+title: Automated Exfiltration (M365 - entra_id)
+id: 7b3d08d5-6be3-4466-b2b4-e717d6430a42
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1020.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1020/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1020
+  - actor.hive

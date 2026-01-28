@@ -1,0 +1,32 @@
+title: Email Accounts (WINDOWS - security)
+id: a3ea9c82-3983-4a1d-b1fd-4068bb8247f6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1586.002.
+  Threat Actor: IndigoZebra
+references:
+  - https://attack.mitre.org/techniques/T1586.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1586.002
+  - actor.indigozebra

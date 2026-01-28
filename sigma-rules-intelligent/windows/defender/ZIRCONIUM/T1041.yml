@@ -1,0 +1,32 @@
+title: Exfiltration Over C2 Channel (WINDOWS - defender)
+id: 02e142c5-6eab-4736-9d7e-3a55ac76df20
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: ZIRCONIUM
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.zirconium

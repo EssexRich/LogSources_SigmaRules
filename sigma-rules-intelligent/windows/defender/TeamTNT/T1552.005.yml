@@ -1,0 +1,32 @@
+title: Cloud Instance Metadata API (WINDOWS - defender)
+id: 9dbe44da-2322-499d-8e47-eafc4589289c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.005.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1552.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.005
+  - actor.teamtnt

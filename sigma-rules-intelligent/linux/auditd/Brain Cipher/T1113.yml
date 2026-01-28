@@ -1,0 +1,32 @@
+title: Screen Capture (LINUX - auditd)
+id: 5088c1af-95bd-4c05-aaf9-fcfe529b4718
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'EXECVE'
+    a0|contains:
+      - 'xwd'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.brain_cipher

@@ -1,0 +1,32 @@
+title: Software Discovery (MACOS - unified_logging)
+id: 6e7191ed-156a-4245-afad-ef1358ad5b8c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1518/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518
+  - actor.bianlian

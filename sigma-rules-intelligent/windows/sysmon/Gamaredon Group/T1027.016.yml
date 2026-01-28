@@ -1,0 +1,32 @@
+title: Junk Code Insertion (WINDOWS - sysmon)
+id: 8e13a7bb-ec73-4354-85da-4c1f550752fb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.016.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1027.016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.016
+  - actor.gamaredon_group

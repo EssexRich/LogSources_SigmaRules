@@ -1,0 +1,29 @@
+title: T6476 (GOOGLE - workspace)
+id: 1ae5091d-26c1-466d-9a51-86e0c0f57abe
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6476.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T6476/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6476
+  - actor.lockbit

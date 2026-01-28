@@ -1,0 +1,34 @@
+title: Security Software Discovery (WINDOWS - defender)
+id: 3095bd02-4483-4057-82ff-c954f21bded5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.001.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1518.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|endswith|contains:
+      - ' avira'
+      - ' avira"'
+      - ' cb'
+    CommandLine|contains|contains:
+      - ' 385201'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518.001
+  - actor.play

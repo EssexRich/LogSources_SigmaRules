@@ -1,0 +1,31 @@
+title: Adversary-in-the-Middle (WINDOWS - security)
+id: e1ff2e9e-43e9-4f98-912e-f6d24e9a79a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1557.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1557/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - '/export'
+      - '/cfg'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1557
+  - actor.ignoble_scorpius

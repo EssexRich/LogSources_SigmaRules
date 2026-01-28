@@ -1,0 +1,29 @@
+title: Password Spraying (GOOGLE - workspace)
+id: 555f325a-ca16-4938-a515-40d5e47418a9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.003.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1110.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.003
+  - actor.hafnium

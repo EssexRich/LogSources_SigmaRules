@@ -1,0 +1,33 @@
+title: Inhibit System Recovery (WINDOWS - sysmon)
+id: 15fd5b85-dc4c-4496-bcbc-ccbf2d84f2aa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Win32_ShadowCopy'
+    CommandLine|contains|all|contains:
+      - 'copy '
+      - '\\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.avoslocker

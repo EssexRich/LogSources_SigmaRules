@@ -1,0 +1,32 @@
+title: Steal or Forge Kerberos Tickets (WINDOWS - defender)
+id: 2b43688a-d89a-446e-b8b7-9fa2016b1679
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1558/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558
+  - actor.blackbasta

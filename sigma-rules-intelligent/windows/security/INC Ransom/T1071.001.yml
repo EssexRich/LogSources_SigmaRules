@@ -1,0 +1,37 @@
+title: Web Protocols (WINDOWS - security)
+id: 177db7ab-a18f-47e4-917f-f9e935aaab7f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.001.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1071.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|endswith|contains:
+      - '.exe tunnel'
+    CommandLine|contains|all|contains:
+      - '.exe tunnel'
+      - '--accept-server-license-terms'
+    ParentImage|contains|contains:
+      - '\servers\Stable-'
+    ParentImage|endswith|contains:
+      - '\server\node.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.001
+  - actor.inc_ransom

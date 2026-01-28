@@ -1,0 +1,29 @@
+title: Disk Structure Wipe (M365 - entra_id)
+id: 7880c17c-60fc-45c7-a8b4-da3dd37e74d1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1487.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1487/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1487
+  - actor.stormous

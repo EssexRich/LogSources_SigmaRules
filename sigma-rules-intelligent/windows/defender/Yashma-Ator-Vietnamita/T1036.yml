@@ -1,0 +1,37 @@
+title: Masquerading (WINDOWS - defender)
+id: e5e866c0-e669-4ac3-bf6e-e019c3c83725
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - ' -u '
+      - ' --full '
+      - ' -f '
+    Image|endswith|contains:
+      - '\chcp.com'
+    CommandLine|endswith|contains:
+      - ' 936'
+      - ' 1258'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.yashma-ator-vietnamita

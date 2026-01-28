@@ -1,0 +1,29 @@
+title: Dynamic Resolution (M365 - entra_id)
+id: bdc0979f-a2ed-46ba-8bab-9304d2a914c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1568/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568
+  - actor.gamaredon_group

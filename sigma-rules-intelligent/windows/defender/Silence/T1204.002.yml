@@ -1,0 +1,40 @@
+title: Malicious File (WINDOWS - defender)
+id: f195cb2c-6541-41c9-94ae-399c08167b4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+  Threat Actor: Silence
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'cod.msc'
+      - 'fdp.msc'
+      - 'ftr.msc'
+    Image|endswith|contains:
+      - '\AppVLP.exe'
+      - '\bash.exe'
+      - '\cmd.exe'
+    OriginalFileName|contains:
+      - 'popupwrapper.exe'
+    ParentImage|endswith|contains:
+      - '\OUTLOOK.EXE'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002
+  - actor.silence

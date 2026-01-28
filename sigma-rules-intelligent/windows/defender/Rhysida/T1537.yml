@@ -1,0 +1,32 @@
+title: Transfer Data to Cloud Account (WINDOWS - defender)
+id: 1797f108-40e3-4f9d-a0d4-89bad2e99716
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1537.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1537/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1537
+  - actor.rhysida

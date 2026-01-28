@@ -1,0 +1,32 @@
+title: System Checks (MACOS - unified_logging)
+id: 579621be-eb04-4dab-b0d3-b8cc63dc345c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1497.001.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1497.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'SPApplicationsDataType'
+      - 'SPHardwareDataType'
+      - 'SPNetworkDataType'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1497.001
+  - actor.coosea

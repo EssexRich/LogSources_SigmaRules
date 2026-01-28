@@ -1,0 +1,32 @@
+title: Command Obfuscation (MACOS - unified_logging)
+id: ca8802fd-91ba-4518-b53a-ba4debce6fe5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.010.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1027.010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.010
+  - actor.inc_ransom

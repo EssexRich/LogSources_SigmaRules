@@ -1,0 +1,32 @@
+title: Compromise Software Supply Chain (WINDOWS - sysmon)
+id: 8347464b-df39-4c44-9347-c2bcff139d64
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1195.002.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1195.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1195.002
+  - actor.ignoble_scorpius

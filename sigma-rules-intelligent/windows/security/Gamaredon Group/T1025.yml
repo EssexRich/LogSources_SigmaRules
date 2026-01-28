@@ -1,0 +1,32 @@
+title: Data from Removable Media (WINDOWS - security)
+id: a94bfb94-e54a-4989-b5c1-fea7fe71fb0c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1025.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1025/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1025
+  - actor.gamaredon_group

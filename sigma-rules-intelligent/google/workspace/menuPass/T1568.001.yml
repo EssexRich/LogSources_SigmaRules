@@ -1,0 +1,29 @@
+title: Fast Flux DNS (GOOGLE - workspace)
+id: 95c7739d-04f0-4241-bacf-96897f99df0d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.001.
+  Threat Actor: menuPass
+references:
+  - https://attack.mitre.org/techniques/T1568.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568.001
+  - actor.menupass

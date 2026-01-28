@@ -1,0 +1,32 @@
+title: System Network Connections Discovery (WINDOWS - defender)
+id: dc2faee0-c0ee-4427-a4d4-e96e31441428
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: MuddyWater
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.muddywater

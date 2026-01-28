@@ -1,0 +1,31 @@
+title: Exfiltration Over Alternative Protocol (WINDOWS - sysmon)
+id: 931135b8-70f1-474f-9639-1163820b3a2a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '\\\\*\\*$'
+      - '\Sysvol\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048
+  - actor.ignoble_scorpius

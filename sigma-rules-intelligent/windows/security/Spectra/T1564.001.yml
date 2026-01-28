@@ -1,0 +1,33 @@
+title: Hidden Files and Directories (WINDOWS - security)
+id: 965cd1cb-eedd-4d69-ba8a-4eda80c05a02
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.001.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1564.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - ' +s'
+    CommandLine|contains|all|contains:
+      - '/deny'
+      - '*S-1-1-0:'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.001
+  - actor.spectra

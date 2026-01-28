@@ -1,0 +1,29 @@
+title: Access Token Manipulation (GOOGLE - workspace)
+id: 265a1ce4-4dec-41f4-bd70-3f671bac7980
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1134/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134
+  - actor.lynx

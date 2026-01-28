@@ -1,0 +1,39 @@
+title: Scheduled Task (WINDOWS - security)
+id: da636002-1e96-45ec-a440-89079f36dea9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.005.
+  Threat Actor: Silence
+references:
+  - https://attack.mitre.org/techniques/T1053.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    AttributeLDAPDisplayName|contains:
+      - 'gPCMachineExtensionNames'
+      - 'gPCUserExtensionNames'
+    TaskContent|contains|contains:
+      - '\AppData\Local\Temp\'
+      - '\AppData\Roaming\'
+      - '\Users\Public\'
+    TaskName|contains|contains:
+      - '\Windows\SystemRestore\SR'
+      - '\Windows\Windows Defender\'
+      - '\Windows\BitLocker'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.005
+  - actor.silence

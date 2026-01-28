@@ -1,0 +1,41 @@
+title: Develop Capabilities (LINUX - auditd)
+id: e1e5d4e1-a11d-43c5-89da-5c2cef327caa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1587/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'SYSCALL'
+    exe|startswith|contains:
+      - '/tmp/'
+      - '/var/www/'
+      - '/home/*/public_html/'
+    Image|endswith|contains:
+      - '/crackmapexec'
+      - '/havoc'
+      - '/merlin-agent'
+    Image|contains|contains:
+      - '/cobaltstrike'
+      - '/teamserver'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587
+  - actor.rhysida

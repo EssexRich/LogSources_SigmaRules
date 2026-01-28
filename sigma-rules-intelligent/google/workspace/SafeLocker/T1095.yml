@@ -1,0 +1,29 @@
+title: Non-Application Layer Protocol (GOOGLE - workspace)
+id: e1f3b174-468b-4d9c-9c32-198b2a95379b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1095.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1095/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1095
+  - actor.safelocker

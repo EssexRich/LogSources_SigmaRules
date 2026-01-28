@@ -1,0 +1,29 @@
+title: LSA Secrets (GOOGLE - workspace)
+id: 8d74d8af-4ed7-4e07-b468-bb75e1431e1e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.004.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1003.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.004
+  - actor.ke3chang

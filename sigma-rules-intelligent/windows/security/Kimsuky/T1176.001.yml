@@ -1,0 +1,38 @@
+title: Browser Extensions (WINDOWS - security)
+id: ecdb79db-3cae-4db8-9fc7-2faf0d7bed3a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1176.001.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1176.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\brave.exe'
+      - '\chrome.exe'
+      - '\msedge.exe'
+    CommandLine|contains|contains:
+      - '--load-extension='
+    ParentImage|endswith|contains:
+      - '\cmd.exe'
+      - '\cscript.exe'
+      - '\mshta.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1176.001
+  - actor.kimsuky

@@ -1,0 +1,32 @@
+title: Timestomp (WINDOWS - defender)
+id: b358c1bb-e50d-4ab7-b5e7-655b322ab4d3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.006.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1070.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.006
+  - actor.apt38

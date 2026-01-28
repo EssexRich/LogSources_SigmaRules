@@ -1,0 +1,30 @@
+title: Ingress Tool Transfer (LINUX - auditd)
+id: 03742a10-ee85-46e4-919b-843e1311a0f3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '/wget'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105
+  - actor.akira

@@ -1,0 +1,29 @@
+title: Python (GOOGLE - workspace)
+id: 1e2d4cf2-3b5a-41a5-90af-c6181c6461b0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.006.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1059.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.006
+  - actor.inc_ransom

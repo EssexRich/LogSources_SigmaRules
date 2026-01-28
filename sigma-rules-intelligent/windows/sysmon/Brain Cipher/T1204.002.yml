@@ -1,0 +1,40 @@
+title: Malicious File (WINDOWS - sysmon)
+id: 2a1de8c6-b0d0-49f2-b293-df21f2b17c40
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'cod.msc'
+      - 'fdp.msc'
+      - 'ftr.msc'
+    Image|endswith|contains:
+      - '\AppVLP.exe'
+      - '\bash.exe'
+      - '\cmd.exe'
+    OriginalFileName|contains:
+      - 'popupwrapper.exe'
+    ParentImage|endswith|contains:
+      - '\OUTLOOK.EXE'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002
+  - actor.brain_cipher

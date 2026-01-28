@@ -1,0 +1,29 @@
+title: Valid Accounts (GOOGLE - workspace)
+id: 102c7e38-c995-4cff-ada5-e03bde8f93d2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: MUSTANG PANDA
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.mustang_panda

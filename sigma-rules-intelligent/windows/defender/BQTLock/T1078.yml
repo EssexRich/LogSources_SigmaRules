@@ -1,0 +1,32 @@
+title: Valid Accounts (WINDOWS - defender)
+id: 0f797bfa-ac39-4fc1-ac70-2c589e6b5e0e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - ' use '
+      - ':*\\'
+      - '/USER:* *'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.bqtlock

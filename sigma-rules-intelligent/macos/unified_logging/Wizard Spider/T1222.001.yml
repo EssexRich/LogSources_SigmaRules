@@ -1,0 +1,32 @@
+title: Windows File and Directory Permissions Modification (MACOS - unified_logging)
+id: 007fa068-c6ec-4820-acda-215e0a8d402c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1222.001.
+  Threat Actor: Wizard Spider
+references:
+  - https://attack.mitre.org/techniques/T1222.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1222.001
+  - actor.wizard_spider

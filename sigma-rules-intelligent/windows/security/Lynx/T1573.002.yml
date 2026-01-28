@@ -1,0 +1,32 @@
+title: Asymmetric Cryptography (WINDOWS - security)
+id: 72d71e0f-b382-48bd-a5b5-61f5a8ff7586
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.002.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1573.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.002
+  - actor.lynx

@@ -1,0 +1,29 @@
+title: T9474 (M365 - entra_id)
+id: 97c0fdb7-78a6-41cb-91a2-75533fba8bb8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T9474.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T9474/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T9474
+  - actor.benzona

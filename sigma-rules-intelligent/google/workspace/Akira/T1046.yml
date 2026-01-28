@@ -1,0 +1,29 @@
+title: Network Service Discovery (GOOGLE - workspace)
+id: eb4d0d66-1cec-4ed9-85e7-c8cd31293c2c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.akira

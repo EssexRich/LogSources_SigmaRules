@@ -1,0 +1,32 @@
+title: Search Open Technical Databases (WINDOWS - sysmon)
+id: d8b0e5a0-d74b-49fd-a107-f96cdfb19589
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1596.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1596/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1596
+  - actor.apt28

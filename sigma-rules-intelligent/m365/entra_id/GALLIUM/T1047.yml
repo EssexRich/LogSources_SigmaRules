@@ -1,0 +1,29 @@
+title: Windows Management Instrumentation (M365 - entra_id)
+id: 29398274-3b11-4775-8af6-f82b7ec637b0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: GALLIUM
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.gallium

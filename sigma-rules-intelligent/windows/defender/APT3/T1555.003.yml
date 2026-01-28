@@ -1,0 +1,32 @@
+title: Credentials from Web Browsers (WINDOWS - defender)
+id: a79e48ee-ed7d-4f66-a629-461fbd23e46a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+  Threat Actor: APT3
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '\User Data\'
+      - '\Opera Software\'
+      - '\ChromiumViewer\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003
+  - actor.apt3

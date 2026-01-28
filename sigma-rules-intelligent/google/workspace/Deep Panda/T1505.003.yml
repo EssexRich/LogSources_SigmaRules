@@ -1,0 +1,29 @@
+title: Web Shell (GOOGLE - workspace)
+id: 7aa37ef7-5eb5-4c93-a13c-90b60877a8aa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1505.003.
+  Threat Actor: Deep Panda
+references:
+  - https://attack.mitre.org/techniques/T1505.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1505.003
+  - actor.deep_panda

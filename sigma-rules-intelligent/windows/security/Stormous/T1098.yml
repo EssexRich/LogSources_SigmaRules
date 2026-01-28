@@ -1,0 +1,32 @@
+title: Account Manipulation (WINDOWS - security)
+id: 961f450f-3ef1-44c9-9be5-68ea2d7cc072
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1098/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098
+  - actor.stormous

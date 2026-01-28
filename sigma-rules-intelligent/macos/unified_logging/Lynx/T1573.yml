@@ -1,0 +1,32 @@
+title: Encrypted Channel (MACOS - unified_logging)
+id: 9c35e18f-9223-43df-9c09-3e03513476e2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573
+  - actor.lynx

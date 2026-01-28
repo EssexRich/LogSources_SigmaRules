@@ -1,0 +1,32 @@
+title: Debugger Evasion (LINUX - auditd)
+id: d920fd98-43ec-4e21-ad6a-4cef7b302439
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1622.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1622/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1622
+  - actor.blackbasta

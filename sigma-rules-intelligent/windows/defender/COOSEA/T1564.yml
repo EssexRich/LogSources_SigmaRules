@@ -1,0 +1,30 @@
+title: Hide Artifacts (WINDOWS - defender)
+id: 8b213792-10a0-424f-8ac6-8a0468b89b3d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|contains|contains:
+      - ':\Users\Public\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.coosea

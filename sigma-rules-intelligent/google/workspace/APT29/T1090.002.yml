@@ -1,0 +1,29 @@
+title: External Proxy (GOOGLE - workspace)
+id: 952b5d3e-8f7d-43c2-8f4b-7054f8c3e198
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.002.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1090.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.002
+  - actor.apt29

@@ -1,0 +1,29 @@
+title: System Checks (GOOGLE - workspace)
+id: 5efb9d94-ff75-497e-a083-bc8e263567f4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1497.001.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1497.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1497.001
+  - actor.coosea

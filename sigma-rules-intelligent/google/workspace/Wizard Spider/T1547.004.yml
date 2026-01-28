@@ -1,0 +1,29 @@
+title: Winlogon Helper DLL (GOOGLE - workspace)
+id: c9936386-6f5a-459a-9fd4-51b576723565
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.004.
+  Threat Actor: Wizard Spider
+references:
+  - https://attack.mitre.org/techniques/T1547.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547.004
+  - actor.wizard_spider

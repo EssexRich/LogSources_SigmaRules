@@ -1,0 +1,35 @@
+title: Windows Management Instrumentation (WINDOWS - security)
+id: ed9271db-dd25-4d34-a6ea-020c5a7e9b35
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: Lotus Blossom
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|endswith|contains:
+      - '\WmiPrvSE.exe'
+    RelativeTargetName|endswith|contains:
+      - '\wbem\wbemcomn.dll'
+    CommandLine|contains|all|contains:
+      - 'reg'
+      - ' add '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.lotus_blossom

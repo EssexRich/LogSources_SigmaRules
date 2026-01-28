@@ -1,0 +1,29 @@
+title: Application Layer Protocol (GOOGLE - workspace)
+id: 0ed0e00f-dc6b-4e16-922a-7135e97ea96d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.brain_cipher

@@ -1,0 +1,29 @@
+title: Transfer Data to Cloud Account (M365 - entra_id)
+id: 0f0ecaf5-8e60-4c96-9877-81fbf628eeb6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1537.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1537/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1537
+  - actor.ransomhub

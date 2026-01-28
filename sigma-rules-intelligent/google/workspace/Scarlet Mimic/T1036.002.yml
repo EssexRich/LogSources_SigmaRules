@@ -1,0 +1,29 @@
+title: Right-to-Left Override (GOOGLE - workspace)
+id: cd5678d2-9d88-46b2-8406-5eaae3bc635c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.002.
+  Threat Actor: Scarlet Mimic
+references:
+  - https://attack.mitre.org/techniques/T1036.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.002
+  - actor.scarlet_mimic

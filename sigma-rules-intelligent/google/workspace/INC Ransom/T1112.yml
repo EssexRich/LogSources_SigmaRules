@@ -1,0 +1,29 @@
+title: Modify Registry (GOOGLE - workspace)
+id: ce108465-0971-4f93-b610-a0d5da1085f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.inc_ransom

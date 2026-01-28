@@ -1,0 +1,29 @@
+title: Scheduled Task/Job (M365 - entra_id)
+id: b55ac233-a684-46cb-8d07-5b5a2ea73175
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.alphv-blackcat

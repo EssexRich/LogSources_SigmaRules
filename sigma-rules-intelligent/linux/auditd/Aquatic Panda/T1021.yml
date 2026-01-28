@@ -1,0 +1,32 @@
+title: Remote Services (LINUX - auditd)
+id: 5c89d226-0512-4602-8ca1-16457f00d242
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+  Threat Actor: Aquatic Panda
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021
+  - actor.aquatic_panda

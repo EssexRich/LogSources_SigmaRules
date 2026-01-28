@@ -1,0 +1,29 @@
+title: Adversary-in-the-Middle (M365 - entra_id)
+id: 9ece5a03-2f91-454f-9f0f-59f4a5ca3dd0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1557.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1557/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1557
+  - actor.blacksuit

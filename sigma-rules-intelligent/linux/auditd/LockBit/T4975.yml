@@ -1,0 +1,32 @@
+title: T4975 (LINUX - auditd)
+id: 078d8114-c5b3-4a0d-ba88-f36d11a97290
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4975.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T4975/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4975
+  - actor.lockbit

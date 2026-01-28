@@ -1,0 +1,32 @@
+title: DNS Calculation (WINDOWS - sysmon)
+id: 85943bbd-25ad-4ca5-82bf-9e1ca90b0aeb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.003.
+  Threat Actor: APT12
+references:
+  - https://attack.mitre.org/techniques/T1568.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568.003
+  - actor.apt12

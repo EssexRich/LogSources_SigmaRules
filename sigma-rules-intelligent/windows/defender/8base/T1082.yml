@@ -1,0 +1,33 @@
+title: System Information Discovery (WINDOWS - defender)
+id: c720b691-a1cb-4d93-b585-7d251f8d0858
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\PCHunter64.exe'
+      - '\PCHunter32.exe'
+    CommandLine|contains|contains:
+      - 'lkd(0)'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.8base

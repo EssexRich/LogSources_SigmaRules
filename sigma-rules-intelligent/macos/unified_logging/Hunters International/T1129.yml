@@ -1,0 +1,32 @@
+title: Shared Modules (MACOS - unified_logging)
+id: 41600a63-0bf2-45a1-adc6-68b30da5c257
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1129.
+  Threat Actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1129/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1129
+  - actor.hunters_international

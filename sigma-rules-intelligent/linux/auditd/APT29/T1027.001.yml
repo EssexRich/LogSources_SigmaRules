@@ -1,0 +1,33 @@
+title: Binary Padding (LINUX - auditd)
+id: d01ce885-f1be-4157-b631-c48cb99935f0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.001.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1027.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'EXECVE'
+    |all|contains:
+      - 'truncate'
+      - '-s'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.001
+  - actor.apt29

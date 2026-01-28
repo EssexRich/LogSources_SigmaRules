@@ -1,0 +1,29 @@
+title: Code Signing (GOOGLE - workspace)
+id: 9b3b78b1-4f79-4216-baf3-4cf279a4c1ec
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1553.002.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1553.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1553.002
+  - actor.kimsuky

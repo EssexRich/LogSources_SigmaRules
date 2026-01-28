@@ -1,0 +1,29 @@
+title: Local Account (GOOGLE - workspace)
+id: 871578a4-0e6d-45f8-90ec-e4fe57b94a6c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.001.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1136.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136.001
+  - actor.akira

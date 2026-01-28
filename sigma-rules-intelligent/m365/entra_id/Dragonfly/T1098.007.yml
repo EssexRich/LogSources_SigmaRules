@@ -1,0 +1,29 @@
+title: Additional Local or Domain Groups (M365 - entra_id)
+id: d42ca0e4-b8e7-4d63-913b-9469b6dd63d0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.007.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1098.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098.007
+  - actor.dragonfly

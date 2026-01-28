@@ -1,0 +1,32 @@
+title: Domain or Tenant Policy Modification (LINUX - auditd)
+id: d3ed168f-d980-4691-ad8a-de5c4f9c640a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1484.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1484/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1484
+  - actor.blacksuit

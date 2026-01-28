@@ -1,0 +1,29 @@
+title: Data Staged (GOOGLE - workspace)
+id: 88ec7a91-d550-4791-8a0b-f378165bb71c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1074/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074
+  - actor.alphv-blackcat

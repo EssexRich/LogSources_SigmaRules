@@ -1,0 +1,29 @@
+title: System Location Discovery (GOOGLE - workspace)
+id: 103be091-bb6a-4d65-9f0b-0a48a3c36204
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1614/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614
+  - actor.coosea

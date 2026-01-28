@@ -1,0 +1,36 @@
+title: Exfiltration to Cloud Storage (WINDOWS - defender)
+id: 67ecd5d4-af24-4cfa-8f94-179b2e25e75b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.002.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1567.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - '--config '
+      - '--no-check-certificate '
+      - ' copy '
+    CommandLine|contains|contains:
+      - 'sftp:'
+      - 'rest:http'
+      - 's3:s3.'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567.002
+  - actor.bianlian

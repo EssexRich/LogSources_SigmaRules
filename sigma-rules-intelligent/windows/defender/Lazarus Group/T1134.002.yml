@@ -1,0 +1,37 @@
+title: Create Process with Token (WINDOWS - defender)
+id: dabafe79-03c7-4d8b-9885-f1d0f7a02665
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.002.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1134.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\services.exe'
+    CommandLine|contains|all|contains:
+      - '/c'
+      - 'echo'
+      - '\pipe\'
+    CommandLine|contains|contains:
+      - '/EXEFilename'
+      - '/CommandLine'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.002
+  - actor.lazarus_group

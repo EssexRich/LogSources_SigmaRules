@@ -1,0 +1,32 @@
+title: Dynamic Resolution (WINDOWS - defender)
+id: bb8d3852-3bf8-4b43-ae81-28828c5f704d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1568/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568
+  - actor.apt29

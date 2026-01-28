@@ -1,0 +1,35 @@
+title: Query Registry (WINDOWS - defender)
+id: d739c2dd-8bac-4f24-a0a2-635c0999a4ab
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\PCHunter64.exe'
+      - '\PCHunter32.exe'
+    CommandLine|contains|contains:
+      - 'query'
+    CommandLine|contains|windash|contains:
+      - ' -E '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.spectra

@@ -1,0 +1,32 @@
+title: Application Layer Protocol (LINUX - auditd)
+id: 89ce4a6b-345e-4cc2-94bf-58f1e551fbc9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.inc_ransom

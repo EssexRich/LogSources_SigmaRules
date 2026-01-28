@@ -1,0 +1,36 @@
+title: Screen Capture (WINDOWS - defender)
+id: 31b7546d-2683-486d-83c6-1f256251820e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: MuddyWater
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\Psr.exe'
+    CommandLine|contains|contains:
+      - '/start'
+      - '-start'
+    CommandLine|contains|all|contains:
+      - 'Microsoft\Windows\WindowsAI'
+      - 'DisableAIDataAnalysis'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.muddywater

@@ -1,0 +1,29 @@
+title: Valid Accounts (GOOGLE - workspace)
+id: 9187222b-6f53-44f9-aba1-c59d862b6ac2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: BlackCatALPHV
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.blackcatalphv

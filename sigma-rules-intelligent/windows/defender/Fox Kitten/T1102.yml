@@ -1,0 +1,42 @@
+title: Web Service (WINDOWS - defender)
+id: 7cbf71f0-357d-43f6-bd09-68c7d2e8d314
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.
+  Threat Actor: Fox Kitten
+references:
+  - https://attack.mitre.org/techniques/T1102/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - ' tunnel '
+      - ' run '
+    CommandLine|contains|contains:
+      - '-config '
+      - '-credentials-contents '
+      - '-credentials-file '
+    ParentImage|contains|all|contains:
+      - '\ManageEngine\ServiceDesk\'
+      - '\java.exe'
+    Image|endswith|contains:
+      - '\AppVLP.exe'
+      - '\bash.exe'
+      - '\bitsadmin.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102
+  - actor.fox_kitten

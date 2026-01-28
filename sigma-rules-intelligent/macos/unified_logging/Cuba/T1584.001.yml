@@ -1,0 +1,32 @@
+title: Domains (MACOS - unified_logging)
+id: 657cb38b-d631-4275-ab00-6440580bd98e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.001.
+  Threat Actor: Cuba
+references:
+  - https://attack.mitre.org/techniques/T1584.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.001
+  - actor.cuba

@@ -1,0 +1,39 @@
+title: Disable Windows Event Logging (WINDOWS - security)
+id: 3acbde91-0893-4528-a522-2c535cdf266f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.002.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1562.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    AuditPolicyChanges|contains|contains:
+      - '%%8448'
+      - '%%8450'
+    SubcategoryGuid|contains:
+      - '{0CCE9210-69AE-11D9-BED3-505054503030}'
+      - '{0CCE9211-69AE-11D9-BED3-505054503030}'
+      - '{0CCE9212-69AE-11D9-BED3-505054503030}'
+    CommandLine|contains|contains:
+      - '/logon:none'
+      - '/system:none'
+      - '/sam:none'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.002
+  - actor.magic_hound

@@ -1,0 +1,32 @@
+title: Encrypted Channel (WINDOWS - sysmon)
+id: c3d7f95a-5777-4e98-acec-f8e720f86bff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573
+  - actor.lynx

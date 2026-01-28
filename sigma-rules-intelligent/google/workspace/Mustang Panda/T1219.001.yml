@@ -1,0 +1,29 @@
+title: IDE Tunneling (GOOGLE - workspace)
+id: 3c473398-467e-4b16-a51a-8d1bdc1e8d8e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.001.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1219.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219.001
+  - actor.mustang_panda

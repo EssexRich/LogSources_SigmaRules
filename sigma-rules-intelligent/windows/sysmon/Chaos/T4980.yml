@@ -1,0 +1,32 @@
+title: T4980 (WINDOWS - sysmon)
+id: 996f165d-be4f-46b0-befd-eb7203bc42a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4980.
+  Threat Actor: Chaos
+references:
+  - https://attack.mitre.org/techniques/T4980/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4980
+  - actor.chaos

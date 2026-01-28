@@ -1,0 +1,29 @@
+title: Web Services (M365 - entra_id)
+id: e0922f85-ce77-41ff-84b1-2b892a172b1f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.006.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1583.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.006
+  - actor.apt28

@@ -1,0 +1,29 @@
+title: Boot or Logon Initialization Scripts (GOOGLE - workspace)
+id: a85a1eaf-72e5-4ed1-8cab-78d345c431ff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1037.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1037/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1037
+  - actor.apt41

@@ -1,0 +1,32 @@
+title: Impair Command History Logging (MACOS - unified_logging)
+id: 9a87da61-4ccf-44ed-87c6-d572260af67f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.003.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1562.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.003
+  - actor.apt38

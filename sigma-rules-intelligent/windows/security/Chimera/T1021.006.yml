@@ -1,0 +1,38 @@
+title: Windows Remote Management (WINDOWS - security)
+id: e44c7215-8307-4309-9500-99dc59ae669f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.006.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1021.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\ruby.exe'
+    CommandLine|contains|all|contains:
+      - '-i '
+      - '-u '
+      - '-p '
+    CommandLine|contains|windash|contains:
+      - '/r:localhost'
+      - '/r:127.0.0.1'
+      - '/r:[::1]'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.006
+  - actor.chimera

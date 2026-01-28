@@ -1,0 +1,30 @@
+title: Embedded Payloads (WINDOWS - defender)
+id: 95843be3-0de9-4dc8-938b-e2deeece6f16
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.009.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1027.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '${env:path}'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.009
+  - actor.shinra

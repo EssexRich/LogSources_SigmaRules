@@ -1,0 +1,29 @@
+title: Web Service (M365 - entra_id)
+id: 53c6cbc8-1dea-4539-b0b9-ce8298b35c10
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1102/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102
+  - actor.safepay

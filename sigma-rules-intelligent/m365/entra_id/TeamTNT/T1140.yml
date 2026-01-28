@@ -1,0 +1,29 @@
+title: Deobfuscate/Decode Files or Information (M365 - entra_id)
+id: 962a83d0-16c6-4328-81f4-03d1633c6246
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140
+  - actor.teamtnt

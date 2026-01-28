@@ -1,0 +1,29 @@
+title: Exploitation of Remote Services (M365 - entra_id)
+id: ffd198aa-8224-4c0c-a4bb-0aa418b8aa3a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1210.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1210/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1210
+  - actor.lynx

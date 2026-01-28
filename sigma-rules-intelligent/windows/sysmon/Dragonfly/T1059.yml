@@ -1,0 +1,38 @@
+title: Command and Scripting Interpreter (WINDOWS - sysmon)
+id: 021d5aaf-4c14-4784-a07d-122d7c0119e5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\csrss.exe'
+      - '\ctfmon.exe'
+      - '\dllhost.exe'
+    Image|endswith|contains:
+      - '\cmd.exe'
+    CommandLine|contains|contains:
+      - '^^'
+      - '^|^'
+      - ',;,'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.dragonfly

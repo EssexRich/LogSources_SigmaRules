@@ -1,0 +1,29 @@
+title: Permission Groups Discovery (GOOGLE - workspace)
+id: 4dffea26-a672-4e60-8abf-1c70a13dc35d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: TA505
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.ta505

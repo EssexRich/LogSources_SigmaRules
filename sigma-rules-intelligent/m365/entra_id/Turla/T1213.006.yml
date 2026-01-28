@@ -1,0 +1,29 @@
+title: Databases (M365 - entra_id)
+id: 18b2a685-c37c-4a43-a072-642d57d3bba5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1213.006.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1213.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1213.006
+  - actor.turla

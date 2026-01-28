@@ -1,0 +1,29 @@
+title: Domains (GOOGLE - workspace)
+id: d07fd5ac-f672-4317-84c0-db0eb3488b57
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1583.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.001
+  - actor.lockbit

@@ -1,0 +1,32 @@
+title: Gather Victim Org Information (WINDOWS - defender)
+id: 14481e93-4e61-48c8-8a54-21a538011c83
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1591.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1591/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1591
+  - actor.fin7

@@ -1,0 +1,32 @@
+title: Exploitation for Privilege Escalation (MACOS - unified_logging)
+id: 6fdaff7b-78ec-4c54-b1f0-f56edf0f3135
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.devman's_ransomware

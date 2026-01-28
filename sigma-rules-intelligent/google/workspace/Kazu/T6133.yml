@@ -1,0 +1,29 @@
+title: T6133 (GOOGLE - workspace)
+id: 7cbcafbf-e8c9-405f-91dc-614369a589b0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6133.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T6133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6133
+  - actor.kazu

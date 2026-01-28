@@ -1,0 +1,29 @@
+title: Timestomp (GOOGLE - workspace)
+id: f61e8e61-804e-4f20-b566-08ba6c59a7a2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.006.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1070.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.006
+  - actor.lazarus_group

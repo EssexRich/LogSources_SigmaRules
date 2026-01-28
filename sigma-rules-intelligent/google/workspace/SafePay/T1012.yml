@@ -1,0 +1,29 @@
+title: Query Registry (GOOGLE - workspace)
+id: 7ffb079a-6ef7-456d-ad5d-6a3d2c113414
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.safepay

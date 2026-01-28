@@ -1,0 +1,29 @@
+title: Automated Collection (M365 - entra_id)
+id: c79bb392-12de-4970-b83b-1901c1e64d84
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.blacksuit

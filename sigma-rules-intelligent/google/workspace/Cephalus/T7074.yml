@@ -1,0 +1,29 @@
+title: T7074 (GOOGLE - workspace)
+id: 39e04f76-01a6-443d-a611-65f4f11a4932
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7074.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T7074/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7074
+  - actor.cephalus

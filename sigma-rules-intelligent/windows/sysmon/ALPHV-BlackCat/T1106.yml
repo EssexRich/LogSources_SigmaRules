@@ -1,0 +1,35 @@
+title: Native API (WINDOWS - sysmon)
+id: 06f55c02-9614-4fb5-93cf-cc898fad7fd3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Offline_Winpwn'
+      - 'WinPwn '
+      - 'WinPwn.exe'
+    Image|endswith|contains:
+      - '\rundll32.exe'
+      - '\cmd.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106
+  - actor.alphv-blackcat

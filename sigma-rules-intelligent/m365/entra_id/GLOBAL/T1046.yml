@@ -1,0 +1,29 @@
+title: Network Service Discovery (M365 - entra_id)
+id: 1bc2c6ee-6662-4b3a-b32d-9a4e7a51ea54
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.global

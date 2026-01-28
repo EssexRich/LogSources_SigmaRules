@@ -1,0 +1,32 @@
+title: Standard Encoding (WINDOWS - defender)
+id: 7eab651c-5bc3-4161-bd9b-292d53ba87e1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1132.001.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1132.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'FromBase64String'
+      - 'MemoryStream'
+      - 'H4sI'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1132.001
+  - actor.tropic_trooper

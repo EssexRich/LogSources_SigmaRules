@@ -1,0 +1,32 @@
+title: Email Collection (WINDOWS - security)
+id: ab156b56-20a7-4a4c-bf5d-54b923bff539
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1114.
+  Threat Actor: Silent Librarian
+references:
+  - https://attack.mitre.org/techniques/T1114/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Workstation|contains:
+      - 'RULER'
+    CommandLine|contains|contains:
+      - 'Add-PSSnapin'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1114
+  - actor.silent_librarian

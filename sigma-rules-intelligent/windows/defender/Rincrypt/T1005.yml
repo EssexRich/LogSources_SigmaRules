@@ -1,0 +1,36 @@
+title: Data from Local System (WINDOWS - defender)
+id: 55ca6a90-c2da-4a0e-8e3b-da343ac53044
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: Rincrypt
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|windash|contains:
+      - '-r'
+    Image|endswith|contains:
+      - '\sqlcmd.exe'
+    CommandLine|contains|all|contains:
+      - 'SELECT'
+      - 'TOP'
+      - '[VeeamBackup].[dbo].[Credentials]'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.rincrypt

@@ -1,0 +1,32 @@
+title: Disable Windows Event Logging (MACOS - unified_logging)
+id: 3ee4de6b-ca44-47cf-8f23-6979ce0cdf09
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.002.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1562.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.002
+  - actor.lockbit

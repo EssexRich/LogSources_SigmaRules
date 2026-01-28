@@ -1,0 +1,38 @@
+title: Disable or Modify Tools (WINDOWS - security)
+id: ed4e5800-8cc3-4f46-b509-c05788cefef9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.001.
+  Threat Actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1562.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    OldUacValue|endswith|contains:
+      - '8???'
+      - '9???'
+      - 'A???'
+    ObjectName|contains|all|contains:
+      - '\REGISTRY\MACHINE\SYSTEM'
+      - 'ControlSet'
+      - '\Control\Lsa'
+    PrivilegeList|contains:
+      - 'SeLoadDriverPrivilege'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.001
+  - actor.hunters_international

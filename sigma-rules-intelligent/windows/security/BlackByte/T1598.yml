@@ -1,0 +1,32 @@
+title: Phishing for Information (WINDOWS - security)
+id: 8df09c77-bc64-459f-8f50-5c25e757038d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1598.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1598/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1598
+  - actor.blackbyte

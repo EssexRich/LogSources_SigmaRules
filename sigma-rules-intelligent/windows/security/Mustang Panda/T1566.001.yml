@@ -1,0 +1,39 @@
+title: Spearphishing Attachment (WINDOWS - security)
+id: 95354b3c-dc30-44ba-a5cd-4b694db09a3c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.001.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1566.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ObjectServer|contains:
+      - 'Security'
+    TargetName|contains|all|contains:
+      - 'Microsoft_Windows_Shell_ZipFolder:filename'
+      - '\Temporary Internet Files\Content.Outlook'
+    ParentImage|endswith|contains:
+      - '\hh.exe'
+    Image|endswith|contains:
+      - '\CertReq.exe'
+      - '\CertUtil.exe'
+      - '\cmd.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.001
+  - actor.mustang_panda
