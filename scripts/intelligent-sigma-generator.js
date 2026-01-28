@@ -192,11 +192,9 @@ async function main() {
     intrustionSets = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/intrusion-sets.json');
     if (Array.isArray(intrustionSets)) {
       intrustionSets.forEach(actor => {
-        if (actor.external_references) {
-          const mitreRef = actor.external_references.find(ref => ref.external_id && ref.external_id.startsWith('G'));
-          if (mitreRef) {
-            mitreActorNames.add(actor.name);
-          }
+        // Add all intrusion-sets, don't filter by external_id
+        if (actor.name && actor.id) {
+          mitreActorNames.add(actor.name);
         }
       });
       console.log(`[SigmaGen]   ✓ Found ${mitreActorNames.size} MITRE intrusion-sets`);
@@ -218,6 +216,17 @@ async function main() {
 
     console.log('[SigmaGen]   - Fetching relationships...');
     const relationships = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/relationships.json');
+    
+    // Build quick lookup maps by ID
+    const intrusionSetMap = {};
+    const techniqueMap = {};
+    intrustionSets.forEach(actor => {
+      intrusionSetMap[actor.id] = actor.name;
+    });
+    techniques.forEach(tech => {
+      techniqueMap[tech.id] = tech;
+    });
+    
     if (Array.isArray(relationships)) {
       let relationshipCount = 0;
       relationships.forEach(rel => {
@@ -227,18 +236,13 @@ async function main() {
           const targetType = rel.target_ref.split('--')[0];
           
           if (sourceType === 'intrusion-set' && targetType === 'attack-pattern') {
-            // Find the intrusion-set name and technique ID
-            const intrusionSetId = rel.source_ref.split('--')[1];
-            const attackPatternId = rel.target_ref.split('--')[1];
+            // Use exact ID matching with maps
+            const actorName = intrusionSetMap[rel.source_ref];
+            const techRef = techniqueMap[rel.target_ref];
             
-            // We need to find the actual names from our loaded data
-            const actorName = intrustionSets
-              .find(actor => actor.id && actor.id.includes(intrusionSetId))?.name;
-            const techRef = techniques.find(tech => tech.id && tech.id.includes(attackPatternId));
-            
-            if (techRef && techRef.external_references) {
+            if (techRef && techRef.external_references && actorName) {
               const mitreRef = techRef.external_references.find(ref => ref.external_id && ref.external_id.match(/^T\d+(\.\d+)?$/));
-              if (mitreRef && actorName) {
+              if (mitreRef) {
                 const techniqueId = mitreRef.external_id;
                 if (!mitreActorTechMap[techniqueId]) {
                   mitreActorTechMap[techniqueId] = [];
