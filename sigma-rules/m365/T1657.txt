@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1657 Detection (m365)
+    id: e82cb430-ef0f-43e0-ac63-aee12d2d36a8
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1657.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1657/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1657
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1657
+    
