@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T5185 Detection (windows)
+    id: 2d2b7bfd-973c-44ca-97f1-8bb2b410eb58
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T5185.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T5185/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T5185
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T5185
+    
