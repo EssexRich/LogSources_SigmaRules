@@ -1,0 +1,35 @@
+title: HackTool - SharpUp PrivEsc Tool Execution
+id: 28af0ca1-3774-42b5-9d14-53e42fe0d9e4
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1574.005.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1574/005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_sharpup.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1574.005
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          - Image|endswith: '\SharpUp.exe'
+          - Description: 'SharpUp'
+          - CommandLine|contains:
+                - 'HijackablePaths'
+                - 'UnquotedServicePath'
+                - 'ProcessDLLHijack'
+                - 'ModifiableServiceBinaries'
+                - 'ModifiableScheduledTask'
+                - 'DomainGPPPassword'
+                - 'CachedGPPPassword'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

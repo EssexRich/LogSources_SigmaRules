@@ -1,0 +1,26 @@
+title: Screen Capture - macOS
+id: 8a0213c7-2767-48dc-b942-557c382d477e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1113.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1113/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_screencapture.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1113
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection:
+          Image: '/usr/sbin/screencapture'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

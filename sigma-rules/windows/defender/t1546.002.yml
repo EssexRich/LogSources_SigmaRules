@@ -1,0 +1,54 @@
+title: Suspicious ScreenSave Change by Reg.exe
+id: 8ff424d4-d9af-4479-8932-fc783a4526aa
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1546.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1546/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_reg_screensaver.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1546.002
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection_reg:
+          Image|endswith: '\reg.exe'
+          CommandLine|contains:
+              - 'HKEY_CURRENT_USER\Control Panel\Desktop'
+              - 'HKCU\Control Panel\Desktop'
+      selection_option_1: # /force Active ScreenSaveActive
+          CommandLine|contains|all:
+              - '/v ScreenSaveActive'
+              - '/t REG_SZ'
+              - '/d 1'
+              - '/f'
+      selection_option_2: # /force  set ScreenSaveTimeout
+          CommandLine|contains|all:
+              - '/v ScreenSaveTimeout'
+              - '/t REG_SZ'
+              - '/d '
+              - '/f'
+      selection_option_3: # /force set ScreenSaverIsSecure
+          CommandLine|contains|all:
+              - '/v ScreenSaverIsSecure'
+              - '/t REG_SZ'
+              - '/d 0'
+              - '/f'
+      selection_option_4: # /force set a .scr
+          CommandLine|contains|all:
+              - '/v SCRNSAVE.EXE'
+              - '/t REG_SZ'
+              - '/d '
+              - '.scr'
+              - '/f'
+      condition: selection_reg and 1 of selection_option_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

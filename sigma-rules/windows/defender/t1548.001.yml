@@ -1,0 +1,28 @@
+title: Linux Change File Owner To Root
+id: 3efd5ac8-2d2d-464d-b532-f1de2a5c759f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1548.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1548/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_change_file_owner_to_root.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1548.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Processes'
+    process_name: 'chown'
+    process:
+      - '*chown'
+      - '*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

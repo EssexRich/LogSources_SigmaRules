@@ -1,0 +1,28 @@
+title: AWS EC2 Startup Shell Script Change
+id: 8e81ef34-04c5-4651-b6bb-78cbefd651b0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1059.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1059/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_ec2_startup_script_change.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1059.004
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection_source:
+          eventSource: ec2.amazonaws.com
+          requestParameters.attribute: 'userData'
+          eventName: ModifyInstanceAttribute
+      condition: selection_source
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

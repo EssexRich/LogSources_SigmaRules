@@ -1,0 +1,29 @@
+title: Suspicious Curl Change User Agents - Linux
+id: 94d7c277-e09b-4743-a390-124e1e387809
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1071.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1071/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_susp_curl_useragent.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1071.001
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '/curl'
+          CommandLine|contains:
+              - ' -A '
+              - ' --user-agent '
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

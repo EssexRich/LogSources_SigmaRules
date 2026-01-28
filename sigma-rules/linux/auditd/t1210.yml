@@ -1,0 +1,24 @@
+title: Telnet Authentication Bypass via User Environment Variable
+id: 6b66aa36-a156-44f6-bbf6-98e84b6d0c8e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1210.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1210/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/initial_access_telnet_auth_bypass_envar_auditd.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1210
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    process.args: '-*f*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

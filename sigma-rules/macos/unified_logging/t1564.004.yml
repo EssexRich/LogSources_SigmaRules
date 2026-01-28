@@ -1,0 +1,27 @@
+title: Hidden Flag Set On File/Directory Via Chflags - MacOS
+id: 7f130345-4cb6-48f7-8685-9bd1fe70c690
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1564.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1564/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_chflags_hidden_flag.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1564.004
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '/chflags'
+          CommandLine|contains: 'hidden '
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

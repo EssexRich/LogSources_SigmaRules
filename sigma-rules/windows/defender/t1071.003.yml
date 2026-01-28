@@ -1,0 +1,26 @@
+title: Windows File Transfer Protocol In Non-Common Process Path
+id: 8685d784-3391-4a83-a72e-041008d7a6ca
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1071.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1071/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_file_transfer_protocol_in_non_common_process_path.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1071.003
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    EventCode: '3'
+    DestinationPortName: 'ftp'
+    DestinationPort: '21'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

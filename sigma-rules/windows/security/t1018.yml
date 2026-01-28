@@ -1,0 +1,35 @@
+title: Share And Session Enumeration Using Net.EXE
+id: 569c54e4-fa97-4c4b-bfc1-59e170ac49b6
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1018.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1018/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_net_view_share_and_sessions_enum.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1018
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_img:
+          - Image|endswith:
+                - '\net.exe'
+                - '\net1.exe'
+          - OriginalFileName:
+                - 'net.exe'
+                - 'net1.exe'
+      selection_cli:
+          CommandLine|contains: 'view'
+      filter:
+          CommandLine|contains: '\\\\'
+      condition: all of selection_* and not filter
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

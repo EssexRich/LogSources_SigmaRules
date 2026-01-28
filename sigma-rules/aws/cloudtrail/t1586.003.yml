@@ -1,0 +1,25 @@
+title: ASL AWS Credential Access GetPasswordData
+id: b3a94880-0367-4aad-bb5d-13ecb501b4e2
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1586.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1586/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/asl_aws_credential_access_getpassworddata.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1586.003
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+  selection:
+    operation: 'GetPasswordData'
+    input: 'api.request.data'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

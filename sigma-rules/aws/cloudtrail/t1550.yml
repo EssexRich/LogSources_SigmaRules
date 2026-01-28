@@ -1,0 +1,27 @@
+title: AWS STS AssumeRole Misuse
+id: 8fb708fd-0d5b-48a8-8049-0ac2016e66dd
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1550.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1550/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_sts_assumerole_misuse.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1550
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          userIdentity.type: AssumedRole
+          userIdentity.sessionContext.sessionIssuer.type: Role
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

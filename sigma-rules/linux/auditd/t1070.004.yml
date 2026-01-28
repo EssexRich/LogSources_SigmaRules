@@ -1,0 +1,29 @@
+title: File Deletion
+id: e78d1609-b025-45bb-b99a-bf3878a5cfc2
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1070/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_file_deletion.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1070.004
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          Image|endswith:
+              - '/rm'     # covers /rmdir as well
+              - '/shred'
+              - '/unlink'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

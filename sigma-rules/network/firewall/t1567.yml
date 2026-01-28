@@ -1,0 +1,32 @@
+title: Cisco TFTP Server Configuration for Data Exfiltration
+id: 01dec45c-25ab-4abc-8b3f-7766610ea7c3
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1567.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1567/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_tftp_server_configuration_for_data_exfiltration.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1567
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Change.All_Changes'
+    command:
+      - '*tftp-server*'
+      - '*nvram:startup-config*'
+      - '*bootflash:running-config*'
+      - '*system:running-config*'
+      - '*bootflash:info*'
+      - '*startup-config*'
+      - '*running-config*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

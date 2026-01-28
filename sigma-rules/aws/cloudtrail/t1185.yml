@@ -1,0 +1,25 @@
+title: ASL AWS Concurrent Sessions From Different Ips
+id: d37accda-2795-41ff-ac11-78b3df1f6acd
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1185.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1185/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/asl_aws_concurrent_sessions_from_different_ips.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1185
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+  selection:
+    operation: 'DescribeEventAggregates'
+    span: '5m'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

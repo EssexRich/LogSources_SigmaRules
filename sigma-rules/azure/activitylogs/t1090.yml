@@ -1,0 +1,26 @@
+title: Malicious IP Address Sign-In Failure Rate
+id: 2916fbf0-e3f6-4070-be02-b70b0347411e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1090.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1090/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/identity_protection/azure_identity_protection_malicious_ip_address.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1090
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          riskEventType: 'maliciousIPAddress'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,25 @@
+title: Windows Raw Access To Disk Volume Partition
+id: 84033a6c-8295-46be-ab11-8e25aadfd9f7
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1561.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1561/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_raw_access_to_disk_volume_partition.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1561.002
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    EventCode: '9'
+    Device: '\\Device\\HarddiskVolume*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

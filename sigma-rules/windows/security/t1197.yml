@@ -1,0 +1,27 @@
+title: New BITS Job Created Via Bitsadmin
+id: f95c5e2f-454d-4c38-9566-8dc6439c56cd
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1197.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1197/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/bits_client/win_bits_client_new_job_via_bitsadmin.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1197
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 3
+          processPath|endswith: '\bitsadmin.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

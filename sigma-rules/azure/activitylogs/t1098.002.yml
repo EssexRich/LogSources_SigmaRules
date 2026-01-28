@@ -1,0 +1,28 @@
+title: Azure AD FullAccessAsApp Permission Assigned
+id: 830e627a-fe69-4b41-b5c2-c907932c578f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1098.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1098/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_ad_fullaccessasapp_permission_assigned.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1098.002
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    category: 'AuditLogs'
+    operationName: '\'
+    newvalue: 'mvindex('
+    input: 'newvalue'
+    Permissions: '{}.RequiredAppPermissions{}.EntitlementId'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

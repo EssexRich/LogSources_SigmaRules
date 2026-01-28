@@ -1,0 +1,24 @@
+title: Modification Of Wallpaper
+id: 0721089d-f6c5-495a-b282-732c2d2a4a07
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1491.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1491/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/modification_of_wallpaper.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1491
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventCode: '13'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,35 @@
+title: Windows RDP File Execution
+id: 24f4588d-80b7-4fc2-8195-44d9b5fb272e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1598.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1598/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_rdp_file_execution.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1598.002
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Processes'
+    process: '*.rdp*'
+    execution_type:
+      - 'case('
+      - 'temp_archive_execution'
+      - 'downloads_execution'
+      - 'temp_archive_execution'
+      - 'downloads_execution'
+      - 'temp_execution'
+      - 'outlook_execution'
+    risk_score: 'case('
+    risk_reason: 'case('
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

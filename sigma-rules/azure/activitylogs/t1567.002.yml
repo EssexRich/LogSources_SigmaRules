@@ -1,0 +1,27 @@
+title: AWS DynamoDB Table Exported to S3
+id: 2c0a54b8-5042-4f9f-b9e7-fd4c6c2ebfee
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1567.002.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1567/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/exfiltration_dynamodb_table_exported_to_s3.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1567.002
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'dynamodb.amazonaws.com'
+    event.action: 'ExportTableToPointInTime'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

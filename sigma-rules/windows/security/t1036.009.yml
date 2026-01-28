@@ -1,0 +1,25 @@
+title: Windows Svchost.exe Parent Process Anomaly
+id: 4ac18d65-abad-4175-a9f0-5a9c4ef2e7a5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1036.009.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1036/009/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_svchost_exe_parent_process_anomaly.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1036.009
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Processes'
+    process_name: 'svchost.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

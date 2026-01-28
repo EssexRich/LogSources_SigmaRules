@@ -1,0 +1,24 @@
+title: AWS RDS DB Instance Made Public
+id: 190fd192-3a3b-412d-ab79-dd177a5b71b0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.009.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1556/009/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_rds_instance_made_public.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1556.009
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

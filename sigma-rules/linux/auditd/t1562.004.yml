@@ -1,0 +1,32 @@
+title: Bpfdoor TCP Ports Redirect
+id: 1ff9cc3d-e2e8-45ac-98d0-d9a6624752d9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1562/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_bpfdoor_port_redirect.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1562.004
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      cmd:
+          type: 'EXECVE'
+          a0|endswith: 'iptables'
+          a1: '-t'
+          a2: 'nat'
+      keywords:
+          - '--to-ports 42'
+          - '--to-ports 43'
+      condition: cmd and keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

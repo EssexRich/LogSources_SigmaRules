@@ -1,0 +1,27 @@
+title: Discovery Using AzureHound
+id: 7482c323-55c4-4db2-a357-ff150fd1fe77
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1526.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1526/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/signin_logs/azure_ad_azurehound_discovery.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1526
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          userAgent|contains: 'azurehound'
+          ResultType: 0
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

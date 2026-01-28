@@ -1,0 +1,29 @@
+title: File And SubFolder Enumeration Via Dir Command
+id: 182a76d9-68f4-4859-9c15-437b9c2df4db
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1217.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1217/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cmd_dir_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1217
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_cmd:
+          - Image|endswith: '\cmd.exe'
+          - OriginalFileName: Cmd.Exe
+      selection_cli:
+          CommandLine|contains|windash: 'dir*-s'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

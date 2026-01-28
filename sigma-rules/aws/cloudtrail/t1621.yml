@@ -1,0 +1,26 @@
+title: ASL AWS Multi-Factor Authentication Disabled
+id: 77737342-9027-4ad3-a967-ba1217cea802
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1621.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1621/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/asl_aws_multi_factor_authentication_disabled.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1621
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+  selection:
+    operation:
+      - 'DeleteVirtualMFADevice'
+      - 'DeactivateMFADevice)'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

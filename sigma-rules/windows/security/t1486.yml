@@ -1,0 +1,36 @@
+title: Portable Gpg.EXE Execution
+id: b14a586c-f9db-4ef9-8d74-d7635d2b2d8d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1486.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1486/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_gpg4win_portable_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1486
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          - Image|endswith:
+                - '\gpg.exe'
+                - '\gpg2.exe'
+          - OriginalFileName: 'gpg.exe'
+          - Description: 'GnuPG’s OpenPGP tool'
+      filter_main_legit_location:
+          Image|contains:
+              - ':\Program Files (x86)\GNU\GnuPG\bin\'
+              - ':\Program Files (x86)\GnuPG VS-Desktop\'
+              - ':\Program Files (x86)\GnuPG\bin\'
+              - ':\Program Files (x86)\Gpg4win\bin\'
+      condition: selection and not 1 of filter_main_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

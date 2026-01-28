@@ -1,0 +1,30 @@
+title: O365 Email Hard Delete Excessive Volume
+id: bbfd6639-af33-4328-ac68-acbd76eb2efb
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.008.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1070/008/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_email_hard_delete_excessive_volume.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1070.008
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    Workload: 'Exchange'
+    user: 'lower(UserId),'
+    sender: 'lower(CASE(isnotnull(SendAsUserSmtp),SendAsUserSmtp,isnotnull(SendOnBehalfOfUserSmtp),SendOnBehalfOfUserSmtp,true(),MailboxOwnerUPN)),'
+    subject: 'trim(CASE(Operation'
+    time: '_time,file_name'
+    file_size: 'CASE(Operation'
+    span: '1hr'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,39 @@
+title: Potential Kerberos Coercion by Spoofing SPNs via DNS Manipulation
+id: 8e23c05b-0fff-407d-a5e2-b5a16e89d24f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1557.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1557/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_kerberos_coercion_via_dns_object.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1557.003
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection_directory_service_changes:
+          EventID:
+              - 5136
+              - 5137
+          ObjectClass: 'dnsNode'
+          ObjectDN|contains|all: # ObjectDN">DC=foo-11UWhRCAAAAAAAAAAAAAAAAAAAAAAAAAAAAwbEAYBAAAA,DC=domain.com,CN=MicrosoftDNS,DC=DomainDnsZones,DC=domain,DC=com</Data>
+              - 'UWhRCA'
+              - 'BAAAA'
+              - 'CN=MicrosoftDNS'
+      selection_directory_service_access:
+          EventID: 4662
+          AdditionalInfo|contains|all: # AdditionalInfo">DC=foo-11UWhRCAAAAAAAAAAAAAAAAAAAAAAAAAAAAwbEAYBAAAA,DC=domain.com,CN=MicrosoftDNS,DC=DomainDnsZones,DC=domain,DC=com</Data>
+              - 'UWhRCA'
+              - 'BAAAA'
+              - 'CN=MicrosoftDNS'
+      condition: 1 of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

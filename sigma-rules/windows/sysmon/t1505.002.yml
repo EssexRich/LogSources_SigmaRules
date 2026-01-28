@@ -1,0 +1,26 @@
+title: MSExchange Transport Agent Installation - Builtin
+id: 7626a38d-6fa7-4ca1-90d7-83ffe2e66cc3
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1505.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1505/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/msexchange/win_exchange_transportagent.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1505.002
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          - 'Install-TransportAgent'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

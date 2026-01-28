@@ -1,0 +1,34 @@
+title: Remote File Download Via Findstr.EXE
+id: cb4e9937-a25d-4162-ae57-ef43a8477c18
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1564.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1564/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_findstr_download.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1564.004
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection_findstr:
+          - CommandLine|contains: findstr
+          - Image|endswith: 'findstr.exe'
+          - OriginalFileName: 'FINDSTR.EXE'
+      selection_cli_download_1:
+          CommandLine|contains|windash: ' -v '
+      selection_cli_download_2:
+          CommandLine|contains|windash: ' -l '
+      selection_cli_download_3:
+          CommandLine|contains: '\\\\'
+      condition: selection_findstr and all of selection_cli_download_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

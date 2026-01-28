@@ -1,0 +1,27 @@
+title: DNS Exfiltration and Tunneling Tools Execution
+id: 5f2a2a50-f6f0-4839-86da-2ba30813380a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1132.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1132/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_dns_exfiltration_tools_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1132.001
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          - Image|endswith: '\iodine.exe'
+          - Image|contains: '\dnscat2'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,27 @@
+title: Cisco Secure Firewall - Potential Data Exfiltration
+id: cf5467fc-8f51-4c22-bd94-13549686ec9c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1048.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1048/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___potential_data_exfiltration.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1048.003
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    EventType: 'ConnectionEvent'
+    total_bytes: 'InitiatorBytes'
+    total_mb: 'round(total_bytes'
+    Exfiltrated: 'total_mb'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

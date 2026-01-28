@@ -1,0 +1,28 @@
+title: Potential MSTSC Shadowing Activity
+id: 27a70416-332d-4de6-97e6-e3c44ae68b8f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1563.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1563/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mstsc_rdp_hijack_shadowing.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1563.002
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          CommandLine|contains|all:
+              - 'noconsentprompt'
+              - 'shadow:'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

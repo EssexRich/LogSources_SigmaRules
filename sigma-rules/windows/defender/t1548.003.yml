@@ -1,0 +1,24 @@
+title: Linux Add User Account
+id: eede5e36-5857-48e0-8989-b646421a1544
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1548.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1548/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_add_user_account.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1548.003
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Processes'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

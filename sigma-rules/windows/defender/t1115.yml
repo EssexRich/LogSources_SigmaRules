@@ -1,0 +1,27 @@
+title: Data Copied To Clipboard Via Clip.EXE
+id: 205b6330-a134-4b81-b269-acf55974aaa4
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1115.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1115/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_clip_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1115
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          - Image|endswith: '\clip.exe'
+          - OriginalFileName: clip.exe
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

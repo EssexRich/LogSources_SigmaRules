@@ -1,0 +1,26 @@
+title: Okta Identity Provider Created
+id: 6ca8f072-62d2-4a05-a963-3b9aa7fdf244
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1098.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1098/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/identity/okta/okta_identity_provider_created.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1098.001
+logsource:
+  product: okta
+  service: system
+  category: authentication
+detection:
+      selection:
+          eventtype: 'system.idp.lifecycle.create'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

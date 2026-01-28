@@ -1,0 +1,25 @@
+title: Cisco Secure Firewall - Communication Over Suspicious Ports
+id: 18cab25d-78a1-4dfe-85b2-12d428f449c8
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1055.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1055/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___communication_over_suspicious_ports.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1055
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    EventType: 'ConnectionEvent'
+    value: 'unknown'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

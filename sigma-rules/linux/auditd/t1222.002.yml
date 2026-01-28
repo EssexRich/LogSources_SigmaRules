@@ -1,0 +1,28 @@
+title: Remove Immutable File Attribute - Auditd
+id: 9d1375f6-4e68-47bb-9936-a09c857bece4
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1222.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1222/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_chattr_immutable_removal.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1222.002
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          type: 'EXECVE'
+          a0|contains: 'chattr'
+          a1|contains: '-i'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

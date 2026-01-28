@@ -1,0 +1,69 @@
+title: Connection to Commonly Abused Web Services
+id: 6d00dd02-b149-46e9-9cba-f9dbb43e753f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1567.001.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1567/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_common_webservices.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1567.001
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    dns.question.name:
+      - 'raw.githubusercontent.*'
+      - 'api.github.com'
+      - 'discord.com'
+      - 'discordapp.com'
+      - 'onedrive.live.com'
+      - 'raw.githubusercontent.com'
+      - 'onedrive.live.com'
+      - 'skyapi.onedrive.live.com'
+      - 'api.github.com'
+      - 'raw.githubusercontent.com'
+      - '*.sharepoint.com'
+      - 'login.live.com'
+      - 'files.pythonhosted.org'
+      - 'www.googleapis.com'
+      - 'graph.microsoft.com'
+      - 'api.github.com'
+      - 'raw.githubusercontent.com'
+      - 'graph.microsoft.com'
+    process.executable:
+      - '?:\\Program Files\\*.exe'
+      - '?:\\Windows\\System32\\WWAHost.exe'
+    process.name:
+      - 'Discord.exe'
+      - 'Microsoft.SharePoint.exe'
+      - 'OneDrive.Sync.Service.exe'
+      - 'Obsidian.exe'
+      - 'WebExperienceHostApp.exe'
+      - 'Zoom.exe'
+      - 'Code.exe'
+      - 'terraform-provider*.exe'
+    process.code_signature.subject_name:
+      - 'Discord Inc.'
+      - 'Microsoft Corporation'
+      - 'Dynalist Inc'
+      - 'Microsoft Windows'
+      - 'JetBrains s.r.o.'
+      - 'Microsoft *'
+      - 'Python Software Foundation'
+      - 'Anaconda, Inc.'
+      - 'Zoom Video Communications, Inc.'
+      - 'Zoom Communications, Inc.'
+      - 'Microsoft Corporation'
+      - 'HashiCorp, Inc.'
+      - 'Johannes Schindelin'
+      - 'Mozilla Corporation'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

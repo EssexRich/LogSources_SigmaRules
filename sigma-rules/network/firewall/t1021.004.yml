@@ -1,0 +1,24 @@
+title: Cisco Privileged Account Creation with HTTP Command Execution
+id: 971bbe13-20fa-41f6-866a-c896053836c0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1021.004.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1021/004/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_privileged_account_creation_with_http_command_execution.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1021.004
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Risk.All_Risk'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

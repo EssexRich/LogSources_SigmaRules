@@ -1,0 +1,29 @@
+title: Remote File Creation in World Writeable Directory
+id: 1e9e5251-e412-4cf4-ba85-9dcff33edb7c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1021.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1021/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/lateral_movement_remote_file_creation_world_writeable_dir.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1021
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    event.category: 'file'
+    host.os.type: 'linux'
+    event.action: 'creation'
+    process.name: '(ftp'
+    file.path: '((/dev/shm/*'
+    user.id: '0'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

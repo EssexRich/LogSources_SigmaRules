@@ -1,0 +1,25 @@
+title: TOR Traffic
+id: d610106c-5915-4b82-b1dd-7ae7b23b6209
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1090.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1090/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/tor_traffic.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1090.003
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Network_Traffic'
+    app: 'tor'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

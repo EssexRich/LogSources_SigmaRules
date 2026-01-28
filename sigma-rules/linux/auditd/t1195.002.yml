@@ -1,0 +1,29 @@
+title: DPKG Package Installed by Unusual Parent Process
+id: a1c4f3e8-2db8-4789-bbd4-127b2af7f3aa
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1195.002.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1195/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_dpkg_package_installation_from_unusual_parent.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1195.002
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    process.args: '-i'
+    host.os.type: 'linux'
+    event.category: 'process'
+    event.type: 'start'
+    event.action: 'exec'
+    process.name: 'dpkg'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

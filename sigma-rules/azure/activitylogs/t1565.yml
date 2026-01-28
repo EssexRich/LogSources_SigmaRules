@@ -1,0 +1,27 @@
+title: AWS CloudTrail Log Updated
+id: a241148a-c75e-4c54-a8f9-80530cbc1b91
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1565.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1565/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_cloudtrail_logging_updated.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1565
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'cloudtrail.amazonaws.com'
+    event.action: 'UpdateTrail'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

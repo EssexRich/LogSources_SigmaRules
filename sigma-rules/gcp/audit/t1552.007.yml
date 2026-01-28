@@ -1,0 +1,33 @@
+title: Google Cloud Kubernetes Admission Controller
+id: e5559808-6979-4797-85e4-21281605ce81
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1552.007.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1552/007/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_kubernetes_admission_controller.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1552.007
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+      selection:
+          gcp.audit.method_name|startswith: 'admissionregistration.k8s.io.v'
+          gcp.audit.method_name|contains:
+              - '.mutatingwebhookconfigurations.'
+              - '.validatingwebhookconfigurations.'
+          gcp.audit.method_name|endswith:
+              - 'create'
+              - 'patch'
+              - 'replace'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

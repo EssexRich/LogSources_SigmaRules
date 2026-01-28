@@ -1,0 +1,28 @@
+title: Microsoft 365 - Potential Ransomware Activity
+id: a47a5ba7-38fb-4208-ae95-d5430cf82d62
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1486.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1486/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/m365/threat_management/microsoft365_potential_ransomware_activity.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1486
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection:
+          eventSource: SecurityComplianceCenter
+          eventName: 'Potential ransomware activity'
+          status: success
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

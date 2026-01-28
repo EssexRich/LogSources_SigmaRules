@@ -1,0 +1,25 @@
+title: Enumeration of Users or Groups via Built-in Commands
+id: 0629437c-fe4a-42d1-9665-7e23cca9d125
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1087.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1087/
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/discovery_users_domain_built_in_commands.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1087
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    process.Ext.effective_parent.name: '.*'
+    process.parent.name: '.*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

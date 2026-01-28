@@ -1,0 +1,30 @@
+title: AWS CloudTrail Important Change
+id: d39505ab-7593-4c44-ab8e-c1d0342f6062
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.008.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1562/008/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_disable_logging.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1562.008
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection_source:
+          eventSource: cloudtrail.amazonaws.com
+          eventName:
+              - StopLogging
+              - UpdateTrail
+              - DeleteTrail
+      condition: selection_source
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

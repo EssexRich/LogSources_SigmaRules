@@ -1,0 +1,26 @@
+title: Entra ID Sign-in BloodHound Suite User-Agent Detected
+id: 9d204e0b-5395-435f-8122-8fc9b157bf03
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1201.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1201/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/discovery_bloodhound_user_agents_detected.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1201
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset:
+      - 'azure.activitylogs'
+      - 'o365.audit'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

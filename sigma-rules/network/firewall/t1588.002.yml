@@ -1,0 +1,24 @@
+title: Cisco Secure Firewall - Connection to File Sharing Domain
+id: 5d8aa0de-3665-43e4-98c4-b8268c75d32b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1588.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1588/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___connection_to_file_sharing_domain.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1588.002
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    EventType: 'ConnectionEvent'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

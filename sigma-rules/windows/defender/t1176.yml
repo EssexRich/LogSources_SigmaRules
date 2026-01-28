@@ -1,0 +1,33 @@
+title: Browser Extension Install
+id: 4e3d192d-4d5d-4a4c-ab18-5633b537d39e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1176.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1176/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_browser_extension_install.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1176
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    event.type: 'creation'
+    file.name:
+      - '*.xpi'
+      - 'langpack-*@firefox.mozilla.org.xpi'
+      - 'uBlock0@raymondhill.net.xpi'
+      - '*.crx'
+    file.path:
+      - '?:\\Users\\*\\AppData\\Roaming\\*\\Profiles\\*\\Extensions\\*.xpi'
+      - '?:\\Users\\*\\AppData\\Local\\*\\*\\User Data\\Webstore Downloads\\*'
+    process.name: 'firefox.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

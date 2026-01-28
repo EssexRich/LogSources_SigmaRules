@@ -1,0 +1,27 @@
+title: Cisco Clear Logs
+id: 8a45a65d-6b08-43a4-8ded-57766963ab0b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1070/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_clear_logs.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1070.003
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords:
+          - 'clear logging'
+          - 'clear archive'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

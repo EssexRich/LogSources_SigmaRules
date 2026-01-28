@@ -1,0 +1,30 @@
+title: Cisco Configuration Archive Logging Analysis
+id: 6a0e3712-75ee-440f-8159-d70ecda667b3
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1190.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1190/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_configuration_archive_logging_analysis.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1190
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Change.All_Changes'
+    command:
+      - '*username*privilege'
+      - '*username*password*'
+      - '*USER'
+      - '*tftp-server*'
+      - '*snmp-server'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

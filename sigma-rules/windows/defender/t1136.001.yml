@@ -1,0 +1,29 @@
+title: Hidden Local User Creation
+id: 90894d01-ac65-44ca-b857-3347ce4b10e2
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1136.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1136/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_hidden_user_creation.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1136.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 4720
+          TargetUserName|endswith: '$'
+      filter_main_homegroup:
+          TargetUserName: 'HomeGroupUser$'
+      condition: selection and not 1 of filter_main_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

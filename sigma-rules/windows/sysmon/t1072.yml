@@ -1,0 +1,32 @@
+title: Restricted Software Access By SRP
+id: 65552656-6f4f-4e16-849c-c5ce4ccb7907
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1072.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1072/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/application/microsoft_windows_software_restriction_policies/win_software_restriction_policies_block.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1072
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          Provider_Name: 'Microsoft-Windows-SoftwareRestrictionPolicies'
+          EventID:
+              - 865 # Access to %1 has been restricted by your Administrator by the default software restriction policy level
+              - 866 # Access to %1 has been restricted by your Administrator by location with policy rule %2 placed on path %3.
+              - 867 # Access to %1 has been restricted by your Administrator by software publisher policy.
+              - 868 # Access to %1 has been restricted by your Administrator by policy rule %2.
+              - 882 # Access to %1 has been restricted by your Administrator by policy rule %2.
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

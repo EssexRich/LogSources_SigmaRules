@@ -1,0 +1,28 @@
+title: Cisco File Deletion
+id: a282fadd-fd26-48dd-bf45-8c51a7860930
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1561.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1561/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_file_deletion.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1561.002
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords:
+          - 'erase'
+          - 'delete'
+          - 'format'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

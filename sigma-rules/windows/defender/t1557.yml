@@ -1,0 +1,33 @@
+title: ISATAP Router Address Was Set
+id: 3f6472a0-7cc5-4691-b88e-20c76954a0fc
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1557.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1557/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/microsoft_windows_Iphlpsvc/win_system_isatap_router_address_set.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1557
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 4100
+          Provider_Name: 'Microsoft-Windows-Iphlpsvc'
+      filter_main_localhost:
+          IsatapRouter:
+              - '127.0.0.1'
+              - '::1'
+      filter_optional_null:
+          IsatapRouter: null
+      condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

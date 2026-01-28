@@ -1,0 +1,25 @@
+title: Windows Registry Certificate Added
+id: f39cd990-7f92-4e51-991a-94e3d6458e8d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1587.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1587/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_registry_certificate_added.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1587.002
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Registry'
+    registry_value_name: 'Blob'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

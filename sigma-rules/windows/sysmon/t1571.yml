@@ -1,0 +1,24 @@
+title: Cisco NVM - Outbound Connection to Suspicious Port
+id: 8c1fac65-7115-40cc-b039-94a36a898c33
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1571.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1571/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cisco_nvm___outbound_connection_to_suspicious_port.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1571
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,31 @@
+title: Azure Kubernetes CronJob
+id: 1889ba2a-1d53-463a-8d41-cd9ab25d7fa0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1053.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1053/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_kubernetes_cronjob.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1053.003
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          operationName|startswith:
+              - 'MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/BATCH'
+              - 'MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS/BATCH'
+          operationName|endswith:
+              - '/CRONJOBS/WRITE'
+              - '/JOBS/WRITE'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

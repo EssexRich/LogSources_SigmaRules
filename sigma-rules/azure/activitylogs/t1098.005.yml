@@ -1,0 +1,28 @@
+title: Windows LAPS Credential Dump From Entra ID
+id: 9c1d25d7-e69a-4e1f-b555-56b655253dbd
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1098.005.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1098/005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_auditlogs_laps_credential_dumping.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1098.005
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          category: 'Device'
+          activityType|contains: 'Recover device local administrator password'
+          additionalDetails.additionalInfo|contains: 'Successfully recovered local credential by device id'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

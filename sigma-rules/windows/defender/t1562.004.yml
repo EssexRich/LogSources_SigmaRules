@@ -1,0 +1,71 @@
+title: Uncommon New Firewall Rule Added In Windows Firewall Exception List
+id: 3648748f-dcf0-4fa9-8ad4-1204fa592649
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1562/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/firewall_as/win_firewall_as_add_rule.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1562.004
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID:
+              - 2004 # A rule has been added to the Windows Defender Firewall exception list
+              - 2071 # A rule has been added to the Windows Defender Firewall exception list. (Windows 11)
+              - 2097
+      filter_main_block:
+          Action: 2 # Block
+      filter_main_generic:
+          ApplicationPath|startswith:
+              - 'C:\Program Files (x86)\'
+              - 'C:\Program Files\'
+              - 'C:\Windows\System32\'
+              - 'C:\Windows\SysWOW64\'
+              - 'C:\Windows\WinSxS\'
+      filter_main_covered_paths:
+          # This filter is added to avoid duplicate alerting from 9e2575e7-2cb9-4da1-adc8-ed94221dca5e
+          ApplicationPath|contains:
+              - 'C:\PerfLogs\'
+              - 'C:\Temp\'
+              - 'C:\Tmp\'
+              - 'C:\Users\Public\'
+              - 'C:\Windows\Tasks\'
+              - 'C:\Windows\Temp\'
+              - '\AppData\Local\Temp\'
+      filter_main_system_dllhost:
+          ApplicationPath: 'System'
+          ModifyingApplication: 'C:\Windows\System32\dllhost.exe'
+      filter_main_tiworker:
+          ModifyingApplication|startswith: 'C:\Windows\WinSxS\'
+          ModifyingApplication|endswith: '\TiWorker.exe'
+      filter_main_null:
+          ApplicationPath: null
+      filter_optional_no_path:
+          # This filter filters a lot of FPs related to Windows Services
+          ModifyingApplication:
+              - 'C:\Windows\System32\svchost.exe'
+              - 'C:\Windows\System32\dllhost.exe'
+          ApplicationPath: ''
+      filter_optional_msmpeng:
+          - ModifyingApplication|startswith:
+                - 'C:\ProgramData\Microsoft\Windows Defender\Platform\'
+                - 'C:\Program Files\Windows Defender\'
+            ModifyingApplication|endswith: '\MsMpEng.exe'
+          - ApplicationPath|startswith:
+                - 'C:\ProgramData\Microsoft\Windows Defender\Platform\'
+                - 'C:\Program Files\Windows Defender\'
+            ApplicationPath|endswith: '\MsMpEng.exe'
+      condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

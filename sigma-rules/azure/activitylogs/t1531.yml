@@ -1,0 +1,29 @@
+title: Azure Kubernetes Service Account Modified or Deleted
+id: 5a7e9bf1-67e7-4d8a-a1df-0b6fb8e002c3
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1531.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1531/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_kubernetes_service_account_modified_or_deleted.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1531
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          operationName:
+              - MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/SERVICEACCOUNTS/WRITE
+              - MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/SERVICEACCOUNTS/DELETE
+              - MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/SERVICEACCOUNTS/IMPERSONATE/ACTION
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

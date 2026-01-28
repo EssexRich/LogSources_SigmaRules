@@ -1,0 +1,26 @@
+title: Cisco Secure Firewall - Veeam CVE-2023-27532 Exploitation Activity
+id: 04731223-8216-4129-afd6-08416fd04847
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1003.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___veeam_cve_2023_27532_exploitation_activity.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1003.001
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    EventType: 'IntrusionEvent'
+    span: '5m'
+    unique_signature_count: '2'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

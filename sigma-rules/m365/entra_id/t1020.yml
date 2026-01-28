@@ -1,0 +1,28 @@
+title: Suspicious Inbox Forwarding
+id: 07d7683c-6d3d-422d-9633-9c656cca2ff5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1020.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1020/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/m365/threat_management/microsoft365_susp_inbox_forwarding.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1020
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection:
+          eventSource: SecurityComplianceCenter
+          eventName: 'Suspicious inbox forwarding'
+          status: success
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

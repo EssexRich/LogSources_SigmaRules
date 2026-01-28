@@ -1,0 +1,35 @@
+title: Certificate Request Export to Exchange Webserver
+id: 7597238c-9c27-4e07-b15a-4d7daf2e5296
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1505.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1505/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/msexchange/win_exchange_proxyshell_certificate_generation.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1505.003
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      keywords_export_command:
+          '|all':
+              - 'New-ExchangeCertificate'
+              - ' -GenerateRequest'
+              - ' -BinaryEncoded'
+              - ' -RequestFile'
+      keywords_export_params:
+          - '\\\\localhost\\C$'
+          - '\\\\127.0.0.1\\C$'
+          - 'C:\\inetpub'
+          - '.aspx'
+      condition: keywords_export_command and keywords_export_params
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

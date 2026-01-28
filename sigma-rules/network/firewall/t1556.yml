@@ -1,0 +1,28 @@
+title: Cisco Network Interface Modifications
+id: ab72a708-33a4-4ff9-b56f-d2041686fe53
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1556/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_network_interface_modifications.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Change.All_Changes'
+    command:
+      - '*interface*'
+      - '*LINEPROTO-5-UPDOWN*'
+      - '*ip'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

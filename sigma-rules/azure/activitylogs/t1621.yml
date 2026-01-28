@@ -1,0 +1,27 @@
+title: Multifactor Authentication Denied
+id: 39b25dab-93b9-43f8-a598-fe1e7a5cec71
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1621.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1621/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/signin_logs/azure_mfa_denies.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1621
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          AuthenticationRequirement: 'multiFactorAuthentication'
+          Status|contains: 'MFA Denied'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

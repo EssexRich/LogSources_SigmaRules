@@ -1,0 +1,35 @@
+title: Console CodePage Lookup Via CHCP
+id: 41449c5f-2cb9-420a-87eb-7718d8986380
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1614.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1614/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_chcp_codepage_lookup.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1614.001
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          ParentImage|endswith: '\cmd.exe'
+          ParentCommandLine|contains|windash:
+              - ' -c '
+              - ' -r '
+              - ' -k '
+          Image|endswith: '\chcp.com'
+          CommandLine|endswith:
+              - 'chcp'
+              - 'chcp '
+              - 'chcp  '
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

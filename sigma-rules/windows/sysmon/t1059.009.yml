@@ -1,0 +1,30 @@
+title: Windows SQL Server Extended Procedure DLL Loading Hunt
+id: 5de6a1da-9c1b-4729-9e69-f73b66351cf5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1059.009.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1059/009/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_sql_server_extended_procedure_dll_loading_hunt.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1059.009
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    EventCode: '8128'
+    field: 'EventData_Xml'
+    dll_category: 'case('
+    dll_name:
+      - '='
+      - '='
+      - '='
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

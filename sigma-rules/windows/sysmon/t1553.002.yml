@@ -1,0 +1,32 @@
+title: Potential Secure Deletion with SDelete
+id: 592156d8-5bad-4d4e-9677-a15022c6a5ec
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1553.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1553/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_sdelete_potential_secure_deletion.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1553.002
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          EventID:
+              - 4656
+              - 4663
+              - 4658
+          ObjectName|endswith:
+              - '.AAA'
+              - '.ZZZ'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

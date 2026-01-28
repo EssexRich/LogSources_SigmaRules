@@ -1,0 +1,25 @@
+title: Cisco Secure Firewall - Blacklisted SSL Certificate Fingerprint
+id: 1304558f-8d29-49bb-8990-5247c199664a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1587.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1587/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___blacklisted_ssl_certificate_fingerprint.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1587.002
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    EventType: '*'
+    SSL_CertFingerprint: '*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

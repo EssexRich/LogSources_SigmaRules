@@ -1,0 +1,26 @@
+title: Remote Desktop Network Traffic
+id: f6b73c6f-c146-419c-8145-5f4f40ba6482
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1021.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1021/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/remote_desktop_network_traffic.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1021.001
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Network_Traffic'
+    dest_port: '3389'
+    action: 'allowed'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

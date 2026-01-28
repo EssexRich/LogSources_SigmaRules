@@ -1,0 +1,26 @@
+title: SAML Token Issuer Anomaly
+id: 1a43480f-aaf4-4faa-82a2-d022f49c1ba9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1606.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1606/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/identity_protection/azure_identity_protection_token_issuer_anomaly.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1606
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          riskEventType: 'tokenIssuerAnomaly'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

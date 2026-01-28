@@ -1,0 +1,45 @@
+title: Meterpreter or Cobalt Strike Getsystem Service Installation - Security
+id: 279671ff-3903-4453-a32f-cc28105b5661
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1134.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1134/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_meterpreter_or_cobaltstrike_getsystem_service_install.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1134.002
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_eid:
+          EventID: 4697
+      selection_cli_cmd:
+          # meterpreter getsystem technique 1: cmd.exe /c echo 559891bb017 > \\.\pipe\5e120a
+          # cobaltstrike getsystem technique 1: %COMSPEC% /c echo 559891bb017 > \\.\pipe\5e120a
+          # cobaltstrike getsystem technique 1b (expanded %COMSPEC%): %COMSPEC% /c echo 559891bb017 > \\.\pipe\5e120a
+          ServiceFileName|contains|all:
+              - '/c'
+              - 'echo'
+              - '\pipe\'
+          ServiceFileName|contains:
+              - 'cmd'
+              - '%COMSPEC%'
+      selection_cli_rundll:
+          # meterpreter getsystem technique 2: rundll32.exe C:\Users\test\AppData\Local\Temp\tmexsn.dll,a /p:tmexsn
+          ServiceFileName|contains|all:
+              - 'rundll32'
+              - '.dll,a'
+              - '/p:'
+      selection_cli_share:
+          ServiceFileName|startswith: '\\\\127.0.0.1\\ADMIN$\'  # https://twitter.com/svch0st/status/1413688851877416960?lang=en
+      condition: selection_eid and 1 of selection_cli_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

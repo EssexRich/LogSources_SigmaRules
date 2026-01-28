@@ -1,0 +1,80 @@
+title: Suspicious Communication App Child Process
+id: 5e3e81ed-572c-4348-9cc8-61645c947ff8
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1036.001.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1036/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_communication_apps_suspicious_child_process.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1036.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.parent.name:
+      - 'slack.exe'
+      - 'thunderbird.exe'
+      - 'slack.exe'
+      - 'CiscoCollabHost.exe'
+      - 'WebexHost.exe'
+      - 'Teams.exe'
+      - 'Discord.exe'
+      - 'Whatsapp.exe'
+      - 'Zoom.exe'
+      - 'thunderbird.exe'
+    process.executable:
+      - '?:\\Program Files\\*.exe'
+      - '?:\\Windows\\SysWOW64\\WerFault.exe'
+      - '?:\\Users\\*\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe'
+      - '?:\\Users\\*\\AppData\\Local\\Programs\\Opera\\opera.exe'
+      - '?:\\Users\\*\\AppData\\Roaming\\Zoom\\bin*\\Zoom.exe'
+      - '?:\\Windows\\System32\\notepad.exe'
+      - '?:\\Windows\\BrowserCore\\BrowserCore.exe'
+      - '?:\\Users\\*\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe'
+      - '?:\\Windows\\System32\\reg.exe'
+      - '?:\\Windows\\SysWOW64\\reg.exe'
+      - '?:\\Windows\\System32\\reg.exe'
+      - '?:\\Windows\\SysWOW64\\reg.exe'
+      - '?:\\Users\\*\\AppData\\Local\\BraveSoftware\\Brave-Browser\\Application\\brave.exe'
+      - '?:\\Windows\\splwow64.exe'
+      - '?:\\Windows\\System32\\spool\\drivers\\x64\\3\\*.EXE'
+    process.code_signature.subject_name:
+      - 'Slack Technologies, Inc.'
+      - 'Slack Technologies, LLC'
+      - 'Cisco Systems, Inc.'
+      - 'Cisco Systems Inc.'
+      - 'Microsoft Corporation'
+      - 'Microsoft 3rd Party Application Component'
+      - 'Discord Inc.'
+      - 'WhatsApp LLC'
+      - '24803D75-212C-471A-BC57-9EF86AB91435'
+      - 'Zoom Video Communications, Inc.'
+      - 'Zoom Communications, Inc.'
+      - 'Mozilla Corporation'
+    process.name:
+      - 'powershell.exe'
+      - 'cmd.exe'
+      - 'taskkill.exe'
+      - 'cmd.exe'
+      - 'cmd.exe'
+    process.command_line:
+      - 'powershell.exe -c Invoke-WebRequest -Uri https://slackb.com/*'
+      - 'C:\\WINDOWS\\system32\\cmd.exe /d /s /c \'
+      - 'C:\\WINDOWS\\system32\\cmd.exe /d /s /c \'
+      - 'C:\\Windows\\system32\\cmd.exe /d /s /c \'
+    process.args:
+      - 'Teams.exe'
+      - 'C:\\WINDOWS/System32/nvidia-smi.exe'
+      - 'C:\\Windows\\System32\\DriverStore\\FileRepository/*/nvidia-smi.exe*'
+    https: '//slackb.com/*'
+    C: '\\WINDOWS\\system32\\cmd.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

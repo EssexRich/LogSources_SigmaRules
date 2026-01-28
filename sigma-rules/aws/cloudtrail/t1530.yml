@@ -1,0 +1,27 @@
+title: AWS Exfiltration via Anomalous GetObject API Activity
+id: d8a20d87-bf9e-41ac-b139-2e4b79fcb2ad
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1530.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1530/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_exfiltration_via_anomalous_getobject_api_activity.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1530
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+  selection:
+    eventName: 'GetObject'
+    span: '10m'
+    action: 'annotate'
+    probable_cause: '*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,24 @@
+title: Curl SOCKS Proxy Activity from Unusual Parent
+id: fba1344c-25e4-400e-990f-e04d647d5928
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1572.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1572/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_curl_socks_proxy_detected.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1572
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    socks5h: '//*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

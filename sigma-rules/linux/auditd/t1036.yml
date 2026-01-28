@@ -1,0 +1,28 @@
+title: Potentially Suspicious Execution From Tmp Folder
+id: ca75242f-c4d2-4e68-8326-e052fba7d052
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1036.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1036/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_susp_execution_tmp_folder.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1036
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          Image|startswith: '/tmp/'
+      filter_optional_nextcloud:
+          Image|endswith: '/usr/bin/nextcloud'
+      condition: selection and not 1 of filter_optional_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

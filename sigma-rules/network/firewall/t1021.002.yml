@@ -1,0 +1,33 @@
+title: SMB Traffic Spike
+id: a09824bc-5f3a-4946-b713-0871dc6cb5be
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1021.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/smb_traffic_spike.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1021.002
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Network_Traffic'
+    dest_port:
+      - '139'
+      - '445'
+    app: 'smb'
+    span: '1h,'
+    upperBound: '(avg+stdev*2),'
+    isOutlier:
+      - 'if(count'
+      - '1'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium
