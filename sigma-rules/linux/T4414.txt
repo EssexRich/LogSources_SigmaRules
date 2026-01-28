@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T4414 Detection (linux)
+    id: 0b319ef2-c7d0-4d02-9d21-864e1b6b50ae
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T4414.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T4414/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T4414
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T4414
+    
