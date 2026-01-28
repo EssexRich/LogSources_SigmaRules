@@ -1,0 +1,91 @@
+title: Download from Suspicious Dyndns Hosts
+id: 7d163422-7d16-4d16-ad16-7d1634220000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1105
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/proxy_generic/proxy_download_susp_dyndns.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1105
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         c-uri-extension:
+    #             - 'exe'
+    #             - 'vbs'
+    #             - 'bat'
+    #             - 'rar'
+    #             - 'ps1'
+    #             - 'doc'
+    #             - 'docm'
+    #             - 'xls'
+    #             - 'xlsm'
+    #             - 'pptm'
+    #             - 'rtf'
+    #             - 'hta'
+    #             - 'dll'
+    #             - 'ws'
+    #             - 'wsf'
+    #             - 'sct'
+    #             - 'zip'
+    #             # If you want to add more extensions - see https://docs.google.com/spreadsheets/d/1TWS238xacAto-fLKh1n5uTsdijWdCEsGIM0Y0Hvmc5g/
+    #         cs-host|endswith:
+    #             - '.hopto.org'
+    #             - '.no-ip.org'
+    #             - '.no-ip.info'
+    #             - '.no-ip.biz'
+    #             - '.no-ip.com'
+    #             - '.noip.com'
+    #             - '.ddns.name'
+    #             - '.myftp.org'
+    #             - '.myftp.biz'
+    #             - '.serveblog.net'
+    #             - '.servebeer.com'
+    #             - '.servemp3.com'
+    #             - '.serveftp.com'
+    #             - '.servequake.com'
+    #             - '.servehalflife.com'
+    #             - '.servehttp.com'
+    #             - '.servegame.com'
+    #             - '.servepics.com'
+    #             - '.myvnc.com'
+    #             - '.ignorelist.com'
+    #             - '.jkub.com'
+    #             - '.dlinkddns.com'
+    #             - '.jumpingcrab.com'
+    #             - '.ddns.info'
+    #             - '.mooo.com'
+    #             - '.dns-dns.com'
+    #             - '.strangled.net'
+    #             - '.adultdns.net'
+    #             - '.craftx.biz'
+    #             - '.ddns01.com'
+    #             - '.dns53.biz'
+    #             - '.dnsapi.info'
+    #             - '.dnsd.info'
+    #             - '.dnsdynamic.com'
+    #             - '.dnsdynamic.net'
+    #             - '.dnsget.org'
+    #             - '.fe100.net'
+    #             - '.flashserv.net'
+    #             - '.ftp21.net'
+    #             - '.http01.com'
+    #             - '.http80.info'
+    #             - '.https443.com'
+    #             - '.imap01.com'
+    #             - '.kadm5.com'
+    #             - '.mysq1.net'
+    #             - '.ns360.info'
+    #             - '.ntdll.net'
+    #             - '.ole32.com'
+    #             - '.proxy8080.com'
+    #             - '.sql01.com'
+    #           
+    # ... [truncated]
+  condition: selection
+level: medium

@@ -1,0 +1,19 @@
+title: M365 Exchange Anti-Phish Policy Deleted
+id: 5cabe9e5-5cab-4cab-acab-5cabe9e50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_exchange_anti_phish_policy_deletion.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: m365
+  service: exchange
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and event.provider:Exchange and event.category:web and event.action:"Remove-AntiPhishPolicy" and event.outcome:success
+  condition: selection
+level: medium

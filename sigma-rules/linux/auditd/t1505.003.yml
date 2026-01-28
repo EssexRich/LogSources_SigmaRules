@@ -1,0 +1,26 @@
+title: Webshell Remote Command Execution
+id: 56d473da-56d4-46d4-a6d4-56d473da0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_web_rce.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1505.003
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'SYSCALL'
+    #         SYSCALL:
+    #             - 'execve'
+    #             - 'execveat'
+    #         euid: 33
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

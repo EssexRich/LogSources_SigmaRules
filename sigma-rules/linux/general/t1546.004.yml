@@ -1,0 +1,24 @@
+title: Bash Shell Profile Modification
+id: 4699bb7a-4699-4699-a699-4699bb7a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/persistence_shell_profile_modification.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546.004
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:file and host.os.type:(linux or macos) and event.type:change and not event.action:("rename" or "extended_attributes_delete") and
+    #   file.name:(".bash_profile" or ".profile" or ".bashrc" or ".zshenv" or ".zshrc") and file.path:(/home/* or /Users/*) and 
+    #   process.name:(* and not (sudo or vim or zsh or env or nano or bash or Terminal or xpcproxy or login or cat or cp or
+    #   launchctl or java or dnf or tailwatchd or ldconfig or yum or semodule or cpanellogd or dockerd or authselect or chmod or
+    #   dnf-automatic or git or dpkg or platform-python)) and
+    #   not process.executable:(/Applications/* or /private/var/folders/* or /usr/local/* or /opt/saltstack/salt/bin/*)
+  condition: selection
+level: medium

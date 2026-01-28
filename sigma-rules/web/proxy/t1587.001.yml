@@ -1,0 +1,29 @@
+title: ProxyLogon MSExchange OabVirtualDirectory
+id: 3d1e9027-3d1e-4d1e-ad1e-3d1e90270000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1587.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/msexchange/win_exchange_proxylogon_oabvirtualdir.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1587.001
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     keywords_cmdlet:
+    #         '|all':
+    #             - 'OabVirtualDirectory'
+    #             - ' -ExternalUrl '
+    #     keywords_params:
+    #         - 'eval(request'
+    #         - 'http://f/<script'
+    #         - '"unsafe"};'
+    #         - 'function Page_Load()'
+    #     condition: keywords_cmdlet and keywords_params
+    # 
+  condition: selection
+level: medium

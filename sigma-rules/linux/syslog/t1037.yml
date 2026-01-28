@@ -1,0 +1,20 @@
+title: Suspicious rc.local Error Message
+id: 2ae7486c-2ae7-4ae7-aae7-2ae7486c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1037
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_rc_local_error_via_syslog.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1037
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:linux and event.dataset:system.syslog and process.name:rc.local and
+    # message:("Connection refused" or "No such file or directory" or "command not found")
+  condition: selection
+level: medium

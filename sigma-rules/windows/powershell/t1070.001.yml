@@ -1,0 +1,62 @@
+title: Suspicious Eventlog Clearing or Configuration Change Activity
+id: 43d118e4-43d1-43d1-a3d1-43d118e40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_eventlog_clear.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_wevtutil_img:
+    #         - Image|endswith: '\wevtutil.exe'
+    #         - OriginalFileName: 'wevtutil.exe'
+    #     selection_wevtutil_cmd:
+    #         CommandLine|contains:
+    #             - 'clear-log '          # clears specified log
+    #             - ' cl '                # short version of 'clear-log'
+    #             - 'set-log '            # modifies config of specified log. could be uset to set it to a tiny size
+    #             - ' sl '                # short version of 'set-log'
+    #             - 'lfn:'                # change log file location and name
+    #     selection_other_ps_img:
+    #         Image|endswith:
+    #             - '\powershell.exe'
+    #             - '\powershell_ise.exe'
+    #             - '\pwsh.exe'
+    #     selection_other_ps_cmd:
+    #         - CommandLine|contains:
+    #               - 'Clear-EventLog '
+    #               - 'Remove-EventLog '
+    #               - 'Limit-EventLog '
+    #               - 'Clear-WinEvent '
+    #         - CommandLine|contains|all:
+    #               - 'Eventing.Reader.EventLogSession' # [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName)
+    #               - 'ClearLog'
+    #         - CommandLine|contains|all:
+    #               - 'Diagnostics.EventLog'
+    #               - 'Clear'
+    #     selection_other_wmi:
+    #         Image|endswith:
+    #             - '\powershell.exe'
+    #             - '\powershell_ise.exe'
+    #             - '\pwsh.exe'
+    #             - '\wmic.exe'
+    #         CommandLine|contains: 'ClearEventLog'
+    #     filter_main_msiexec:
+    #         # Example seen during office update/installation:
+    #         #   ParentImage: C:\Windows\SysWOW64\msiexec.exe
+    #         #   CommandLine: "C:\WINDOWS\system32\wevtutil.exe" sl Microsoft-RMS-MSIPC/Debug /q:true /e:true /l:4 /rt:false
+    #         ParentImage:
+    #             - 'C:\Windows\SysWOW64\msiexec.exe'
+    #             - 'C:\Windows\System32\msiexec.exe'
+    #         CommandLine|contains: ' sl '
+    #     condition: (all of selection_wevtutil_*) or (all of selection_other_ps_*) or (selection_other_wmi) and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

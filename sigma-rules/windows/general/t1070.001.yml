@@ -1,0 +1,32 @@
+title: Suspicious Eventlog Clear
+id: 48970d26-4897-4897-a897-48970d260000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_clear_eventlog.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         - ScriptBlockText|contains:
+    #               - 'Clear-EventLog '
+    #               - 'Remove-EventLog '
+    #               - 'Limit-EventLog '
+    #               - 'Clear-WinEvent '
+    #         - ScriptBlockText|contains|all:
+    #               - 'Eventing.Reader.EventLogSession' # [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName)
+    #               - 'ClearLog'
+    #         - ScriptBlockText|contains|all:
+    #               - 'Diagnostics.EventLog'
+    #               - 'Clear'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

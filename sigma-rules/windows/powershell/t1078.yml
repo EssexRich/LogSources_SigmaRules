@@ -1,0 +1,36 @@
+title: Suspicious Remote Logon with Explicit Credentials
+id: 1b319e1d-1b31-4b31-ab31-1b319e1d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_susp_logon_explicit_credentials.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4648
+    #         ProcessName|endswith:
+    #             - '\cmd.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\winrs.exe'
+    #             - '\wmic.exe'
+    #             - '\net.exe'
+    #             - '\net1.exe'
+    #             - '\reg.exe'
+    #     filter1:
+    #         TargetServerName: 'localhost'
+    #     filter2:
+    #         SubjectUserName|endswith: '$'
+    #         TargetUserName|endswith: '$'
+    #     condition: selection and not 1 of filter*
+    # 
+  condition: selection
+level: medium

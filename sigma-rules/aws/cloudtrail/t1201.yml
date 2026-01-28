@@ -1,0 +1,25 @@
+title: AWS High Number Of Failed Authentications For User
+id: 4e89ed16-4e89-4e89-ae89-4e89ed160000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1201
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_high_number_of_failed_authentications_for_user.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1201
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cloudtrail` eventName=ConsoleLogin action=failure 
+    #   | bucket span=10m _time
+    #   | rename user_name as user
+    #   | stats dc(_raw) AS failed_attempts values(src) as src values(user_agent) as user_agent by _time, user, signature, dest, vendor_account vendor_region, vendor_product
+    #   | where failed_attempts > 20 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `aws_high_number_of_failed_authentications_for_user_filter`
+  condition: selection
+level: medium

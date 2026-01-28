@@ -1,0 +1,20 @@
+title: Suspicious Hidden Child Process of Launchd
+id: 16799151-1679-4679-a679-167991510000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_defense_evasion_hidden_launch_agent_deamon_logonitem_process.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.name like~ ".*" and process.parent.name == "launchd"
+  condition: selection
+level: medium

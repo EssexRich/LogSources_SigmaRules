@@ -1,0 +1,19 @@
+title: New Okta Identity Provider (IdP) Added by Admin
+id: 1d62ce09-1d62-4d62-ad62-1d62ce090000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/persistence_new_idp_successfully_added_by_admin.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556.007
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "okta.system" and event.action: "system.idp.lifecycle.create" and okta.outcome.result: "SUCCESS"
+  condition: selection
+level: medium

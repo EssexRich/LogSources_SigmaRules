@@ -1,0 +1,24 @@
+title: Container With A hostPath Mount Created
+id: 2d36a2ea-2d36-4d36-ad36-2d36a2ea0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1611
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/application/kubernetes/audit/kubernetes_audit_hostpath_mount.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1611
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         verb: 'create'
+    #         objectRef.resource: 'pods'
+    #         hostPath: '*' # Note: Add the "exists" when it's implemented in SigmaHQ/Aurora
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

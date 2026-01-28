@@ -1,0 +1,24 @@
+title: O365 Service Principal New Client Credentials
+id: 0b359d2f-0b35-4b35-ab35-0b359d2f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_service_principal_new_client_credentials.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.001
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `o365_management_activity` Workload=AzureActiveDirectory Operation="Update application*Certificates and secrets management " 
+    #   | fillnull 
+    #   | stats earliest(_time) as firstTime latest(_time) as lastTime by user ModifiedProperties{}.NewValue object ObjectId dest signature src vendor_account vendor_product
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)` 
+    #   | `o365_service_principal_new_client_credentials_filter`
+  condition: selection
+level: medium

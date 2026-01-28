@@ -1,0 +1,29 @@
+title: Sensitive File Access Via Volume Shadow Copy Backup
+id: 06b065cc-06b0-46b0-a6b0-06b065cc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1490
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_sensitive_file_access_shadowcopy.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1490
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1:
+    #         # copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:\temp\ntds.dit 2>&1
+    #         # There is an additional "\" to escape the special "?"
+    #         CommandLine|contains: '\\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy'
+    #     selection_2:
+    #         CommandLine|contains:
+    #             - '\\NTDS.dit'
+    #             - '\\SYSTEM'
+    #             - '\\SECURITY'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

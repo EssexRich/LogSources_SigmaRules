@@ -1,0 +1,22 @@
+title: VMware Workspace ONE Freemarker Server-side Template Injection
+id: 6b439610-6b43-4b43-ab43-6b4396100000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1133
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/web/vmware_workspace_one_freemarker_server_side_template_injection.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1133
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url="*/catalog-portal/ui/oauth/verify?error=&deviceudid=*"
+    #   AND Web.url="*freemarker.template.utility.Execute*" by Web.http_user_agent Web.http_method,
+    #   Web.url,Web.url_length Web.src, Web.dest sourcetype | `drop_dm_object_name("Web")`
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `vmware_workspace_one_freemarker_server_side_template_injection_filter`
+  condition: selection
+level: medium

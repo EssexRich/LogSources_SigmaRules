@@ -1,0 +1,33 @@
+title: Uncommon Connection to Active Directory Web Services
+id: 20bb16db-20bb-40bb-a0bb-20bb16db0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_adws_unusual_connection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1087
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Initiated: true
+    #         DestinationPort: 9389
+    #     filter_main_dsac:
+    #         Image: 'C:\Windows\system32\dsac.exe'
+    #     filter_main_ms_monitoring_agent:
+    #         Image: 'C:\Program Files\Microsoft Monitoring Agent\'
+    #     filter_main_powershell:
+    #         Image|startswith:
+    #             - 'C:\Program Files\PowerShell\7\pwsh.exe'
+    #             - 'C:\Program Files\PowerShell\7-preview\pwsh.ex'
+    #             - 'C:\Windows\System32\WindowsPowerShell\'
+    #             - 'C:\Windows\SysWOW64\WindowsPowerShell\'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,26 @@
+title: ESXi Sensitive Files Accessed
+id: 659b891a-659b-459b-a59b-659b891a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.008
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_sensitive_files_accessed.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.008
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `esxi_syslog` Message="*shell[*" Message IN ("*/etc/shadow*","*/etc/vmware/hostd/hostd.xml*",
+    #    "*/etc/vmware/vpxa/vpxa.cfg*","*/etc/sfcb/sfcb.cfg*","*/etc/security/*",
+    #    "*/etc/likewise/krb5-affinity.conf*","*/etc/vmware-vpx/vcdb.properties*")
+    #   | rex field=_raw "\]: \[(?<user>\w+)\]:(?<command>.+)"
+    #   | rex field=_raw "Z (?<dest>[\w\.]+)\s"
+    #   | stats min(_time) as firstTime max(_time) as lastTime count by dest user command
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `esxi_sensitive_files_accessed_filter`
+  condition: selection
+level: medium

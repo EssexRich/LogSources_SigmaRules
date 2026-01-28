@@ -1,0 +1,30 @@
+title: System Network Connections Discovery - Linux
+id: 2afb52f6-2afb-4afb-aafb-2afb52f60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1049
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_system_network_connections_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1049
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '/who'
+    #             - '/w'
+    #             - '/last'
+    #             - '/lsof'
+    #             - '/netstat'
+    #     filter_landscape_sysinfo:
+    #         ParentCommandLine|contains: '/usr/bin/landscape-sysinfo'
+    #         Image|endswith: '/who'
+    #     condition: selection and not 1 of filter_*
+    # 
+  condition: selection
+level: medium

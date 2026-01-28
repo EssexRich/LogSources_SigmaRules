@@ -1,0 +1,26 @@
+title: Azure Automation Runbook Created or Modified
+id: 07e2f26e-07e2-47e2-a7e2-07e2f26e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1648
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/execution_automation_runbook_created_or_modified.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1648
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.activitylogs and
+    #   azure.activitylogs.operation_name:
+    #   (
+    #     "MICROSOFT.AUTOMATION/AUTOMATIONACCOUNTS/RUNBOOKS/DRAFT/WRITE" or
+    #     "MICROSOFT.AUTOMATION/AUTOMATIONACCOUNTS/RUNBOOKS/WRITE" or
+    #     "MICROSOFT.AUTOMATION/AUTOMATIONACCOUNTS/RUNBOOKS/PUBLISH/ACTION"
+    #   ) and
+    #   event.outcome:(Success or success)
+  condition: selection
+level: medium

@@ -1,0 +1,43 @@
+title: Aruba Network Service Potential DLL Sideloading
+id: 787acf50-787a-487a-a87a-787acf500000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_side_load_aruba_networks_virtual_intranet_access.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.001
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\arubanetsvc.exe'
+    #         ImageLoaded|endswith:
+    #             - '\wtsapi32.dll'
+    #             - '\msvcr100.dll'
+    #             - '\msvcp100.dll'
+    #             - '\dbghelp.dll'
+    #             - '\dbgcore.dll'
+    #             - '\wininet.dll'
+    #             - '\iphlpapi.dll'
+    #             - '\version.dll'
+    #             - '\cryptsp.dll'
+    #             - '\cryptbase.dll'
+    #             - '\wldp.dll'
+    #             - '\profapi.dll'
+    #             - '\sspicli.dll'
+    #             - '\winsta.dll'
+    #             - '\dpapi.dll'
+    #     filter:
+    #         ImageLoaded|startswith:
+    #             - 'C:\Windows\System32\'
+    #             - 'C:\Windows\SysWOW64\'
+    #             - 'C:\Windows\WinSxS\'
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

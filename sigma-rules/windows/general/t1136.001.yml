@@ -1,0 +1,31 @@
+title: New User Created Via Net.EXE
+id: 6fd83557-6fd8-4fd8-afd8-6fd835570000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_net_user_add.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith:
+    #               - '\net.exe'
+    #               - '\net1.exe'
+    #         - OriginalFileName:
+    #               - 'net.exe'
+    #               - 'net1.exe'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - 'user'
+    #             - 'add'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

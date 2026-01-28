@@ -1,0 +1,26 @@
+title: Azure Network Firewall Policy Modified or Deleted
+id: 1410ace0-1410-4410-a410-1410ace00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.007
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_network_firewall_policy_modified_or_deleted.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.007
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         operationName:
+    #             - MICROSOFT.NETWORK/FIREWALLPOLICIES/WRITE
+    #             - MICROSOFT.NETWORK/FIREWALLPOLICIES/JOIN/ACTION
+    #             - MICROSOFT.NETWORK/FIREWALLPOLICIES/CERTIFICATES/ACTION
+    #             - MICROSOFT.NETWORK/FIREWALLPOLICIES/DELETE
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

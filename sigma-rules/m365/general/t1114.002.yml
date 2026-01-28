@@ -1,0 +1,25 @@
+title: O365 Compliance Content Search Exported
+id: 6fc71344-6fc7-4fc7-afc7-6fc713440000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1114.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_compliance_content_search_exported.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1114.002
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `o365_management_activity` Workload=SecurityComplianceCenter Operation="SearchExported" 
+    #   | rename user_id as user 
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product ExchangeLocations Query
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)` 
+    #   | `o365_compliance_content_search_exported_filter`
+  condition: selection
+level: medium

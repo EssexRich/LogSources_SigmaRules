@@ -1,0 +1,26 @@
+title: AWS IAM S3Browser LoginProfile Creation
+id: 4ab29012-4ab2-4ab2-aab2-4ab290120000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.009
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_iam_s3browser_loginprofile_creation.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.009
+logsource:
+  product: aws
+  service: s3
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: 'iam.amazonaws.com'
+    #         eventName:
+    #             - 'GetLoginProfile'
+    #             - 'CreateLoginProfile'
+    #         userAgent|contains: 'S3 Browser'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

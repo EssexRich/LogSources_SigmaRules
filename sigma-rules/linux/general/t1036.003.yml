@@ -1,0 +1,29 @@
+title: System Binary Moved or Copied
+id: 493eef76-493e-493e-a93e-493eef760000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_binary_copied_to_suspicious_directory.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.003
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "linux" and event.action in ("rename", "creation") and process.name in ("cp", "mv") and
+    # file.Ext.original.path : (
+    #   "/bin/*", "/usr/bin/*", "/usr/local/bin/*", "/sbin/*", "/usr/sbin/*", "/usr/local/sbin/*"
+    # ) and not (
+    #   file.Ext.original.path : (
+    #     "/bin/*.tmp", "/usr/bin/*.tmp", "/usr/local/bin/*.tmp", "/sbin/*.tmp", "/usr/sbin/*.tmp", "/usr/local/sbin/*.tmp"
+    #   ) or
+    #   file.extension in ("swp", "swpx", "swx", "dpkg-remove") or
+    #   file.Ext.original.extension == "dpkg-new" or
+    #   process.executable : ("/nix/store/*", "/var/lib/dpkg/*", "/tmp/vmis.*", "/snap/*", "/dev/fd/*", "/tmp/newroot/*")
+    # )
+  condition: selection
+level: medium

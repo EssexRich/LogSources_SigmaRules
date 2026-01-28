@@ -1,0 +1,50 @@
+title: Suspicious HTML File Creation
+id: 74512124-7451-4451-a451-745121240000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/initial_access_evasion_suspicious_htm_file_creation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027.006
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by user.id with maxspan=2m
+    # 
+    #  [file where host.os.type == "windows" and event.action in ("creation", "rename") and
+    # 
+    #   /* Check for HTML files with high entropy and size */
+    #   file.extension : ("htm", "html") and ((file.Ext.entropy >= 5 and file.size >= 150000) or file.size >= 1000000) and
+    # 
+    #   /* Check for file paths in common download and temporary directories */
+    #   file.path : (
+    #     "?:\\Users\\*\\Downloads\\*",
+    #     "?:\\Users\\*\\Content.Outlook\\*",
+    #     "?:\\Users\\*\\AppData\\Local\\Temp\\Temp?_*",
+    #     "?:\\Users\\*\\AppData\\Local\\Temp\\7z*",
+    #     "?:\\Users\\*\\AppData\\Local\\Temp\\Rar$*")]
+    #  [process where host.os.type == "windows" and event.action == "start" and
+    #   (
+    #    /* Check for browser processes opening HTML files with single argument */
+    #    (process.name in ("chrome.exe", "msedge.exe", "brave.exe", "whale.exe", "browser.exe", "dragon.exe", "vivaldi.exe", "opera.exe")
+    #     and process.args == "--single-argument") or
+    # 
+    #    /* Optionally, check for browser processes opening HTML files with two arguments */
+    #    (process.name == "iexplore.exe" and process.args_count == 2) or
+    # 
+    #    /* Optionally, check for browser processes opening HTML files with URL argument */
+    #    (process.name in ("firefox.exe", "waterfox.exe") and process.args == "-url")
+    #   )
+    #   /* Check for file paths in common download and temporary directories targeted in the process arguments */
+    #   and process.args : ("?:\\Users\\*\\Downloads\\*.htm*",
+    #                       "?:\\Users\\*\\Content.Outlook\\*.htm*",
+    #                       "?:\\Users\\*\\AppData\\Local\\Temp\\Temp?_*.htm*",
+    #                       "?:\\Users\\*\\AppData\\Local\\Temp\\7z*.htm*",
+    #                       "?:\\Users\\*\\AppData\\Local\\Temp\\Rar$*.htm*")]
+  condition: selection
+level: medium

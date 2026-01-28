@@ -1,0 +1,37 @@
+title: Suspicious File Created by ArcSOC.exe
+id: 4ae0ed95-4ae0-4ae0-aae0-4ae0ed950000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1127
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_arcsoc_susp_file_created.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1127
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\ArcSOC.exe'
+    #         TargetFilename|endswith:
+    #             - '.ahk'
+    #             - '.aspx'
+    #             - '.au3'
+    #             - '.bat'
+    #             - '.cmd'
+    #             - '.dll'
+    #             - '.exe'
+    #             - '.hta'
+    #             - '.js'
+    #             - '.ps1'
+    #             - '.py'
+    #             - '.vbe'
+    #             - '.vbs'
+    #             - '.wsf'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

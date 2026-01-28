@@ -1,0 +1,28 @@
+title: Suspicious Windows Strings In URI
+id: 01f4c978-01f4-41f4-a1f4-01f4c9780000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/webserver_generic/web_susp_windows_path_uri.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1505.003
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         cs-uri-query|contains:
+    #             - '=C:/Users'
+    #             - '=C:/Program%20Files'
+    #             - '=C:/Windows'
+    #             - '=C%3A%5CUsers'
+    #             - '=C%3A%5CProgram%20Files'
+    #             - '=C%3A%5CWindows'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,23 @@
+title: Audio Capture via SoundRecorder
+id: 0f72831d-0f72-4f72-af72-0f72831d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1123
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_soundrecorder_audio_capture.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1123
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\SoundRecorder.exe'
+    #         CommandLine|contains: '/FILE'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

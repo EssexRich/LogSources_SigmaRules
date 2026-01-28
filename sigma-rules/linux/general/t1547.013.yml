@@ -1,0 +1,40 @@
+title: Executable Bit Set for Potential Persistence Script
+id: 6aad7108-6aad-4aad-aaad-6aad71080000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.013
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_potential_persistence_script_executable_bit_set.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.013
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start") and
+    # process.args : (
+    #   // Misc.
+    #   "/etc/rc.local", "/etc/rc.common", "/etc/rc.d/rc.local", "/etc/init.d/*", "/etc/update-motd.d/*",
+    #   "/etc/apt/apt.conf.d/*", "/etc/cron*", "/etc/init/*", "/etc/NetworkManager/dispatcher.d/*",
+    #   "/lib/dracut/modules.d/*", "/usr/lib/dracut/modules.d/*",
+    # 
+    #   // XDG
+    #   "/etc/xdg/autostart/*", "/home/*/.config/autostart/*", "/root/.config/autostart/*",
+    #   "/home/*/.local/share/autostart/*", "/root/.local/share/autostart/*", "/home/*/.config/autostart-scripts/*",
+    #   "/root/.config/autostart-scripts/*", "/etc/xdg/autostart/*", "/usr/share/autostart/*",
+    # 
+    #   // udev
+    #   "/lib/udev/*", "/etc/udev/rules.d/*", "/usr/lib/udev/rules.d/*", "/run/udev/rules.d/*"
+    # 
+    # ) and (
+    #   (process.name == "chmod" and process.args : ("+x*", "1*", "3*", "5*", "7*")) or
+    #   (process.name == "install" and process.args : "-m*" and process.args : ("7*", "5*", "3*", "1*"))
+    # ) and not (
+    #   process.parent.executable : "/var/lib/dpkg/*" or
+    #   process.command_line in ("chmod 777 /etc/update-motd.d/", "chmod 755 /etc/update-motd.d/")
+    # )
+  condition: selection
+level: medium

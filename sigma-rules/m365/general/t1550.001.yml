@@ -1,0 +1,64 @@
+title: M365 Identity OAuth Flow by First-Party Microsoft App from Multiple IPs
+id: 7430caa8-7430-4430-a430-7430caa80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_entra_id_susp_oauth2_authorization.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550.001
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-o365.audit-*
+    # | where
+    #     event.dataset == "o365.audit" and
+    #     event.action == "UserLoggedIn" and
+    #     source.ip is not null and
+    #     o365.audit.UserId is not null and
+    #     o365.audit.ApplicationId is not null and
+    #     o365.audit.UserType in ("0", "2", "3", "10") and
+    #     (
+    #         /* Developer tools accessing Graph OR Legacy AAD */
+    #         (
+    #             o365.audit.ApplicationId in (
+    #                 "aebc6443-996d-45c2-90f0-388ff96faa56",
+    #                 "29d9ed98-a469-4536-ade2-f981bc1d605e",
+    #                 "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+    #                 "1950a258-227b-4e31-a9cf-717495945fc2"
+    #             ) and
+    #             o365.audit.ObjectId in (
+    #                 "00000003-0000-0000-c000-000000000000",
+    #                 "00000002-0000-0000-c000-000000000000"
+    #             )
+    #         ) or
+    #         /* Any FOCI app accessing Legacy AAD only */
+    #         (
+    #             o365.audit.ApplicationId in (
+    #                 "00b41c95-dab0-4487-9791-b9d2c32c80f2",
+    #                 "1fec8e78-bce4-4aaf-ab1b-5451cc387264",
+    #                 "26a7ee05-5602-4d76-a7ba-eae8b7b67941",
+    #                 "27922004-5251-4030-b22d-91ecd9a37ea4",
+    #                 "4813382a-8fa7-425e-ab75-3b753aab3abb",
+    #                 "ab9b8c07-8f02-4f72-87fa-80105867a763",
+    #                 "d3590ed6-52b3-4102-aeff-aad2292ab01c",
+    #                 "872cd9fa-d31f-45e0-9eab-6e460a02d1f1",
+    #                 "af124e86-4e96-495a-b70a-90f90ab96707",
+    #                 "2d7f3606-b07d-41d1-b9d2-0d0c9296a6e8",
+    #                 "844cca35-0656-46ce-b636-13f48b0eecbd",
+    #                 "87749df4-7ccf-48f8-aa87-704bad0e0e16",
+    #                 "cf36b471-5b44-428c-9ce7-313bf84528de",
+    #                 "0ec893e0-5785-4de6-99da-4ed124e5296c",
+    #                 "22098786-6e16-43cc-a27d-191a01a1e3b5",
+    #                 "4e291c71-d680-4d0e-9640-0a3358e31177",
+    #                 "57336123-6e14-4acc-8dcf-287b6088aa28",
+    #                 "57fcbcfa-7cee-4eb1-8b25-12d2030b4ee0",
+    #                 "66375f6b-983f-4c2c-9701-d680650f588f",
+    #                 "9ba1a5
+    # ... [truncated]
+  condition: selection
+level: medium

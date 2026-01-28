@@ -1,0 +1,23 @@
+title: Windows AppX Deployment Full Trust Package Installation
+id: 2559fe95-2559-4559-a559-2559fe950000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1553
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_appx_deployment_full_trust_package_installation.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1553
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `wineventlog_appxdeploymentserver` EventCode=400 HasFullTrust="true"
+    #   | stats count min(_time) as firstTime max(_time) as lastTime values(PackageFullName) as PackageFullName values(Path) as PackagePath values(PackageSourceUri) as PackageSourceUri values(PackageDisplayName) as PackageDisplayName values(CallingProcess) as CallingProcess values(IsCentennial) as IsCentennial by dvc EventCode HasFullTrust user_id | rename dvc as dest
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `windows_appx_deployment_full_trust_package_installation_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,19 @@
+title: Attempt to Create Okta API Token
+id: 5420df90-5420-4420-a420-5420df900000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/persistence_attempt_to_create_okta_api_token.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:okta.system and event.action:system.api_token.create
+  condition: selection
+level: medium

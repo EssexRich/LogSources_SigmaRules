@@ -1,0 +1,24 @@
+title: GitHub Enterprise Delete Branch Ruleset
+id: 38b00952-38b0-48b0-a8b0-38b009520000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1195
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/github_enterprise_delete_branch_ruleset.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1195
+logsource:
+  product: cloud
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `github_enterprise` action=repository_ruleset.destroy
+    #   | fillnull
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_ip, actor_is_bot, actor_location.country_code, business, business_id, org, org_id, repo, repo_id, user_agent, action, ruleset_name
+    #   | eval user=actor
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+    #   | `github_enterprise_delete_branch_ruleset_filter`
+  condition: selection
+level: medium

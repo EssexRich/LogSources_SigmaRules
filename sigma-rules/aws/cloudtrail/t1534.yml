@@ -1,0 +1,22 @@
+title: AWS SNS Topic Message Publish by Rare User
+id: 48545556-4854-4854-a854-485455560000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1534
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/lateral_movement_sns_topic_message_publish_by_rare_user.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1534
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:"aws.cloudtrail"
+    #     and event.provider:"sns.amazonaws.com"
+    #     and event.action:"Publish"
+    #     and event.outcome:"success"
+  condition: selection
+level: medium

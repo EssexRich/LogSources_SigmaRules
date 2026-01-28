@@ -1,0 +1,37 @@
+title: Backup Files Deleted
+id: 247044e5-2470-4470-a470-247044e50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1490
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_delete/file_delete_win_delete_backup_file.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1490
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '\cmd.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\wt.exe'
+    #             - '\rundll32.exe'
+    #             - '\regsvr32.exe'
+    #         TargetFilename|endswith:
+    #             - '.VHD'
+    #             - '.bac'
+    #             - '.bak'
+    #             - '.wbcat'
+    #             - '.bkf'
+    #             - '.set'
+    #             - '.win'
+    #             - '.dsk'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

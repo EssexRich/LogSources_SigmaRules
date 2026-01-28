@@ -1,0 +1,20 @@
+title: Executable Masquerading as Kernel Process
+id: 6f6dd5ce-6f6d-4f6d-af6d-6f6dd5ce0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_kthreadd_masquerading.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.004
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
+    # process.name : ("kworker*", "kthread*") and process.executable != null
+  condition: selection
+level: medium

@@ -1,0 +1,35 @@
+title: Server Side Template Injection Strings
+id: 49b90912-49b9-49b9-a9b9-49b909120000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1221
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/webserver_generic/web_ssti_in_access_logs.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1221
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     select_method:
+    #         cs-method: 'GET'
+    #     keywords:
+    #         - '={{'
+    #         - '=%7B%7B'
+    #         - '=${'
+    #         - '=$%7B'
+    #         - '=<%='
+    #         - '=%3C%25='
+    #         - '=@('
+    #         - 'freemarker.template.utility.Execute'
+    #         - .getClass().forName('javax.script.ScriptEngineManager')
+    #         - 'T(org.apache.commons.io.IOUtils)'
+    #     filter:
+    #         sc-status: 404
+    #     condition: select_method and keywords and not filter
+    # 
+  condition: selection
+level: medium

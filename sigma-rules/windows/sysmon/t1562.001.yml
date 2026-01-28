@@ -1,0 +1,33 @@
+title: Suspicious Windows Trace ETW Session Tamper Via Logman.EXE
+id: 4e2dd95c-4e2d-4e2d-ae2d-4e2dd95c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_logman_disable_eventlog.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\logman.exe'
+    #         - OriginalFileName: 'Logman.exe'
+    #     selection_action:
+    #         CommandLine|contains:
+    #             - 'stop '
+    #             - 'delete '
+    #     selection_service:
+    #         CommandLine|contains:
+    #             - 'Circular Kernel Context Logger'
+    #             - 'EventLog-' # Cover multiple traces starting with EventLog-*
+    #             - 'SYSMON TRACE'
+    #             - 'SysmonDnsEtwSession'
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

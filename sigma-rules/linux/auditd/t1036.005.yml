@@ -1,0 +1,24 @@
+title: Potential Process Name Stomping with Prctl
+id: 243529ac-2435-4435-a435-243529ac0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_prctl_process_name_tampering.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.005
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and auditd.data.syscall == "prctl" and auditd.data.a0 == "f" and
+    # process.executable like (
+    #   "/boot/*", "/dev/shm/*", "/etc/cron.*/*", "/etc/init.d/*", "/var/run/*", "/etc/update-motd.d/*",
+    #   "/tmp/*", "/var/log/*", "/var/tmp/*", "/home/*", "/run/shm/*", "/run/*", "./*"
+    # ) and
+    # not process.executable like ("/home/*/.vscode-server/*", "/tmp/VeeamAgent*", "/home/*/.xmonad/xmonad*linux*")
+  condition: selection
+level: medium

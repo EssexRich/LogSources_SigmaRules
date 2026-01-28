@@ -1,0 +1,21 @@
+title: Tampering with RUNNER_TRACKING_ID in GitHub Actions Runners
+id: 34288b8c-3428-4428-a428-34288b8c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1195
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_via_github_runner_with_runner_tracking_id_tampering_via_env_vars.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1195
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type in ("linux", "macos") and event.type == "start" and event.action == "exec" and
+    # process.parent.name in ("Runner.Worker", "Runner.Listener") and process.env_vars like~ "RUNNER_TRACKING_ID*" and
+    # not process.env_vars like~ "RUNNER_TRACKING_ID=github_*"
+  condition: selection
+level: medium

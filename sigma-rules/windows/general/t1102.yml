@@ -1,0 +1,79 @@
+title: New Connection Initiated To Potential Dead Drop Resolver Domain
+id: 07670e7e-0767-4767-a767-07670e7e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1102
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_domain_dead_drop_resolvers.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1102
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Initiated: 'true'
+    #         DestinationHostname|endswith:
+    #             - '.t.me'
+    #             - '4shared.com'
+    #             - 'abuse.ch'
+    #             - 'anonfiles.com'
+    #             - 'cdn.discordapp.com'
+    #             - 'cloudflare.com'
+    #             - 'ddns.net'
+    #             - 'discord.com'
+    #             - 'docs.google.com'
+    #             - 'drive.google.com'
+    #             - 'dropbox.com'
+    #             - 'dropmefiles.com'
+    #             - 'facebook.com'
+    #             - 'feeds.rapidfeeds.com'
+    #             - 'fotolog.com'
+    #             - 'ghostbin.co/'
+    #             - 'githubusercontent.com'
+    #             - 'gofile.io'
+    #             - 'hastebin.com'
+    #             - 'imgur.com'
+    #             - 'livejournal.com'
+    #             - 'mediafire.com'
+    #             - 'mega.co.nz'
+    #             - 'mega.nz'
+    #             - 'onedrive.com'
+    #             - 'pages.dev'
+    #             - 'paste.ee'
+    #             - 'pastebin.com'
+    #             - 'pastebin.pl'
+    #             - 'pastetext.net'
+    #             - 'pixeldrain.com'
+    #             - 'privatlab.com'
+    #             - 'privatlab.net'
+    #             - 'reddit.com'
+    #             - 'send.exploit.in'
+    #             - 'sendspace.com'
+    #             - 'steamcommunity.com'
+    #             - 'storage.googleapis.com'
+    #             - 'technet.microsoft.com'
+    #             - 'temp.sh'
+    #             - 'transfer.sh'
+    #             - 'trycloudflare.com'
+    #             - 'twitter.com'
+    #             - 'ufile.io'
+    #             - 'vimeo.com'
+    #             - 'w3spaces.com'
+    #             - 'wetransfer.com'
+    #             - 'workers.dev'
+    #             - 'youtube.com'
+    #     # Note: Add/Remove browsers/applications that you don't use or those that have custom install locations
+    #     # Note: To avoid complex conditions the filters for some apps are generic by name only. A custom tuning is recommended for best results
+    #     filter_main_chrome:
+    #         Image:
+    #             - 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+    #             - 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+    #     filter_main_chrome_appdata:
+    #         Imag
+    # ... [truncated]
+  condition: selection
+level: medium

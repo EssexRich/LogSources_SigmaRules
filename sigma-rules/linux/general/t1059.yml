@@ -1,0 +1,34 @@
+title: Suspicious Invocation of Shell via AWK - Linux
+id: 58ade5f6-58ad-48ad-a8ad-58ade5f60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_awk_shell_spawn.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         Image|endswith:
+    #             - '/awk'
+    #             - '/gawk'
+    #             - '/mawk'
+    #             - '/nawk'
+    #         CommandLine|contains: 'BEGIN {system'
+    #     selection_cli:
+    #         CommandLine|contains:
+    #             - '/bin/bash'
+    #             - '/bin/dash'
+    #             - '/bin/fish'
+    #             - '/bin/sh'
+    #             - '/bin/zsh'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

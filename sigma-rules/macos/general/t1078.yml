@@ -1,0 +1,24 @@
+title: Root Account Enable Via Dsenableroot
+id: 242c9ddf-242c-442c-a42c-242c9ddf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_dsenableroot_enable_root_account.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/dsenableroot'
+    #     filter_main_disable:
+    #         CommandLine|contains: ' -d '
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

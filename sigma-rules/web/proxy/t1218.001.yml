@@ -1,0 +1,27 @@
+title: Detect HTML Help Spawn Child Process
+id: 7e0980a1-7e09-4e09-ae09-7e0980a10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/detect_html_help_spawn_child_process.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.001
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=hh.exe
+    #   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+    #   Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+    #   Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+    #   Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    #   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `detect_html_help_spawn_child_process_filter`
+  condition: selection
+level: medium

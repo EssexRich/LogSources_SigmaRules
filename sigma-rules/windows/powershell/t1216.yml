@@ -1,0 +1,29 @@
+title: Execute Code with Pester.bat as Parent
+id: 7418a6c9-7418-4418-a418-7418a6c90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1216
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_lolbin_pester.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1216
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_module:
+    #         ParentImage|endswith:
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #         ParentCommandLine|contains: '\WindowsPowerShell\Modules\Pester\'
+    #     selection_cli:
+    #         ParentCommandLine|contains:
+    #             - '{ Invoke-Pester -EnableExit ;'
+    #             - '{ Get-Help "'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

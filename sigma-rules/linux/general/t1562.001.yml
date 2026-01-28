@@ -1,0 +1,29 @@
+title: Kaspersky Endpoint Security Stopped Via CommandLine - Linux
+id: 140f40eb-140f-440f-a40f-140f40eb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_av_kaspersky_av_disabled.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             # Note: Add the list of shells allowed in your environment that can be used to run init.d scripts.
+    #             - '/systemctl'
+    #             - '/bash'
+    #             - '/sh'
+    #         CommandLine|contains|all:
+    #             - 'stop'
+    #             - 'kesl'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

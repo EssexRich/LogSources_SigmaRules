@@ -1,0 +1,28 @@
+title: Service Reload or Start - Linux
+id: 5d9ff122-5d9f-4d9f-ad9f-5d9ff1220000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1543.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_susp_service_reload_or_restart.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1543.002
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'EXECVE'
+    #         a0|contains:
+    #             - 'systemctl'
+    #             - 'service'
+    #         a1|contains:
+    #             - 'reload'
+    #             - 'start'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

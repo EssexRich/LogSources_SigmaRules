@@ -1,0 +1,38 @@
+title: Shai-Hulud 2 Exfiltration Artifact Files
+id: 361fa752-361f-461f-a61f-361fa7520000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1074.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/shai_hulud_2_exfiltration_artifact_files.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1074.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    #   
+    #   from datamodel=Endpoint.Filesystem where
+    #   
+    #   Filesystem.file_name IN (
+    #     "cloud.json",
+    #     "contents.json",
+    #     "environment.json",
+    #     "truffleSecrets.json",
+    #     "actionsSecrets.json"
+    #   )
+    # 
+    #   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+    #      Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user
+    #      Filesystem.vendor_product
+    #   
+    #   | `drop_dm_object_name(Filesystem)`
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `shai_hulud_2_exfiltration_artifact_files_filter`
+  condition: selection
+level: medium

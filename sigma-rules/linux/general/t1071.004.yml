@@ -1,0 +1,54 @@
+title: GenAI Process Connection to Suspicious Top Level Domain
+id: 7d8aa6aa-7d8a-4d8a-ad8a-7d8aa6aa0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_genai_process_suspicious_tld_connection.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1071.004
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # network where host.os.type in ("macos", "windows") and
+    # 
+    #   // GenAI processes
+    #   process.name in (
+    #     "ollama.exe", "ollama", "Ollama",
+    #     "textgen.exe", "textgen", "text-generation-webui.exe", "oobabooga.exe",
+    #     "lmstudio.exe", "lmstudio", "LM Studio",
+    #     "claude.exe", "claude", "Claude",
+    #     "cursor.exe", "cursor", "Cursor",
+    #     "copilot.exe", "copilot", "Copilot",
+    #     "codex.exe", "codex",
+    #     "Jan", "jan.exe", "jan",
+    #     "gpt4all.exe", "gpt4all", "GPT4All",
+    #     "gemini-cli.exe", "gemini-cli",
+    #     "genaiscript.exe", "genaiscript",
+    #     "grok.exe", "grok",
+    #     "qwen.exe", "qwen",
+    #     "koboldcpp.exe", "koboldcpp", "KoboldCpp",
+    #     "llama-server", "llama-cli",
+    #     "deno.exe", "deno",
+    #     "npx", "pnpm", "yarn", "bunx"
+    #   ) and
+    # 
+    #   // Suspicious TLDs 
+    #   (
+    #     // Windows DNS events
+    #     (host.os.type == "windows" and dns.question.name != null and
+    #      dns.question.name regex """.*\.(top|buzz|xyz|rest|ml|cf|gq|ga|onion|monster|cyou|quest|cc|bar|cfd|click|cam|surf|tk|shop|club|icu|pw|ws|online|fun|life|boats|store|hair|skin|motorcycles|christmas|lol|makeup|mom|bond|beauty|biz|live|work|zip|country|accountant|date|party|science|loan|win|men|faith|review|racing|download|host)""") or
+    # 
+    #     // macOS network events
+    #     (host.os.type == "macos" and destination.domain != null and
+    #      destination.domain regex """.*\.(top|buzz|xyz|rest|ml|cf|gq|ga|onion|monster|cyou|quest|cc|bar|cfd|click|cam|surf|tk|shop|club|icu|pw|ws|online|fun|life|boats|store|hair|skin|motorcycles|christmas|lol|makeup|mom|bond|beauty|biz|live|work|zip|country|accountant|date|party|science|loan|win|men|faith|review|racing|download|host)""")
+    # 
+    #     // Linux DNS events
+    #     // Revist when available
+    #   )
+  condition: selection
+level: medium

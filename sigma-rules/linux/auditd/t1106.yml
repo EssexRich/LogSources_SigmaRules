@@ -1,0 +1,26 @@
+title: BPFDoor Abnormal Process ID or Lock File Accessed
+id: 317a87ba-317a-417a-a17a-317a87ba0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1106
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/path/lnx_auditd_bpfdoor_file_accessed.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1106
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'PATH'
+    #         name:
+    #             - /var/run/haldrund.pid
+    #             - /var/run/xinetd.lock
+    #             - /var/run/kdevrund.pid
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

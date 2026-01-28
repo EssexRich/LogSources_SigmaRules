@@ -1,0 +1,19 @@
+title: Deprecated - AWS RDS Security Group Creation
+id: 64743500-6474-4474-a474-647435000000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_rds_group_creation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail and event.provider:rds.amazonaws.com and event.action:CreateDBSecurityGroup and event.outcome:success
+  condition: selection
+level: medium

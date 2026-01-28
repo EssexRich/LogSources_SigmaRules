@@ -1,0 +1,24 @@
+title: AWS S3 Bucket Versioning Disable
+id: 1f953034-1f95-4f95-af95-1f9530340000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1490
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_disable_bucket_versioning.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1490
+logsource:
+  product: aws
+  service: s3
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: s3.amazonaws.com
+    #         eventName: PutBucketVersioning
+    #         requestParameters|contains: 'Suspended'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

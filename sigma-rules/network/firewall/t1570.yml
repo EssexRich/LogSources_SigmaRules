@@ -1,0 +1,31 @@
+title: PsExec Network Connection
+id: 7948030a-7948-4948-a948-7948030a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1570
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_psexec_lateral_movement_command.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1570
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id
+    #   [process where host.os.type == "windows" and process.name : "PsExec.exe" and event.type == "start" and
+    # 
+    #    /* This flag suppresses the display of the license dialog and may
+    #       indicate that psexec executed for the first time in the machine */
+    #    process.args : "-accepteula" and
+    # 
+    #    not process.executable : ("?:\\ProgramData\\Docusnap\\Discovery\\discovery\\plugins\\17\\Bin\\psexec.exe",
+    #                              "?:\\Docusnap 11\\Bin\\psexec.exe",
+    #                              "?:\\Program Files\\Docusnap X\\Bin\\psexec.exe",
+    #                              "?:\\Program Files\\Docusnap X\\Tools\\dsDNS.exe") and
+    #    not process.parent.executable : "?:\\Program Files (x86)\\Cynet\\Cynet Scanner\\CynetScanner.exe"]
+    #   [network where host.os.type == "windows" and process.name : "PsExec.exe"]
+  condition: selection
+level: medium

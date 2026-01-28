@@ -1,0 +1,27 @@
+title: AWS SecurityHub Findings Evasion
+id: 0040e78c-0040-4040-a040-0040e78c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_securityhub_finding_evasion.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: securityhub.amazonaws.com
+    #         eventName:
+    #             - 'BatchUpdateFindings'
+    #             - 'DeleteInsight'
+    #             - 'UpdateFindings'
+    #             - 'UpdateInsight'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

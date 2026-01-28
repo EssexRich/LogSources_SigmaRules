@@ -1,0 +1,29 @@
+title: File Time Attribute Change - Linux
+id: 44de760d-44de-44de-a4de-44de760d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_change_file_time_attr.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.006
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     execve:
+    #         type: 'EXECVE'
+    #     touch:
+    #         - 'touch'
+    #     selection2:
+    #         - '-t'
+    #         - '-acmr'
+    #         - '-d'
+    #         - '-r'
+    #     condition: execve and touch and selection2
+    # 
+  condition: selection
+level: medium

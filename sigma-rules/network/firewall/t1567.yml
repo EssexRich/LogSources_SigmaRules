@@ -1,0 +1,42 @@
+title: Monero Crypto Coin Mining Pool Lookup
+id: 06c421d6-06c4-46c4-a6c4-06c421d60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/dns/net_dns_pua_cryptocoin_mining_xmr.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1567
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         query|contains:
+    #             - 'pool.minexmr.com'
+    #             - 'fr.minexmr.com'
+    #             - 'de.minexmr.com'
+    #             - 'sg.minexmr.com'
+    #             - 'ca.minexmr.com'
+    #             - 'us-west.minexmr.com'
+    #             - 'pool.supportxmr.com'
+    #             - 'mine.c3pool.com'
+    #             - 'xmr-eu1.nanopool.org'
+    #             - 'xmr-eu2.nanopool.org'
+    #             - 'xmr-us-east1.nanopool.org'
+    #             - 'xmr-us-west1.nanopool.org'
+    #             - 'xmr-asia1.nanopool.org'
+    #             - 'xmr-jp1.nanopool.org'
+    #             - 'xmr-au1.nanopool.org'
+    #             - 'xmr.2miners.com'
+    #             - 'xmr.hashcity.org'
+    #             - 'xmr.f2pool.com'
+    #             - 'xmrpool.eu'
+    #             - 'pool.hashvault.pro'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

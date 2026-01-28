@@ -1,0 +1,23 @@
+title: AWS STS AssumeRole Misuse
+id: 7df7fa3b-7df7-4df7-adf7-7df7fa3b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_sts_assumerole_misuse.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         userIdentity.type: AssumedRole
+    #         userIdentity.sessionContext.sessionIssuer.type: Role
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

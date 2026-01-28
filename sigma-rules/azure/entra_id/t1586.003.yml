@@ -1,0 +1,22 @@
+title: Azure Active Directory High Risk Sign-in
+id: 2b6adea4-2b6a-4b6a-ab6a-2b6adea40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1586.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_active_directory_high_risk_sign_in.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1586.003
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original splunk detection logic
+    # `azure_monitor_aad` `azure_monitor_aad` category=UserRiskEvents properties.riskLevel=high
+    #   | fillnull
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product category
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_active_directory_high_risk_sign_in_filter`
+  condition: selection
+level: medium

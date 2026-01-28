@@ -1,0 +1,19 @@
+title: M365 SharePoint Malware File Detected
+id: 14fb1879-14fb-44fb-a4fb-14fb18790000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1080
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/lateral_movement_sharepoint_malware_uploaded.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1080
+logsource:
+  product: m365
+  service: sharepoint
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and event.provider:SharePoint and event.code:SharePointFileOperation and event.action:FileMalwareDetected
+  condition: selection
+level: medium

@@ -1,0 +1,26 @@
+title: Service Registry Key Read Access Request
+id: 424ed54a-424e-424e-a24e-424ed54a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.011
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_registry_permissions_weakness_check.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.011
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4663
+    #         ObjectName|contains|all:
+    #             - '\SYSTEM\'
+    #             - 'ControlSet\Services\'
+    #         AccessList|contains: '%%1538' # READ_CONTROL
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

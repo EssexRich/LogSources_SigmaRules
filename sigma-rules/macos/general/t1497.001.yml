@@ -1,0 +1,28 @@
+title: System Information Discovery Via Sysctl - MacOS
+id: 70d76538-70d7-40d7-a0d7-70d765380000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1497.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_sysctl_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1497.001
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '/sysctl'
+    #         - CommandLine|contains: 'sysctl'
+    #     selection_cmd:
+    #         CommandLine|contains:
+    #             - 'hw.'
+    #             - 'kern.'
+    #             - 'machdep.'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

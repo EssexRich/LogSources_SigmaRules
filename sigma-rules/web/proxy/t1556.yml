@@ -1,0 +1,32 @@
+title: Github High Risk Configuration Disabled
+id: 12c7fe68-12c7-42c7-a2c7-12c7fe680000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/application/github/audit/github_disable_high_risk_configuration.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         action:
+    #             - 'business_advanced_security.disabled_for_new_repos'
+    #             - 'business_advanced_security.disabled_for_new_user_namespace_repos'
+    #             - 'business_advanced_security.disabled'
+    #             - 'business_advanced_security.user_namespace_repos_disabled'
+    #             - 'org.advanced_security_disabled_for_new_repos'
+    #             - 'org.advanced_security_disabled_on_all_repos'
+    #             - 'org.advanced_security_policy_selected_member_disabled'
+    #             - 'org.disable_oauth_app_restrictions'
+    #             - 'org.disable_two_factor_requirement'
+    #             - 'repo.advanced_security_disabled'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

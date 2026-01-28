@@ -1,0 +1,24 @@
+title: HackTool - Mimikatz Kirbi File Creation
+id: 0fbf3774-0fbf-4fbf-afbf-0fbf37740000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1558
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_hktl_mimikatz_files.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1558
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetFilename|endswith:
+    #             - '.kirbi' # Kerberos tickets
+    #             - 'mimilsa.log' # MemSSP default file
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

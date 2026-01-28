@@ -1,0 +1,32 @@
+title: Powershell Token Obfuscation - Process Creation
+id: 433da68c-433d-433d-a33d-433da68c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.009
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_token_obfuscation.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027.009
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         # Examples:
+    #         #   IN`V`o`Ke-eXp`ResSIOn (Ne`W-ob`ject Net.WebClient).DownloadString
+    #         #   &('In'+'voke-Expressi'+'o'+'n') (.('New-Ob'+'jec'+'t') Net.WebClient).DownloadString
+    #         #   &("{2}{3}{0}{4}{1}"-f 'e','Expression','I','nvok','-') (&("{0}{1}{2}"-f'N','ew-O','bject') Net.WebClient).DownloadString
+    #         - CommandLine|re: '\w+`(\w+|-|.)`[\w+|\s]'
+    #         # - CommandLine|re: '\((\'(\w|-|\.)+\'\+)+\'(\w|-|\.)+\'\)' TODO: fixme
+    #         - CommandLine|re: '"(\{\d\})+"\s*-f'
+    #         #   ${e`Nv:pATh}
+    #         - CommandLine|re: '(?i)\$\{`?e`?n`?v`?:`?p`?a`?t`?h`?\}'
+    #     filter_main_envpath:
+    #         CommandLine|contains: '${env:path}'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

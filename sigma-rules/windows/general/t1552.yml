@@ -1,0 +1,19 @@
+title: Creation or Modification of Domain Backup DPAPI private key
+id: 73b65ddd-73b6-43b6-a3b6-73b65ddd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_domain_backup_dpapi_private_keys.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "windows" and event.type != "deletion" and file.name : ("ntds_capi_*.pfx", "ntds_capi_*.pvk")
+  condition: selection
+level: medium

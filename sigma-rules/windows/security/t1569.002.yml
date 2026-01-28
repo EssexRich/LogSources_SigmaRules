@@ -1,0 +1,30 @@
+title: Credential Dumping Tools Service Execution - Security
+id: 5c733cbe-5c73-4c73-ac73-5c733cbe0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1569.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_mal_creddumper.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1569.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4697
+    #         ServiceFileName|contains:
+    #             - 'cachedump'
+    #             - 'dumpsvc'
+    #             - 'fgexec'
+    #             - 'gsecdump'
+    #             - 'mimidrv'
+    #             - 'pwdump'
+    #             - 'servpw'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

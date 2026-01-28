@@ -1,0 +1,25 @@
+title: File Deletion
+id: 7db5d7c5-7db5-4db5-adb5-7db5d7c50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_file_deletion.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.004
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '/rm'     # covers /rmdir as well
+    #             - '/shred'
+    #             - '/unlink'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

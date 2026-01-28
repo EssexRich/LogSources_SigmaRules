@@ -1,0 +1,23 @@
+title: UAC Notification Disabled
+id: 74ec3b83-74ec-44ec-a4ec-74ec3b830000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_uac_disable_notification.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetObject|contains: '\Microsoft\Security Center\UACDisableNotify'
+    #         Details: 'DWORD (0x00000001)'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

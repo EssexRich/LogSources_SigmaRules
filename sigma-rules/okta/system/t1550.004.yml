@@ -1,0 +1,22 @@
+title: Multiple Okta Sessions Detected for a Single User
+id: 472edafd-472e-472e-a72e-472edafd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/lateral_movement_multiple_sessions_for_single_user.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550.004
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:okta.system
+    #     and okta.event_type:user.session.start
+    #     and okta.authentication_context.external_session_id:*
+    #     and not (okta.actor.id: okta* or okta.actor.display_name: okta*)
+  condition: selection
+level: medium

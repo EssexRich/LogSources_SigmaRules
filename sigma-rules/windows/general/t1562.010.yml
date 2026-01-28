@@ -1,0 +1,29 @@
+title: LSA PPL Protection Disabled Via Reg.EXE
+id: 157b3c6b-157b-457b-a57b-157b3c6b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.010
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_reg_lsa_ppl_protection_disabled.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.010
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\reg.exe'
+    #         - OriginalFileName: 'reg.exe'
+    #     selection_cli:
+    #         CommandLine|contains: 'SYSTEM\CurrentControlSet\Control\Lsa'
+    #         CommandLine|contains|all:
+    #             - ' add '
+    #             - ' /d 0'
+    #             - ' /v RunAsPPL '
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

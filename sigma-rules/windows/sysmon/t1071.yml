@@ -1,0 +1,26 @@
+title: Windows App Layer Protocol Qakbot NamedPipe
+id: 3b0a293a-3b0a-4b0a-ab0a-3b0a293a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_app_layer_protocol_qakbot_namedpipe.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1071
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPipe")
+    #   Image IN ("*\\calc.exe", "*\\notepad.exe", "*\\rdpclip.exe", "*\\explorer.exe",
+    #   "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe", "*\\dxdiag.exe", "*\\mobsync.exe",
+    #   "*\\msra.exe", "*\\xwizard.exe") | regex PipeName="^\\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{8}"
+    #   | stats  min(_time) as firstTime max(_time) as lastTime count by dest dvc pipe_name
+    #   process_exec process_guid process_id process_name process_path signature signature_id
+    #   user_id vendor_product Image PipeName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `windows_app_layer_protocol_qakbot_namedpipe_filter`
+  condition: selection
+level: medium

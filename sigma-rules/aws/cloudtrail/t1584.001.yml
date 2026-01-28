@@ -1,0 +1,22 @@
+title: AWS Route 53 Domain Transfer Lock Disabled
+id: 24a3d2f2-24a3-44a3-a4a3-24a3d2f20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1584.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_route_53_domain_transfer_lock_disabled.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1584.001
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: aws.cloudtrail 
+    #     and event.provider: route53domains.amazonaws.com 
+    #     and event.action: DisableDomainTransferLock 
+    #     and event.outcome: success
+  condition: selection
+level: medium

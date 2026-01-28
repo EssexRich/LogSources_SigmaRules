@@ -1,0 +1,22 @@
+title: AWS RDS DB Instance Restored
+id: 38d42055-38d4-48d4-a8d4-38d420550000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1578.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_rds_instance_restored.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1578.004
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "rds.amazonaws.com"
+    #     and event.action: ("RestoreDBInstanceFromDBSnapshot" or "RestoreDBInstanceFromS3")
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

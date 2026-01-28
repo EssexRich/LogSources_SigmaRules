@@ -1,0 +1,26 @@
+title: ETW Logging/Processing Option Disabled On IIS Server
+id: 5fc1fe3a-5fc1-4fc1-afc1-5fc1fe3a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/iis-configuration/win_iis_logging_etw_disabled.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 29
+    #         Configuration|endswith: '@logTargetW3C'
+    #         OldValue|contains: 'ETW'
+    #     filter_main_etw_added:
+    #         NewValue|contains: 'ETW'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

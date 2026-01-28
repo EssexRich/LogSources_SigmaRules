@@ -1,0 +1,61 @@
+title: Unusual Instance Metadata Service (IMDS) API Request
+id: 53180afa-5318-4318-a318-53180afa0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_unusual_instance_metadata_service_api_request.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.005
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id, process.parent.entity_id with maxspan=3s
+    # [
+    #     process
+    #     where host.os.type == "linux"
+    #         and event.type == "start"
+    #         and event.action == "exec"
+    #         and process.parent.executable != null
+    # 
+    #         // common tooling / suspicious names (keep broad)
+    #         and (
+    #             process.name : (
+    #                 "curl", "wget", "python*", "perl*", "php*", "ruby*", "lua*", "telnet", "pwsh",
+    #                 "openssl", "nc", "ncat", "netcat", "awk", "gawk", "mawk", "nawk", "socat", "node",
+    #                 "bash", "sh"
+    #             )
+    #             or
+    #             // suspicious execution locations (dropped binaries / temp execution)
+    #             process.executable : (
+    #                 "./*", "/tmp/*", "/var/tmp/*", "/var/www/*", "/dev/shm/*", "/etc/init.d/*", "/etc/rc*.d/*",
+    #                 "/etc/cron*", "/etc/update-motd.d/*", "/boot/*", "/srv/*", "/run/*", "/etc/rc.local"
+    #             )
+    #             or
+    #             // threat-relevant IMDS / metadata endpoints (inclusion list)
+    #             process.command_line : (
+    #                 "*169.254.169.254/latest/api/token*",
+    #                 "*169.254.169.254/latest/meta-data/iam/security-credentials*",
+    #                 "*169.254.169.254/latest/meta-data/local-ipv4*",
+    #                 "*169.254.169.254/latest/meta-data/local-hostname*",
+    #                 "*169.254.169.254/latest/meta-data/public-ipv4*",
+    #                 "*169.254.169.254/latest/user-data*",
+    #                 "*169.254.169.254/latest/dynamic/instance-identity/document*",
+    #                 "*169.254.169.254/latest/meta-data/instance-id*",
+    #                 "*169.254.169.254/latest/meta-data/public-keys*",
+    #                 "*computeMetadata/v1/instance/service-accounts/*/token*",
+    #                 "*/metadata/identity/oauth2/token*",
+    #                 "*169.254.169.254/opc/v*/instance*",
+    #                 "*169.254.169.254/opc/v*/vnics*"
+    #             )
+    #         )
+    # 
+    #         // global working-dir / executable / parent exclusions for known benign agents
+    #         and not 
+    # ... [truncated]
+  condition: selection
+level: medium

@@ -1,0 +1,37 @@
+title: M365 Identity Login from Atypical Travel Location
+id: 6f979ecd-6f97-4f97-af97-6f979ecd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/initial_access_entra_id_portal_login_atypical_travel.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078.004
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and
+    #     event.provider:AzureActiveDirectory and
+    #     event.action:UserLoggedIn and
+    #     event.outcome:success and
+    #     o365.audit.Target.Type:(0 or 10 or 2 or 3 or 5 or 6) and
+    #     o365.audit.UserId:(* and not "Not Available") and
+    #     source.geo.region_iso_code:* and
+    #     not o365.audit.ApplicationId:(
+    #         29d9ed98-a469-4536-ade2-f981bc1d605e or
+    #         38aa3b87-a06d-4817-b275-7a316988d93b or
+    #         a809996b-059e-42e2-9866-db24b99a9782
+    #     ) and not o365.audit.ExtendedProperties.RequestType:(
+    #         "Cmsi:Cmsi" or
+    #         "Consent:Set" or
+    #         "Login:reprocess" or
+    #         "Login:resume" or
+    #         "MessagePrompt:MessagePrompt" or
+    #         "SAS:EndAuth"
+    #     )
+  condition: selection
+level: medium

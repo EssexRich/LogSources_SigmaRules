@@ -1,0 +1,19 @@
+title: Auditd Max Failed Login Attempts
+id: 55f3512c-55f3-45f3-a5f3-55f3512c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/initial_access_login_failures.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.module:auditd and event.action:"failed-log-in-too-many-times-to"
+  condition: selection
+level: medium

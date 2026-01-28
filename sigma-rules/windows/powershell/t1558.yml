@@ -1,0 +1,30 @@
+title: PowerShell Kerberos Ticket Dump
+id: 1d798868-1d79-4d79-ad79-1d7988680000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1558
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_posh_kerb_ticket_dump.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1558
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    #   powershell.file.script_block_text : (
+    #     "LsaCallAuthenticationPackage" and
+    #     (
+    #       "KerbRetrieveEncodedTicketMessage" or
+    #       "KerbQueryTicketCacheMessage" or
+    #       "KerbQueryTicketCacheExMessage" or
+    #       "KerbQueryTicketCacheEx2Message" or
+    #       "KerbRetrieveTicketMessage" or
+    #       "KerbDecryptDataMessage"
+    #     )
+    #   )
+  condition: selection
+level: medium

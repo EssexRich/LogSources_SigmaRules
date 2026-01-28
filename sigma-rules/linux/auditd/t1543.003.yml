@@ -1,0 +1,23 @@
+title: Special File Creation via Mknod Syscall
+id: 6dd78667-6dd7-4dd7-add7-6dd786670000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1543.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_susp_special_file_creation_via_mknod_syscall.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1543.003
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'SYSCALL'
+    #         SYSCALL: 'mknod'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

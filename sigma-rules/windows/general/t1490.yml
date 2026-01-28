@@ -1,0 +1,54 @@
+title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+id: 3306f983-3306-4306-a306-3306f9830000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1490
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_dll_vss_ps_susp_load.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1490
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ImageLoaded|endswith: '\vss_ps.dll'
+    #     filter_main_legit:
+    #         Image|startswith: 'C:\Windows\'
+    #         Image|endswith:
+    #             - '\clussvc.exe'
+    #             - '\dismhost.exe'
+    #             - '\dllhost.exe'
+    #             - '\inetsrv\appcmd.exe'
+    #             - '\inetsrv\iissetup.exe'
+    #             - '\msiexec.exe'
+    #             - '\rundll32.exe'
+    #             - '\searchindexer.exe'
+    #             - '\srtasks.exe'
+    #             - '\svchost.exe'
+    #             - '\System32\SystemPropertiesAdvanced.exe'
+    #             - '\taskhostw.exe'
+    #             - '\thor.exe'
+    #             - '\thor64.exe'
+    #             - '\tiworker.exe'
+    #             - '\vssvc.exe'
+    #             - '\vssadmin.exe'
+    #             - '\WmiPrvSE.exe'
+    #             - '\wsmprovhost.exe'
+    #     filter_main_update:
+    #         CommandLine|startswith: 'C:\$WinREAgent\Scratch\'
+    #         CommandLine|contains: '\dismhost.exe {'
+    #     filter_main_image_null:
+    #         Image: null
+    #     filter_optional_programfiles:
+    #         # When using this rule in your environment replace the "Program Files" folder by the exact applications you know use this. Examples would be software such as backup solutions
+    #         Image|startswith:
+    #             - 'C:\Program Files\'
+    #             - 'C:\Program Files (x86)\'
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

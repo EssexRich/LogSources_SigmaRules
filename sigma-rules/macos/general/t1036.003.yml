@@ -1,0 +1,27 @@
+title: Remote Access Tool - Renamed MeshAgent Execution - MacOS
+id: 5c0eebcd-5c0e-4c0e-ac0e-5c0eebcd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_remote_access_tools_renamed_meshagent_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.003
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_meshagent:
+    #         - CommandLine|contains: '--meshServiceName'
+    #         - OriginalFileName|contains: 'meshagent'
+    #     filter_main_legitimate:
+    #         Image|endswith:
+    #             - '/meshagent'
+    #             - '/meshagent_osx64'
+    #     condition: selection_meshagent and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

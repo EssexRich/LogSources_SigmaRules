@@ -1,0 +1,27 @@
+title: Azure Kubernetes Admission Controller
+id: 41adaa19-41ad-41ad-a1ad-41adaa190000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.007
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_kubernetes_admission_controller.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.007
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         operationName|startswith:
+    #             - 'MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/ADMISSIONREGISTRATION.K8S.IO'
+    #             - 'MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS/ADMISSIONREGISTRATION.K8S.IO'
+    #         operationName|endswith:
+    #             - '/MUTATINGWEBHOOKCONFIGURATIONS/WRITE'
+    #             - '/VALIDATINGWEBHOOKCONFIGURATIONS/WRITE'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

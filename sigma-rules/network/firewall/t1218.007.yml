@@ -1,0 +1,48 @@
+title: MsiExec Service Child Process With Network Connection
+id: 2238a13c-2238-4238-a238-2238a13c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_msiexec_child_proc_netcon.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.007
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=1m
+    #  [process where host.os.type == "windows" and event.type : "start" and
+    #   process.parent.name : "msiexec.exe" and process.parent.args : "/v" and
+    #   not process.executable :
+    #         ("?:\\Windows\\System32\\msiexec.exe",
+    #          "?:\\Windows\\sysWOW64\\msiexec.exe",
+    #          "?:\\Windows\\system32\\srtasks.exe",
+    #          "?:\\Windows\\syswow64\\srtasks.exe",
+    #          "?:\\Windows\\sys*\\taskkill.exe",
+    #          "?:\\Program Files\\*.exe",
+    #          "?:\\Program Files (x86)\\*.exe",
+    #          "?:\\Windows\\Installer\\MSI*.tmp",
+    #          "?:\\Windows\\Microsoft.NET\\Framework*\\RegSvcs.exe",
+    #          "C:\\Windows\\System32\\regsvr32.exe",
+    #          "C:\\Windows\\Sys?????\\certutil.exe",
+    #          "C:\\Windows\\System32\\WerFault.exe",
+    #          "C:\\Windows\\System32\\wevtutil.exe",
+    #          "C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe") and
+    #  not (process.name : ("rundll32.exe", "regsvr32.exe", "powershell.exe", "regasm.exe", "wscript.exe") and process.args : ("?:\\Program Files\\*", "?:\\Program Files (x86)\\*")) and
+    #  not (?process.code_signature.subject_name : ("Bruno Software Inc", "Proton AG", "Axis Communications AB", "Citrix Systems, Inc.", "NSUS Limited", "Action1 Corporation", "Solarwinds Worldwide, LLC") and
+    #       ?process.code_signature.trusted == true) and
+    #  not (?process.pe.original_file_name in ("dxsetup.exe", "MofCompiler.exe", "ShellApp.exe") and
+    #       ?process.code_signature.subject_name : "Microsoft Corporation" and ?process.code_signature.trusted == true) and
+    #  not ?process.hash.sha256 in ("cfaef8c711db04d6c4a4381c66ac21b9e234e57febedb77fedc9316898b214bc",
+    #                               "2f26f37cce780ca76f0dbac0de233f4c8d84c31b3f37380b9d5faacc3ee2d03e",
+    #                               "7d9c691bfbf3beb78919dfd940fa6d325c3437425d5b0371df39aef6accf858d")
+    #  ]
+    # [network where host.os.type == "windows" and process.name != null and
+    #  not dns.question.name : ("core.bdec.microsoft.com", "go.microsoft.com", "ocs
+    # ... [truncated]
+  condition: selection
+level: medium

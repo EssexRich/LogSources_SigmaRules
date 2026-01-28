@@ -1,0 +1,19 @@
+title: Possible Okta DoS Attack
+id: 1c891116-1c89-4c89-ac89-1c8911160000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1499
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/impact_possible_okta_dos_attack.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1499
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:okta.system and event.action:(application.integration.rate_limit_exceeded or system.org.rate_limit.warning or system.org.rate_limit.violation or core.concurrency.org.limit.violation)
+  condition: selection
+level: medium

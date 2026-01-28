@@ -1,0 +1,27 @@
+title: Azure AD New Custom Domain Added
+id: 4b953261-4b95-4b95-ab95-4b9532610000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1484.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_ad_new_custom_domain_added.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1484.002
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original splunk detection logic
+    # `azure_monitor_aad` operationName="Add unverified domain" properties.result=success 
+    #   | rename properties.* as * 
+    #   | rename targetResources{}.displayName as domain 
+    #   | rename userAgent as user_agent 
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product user_agent domain signature
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)` 
+    #   | `azure_ad_new_custom_domain_added_filter`
+  condition: selection
+level: medium

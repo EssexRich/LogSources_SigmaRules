@@ -1,0 +1,24 @@
+title: Unusual File Modification by dns.exe
+id: 450c1b76-450c-450c-a50c-450c1b760000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1133
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_change/file_change_win_unusual_modification_by_dns_exe.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1133
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\dns.exe'
+    #     filter:
+    #         TargetFilename|endswith: '\dns.log'
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

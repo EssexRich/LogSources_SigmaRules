@@ -1,0 +1,31 @@
+title: M365 Copilot Jailbreak Attempts
+id: 1199f264-1199-4199-a199-1199f2640000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/m365_copilot_jailbreak_attempts.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `m365_exported_ediscovery_prompt_logs`  
+    # | search Subject_Title="*pretend you are*" OR Subject_Title="*act as*" OR Subject_Title="*rules=*" OR Subject_Title="*ignore*" OR Subject_Title="*bypass*" OR Subject_Title="*override*"
+    # | eval user = Sender
+    # | eval jailbreak_score=case(
+    #    match(Subject_Title, "(?i)pretend you are.*amoral"), 4,
+    #    match(Subject_Title, "(?i)act as.*entities"), 3,
+    #    match(Subject_Title, "(?i)(ignore|bypass|override)"), 3,
+    #    match(Subject_Title, "(?i)rules\s*="), 4,
+    #    1=1, 1)
+    # | where jailbreak_score >= 2
+    # | table _time, user, Subject_Title, jailbreak_score, Workload, Size
+    # | sort -jailbreak_score, -_time
+    #   | `m365_copilot_jailbreak_attempts_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,23 @@
+title: Azure Storage Blob Retrieval via AzCopy
+id: 768416e7-7684-4684-a684-768416e70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/exfiltration_azure_storage_blob_download_azcopy_sas_token.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1567.002
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: azure.platformlogs and
+    #     event.action: GetBlob and
+    #     azure.platformlogs.identity.type: SAS and
+    #     azure.platformlogs.properties.userAgentHeader: AzCopy* and
+    #     azure.platformlogs.statusCode: 200
+  condition: selection
+level: medium

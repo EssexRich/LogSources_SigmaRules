@@ -1,0 +1,25 @@
+title: ESXi Malicious VIB Forced Install
+id: 75f669ae-75f6-45f6-a5f6-75f669ae0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505.006
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_malicious_vib_forced_install.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1505.006
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `esxi_syslog` Message="* image profile with validation disabled. *" OR
+    #   Message="* image profile bypassing signing and acceptance level verification.
+    #   *" OR Message="* vib without valid signature, *"
+    #   | rex field=_raw "Z (?<dest>[\w\.]+)\s"
+    #   | stats min(_time) as firstTime max(_time) as lastTime count by dest Message
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `esxi_malicious_vib_forced_install_filter`
+  condition: selection
+level: medium

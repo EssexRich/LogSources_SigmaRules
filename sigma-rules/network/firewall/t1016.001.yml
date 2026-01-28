@@ -1,0 +1,30 @@
+title: Network Discovery Using Route Windows App
+id: 14c08497-14c0-44c0-a4c0-14c084970000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1016.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/network_discovery_using_route_windows_app.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1016.001
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime from datamodel=Endpoint.Processes where
+    #   (Processes.process_name=route.exe OR Processes.original_file_name=route.exe)
+    #   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+    #      Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+    #      Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+    #      Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #      Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    #   | `drop_dm_object_name(Processes)`
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `network_discovery_using_route_windows_app_filter`
+  condition: selection
+level: medium

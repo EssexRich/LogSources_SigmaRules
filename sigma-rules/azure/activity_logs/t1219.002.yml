@@ -1,0 +1,66 @@
+title: DNS Query To AzureWebsites.NET By Non-Browser Process
+id: 240a48c8-240a-440a-a40a-240a48c80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1219.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/dns_query/dns_query_win_domain_azurewebsites.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1219.002
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         QueryName|endswith: 'azurewebsites.net'
+    #     filter_optional_chrome:
+    #         Image:
+    #             - 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+    #             - 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+    #     filter_optional_firefox:
+    #         Image:
+    #             - 'C:\Program Files\Mozilla Firefox\firefox.exe'
+    #             - 'C:\Program Files (x86)\Mozilla Firefox\firefox.exe'
+    #     filter_optional_ie:
+    #         Image:
+    #             - 'C:\Program Files (x86)\Internet Explorer\iexplore.exe'
+    #             - 'C:\Program Files\Internet Explorer\iexplore.exe'
+    #     filter_optional_edge_1:
+    #         - Image|startswith: 'C:\Program Files (x86)\Microsoft\EdgeWebView\Application\'
+    #         - Image|endswith: '\WindowsApps\MicrosoftEdge.exe'
+    #         - Image:
+    #               - 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+    #               - 'C:\Program Files\Microsoft\Edge\Application\msedge.exe'
+    #     filter_optional_edge_2:
+    #         Image|startswith:
+    #             - 'C:\Program Files (x86)\Microsoft\EdgeCore\'
+    #             - 'C:\Program Files\Microsoft\EdgeCore\'
+    #         Image|endswith:
+    #             - '\msedge.exe'
+    #             - '\msedgewebview2.exe'
+    #     filter_optional_safari:
+    #         Image|endswith: '\safari.exe'
+    #     filter_optional_defender:
+    #         Image|endswith:
+    #             - '\MsMpEng.exe' # Microsoft Defender executable
+    #             - '\MsSense.exe' # Windows Defender Advanced Threat Protection Service Executable
+    #     filter_optional_brave:
+    #         Image|endswith: '\brave.exe'
+    #         Image|startswith: 'C:\Program Files\BraveSoftware\'
+    #     filter_optional_maxthon:
+    #         Image|contains: '\AppData\Local\Maxthon\'
+    #         Image|endswith: '\maxthon.exe'
+    #     filter_optional_opera:
+    #         Image|contains: '\AppData\Local\Programs\Opera\'
+    #         Image|endswith: '\opera.exe'
+    #     filter_optional_seamonkey:
+    #         Image|startswith:
+    #             - 'C:\Program Files\SeaMonkey\'
+    #             - 'C:\Program Files (x86)\SeaMonkey\'
+    #         Image|en
+    # ... [truncated]
+  condition: selection
+level: medium

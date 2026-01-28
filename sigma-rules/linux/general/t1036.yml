@@ -1,0 +1,24 @@
+title: Potentially Suspicious Execution From Tmp Folder
+id: 4de11058-4de1-4de1-ade1-4de110580000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_susp_execution_tmp_folder.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|startswith: '/tmp/'
+    #     filter_optional_nextcloud:
+    #         Image|endswith: '/usr/bin/nextcloud'
+    #     condition: selection and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: Microsoft Intune DeviceManagementConfigurationPolicies
+id: 3e4e9d92-3e4e-4e4e-ae4e-3e4e9d920000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1484
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/microsoft_intune_devicemanagementconfigurationpolicies.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1484
+logsource:
+  product: azure
+  service: intune
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #   `azure_monitor_activity` operationName="* DeviceManagementConfigurationPolicy*"
+    #   | rename identity as user, properties.TargetObjectIds{} as TargetObjectId, properties.TargetDisplayNames{} as TargetDisplayName, properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin
+    #   | eval details=mvzip('properties.Targets{}.ModifiedProperties{}.Name','properties.Targets{}.ModifiedProperties{}.New',": ")
+    #   | rex field="operationName" "^(?P<action>\w+)\s" | replace "Patch" with "updated", "Create" with "created", "Delete", with "deleted", "assign", with "assigned" IN action
+    #   | eval action=if(match(operationName ,"Assignment$"),"assigned",'action')
+    #   | table _time operationName action user user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId details status tenantId correlationId | `microsoft_intune_devicemanagementconfigurationpolicies_filter`
+  condition: selection
+level: medium

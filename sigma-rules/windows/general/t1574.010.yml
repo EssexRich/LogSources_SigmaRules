@@ -1,0 +1,28 @@
+title: Adobe Hijack Persistence
+id: 44a45df1-44a4-44a4-a4a4-44a45df10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.010
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_adobe_hijack_persistence.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.010
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "windows" and event.type == "creation" and
+    #   file.path : (
+    #     "?:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroCEF\\RdrCEF.exe",
+    #     "?:\\Program Files\\Adobe\\Acrobat Reader DC\\Reader\\AcroCEF\\RdrCEF.exe",
+    # 
+    #     /* Crowdstrike specific condition as it uses NT Object paths */
+    #     "\\Device\\HarddiskVolume*\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroCEF\\RdrCEF.exe",
+    #     "\\Device\\HarddiskVolume*\\Program Files\\Adobe\\Acrobat Reader DC\\Reader\\AcroCEF\\RdrCEF.exe"
+    #   ) and
+    #   not process.name : ("msiexec.exe", "AdobeARM.exe")
+  condition: selection
+level: medium

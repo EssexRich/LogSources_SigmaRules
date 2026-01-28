@@ -1,0 +1,25 @@
+title: Linux Video Recording or Screenshot Activity Detected
+id: 51d191f6-51d1-41d1-a1d1-51d191f60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1125
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/collection_potential_video_recording_or_screenshot_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1125
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:"linux" and event.type:"start" and event.action:("exec" or "exec_event" or "start") and
+    # process.name:(
+    #   "gnome-screenshot" or "spectacle" or "xfce4-screenshooter" or "mate-screenshot" or "scrot" or "maim" or "import" or "grim" or
+    #   "grimshot" or "slurp" or "flameshot" or "shutter" or "ksnip" or "deepin-screenshot" or "simplescreenrecorder" or "kazam" or
+    #   "vokoscreen" or "recordmydesktop" or "obs" or "obs-studio"
+    # ) and
+    # not process.args:("-h" or "--help" or "--version")
+  condition: selection
+level: medium

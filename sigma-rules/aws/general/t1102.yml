@@ -1,0 +1,21 @@
+title: AWS CLI Command with Custom Endpoint URL
+id: 77d4106e-77d4-47d4-a7d4-77d4106e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1102
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_aws_cli_endpoint_url_used.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1102
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:"linux" and event.category:"process" and
+    # event.action:("exec" or "exec_event" or "executed" or "process_started" or "ProcessRollup2") and
+    # process.name:"aws" and process.args:"--endpoint-url"
+  condition: selection
+level: medium

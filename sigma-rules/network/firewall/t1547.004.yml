@@ -1,0 +1,38 @@
+title: MITRE BZAR Indicators for Persistence
+id: 4aa29ac8-4aa2-4aa2-aaa2-4aa29ac80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/zeek/zeek_dce_rpc_mitre_bzar_persistence.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.004
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     op1:
+    #         endpoint: 'spoolss'
+    #         operation: 'RpcAddMonitor'
+    #     op2:
+    #         endpoint: 'spoolss'
+    #         operation: 'RpcAddPrintProcessor'
+    #     op3:
+    #         endpoint: 'IRemoteWinspool'
+    #         operation: 'RpcAsyncAddMonitor'
+    #     op4:
+    #         endpoint: 'IRemoteWinspool'
+    #         operation: 'RpcAsyncAddPrintProcessor'
+    #     op5:
+    #         endpoint: 'ISecLogon'
+    #         operation: 'SeclCreateProcessWithLogonW'
+    #     op6:
+    #         endpoint: 'ISecLogon'
+    #         operation: 'SeclCreateProcessWithLogonExW'
+    #     condition: 1 of op*
+    # 
+  condition: selection
+level: medium

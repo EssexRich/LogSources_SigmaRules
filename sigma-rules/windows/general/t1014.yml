@@ -1,0 +1,21 @@
+title: Windows Vulnerable Driver Installed
+id: 5605180a-5605-4605-a605-5605180a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1014
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_vulnerable_driver_installed.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1014
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `wineventlog_system` EventCode=7045 ServiceType="kernel mode driver" | table
+    #   _time dest EventCode ImagePath ServiceName ServiceType | lookup loldrivers driver_name
+    #   AS ImagePath OUTPUT is_driver driver_description | search is_driver = TRUE  | `windows_vulnerable_driver_installed_filter`
+  condition: selection
+level: medium

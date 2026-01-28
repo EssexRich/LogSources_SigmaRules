@@ -1,0 +1,56 @@
+title: M365 Identity User Brute Force Attempted
+id: 57050f60-5705-4705-a705-57050f600000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/credential_access_entra_id_potential_user_account_brute_force.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.001
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-o365.audit-*
+    # | mv_expand event.category
+    # | eval
+    #     Esql.time_window_date_trunc = date_trunc(5 minutes, @timestamp),
+    #     Esql_priv.o365_audit_UserId_lower = to_lower(o365.audit.UserId),
+    #     Esql.o365_audit_LogonError = o365.audit.LogonError,
+    #     Esql.o365_audit_ExtendedProperties_RequestType_lower = to_lower(o365.audit.ExtendedProperties.RequestType)
+    # | where
+    #     event.dataset == "o365.audit" and
+    #     event.category == "authentication" and
+    #     event.provider in ("AzureActiveDirectory", "Exchange") and
+    #     event.action in ("UserLoginFailed", "PasswordLogonInitialAuthUsingPassword") and
+    #     Esql.o365_audit_ExtendedProperties_RequestType_lower rlike "(oauth.*||.*login.*)" and
+    #     Esql.o365_audit_LogonError != "IdsLocked" and
+    #     Esql.o365_audit_LogonError not in (
+    #         "EntitlementGrantsNotFound",
+    #         "UserStrongAuthEnrollmentRequired",
+    #         "UserStrongAuthClientAuthNRequired",
+    #         "InvalidReplyTo",
+    #         "SsoArtifactExpiredDueToConditionalAccess",
+    #         "PasswordResetRegistrationRequiredInterrupt",
+    #         "SsoUserAccountNotFoundInResourceTenant",
+    #         "UserStrongAuthExpired",
+    #         "CmsiInterrupt"
+    #     ) and
+    #     Esql_priv.o365_audit_UserId_lower != "not available" and
+    #     o365.audit.Target.Type in ("0", "2", "6", "10")
+    # | stats
+    #     Esql.o365_audit_UserId_lower_count_distinct = count_distinct(Esql_priv.o365_audit_UserId_lower),
+    #     Esql_priv.o365_audit_UserId_lower_values = values(Esql_priv.o365_audit_UserId_lower),
+    #     Esql.o365_audit_LogonError_values = values(Esql.o365_audit_LogonError),
+    #     Esql.o365_audit_LogonError_count_distinct = count_distinct(Esql.o365_audit_LogonError),
+    #     Esql.o365_audit_ExtendedProperties_RequestType_values = values(Esql.o365_audit_ExtendedProperties_RequestType_lower),
+    #     Esql.source_ip_values = values(source.ip),
+    #     Esql.source_ip_count_distinct = count_distinct(source.ip),
+    #     Esql.source_as_organization_name_values = values(source.`as`.organization.name),
+    #     Esql.source_geo_country_name_values = values(
+    # ... [truncated]
+  condition: selection
+level: medium

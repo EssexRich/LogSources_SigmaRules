@@ -1,0 +1,85 @@
+title: Suspicious File Access to Browser Credential Storage
+id: 056dad6a-056d-456d-a56d-056dad6a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1217
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_access/file_access_win_susp_process_access_browser_cred_files.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1217
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_browser_paths:
+    #         FileName|contains:
+    #             - '\Sputnik\Sputnik'
+    #             - '\MapleStudio\ChromePlus'
+    #             - '\QIP Surf'
+    #             - '\BlackHawk'
+    #             - '\7Star\7Star'
+    #             - '\CatalinaGroup\Citrio'
+    #             - '\Google\Chrome'
+    #             - '\Coowon\Coowon'
+    #             - '\CocCoc\Browser'
+    #             - '\uCozMedia\Uran'
+    #             - '\Tencent\QQBrowser'
+    #             - '\Orbitum'
+    #             - '\Slimjet'
+    #             - '\Iridium'
+    #             - '\Vivaldi'
+    #             - '\Chromium'
+    #             - '\GhostBrowser'
+    #             - '\CentBrowser'
+    #             - '\Xvast'
+    #             - '\Chedot'
+    #             - '\SuperBird'
+    #             - '\360Browser\Browser'
+    #             - '\360Chrome\Chrome'
+    #             - '\Comodo\Dragon'
+    #             - '\BraveSoftware\Brave-Browser'
+    #             - '\Torch'
+    #             - '\UCBrowser\'
+    #             - '\Blisk'
+    #             - '\Epic Privacy Browser'
+    #             - '\Nichrome'
+    #             - '\Amigo'
+    #             - '\Kometa'
+    #             - '\Xpom'
+    #             - '\Microsoft\Edge'
+    #             - '\Liebao7Default\EncryptedStorage'
+    #             - '\AVAST Software\Browser'
+    #             - '\Kinza'
+    #             - '\Mozilla\SeaMonkey\'
+    #             - '\Comodo\IceDragon\'
+    #             - '\8pecxstudios\Cyberfox\'
+    #             - '\FlashPeak\SlimBrowser\'
+    #             - '\Moonchild Productions\Pale Moon\'
+    #     selection_browser_subpaths:
+    #         FileName|contains:
+    #             - '\Profiles\'
+    #             - '\User Data'
+    #     selection_cred_files:
+    #         - FileName|contains:
+    #               - '\Login Data'
+    #               - '\Cookies'
+    #               - '\EncryptedStorage'
+    #               - '\WebCache\'
+    #         - FileName|endswith:
+    #               - 'cert9.db'
+    #               - 'cookies.sqlite'
+    #               - 'formhistory.sqlite'
+    #               - 'key3.db'
+    #               - 'key4.db'
+    #               - 'Login Data.sqlite'
+    #               - 'logins.json'
+    #               - 'places.sqlite'
+    #     filter_main_img:
+    #         Image|endswith:
+    #             - '\Sputni
+    # ... [truncated]
+  condition: selection
+level: medium

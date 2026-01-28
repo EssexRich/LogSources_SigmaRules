@@ -1,0 +1,26 @@
+title: Disable of ETW Trace - Powershell
+id: 6acbe221-6acb-4acb-aacb-6acbe2210000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_etw_trace_evasion.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.006
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_pwsh_remove:   # Autologger provider removal
+    #         ScriptBlockText|contains: 'Remove-EtwTraceProvider '
+    #     selection_pwsh_set:   # Provider “Enable” property modification
+    #         ScriptBlockText|contains|all:
+    #             - 'Set-EtwTraceProvider '
+    #             - '0x11'
+    #     condition: 1 of selection*
+    # 
+  condition: selection
+level: medium

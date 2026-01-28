@@ -1,0 +1,28 @@
+title: Bpfdoor TCP Ports Redirect
+id: 394d21a8-394d-494d-a94d-394d21a80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_bpfdoor_port_redirect.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.004
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     cmd:
+    #         type: 'EXECVE'
+    #         a0|endswith: 'iptables'
+    #         a1: '-t'
+    #         a2: 'nat'
+    #     keywords:
+    #         - '--to-ports 42'
+    #         - '--to-ports 43'
+    #     condition: cmd and keywords
+    # 
+  condition: selection
+level: medium

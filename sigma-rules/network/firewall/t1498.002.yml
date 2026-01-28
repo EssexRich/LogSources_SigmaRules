@@ -1,0 +1,21 @@
+title: Large Volume of DNS ANY Queries
+id: 38126244-3812-4812-a812-381262440000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1498.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/large_volume_of_dns_any_queries.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1498.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count from datamodel=Network_Resolution
+    #   where nodename=DNS "DNS.message_type"="QUERY" "DNS.record_type"="ANY" by "DNS.dest"
+    #   | `drop_dm_object_name("DNS")` | where count>200 | `large_volume_of_dns_any_queries_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,26 @@
+title: Winlogon Helper DLL
+id: 5c176385-5c17-4c17-ac17-5c1763850000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_winlogon_helper_dll.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.004
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains: 'CurrentVersion\Winlogon'
+    #     selection2:
+    #         ScriptBlockText|contains:
+    #             - 'Set-ItemProperty'
+    #             - 'New-Item'
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

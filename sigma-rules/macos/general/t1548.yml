@@ -1,0 +1,23 @@
+title: Potential Privacy Control Bypass via Localhost Secure Copy
+id: 18386615-1838-4838-a838-183866150000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_privilege_escalation_privacy_pref_sshd_fulldiskaccess.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.name == "scp" and
+    #  process.args like~ "StrictHostKeyChecking=no" and
+    #  process.command_line : ("scp *localhost:/*", "scp *127.0.0.1:/*") and
+    #  not process.args : "vagrant@*127.0.0.1*"
+  condition: selection
+level: medium

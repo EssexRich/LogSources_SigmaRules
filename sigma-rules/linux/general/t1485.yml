@@ -1,0 +1,30 @@
+title: DD File Overwrite
+id: 7bfe34b2-7bfe-4bfe-abfe-7bfe34b20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1485
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_dd_file_overwrite.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection1:
+    #         Image:
+    #             - '/bin/dd'
+    #             - '/usr/bin/dd'
+    #     selection2:
+    #         CommandLine|contains: 'of='
+    #     selection3:
+    #         CommandLine|contains:
+    #             - 'if=/dev/zero'
+    #             - 'if=/dev/null'
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,33 @@
+title: Invoke-Obfuscation STDIN+ Launcher - Security
+id: 652ac869-652a-452a-a52a-652ac8690000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_invoke_obfuscation_stdin_services_security.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4697
+    #         ServiceFileName|contains|all:
+    #             - 'cmd'
+    #             - 'powershell'
+    #     selection2:
+    #         ServiceFileName|contains:
+    #             - '${input}'
+    #             - 'noexit'
+    #     selection3:
+    #         ServiceFileName|contains:
+    #             - ' /c '
+    #             - ' /r '
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,32 @@
+title: Cisco Secure Firewall - Blacklisted SSL Certificate Fingerprint
+id: 4a6a94a6-4a6a-4a6a-aa6a-4a6a94a60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1587.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___blacklisted_ssl_certificate_fingerprint.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1587.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_secure_firewall` EventType=* SSL_CertFingerprint=*
+    #   | lookup sslbl_ssl_certificate_blacklist SHA1 as SSL_CertFingerprint OUTPUT Listingdate, Listingreason
+    #   | where isnotnull(Listingreason)
+    #   | stats min(_time) as firstTime max(_time) as lastTime
+    #           values(dest) as dest
+    #           values(dest_port) as dest_port
+    #           values(rule) as rule
+    #           values(url) as url
+    #           values(Listingreason) as Reasons
+    #           values(Listingdate) as "SSL Cert Listing Dates"
+    #           count by SSL_CertFingerprint src transport action
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `cisco_secure_firewall___blacklisted_ssl_certificate_fingerprint_filter`
+  condition: selection
+level: medium

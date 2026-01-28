@@ -1,0 +1,24 @@
+title: AWS CloudWatch Alarm Deletion
+id: 3dec95b1-3dec-4dec-adec-3dec95b10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_cloudwatch_alarm_deletion.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.006
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail" 
+    #   and event.provider: "monitoring.amazonaws.com" 
+    #   and event.action: "DeleteAlarms"
+    #   and event.outcome: "success"
+    #   and source.ip: *
+    #   and not user_agent.original : "AWS Internal"
+  condition: selection
+level: medium

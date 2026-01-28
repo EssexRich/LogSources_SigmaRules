@@ -1,0 +1,41 @@
+title: Execution via MSSQL xp_cmdshell Stored Procedure
+id: 6f23d5b3-6f23-4f23-af23-6f23d5b30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_via_xp_cmdshell_mssql_stored_procedure.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1505
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:windows and event.category:process and event.type:start and
+    # process.parent.name:"sqlservr.exe" and process.command_line : * and
+    # (
+    #   (
+    #     (process.name.caseless : "cmd.exe" or process.pe.original_file_name : "Cmd.Exe") and
+    #     not process.args : (
+    #           \\\\* or diskfree or rmdir or mkdir or dir or DIR or del or rename or bcp or md or ren or REN or send or echo or
+    #           ECHO or TYPE or type or EXIST or forfiles or sqlcmd or SQLCMD or dtexec or Sort-Object or cat or copy or COPY or
+    #           move or MOVE or CD\\ or show or rd or powercfg or "C:\SPAN4\DATA\RISKPARAM.SPN" or ("@ECHO" and "@FOR") or
+    #           ("@echo" and "@for") or (SET and PATH=*) or ("-ExecutionPolicy" and "-File") or MSSQLFDLauncher$DATEV_DBENGINE or
+    #           (wmic and (cpu or computersystem or logicaldisk or os or ComputerSystem or volume)) or -s\:C\:\\WINDOWS\\SERVIC* or
+    #           D\:\\* or E\:\\* or F\:\\* or Z\:\\* or "C:\Program Files\Amazon\AWSCLIV2\aws.exe" or C\:\\7-Zip\\7z.exe* or
+    #           C\:\\FTP* or *\(Get-Item* or C\:\\ProgramData\\Daktronics*
+    #     ) and
+    #     not process.command_line : (
+    #           "\"C:\\Windows\\system32\\cmd.exe\" /c " or
+    #           "\"C:\\Windows\\System32\\cmd.exe\""
+    #     )
+    #   ) or
+    #   process.name.caseless:("bitsadmin.exe" or "certutil.exe" or "vpnbridge.exe") or
+    #   process.name:("bitsadmin.exe" or "certutil.exe" or "vpnbridge.exe") or
+    #   process.pe.original_file_name:("CertUtil.exe" or "bitsadmin.exe" or "vpnbridge.exe")
+    # )
+  condition: selection
+level: medium

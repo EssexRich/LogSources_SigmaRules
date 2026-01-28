@@ -1,0 +1,29 @@
+title: ISATAP Router Address Was Set
+id: 51168ca4-5116-4116-a116-51168ca40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1565.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/microsoft_windows_Iphlpsvc/win_system_isatap_router_address_set.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1565.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4100
+    #         Provider_Name: 'Microsoft-Windows-Iphlpsvc'
+    #     filter_main_localhost:
+    #         IsatapRouter:
+    #             - '127.0.0.1'
+    #             - '::1'
+    #     filter_optional_null:
+    #         IsatapRouter: null
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

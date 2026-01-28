@@ -1,0 +1,28 @@
+title: Automated Collection Bookmarks Using Get-ChildItem PowerShell
+id: 6c362fbc-6c36-4c36-ac36-6c362fbc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1217
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_get_childitem_bookmarks.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1217
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - 'Get-ChildItem'
+    #             - ' -Recurse '
+    #             - ' -Path '
+    #             - ' -Filter Bookmarks'
+    #             - ' -ErrorAction SilentlyContinue'
+    #             - ' -Force'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

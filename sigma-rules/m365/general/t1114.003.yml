@@ -1,0 +1,26 @@
+title: O365 Email New Inbox Rule Created
+id: 6bd05046-6bd0-4bd0-abd0-6bd050460000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1114.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_email_new_inbox_rule_created.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1114.003
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #   `o365_management_activity` Workload=Exchange AND (Operation=New-InboxRule OR Operation=Set-InboxRule) Parameters{}.Name IN (SoftDeleteMessage,DeleteMessage,ForwardTo,ForwardAsAttachmentTo,RedirectTo,MoveToFolder,CopyToFolder)
+    #   | eval file_path = mvappend(MoveToFolder,CopyToFolder), recipient=mvappend(ForwardTo, ForwardAsAttachmentTo, RedirectTo), user = lower(UserId), signature = Operation, src = if(match(ClientIP, "^\["), ltrim(mvindex(split(ClientIP, "]:"), 0), "["), mvindex(split(ClientIP,":"),0)), desc = Name, action = 'Parameters{}.Name'
+    # 
+    #   | stats values(action) as action, values(src) as src, values(recipient) as recipient, values(file_path) as file_path, count, min(_time) as firstTime, max(_time) as lastTime by user, signature, desc
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)` 
+    #   | `o365_email_new_inbox_rule_created_filter`
+  condition: selection
+level: medium

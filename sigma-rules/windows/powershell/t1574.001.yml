@@ -1,0 +1,25 @@
+title: HackTool - Powerup Write Hijack DLL
+id: 0bdee602-0bde-4bde-abde-0bdee6020000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_hktl_powerup_dllhijacking.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #         TargetFilename|endswith: '.bat'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: Entra ID SharePoint Accessed by Unusual User and Microsoft Authentication Broker Client
+id: 38d50005-38d5-48d5-a8d5-38d500050000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1213
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/collection_entra_id_auth_broker_sharepoint_access_for_user_principal.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1213
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "azure.signinlogs"
+    #     and azure.signinlogs.properties.app_id: "29d9ed98-a469-4536-ade2-f981bc1d605e"
+    #     and azure.signinlogs.properties.resource_id: "00000003-0000-0ff1-ce00-000000000000"
+    #     and azure.signinlogs.identity: *
+    #     and azure.signinlogs.properties.user_principal_name: *
+    #     and azure.signinlogs.properties.incoming_token_type: ("refreshToken" or "primaryRefreshToken")
+    #     and azure.signinlogs.properties.is_interactive: false
+  condition: selection
+level: medium

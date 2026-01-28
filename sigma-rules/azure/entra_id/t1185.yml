@@ -1,0 +1,29 @@
+title: Azure AD Concurrent Sessions From Different Ips
+id: 7c78d059-7c78-4c78-ac78-7c78d0590000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1185
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_ad_concurrent_sessions_from_different_ips.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1185
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original splunk detection logic
+    # `azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=NonInteractiveUserSignInLogs
+    #     action=success 
+    #   | rename properties.* as * 
+    #   | bucket span=5m _time 
+    #   | rename userAgent as user_agent 
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime dc(src) as unique_ips values(dest) as dest values(src) as src values(user_agent) as user_agent by user _time vendor_account vendor_product category
+    #   | where unique_ips > 1 
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)` 
+    #   | `azure_ad_concurrent_sessions_from_different_ips_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,31 @@
+title: Suspicious IIS Module Registration
+id: 22eec6c5-22ee-42ee-a2ee-22eec6c50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_iis_susp_module_registration.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1505.004
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|endswith: '\w3wp.exe'
+    #     selection_cli_1:
+    #         CommandLine|contains: 'appcmd.exe add module'
+    #     selection_cli_2:
+    #         CommandLine|contains: ' system.enterpriseservices.internal.publish'
+    #         Image|endswith: '\powershell.exe'
+    #     selection_cli_3:
+    #         CommandLine|contains|all:
+    #             - 'gacutil'
+    #             - ' /I'
+    #     condition: selection_parent and 1 of selection_cli_*
+    # 
+  condition: selection
+level: medium

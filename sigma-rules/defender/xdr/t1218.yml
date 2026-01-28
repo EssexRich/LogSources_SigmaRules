@@ -1,0 +1,29 @@
+title: File Download Via Windows Defender MpCmpRun.EXE
+id: 50d6105b-50d6-40d6-a0d6-50d6105b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mpcmdrun_download_arbitrary_file.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218
+logsource:
+  product: defender
+  service: xdr
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - OriginalFileName: 'MpCmdRun.exe'
+    #         - Image|endswith: '\MpCmdRun.exe'
+    #         - CommandLine|contains: 'MpCmdRun.exe'
+    #         - Description: 'Microsoft Malware Protection Command Line Utility'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - 'DownloadFile'
+    #             - 'url'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

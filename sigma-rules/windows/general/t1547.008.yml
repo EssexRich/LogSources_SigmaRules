@@ -1,0 +1,29 @@
+title: DLL Load via LSASS
+id: 36f0e5d6-36f0-46f0-a6f0-36f0e5d60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.008
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_event/registry_event_susp_lsass_dll_load.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.008
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetObject|contains:
+    #             - '\CurrentControlSet\Services\NTDS\DirectoryServiceExtPt'
+    #             - '\CurrentControlSet\Services\NTDS\LsaDbExtPt'
+    #     filter_domain_controller:
+    #         Image: 'C:\Windows\system32\lsass.exe'
+    #         Details:
+    #             - '%%systemroot%%\system32\ntdsa.dll'
+    #             - '%%systemroot%%\system32\lsadb.dll'
+    #     condition: selection and not 1 of filter_*
+    # 
+  condition: selection
+level: medium

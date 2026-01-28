@@ -1,0 +1,45 @@
+title: Detect Remote Access Software Usage File
+id: 7be056d5-7be0-4be0-abe0-7be056d50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1219
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_remote_access_software_usage_file.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1219
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly`
+    #     count min(_time) as firstTime,
+    #           max(_time) as lastTime
+    #           values(Filesystem.file_path) as file_path
+    #   from datamodel=Endpoint.Filesystem
+    #   where Filesystem.file_name IN (
+    #     "*.app",
+    #     "*.exe",
+    #     "*.msi",
+    #     "*.pkg",
+    #     "*echoware.dll",
+    #     "*Idrive.*",
+    #     "*rdp2tcp.py"
+    #   )
+    #   by Filesystem.action Filesystem.dest Filesystem.file_access_time
+    #      Filesystem.file_create_time Filesystem.file_hash
+    #      Filesystem.file_modify_time Filesystem.file_name
+    #      Filesystem.file_path Filesystem.file_acl Filesystem.file_size
+    #      Filesystem.process_guid Filesystem.process_id
+    #      Filesystem.user Filesystem.vendor_product
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `drop_dm_object_name(Filesystem)`
+    #   | lookup remote_access_software remote_utility AS file_name OUTPUT isutility, description as signature, comment_reference as desc, category
+    #   | search isutility = TRUE
+    #   | `remote_access_software_usage_exceptions`
+    #   | `detect_remote_access_software_usage_file_filter`
+  condition: selection
+level: medium

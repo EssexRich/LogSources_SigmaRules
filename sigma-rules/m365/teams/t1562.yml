@@ -1,0 +1,22 @@
+title: M365 Teams Custom Application Interaction Enabled
+id: 20225430-2022-4022-a022-202254300000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_teams_custom_app_interaction_allowed.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: m365
+  service: teams
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and event.provider:MicrosoftTeams and
+    # event.category:web and event.action:TeamsTenantSettingChanged and
+    # o365.audit.Name:"Allow sideloading and interaction of custom apps" and
+    # o365.audit.NewValue:True and event.outcome:success
+  condition: selection
+level: medium

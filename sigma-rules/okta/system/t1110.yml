@@ -1,0 +1,19 @@
+title: Attempts to Brute Force an Okta User Account
+id: 0f2ea0fc-0f2e-4f2e-af2e-0f2ea0fc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_attempts_to_brute_force_okta_user_account.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:okta.system and event.action:user.account.lock
+  condition: selection
+level: medium

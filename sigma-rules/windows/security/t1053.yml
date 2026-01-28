@@ -1,0 +1,53 @@
+title: Persistence via a Windows Installer
+id: 0ac6ab73-0ac6-4ac6-aac6-0ac6ab730000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_msi_installer_task_startup.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original elastic detection logic
+    # any where host.os.type == "windows" and
+    #   (process.name : "msiexec.exe" or Effective_process.name : "msiexec.exe") and
+    #   (
+    #     (
+    #       event.category == "file" and event.action == "creation" and
+    #       file.path : (
+    #         "?:\\Windows\\System32\\Tasks\\*",
+    #         "?:\\programdata\\microsoft\\windows\\start menu\\programs\\startup\\*",
+    #         "?:\\Users\\*\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*"
+    #       ) and
+    #       not file.path : (
+    #         "?:\\Windows\\System32\\Tasks\\Adobe Acrobat Update Task",
+    #         "?:\\Windows\\System32\\Tasks\\HP\\Sure Click\\Sure Click ?.?.??.????",
+    #         "?:\\Windows\\System32\\Tasks\\HP\\Sure Click\\Sure Click UI ?.?.??.????",
+    #         "?:\\Windows\\System32\\Tasks\\HP\\Sure Click\\Upgrade Repair ?.?.??.????",
+    #         "?:\\Windows\\System32\\Tasks\\IntelSURQC-Upgrade-86621605-2a0b-4128-8ffc-15514c247132",
+    #         "?:\\Windows\\System32\\Tasks\\IntelSURQC-Upgrade-86621605-2a0b-4128-8ffc-15514c247132-Logon"
+    #       )
+    #     ) or
+    #     (
+    #       event.category == "registry" and event.action == "modification" and registry.data.strings != null and
+    #       registry.path : (
+    #         "H*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\*",
+    #         "H*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run\\*",
+    #         "H*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*",
+    #         "H*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*"
+    #       ) and
+    #       not registry.data.strings : (
+    #         "C:\\Program Files (x86)\\Common Files\\Acronis\\TibMounter\\tib_mounter_monitor.exe",
+    #         "C:\\Program Files (x86)\\Common Files\\Java\\Java Update\\jusched.exe",
+    #         "C:\\Program Files\\Citrix\\Secure Access Client\\CtxsDPS.exe --clean-user-installs",
+    #         "C:\\Program Files\\OpenVPN\\bin\\openvpn-gui.exe",
+    #         "C:\\Program Files\\Veeam\\Endpoint Backup\\Veeam.EndPoint.Tray.exe -NoControlPanel -CheckNumberOfRunningAgents",
+    #         "\"C:\\Program Fi
+    # ... [truncated]
+  condition: selection
+level: medium

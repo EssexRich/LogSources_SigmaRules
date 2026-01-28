@@ -1,0 +1,33 @@
+title: Multiple Logon Failure Followed by Logon Success
+id: 311ef46d-311e-411e-a11e-311ef46d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_bruteforce_multiple_logon_failure_followed_by_success.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by winlog.computer_name, source.ip with maxspan=5s
+    #   [authentication where host.os.type == "windows" and event.action == "logon-failed" and
+    #     /* event 4625 need to be logged */
+    #     winlog.logon.type : "Network" and user.id != null and 
+    #     source.ip != null and source.ip != "127.0.0.1" and source.ip != "::1" and 
+    #     not winlog.event_data.TargetUserSid : "S-1-0-0" and not user.id : "S-1-0-0" and 
+    #     not user.name : ("ANONYMOUS LOGON", "-", "*$") and not user.domain == "NT AUTHORITY" and
+    # 
+    #     /* noisy failure status codes often associated to authentication misconfiguration */
+    #     not winlog.event_data.Status : ("0xC000015B", "0XC000005E", "0XC0000133", "0XC0000192")] with runs=5
+    #   [authentication where host.os.type == "windows" and event.action == "logged-in" and
+    #     /* event 4624 need to be logged */
+    #     winlog.logon.type : "Network" and
+    #     source.ip != null and source.ip != "127.0.0.1" and source.ip != "::1" and
+    #     not user.name : ("ANONYMOUS LOGON", "-", "*$") and not user.domain == "NT AUTHORITY"]
+  condition: selection
+level: medium

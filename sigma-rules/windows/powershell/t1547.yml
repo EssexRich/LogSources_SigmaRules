@@ -1,0 +1,36 @@
+title: Execution of Persistent Suspicious Program
+id: 4b3eda4f-4b3e-4b3e-ab3e-4b3eda4f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_runtime_run_key_startup_susp_procs.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # /* userinit followed by explorer followed by early child process of explorer (unlikely to be launched interactively) within 1m */
+    # sequence by host.id, user.name with maxspan=1m
+    #   [process where host.os.type == "windows" and event.type == "start" and process.name : "userinit.exe" and process.parent.name : "winlogon.exe"]
+    #   [process where host.os.type == "windows" and event.type == "start" and process.name : "explorer.exe"]
+    #   [process where host.os.type == "windows" and event.type == "start" and process.parent.name : "explorer.exe" and
+    #    /* add suspicious programs here */
+    #    process.pe.original_file_name in ("cscript.exe",
+    #                                      "wscript.exe",
+    #                                      "PowerShell.EXE",
+    #                                      "MSHTA.EXE",
+    #                                      "RUNDLL32.EXE",
+    #                                      "REGSVR32.EXE",
+    #                                      "RegAsm.exe",
+    #                                      "MSBuild.exe",
+    #                                      "InstallUtil.exe") and
+    #     /* add potential suspicious paths here */
+    #     process.args : ("C:\\Users\\*", "C:\\ProgramData\\*", "C:\\Windows\\Temp\\*", "C:\\Windows\\Tasks\\*", "C:\\PerfLogs\\*", "C:\\Intel\\*")
+    #    ]
+  condition: selection
+level: medium

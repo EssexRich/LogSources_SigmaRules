@@ -1,0 +1,20 @@
+title: GitHub Authentication Token Access via Node.js
+id: 11e8c4de-11e8-41e8-a1e8-11e8c4de0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1528
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_gh_auth_via_nodejs.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1528
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "ProcessRollup2", "exec_event") and process.parent.name == "node" and
+    # process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and process.args == "gh auth token"
+  condition: selection
+level: medium

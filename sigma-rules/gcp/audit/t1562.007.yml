@@ -1,0 +1,19 @@
+title: GCP Virtual Private Cloud Network Deletion
+id: 4813da8f-4813-4813-a813-4813da8f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/defense_evasion_gcp_virtual_private_cloud_network_deleted.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.007
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:gcp.audit and event.action:v*.compute.networks.delete and event.outcome:success
+  condition: selection
+level: medium

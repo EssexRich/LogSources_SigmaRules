@@ -1,0 +1,28 @@
+title: New TimeProviders Registered With Uncommon DLL Name
+id: 10f1c169-10f1-40f1-a0f1-10f1c1690000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_timeproviders_dllname.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetObject|contains: '\Services\W32Time\TimeProviders'
+    #         TargetObject|endswith: '\DllName'
+    #     filter_main_w32time:
+    #         Details:
+    #             - '%SystemRoot%\System32\vmictimeprovider.dll'
+    #             - '%systemroot%\system32\w32time.dll'
+    #             - 'C:\Windows\SYSTEM32\w32time.DLL'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,87 @@
+title: Suspicious Windows Powershell Arguments
+id: 74a7b455-74a7-44a7-a4a7-74a7b4550000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_windows_powershell_susp_args.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #  process.name : "powershell.exe" and
+    # 
+    #   not (
+    #     ?user.id == "S-1-5-18" and
+    #     /* Don't apply the user.id exclusion to Sysmon for compatibility */
+    #     not event.dataset : ("windows.sysmon_operational", "windows.sysmon")
+    #   ) and
+    # 
+    #   (
+    #     process.command_line : (
+    #           "*^*^*^*^*^*^*^*^*^*",
+    #           "*`*`*`*`*",
+    #           "*+*+*+*+*+*+*",
+    #           "*[char[]](*)*-join*",
+    #           "*Base64String*",
+    #           "*[*Convert]*",
+    #           "*.Compression.*",
+    #           "*-join($*",
+    #           "*.replace*",
+    #           "*MemoryStream*",
+    #           "*WriteAllBytes*",
+    #           "* -enc *",
+    #           "* -ec *",
+    #           "* /e *",
+    #           "* /enc *",
+    #           "* /ec *",
+    #           "*WebClient*",
+    #           "*DownloadFile*",
+    #           "*DownloadString*",
+    #           "* iex*",
+    #           "* iwr*",
+    #           "* aQB3AHIAIABpA*",
+    #           "*Reflection.Assembly*",
+    #           "*Assembly.GetType*",
+    #           "*$env:temp\\*start*",
+    #           "*powercat*",
+    #           "*nslookup -q=txt*",
+    #           "*$host.UI.PromptForCredential*",
+    #           "*Net.Sockets.TCPClient*",
+    #           "*curl *;Start*",
+    #           "powershell.exe \"<#*",
+    #           "*ssh -p *",
+    #           "*http*|iex*",
+    #           "*@SSL\\DavWWWRoot\\*.ps1*",
+    #           "*.lnk*.Seek(0x*",
+    #           "*[string]::join(*",
+    #           "*[Array]::Reverse($*",
+    #           "* hidden $(gc *",
+    #           "*=wscri& set*",
+    #           "*http'+'s://*",
+    #           "*.content|i''Ex*",
+    #           "*//:sptth*",
+    #           "*//:ptth*",
+    #           "*h''t''t''p*",
+    #           "*'tp'':''/'*",
+    #           "*$env:T\"E\"MP*",
+    #           "*;cmd /c $?",
+    #           "*s''t''a''r*",
+    #           "*$*=Get-Content*AppData*.SubString(*$*",
+    #           "*=cat *AppData*.substring(*);*$*",
+    #           "*-join'';*|powershell*",
+    #           "*.Content;sleep *|powershell*",
+    #           "*h\''t\''tp:\''*",
+    #           "*-e aQB3AHIAIABp*",
+    #           "*iwr *https*).Content*",
+    #           "*$env:computername*http*",
+    #           "*;InVoKe-E
+    # ... [truncated]
+  condition: selection
+level: medium

@@ -1,0 +1,21 @@
+title: Exporting Exchange Mailbox via PowerShell
+id: 2a7a821c-2a7a-4a7a-aa7a-2a7a821c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1114.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_email_powershell_exchange_mailbox.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1114.002
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   process.name: ("powershell.exe", "pwsh.exe", "powershell_ise.exe") and
+    #   process.command_line : ("*MailboxExportRequest*", "*-Mailbox*-ContentFilter*")
+  condition: selection
+level: medium

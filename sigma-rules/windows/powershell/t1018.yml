@@ -1,0 +1,27 @@
+title: DirectorySearcher Powershell Exploitation
+id: 77604182-7760-4760-a760-776041820000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1018
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_directorysearcher.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1018
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - 'New-Object '
+    #             - 'System.DirectoryServices.DirectorySearcher'
+    #             - '.PropertiesToLoad.Add'
+    #             - '.findall()'
+    #             - 'Properties.name'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,24 @@
+title: AWS Successful Console Authentication From Multiple IPs
+id: 6e01dabf-6e01-4e01-ae01-6e01dabf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1535
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_successful_console_authentication_from_multiple_ips.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1535
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cloudtrail` eventName = ConsoleLogin 
+    #   | bin span=5m _time 
+    #   | rename user_name as user
+    #   | stats  dc(src) as distinct_ip_count values(src) as src values(user_agent) as user_agent values(dest) as dest by _time, user, signature, vendor_account, vendor_region, vendor_product
+    #   | where distinct_ip_count>1 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_successful_console_authentication_from_multiple_ips_filter`
+  condition: selection
+level: medium

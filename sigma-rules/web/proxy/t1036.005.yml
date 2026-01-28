@@ -1,0 +1,24 @@
+title: Creation Of Pod In System Namespace
+id: 1f070880-1f07-4f07-af07-1f0708800000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/application/kubernetes/audit/kubernetes_audit_pod_in_system_namespace.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.005
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         verb: 'create'
+    #         objectRef.resource: 'pods'
+    #         objectRef.namespace: kube-system
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

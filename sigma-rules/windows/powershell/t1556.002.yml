@@ -1,0 +1,22 @@
+title: Powershell Install a DLL in System Directory
+id: 084c55c6-084c-484c-a84c-084c55c60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_copy_item_system_directory.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556.002
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|re: '(Copy-Item|cpi) .{2,128} -Destination .{1,32}\\Windows\\(System32|SysWOW64)'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

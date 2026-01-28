@@ -1,0 +1,36 @@
+title: Suspicious HH.EXE Execution
+id: 56014c62-5601-4601-a601-56014c620000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hh_susp_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - OriginalFileName: 'HH.exe'
+    #         - Image|endswith: '\hh.exe'
+    #     selection_paths:
+    #         CommandLine|contains:
+    #             - '.application'
+    #             - '\AppData\Local\Temp\'
+    #             - '\Content.Outlook\'
+    #             - '\Downloads\'
+    #             - '\Users\Public\'
+    #             - '\Windows\Temp\'
+    #             # - '\AppData\Local\Temp\Temp?_'
+    #             # - '\AppData\Local\Temp\Rar$'
+    #             # - '\AppData\Local\Temp\7z'
+    #             # - '\AppData\Local\Temp\wz'
+    #             # - '\AppData\Local\Temp\peazip-tmp'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

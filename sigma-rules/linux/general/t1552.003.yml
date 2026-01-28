@@ -1,0 +1,33 @@
+title: History File Deletion
+id: 572c8f07-572c-472c-a72c-572c8f070000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_susp_history_delete.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.003
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '/rm'
+    #             - '/unlink'
+    #             - '/shred'
+    #     selection_history:
+    #         - CommandLine|contains:
+    #               - '/.bash_history'
+    #               - '/.zsh_history'
+    #         - CommandLine|endswith:
+    #               - '_history'
+    #               - '.history'
+    #               - 'zhistory'
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

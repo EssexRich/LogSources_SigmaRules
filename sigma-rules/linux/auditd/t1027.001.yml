@@ -1,0 +1,32 @@
+title: Binary Padding - Linux
+id: 3bd48ef7-3bd4-4bd4-abd4-3bd48ef70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_binary_padding.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027.001
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_execve:
+    #         type: 'EXECVE'
+    #     keywords_truncate:
+    #         '|all':
+    #             - 'truncate'
+    #             - '-s'
+    #     keywords_dd:
+    #         '|all':
+    #             - 'dd'
+    #             - 'if='
+    #     keywords_filter:
+    #         - 'of='
+    #     condition: selection_execve and (keywords_truncate or (keywords_dd and not keywords_filter))
+    # 
+  condition: selection
+level: medium

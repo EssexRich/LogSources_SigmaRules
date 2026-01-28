@@ -1,0 +1,26 @@
+title: Potential AWS S3 Bucket Ransomware Note Uploaded
+id: 4c445b98-4c44-4c44-ac44-4c445b980000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1486
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_s3_bucket_object_uploaded_with_ransom_extension.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1486
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where
+    #   event.dataset == "aws.cloudtrail" and
+    #   event.provider == "s3.amazonaws.com" and
+    #   event.action == "PutObject" and
+    #   event.outcome == "success" and
+    #   /* Apply regex to match patterns only after the bucket name */
+    #   aws.cloudtrail.resources.arn regex "arn:aws:s3:::[^/]+/.*?(ransom|lock|crypt|enc|readme|how_to_decrypt|decrypt_instructions|recovery|datarescue).*" and
+    #   not aws.cloudtrail.resources.arn regex ".*(AWSLogs|CloudTrail|access-logs).*"
+  condition: selection
+level: medium

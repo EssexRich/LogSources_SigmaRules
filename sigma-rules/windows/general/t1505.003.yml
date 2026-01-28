@@ -1,0 +1,31 @@
+title: Certificate Request Export to Exchange Webserver
+id: 6b3f802a-6b3f-4b3f-ab3f-6b3f802a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/msexchange/win_exchange_proxyshell_certificate_generation.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1505.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     keywords_export_command:
+    #         '|all':
+    #             - 'New-ExchangeCertificate'
+    #             - ' -GenerateRequest'
+    #             - ' -BinaryEncoded'
+    #             - ' -RequestFile'
+    #     keywords_export_params:
+    #         - '\\\\localhost\\C$'
+    #         - '\\\\127.0.0.1\\C$'
+    #         - 'C:\\inetpub'
+    #         - '.aspx'
+    #     condition: keywords_export_command and keywords_export_params
+    # 
+  condition: selection
+level: medium

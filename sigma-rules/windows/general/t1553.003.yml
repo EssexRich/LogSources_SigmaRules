@@ -1,0 +1,39 @@
+title: Persistence Via New SIP Provider
+id: 00d9bb60-00d9-40d9-a0d9-00d9bb600000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1553.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_sip_persistence.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1553.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_root:
+    #         TargetObject|contains:
+    #             - '\SOFTWARE\Microsoft\Cryptography\Providers\'
+    #             - '\SOFTWARE\Microsoft\Cryptography\OID\EncodingType'
+    #             - '\SOFTWARE\WOW6432Node\Microsoft\Cryptography\Providers\'
+    #             - '\SOFTWARE\WOW6432Node\Microsoft\Cryptography\OID\EncodingType'
+    #     selection_dll:
+    #         TargetObject|contains:
+    #             - '\Dll'
+    #             - '\$DLL'
+    #     filter:
+    #         Details:
+    #             # Add more legitimate SIP providers according to your env
+    #             - WINTRUST.DLL
+    #             - mso.dll
+    #     filter_poqexec:
+    #         Image: 'C:\Windows\System32\poqexec.exe'
+    #         TargetObject|contains: '\CryptSIPDll'
+    #         Details: 'C:\Windows\System32\PsfSip.dll'
+    #     condition: all of selection_* and not 1 of filter*
+    # 
+  condition: selection
+level: medium

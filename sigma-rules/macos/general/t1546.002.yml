@@ -1,0 +1,19 @@
+title: Unexpected Child Process of macOS Screensaver Engine
+id: 6090aaf4-6090-4090-a090-6090aaf40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_screensaver_engine_unexpected_child_process.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546.002
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type == "start" and process.parent.name == "ScreenSaverEngine"
+  condition: selection
+level: medium

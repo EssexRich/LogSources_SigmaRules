@@ -1,0 +1,20 @@
+title: Deprecated - AWS ElastiCache Security Group Created
+id: 14fb49fc-14fb-44fb-a4fb-14fb49fc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_elasticache_security_group_creation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.007
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail and event.provider:elasticache.amazonaws.com and event.action:"Create Cache Security Group" and
+    # event.outcome:success
+  condition: selection
+level: medium

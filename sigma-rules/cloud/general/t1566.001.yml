@@ -1,0 +1,29 @@
+title: Gsuite Suspicious Shared File Name
+id: 7e44701a-7e44-4e44-ae44-7e44701a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/gsuite_suspicious_shared_file_name.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566.001
+logsource:
+  product: cloud
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_title"
+    #   IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*",
+    #   "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*",
+    #   "*new order*") parameters.doc_type IN ("document","pdf", "msexcel", "msword", "spreadsheet",
+    #   "presentation") | rex field=parameters.owner "[^@]+@(?<source_domain>[^@]+)" | rex
+    #   field=parameters.target_user "[^@]+@(?<dest_domain>[^@]+)" | where not source_domain="internal_test_email.com"
+    #   and dest_domain="internal_test_email.com" | eval phase="plan" | eval severity="low"
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by email parameters.owner
+    #   parameters.target_user parameters.doc_title parameters.doc_type phase severity |
+    #   rename parameters.target_user AS user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `gsuite_suspicious_shared_file_name_filter`
+  condition: selection
+level: medium

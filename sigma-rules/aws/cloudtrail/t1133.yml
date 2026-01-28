@@ -1,0 +1,19 @@
+title: Deprecated - AWS RDS Cluster Creation
+id: 56809d02-5680-4680-a680-56809d020000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1133
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_rds_cluster_creation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1133
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail and event.provider:rds.amazonaws.com and event.action:(CreateDBCluster or CreateGlobalCluster) and event.outcome:success
+  condition: selection
+level: medium

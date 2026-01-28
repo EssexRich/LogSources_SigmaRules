@@ -1,0 +1,25 @@
+title: Shell Invocation via Apt - Linux
+id: 2299f3dd-2299-4299-a299-2299f3dd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1083
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_apt_shell_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1083
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '/apt'
+    #             - '/apt-get'
+    #         CommandLine|contains: 'APT::Update::Pre-Invoke::='
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,29 @@
+title: Suspicious Csi.exe Usage
+id: 3b5d4d7c-3b5d-4b5d-ab5d-3b5d4d7c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1072
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_csi_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1072
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith:
+    #               - '\csi.exe'
+    #               - '\rcsi.exe'
+    #         - OriginalFileName:
+    #               - 'csi.exe'
+    #               - 'rcsi.exe'
+    #     selection_cli:
+    #         Company: 'Microsoft Corporation'
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

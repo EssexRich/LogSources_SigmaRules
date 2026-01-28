@@ -1,0 +1,26 @@
+title: Linux Auditd Base64 Decode Files
+id: 385fc09e-385f-485f-a85f-385fc09e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1140
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_base64_decode_files.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1140
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # `linux_auditd` execve_command = "*base64*" AND execve_command IN ("*-d*", "* --d*")
+    #   | rename host as dest
+    #   | rename comm as process_name 
+    #   | rename exe as process  
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by argc execve_command dest 
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   |`linux_auditd_base64_decode_files_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,26 @@
+title: Azure AD Privileged Authentication Administrator Role Assigned
+id: 0da7cc85-0da7-4da7-ada7-0da7cc850000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_ad_privileged_authentication_administrator_role_assigned.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.002
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original splunk detection logic
+    # `azure_monitor_aad` "operationName"="Add member to role" "properties.targetResources{}.modifiedProperties{}.newValue"="\"Privileged Authentication Administrator\"" 
+    #   | rename properties.* as * 
+    #   | rename initiatedBy.user.userPrincipalName as initiatedBy 
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product initiatedBy signature
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)` 
+    #   | `azure_ad_privileged_authentication_administrator_role_assigned_filter`
+  condition: selection
+level: medium

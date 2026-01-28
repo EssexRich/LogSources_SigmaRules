@@ -1,0 +1,46 @@
+title: Abused Debug Privilege by Arbitrary Parent Processes
+id: 450e9e57-450e-450e-a50e-450e9e570000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_abusing_debug_privilege.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|endswith:
+    #             - '\winlogon.exe'
+    #             - '\services.exe'
+    #             - '\lsass.exe'
+    #             - '\csrss.exe'
+    #             - '\smss.exe'
+    #             - '\wininit.exe'
+    #             - '\spoolsv.exe'
+    #             - '\searchindexer.exe'
+    #         User|contains: # covers many language settings
+    #             - 'AUTHORI'
+    #             - 'AUTORI'
+    #     selection_img:
+    #         - Image|endswith:
+    #               - '\powershell.exe'
+    #               - '\pwsh.exe'
+    #               - '\cmd.exe'
+    #         - OriginalFileName:
+    #               - 'PowerShell.EXE'
+    #               - 'pwsh.dll'
+    #               - 'Cmd.Exe'
+    #     filter:
+    #         CommandLine|contains|all:
+    #             - ' route '
+    #             - ' ADD '
+    #     condition: all of selection_* and not filter
+    # 
+  condition: selection
+level: medium

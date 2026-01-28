@@ -1,0 +1,20 @@
+title: Google Workspace Custom Gmail Route Created or Modified
+id: 15bbd6c7-15bb-45bb-a5bb-15bbd6c70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1114.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/collection_google_workspace_custom_gmail_route_created_or_modified.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1114.003
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:"google_workspace.admin" and event.action:("CREATE_GMAIL_SETTING" or "CHANGE_GMAIL_SETTING")
+    #   and google_workspace.event.type:"EMAIL_SETTINGS" and google_workspace.admin.setting.name:("EMAIL_ROUTE" or "MESSAGE_SECURITY_RULE")
+  condition: selection
+level: medium

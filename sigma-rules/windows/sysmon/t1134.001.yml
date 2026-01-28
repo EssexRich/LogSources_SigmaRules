@@ -1,0 +1,26 @@
+title: Windows Access Token Manipulation Winlogon Duplicate Token Handle
+id: 64e72cb5-64e7-44e7-a4e7-64e72cb50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1134.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_access_token_manipulation_winlogon_duplicate_token_handle.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1134.001
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=10 TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*")
+    #   GrantedAccess = 0x1040 | stats count min(_time) as firstTime max(_time) as lastTime
+    #   by CallTrace EventID GrantedAccess Guid Opcode ProcessID SecurityID SourceImage
+    #   SourceProcessGUID SourceProcessId TargetImage TargetProcessGUID TargetProcessId
+    #   UserID dest granted_access parent_process_exec parent_process_guid parent_process_id
+    #   parent_process_name parent_process_path process_exec process_guid process_id process_name
+    #   process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `windows_access_token_manipulation_winlogon_duplicate_token_handle_filter`
+  condition: selection
+level: medium

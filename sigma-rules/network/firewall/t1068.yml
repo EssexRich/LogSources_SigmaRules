@@ -1,0 +1,24 @@
+title: Root Network Connection via GDB CAP_SYS_PTRACE
+id: 4607cc33-4607-4607-a607-4607cc330000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1068
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_gdb_sys_ptrace_netcon.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1068
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id, process.entry_leader.entity_id with maxspan=30s
+    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.name == "gdb" and
+    #    (process.thread.capabilities.effective : "CAP_SYS_PTRACE" or process.thread.capabilities.permitted : "CAP_SYS_PTRACE") and
+    #    user.id != "0"]
+    #   [network where host.os.type == "linux" and event.action == "connection_attempted" and event.type == "start" and
+    #    process.name != null and user.id == "0"]
+  condition: selection
+level: medium

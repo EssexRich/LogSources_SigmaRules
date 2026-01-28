@@ -1,0 +1,39 @@
+title: AD Privileged Users or Groups Reconnaissance
+id: 5a9c5a3e-5a9c-4a9c-aa9c-5a9c5a3e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_account_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1087.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4661
+    #         ObjectType:
+    #             - 'SAM_USER'
+    #             - 'SAM_GROUP'
+    #     selection_object:
+    #         - ObjectName|endswith:
+    #               - '-512'
+    #               - '-502'
+    #               - '-500'
+    #               - '-505'
+    #               - '-519'
+    #               - '-520'
+    #               - '-544'
+    #               - '-551'
+    #               - '-555'
+    #         - ObjectName|contains: 'admin'
+    #     filter:
+    #         SubjectUserName|endswith: '$'
+    #     condition: selection and selection_object and not filter
+    # 
+  condition: selection
+level: medium

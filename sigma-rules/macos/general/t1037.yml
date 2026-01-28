@@ -1,0 +1,22 @@
+title: Persistence via Folder Action Script
+id: 44426168-4442-4442-a442-444261680000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1037
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_folder_action_scripts_runtime.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1037
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and process.parent.name == "com.apple.foundation.UserScriptService" and 
+    #  ((process.name like~ ("osascript", "python*", "tcl*", "node", "perl", "ruby", "php")) or 
+    #   (process.name in ("bash", "csh", "zsh", "sh") and process.args == "-c")) and 
+    #  not process.args like ("/Users/*/Library/Scripts/*", "/Users/*/Library/Application Scripts/*", "/Library/Scripts/*")
+  condition: selection
+level: medium

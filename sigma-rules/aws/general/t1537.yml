@@ -1,0 +1,29 @@
+title: AWS EC2 VM Export Failure
+id: 0ebea8d7-0ebe-4ebe-aebe-0ebea8d70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1537
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_ec2_vm_export_failure.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1537
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventName: 'CreateInstanceExportTask'
+    #         eventSource: 'ec2.amazonaws.com'
+    #     filter1:
+    #         errorMessage|contains: '*'
+    #     filter2:
+    #         errorCode|contains: '*'
+    #     filter3:
+    #         responseElements|contains: 'Failure'
+    #     condition: selection and not 1 of filter*
+    # 
+  condition: selection
+level: medium

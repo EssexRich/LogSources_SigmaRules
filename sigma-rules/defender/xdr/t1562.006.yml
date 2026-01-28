@@ -1,0 +1,44 @@
+title: Windows Defender Disabled via Registry Modification
+id: 6be228a8-6be2-4be2-abe2-6be228a80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_defender_disabled_via_registry.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.006
+logsource:
+  product: defender
+  service: xdr
+detection:
+  selection:
+    # Original elastic detection logic
+    # registry where host.os.type == "windows" and event.type == "change" and
+    #   (
+    #     (
+    #       registry.path: (
+    #         "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\DisableAntiSpyware",
+    #         "\\REGISTRY\\MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\DisableAntiSpyware"
+    #       ) and
+    #       registry.data.strings: ("1", "0x00000001")
+    #    ) or
+    #    (
+    #       registry.path: (
+    #         "HKLM\\System\\*ControlSet*\\Services\\WinDefend\\Start",
+    #         "\\REGISTRY\\MACHINE\\System\\*ControlSet*\\Services\\WinDefend\\Start"
+    #       ) and
+    #       registry.data.strings in ("3", "4", "0x00000003", "0x00000004")
+    #    )
+    #   ) and
+    # 
+    #   not
+    #     (
+    #       process.executable : (
+    #           "?:\\WINDOWS\\system32\\services.exe",
+    #           "?:\\Windows\\System32\\svchost.exe",
+    #           "?:\\Program Files (x86)\\Trend Micro\\Security Agent\\NTRmv.exe"
+    #       ) and user.id : "S-1-5-18"
+    #     )
+  condition: selection
+level: medium

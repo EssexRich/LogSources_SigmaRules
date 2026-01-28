@@ -1,0 +1,25 @@
+title: Potential Masquerading as Svchost
+id: 072cb57e-072c-472c-a72c-072cb57e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_masquerading_as_svchost.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-endpoint.events.process-*, logs-windows.sysmon_operational-*, logs-system.security-*, logs-windows.*, winlogbeat-* metadata _id, _version, _index
+    # | where event.category == "process" and event.type == "start" and
+    #   match(process.name, "svchost.exe", { "fuzziness": 1, "max_expansions": 10 }) and
+    #   not to_lower(process.executable) in ("c:\\windows\\syswow64\\svchost.exe", "c:\\windows\\system32\\svchost.exe") and
+    #   not to_lower(process.executable) like """\\device\\harddiskvolume*\\windows\\system32\\svchost.exe""" and
+    #   not to_lower(process.executable) like """\\device\\harddiskvolume*\\windows\\syswow64\\svchost.exe""" 
+    # | keep event.dataset, host.name, host.id, user.id, user.name, process.executable, process.parent.executable, process.command_line, _id, _version, _index
+  condition: selection
+level: medium

@@ -1,0 +1,26 @@
+title: Detect Web Access to Decommissioned S3 Bucket
+id: 30fe2dca-30fe-40fe-a0fe-30fe2dca0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1485
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/web/detect_web_access_to_decommissioned_s3_bucket.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: aws
+  service: s3
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Web.http_method) as http_method values(Web.http_user_agent) as http_user_agent values(Web.url) as url values(Web.user) as user from datamodel=Web where Web.url_domain!="" by Web.src Web.url_domain 
+    # | `drop_dm_object_name("Web")` 
+    # | `security_content_ctime(firstTime)` 
+    # | `security_content_ctime(lastTime)` 
+    # | eval bucket_domain = lower(url_domain) 
+    # | lookup decommissioned_buckets bucketName as bucket_domain OUTPUT bucketName as match 
+    # | where isnotnull(match) 
+    # | `detect_web_access_to_decommissioned_s3_bucket_filter`
+  condition: selection
+level: medium

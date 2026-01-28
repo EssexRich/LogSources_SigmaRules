@@ -1,0 +1,21 @@
+title: Entra ID PowerShell Sign-in
+id: 13d0ce90-13d0-43d0-a3d0-13d0ce900000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_powershell_signin.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.001
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.signinlogs and
+    #   azure.signinlogs.properties.app_display_name:"Azure Active Directory PowerShell" and
+    #   azure.signinlogs.properties.token_issuer_type:AzureAD and event.outcome:(success or Success)
+  condition: selection
+level: medium

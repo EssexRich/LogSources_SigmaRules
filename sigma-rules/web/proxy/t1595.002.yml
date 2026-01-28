@@ -1,0 +1,32 @@
+title: Web Server Potential Command Injection Request
+id: 79dd4ea1-79dd-49dd-a9dd-79dd4ea10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1595.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/persistence_web_server_potential_command_injection.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1595.002
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-nginx.access-*, logs-apache.access-*, logs-apache_tomcat.access-*, logs-iis.access-*
+    # | where
+    #     // Limit to 200 response code to reduce noise
+    #     http.response.status_code == 200
+    # 
+    # | eval Esql.url_original_to_lower = to_lower(url.original)
+    # 
+    # | eval Esql.contains_interpreter = case(Esql.url_original_to_lower like "*python* -c*" or Esql.url_original_to_lower like "*perl* -e*" or Esql.url_original_to_lower like "*ruby* -e*" or Esql.url_original_to_lower like "*ruby* -rsocket*" or Esql.url_original_to_lower like "*lua* -e*" or Esql.url_original_to_lower like "*php* -r*" or Esql.url_original_to_lower like "*node* -e*", 1, 0)
+    # | eval Esql.contains_shell = case(Esql.url_original_to_lower like "*/bin/bash*" or Esql.url_original_to_lower like "*bash*-c*" or Esql.url_original_to_lower like "*/bin/sh*" or Esql.url_original_to_lower rlike "*sh.{1,2}-c*", 1, 0)
+    # | eval Esql.contains_nc = case(Esql.url_original_to_lower like "*netcat*" or Esql.url_original_to_lower like "*ncat*" or Esql.url_original_to_lower rlike """.*nc.{1,2}[0-9]{1,3}(\.[0-9]{1,3}){3}.{1,2}[0-9]{1,5}.*""" or Esql.url_original_to_lower like "*nc.openbsd*" or Esql.url_original_to_lower like "*nc.traditional*" or Esql.url_original_to_lower like "*socat*", 1, 0)
+    # | eval Esql.contains_devtcp = case(Esql.url_original_to_lower like "*/dev/tcp/*" or Esql.url_original_to_lower like "*/dev/udp/*", 1, 0)
+    # | eval Esql.contains_helpers = case((Esql.url_original_to_lower like "*/bin/*" or Esql.url_original_to_lower like "*/usr/bin/*") and (Esql.url_original_to_lower like "*mkfifo*" or Esql.url_original_to_lower like "*nohup*" or Esql.url_original_to_lower like "*setsid*" or Esql.url_original_to_lower like "*busybox*"), 1, 0)
+    # | eval Esql.contains_sus_cli = case(Esql.url_original_to_lower like "*import*pty*spawn*" or Esql.url_original_to_lower like "*import*subprocess*call*" or Esql.url_original_to_lower like "*tcpsocket.new*" or Esql.url_original_to_lower like "*tcpsocket.open*" or Esql.url_original_to_lower like "*io.p
+    # ... [truncated]
+  condition: selection
+level: medium

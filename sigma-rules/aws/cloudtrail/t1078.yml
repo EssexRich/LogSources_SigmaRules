@@ -1,0 +1,22 @@
+title: Deprecated - AWS Root Login Without MFA
+id: 13919655-1391-4391-a391-139196550000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_root_login_without_mfa.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail and event.provider:signin.amazonaws.com and event.action:ConsoleLogin and
+    #   aws.cloudtrail.user_identity.type:Root and
+    #   aws.cloudtrail.console_login.additional_eventdata.mfa_used:false and
+    #   event.outcome:success
+  condition: selection
+level: medium

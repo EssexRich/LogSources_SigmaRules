@@ -1,0 +1,35 @@
+title: Screen Capture with Import Tool
+id: 45bd9274-45bd-45bd-a5bd-45bd92740000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1113
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_screencapture_import.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1113
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     import:
+    #         type: EXECVE
+    #         a0: import
+    #     import_window_root:
+    #         a1: '-window'
+    #         a2: 'root'
+    #         a3|endswith:
+    #             - '.png'
+    #             - '.jpg'
+    #             - '.jpeg'
+    #     import_no_window_root:
+    #         a1|endswith:
+    #             - '.png'
+    #             - '.jpg'
+    #             - '.jpeg'
+    #     condition: import and (import_window_root or import_no_window_root)
+    # 
+  condition: selection
+level: medium

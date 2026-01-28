@@ -1,0 +1,31 @@
+title: Cisco Secure Firewall - Wget or Curl Download
+id: 7adee41c-7ade-4ade-aade-7adee41c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___wget_or_curl_download.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053.003
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Trust", "Allow", "allowed") AND
+    #   ( EVE_Process IN ("*curl*", "*wget*") OR ClientApplication IN ("cURL", "Wget") )
+    #   | stats count min(_time) as firstTime max(_time) as lastTime
+    #       Values(rule) as rule
+    #       Values(url) as url
+    #       Values(dest_port) as dest_port
+    #       Values(ClientApplicationVersion) as ClientApplicationVersion
+    #       Values(src_port) as src_port
+    #       by src, dest, transport, EVE_Process, ClientApplication, action
+    #   | table src src_port dest dest_port transport url EVE_Process ClientApplication ClientApplicationVersion rule firstTime lastTime
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` 
+    #   | `cisco_secure_firewall___wget_or_curl_download_filter`
+  condition: selection
+level: medium

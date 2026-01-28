@@ -1,0 +1,107 @@
+title: Relevant Anti-Virus Signature Keywords In Application Log
+id: 208221ff-2082-4082-a082-208221ff0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1588
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/application/Other/win_av_relevant_match.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1588
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     keywords:
+    #         - 'Adfind'
+    #         - 'ASP/BackDoor '
+    #         - 'ATK/'
+    #         - 'Backdoor.ASP'
+    #         - 'Backdoor.Cobalt'
+    #         - 'Backdoor.JSP'
+    #         - 'Backdoor.PHP'
+    #         - 'Blackworm'
+    #         - 'Brutel'
+    #         - 'BruteR'
+    #         - 'Chopper'
+    #         - 'Cobalt'
+    #         - 'COBEACON'
+    #         - 'Cometer'
+    #         - 'CRYPTES'
+    #         - 'Cryptor'
+    #         - 'Destructor'
+    #         - 'DumpCreds'
+    #         - 'Exploit.Script.CVE'
+    #         - 'FastReverseProxy'
+    #         - 'Filecoder'
+    #         - 'GrandCrab '
+    #         - 'HackTool'
+    #         - 'HKTL'
+    #         - 'HTool-'
+    #         - '/HTool'
+    #         - '.HTool'
+    #         - 'IISExchgSpawnCMD'
+    #         - 'Impacket'
+    #         - 'JSP/BackDoor '
+    #         - 'Keylogger'
+    #         - 'Koadic'
+    #         - 'Krypt'
+    #         - 'Lazagne'
+    #         - 'Metasploit'
+    #         - 'Meterpreter'
+    #         - 'MeteTool'
+    #         - 'mikatz'
+    #         - 'Mimikatz'
+    #         - 'Mpreter'
+    #         - 'MsfShell'
+    #         - 'Nighthawk'
+    #         - 'Packed.Generic.347'
+    #         - 'PentestPowerShell'
+    #         - 'Phobos'
+    #         - 'PHP/BackDoor '
+    #         - 'Potato'
+    #         - 'PowerSploit'
+    #         - 'PowerSSH'
+    #         - 'PshlSpy'
+    #         - 'PSWTool'
+    #         - 'PWCrack'
+    #         - 'PWDump'
+    #         - 'Ransom'
+    #         - 'Rozena'
+    #         - 'Ryzerlo'
+    #         - 'Sbelt'
+    #         - 'Seatbelt'
+    #         - 'SecurityTool '
+    #         - 'SharpDump'
+    #         - 'Shellcode'
+    #         - 'Sliver'
+    #         - 'Splinter'
+    #         - 'Swrort'
+    #         - 'Tescrypt'
+    #         - 'TeslaCrypt'
+    #         - 'TurtleLoader'
+    #         - 'Valyria'
+    #         - 'Webshell'
+    #         # - 'FRP.'
+    #         # - 'Locker'
+    #         # - 'PWS.'
+    #         # - 'PWSX'
+    #         # - 'Razy'
+    #         # - 'Ryuk'
+    #     filter_optional_generic:
+    #         - 'anti_ransomware_service.exe'
+    #         - 'Anti-Ransomware'
+    #         - 'Crack'
+    #         - 'cyber-protect-service.exe'
+    #         - 'encryptor'
+    #         - 'Keygen'
+    #     filter_optional_information:
+    #         Level: 4  # Information level
+    #     filter_optional_restartmanager:
+    #         Provider_Name: 'Microsoft-Windows-RestartManager'
+    #     condit
+    # ... [truncated]
+  condition: selection
+level: medium

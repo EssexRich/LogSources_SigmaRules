@@ -1,0 +1,22 @@
+title: AWS EC2 Full Network Packet Capture Detected
+id: 3e77f33b-3e77-4e77-ae77-3e77f33b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1074
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/exfiltration_ec2_full_network_packet_capture_detected.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1074
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail" and 
+    #     event.provider: "ec2.amazonaws.com" and
+    #     event.action: "CreateTrafficMirrorSession" and
+    #     event.outcome: "success"
+  condition: selection
+level: medium

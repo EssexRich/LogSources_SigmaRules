@@ -1,0 +1,26 @@
+title: User Added To Admin Group Via Dscl
+id: 50882500-5088-4088-a088-508825000000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_dscl_add_user_to_admin_group.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078.003
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection: # adds to admin group
+    #         Image|endswith: '/dscl'
+    #         CommandLine|contains|all:
+    #             - ' -append '
+    #             - ' /Groups/admin '
+    #             - ' GroupMembership '
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

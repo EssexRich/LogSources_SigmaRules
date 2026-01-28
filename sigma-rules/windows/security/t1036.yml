@@ -1,0 +1,29 @@
+title: New or Renamed User Account with
+id: 7713ffa8-7713-4713-a713-7713ffa80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_new_or_renamed_user_account_with_dollar_sign.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_create:
+    #         EventID: 4720 # create user
+    #         SamAccountName|contains: '$'
+    #     selection_rename:
+    #         EventID: 4781 # rename user
+    #         NewTargetUserName|contains: '$'
+    #     filter_main_homegroup:
+    #         EventID: 4720
+    #         TargetUserName: 'HomeGroupUser$'
+    #     condition: 1 of selection_* and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

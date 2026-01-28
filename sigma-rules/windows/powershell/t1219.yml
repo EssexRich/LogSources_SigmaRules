@@ -1,0 +1,43 @@
+title: Suspicious Velociraptor Child Process
+id: 0941135a-0941-4941-a941-0941135a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1219
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_velociraptor_child_process.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1219
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|endswith: '\Velociraptor.exe'
+    #     selection_child_vscode_tunnel:
+    #         CommandLine|contains|all:
+    #             - 'code.exe'
+    #             - 'tunnel'
+    #             - '--accept-server-license-terms'
+    #     selection_child_msiexec:
+    #         CommandLine|contains|all:
+    #             - 'msiexec'
+    #             - '/i'
+    #             - 'http'
+    #     selection_child_powershell:
+    #         Image|endswith:
+    #             - '\powershell.exe'
+    #             - '\powershell_ise.exe'
+    #             - '\pwsh.exe'
+    #         CommandLine|contains:
+    #             - 'Invoke-WebRequest '
+    #             - 'IWR '
+    #             - '.DownloadFile'
+    #             - '.DownloadString'
+    #     # Add more child process patterns as needed
+    #     condition: selection_parent and 1 of selection_child_*
+    # 
+  condition: selection
+level: medium

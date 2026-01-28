@@ -1,0 +1,19 @@
+title: First Occurrence of Okta User Session Started via Proxy
+id: 115d0aa2-115d-415d-a15d-115d0aa20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1133
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/initial_access_first_occurrence_user_session_started_via_proxy.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1133
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:okta.system and okta.event_type: (user.session.start or user.authentication.verify) and okta.security_context.is_proxy:true and not okta.actor.id: okta*
+  condition: selection
+level: medium

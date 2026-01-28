@@ -1,0 +1,22 @@
+title: Suspicious Execution from a WebDav Share
+id: 07e7810a-07e7-47e7-a7e7-07e7810a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1570
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_scripting_remote_webdav.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1570
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #  process.name : ("cmd.exe", "powershell.exe", "conhost.exe", "wscript.exe", "mshta.exe", "curl.exe", "msiexec.exe", "bitsadmin.exe", "net.exe") and
+    #  process.command_line : ("*trycloudflare.com*", "*@SSL\\*", "*\\webdav\\*", "*\\DavWWWRoot\\*", "*\\\\*.*@8080\\*", "*\\\\*.*@80\\*", "*\\\\*.*@8443\\*", "*\\\\*.*@443\\*") and
+    #  not (process.name : "cmd.exe" and process.args : "\\\\?\\UNC\\*.sharepoint.com@SSL\\DavWWWRoot\\*")
+  condition: selection
+level: medium

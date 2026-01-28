@@ -1,0 +1,27 @@
+title: Masquerading Space After Filename
+id: 395020bd-3950-4950-a950-395020bd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_masquerading_space_after_filename.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.006
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type:("linux","macos") and event.type == "start" and
+    # process.executable regex~ """/[a-z0-9\s_\-\\./]+\s""" and not (
+    #   process.name in ("ls", "find", "grep", "xkbcomp") or
+    #   process.executable like ("/opt/nessus_agent/*", "/opt/gitlab/sv/gitlab-exporter/*", "/tmp/ansible-admin/*") or
+    #   process.parent.args in (
+    #     "./check_rubrik", "/usr/bin/check_mk_agent", "/etc/rubrik/start_stop_bootstrap.sh", "/etc/rubrik/start_stop_agent.sh"
+    #   ) or
+    #   process.args == "runc"
+    # )
+  condition: selection
+level: medium

@@ -1,0 +1,32 @@
+title: Email servers sending high volume traffic to hosts
+id: 20306829-2030-4030-a030-203068290000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1114.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/email_servers_sending_high_volume_traffic_to_hosts.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1114.002
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` sum(All_Traffic.bytes_out) as bytes_out
+    #   from datamodel=Network_Traffic where All_Traffic.src_category=email_server by All_Traffic.dest_ip
+    #   _time span=1d | `drop_dm_object_name("All_Traffic")` | eventstats avg(bytes_out)
+    #   as avg_bytes_out stdev(bytes_out) as stdev_bytes_out | eventstats count as num_data_samples
+    #   avg(eval(if(_time < relative_time(now(), "@d"), bytes_out, null))) as per_source_avg_bytes_out
+    #   stdev(eval(if(_time < relative_time(now(), "@d"), bytes_out, null))) as per_source_stdev_bytes_out
+    #   by dest_ip | eval minimum_data_samples = 4, deviation_threshold = 3 | where num_data_samples
+    #   >= minimum_data_samples AND bytes_out > (avg_bytes_out + (deviation_threshold *
+    #   stdev_bytes_out)) AND bytes_out > (per_source_avg_bytes_out + (deviation_threshold
+    #   * per_source_stdev_bytes_out)) AND _time >= relative_time(now(), "@d") | eval num_standard_deviations_away_from_server_average
+    #   = round(abs(bytes_out - avg_bytes_out) / stdev_bytes_out, 2), num_standard_deviations_away_from_client_average
+    #   = round(abs(bytes_out - per_source_avg_bytes_out) / per_source_stdev_bytes_out,
+    #   2) | table dest_ip, _time, bytes_out, avg_bytes_out, per_source_avg_bytes_out, num_standard_deviations_away_from_server_average,
+    #   num_standard_deviations_away_from_client_average | `email_servers_sending_high_volume_traffic_to_hosts_filter`
+  condition: selection
+level: medium

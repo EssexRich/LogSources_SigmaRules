@@ -1,0 +1,30 @@
+title: Windows Terminal Profile Settings Modification By Uncommon Process
+id: 411dbb8d-411d-411d-a11d-411dbb8d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.015
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_windows_terminal_profile.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.015
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             # Note: Add other potential common applications
+    #             - '\cmd.exe'
+    #             - '\cscript.exe'
+    #             - '\mshta.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\wscript.exe'
+    #         TargetFilename|endswith: '\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

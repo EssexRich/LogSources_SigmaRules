@@ -1,0 +1,31 @@
+title: O365 BEC Email Hiding Rule Created
+id: 21e18183-21e1-41e1-a1e1-21e181830000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_bec_email_hiding_rule_created.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #   `o365_management_activity` Workload=Exchange Operation IN ("New-InboxRule", "Set-InboxRule")
+    #   | stats min(_time) as firstTime, max(_time) as lastTime, values(Operation) as Operation, latest(Name) as Name, latest(MarkAsRead) as MarkAsRead, latest(MoveToFolder) as MoveToFolder by object_id user 
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | lookup ut_shannon_lookup word as Name 
+    #   | eval entropy_score=if(ut_shannon<=2, 1, 0) 
+    #   | eval len_score=if(len(Name)<=3, 1,0) 
+    #   | eval read_score=if(MarkAsRead="True", 1, 0) 
+    #   | eval folder_score=if(match(MoveToFolder, "^(RSS|Conversation History|Archive)"), 1, 0) 
+    #   | eval suspicious_score=entropy_score+len_score+read_score+folder_score 
+    #   | where suspicious_score>2 
+    #   | `o365_bec_email_hiding_rule_created_filter`
+  condition: selection
+level: medium

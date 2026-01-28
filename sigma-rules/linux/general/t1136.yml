@@ -1,0 +1,26 @@
+title: ESXi Account Creation Via ESXCLI
+id: 4532a5c7-4532-4532-a532-4532a5c70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_esxcli_user_account_creation.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/esxcli'
+    #         CommandLine|contains|all:
+    #             - 'system '
+    #             - 'account '
+    #             - 'add '
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

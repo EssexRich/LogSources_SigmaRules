@@ -1,0 +1,20 @@
+title: Kerberos Pre-authentication Disabled for User
+id: 6f24b637-6f24-4f24-af24-6f24b6370000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1558.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_disable_kerberos_preauth.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1558.004
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # any where host.os.type == "windows" and event.code == "4738" and
+    #   winlog.event_data.NewUACList == "USER_DONT_REQUIRE_PREAUTH"
+  condition: selection
+level: medium

@@ -1,0 +1,26 @@
+title: Kubernetes Sensitive Configuration File Activity
+id: 573cb832-573c-473c-a73c-573cb8320000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1543.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_kubernetes_sensitive_file_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1543.005
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "linux" and event.type != "deletion" and file.path like (
+    #   "/etc/kubernetes/manifests/*",
+    #   "/etc/kubernetes/pki/*",
+    #   "/etc/kubernetes/*.conf"
+    # ) and not (
+    #   process.name in ("kubeadm", "kubelet", "dpkg", "sed") or
+    #   (process.name in ("vi", "vim", "vim.basic") and file.extension in ("swx", "swp"))
+    # )
+  condition: selection
+level: medium

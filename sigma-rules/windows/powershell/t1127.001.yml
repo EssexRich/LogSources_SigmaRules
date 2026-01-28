@@ -1,0 +1,32 @@
+title: Microsoft Build Engine Started by a Script Process
+id: 28b96330-28b9-48b9-a8b9-28b963300000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1127.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_execution_msbuild_started_by_script.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1127.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:windows and event.category:process and event.type:start and (
+    #   process.name.caseless:"msbuild.exe" or process.pe.original_file_name:"MSBuild.exe") and
+    #   process.parent.name:("cmd.exe" or "powershell.exe" or "pwsh.exe" or "powershell_ise.exe" or "cscript.exe" or
+    #     "wscript.exe" or "mshta.exe") and 
+    #  not process.executable : (
+    #   "C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\MSBuild\\Current\\Bin\\MSBuild.exe" or 
+    #   "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe" or 
+    #   "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe" or 
+    #   "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\MSBuild\\Current\\Bin\\amd64\\MSBuild.exe" or 
+    #   "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\MSBuild\\Current\\Bin\\amd64\\MSBuild.exe" or 
+    #   "C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\amd64\\MSBuild.exe" or 
+    #   "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe" or 
+    #   "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\MSBuild\\Current\\Bin\\MSBuild.exe" or 
+    #   "C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\MSBuild\\Current\\Bin\\amd64\\MSBuild.exe")
+  condition: selection
+level: medium

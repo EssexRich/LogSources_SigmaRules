@@ -1,0 +1,30 @@
+title: Windows Defender Exclusions Added - PowerShell
+id: 55552cc8-5555-4555-a555-55552cc80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_win_defender_exclusions_added.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: defender
+  service: xdr
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_args_exc:
+    #         ScriptBlockText|contains:
+    #             - ' -ExclusionPath '
+    #             - ' -ExclusionExtension '
+    #             - ' -ExclusionProcess '
+    #             - ' -ExclusionIpAddress '
+    #     selection_args_pref:
+    #         ScriptBlockText|contains:
+    #             - 'Add-MpPreference '
+    #             - 'Set-MpPreference '
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

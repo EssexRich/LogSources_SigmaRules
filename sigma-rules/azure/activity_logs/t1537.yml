@@ -1,0 +1,19 @@
+title: Azure Blob Storage Container Access Level Modified
+id: 33a4c76e-33a4-43a4-a3a4-33a4c76e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1537
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/discovery_storage_blob_container_access_modification.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1537
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.activitylogs and azure.activitylogs.operation_name:"MICROSOFT.STORAGE/STORAGEACCOUNTS/BLOBSERVICES/CONTAINERS/WRITE" and event.outcome:(Success or success)
+  condition: selection
+level: medium

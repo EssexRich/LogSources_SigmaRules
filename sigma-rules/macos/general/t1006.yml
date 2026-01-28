@@ -1,0 +1,20 @@
+title: TCC Bypass via Mounted APFS Snapshot Access
+id: 79a14494-79a1-49a1-a9a1-79a144940000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_tcc_bypass_mounted_apfs_access.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1006
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and process.name == "mount_apfs" and
+    #  process.args like~ "/System/Volumes/Data" and process.args like~ "noowners"
+  condition: selection
+level: medium

@@ -1,0 +1,51 @@
+title: Suspicious File Write to SharePoint Layouts Directory
+id: 4df18bfa-4df1-4df1-adf1-4df18bfa0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1190
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_filewrite_in_sharepoint_layouts_dir.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1190
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '\cmd.exe'
+    #             - '\powershell_ise.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\w3wp.exe'
+    #         TargetFilename|startswith:
+    #             - 'C:\Program Files\Common Files\Microsoft Shared\Web Server Extensions\'
+    #             - 'C:\Program Files (x86)\Common Files\Microsoft Shared\Web Server Extensions\'
+    #         TargetFilename|contains:
+    #             - '\15\TEMPLATE\LAYOUTS\'
+    #             - '\16\TEMPLATE\LAYOUTS\'
+    #         TargetFilename|endswith:
+    #             - '.asax'
+    #             - '.ascx'
+    #             - '.ashx'
+    #             - '.asmx'
+    #             - '.asp'
+    #             - '.aspx'
+    #             - '.bat'
+    #             - '.cmd'
+    #             - '.cer'
+    #             - '.config'
+    #             - '.hta'
+    #             - '.js'
+    #             - '.jsp'
+    #             - '.jspx'
+    #             - '.php'
+    #             - '.ps1'
+    #             - '.vbs'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

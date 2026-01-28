@@ -1,0 +1,25 @@
+title: Entra ID Sign-in BloodHound Suite User-Agent Detected
+id: 59c59e05-59c5-49c5-a9c5-59c59e050000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1069.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/discovery_bloodhound_user_agents_detected.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1069.003
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # any where event.dataset : (
+    #     "azure.activitylogs",
+    #     "azure.graphactivitylogs",
+    #     "azure.auditlogs",
+    #     "azure.signinlogs",
+    #     "o365.audit"
+    # ) and user_agent.original regex~ "(azure|sharp|blood)(hound)/.*"
+  condition: selection
+level: medium

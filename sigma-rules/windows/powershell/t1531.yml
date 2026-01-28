@@ -1,0 +1,22 @@
+title: Windows Powershell Logoff User via Quser
+id: 547f0115-547f-447f-a47f-547f01150000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1531
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_powershell_logoff_user_via_quser.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1531
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # `powershell` EventCode=4104 ScriptBlockText = "*quser*logoff*" | fillnull
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id
+    #   user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_logoff_user_via_quser_filter`
+  condition: selection
+level: medium

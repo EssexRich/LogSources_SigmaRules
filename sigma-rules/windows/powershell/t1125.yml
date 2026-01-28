@@ -1,0 +1,32 @@
+title: PowerShell Script with Webcam Video Capture Capabilities
+id: 7ddccffe-7ddc-4ddc-addc-7ddccffe0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1125
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_posh_webcam_video_capture.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1125
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    #   powershell.file.script_block_text : (
+    #     "NewFrameEventHandler" or
+    #     "VideoCaptureDevice" or
+    #     "DirectX.Capture.Filters" or
+    #     "VideoCompressors" or
+    #     "Start-WebcamRecorder" or
+    #     (
+    #       ("capCreateCaptureWindowA" or
+    #        "capCreateCaptureWindow" or
+    #        "capGetDriverDescription") and
+    #       ("avicap32.dll" or "avicap32")
+    #     )
+    #   )
+  condition: selection
+level: medium

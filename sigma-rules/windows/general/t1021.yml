@@ -1,0 +1,29 @@
+title: Potential Remote Desktop Tunneling
+id: 453eadd5-453e-453e-a53e-453eadd50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_remote_desktop_tunneling.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         CommandLine|contains: ':3389' # RDP port and usual SSH tunneling related switches in command line
+    #     selection_opt:
+    #         CommandLine|contains:
+    #             - ' -L '
+    #             - ' -P '
+    #             - ' -R '
+    #             - ' -pw '
+    #             - ' -ssh '
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

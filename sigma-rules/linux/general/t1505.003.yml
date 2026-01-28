@@ -1,0 +1,25 @@
+title: Shellshock Expression
+id: 4c9d335f-4c9d-4c9d-ac9d-4c9d335f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/builtin/lnx_shellshock.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1505.003
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     keywords:
+    #         - '(){:;};'
+    #         - '() {:;};'
+    #         - '() { :;};'
+    #         - '() { :; };'
+    #     condition: keywords
+    # 
+  condition: selection
+level: medium

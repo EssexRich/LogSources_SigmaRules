@@ -1,0 +1,26 @@
+title: System Log File Deletion
+id: 4757ac3c-4757-4757-a757-4757ac3c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_log_files_deleted.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "linux" and event.type == "deletion" and file.path in (
+    #   "/var/run/utmp", "/var/log/wtmp", "/var/log/btmp", "/var/log/lastlog", "/var/log/faillog",
+    #   "/var/log/syslog", "/var/log/messages", "/var/log/secure", "/var/log/auth.log", "/var/log/boot.log",
+    #   "/var/log/kern.log", "/var/log/dmesg"
+    # ) and not (
+    #   process.name in ("gzip", "executor", "dockerd") or
+    #   (process.executable in ("/usr/bin/podman", "/dev/fd/3") and file.name == "lastlog")
+    # )
+  condition: selection
+level: medium

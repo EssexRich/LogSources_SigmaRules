@@ -1,0 +1,46 @@
+title: Macos Remote System Discovery
+id: 08e30253-08e3-48e3-a8e3-08e302530000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1018
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_remote_system_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1018
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1:
+    #         Image|endswith: '/arp'
+    #         CommandLine|contains: '-a'
+    #     selection_2:
+    #         Image|endswith: '/ping'
+    #         CommandLine|contains:
+    #             - ' 10.' # 10.0.0.0/8
+    #             - ' 192.168.' # 192.168.0.0/16
+    #             - ' 172.16.' # 172.16.0.0/12
+    #             - ' 172.17.'
+    #             - ' 172.18.'
+    #             - ' 172.19.'
+    #             - ' 172.20.'
+    #             - ' 172.21.'
+    #             - ' 172.22.'
+    #             - ' 172.23.'
+    #             - ' 172.24.'
+    #             - ' 172.25.'
+    #             - ' 172.26.'
+    #             - ' 172.27.'
+    #             - ' 172.28.'
+    #             - ' 172.29.'
+    #             - ' 172.30.'
+    #             - ' 172.31.'
+    #             - ' 127.' # 127.0.0.0/8
+    #             - ' 169.254.' # 169.254.0.0/16
+    #     condition: 1 of selection*
+    # 
+  condition: selection
+level: medium

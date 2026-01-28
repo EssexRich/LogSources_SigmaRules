@@ -1,0 +1,30 @@
+title: Enable Microsoft Dynamic Data Exchange
+id: 2960d11c-2960-4960-a960-2960d11c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1559.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_office_enable_dde.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1559.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_word:
+    #         TargetObject|endswith: '\Word\Security\AllowDDE'
+    #         Details:
+    #             - 'DWORD (0x00000001)'
+    #             - 'DWORD (0x00000002)'
+    #     selection_excel:
+    #         TargetObject|endswith:
+    #             - '\Excel\Security\DisableDDEServerLaunch'
+    #             - '\Excel\Security\DisableDDEServerLookup'
+    #         Details: 'DWORD (0x00000000)'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

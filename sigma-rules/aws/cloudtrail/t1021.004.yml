@@ -1,0 +1,22 @@
+title: AWS EC2 Instance Connect SSH Public Key Uploaded
+id: 529a76af-529a-429a-a29a-529a76af0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/lateral_movement_ec2_instance_connect_ssh_public_key_uploaded.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.004
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: aws.cloudtrail
+    #     and event.provider: ec2-instance-connect.amazonaws.com
+    #     and event.action: (SendSSHPublicKey or SendSerialConsoleSSHPublicKey)
+    #     and event.outcome: success
+  condition: selection
+level: medium

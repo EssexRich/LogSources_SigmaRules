@@ -1,0 +1,24 @@
+title: Windows AD Replication Service Traffic
+id: 6871585d-6871-4871-a871-6871585d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1207
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/windows_ad_replication_service_traffic.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1207
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count values(All_Traffic.transport)
+    #   as transport values(All_Traffic.user) as user values(All_Traffic.src_category) as
+    #   src_category values(All_Traffic.dest_category) as dest_category min(_time) as firstTime
+    #   max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.app IN ("ms-dc-replication","*drsr*","ad
+    #   drs") by All_Traffic.src All_Traffic.dest All_Traffic.app | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `windows_ad_replication_service_traffic_filter`
+  condition: selection
+level: medium

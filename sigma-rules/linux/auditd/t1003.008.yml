@@ -1,0 +1,22 @@
+title: Linux Auditd Possible Access To Credential Files
+id: 55b9e282-55b9-45b9-a5b9-55b9e2820000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.008
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_possible_access_to_credential_files.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.008
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # `linux_auditd`  proctitle IN ("*shadow*", "*passwd*") AND proctitle IN ("*cat
+    #   *", "*nano *", "*vim *", "*vi *") | rename host as dest | stats count min(_time)
+    #   as firstTime max(_time) as lastTime by proctitle  dest | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `linux_auditd_possible_access_to_credential_files_filter`
+  condition: selection
+level: medium

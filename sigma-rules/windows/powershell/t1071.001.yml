@@ -1,0 +1,34 @@
+title: Visual Studio Code Tunnel Shell Execution
+id: 671bb3bc-671b-471b-a71b-671bb3bc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_vscode_tunnel_remote_shell_.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1071.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|contains: '\servers\Stable-'
+    #         ParentImage|endswith: '\server\node.exe'
+    #         ParentCommandLine|contains: '.vscode-server' # Technically one can host its own local server instead of using the VsCode one. And that would probably change the name (requires further research)
+    #     # Note: Child processes (ie: shells) can be whatever technically (with some efforts)
+    #     selection_child_1:
+    #         Image|endswith:
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #         CommandLine|contains: '\terminal\browser\media\shellIntegration.ps1'
+    #     selection_child_2:
+    #         Image|endswith:
+    #             - '\wsl.exe'
+    #             - '\bash.exe'
+    #     condition: selection_parent and 1 of selection_child_*
+    # 
+  condition: selection
+level: medium

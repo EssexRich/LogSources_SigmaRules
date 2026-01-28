@@ -1,0 +1,29 @@
+title: AWS S3 Unauthenticated Bucket Access by Rare Source
+id: 62e08214-62e0-42e0-a2e0-62e082140000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1485
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/collection_s3_unauthenticated_bucket_access_by_rare_source.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "s3.amazonaws.com"
+    #     and event.action: (
+    #         "GetObject" or
+    #         "PutObject" or
+    #         "ListObjects" or
+    #         "DeleteObject" or
+    #         "ListBucket")
+    #     and event.outcome: "success"
+    #     and aws.cloudtrail.user_identity.type: ("AWSAccount" or "Unknown")
+    #     and cloud.account.id: "anonymous"
+  condition: selection
+level: medium

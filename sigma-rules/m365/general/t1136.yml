@@ -1,0 +1,31 @@
+title: O365 External Guest User Invited
+id: 2e7a6a40-2e7a-4e7a-ae7a-2e7a6a400000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_external_guest_user_invited.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `o365_management_activity` Workload=AzureActiveDirectory AND Operation=\"Add user*\" AND ModifiedProperties{}.NewValue=\"[*Guest*]\" AND ModifiedProperties{}.NewValue=\"[*Invitation*]\" 
+    #   | eval user = (mvindex('ModifiedProperties{}.NewValue',5)), src_user = case(match(mvindex('Actor{}.ID',-1),\"User\"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),\"ServicePrincipal\"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)) 
+    #   | rex
+    #       field=user \"(?<user> 
+    #       [ \\w\\.-]+@ 
+    #       [ \\w-]+\\. 
+    #       [ \\w-]{2,4})\" 
+    #   | rename Operation as signature, Id as signature_id 
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature signature_id src_user
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)` 
+    #   | `o365_external_guest_user_invited_filter`
+  condition: selection
+level: medium

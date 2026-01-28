@@ -1,0 +1,23 @@
+title: Suspicious Dynamic Linker Discovery via od
+id: 18e0602c-18e0-48e0-a8e0-18e0602c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1057
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/discovery_dynamic_linker_via_od.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1057
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started")
+    #  and process.name == "od" and process.args in (
+    #   "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2", "/etc/ld.so.preload", "/lib64/ld-linux-x86-64.so.2",
+    #   "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2", "/usr/lib64/ld-linux-x86-64.so.2"
+    # )
+  condition: selection
+level: medium

@@ -1,0 +1,20 @@
+title: Potential Defense Evasion via PRoot
+id: 7267b399-7267-4267-a267-7267b3990000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1211
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_potential_proot_exploits.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1211
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
+    # process.parent.name == "proot"
+  condition: selection
+level: medium

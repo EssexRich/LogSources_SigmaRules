@@ -1,0 +1,23 @@
+title: PowerShell Suspicious Script with Screenshot Capabilities
+id: 788e2872-788e-488e-a88e-788e28720000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1113
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_posh_screen_grabber.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1113
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    #   powershell.file.script_block_text : (
+    #     CopyFromScreen and
+    #     ("System.Drawing.Bitmap" or "Drawing.Bitmap")
+    #   ) and not user.id : "S-1-5-18"
+  condition: selection
+level: medium

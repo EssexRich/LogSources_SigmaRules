@@ -1,0 +1,30 @@
+title: Commands to Clear or Remove the Syslog - Builtin
+id: 2546148a-2546-4546-a546-2546148a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1565.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/builtin/lnx_clear_syslog.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1565.001
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         - 'rm /var/log/syslog'
+    #         - 'rm -r /var/log/syslog'
+    #         - 'rm -f /var/log/syslog'
+    #         - 'rm -rf /var/log/syslog'
+    #         - 'mv /var/log/syslog'
+    #         - ' >/var/log/syslog'
+    #         - ' > /var/log/syslog'
+    #     falsepositives:
+    #         - '/syslog.'
+    #     condition: selection and not falsepositives
+    # 
+  condition: selection
+level: medium

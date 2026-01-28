@@ -1,0 +1,19 @@
+title: New USB Storage Device Mounted
+id: 19df1553-19df-49df-a9df-19df15530000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1052.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/initial_access_exfiltration_new_usb_device_mounted.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1052.001
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:(macos or windows) and event.type:device and event.action:mount and event.outcome:success and volume.removable:true
+  condition: selection
+level: medium

@@ -1,0 +1,19 @@
+title: Hidden Files and Directories via Hidden Flag
+id: 094121d7-0941-4941-a941-094121d70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_creation_of_hidden_files_directories.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "linux" and event.type == "creation" and process.name == "chflags"
+  condition: selection
+level: medium

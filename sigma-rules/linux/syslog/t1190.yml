@@ -1,0 +1,24 @@
+title: Suspicious Named Error
+id: 2e1fb87c-2e1f-4e1f-ae1f-2e1fb87c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1190
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/builtin/syslog/lnx_syslog_susp_named.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1190
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    # Original sigma detection logic
+    #     keywords:
+    #         - ' dropping source port zero packet from '
+    #         - ' denied AXFR from '
+    #         - ' exiting (due to fatal error)'
+    #     condition: keywords
+    # 
+  condition: selection
+level: medium

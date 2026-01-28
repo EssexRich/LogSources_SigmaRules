@@ -1,0 +1,25 @@
+title: M365 Identity OAuth Flow by User Sign-in to Device Registration
+id: 65e7ed9c-65e7-45e7-a5e7-65e7ed9c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1528
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/credential_access_entra_id_device_reg_via_oauth_redirection.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1528
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by related.user with maxspan=30m
+    # [authentication where event.action == "UserLoggedIn" and
+    #  o365.audit.ExtendedProperties.RequestType == "OAuth2:Authorize" and o365.audit.ExtendedProperties.ResultStatusDetail == "Redirect" and
+    #  o365.audit.UserType: ("0", "2", "3", "10")] // victim source.ip
+    # [authentication where event.action == "UserLoggedIn" and
+    #  o365.audit.ExtendedProperties.RequestType == "OAuth2:Token" and o365.audit.ExtendedProperties.ResultStatusDetail == "Success"] // attacker source.ip to convert oauth code to token
+    # [web where event.dataset == "o365.audit" and event.action == "Add registered users to device."] // user.name is captured in related.user
+  condition: selection
+level: medium

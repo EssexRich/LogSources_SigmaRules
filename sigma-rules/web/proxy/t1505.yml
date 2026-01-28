@@ -1,0 +1,21 @@
+title: Potential Shell via Web Server
+id: 77f003fb-77f0-47f0-a7f0-77f003fb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_shell_activity_by_web_server.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1505
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:linux and event.type:(start or process_started) and
+    # process.name:(bash or dash or ash or zsh or "python*" or "perl*" or "php*") and
+    # process.parent.name:("apache" or "nginx" or "www" or "apache2" or "httpd" or "www-data")
+  condition: selection
+level: medium

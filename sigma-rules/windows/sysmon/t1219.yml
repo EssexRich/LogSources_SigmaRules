@@ -1,0 +1,26 @@
+title: Detect Remote Access Software Usage FileInfo
+id: 733e9423-733e-433e-a33e-733e94230000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1219
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_remote_access_software_usage_fileinfo.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1219
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=1 | stats count min(_time) as firstTime max(_time) as
+    #   lastTime, values(Company) as Company values(Product) as Product by action dest original_file_name
+    #   parent_process parent_process_exec parent_process_guid parent_process_id parent_process_name
+    #   parent_process_path process process_exec process_guid process_hash process_id process_integrity_level
+    #   process_name process_path user user_id vendor_product | lookup remote_access_software
+    #   remote_utility_fileinfo AS Product OUTPUT isutility, description as signature, comment_reference
+    #   as desc, category | search isutility = True | `remote_access_software_usage_exceptions`
+    #   | `detect_remote_access_software_usage_fileinfo_filter`
+  condition: selection
+level: medium

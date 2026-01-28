@@ -1,0 +1,24 @@
+title: Okta FastPass Phishing Detection
+id: 7c6c6cf0-7c6c-4c6c-ac6c-7c6c6cf00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/identity/okta/okta_fastpass_phishing_detection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         outcome.reason: 'FastPass declined phishing attempt'
+    #         outcome.result: FAILURE
+    #         eventtype: user.authentication.auth_via_mfa
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

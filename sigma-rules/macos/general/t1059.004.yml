@@ -1,0 +1,26 @@
+title: MacOS LOLbin
+id: 48de46d5-48de-48de-a8de-48de46d50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/macos_lolbin.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.004
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `osquery_macro` name=es_process_events columns.cmdline IN ("find*", "crontab*",
+    #   "screencapture*", "openssl*", "curl*", "wget*", "killall*", "funzip*") | rename
+    #   columns.* as * | stats  min(_time) as firstTime max(_time) as lastTime values(cmdline)
+    #   as cmdline, values(pid) as pid, values(parent) as parent, values(path) as path,
+    #   values(signing_id) as signing_id,  dc(path) as dc_path by username host | rename
+    #   username as user, cmdline as process, path as process_path, host as dest | where
+    #   dc_path > 3 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+    #   | `macos_lolbin_filter`
+  condition: selection
+level: medium

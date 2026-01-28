@@ -1,0 +1,26 @@
+title: Powershell Store File In Alternate Data Stream
+id: 70371e44-7037-4037-a037-70371e440000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_store_file_in_alternate_data_stream.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564.004
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_compspec:
+    #         ScriptBlockText|contains|all:
+    #             - 'Start-Process'
+    #             - '-FilePath "$env:comspec" '
+    #             - '-ArgumentList '
+    #             - '>'
+    #     condition: selection_compspec
+    # 
+  condition: selection
+level: medium

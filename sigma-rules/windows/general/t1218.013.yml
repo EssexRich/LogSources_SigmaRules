@@ -1,0 +1,24 @@
+title: Mavinject Inject DLL Into Running Process
+id: 3040db99-3040-4040-a040-3040db990000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.013
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_lolbin_mavinject_process_injection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.013
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         CommandLine|contains: ' /INJECTRUNNING '
+    #     filter:
+    #         ParentImage: 'C:\Windows\System32\AppVClient.exe' # This parent is the expected process to launch "mavinject"
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

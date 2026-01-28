@@ -1,0 +1,25 @@
+title: AWS KMS Imported Key Material Usage
+id: 40ef95d8-40ef-40ef-a0ef-40ef95d80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1608.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_kms_import_key_material.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1608.003
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: 'kms.amazonaws.com'
+    #         eventName:
+    #             - 'ImportKeyMaterial'
+    #             - 'DeleteImportedKeyMaterial'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

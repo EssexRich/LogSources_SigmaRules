@@ -1,0 +1,20 @@
+title: Authentication via Unusual PAM Grantor
+id: 005413ec-0054-4054-a054-005413ec0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1543
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_unusual_pam_grantor.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1543
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:authentication and host.os.type:linux and event.action:authenticated and event.outcome:success and
+    # auditd.data.grantors:(* and not (pam_rootok or *pam_cap* or *pam_permit*))
+  condition: selection
+level: medium

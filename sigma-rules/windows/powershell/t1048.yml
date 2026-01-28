@@ -1,0 +1,28 @@
+title: Powershell DNSExfiltration
+id: 17d22739-17d2-47d2-a7d2-17d227390000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1048
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_invoke_dnsexfiltration.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1048
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_cmdlet:
+    #         - ScriptBlockText|contains: 'Invoke-DNSExfiltrator'
+    #         - ScriptBlockText|contains|all:
+    #               - ' -i '
+    #               - ' -d '
+    #               - ' -p '
+    #               - ' -doh '
+    #               - ' -t '
+    #     condition: selection_cmdlet
+    # 
+  condition: selection
+level: medium

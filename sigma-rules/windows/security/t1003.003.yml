@@ -1,0 +1,26 @@
+title: Possible Impacket SecretDump Remote Activity
+id: 1298f698-1298-4298-a298-1298f6980000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_impacket_secretdump.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.003
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 5145
+    #         ShareName: '\\\\\*\\ADMIN$'  # looking for the string  \\*\ADMIN$
+    #         RelativeTargetName|contains|all:
+    #             - 'SYSTEM32\'
+    #             - '.tmp'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

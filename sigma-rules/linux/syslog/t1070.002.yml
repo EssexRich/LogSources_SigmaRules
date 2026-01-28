@@ -1,0 +1,80 @@
+title: Syslog Clearing or Removal Via System Utilities
+id: 7a3606fb-7a36-4a36-aa36-7a3606fb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_clear_syslog.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.002
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_file:
+    #         CommandLine|contains: '/var/log/syslog'
+    #     selection_command_rm:
+    #         # Examples:
+    #         #   rm -f /var/log/syslog
+    #         Image|endswith: '/rm'
+    #         CommandLine|contains:
+    #             - ' -r '
+    #             - ' -f '
+    #             - ' -rf '
+    #             - '/var/log/syslog' # We use this to avoid re-writing a separate selection
+    #     selection_command_unlink:
+    #         # Examples:
+    #         #   unlink /var/log/syslog
+    #         Image|endswith: '/unlink'
+    #     selection_command_mv:
+    #         # Examples:
+    #         #   mv /var/log/syslog
+    #         Image|endswith: '/mv'
+    #     selection_command_truncate:
+    #         # Examples:
+    #         #   truncate --size 0 /var/log/syslog
+    #         Image|endswith: '/truncate'
+    #         CommandLine|contains|all:
+    #             - '0 '
+    #             - '/var/log/syslog' # We use this to avoid re-writing a separate selection
+    #         CommandLine|contains:
+    #             - '-s '
+    #             - '-c '
+    #             - '--size'
+    #     selection_command_ln:
+    #         # Examples:
+    #         #   ln -sfn /dev/null /var/log/syslog
+    #         Image|endswith: '/ln'
+    #         CommandLine|contains|all:
+    #             - '/dev/null '
+    #             - '/var/log/syslog' # We use this to avoid re-writing a separate selection
+    #         CommandLine|contains:
+    #             - '-sf '
+    #             - '-sfn '
+    #             - '-sfT '
+    #     selection_command_cp:
+    #         # Examples:
+    #         #   cp /dev/null /var/log/syslog
+    #         Image|endswith: '/cp'
+    #         CommandLine|contains: '/dev/null'
+    #     selection_command_shred:
+    #         # Examples:
+    #         #   shred -u /var/log/syslog
+    #         Image|endswith: '/shred'
+    #         CommandLine|contains: '-u '
+    #     selection_unique_other:
+    #         CommandLine|contains:
+    #             - ' > /var/log/syslog'
+    #             - ' >/var/log/syslog'
+    #             - ' >| /var/log/syslog'  # redirection empties w spacing, noclobber
+    #             - ': > /var/log/syslog'
+    #             - ':> /var/log/syslog'
+    #             - ':>/var/log/syslog'
+    #             - '>|/var/log/syslog'
+    #     selection_unique_jo
+    # ... [truncated]
+  condition: selection
+level: medium

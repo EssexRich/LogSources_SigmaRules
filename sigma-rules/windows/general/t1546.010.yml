@@ -1,0 +1,30 @@
+title: New DLL Added to AppInit_DLLs Registry Key
+id: 1fe39d6c-1fe3-4fe3-afe3-1fe39d6c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.010
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_event/registry_event_new_dll_added_to_appinit_dlls_registry_key.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546.010
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         - TargetObject|endswith:
+    #               - '\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_Dlls'
+    #               - '\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_Dlls'
+    #         # Key Rename
+    #         - NewName|endswith:
+    #               - '\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_Dlls'
+    #               - '\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_Dlls'
+    #     filter:
+    #         Details: '(Empty)'
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

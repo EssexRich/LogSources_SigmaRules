@@ -1,0 +1,28 @@
+title: Disable Show Hidden Files
+id: 44b4d796-44b4-44b4-a4b4-44b4d7960000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/disable_show_hidden_files.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden"
+    #   OR (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\HideFileExt"
+    #   Registry.registry_value_data = "0x00000001") OR (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowSuperHidden"
+    #   Registry.registry_value_data = "0x00000000" )) by Registry.action Registry.dest
+    #   Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path
+    #   Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name
+    #   Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
+    #   | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `disable_show_hidden_files_filter`
+  condition: selection
+level: medium

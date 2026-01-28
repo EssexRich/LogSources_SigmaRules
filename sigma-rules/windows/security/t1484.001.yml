@@ -1,0 +1,26 @@
+title: Windows Default Domain GPO Modification
+id: 793e8745-793e-493e-a93e-793e87450000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1484.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_default_domain_gpo_modification.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1484.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 5136
+    #         ObjectClass: 'groupPolicyContainer'
+    #         ObjectDN|startswith:
+    #             - 'CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=POLICIES,CN=SYSTEM' # Default Domain Policy
+    #             - 'CN={6AC1786C-016F-11D2-945F-00C04FB984F9},CN=POLICIES,CN=SYSTEM' # Default Domain Controllers Policy
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

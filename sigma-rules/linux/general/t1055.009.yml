@@ -1,0 +1,26 @@
+title: Potential Linux Process Code Injection Via DD Utility
+id: 363e8638-363e-463e-a63e-363e86380000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1055.009
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_dd_process_injection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1055.009
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/dd'
+    #         CommandLine|contains|all:
+    #             - 'of='
+    #             - '/proc/'
+    #             - '/mem'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

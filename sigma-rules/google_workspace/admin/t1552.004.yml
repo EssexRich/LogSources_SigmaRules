@@ -1,0 +1,24 @@
+title: Google Workspace Drive Encryption Key(s) Accessed from Anonymous User
+id: 53b3736d-53b3-43b3-a3b3-53b3736d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/credential_access_google_workspace_drive_encryption_key_accessed_by_anonymous_user.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.004
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where event.dataset == "google_workspace.drive" and event.action : ("copy", "view", "download") and
+    #     google_workspace.drive.visibility: "people_with_link" and source.user.email == "" and
+    #     file.extension: (
+    #         "token","assig", "pssc", "keystore", "pub", "pgp.asc", "ps1xml", "pem", "gpg.sig", "der", "key",
+    #         "p7r", "p12", "asc", "jks", "p7b", "signature", "gpg", "pgp.sig", "sst", "pgp", "gpgz", "pfx", "crt",
+    #         "p8", "sig", "pkcs7", "jceks", "pkcs8", "psc1", "p7c", "csr", "cer", "spc", "ps2xml")
+  condition: selection
+level: medium

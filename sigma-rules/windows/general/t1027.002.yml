@@ -1,0 +1,30 @@
+title: Python Image Load By Non-Python Process
+id: 46331e9e-4633-4633-a633-46331e9e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_susp_python_image_load.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Description: 'Python Core'
+    #     filter_main_generic:
+    #         - Image|contains: 'Python'  # FPs with python38.dll, python.exe etc.
+    #         - Image|startswith:
+    #               - 'C:\Program Files\'
+    #               - 'C:\Program Files (x86)\'
+    #               - 'C:\ProgramData\Anaconda3\' # Comment out if you don't use Anaconda in your environment
+    #     filter_optional_null_image:
+    #         Image: null
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

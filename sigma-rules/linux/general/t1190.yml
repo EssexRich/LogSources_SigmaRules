@@ -1,0 +1,32 @@
+title: Suspicious OpenSSH Daemon Error
+id: 725072ff-7250-4250-a250-725072ff0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1190
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/builtin/sshd/lnx_sshd_susp_ssh.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1190
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     keywords:
+    #         - 'unexpected internal error'
+    #         - 'unknown or unsupported key type'
+    #         - 'invalid certificate signing key'
+    #         - 'invalid elliptic curve value'
+    #         - 'incorrect signature'
+    #         - 'error in libcrypto'
+    #         - 'unexpected bytes remain after decoding'
+    #         - 'fatal: buffer_get_string: bad string'
+    #         - 'Local: crc32 compensation attack'
+    #         - 'bad client public DH value'
+    #         - 'Corrupted MAC on input'
+    #     condition: keywords
+    # 
+  condition: selection
+level: medium

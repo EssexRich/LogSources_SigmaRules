@@ -1,0 +1,30 @@
+title: DPAPI Backup Keys And Certificate Export Activity IOC
+id: 533a6e17-533a-433a-a33a-533a6e170000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1555
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_dpapi_backup_and_cert_export_ioc.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1555
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetFilename|contains:
+    #             - 'ntds_capi_'
+    #             - 'ntds_legacy_'
+    #             - 'ntds_unknown_'
+    #         TargetFilename|endswith:
+    #             - '.cer'
+    #             - '.key'
+    #             - '.pfx'
+    #             - '.pvk'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

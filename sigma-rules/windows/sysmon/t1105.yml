@@ -1,0 +1,38 @@
+title: Potential File Transfer via Curl for Windows
+id: 565bd43f-565b-465b-a65b-565bd43f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1105
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_tool_transfer_via_curl.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1105
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   process.executable : (
+    #     "?:\\Windows\\System32\\curl.exe",
+    #     "?:\\Windows\\SysWOW64\\curl.exe"
+    #   ) and
+    #   process.command_line : "*http*" and
+    #   process.parent.name : (
+    #     "cmd.exe", "powershell.exe",
+    #     "rundll32.exe", "explorer.exe",
+    #     "conhost.exe", "forfiles.exe",
+    #     "wscript.exe", "cscript.exe",
+    #     "mshta.exe", "hh.exe", "mmc.exe"
+    #   ) and 
+    #   not (
+    #     ?user.id == "S-1-5-18" and
+    #     /* Don't apply the user.id exclusion to Sysmon for compatibility */
+    #     not event.dataset : ("windows.sysmon_operational", "windows.sysmon")
+    #   ) and
+    #   /* Exclude System Integrity Processes for Sysmon */
+    #   not ?winlog.event_data.IntegrityLevel == "System"
+  condition: selection
+level: medium

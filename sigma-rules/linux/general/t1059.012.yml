@@ -1,0 +1,27 @@
+title: ESXi Admin Permission Assigned To Account Via ESXCLI
+id: 42964722-4296-4296-a296-429647220000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.012
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_esxcli_permission_change_admin.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.012
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/esxcli'
+    #         CommandLine|contains: 'system'
+    #         CommandLine|contains|all:
+    #             - ' permission '
+    #             - ' set'
+    #             - 'Admin'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

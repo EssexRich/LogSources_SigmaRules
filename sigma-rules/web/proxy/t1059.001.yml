@@ -1,0 +1,55 @@
+title: Windows SSH Proxy Command
+id: 7c6d3a2d-7c6d-4c6d-ac6d-7c6d3a2d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_ssh_proxy_command.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.001
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #   | tstats `security_content_summariesonly`
+    #     count min(_time) as firstTime
+    #           max(_time) as lastTime
+    #   
+    #   from datamodel=Endpoint.Processes where
+    # 
+    #   Processes.parent_process_name="ssh.exe"
+    #   (
+    #     Processes.parent_process = "*ProxyCommand=*"
+    #     OR
+    #     (
+    #       Processes.parent_process = "* PermitLocalCommand=yes*"
+    #       Processes.parent_process = "* LocalCommand=*"
+    #     )
+    #   )
+    # 
+    #   Processes.process IN (
+    #     "*cscript*",
+    #     "*http*",
+    #     "*mshta*",
+    #     "*powershell*",
+    #     "*pwsh*",
+    #     "*wmic*",
+    #     "*wscript*"
+    #   )
+    # 
+    #   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+    #      Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    #      Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+    #      Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id
+    #      Processes.vendor_product
+    # 
+    #   | `drop_dm_object_name(Processes)`
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `windows_ssh_proxy_command_filter`
+  condition: selection
+level: medium

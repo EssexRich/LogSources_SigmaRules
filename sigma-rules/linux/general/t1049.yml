@@ -1,0 +1,52 @@
+title: DNS Enumeration Detected via Defend for Containers
+id: 1863dd36-1863-4863-a863-1863dd360000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1049
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_dns_enumeration.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1049
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
+    # process.interactive == true and container.id like "*" and 
+    # (
+    #   /* getent hosts is often used without a target arg */
+    #   (process.name == "getent" and process.args == "hosts") or
+    # 
+    #   /* explicit DNS query tools */
+    #   (
+    #     process.name in ("nslookup", "dig", "host") or
+    #     (
+    #       /* Account for tools that execute utilities as a subprocess, in this case the target utility name will appear as a process arg */
+    #       process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "busybox") and
+    #       process.args in (
+    #         "nslookup", "/bin/nslookup", "/usr/bin/nslookup", "/usr/local/bin/nslookup",
+    #         "dig", "/bin/dig", "/usr/bin/dig", "/usr/local/bin/dig",
+    #         "host", "/bin/host", "/usr/bin/host", "/usr/local/bin/host"
+    #       ) and
+    #       /* default exclusion list to not FP on default multi-process commands */
+    #       not process.args in (
+    #         "which", "/bin/which", "/usr/bin/which", "/usr/local/bin/which",
+    #         "man", "/bin/man", "/usr/bin/man", "/usr/local/bin/man",
+    #         "chmod", "/bin/chmod", "/usr/bin/chmod", "/usr/local/bin/chmod",
+    #         "chown", "/bin/chown", "/usr/bin/chown", "/usr/local/bin/chown"
+    #       )
+    #     )
+    #   ) and
+    #   process.args like~ (
+    #     "kubernetes.default",
+    #     "kubernetes",
+    #     "*.svc",
+    #     "*.svc.cluster.local",
+    #     "*.cluster.local"
+    #   )
+    # )
+  condition: selection
+level: medium

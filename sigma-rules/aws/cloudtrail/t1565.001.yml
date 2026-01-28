@@ -1,0 +1,22 @@
+title: AWS CloudTrail Log Updated
+id: 29a63ad8-29a6-49a6-a9a6-29a63ad80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1565.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_cloudtrail_logging_updated.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1565.001
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail" 
+    #     and event.provider: "cloudtrail.amazonaws.com" 
+    #     and event.action: "UpdateTrail" 
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

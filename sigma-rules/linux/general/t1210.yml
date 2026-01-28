@@ -1,0 +1,21 @@
+title: Telnet Authentication Bypass via User Environment Variable
+id: 5b4bbd83-5b4b-4b4b-ab4b-5b4bbd830000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1210
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/initial_access_telnet_auth_bypass_envar_auditd.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1210
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id with maxspan=1s
+    #  [process where host.os.type == "linux" and event.type == "start" and event.action in ("process_started", "executed") and process.name == "telnetd"] by process.pid
+    #  [process where host.os.type == "linux" and event.type == "start" and event.action in ("process_started", "executed") and process.name == "login" and process.args : "-*f*"] by process.parent.pid
+  condition: selection
+level: medium

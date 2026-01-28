@@ -1,0 +1,30 @@
+title: Linux Network Service Scanning - Auditd
+id: 43e72df8-43e7-43e7-a3e7-43e72df80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1046
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_network_service_scanning.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1046
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'SYSCALL'
+    #         exe|endswith:
+    #             - '/telnet'
+    #             - '/nmap'
+    #             - '/netcat'
+    #             - '/nc'
+    #             - '/ncat'
+    #             - '/nc.openbsd'
+    #         key: 'network_connect_4'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

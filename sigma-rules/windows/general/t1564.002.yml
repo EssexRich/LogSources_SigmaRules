@@ -1,0 +1,27 @@
+title: Hiding User Account Via SpecialAccounts Registry Key - CommandLine
+id: 7b9712a9-7b97-4b97-ab97-7b9712a90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_registry_special_accounts_hide_user.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\reg.exe'
+    #         CommandLine|contains|all:
+    #             - '\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList'
+    #             - 'add'
+    #             - '/v'
+    #             - '/d 0'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

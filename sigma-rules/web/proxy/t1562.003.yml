@@ -1,0 +1,25 @@
+title: ESXi Audit Tampering
+id: 36620305-3662-4662-a662-366203050000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_audit_tampering.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.003
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `esxi_syslog` Message="*esxcli system auditrecords*" Message IN ("*remote*","*local*") NOT Message = "*[shell*"
+    #   | rex field=_raw "Z (?<dest>[\w\.]+)\s"
+    #   | rex field=_raw "[\w+]\]: (?<full_command>.*)"
+    #   | rex field=full_command "\[(?<user>.*)]:\s(?<command>.*)"
+    #   | stats min(_time) as firstTime max(_time) as lastTime count by dest user command
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `esxi_audit_tampering_filter`
+  condition: selection
+level: medium

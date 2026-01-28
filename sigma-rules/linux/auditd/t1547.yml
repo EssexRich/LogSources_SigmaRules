@@ -1,0 +1,20 @@
+title: Kernel Driver Load
+id: 4456223f-4456-4456-a456-4456223f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_kernel_driver_load.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # driver where host.os.type == "linux" and event.action == "loaded-kernel-module" and
+    # auditd.data.syscall in ("init_module", "finit_module")
+  condition: selection
+level: medium

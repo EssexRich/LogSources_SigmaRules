@@ -1,0 +1,36 @@
+title: Automated Collection Command PowerShell
+id: 5bd7c471-5bd7-4bd7-abd7-5bd7c4710000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1119
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_automated_collection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1119
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_ext:
+    #         ScriptBlockText|contains:
+    #             - '.doc'
+    #             - '.docx'
+    #             - '.xls'
+    #             - '.xlsx'
+    #             - '.ppt'
+    #             - '.pptx'
+    #             - '.rtf'
+    #             - '.pdf'
+    #             - '.txt'
+    #     selection_cmd:
+    #         ScriptBlockText|contains|all:
+    #             - 'Get-ChildItem'
+    #             - ' -Recurse '
+    #             - ' -Include '
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

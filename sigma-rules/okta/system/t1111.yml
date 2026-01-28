@@ -1,0 +1,19 @@
+title: Attempted Bypass of Okta MFA
+id: 2a31f2cb-2a31-4a31-aa31-2a31f2cb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1111
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_attempted_bypass_of_okta_mfa.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1111
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:okta.system and event.action:user.mfa.attempt_bypass
+  condition: selection
+level: medium

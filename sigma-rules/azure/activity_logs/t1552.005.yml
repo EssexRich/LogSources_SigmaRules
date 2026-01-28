@@ -1,0 +1,19 @@
+title: Azure Storage Account Key Regenerated
+id: 76ae33bf-76ae-46ae-a6ae-76ae33bf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_storage_account_key_regenerated.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.005
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.activitylogs and azure.activitylogs.operation_name:"MICROSOFT.STORAGE/STORAGEACCOUNTS/REGENERATEKEY/ACTION" and event.outcome:(Success or success)
+  condition: selection
+level: medium

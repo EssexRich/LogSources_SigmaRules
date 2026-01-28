@@ -1,0 +1,23 @@
+title: Hidden Flag Set On File/Directory Via Chflags - MacOS
+id: 76db2bee-76db-46db-a6db-76db2bee0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_chflags_hidden_flag.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/chflags'
+    #         CommandLine|contains: 'hidden '
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

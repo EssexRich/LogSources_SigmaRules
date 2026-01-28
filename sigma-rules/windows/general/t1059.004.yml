@@ -1,0 +1,35 @@
+title: Suspicious Execution via Windows Subsystem for Linux
+id: 2e664186-2e66-4e66-ae66-2e6641860000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_wsl_bash_exec.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.004
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type : "start" and
+    #   (
+    #     (
+    #       (process.executable : "?:\\Windows\\System32\\bash.exe" or ?process.pe.original_file_name == "Bash.exe") and
+    #       not process.command_line : ("bash", "bash.exe")
+    #     ) or
+    #     process.executable : "?:\\Users\\*\\AppData\\Local\\Packages\\*\\rootfs\\usr\\bin\\bash" or
+    #     (
+    #       process.parent.name : "wsl.exe" and process.parent.command_line : "bash*" and not process.name : "wslhost.exe"
+    #     ) or
+    #     (
+    #       process.name : "wsl.exe" and process.args : (
+    #         "curl", "/etc/shadow", "/etc/passwd", "cat", "--system", "root", "-e", "--exec", "bash", "/mnt/c/*"
+    #       ) and not process.args : ("wsl-bootstrap", "docker-desktop-data", "*.vscode-server*")
+    #     )
+    #   ) and
+    #     not process.parent.executable : ("?:\\Program Files\\Docker\\*.exe", "?:\\Program Files (x86)\\Docker\\*.exe")
+  condition: selection
+level: medium

@@ -1,0 +1,31 @@
+title: Indicator Removal on Host - Clear Mac System Logs
+id: 7f51ef98-7f51-4f51-af51-7f51ef980000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_clear_system_logs.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.002
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection1:
+    #         Image|endswith:
+    #             - '/rm'
+    #             - '/unlink'
+    #             - '/shred'
+    #     selection_cli_1:
+    #         CommandLine|contains: '/var/log'
+    #     selection_cli_2:
+    #         CommandLine|contains|all:
+    #             - '/Users/'
+    #             - '/Library/Logs/'
+    #     condition: selection1 and 1 of selection_cli*
+    # 
+  condition: selection
+level: medium

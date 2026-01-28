@@ -1,0 +1,27 @@
+title: SSL Certificates with Punycode
+id: 46cbde1e-46cb-46cb-a6cb-46cbde1e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1573
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/ssl_certificates_with_punycode.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1573
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime from datamodel=Certificates.All_Certificates by All_Certificates.SSL.ssl_issuer_email_domain
+    #   All_Certificates.SSL.ssl_issuer All_Certificates.SSL.ssl_subject_email All_Certificates.SSL.dest
+    #   All_Certificates.SSL.src All_Certificates.SSL.sourcetype All_Certificates.SSL.ssl_subject_email_domain
+    #   | `drop_dm_object_name("All_Certificates.SSL")` | eval punycode=if(like(ssl_issuer_email_domain,"%xn--%"),1,0)
+    #   | where punycode=1 | cyberchef infield="ssl_issuer_email_domain" outfield="convertedPuny"
+    #   jsonrecipe="[{"op":"From Punycode","args":[true]}]" | table ssl_issuer_email_domain
+    #   convertedPuny ssl_issuer ssl_subject_email dest src sourcetype ssl_subject_email_domain
+    #   | `ssl_certificates_with_punycode_filter`
+  condition: selection
+level: medium

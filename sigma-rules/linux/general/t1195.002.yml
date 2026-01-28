@@ -1,0 +1,20 @@
+title: DPKG Package Installed by Unusual Parent Process
+id: 28416720-2841-4841-a841-284167200000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1195.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_dpkg_package_installation_from_unusual_parent.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1195.002
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:linux and event.category:process and event.type:start and event.action:exec and process.name:dpkg and
+    # process.args:("-i" or "--install")
+  condition: selection
+level: medium

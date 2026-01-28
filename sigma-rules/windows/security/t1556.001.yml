@@ -1,0 +1,26 @@
+title: Windows ISO LNK File Creation
+id: 5b1b6abb-5b1b-4b1b-ab1b-5b1b6abb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_iso_lnk_file_creation.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\Microsoft\\Windows\\Recent\\*")
+    #   Filesystem.file_name IN ("*.iso.lnk", "*.img.lnk", "*.vhd.lnk", "*vhdx.lnk") by
+    #   Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+    #   Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
+    #   Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+    #   Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` |
+    #   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_iso_lnk_file_creation_filter`
+  condition: selection
+level: medium

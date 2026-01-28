@@ -1,0 +1,28 @@
+title: Replace Desktop Wallpaper by Powershell
+id: 175cc111-175c-475c-a75c-175cc1110000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1491.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_wallpaper.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1491.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1:
+    #         ScriptBlockText|contains|all:
+    #             - 'Get-ItemProperty'
+    #             - 'Registry::'
+    #             - 'HKEY_CURRENT_USER\Control Panel\Desktop\'
+    #             - 'WallPaper'
+    #     selection_2:
+    #         ScriptBlockText|contains: SystemParametersInfo(20,0,*,3)
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

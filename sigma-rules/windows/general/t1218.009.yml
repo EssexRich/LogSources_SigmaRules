@@ -1,0 +1,29 @@
+title: RegAsm.EXE Execution Without CommandLine Flags or Files
+id: 0fec1943-0fec-4fec-afec-0fec19430000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.009
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_regasm_no_flag_or_dll_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.009
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\RegAsm.exe'
+    #         - OriginalFileName: 'RegAsm.exe'
+    #     selection_cli:
+    #         CommandLine|endswith:
+    #             - 'RegAsm'
+    #             - 'RegAsm.exe'
+    #             - 'RegAsm.exe"'
+    #             - "RegAsm.exe'"
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

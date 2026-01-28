@@ -1,0 +1,22 @@
+title: Windows Defender Exclusions Added via PowerShell
+id: 3aeb44e3-3aeb-4aeb-aaeb-3aeb44e30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_defender_exclusion_via_powershell.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.001
+logsource:
+  product: defender
+  service: xdr
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #  (process.name : ("powershell.exe", "pwsh.exe", "powershell_ise.exe") or ?process.pe.original_file_name in ("PowerShell.EXE", "pwsh.dll", "powershell_ise.EXE")) and
+    #   process.args : ("*Add-MpPreference*", "*Set-MpPreference*") and
+    #   process.args : ("*-Exclusion*")
+  condition: selection
+level: medium

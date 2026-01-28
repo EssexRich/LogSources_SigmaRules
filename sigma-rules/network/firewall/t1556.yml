@@ -1,0 +1,37 @@
+title: Network Logon Provider Registry Modification
+id: 586880dd-5868-4868-a868-586880dd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_persistence_network_logon_provider_modification.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # registry where host.os.type == "windows" and event.type == "change" and
+    #   registry.data.strings : "?*" and registry.value : "ProviderPath" and
+    #   registry.path : (
+    #     "HKLM\\SYSTEM\\*ControlSet*\\Services\\*\\NetworkProvider\\ProviderPath",
+    #     "\\REGISTRY\\MACHINE\\SYSTEM\\*ControlSet*\\Services\\*\\NetworkProvider\\ProviderPath"
+    #   ) and
+    #   /* Excluding default NetworkProviders RDPNP, LanmanWorkstation and webclient. */
+    #   not (
+    #     user.id : "S-1-5-18" and
+    #     registry.data.strings : (
+    #         "%SystemRoot%\\System32\\ntlanman.dll",
+    #         "%SystemRoot%\\System32\\drprov.dll",
+    #         "%SystemRoot%\\System32\\davclnt.dll",
+    #         "%SystemRoot%\\System32\\vmhgfs.dll",
+    #         "?:\\Program Files (x86)\\Citrix\\ICA Client\\x64\\pnsson.dll",
+    #         "?:\\Program Files\\Dell\\SARemediation\\agent\\DellMgmtNP.dll",
+    #         "?:\\Program Files (x86)\\CheckPoint\\Endpoint Connect\\\\epcgina.dll"
+    #     )
+    #   )
+  condition: selection
+level: medium

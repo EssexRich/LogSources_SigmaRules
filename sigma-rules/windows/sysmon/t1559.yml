@@ -1,0 +1,23 @@
+title: Windows Anonymous Pipe Activity
+id: 12fce888-12fc-42fc-a2fc-12fce8880000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1559
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_anonymous_pipe_activity.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1559
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode IN (17,18) EventType IN ( "CreatePipe", "ConnectPipe")
+    #   PipeName="*Anonymous Pipe*" NOT( Image IN ("C:\\Program Files*", "C:\\Windows\\system32\\*","C:\\Windows\\syswow64\\*"))
+    #   | stats  min(_time) as firstTime max(_time) as lastTime count by dest EventCode
+    #   PipeName ProcessGuid ProcessId Image EventType | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `windows_anonymous_pipe_activity_filter`
+  condition: selection
+level: medium

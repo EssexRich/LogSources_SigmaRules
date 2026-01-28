@@ -1,0 +1,23 @@
+title: UAC Bypass Using Consent and Comctl32 - File
+id: 371dd329-371d-471d-a71d-371dd3290000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_uac_bypass_consent_comctl32.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetFilename|startswith: 'C:\Windows\System32\consent.exe.@'
+    #         TargetFilename|endswith: '\comctl32.dll'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

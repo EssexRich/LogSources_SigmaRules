@@ -1,0 +1,39 @@
+title: Potential Evasion via Windows Filtering Platform
+id: 411c07da-411c-411c-a11c-411c07da0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_windows_filtering_platform.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.004
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by winlog.computer_name with maxspan=1m
+    #  [network where host.os.type == "windows" and
+    #   event.action : ("windows-firewall-packet-block", "windows-firewall-packet-drop") and
+    #   process.name : (
+    #         "bdagent.exe", "bdreinit.exe", "pdscan.exe", "pdiface.exe", "BDSubWiz.exe", "ProductAgentService.exe",
+    #         "ProductAgentUI.exe", "WatchDog.exe", "CarbonBlackClientSetup.exe", "TrGUI.exe", "TracCAPI.exe", "cpmsi_tool.exe",
+    #         "trac.exe", "vna_install64.exe", "vna_utils.exe", "TracSrvWrapper.exe", "vsmon.exe", "p95tray.exe",
+    #         "CybereasonRansomFreeServiceHost.exe", "CrAmTray.exe", "minionhost.exe", "CybereasonSensor.exe", "CylanceUI.exe",
+    #         "CylanceProtectSetup.exe", "cylancesvc.exe", "cyupdate.exe", "elastic-agent.exe", "elastic-endpoint.exe",
+    #         "egui.exe", "minodlogin.exe", "emu-rep.exe", "emu_install.exe", "emu-cci.exe", "emu-gui.exe", "emu-uninstall.exe",
+    #         "ndep.exe", "spike.exe", "ecls.exe", "ecmd.exe", "ecomserver.exe", "eeclnt.exe", "eh64.exe", "EHttpSrv.exe",
+    #         "xagt.exe", "collectoragent.exe", "FSAEConfig.exe", "uninstalldcagent.exe", "rmon.exe", "fccomint.exe",
+    #         "fclanguageselector.exe", "fortifw.exe", "fcreg.exe", "fortitray.exe", "fcappdb.exe", "fcwizard.exe", "submitv.exe",
+    #         "av_task.exe", "fortiwf.exe", "fortiwadbd.exe", "fcauth.exe", "fcdblog.exe", "fcmgr.exe", "fortiwad.exe",
+    #         "fortiproxy.exe", "fortiscand.exe", "fortivpnst.exe", "ipsec.exe", "fcwscd7.exe", "fcasc.exe", "fchelper.exe",
+    #         "forticlient.exe","fcwsc.exe", "FortiClient.exe", "fmon.exe", "FSSOMA.exe", "FCVbltScan.exe", "FortiESNAC.exe",
+    #         "EPCUserAvatar.exe", "FortiAvatar.exe", "FortiClient_Diagnostic_Tool.exe", "FortiSSLVPNdaemon.exe", "avp.exe",
+    #         "FCConfig.exe", "avpsus.exe", "klnagent.exe", "klnsacwsrv.exe", "kl_platf.exe", "stpass.exe", "klnagwds.exe",
+    #         "mbae.exe", "mbae64.exe", "mbae-svc.exe", "mbae-uninstaller.exe", "mbaeLoader32.exe", "mbaeloader64.exe",
+    #         "mbam-dor.exe", "mbamgui.exe", "
+    # ... [truncated]
+  condition: selection
+level: medium

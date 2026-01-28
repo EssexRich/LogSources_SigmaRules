@@ -1,0 +1,26 @@
+title: Launch Agent/Daemon Execution Via Launchctl
+id: 619dfbd9-619d-419d-a19d-619dfbd90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1543.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_launchctl_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1543.004
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/launchctl'
+    #         CommandLine|contains:
+    #             - 'submit'
+    #             - 'load'
+    #             - 'start'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

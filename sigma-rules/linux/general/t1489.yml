@@ -1,0 +1,20 @@
+title: Suspicious Termination of ESXI Process
+id: 4daa6885-4daa-4daa-adaa-4daa68850000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1489
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/impact_esxi_process_kill.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1489
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "end" and process.name in ("vmware-vmx", "vmx")
+    # and process.parent.name == "kill"
+  condition: selection
+level: medium

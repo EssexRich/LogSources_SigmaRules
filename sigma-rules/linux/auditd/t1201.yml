@@ -1,0 +1,42 @@
+title: Password Policy Discovery - Linux
+id: 42c7f5d3-42c7-42c7-a2c7-42c7f5d30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1201
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_password_policy_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1201
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_files:
+    #         type: 'PATH'
+    #         name:
+    #             - '/etc/login.defs'
+    #             - '/etc/pam.d/auth'
+    #             - '/etc/pam.d/common-account'
+    #             - '/etc/pam.d/common-auth'
+    #             - '/etc/pam.d/common-password'
+    #             - '/etc/pam.d/system-auth'
+    #             - '/etc/security/pwquality.conf'
+    #     selection_chage:
+    #         type: 'EXECVE'
+    #         a0: 'chage'
+    #         a1:
+    #             - '--list'
+    #             - '-l'
+    #     selection_passwd:
+    #         type: 'EXECVE'
+    #         a0: 'passwd'
+    #         a1:
+    #             - '-S'
+    #             - '--status'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

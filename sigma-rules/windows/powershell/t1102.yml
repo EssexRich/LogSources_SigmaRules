@@ -1,0 +1,58 @@
+title: Suspicious Child Process Of Manage Engine ServiceDesk
+id: 7176f061-7176-4176-a176-7176f0610000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1102
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_java_manageengine_susp_child_process.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1102
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ParentImage|contains|all:
+    #             - '\ManageEngine\ServiceDesk\'
+    #             - '\java.exe'
+    #         Image|endswith:
+    #             - '\AppVLP.exe'
+    #             - '\bash.exe'
+    #             - '\bitsadmin.exe'
+    #             - '\calc.exe'
+    #             - '\certutil.exe'
+    #             - '\cscript.exe'
+    #             - '\curl.exe'
+    #             - '\forfiles.exe'
+    #             - '\mftrace.exe'
+    #             - '\mshta.exe'
+    #             - '\net.exe'
+    #             - '\net1.exe'
+    #             - '\notepad.exe'  # Often used in POCs
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\query.exe'
+    #             - '\reg.exe'
+    #             - '\schtasks.exe'
+    #             - '\scrcons.exe'
+    #             - '\sh.exe'
+    #             - '\systeminfo.exe'
+    #             - '\whoami.exe'  # Often used in POCs
+    #             - '\wmic.exe'
+    #             - '\wscript.exe'
+    #             # - '\hh.exe'
+    #             # - '\regsvr32.exe'
+    #             # - '\rundll32.exe'
+    #             # - '\scriptrunner.exe'
+    #     filter_main_net:
+    #         Image|endswith:
+    #             - '\net.exe'
+    #             - '\net1.exe'
+    #         CommandLine|contains: ' stop'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

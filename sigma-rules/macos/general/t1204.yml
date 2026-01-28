@@ -1,0 +1,27 @@
+title: Payload Decoded and Decrypted via Built-in Utilities
+id: 050b129d-050b-450b-a50b-050b129d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1204
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_payload_decoded_and_decrypted.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1204
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/openssl'
+    #         CommandLine|contains|all:
+    #             - '/Volumes/'
+    #             - 'enc'
+    #             - '-base64'
+    #             - ' -d '
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

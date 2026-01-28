@@ -1,0 +1,38 @@
+title: GUI Input Capture - macOS
+id: 5948d292-5948-4948-a948-5948d2920000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1056.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_gui_input_capture.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1056.002
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         Image|endswith: '/osascript'
+    #     selection_cli_1:
+    #         CommandLine|contains|all:
+    #             - '-e'
+    #             - 'display'
+    #             - 'dialog'
+    #             - 'answer'
+    #     selection_cli_2:
+    #         CommandLine|contains:
+    #             - 'admin'
+    #             - 'administrator'
+    #             - 'authenticate'
+    #             - 'authentication'
+    #             - 'credentials'
+    #             - 'pass'
+    #             - 'password'
+    #             - 'unlock'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

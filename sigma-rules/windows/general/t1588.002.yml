@@ -1,0 +1,22 @@
+title: Hacktool Execution - PE Metadata
+id: 0b8bcacf-0b8b-4b8b-ab8b-0b8bcacf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1588.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_execution_via_pe_metadata.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1588.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Company: 'Cube0x0' # Detects the use of tools created by a well-known hacktool producer named "Cube0x0", which includes his handle in all binaries as company information in the PE headers (SharpPrintNightmare, KrbRelay, SharpMapExec, etc.)
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

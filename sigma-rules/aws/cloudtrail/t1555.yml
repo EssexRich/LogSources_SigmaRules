@@ -1,0 +1,66 @@
+title: Multiple Cloud Secrets Accessed by Source Address
+id: 42498106-4249-4249-a249-424981060000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1555
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_multi_could_secrets_via_api.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1555
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-azure.platformlogs-*, logs-aws.cloudtrail-*, logs-gcp.audit-*  METADATA _id, _version, _index 
+    # | WHERE 
+    #   ( 
+    #     /* AWS Secrets Manager */ 
+    #     (event.dataset == "aws.cloudtrail" AND event.provider == "secretsmanager.amazonaws.com" AND event.action == "GetSecretValue") OR 
+    #     
+    #     // Azure Key Vault (platform logs)
+    #     (event.dataset == "azure.platformlogs" AND event.action IN ("SecretGet", "KeyGet")) or 
+    #     
+    #     /* Google Secret Manager */ 
+    #     (event.dataset IN ("googlecloud.audit", "gcp.audit") AND 
+    #      event.action IN ("google.cloud.secretmanager.v1.SecretManagerService.AccessSecretVersion", "google.cloud.secretmanager.v1.SecretManagerService.GetSecretRequest"))
+    #    ) AND source.ip IS NOT NULL
+    # // Unified user identity (raw)
+    # | EVAL Esql_priv.user_id =
+    #     COALESCE(
+    #       client.user.id,
+    #       aws.cloudtrail.user_identity.arn,
+    #       NULL
+    #     )
+    # // Cloud vendor label based on dataset
+    # | EVAL Esql.cloud_vendor = CASE(
+    #     event.dataset == "aws.cloudtrail", "aws",
+    #     event.dataset == "azure.platformlogs", "azure",
+    #     event.dataset IN ("googlecloud.audit","gcp.audit"), "gcp",
+    #     "unknown"
+    #   )
+    # // Vendor+tenant label, e.g. aws:123456789012, azure:tenant, gcp:project
+    # | EVAL Esql.tenant_label = CASE(
+    #     Esql.cloud_vendor == "aws", CONCAT("aws:", cloud.account.id),
+    #     Esql.cloud_vendor == "azure", CONCAT("azure:", cloud.account.id),
+    #     Esql.cloud_vendor == "gcp", CONCAT("gcp:", cloud.account.id),
+    #     NULL
+    #   )
+    # | STATS
+    #     // Core counts
+    #     Esql.events_count = COUNT(*),
+    #     Esql.vendor_count_distinct = COUNT_DISTINCT(Esql.cloud_vendor),
+    #     // Action & data source context
+    #     Esql.event_action_values = VALUES(event.action),
+    #     Esql.data_source_values = VALUES(event.dataset),
+    #     // Cloud vendor + tenant context
+    #     Esql.cloud_vendor_values = VALUES(Esql.cloud_vendor),
+    #     Esql.tenant_label_values = VALUES(Esql.tenant_label),
+    #     // Hyperscaler-specific IDs
+    #     Esql.aws_account_id_values = VALUES(CASE(Esql.cloud_vendor == "aws", cloud.account.id, NULL)),
+    #    
+    # ... [truncated]
+  condition: selection
+level: medium

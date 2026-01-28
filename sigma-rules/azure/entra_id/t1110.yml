@@ -1,0 +1,24 @@
+title: Successful Authentications From Countries You Do Not Operate Out Of
+id: 1198db09-1198-4198-a198-1198db090000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/signin_logs/azure_ad_authentications_from_countries_you_do_not_operate_out_of.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Status: 'Success'
+    #     filter:
+    #         Location|contains: '<Countries you DO operate out of e,g GB, use OR for multiple>'
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

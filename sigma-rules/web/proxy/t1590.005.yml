@@ -1,0 +1,72 @@
+title: Cisco ASA - Reconnaissance Command Activity
+id: 4b45caf0-4b45-4b45-ab45-4b45caf00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1590.005
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/cisco_asa___reconnaissance_command_activity.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1590.005
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_asa`
+    #   message_id IN (111009)
+    #   command IN (
+    #       "show access-list*",
+    #       "show capture*",
+    #       "show conn*",
+    #       "show cpu*",
+    #       "show crypto*",
+    #       "show eigrp*",
+    #       "show failover*",
+    #       "show flow*",
+    #       "show interface*",
+    #       "show inventory*",
+    #       "show ip*",
+    #       "show license*",
+    #       "show memory*",
+    #       "show nat*",
+    #       "show ospf*",
+    #       "show process*",
+    #       "show running-config*",
+    #       "show startup-config*",
+    #       "show version*",
+    #       "show vpn-sessiondb*",
+    #       "show xlate*"
+    #   )
+    #   | fillnull
+    # 
+    #   ```
+    #   Normalize command variations to base command types to count distinct reconnaissance categories.
+    #   For example, "show running-config", "show running-config | include username", and "show running-config interface" all count as one command type.
+    #   This prevents adversaries from evading detection by adding arguments or using multiple variations of the same command.
+    #   ```
+    #   
+    #   | eval command_type=case(
+    #       match(command, "^show access-list"), "show access-list",
+    #       match(command, "^show conn"), "show conn",
+    #       match(command, "^show cpu"), "show cpu",
+    #       match(command, "^show crypto"), "show crypto",
+    #       match(command, "^show eigrp"), "show eigrp",
+    #       match(command, "^show failover"), "show failover",
+    #       match(command, "^show flow"), "show flow",
+    #       match(command, "^show interface"), "show interface",
+    #       match(command, "^show inventory"), "show inventory",
+    #       match(command, "^show ip"), "show ip",
+    #       match(command, "^show license"), "show license",
+    #       match(command, "^show memory"), "show memory",
+    #       match(command, "^show nat"), "show nat",
+    #       match(command, "^show ospf"), "show ospf",
+    #       match(command, "^show process"), "show process",
+    #       match(command, "^show running-config"), "show running-config",
+    #       match(command, "^show startup-config"), "show startup-config",
+    #       match(command, "^show version"), "show version",
+    #       match(command, "^show vpn-sessiondb"), "show vpn
+    # ... [truncated]
+  condition: selection
+level: medium

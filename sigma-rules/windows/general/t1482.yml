@@ -1,0 +1,68 @@
+title: Potential Active Directory Reconnaissance/Enumeration Via LDAP
+id: 75ca214c-75ca-45ca-a5ca-75ca214c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1482
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/ldap/win_ldap_recon.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1482
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     generic_search:
+    #         EventID: 30
+    #         SearchFilter|contains:
+    #             - '(groupType:1.2.840.113556.1.4.803:=2147483648)'
+    #             - '(groupType:1.2.840.113556.1.4.803:=2147483656)'
+    #             - '(groupType:1.2.840.113556.1.4.803:=2147483652)'
+    #             - '(groupType:1.2.840.113556.1.4.803:=2147483650)'
+    #             - '(sAMAccountType=805306369)'
+    #             - '(sAMAccountType=805306368)'
+    #             - '(sAMAccountType=536870913)'
+    #             - '(sAMAccountType=536870912)'
+    #             - '(sAMAccountType=268435457)'
+    #             - '(sAMAccountType=268435456)'
+    #             - '(objectCategory=groupPolicyContainer)'
+    #             - '(objectCategory=organizationalUnit)'
+    #             # - '(objectCategory=Computer)' Prone to false positives
+    #             - '(objectCategory=nTDSDSA)'
+    #             - '(objectCategory=server)'
+    #             - '(objectCategory=domain)'
+    #             - '(objectCategory=person)'
+    #             - '(objectCategory=group)'
+    #             - '(objectCategory=user)'
+    #             - '(objectClass=trustedDomain)'
+    #             - '(objectClass=computer)'
+    #             - '(objectClass=server)'
+    #             - '(objectClass=group)'
+    #             - '(objectClass=user)'
+    #             - '(primaryGroupID=521)'
+    #             - '(primaryGroupID=516)'
+    #             - '(primaryGroupID=515)'
+    #             - '(primaryGroupID=512)'
+    #             - 'Domain Admins'
+    #             - 'objectGUID=\*'
+    #             - '(schemaIDGUID=\*)'
+    #             - 'admincount=1'
+    #     distinguished_name_enumeration:
+    #         EventID: 30
+    #         SearchFilter: '(objectclass=\*)'
+    #         DistinguishedName|contains:
+    #             - 'CN=Domain Admins'
+    #             - 'CN=Enterprise Admins'
+    #             - 'CN=Group Policy Creator Owners'
+    #     suspicious_flag:
+    #         EventID: 30
+    #         SearchFilter|contains:
+    #             - '(userAccountControl:1.2.840.113556.1.4.803:=4194304)'
+    #             - '(userAccountControl:1.2.840.113556.1.4.803:=2097152)'
+    #             - '!(userAccountControl:1.2.840.113556.1.4.803:=1048574)'
+    #             - 
+    # ... [truncated]
+  condition: selection
+level: medium

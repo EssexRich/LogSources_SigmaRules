@@ -1,0 +1,23 @@
+title: Potential Data Exfiltration Through Curl
+id: 5756a194-5756-4756-a756-5756a1940000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1048
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/exfiltration_potential_curl_data_exfiltration.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1048
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "ProcessRollup2", "start") and process.name == "curl" and
+    # ?process.parent.executable != null and (process.args in ("-F", "-T", "-d") or process.args like ("--data*", "--form*")) and 
+    # process.command_line like~ ("*@/*.zip*", "*@/*.gz*", "*@/*.tgz*", "*b64=@*", "*=<*") and
+    # process.command_line like~ "*http*" and
+    # not ?process.parent.executable == "/usr/share/untangle/bin/configuration-backup-upload-backup.sh"
+  condition: selection
+level: medium

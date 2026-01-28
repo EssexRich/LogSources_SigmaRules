@@ -1,0 +1,23 @@
+title: Potential DCOM InternetExplorer.Application DLL Hijack
+id: 187f3895-187f-487f-a87f-187f38950000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_dcom_iertutil_dll_hijack.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image: System
+    #         TargetFilename|endswith: '\Internet Explorer\iertutil.dll'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,43 @@
+title: Scheduled Task Creation Masquerading as System Processes
+id: 3edf7ec7-3edf-4edf-aedf-3edf7ec70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_schtasks_system_process.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.004
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\schtasks.exe'
+    #         - OriginalFileName: 'schtasks.exe'
+    #     selection_cli:
+    #         CommandLine|contains|windash: ' /create '
+    #         CommandLine|contains:
+    #             - ' audiodg'
+    #             - ' conhost'
+    #             - ' dwm.exe'
+    #             - ' explorer'
+    #             - ' lsass'
+    #             - ' lsm'
+    #             - ' mmc'
+    #             - ' msiexec'
+    #             - ' regsvr32'
+    #             - ' rundll32'
+    #             - ' services'
+    #             - ' spoolsv'
+    #             - ' svchost'
+    #             - ' taskeng'
+    #             - ' taskhost'
+    #             - ' wininit'
+    #             - ' winlogon'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

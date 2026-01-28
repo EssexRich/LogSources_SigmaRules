@@ -1,0 +1,49 @@
+title: Suspicious DLL Loaded for Persistence or Privilege Escalation
+id: 57b1635d-57b1-47b1-a7b1-57b1635d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_persistence_phantom_dll.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # any where host.os.type == "windows" and 
+    # (
+    #   /*  Elastic Defend DLL load events */
+    #   (event.category == "library" and 
+    #     (
+    #      ?dll.name : ("wlbsctrl.dll", "wbemcomn.dll", "WptsExtensions.dll", "Tsmsisrv.dll", "TSVIPSrv.dll", "Msfte.dll", "wow64log.dll", "WindowsCoreDeviceInfo.dll", "Ualapi.dll", "wlanhlp.dll", "phoneinfo.dll", "EdgeGdi.dll", "cdpsgshims.dll", "windowsperformancerecordercontrol.dll", "diagtrack_win.dll", "TPPCOIPW32.dll", "tpgenlic.dll", "thinmon.dll", "fxsst.dll", "msTracer.dll") or 
+    # 
+    #      (?dll.path : "?:\\Windows\\*\\oci.dll" and process.executable : "?:\\Windows\\*.exe")
+    #      )
+    #     and (?dll.code_signature.trusted == false or ?dll.code_signature.exists == false or (?dll.code_signature.trusted == true and not ?dll.code_signature.subject_name : ("Microsoft Windows", "Microsoft Corporation", "Microsoft Windows Publisher"))
+    #       ))
+    #    or
+    # 
+    #   /*  Sysmon DLL load events */
+    #   ((event.category == "process" and event.action like "Image loaded*") and file.code_signature.status != "Valid" and 
+    #   file.name : ("wlbsctrl.dll", "wbemcomn.dll", "WptsExtensions.dll", "Tsmsisrv.dll", "TSVIPSrv.dll", "Msfte.dll", "wow64log.dll", "WindowsCoreDeviceInfo.dll", "Ualapi.dll", "wlanhlp.dll", "phoneinfo.dll", "EdgeGdi.dll", "cdpsgshims.dll", "windowsperformancerecordercontrol.dll", "diagtrack_win.dll", "TPPCOIPW32.dll", "tpgenlic.dll", "thinmon.dll", "fxsst.dll", "msTracer.dll") and 
+    #    not file.hash.sha256 in 
+    #             ("6e837794fc282446906c36d681958f2f6212043fc117c716936920be166a700f", 
+    #              "b14e4954e8cca060ffeb57f2458b6a3a39c7d2f27e94391cbcea5387652f21a4", 
+    #              "c258d90acd006fa109dc6b748008edbb196d6168bc75ace0de0de54a4db46662", 
+    #              "254e5053ac04b7623e86234077876388e0b10c3ac5c3f4e4e86292b62571bfb0")) 
+    # 
+    # ) and not
+    #   (
+    #     ?dll.path : (
+    #       "?:\\Windows\\System32\\wbemcomn.dll",
+    #       "?:\\Windows\\SysWOW64\\wbemcomn.dll",
+    #       "?:\\Windows\\System32\\windowsperformancerecordercontrol.dll",
+    #       "?:\\Windows\\System32\\wlanhlp.dll", 
+    # 
+    # ... [truncated]
+  condition: selection
+level: medium

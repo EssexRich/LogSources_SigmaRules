@@ -1,0 +1,28 @@
+title: Suspicious Creation with Colorcpl
+id: 49a5d8a3-49a5-49a5-a9a5-49a5d8a30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_colorcpl.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\colorcpl.exe'
+    #     filter_ext:
+    #         TargetFilename|endswith:
+    #             - '.icm'
+    #             - '.gmmp'
+    #             - '.cdmp'
+    #             - '.camp'
+    #     condition: selection and not 1 of filter_*
+    # 
+  condition: selection
+level: medium

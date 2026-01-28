@@ -1,0 +1,24 @@
+title: Network Connection Initiated Via Notepad.EXE
+id: 41c0d084-41c0-41c0-a1c0-41c0d0840000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1055
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_notepad.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1055
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\notepad.exe'
+    #     filter_optional_printing:
+    #         DestinationPort: 9100
+    #     condition: selection and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

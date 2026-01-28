@@ -1,0 +1,26 @@
+title: Google Cloud Firewall Modified or Deleted
+id: 04ee59d4-04ee-44ee-a4ee-04ee59d40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_firewall_rule_modified_or_deleted.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         gcp.audit.method_name:
+    #             - v*.Compute.Firewalls.Delete
+    #             - v*.Compute.Firewalls.Patch
+    #             - v*.Compute.Firewalls.Update
+    #             - v*.Compute.Firewalls.Insert
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

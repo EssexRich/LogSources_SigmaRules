@@ -1,0 +1,26 @@
+title: User Added to an Administrator
+id: 613310dc-6133-4133-a133-613310dc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_ad_user_added_to_admin_role.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.003
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Operation: 'Add member to role.'
+    #         Workload: 'AzureActiveDirectory'
+    #         ModifiedProperties{}.NewValue|endswith:
+    #             - 'Admins'
+    #             - 'Administrator'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

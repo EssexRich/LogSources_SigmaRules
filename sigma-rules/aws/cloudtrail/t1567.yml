@@ -1,0 +1,22 @@
+title: AWS DynamoDB Scan by Unusual User
+id: 3702aab1-3702-4702-a702-3702aab10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/exfiltration_dynamodb_scan_by_unusual_user.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1567
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "dynamodb.amazonaws.com"
+    #     and event.action: "Scan"
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

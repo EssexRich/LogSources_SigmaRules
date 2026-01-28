@@ -1,0 +1,30 @@
+title: Remote DCOM/WMI Lateral Movement
+id: 37a45f0f-37a4-47a4-a7a4-37a45f0f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/application/rpc_firewall/rpc_firewall_remote_dcom_or_wmi.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.003
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventLog: RPCFW
+    #         EventID: 3
+    #         InterfaceUuid:
+    #             - 4d9f4ab8-7d1c-11cf-861e-0020af6e7c57
+    #             - 99fcfec4-5260-101b-bbcb-00aa0021347a
+    #             - 000001a0-0000-0000-c000-000000000046
+    #             - 00000131-0000-0000-c000-000000000046
+    #             - 00000143-0000-0000-c000-000000000046
+    #             - 00000000-0000-0000-c000-000000000046
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,20 @@
+title: New ActiveSyncAllowedDeviceID Added via PowerShell
+id: 7d5bc026-7d5b-4d5b-ad5b-7d5bc0260000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_powershell_exch_mailbox_activesync_add_device.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.002
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   process.name: ("powershell.exe", "pwsh.exe", "powershell_ise.exe") and process.args : "Set-CASMailbox*ActiveSyncAllowedDeviceIDs*"
+  condition: selection
+level: medium

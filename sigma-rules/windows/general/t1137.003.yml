@@ -1,0 +1,25 @@
+title: Potential Persistence Via Outlook Form
+id: 37685e44-3768-4768-a768-37685e440000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1137.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_office_outlook_newform.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1137.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\outlook.exe'
+    #         TargetFilename|contains:
+    #             - '\AppData\Local\Microsoft\FORMS\IPM'
+    #             - '\Local Settings\Application Data\Microsoft\Forms' # Windows XP
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,31 @@
+title: PUA - Advanced IP/Port Scanner Update Check
+id: 4b4ceffd-4b4c-4b4c-ab4c-4b4ceffd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1590
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/proxy_generic/proxy_pua_advanced_ip_scanner_update_check.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1590
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #       # Example request: http://www.advanced-port-scanner.com/checkupdate.php?lng=en&ver=2-5-3680&beta=n&type=upd&rmode=p&product=aps
+    #       # Example request2: http://www.advanced-ip-scanner.com/checkupdate.php?lng=en&ver=2-5-3499&beta=n&type=upd&rmode=p&product=aips
+    #         c-uri|contains: '/checkupdate.php'
+    #         c-uri-query|contains|all:
+    #             - 'lng='
+    #             - 'ver='
+    #             - 'beta='
+    #             - 'type='
+    #             - 'rmode='
+    #             - 'product='
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

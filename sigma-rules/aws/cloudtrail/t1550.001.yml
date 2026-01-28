@@ -1,0 +1,22 @@
+title: AWS First Occurrence of STS GetFederationToken Request by User
+id: 562c04e1-562c-462c-a62c-562c04e10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_sts_get_federation_token.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550.001
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider:sts.amazonaws.com
+    #     and event.action:GetFederationToken
+    #     and event.outcome:success
+  condition: selection
+level: medium

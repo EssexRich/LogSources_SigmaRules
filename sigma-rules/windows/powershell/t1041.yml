@@ -1,0 +1,24 @@
+title: Windows Exfiltration Over C2 Via Invoke RestMethod
+id: 266ae169-266a-466a-a66a-266ae1690000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1041
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_exfiltration_over_c2_via_invoke_restmethod.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1041
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # `powershell` EventCode=4104 ScriptBlockText = "*Invoke-RestMethod *" AND
+    #   ScriptBlockText = "* -Uri *" AND ScriptBlockText = "* -Method *" AND ScriptBlockText
+    #   = "* Post *" AND ScriptBlockText = "* -InFile *" | fillnull | stats count min(_time)
+    #   as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product
+    #   EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `windows_exfiltration_over_c2_via_invoke_restmethod_filter`
+  condition: selection
+level: medium

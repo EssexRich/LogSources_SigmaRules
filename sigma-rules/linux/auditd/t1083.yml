@@ -1,0 +1,25 @@
+title: Linux Capabilities Discovery
+id: 3d21d71b-3d21-4d21-ad21-3d21d71b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1083
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_capabilities_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1083
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: EXECVE
+    #         a0: getcap
+    #         a1: '-r'
+    #         a2: '/'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

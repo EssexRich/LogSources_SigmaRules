@@ -1,0 +1,48 @@
+title: Windows Processes Suspicious Parent Directory
+id: 7b126628-7b12-4b12-ab12-7b1266280000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_proc_wrong_parent.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.005
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '\svchost.exe'
+    #             - '\taskhost.exe'
+    #             - '\lsm.exe'
+    #             - '\lsass.exe'
+    #             - '\services.exe'
+    #             - '\lsaiso.exe'
+    #             - '\csrss.exe'
+    #             - '\wininit.exe'
+    #             - '\winlogon.exe'
+    #     filter_sys:
+    #         - ParentImage|endswith:
+    #               - '\SavService.exe'
+    #               - '\ngen.exe'
+    #         - ParentImage|contains:
+    #               - '\System32\'
+    #               - '\SysWOW64\'
+    #     filter_msmpeng:
+    #         ParentImage|contains:
+    #             - '\Windows Defender\'
+    #             - '\Microsoft Security Client\'
+    #         ParentImage|endswith: '\MsMpEng.exe'
+    #     filter_null:
+    #         - ParentImage: null
+    #         - ParentImage:
+    #               - ''
+    #               - '-'
+    #     condition: selection and not 1 of filter_*
+    # 
+  condition: selection
+level: medium

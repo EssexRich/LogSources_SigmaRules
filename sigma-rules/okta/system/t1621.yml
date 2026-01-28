@@ -1,0 +1,41 @@
+title: Potential Okta MFA Bombing via Push Notifications
+id: 0ced4614-0ced-4ced-aced-0ced46140000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1621
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_okta_mfa_bombing_via_push_notifications.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1621
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by okta.actor.id with maxspan=10m
+    #   [ any
+    #     where event.dataset == "okta.system"
+    #       and (
+    #         okta.event_type == "user.mfa.okta_verify.deny_push"
+    #         or (
+    #           okta.event_type == "user.authentication.auth_via_mfa"
+    #           and okta.debug_context.debug_data.factor == "OKTA_VERIFY_PUSH"
+    #           and okta.outcome.reason == "INVALID_CREDENTIALS"
+    #         )
+    #       )
+    #   ] with runs=5
+    #   until
+    #   [ any
+    #     where event.dataset == "okta.system"
+    #       and okta.event_type in (
+    #         "user.authentication.sso",
+    #         "user.authentication.auth_via_mfa",
+    #         "user.authentication.verify",
+    #         "user.session.start"
+    #       )
+    #       and okta.outcome.result == "SUCCESS"
+    #   ]
+  condition: selection
+level: medium

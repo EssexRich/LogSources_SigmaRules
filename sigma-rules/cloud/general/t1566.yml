@@ -1,0 +1,23 @@
+title: Gdrive suspicious file sharing
+id: 298ea0c7-298e-498e-a98e-298ea0c70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/gdrive_suspicious_file_sharing.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566
+logsource:
+  product: cloud
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `gsuite_drive` name=change_user_access | rename parameters.* as * | search
+    #   email = "*@yourdomain.com" target_user != "*@yourdomain.com" | stats count values(owner)
+    #   as owner values(target_user) as target values(doc_type) as doc_type values(doc_title)
+    #   as doc_title dc(target_user) as distinct_target by src_ip email | where distinct_target
+    #   > 50 | `gdrive_suspicious_file_sharing_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,22 @@
+title: Wermgr Process Create Executable File
+id: 2160b576-2160-4160-a160-2160b5760000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/wermgr_process_create_executable_file.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=11 process_name = "wermgr.exe" TargetFilename = "*.exe"
+    #   | stats  min(_time) as firstTime max(_time) as lastTime count by action dest file_name
+    #   file_path  process_guid process_id user_id vendor_product | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `wermgr_process_create_executable_file_filter`
+  condition: selection
+level: medium

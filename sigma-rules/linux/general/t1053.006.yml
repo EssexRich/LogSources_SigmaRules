@@ -1,0 +1,43 @@
+title: Systemd Timer Created
+id: 4ed958b4-4ed9-4ed9-aed9-4ed958b40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_systemd_scheduled_timer_created.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053.006
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "linux" and event.action in ("rename", "creation") and file.path : (
+    #   "/etc/systemd/system/*", "/etc/systemd/user/*", "/usr/local/lib/systemd/system/*",
+    #   "/lib/systemd/system/*", "/usr/lib/systemd/system/*", "/usr/lib/systemd/user/*",
+    #   "/home/*/.config/systemd/user/*", "/home/*/.local/share/systemd/user/*",
+    #   "/root/.config/systemd/user/*", "/root/.local/share/systemd/user/*"
+    # ) and file.extension == "timer" and not (
+    #   process.executable in (
+    #     "/bin/dpkg", "/usr/bin/dpkg", "/bin/dockerd", "/usr/bin/dockerd", "/usr/sbin/dockerd", "/bin/microdnf",
+    #     "/usr/bin/microdnf", "/bin/rpm", "/usr/bin/rpm", "/bin/snapd", "/usr/bin/snapd", "/bin/yum", "/usr/bin/yum",
+    #     "/bin/dnf", "/usr/bin/dnf", "/bin/podman", "/usr/bin/podman", "/bin/dnf-automatic", "/usr/bin/dnf-automatic",
+    #     "/bin/pacman", "/usr/bin/pacman", "/usr/bin/dpkg-divert", "/bin/dpkg-divert", "/sbin/apk", "/usr/sbin/apk",
+    #     "/usr/local/sbin/apk", "/usr/bin/apt", "/usr/sbin/pacman", "/bin/podman", "/usr/bin/podman", "/usr/bin/puppet",
+    #     "/bin/puppet", "/opt/puppetlabs/puppet/bin/puppet", "/usr/bin/chef-client", "/bin/chef-client",
+    #     "/bin/autossl_check", "/usr/bin/autossl_check", "/proc/self/exe", "/usr/bin/pamac-daemon", "./usr/bin/podman",
+    #     "/bin/pamac-daemon", "/usr/lib/snapd/snapd", "/usr/local/bin/dockerd", "/usr/bin/crio", "/usr/sbin/crond",
+    #     "/opt/puppetlabs/puppet/bin/ruby", "/usr/libexec/platform-python", "/kaniko/kaniko-executor",
+    #     "/usr/local/bin/dockerd", "/usr/bin/podman", "/bin/install", "/proc/self/exe", "/kaniko/executor",
+    #     "/etc/checkpoint/common/install.sh", "/usr/bin/dnf5", "/usr/libexec/packagekitd", "/usr/sbin/dnf",
+    #     "/opt/kaniko/executor", "/usr/bin/env", "/usr/local/bin/teleport-update", "/usr/bin/buildah",
+    #     "/usr/lib/systemd/systemd", "/usr/local/bin/defender"
+    #   ) or
+    #   process.name like (
+    #     "python*", "crio", "apt-get", "install", "snapd", "cloudflared", "sshd", "convert-usrmerge", "docker-init",
+    #     "google_metadata_script_runne
+    # ... [truncated]
+  condition: selection
+level: medium

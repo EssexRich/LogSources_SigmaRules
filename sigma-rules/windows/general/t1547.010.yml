@@ -1,0 +1,37 @@
+title: Add Port Monitor Persistence in Registry
+id: 7090c9b8-7090-4090-a090-7090c9b80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.010
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_add_port_monitor.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.010
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetObject|contains: '\Control\Print\Monitors\'
+    #         Details|endswith: '.dll'
+    #     filter_optional_cutepdf:
+    #         Image: 'C:\Windows\System32\spoolsv.exe'
+    #         TargetObject|contains: '\Control\Print\Monitors\CutePDF Writer Monitor v4.0\Driver'
+    #         Details: 'cpwmon64_v40.dll'
+    #         User|contains: # covers many language settings
+    #             - 'AUTHORI'
+    #             - 'AUTORI'
+    #     filter_optional_monvnc:
+    #         TargetObject|contains: '\Control\Print\Monitors\MONVNC\Driver'
+    #     filter_optional_vnc:
+    #         TargetObject|contains|all:
+    #             - 'Control\Print\Environments\'
+    #             - '\Drivers\'
+    #             - '\VNC Printer'
+    #     condition: selection and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

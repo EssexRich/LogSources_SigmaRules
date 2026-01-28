@@ -1,0 +1,23 @@
+title: AWS IAM Principal Enumeration via UpdateAssumeRolePolicy
+id: 359ed665-359e-459e-a59e-359ed6650000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_iam_principal_enumeration_via_update_assume_role_policy.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1087
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail" 
+    #     and event.provider: "iam.amazonaws.com" 
+    #     and event.action: "UpdateAssumeRolePolicy" 
+    #     and aws.cloudtrail.error_code: "MalformedPolicyDocumentException" 
+    #     and event.outcome: "failure"
+  condition: selection
+level: medium

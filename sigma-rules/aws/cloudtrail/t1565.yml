@@ -1,0 +1,22 @@
+title: AWS CloudTrail Log Updated
+id: 4a22cf75-4a22-4a22-aa22-4a22cf750000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1565
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_cloudtrail_logging_updated.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1565
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail" 
+    #     and event.provider: "cloudtrail.amazonaws.com" 
+    #     and event.action: "UpdateTrail" 
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

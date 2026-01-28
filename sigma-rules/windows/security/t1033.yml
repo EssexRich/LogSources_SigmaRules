@@ -1,0 +1,65 @@
+title: HackTool - SharpView Execution
+id: 7326d67b-7326-4326-a326-7326d67b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1033
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_sharpview.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1033
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         - OriginalFileName: 'SharpView.exe'
+    #         - Image|endswith: '\SharpView.exe'
+    #         - CommandLine|contains:
+    #               # - 'Add-DomainGroupMember'
+    #               # - 'Add-DomainObjectAcl'
+    #               # - 'Add-ObjectAcl'
+    #               - 'Add-RemoteConnection'
+    #               - 'Convert-ADName'
+    #               - 'ConvertFrom-SID'
+    #               - 'ConvertFrom-UACValue'
+    #               - 'Convert-SidToName'
+    #               # - 'ConvertTo-SID'
+    #               - 'Export-PowerViewCSV'
+    #               # - 'Find-DomainLocalGroupMember'
+    #               - 'Find-DomainObjectPropertyOutlier'
+    #               - 'Find-DomainProcess'
+    #               - 'Find-DomainShare'
+    #               - 'Find-DomainUserEvent'
+    #               - 'Find-DomainUserLocation'
+    #               - 'Find-ForeignGroup'
+    #               - 'Find-ForeignUser'
+    #               - 'Find-GPOComputerAdmin'
+    #               - 'Find-GPOLocation'
+    #               - 'Find-Interesting' # 'Find-InterestingDomainAcl', 'Find-InterestingDomainShareFile', 'Find-InterestingFile'
+    #               - 'Find-LocalAdminAccess'
+    #               - 'Find-ManagedSecurityGroups'
+    #               # - 'Get-ADObject'
+    #               - 'Get-CachedRDPConnection'
+    #               - 'Get-DFSshare'
+    #               # - 'Get-DNSRecord'
+    #               # - 'Get-DNSZone'
+    #               # - 'Get-Domain'
+    #               - 'Get-DomainComputer'
+    #               - 'Get-DomainController'
+    #               - 'Get-DomainDFSShare'
+    #               - 'Get-DomainDNSRecord'
+    #               # - 'Get-DomainDNSZone'
+    #               - 'Get-DomainFileServer'
+    #               - 'Get-DomainForeign' # 'Get-DomainForeignGroupMember', 'Get-DomainForeignUser'
+    #               - 'Get-DomainGPO' # 'Get-DomainGPOComputerLocalGroupMapping', 'Get-DomainGPOLocalGroup', 'Get-DomainGPOUserLocalGroupMapping'
+    #               - 'Get-DomainGroup' # 'Get-DomainGroupMember'
+    #               - 'Get-DomainGUIDMap'
+    #               - 'Get-DomainManagedSecurityGroup'
+    #               - 'Get-DomainObject' # 'Get-DomainObjectAcl'
+    #               - 'Get-
+    # ... [truncated]
+  condition: selection
+level: medium

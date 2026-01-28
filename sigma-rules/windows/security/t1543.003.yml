@@ -1,0 +1,46 @@
+title: Remote Access Tool Services Have Been Installed - Security
+id: 07415988-0741-4741-a741-074159880000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1543.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_service_install_remote_access_software.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1543.003
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4697
+    #         ServiceName|contains:
+    #             # Based on https://github.com/SigmaHQ/sigma/pull/2841
+    #             - 'AmmyyAdmin' # https://www.ammyy.com/en/
+    #             - 'AnyDesk' # https://usersince99.medium.com/windows-privilege-escalation-8214ceaf4db8
+    #             - 'Atera'
+    #             - 'BASupportExpressSrvcUpdater' # https://www.systemlookup.com/O23/6837-BASupSrvcUpdater_exe.html
+    #             - 'BASupportExpressStandaloneService' # https://www.systemlookup.com/O23/6839-BASupSrvc_exe.html
+    #             - 'chromoting'
+    #             - 'GoToAssist' # https://www.goto.com/it-management/resolve
+    #             - 'GoToMyPC' # https://get.gotomypc.com/
+    #             - 'jumpcloud'
+    #             - 'LMIGuardianSvc' # https://www.logmein.com/
+    #             - 'LogMeIn' # https://www.logmein.com/
+    #             - 'monblanking'
+    #             - 'Parsec'
+    #             - 'RManService' # https://www.systemlookup.com/O23/7855-rutserv_exe.html
+    #             - 'RPCPerformanceService' # https://www.remotepc.com/
+    #             - 'RPCService' # https://www.remotepc.com/
+    #             - 'SplashtopRemoteService' # https://www.splashtop.com/
+    #             - 'SSUService'
+    #             - 'TeamViewer'
+    #             - 'TightVNC' # https://www.tightvnc.com/
+    #             - 'vncserver'
+    #             - 'Zoho'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

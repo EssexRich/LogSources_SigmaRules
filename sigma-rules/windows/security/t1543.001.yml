@@ -1,0 +1,24 @@
+title: Suspicious PlistBuddy Usage
+id: 75ca2d85-75ca-45ca-a5ca-75ca2d850000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1543.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/suspicious_plistbuddy_usage.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1543.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=PlistBuddy
+    #   (Processes.process=*LaunchAgents* OR Processes.process=*RunAtLoad* OR Processes.process=*true*)
+    #   by Processes.dest Processes.user Processes.parent_process Processes.process_name
+    #   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+    #   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |  `suspicious_plistbuddy_usage_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,24 @@
+title: Windows PowerShell MSIX Package Installation
+id: 56c46ec7-56c4-46c4-a6c4-56c46ec70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1553.005
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_powershell_msix_package_installation.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1553.005
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # `powershell` EventCode=4104 ScriptBlockText IN("*Add-AppPackage *", "*Add-AppxPackage *")
+    #   AND ScriptBlockText IN ("* -AllowUnsigned*") | fillnull | stats count min(_time) as firstTime max(_time)
+    #   as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode
+    #   Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `windows_powershell_msix_package_installation_filter`
+    #   | `windows_powershell_msix_package_installation_filter`
+  condition: selection
+level: medium

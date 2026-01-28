@@ -1,0 +1,25 @@
+title: Azure VNet Full Network Packet Capture Enabled
+id: 49ff9cdc-49ff-49ff-a9ff-49ff9cdc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1040
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_network_full_network_packet_capture_detected.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1040
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.activitylogs and azure.activitylogs.operation_name:
+    #     (
+    #         MICROSOFT.NETWORK/*/STARTPACKETCAPTURE/ACTION or
+    #         MICROSOFT.NETWORK/*/VPNCONNECTIONS/STARTPACKETCAPTURE/ACTION or
+    #         MICROSOFT.NETWORK/*/PACKETCAPTURES/WRITE
+    #     ) and
+    # event.outcome:(Success or success)
+  condition: selection
+level: medium

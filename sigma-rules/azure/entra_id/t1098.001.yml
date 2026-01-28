@@ -1,0 +1,19 @@
+title: Entra ID Application Credential Modified
+id: 7009a29d-7009-4009-a009-7009a29d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/persistence_entra_id_application_credential_modification.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.001
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.auditlogs and azure.auditlogs.operation_name:"Update application - Certificates and secrets management" and event.outcome:(success or Success)
+  condition: selection
+level: medium

@@ -1,0 +1,45 @@
+title: Potential File Extension Spoofing Using Right-to-Left Override
+id: 398e5759-398e-498e-a98e-398e57590000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_right_to_left_override_extension_spoofing.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_rtlo_unicode:
+    #         TargetFilename|contains:
+    #             - '\u202e'  # Unicode RTLO character
+    #             - '[U+202E]'
+    #     selection_extensions:
+    #         TargetFilename|contains:
+    #             - '3pm.'  # Reversed `.mp3`
+    #             - '4pm.'  # Reversed `.mp4`
+    #             - 'cod.'  # Reversed `.doc`
+    #             - 'fdp.'  # Reversed `.pdf`
+    #             - 'ftr.'  # Reversed `.rtf`
+    #             - 'gepj.'  # Reversed `.jpeg`
+    #             - 'gnp.'  # Reversed `.png`
+    #             - 'gpj.'  # Reversed `.jpg`
+    #             - 'ism.'  # Reversed `.msi`
+    #             - 'lmth.'  # Reversed `.html`
+    #             - 'nls.' # Reversed `.sln`
+    #             - 'piz.'  # Reversed `.zip`
+    #             - 'slx.'  # Reversed `.xls`
+    #             - 'tdo.'  # Reversed `.odt`
+    #             - 'vsc.'  # Reversed `.csv`
+    #             - 'vwm.'  # Reversed `.wmv`
+    #             - 'xcod.'  # Reversed `.docx`
+    #             - 'xslx.'  # Reversed `.xlsx`
+    #             - 'xtpp.'  # Reversed `.pptx`
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

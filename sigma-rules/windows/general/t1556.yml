@@ -1,0 +1,24 @@
+title: Directory Service Restore Mode(DSRM) Registry Value Tampering
+id: 2c77ce4b-2c77-4c77-ac77-2c77ce4b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_dsrm_tampering.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetObject|endswith: '\Control\Lsa\DsrmAdminLogonBehavior'
+    #     filter_main_default_value:
+    #         Details: 'DWORD (0x00000000)' # Default value
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,43 @@
+title: WMI Incoming Lateral Movement
+id: 1e6718fe-1e67-4e67-ae67-1e6718fe0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/lateral_movement_incoming_wmi.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id with maxspan = 20s
+    # 
+    #  /* Accepted Incoming RPC connection by Winmgmt service */
+    # 
+    #   [network where host.os.type == "windows" and process.name : "svchost.exe" and network.direction : ("incoming", "ingress") and
+    #    source.ip != "127.0.0.1" and source.ip != "::1" and destination.port == 135]
+    # 
+    #   /* Excluding Common FPs Nessus and SCCM */
+    # 
+    #   [process where host.os.type == "windows" and event.type == "start" and process.parent.name : "WmiPrvSE.exe" and
+    #    not (?process.Ext.token.integrity_level_name : "System" or ?winlog.event_data.IntegrityLevel : "System") and
+    #    not (
+    #          user.id : ("S-1-5-18", "S-1-5-19", "S-1-5-20") and
+    #          /* Don't apply the user.id exclusion to Sysmon for compatibility */
+    #          not event.dataset : ("windows.sysmon_operational", "windows.sysmon")
+    #    ) and
+    #    not process.executable :
+    #                ("?:\\Program Files\\HPWBEM\\Tools\\hpsum_swdiscovery.exe",
+    #                 "?:\\Windows\\CCM\\Ccm32BitLauncher.exe",
+    #                 "?:\\Windows\\System32\\wbem\\mofcomp.exe",
+    #                 "?:\\Windows\\Microsoft.NET\\Framework*\\csc.exe",
+    #                 "?:\\Windows\\System32\\powercfg.exe") and
+    #    not (process.executable : "?:\\Windows\\System32\\msiexec.exe" and process.args : "REBOOT=ReallySuppress") and
+    #    not (process.executable : "?:\\Windows\\System32\\inetsrv\\appcmd.exe" and process.args : "uninstall")
+    #    ]
+  condition: selection
+level: medium

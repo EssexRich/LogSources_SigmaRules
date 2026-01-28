@@ -1,0 +1,23 @@
+title: Kerberos Service Ticket Request Using RC4 Encryption
+id: 05e1be2e-05e1-45e1-a5e1-05e1be2e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1558.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_service_ticket_request_using_rc4_encryption.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1558.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `wineventlog_security` EventCode=4769 ServiceName="*$" (TicketOptions=0x40810000
+    #   OR TicketOptions=0x40800000 OR TicketOptions=0x40810010) TicketEncryptionType=0x17
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id,
+    #   TicketEncryptionType, TicketOptions | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+    #   | `kerberos_service_ticket_request_using_rc4_encryption_filter`
+  condition: selection
+level: medium

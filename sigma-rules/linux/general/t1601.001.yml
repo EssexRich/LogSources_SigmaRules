@@ -1,0 +1,25 @@
+title: Kernel Load or Unload via Kexec Detected
+id: 740700a5-7407-4407-a407-740700a50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1601.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_load_and_unload_of_kernel_via_kexec.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1601.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
+    # process.name == "kexec" and process.args in ("--exec", "-e", "--load", "-l", "--unload", "-u") and
+    # not (
+    #   process.parent.name in ("kdumpctl", "unload.sh") or
+    #   process.parent.args in ("/usr/bin/kdumpctl", "/usr/sbin/kdump-config", "/usr/lib/kdump/unload.sh")
+    # )
+  condition: selection
+level: medium

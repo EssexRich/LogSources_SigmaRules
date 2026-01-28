@@ -1,0 +1,26 @@
+title: Overwriting the File with Dev Zero or Null
+id: 38c1e35d-38c1-48c1-a8c1-38c1e35d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1485
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_dd_delete_file.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'EXECVE'
+    #         a0|contains: 'dd'
+    #         a1|contains:
+    #             - 'if=/dev/null'
+    #             - 'if=/dev/zero'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

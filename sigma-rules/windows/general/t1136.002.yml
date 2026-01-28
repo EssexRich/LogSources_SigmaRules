@@ -1,0 +1,23 @@
+title: PSEXEC Remote Execution File Artefact
+id: 40e28d1c-40e2-40e2-a0e2-40e28d1c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_sysinternals_psexec_service_key.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetFilename|startswith: 'C:\Windows\PSEXEC-'
+    #         TargetFilename|endswith: '.key'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

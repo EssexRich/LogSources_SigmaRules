@@ -1,0 +1,30 @@
+title: Cisco IOS Suspicious Privileged Account Creation
+id: 1d5109b0-1d51-4d51-ad51-1d5109b00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_ios_suspicious_privileged_account_creation.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes
+    #   where (
+    #   (All_Changes.command="*username * privilege 15*") OR
+    #   (All_Changes.command="*username * password*" AND All_Changes.command="*USER TABLE MODIFIED*") OR
+    #   (All_Changes.command="*USER_PRIVILEGE_UPDATE*priv-15*")
+    #   )
+    #   by All_Changes.dvc All_Changes.user
+    #   | `drop_dm_object_name("All_Changes")`
+    #   | rename dvc as dest
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `cisco_ios_suspicious_privileged_account_creation_filter`
+  condition: selection
+level: medium

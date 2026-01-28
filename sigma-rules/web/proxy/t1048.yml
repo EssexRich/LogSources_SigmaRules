@@ -1,0 +1,35 @@
+title: Ollama Possible Model Exfiltration Data Leakage
+id: 2e9b021b-2e9b-4e9b-ae9b-2e9b021b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1048
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/ollama_possible_model_exfiltration_data_leakage.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1048
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `ollama_server` | rex field=_raw "\|\s+(?<status_code>\d+)\s+\|\s+(?<response_time>[\d\.]+)s\s+\|\s+(?<src_ip>[\:\da-f\.]+)\s+\|\s+(?<http_method>\w+)\s+\"(?<uri_path>[^\"]+)\""
+    # | eval src=src_ip
+    # | eval dest=uri_path
+    # | where response_time > 55
+    # | bin _time span=15m
+    # | stats count, avg(response_time) as avg_response_time, max(response_time) as max_response_time by _time, src, dest, uri_path
+    # | eval avg_response_time=round(avg_response_time, 2)
+    # | eval max_response_time=round(max_response_time, 2)
+    # | eval severity=case(
+    #     avg_response_time > 50, "high",
+    #     avg_response_time > 40, "medium",
+    #     1=1, "low"
+    # )
+    # | eval attack_type="Potential Data Exfiltration"
+    # | sort -_time
+    # | stats count by _time, src, uri_path, avg_response_time, max_response_time, severity, attack_type
+    # | `ollama_possible_model_exfiltration_data_leakage_filter`
+  condition: selection
+level: medium

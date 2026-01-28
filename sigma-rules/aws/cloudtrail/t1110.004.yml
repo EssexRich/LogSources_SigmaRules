@@ -1,0 +1,25 @@
+title: AWS High Number Of Failed Authentications From Ip
+id: 4432bc2c-4432-4432-a432-4432bc2c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_high_number_of_failed_authentications_from_ip.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.004
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cloudtrail` eventName=ConsoleLogin action=failure 
+    #   | bucket span=10m _time
+    #   | rename user_name as user
+    #   | stats dc(_raw) AS failed_attempts values(user) as user values(user_agent) as user_agent by _time, src, signature, dest, vendor_account vendor_region, vendor_product
+    #   | where failed_attempts > 20  
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `aws_high_number_of_failed_authentications_from_ip_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,27 @@
+title: AWS ECS Task Definition That Queries The Credential Endpoint
+id: 5b4abfce-5b4a-4b4a-ab4a-5b4abfce0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1525
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_ecs_task_definition_cred_endpoint_query.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1525
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: 'ecs.amazonaws.com'
+    #         eventName:
+    #             - 'DescribeTaskDefinition'
+    #             - 'RegisterTaskDefinition'
+    #             - 'RunTask'
+    #         requestParameters.containerDefinitions.command|contains: '$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

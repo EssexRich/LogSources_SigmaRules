@@ -1,0 +1,24 @@
+title: Windows ConsoleHost History File Deletion
+id: 322930da-3229-4229-a229-322930da0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_consolehost_history_file_deletion.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.003
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode IN ("23","26") TargetFilename = "*\\Microsoft\\Windows\\PowerShell\\PSReadline\\ConsoleHost_history.txt" 
+    #   | stats count min(_time) as firstTime, max(_time) as lastTime 
+    #   by action dest dvc file_path file_hash file_name file_modify_time process_name process_exec process_id process_path user_id vendor_product process_guid signature signature_id user
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)`
+    #   | `windows_consolehost_history_file_deletion_filter`
+  condition: selection
+level: medium

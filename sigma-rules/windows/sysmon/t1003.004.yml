@@ -1,0 +1,43 @@
+title: Mimikatz Use
+id: 492c0272-492c-492c-a92c-492c02720000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/win_alert_mimikatz_keywords.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.004
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     keywords:
+    #         - 'dpapi::masterkey'
+    #         - 'eo.oe.kiwi'
+    #         - 'event::clear'
+    #         - 'event::drop'
+    #         - 'gentilkiwi.com'
+    #         - 'kerberos::golden'
+    #         - 'kerberos::ptc'
+    #         - 'kerberos::ptt'
+    #         - 'kerberos::tgt'
+    #         - 'Kiwi Legit Printer'
+    #         - 'lsadump::'
+    #         - 'mimidrv.sys'
+    #         - '\mimilib.dll'
+    #         - 'misc::printnightmare'
+    #         - 'misc::shadowcopies'
+    #         - 'misc::skeleton'
+    #         - 'privilege::backup'
+    #         - 'privilege::debug'
+    #         - 'privilege::driver'
+    #         - 'sekurlsa::'
+    #     filter:
+    #         EventID: 15  # Sysmon's FileStream Events (could cause false positives when Sigma rules get copied on/to a system)
+    #     condition: keywords and not filter
+    # 
+  condition: selection
+level: medium

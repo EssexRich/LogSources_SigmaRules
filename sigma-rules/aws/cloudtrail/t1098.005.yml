@@ -1,0 +1,23 @@
+title: AWS IAM Virtual MFA Device Registration Attempt with Session Token
+id: 04420464-0442-4442-a442-044204640000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_aws_attempt_to_register_virtual_mfa_device.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.005
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # iam where event.dataset == "aws.cloudtrail"
+    #   and event.provider == "iam.amazonaws.com"
+    #   and event.outcome == "success"
+    #   and event.action in ("CreateVirtualMFADevice", "EnableMFADevice")
+    #   and startsWith (aws.cloudtrail.user_identity.access_key_id, "ASIA")
+  condition: selection
+level: medium

@@ -1,0 +1,28 @@
+title: Enumeration of Users or Groups via Built-in Commands
+id: 4fdf2ab8-4fdf-4fdf-afdf-4fdf2ab80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/discovery_users_domain_built_in_commands.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1087
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #   (
+    #     process.name in ("ldapsearch", "dsmemberutil") or
+    #     (process.name == "dscl" and
+    #       process.args in ("read", "-read", "list", "-list", "ls", "search", "-search") and
+    #       process.args like ("/Active Directory/*", "/Users*", "/Groups*"))
+    # 	) and
+    #   ((process.Ext.effective_parent.executable like "/Volumes/*" or process.parent.executable like "/Volumes/*") or
+    #    (process.Ext.effective_parent.name : ".*" or process.parent.name : ".*") or
+    #    (process.parent.code_signature.trusted == false or process.parent.code_signature.exists == false))
+  condition: selection
+level: medium

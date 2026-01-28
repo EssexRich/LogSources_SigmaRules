@@ -1,0 +1,35 @@
+title: CobaltStrike Service Installations - Security
+id: 494dff05-494d-494d-a94d-494dff050000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_cobaltstrike_service_installs.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.002
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     event_id:
+    #         EventID: 4697
+    #     selection1:
+    #         ServiceFileName|contains|all:
+    #             - 'ADMIN$'
+    #             - '.exe'
+    #     selection2:
+    #         ServiceFileName|contains|all:
+    #             - '%COMSPEC%'
+    #             - 'start'
+    #             - 'powershell'
+    #     selection3:
+    #         ServiceFileName|contains: 'powershell -nop -w hidden -encodedcommand'
+    #     selection4:
+    #         ServiceFileName|base64offset|contains: "IEX (New-Object Net.Webclient).DownloadString('http://127.0.0.1:"
+    #     condition: event_id and 1 of selection*
+    # 
+  condition: selection
+level: medium

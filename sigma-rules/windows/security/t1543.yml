@@ -1,0 +1,25 @@
+title: Service Installed By Unusual Client - Security
+id: 755377eb-7553-4553-a553-755377eb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1543
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_service_installation_by_unusal_client.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1543
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_eid:
+    #         EventID: 4697
+    #     selection_pid:
+    #         - ClientProcessId: 0
+    #         - ParentProcessId: 0
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

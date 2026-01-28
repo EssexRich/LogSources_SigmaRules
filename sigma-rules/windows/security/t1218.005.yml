@@ -1,0 +1,41 @@
+title: Cisco NVM - Rundll32 Abuse of MSHTML.DLL for Payload Download
+id: 434a678e-434a-434a-a34a-434a678e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.005
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cisco_nvm___rundll32_abuse_of_mshtml_dll_for_payload_download.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.005
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_network_visibility_module_flowdata`
+    #   process_name = "rundll32.exe"
+    #   process_arguments = "*mshtml*"
+    #   process_arguments IN ("*135*", "*RunHTMLApplication*")
+    #   | stats count min(_time) as firstTime max(_time) as lastTime
+    #           values(parent_process_arguments) as parent_process_arguments
+    #           values(process_arguments) as process_arguments
+    #           values(parent_process_hash) as parent_process_hash
+    #           values(process_hash) as process_hash
+    #           values(module_name_list) as module_name_list
+    #           values(module_hash_list) as module_hash_list
+    #           values(dest_port) as dest_port
+    #           values(aliul) as additional_logged_in_users_list
+    #           values(dest_hostname) as dest_hostname
+    #           by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | table
+    #     parent_process_integrity_level parent_process_path parent_process_arguments parent_process_hash
+    #     process_integrity_level process_path process_name process_arguments process_hash process_id
+    #     additional_logged_in_users_list module_name_list module_hash_list
+    #     src dest_hostname dest dest_port transport firstTime lastTime
+    #   | `cisco_nvm___rundll32_abuse_of_mshtml_dll_for_payload_download_filter`
+  condition: selection
+level: medium

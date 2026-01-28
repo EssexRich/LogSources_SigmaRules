@@ -1,0 +1,22 @@
+title: Remote File Creation in World Writeable Directory
+id: 44aefa12-44ae-44ae-a4ae-44aefa120000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1570
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/lateral_movement_remote_file_creation_world_writeable_dir.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1570
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:file and host.os.type:linux and event.action:creation and
+    # process.name:(ftp or rsync or scp or sftp or sftp-server or ssh or sshd or vsftpd) and
+    # file.path:((/dev/shm/* or /tmp* or /var/tmp*) and not (/tmp/ansible-tmp-* or /var/tmp/ansible-tmp-*)) and
+    # not user.id:0
+  condition: selection
+level: medium

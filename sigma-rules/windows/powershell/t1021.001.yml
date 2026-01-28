@@ -1,0 +1,35 @@
+title: RDP Enable or Disable via Win32_TerminalServiceSetting WMI Class
+id: 5467d2fe-5467-4467-a467-5467d2fe0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_rdp_enable_or_disable_via_win32_terminalservicesetting_wmi_class.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith:
+    #               - '\wmic.exe'
+    #               - '\powershell.exe'
+    #               - '\pwsh.exe'
+    #         - OriginalFileName:
+    #               - 'wmic.exe'
+    #               - 'PowerShell.EXE'
+    #               - 'pwsh.dll'
+    #     selection_cli_method:
+    #         CommandLine|contains:
+    #             - 'rdtoggle'
+    #             - 'Win32_TerminalServiceSetting'
+    #     selection_cli_property:
+    #         CommandLine|contains: 'SetAllowTSConnections'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

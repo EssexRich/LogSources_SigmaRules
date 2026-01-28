@@ -1,0 +1,46 @@
+title: Suspicious DNS Z Flag Bit Set
+id: 3b77e0a4-3b77-4b77-ab77-3b77e0a40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1571
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/zeek/zeek_dns_susp_zbit_flag.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1571
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     z_flag_unset:
+    #         Z: 0
+    #     most_probable_valid_domain:
+    #         query|contains: '.'
+    #     exclude_tlds:
+    #         query|endswith:
+    #             - '.arpa'
+    #             - '.local'
+    #             - '.ultradns.net'
+    #             - '.twtrdns.net'
+    #             - '.azuredns-prd.info'
+    #             - '.azure-dns.com'
+    #             - '.azuredns-ff.info'
+    #             - '.azuredns-ff.org'
+    #             - '.azuregov-dns.org'
+    #     exclude_query_types:
+    #         qtype_name:
+    #             - 'ns'
+    #             - 'mx'
+    #     exclude_responses:
+    #         answers|endswith: '\\x00'
+    #     exclude_netbios:
+    #         id.resp_p:
+    #             - 137
+    #             - 138
+    #             - 139
+    #     condition: not z_flag_unset and most_probable_valid_domain and not (exclude_tlds or exclude_query_types or exclude_responses or exclude_netbios)
+    # 
+  condition: selection
+level: medium

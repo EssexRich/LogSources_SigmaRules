@@ -1,0 +1,19 @@
+title: Google Workspace Admin Role Deletion
+id: 71c6384a-71c6-41c6-a1c6-71c6384a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1531
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/impact_google_workspace_admin_role_deletion.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1531
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:google_workspace.admin and event.provider:admin and event.category:iam and event.action:DELETE_ROLE
+  condition: selection
+level: medium

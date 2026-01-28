@@ -1,0 +1,23 @@
+title: Azure AD Only Single Factor Authentication Required
+id: 7748e5a0-7748-4748-a748-7748e5a00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/signin_logs/azure_ad_only_single_factor_auth_required.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556.006
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Status: 'Success'
+    #         AuthenticationRequirement: 'singleFactorAuthentication'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

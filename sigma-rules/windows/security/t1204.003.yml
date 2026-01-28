@@ -1,0 +1,27 @@
+title: Cisco Isovalent - Non Allowlisted Image Use
+id: 0670b96f-0670-4670-a670-0670b96f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1204.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cisco_isovalent___non_allowlisted_image_use.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1204.003
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_isovalent_process_exec` pod_name!=""
+    #   | search NOT `cisco_isovalent_allowed_images`
+    #   | stats count 
+    #           min(_time) as firstTime 
+    #           max(_time) as lastTime 
+    #       by pod_image_name pod_namespace pod_name process_name cluster_name
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `cisco_isovalent___non_allowlisted_image_use_filter`
+  condition: selection
+level: medium

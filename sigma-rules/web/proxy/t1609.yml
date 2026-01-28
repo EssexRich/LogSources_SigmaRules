@@ -1,0 +1,24 @@
+title: Potential Remote Command Execution In Pod Container
+id: 6d9065b9-6d90-4d90-ad90-6d9065b90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1609
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/application/kubernetes/audit/kubernetes_audit_exec_into_container.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1609
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         verb: 'create'
+    #         objectRef.resource: 'pods'
+    #         objectRef.subresource: 'exec'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

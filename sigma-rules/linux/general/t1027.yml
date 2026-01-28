@@ -1,0 +1,24 @@
+title: Suspicious Filename with Embedded Base64 Commands
+id: 1ae9aad6-1ae9-4ae9-aae9-1ae9aad60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/file_event/file_event_lnx_susp_filename_with_embedded_base64_command.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetFilename|contains:
+    #             - '{echo'
+    #             - '{base64,-d}'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

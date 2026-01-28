@@ -1,0 +1,27 @@
+title: Service Control Spawned via Script Interpreter
+id: 1b7ffc92-1b7f-4b7f-ab7f-1b7ffc920000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1543.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_service_control_spawned_script_int.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1543.003
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # /* This rule is not compatible with Sysmon due to user.id issues */
+    # 
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   (process.name : "sc.exe" or ?process.pe.original_file_name == "sc.exe") and
+    #   process.parent.name : ("cmd.exe", "wscript.exe", "rundll32.exe", "regsvr32.exe",
+    #                          "wmic.exe", "mshta.exe","powershell.exe", "pwsh.exe") and
+    #   process.args:("config", "create", "start", "delete", "stop", "pause") and
+    #   /* exclude SYSTEM SID - look for service creations by non-SYSTEM user */
+    #   not user.id : "S-1-5-18"
+  condition: selection
+level: medium

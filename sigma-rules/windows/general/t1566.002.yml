@@ -1,0 +1,19 @@
+title: Downloaded Shortcut Files
+id: 76184c85-7618-4618-a618-76184c850000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_downloaded_shortcut_files.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "windows" and event.type == "creation" and file.extension == "lnk" and file.Ext.windows.zone_identifier > 1
+  condition: selection
+level: medium

@@ -1,0 +1,19 @@
+title: M365 Security Compliance Email Reported by User as Malware or Phish
+id: 6771eb63-6771-4771-a771-6771eb630000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/initial_access_security_compliance_user_reported_phish_malware.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566.001
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and event.provider:SecurityComplianceCenter and event.action:AlertTriggered and rule.name:"Email reported by user as malware or phish"
+  condition: selection
+level: medium

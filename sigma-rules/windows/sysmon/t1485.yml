@@ -1,0 +1,26 @@
+title: Excessive File Deletion In WinDefender Folder
+id: 59cba50e-59cb-49cb-a9cb-59cba50e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1485
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/excessive_file_deletion_in_windefender_folder.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode IN ("23","26") TargetFilename = "*\\ProgramData\\Microsoft\\Windows
+    #   Defender\\*" | stats count min(_time) as firstTime, max(_time) as lastTime values(file_path)
+    #   as file_path values(file_hash) as file_hash values(file_name) as file_name values(file_modify_time)
+    #   as file_modify_time values(process_name) as process_name values(process_path) as
+    #   process_path values(process_guid) as process_guid values(process_id) as process_id
+    #   values(process_exec) as process_exec by action dest dvc signature signature_id user
+    #   user_id vendor_product | where count >=50 | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `excessive_file_deletion_in_windefender_folder_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,29 @@
+title: Suspicious PowerShell WindowStyle Option
+id: 665d94a4-665d-465d-a65d-665d94a40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_windowstyle.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564.003
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - 'powershell'
+    #             - 'WindowStyle'
+    #             - 'Hidden'
+    #     filter:
+    #         ScriptBlockText|contains|all:
+    #             - ':\Program Files\Amazon\WorkSpacesConfig\Scripts\'
+    #             - '$PSScriptRoot\Module\WorkspaceScriptModule\WorkspaceScriptModule'
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

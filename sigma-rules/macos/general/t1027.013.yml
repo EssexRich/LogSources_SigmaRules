@@ -1,0 +1,22 @@
+title: ROT Encoded Python Script Execution
+id: 3fd20fa5-3fd2-4fd2-afd2-3fd20fa50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.013
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_encoding_rot13_python_script.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027.013
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=1m
+    #  [process where host.os.type in ("windows", "macos") and event.type == "start" and process.name : "python*"]
+    #  [file where host.os.type in ("windows", "macos") and
+    #   event.action != "deletion" and process.name : "python*" and file.name : "rot_??.cpython-*.pyc*"]
+  condition: selection
+level: medium

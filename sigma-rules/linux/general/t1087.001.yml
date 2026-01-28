@@ -1,0 +1,50 @@
+title: Local System Accounts Discovery - Linux
+id: 3e4bc359-3e4b-4e4b-ae4b-3e4bc3590000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_local_account.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1087.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1:
+    #         Image|endswith: '/lastlog'
+    #     selection_2:
+    #         CommandLine|contains: '''x:0:'''
+    #     selection_3:
+    #         Image|endswith:
+    #             - '/cat'
+    #             - '/ed'
+    #             - '/head'
+    #             - '/more'
+    #             - '/nano'
+    #             - '/tail'
+    #             - '/vi'
+    #             - '/vim'
+    #             - '/less'
+    #             - '/emacs'
+    #             - '/sqlite3'
+    #             - '/makemap'
+    #         CommandLine|contains:
+    #             - '/etc/passwd'
+    #             - '/etc/shadow'
+    #             - '/etc/sudoers'
+    #             - '/etc/spwd.db'
+    #             - '/etc/pwd.db'
+    #             - '/etc/master.passwd'
+    #     selection_4:
+    #         Image|endswith: '/id'
+    #     selection_5:
+    #         Image|endswith: '/lsof'
+    #         CommandLine|contains: '-u'
+    #     condition: 1 of selection*
+    # 
+  condition: selection
+level: medium

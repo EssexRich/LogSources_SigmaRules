@@ -1,0 +1,24 @@
+title: O365 SharePoint Malware Detection
+id: 5af9052e-5af9-4af9-aaf9-5af9052e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1204.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_sharepoint_malware_detection.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1204.002
+logsource:
+  product: m365
+  service: sharepoint
+detection:
+  selection:
+    # Original splunk detection logic
+    # `o365_management_activity` Operation=FileMalwareDetected | rename UserId
+    #   as user, Id as signature_id | stats values(Workload) as category, values(SourceFileName)
+    #   as file_name values(ObjectId) as file_path, values(VirusInfo) as signature, count,
+    #   min(_time) as firstTime, max(_time) as lastTime by signature_id, user, dest, src,
+    #   vendor_account, vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `o365_sharepoint_malware_detection_filter`
+  condition: selection
+level: medium

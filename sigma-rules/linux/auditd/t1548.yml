@@ -1,0 +1,25 @@
+title: Linux Capabilities Discovery
+id: 61a9e7a9-61a9-41a9-a1a9-61a9e7a90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_capabilities_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: EXECVE
+    #         a0: getcap
+    #         a1: '-r'
+    #         a2: '/'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

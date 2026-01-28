@@ -1,0 +1,36 @@
+title: Suspicious Download from Office Domain
+id: 2478419d-2478-4478-a478-2478419d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1608
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_download_office_domain.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1608
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_download:
+    #         - Image|endswith:
+    #               - '\curl.exe'
+    #               - '\wget.exe'
+    #         - CommandLine|contains:
+    #               - 'Invoke-WebRequest'
+    #               - 'iwr '
+    #               - 'curl '
+    #               - 'wget '
+    #               - 'Start-BitsTransfer'
+    #               - '.DownloadFile('
+    #               - '.DownloadString('
+    #     selection_domains:
+    #         CommandLine|contains:
+    #             - 'https://attachment.outlook.live.net/owa/'
+    #             - 'https://onenoteonlinesync.onenote.com/onenoteonlinesync/'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,53 @@
+title: Local LLM Framework DNS Query
+id: 1fb9f61b-1fb9-4fb9-afb9-1fb9f61b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1590
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/local_llm_framework_dns_query.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1590
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon`
+    #   EventCode=22
+    #   QueryName IN (
+    #       "*huggingface*",
+    #       "*ollama*",
+    #       "*jan.ai*",
+    #       "*gpt4all*",
+    #       "*nomic*",
+    #       "*koboldai*",
+    #       "*lmstudio*",
+    #       "*modelscope*",
+    #       "*civitai*",
+    #       "*oobabooga*",
+    #       "*replicate*",
+    #       "*anthropic*",
+    #       "*openai*",
+    #       "*openrouter*",
+    #       "*api.openrouter*",
+    #       "*aliyun*",
+    #       "*alibabacloud*",
+    #       "*dashscope.aliyuncs*"
+    #   )
+    #   NOT Image IN (
+    #       "*\\MsMpEng.exe",
+    #       "C:\\ProgramData\\*",
+    #       "C:\\Windows\\System32\\*",
+    #       "C:\\Windows\\SysWOW64\\*"
+    #   )
+    #   | stats count
+    #       min(_time) as firstTime
+    #       max(_time) as lastTime
+    #       by src Image process_name QueryName query_count answer answer_count reply_code_id vendor_product
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `local_llm_framework_dns_query_filter`
+  condition: selection
+level: medium

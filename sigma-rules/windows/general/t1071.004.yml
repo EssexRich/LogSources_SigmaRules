@@ -1,0 +1,28 @@
+title: Suspicious Cobalt Strike DNS Beaconing - DNS Client
+id: 4b64f926-4b64-4b64-ab64-4b64f9260000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/dns_client/win_dns_client_mal_cobaltstrike.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1071.004
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_eid:
+    #         EventID: 3008
+    #     selection_query_1:
+    #         QueryName|startswith:
+    #             - 'aaa.stage.'
+    #             - 'post.1'
+    #     selection_query_2:
+    #         QueryName|contains: '.stage.123456.'
+    #     condition: selection_eid and 1 of selection_query_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,30 @@
+title: Clearing Windows Console History
+id: 2cd0fc6f-2cd0-4cd0-acd0-2cd0fc6f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_clearing_windows_console_history.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection1:
+    #         ScriptBlockText|contains: Clear-History
+    #     selection2a:
+    #         ScriptBlockText|contains:
+    #             - Remove-Item
+    #             - rm
+    #     selection2b:
+    #         ScriptBlockText|contains:
+    #             - ConsoleHost_history.txt
+    #             - (Get-PSReadlineOption).HistorySavePath
+    #     condition: selection1 or selection2a and selection2b
+    # 
+  condition: selection
+level: medium

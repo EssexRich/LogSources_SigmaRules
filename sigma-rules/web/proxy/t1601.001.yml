@@ -1,0 +1,24 @@
+title: ESXi Download Errors
+id: 36fe733e-36fe-46fe-a6fe-36fe733e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1601.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_download_errors.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1601.001
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `esxi_syslog` Message IN ("*Download failed*", "*Failed to download file*",
+    #   "*File download error*", "*Could not download*")
+    #   | rex field=_raw "Z (?<dest>[\w\.]*)\s"
+    #   | stats min(_time) as firstTime max(_time) as lastTime count by dest Message 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `esxi_download_errors_filter`
+  condition: selection
+level: medium

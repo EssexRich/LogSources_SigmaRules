@@ -1,0 +1,24 @@
+title: AWS EC2 Startup Shell Script Change
+id: 379a66de-379a-479a-a79a-379a66de0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_ec2_startup_script_change.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.003
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_source:
+    #         eventSource: ec2.amazonaws.com
+    #         requestParameters.attribute: 'userData'
+    #         eventName: ModifyInstanceAttribute
+    #     condition: selection_source
+    # 
+  condition: selection
+level: medium

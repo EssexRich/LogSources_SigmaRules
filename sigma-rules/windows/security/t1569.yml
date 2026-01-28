@@ -1,0 +1,69 @@
+title: Unsigned DLL Loaded by Svchost
+id: 2e76f6b9-2e76-4e76-ae76-2e76f6b90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1569
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_service_dll_unsigned.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1569
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original elastic detection logic
+    # library where host.os.type == "windows" and
+    # 
+    #  process.executable :
+    #      ("?:\\Windows\\System32\\svchost.exe", "?:\\Windows\\Syswow64\\svchost.exe") and
+    # 
+    #  dll.code_signature.trusted != true and
+    # 
+    #  not dll.code_signature.status : ("trusted", "errorExpired", "errorCode_endpoint*") and
+    # 
+    #  dll.hash.sha256 != null and
+    # 
+    #  (
+    #        /* DLL created within 5 minutes of the library load event - compatible with Elastic Endpoint 8.4+ */
+    #        dll.Ext.relative_file_creation_time <= 300 or
+    # 
+    #        /* unusual paths */
+    #        dll.path :("?:\\ProgramData\\*",
+    #                   "?:\\Users\\*",
+    #                   "?:\\PerfLogs\\*",
+    #                   "?:\\Windows\\Tasks\\*",
+    #                   "?:\\Intel\\*",
+    #                   "?:\\AMD\\Temp\\*",
+    #                   "?:\\Windows\\AppReadiness\\*",
+    #                   "?:\\Windows\\ServiceState\\*",
+    #                   "?:\\Windows\\security\\*",
+    #                   "?:\\Windows\\IdentityCRL\\*",
+    #                   "?:\\Windows\\Branding\\*",
+    #                   "?:\\Windows\\csc\\*",
+    #                   "?:\\Windows\\DigitalLocker\\*",
+    #                   "?:\\Windows\\en-US\\*",
+    #                   "?:\\Windows\\wlansvc\\*",
+    #                   "?:\\Windows\\Prefetch\\*",
+    #                   "?:\\Windows\\Fonts\\*",
+    #                   "?:\\Windows\\diagnostics\\*",
+    #                   "?:\\Windows\\TAPI\\*",
+    #                   "?:\\Windows\\INF\\*",
+    #                   "?:\\Windows\\System32\\Speech\\*",
+    #                   "?:\\windows\\tracing\\*",
+    #                   "?:\\windows\\IME\\*",
+    #                   "?:\\Windows\\Performance\\*",
+    #                   "?:\\windows\\intel\\*",
+    #                   "?:\\windows\\ms\\*",
+    #                   "?:\\Windows\\dot3svc\\*",
+    #                   "?:\\Windows\\panther\\*",
+    #                   "?:\\Windows\\RemotePackages\\*",
+    #                   "?:\\Windows\\OCR\\*",
+    #                   "?:\\Windows\\appcompat\\*",
+    #                   "?:\\Windows\\apppatch\\*",
+    #                   "?:\\Windows\\addins\\*",
+    #                   "?:\\Windows\\Se
+    # ... [truncated]
+  condition: selection
+level: medium

@@ -1,0 +1,24 @@
+title: Remote SSH Login Enabled via systemsetup Command
+id: 4ad6bda2-4ad6-4ad6-aad6-4ad6bda20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/lateral_movement_remote_ssh_login_enabled.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.004
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.name == "systemsetup" and
+    #  process.args like~ "-setremotelogin" and 
+    #  process.args like~ "on" and
+    #  process.parent.executable != null and
+    #  not process.parent.executable like ("/usr/local/jamf/bin/jamf", "/usr/libexec/xpcproxy", "/usr/bin/sudo")
+  condition: selection
+level: medium

@@ -1,0 +1,23 @@
+title: AWS Management Console Root Login
+id: 399057e1-3990-4990-a990-399057e10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/initial_access_console_login_root.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078.004
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail and 
+    # event.provider:signin.amazonaws.com and 
+    # event.action:ConsoleLogin and 
+    # aws.cloudtrail.user_identity.type:Root and 
+    # event.outcome:success
+  condition: selection
+level: medium

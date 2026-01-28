@@ -1,0 +1,68 @@
+title: GenAI Process Performing Encoding/Chunking Prior to Network Activity
+id: 16fb175e-16fb-46fb-a6fb-16fb175e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_genai_process_encoding_prior_to_network_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=30s
+    # 
+    #   // Encoding/compression followed by network activity
+    #   [process where event.type == "start"
+    #      and event.type == "start"
+    # 
+    #      // Encoding/chunking tools
+    #      and (
+    #        // Native encoding tools
+    #        process.name in ("base64", "gzip", "tar", "zip", "split", "7z", "7za", "7zr") or
+    #        
+    #        // PowerShell encoding
+    #        (process.name in ("powershell.exe", "pwsh.exe") and
+    #         process.command_line like~ ("*Compress-Archive*", "*[Convert]::ToBase64String*")) or
+    #        
+    #        // Python encoding
+    #        (process.name like~ "python*" and
+    #         process.command_line like~ ("*base64*", "*gzip*", "*zlib*", "*tarfile*", "*zipfile*")) or
+    #        
+    #        // Node.js encoding
+    #        (process.name in ("node.exe", "node") and
+    #         process.command_line like~ ("*Buffer.from*", "*zlib*", "*gzip*") and
+    #         not process.command_line like~ ("*mcp*start*", "*mcp-server*", "*npm exec*mcp*"))
+    #      )
+    # 
+    #      // GenAI parent process
+    #      and (
+    #        process.parent.name in (
+    #          "ollama.exe", "ollama", "Ollama",
+    #          "textgen.exe", "textgen", "text-generation-webui.exe", "oobabooga.exe",
+    #          "lmstudio.exe", "lmstudio", "LM Studio",
+    #          "claude.exe", "claude", "Claude",
+    #          "cursor.exe", "cursor", "Cursor", "Cursor Helper", "Cursor Helper (Plugin)",
+    #          "copilot.exe", "copilot", "Copilot",
+    #          "codex.exe", "codex",
+    #          "Jan", "jan.exe", "jan", "Jan Helper",
+    #          "gpt4all.exe", "gpt4all", "GPT4All",
+    #          "gemini-cli.exe", "gemini-cli",
+    #          "genaiscript.exe", "genaiscript",
+    #          "grok.exe", "grok",
+    #          "qwen.exe", "qwen",
+    #          "koboldcpp.exe", "koboldcpp", "KoboldCpp",
+    #          "llama-server", "llama-cli"
+    #        ) or
+    #        
+    #        // Node/Deno with GenAI frameworks
+    #        (process.parent.name in ("node.exe", "node", "deno.exe", "deno") and
+    #         process.parent.command_line like~ (
+    #           "*ollama*", "*mcp-server*", "*@modelcontextprotocol*", "*langchain*", "*
+    # ... [truncated]
+  condition: selection
+level: medium

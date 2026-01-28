@@ -1,0 +1,25 @@
+title: Remcos RAT File Creation in Remcos Folder
+id: 6b036f7e-6b03-4b03-ab03-6b036f7e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1113
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/remcos_rat_file_creation_in_remcos_folder.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1113
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # |tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.dat")
+    #   Filesystem.file_path = "*\\remcos\\*" by Filesystem.action Filesystem.dest Filesystem.file_access_time
+    #   Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name
+    #   Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid
+    #   Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)`
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `remcos_rat_file_creation_in_remcos_folder_filter`
+  condition: selection
+level: medium

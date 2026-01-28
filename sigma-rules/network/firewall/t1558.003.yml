@@ -1,0 +1,25 @@
+title: Kerberos Network Traffic RC4 Ticket Encryption
+id: 5fd6d69b-5fd6-4fd6-afd6-5fd6d69b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1558.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/zeek/zeek_susp_kerberos_rc4.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1558.003
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         request_type: 'TGS'
+    #         cipher: 'rc4-hmac'
+    #     computer_acct:
+    #         service|startswith: '$'
+    #     condition: selection and not computer_acct
+    # 
+  condition: selection
+level: medium

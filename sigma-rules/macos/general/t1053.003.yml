@@ -1,0 +1,23 @@
+title: Scheduled Cron Task/Job - MacOs
+id: 7a0d9e37-7a0d-4a0d-aa0d-7a0d9e370000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_schedule_task_job_cron.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053.003
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/crontab'
+    #         CommandLine|contains: '/tmp/'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

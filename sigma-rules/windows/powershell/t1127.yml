@@ -1,0 +1,27 @@
+title: Suspicious Use of CSharp Interactive Console
+id: 48dd6c01-48dd-48dd-a8dd-48dd6c010000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1127
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_csi_use_of_csharp_console.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1127
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\csi.exe'
+    #         ParentImage|endswith:
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\powershell_ise.exe'
+    #         OriginalFileName: 'csi.exe'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

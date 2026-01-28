@@ -1,0 +1,25 @@
+title: Gatekeeper Bypass via Xattr
+id: 0db938fc-0db9-4db9-adb9-0db938fc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1553.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_xattr_gatekeeper_bypass.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1553.001
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/xattr'
+    #         CommandLine|contains|all:
+    #             - '-d'
+    #             - 'com.apple.quarantine'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

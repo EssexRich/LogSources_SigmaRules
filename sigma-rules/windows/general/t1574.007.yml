@@ -1,0 +1,24 @@
+title: Trusted Path Bypass via Windows Directory Spoofing
+id: 5e21d07a-5e21-4e21-ae21-5e21d07a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.007
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_win_trusted_path_bypass.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.007
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ImageLoaded|contains:
+    #             - ':\Windows \System32\'  # Note the space between "Windows" and "System32"
+    #             - ':\Windows \SysWOW64\'  # Note the space between "Windows" and "SysWOW64"
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

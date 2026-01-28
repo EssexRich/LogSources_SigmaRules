@@ -1,0 +1,23 @@
+title: Network Connection Initiated By Regsvr32.EXE
+id: 29a0a246-29a0-49a0-a9a0-29a0a2460000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.010
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_regsvr32_network_activity.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.010
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Initiated: 'true'
+    #         Image|endswith: '\regsvr32.exe'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

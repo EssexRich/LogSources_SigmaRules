@@ -1,0 +1,22 @@
+title: Windows Drivers Loaded by Signature
+id: 174e01bb-174e-474e-a74e-174e01bb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1014
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_drivers_loaded_by_signature.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1014
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=6 | stats count min(_time) as firstTime max(_time) as
+    #   lastTime by ImageLoaded dest dvc process_hash process_path signature signature_id
+    #   user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `windows_drivers_loaded_by_signature_filter`
+  condition: selection
+level: medium

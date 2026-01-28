@@ -1,0 +1,79 @@
+title: Potential WinAPI Calls Via CommandLine
+id: 2532e989-2532-4532-a532-2532e9890000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1106
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_inline_win_api_access.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1106
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         CommandLine|contains:
+    #             - 'AddSecurityPackage'
+    #             - 'AdjustTokenPrivileges'
+    #             - 'Advapi32'
+    #             - 'CloseHandle'
+    #             - 'CreateProcessWithToken'
+    #             - 'CreatePseudoConsole'
+    #             - 'CreateRemoteThread'
+    #             - 'CreateThread'
+    #             - 'CreateUserThread'
+    #             - 'DangerousGetHandle'
+    #             - 'DuplicateTokenEx'
+    #             - 'EnumerateSecurityPackages'
+    #             - 'FreeHGlobal'
+    #             - 'FreeLibrary'
+    #             - 'GetDelegateForFunctionPointer'
+    #             - 'GetLogonSessionData'
+    #             - 'GetModuleHandle'
+    #             - 'GetProcAddress'
+    #             - 'GetProcessHandle'
+    #             - 'GetTokenInformation'
+    #             - 'ImpersonateLoggedOnUser'
+    #             - 'kernel32'
+    #             - 'LoadLibrary'
+    #             - 'memcpy'
+    #             - 'MiniDumpWriteDump'
+    #             # - 'msvcrt'
+    #             - 'ntdll'
+    #             - 'OpenDesktop'
+    #             - 'OpenProcess'
+    #             - 'OpenProcessToken'
+    #             - 'OpenThreadToken'
+    #             - 'OpenWindowStation'
+    #             - 'PtrToString'
+    #             - 'QueueUserApc'
+    #             - 'ReadProcessMemory'
+    #             - 'RevertToSelf'
+    #             - 'RtlCreateUserThread'
+    #             - 'secur32'
+    #             - 'SetThreadToken'
+    #             # - 'user32'
+    #             - 'VirtualAlloc'
+    #             - 'VirtualFree'
+    #             - 'VirtualProtect'
+    #             - 'WaitForSingleObject'
+    #             - 'WriteInt32'
+    #             - 'WriteProcessMemory'
+    #             - 'ZeroFreeGlobalAllocUnicode'
+    #     filter_optional_mpcmdrun:
+    #         Image|endswith: '\MpCmdRun.exe'
+    #         CommandLine|contains: 'GetLoadLibraryWAddress32'
+    #     filter_optional_compatTelRunner:
+    #         ParentImage|endswith: '\CompatTelRunner.exe'
+    #         CommandLine|contains:
+    #             - 'FreeHGlobal'
+    #             - 'PtrToString'
+    #             - 'kernel32'
+    #             - 'CloseHandle'
+    #     condition: selection and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

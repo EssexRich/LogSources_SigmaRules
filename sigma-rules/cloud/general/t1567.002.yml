@@ -1,0 +1,36 @@
+title: Gsuite Drive Share In External Email
+id: 796cd83c-796c-496c-a96c-796cd83c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/gsuite_drive_share_in_external_email.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1567.002
+logsource:
+  product: cloud
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `gsuite_drive` NOT (email IN("", "null"))
+    #   | spath path=parameters.owner output=owner
+    #   | rex field=owner "[^@]+@(?<src_domain>[^@]+)"
+    #   | rex field=email "[^@]+@(?<dest_domain>[^@]+)"
+    #   | where src_domain = "internal_test_email.com" and not dest_domain = "internal_test_email.com"
+    #   | eval phase="plan"
+    #   | eval severity="low"
+    #   | stats values(parameters.doc_title) as doc_title,
+    #     values(parameters.doc_type) as doc_types,
+    #     values(email) as dst_email_list,
+    #     values(parameters.visibility) as visibility,
+    #     values(parameters.doc_id) as doc_id,
+    #     count min(_time) as firstTime max(_time) as lastTime
+    #     by parameters.owner ip_address phase severity
+    #   | rename parameters.owner as user ip_address as src_ip
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `gsuite_drive_share_in_external_email_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,27 @@
+title: Microsoft Teams Sensitive File Access By Uncommon Applications
+id: 6fab5933-6fab-4fab-afab-6fab59330000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1528
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_access/file_access_win_teams_sensitive_files.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1528
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         FileName|contains:
+    #             - '\Microsoft\Teams\Cookies'
+    #             - '\Microsoft\Teams\Local Storage\leveldb'
+    #     filter_main_legit_location:
+    #         # Note: its best to filter the full path to avoid false negatives
+    #         Image|endswith: '\Microsoft\Teams\current\Teams.exe'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,19 @@
+title: Deprecated - Potential Process Injection via LD_PRELOAD Environment Variable
+id: 61265479-6126-4126-a126-612654790000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_ld_preload_env_variable_process_injection.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.action == "exec" and process.env_vars : ("LD_PRELOAD=?*", "LD_LIBRARY_PATH=?*")
+  condition: selection
+level: medium

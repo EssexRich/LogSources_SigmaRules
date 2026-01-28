@@ -1,0 +1,41 @@
+title: Cisco ASA - AAA Policy Tampering
+id: 2c5a969d-2c5a-4c5a-ac5a-2c5a969d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/cisco_asa___aaa_policy_tampering.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556.004
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_asa`
+    #   message_id IN (111008, 111010)
+    #   command IN (
+    #       "aaa authentication*",
+    #       "aaa authorization*",
+    #       "aaa local authentication*",
+    #       "aaa-server*",
+    #       "no aaa*"
+    #   )
+    #   | fillnull
+    #   | stats count
+    #           earliest(_time) as firstTime
+    #           latest(_time) as lastTime
+    #           values(user) as user
+    #           values(action) as action
+    #           values(message_id) as message_id
+    #           values(command) as command
+    #           values(src_ip) as src_ip
+    #           values(process_name) as process_name
+    #     by host
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `cisco_asa___aaa_policy_tampering_filter`
+  condition: selection
+level: medium

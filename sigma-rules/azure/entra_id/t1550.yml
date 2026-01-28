@@ -1,0 +1,24 @@
+title: Entra ID OAuth Device Code Grant by Microsoft Authentication Broker
+id: 15a4c30d-15a4-45a4-a5a4-15a4c30d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_device_code_auth_with_broker_client.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:(azure.activitylogs or azure.signinlogs)
+    #     and azure.signinlogs.properties.authentication_protocol:deviceCode
+    #     and azure.signinlogs.properties.conditional_access_audiences.application_id:29d9ed98-a469-4536-ade2-f981bc1d605e
+    #     and event.outcome:success or (
+    #         azure.activitylogs.properties.appId:29d9ed98-a469-4536-ade2-f981bc1d605e
+    #         and azure.activitylogs.properties.authentication_protocol:deviceCode)
+  condition: selection
+level: medium

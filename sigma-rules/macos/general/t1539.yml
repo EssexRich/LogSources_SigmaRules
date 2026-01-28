@@ -1,0 +1,28 @@
+title: Suspicious Web Browser Sensitive File Access
+id: 44133160-4413-4413-a413-441331600000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1539
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_suspicious_web_browser_sensitive_file_access.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1539
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where event.action == "open" and host.os.type == "macos" and process.executable != null and
+    #  file.name like~ ("cookies.sqlite",
+    #                   "key?.db",
+    #                   "logins.json",
+    #                   "Cookies",
+    #                   "Cookies.binarycookies",
+    #                   "Login Data") and
+    #  ((process.code_signature.trusted == false or process.code_signature.exists == false) or process.name == "osascript") and
+    #  not process.code_signature.signing_id == "org.mozilla.firefox" and
+    #  not Effective_process.executable like "/Library/Elastic/Endpoint/elastic-endpoint.app/Contents/MacOS/elastic-endpoint"
+  condition: selection
+level: medium

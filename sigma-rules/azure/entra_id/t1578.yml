@@ -1,0 +1,25 @@
+title: Azure Active Directory Hybrid Health AD FS New Server
+id: 704c1cf7-704c-404c-a04c-704c1cf70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1578
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_aadhybridhealth_adfs_new_server.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1578
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         CategoryValue: 'Administrative'
+    #         ResourceProviderValue: 'Microsoft.ADHybridHealthService'
+    #         ResourceId|contains: 'AdFederationService'
+    #         OperationNameValue: 'Microsoft.ADHybridHealthService/services/servicemembers/action'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

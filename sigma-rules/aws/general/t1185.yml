@@ -1,0 +1,25 @@
+title: ASL AWS Concurrent Sessions From Different Ips
+id: 73e29fa6-73e2-43e2-a3e2-73e29fa60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1185
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/asl_aws_concurrent_sessions_from_different_ips.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1185
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `amazon_security_lake` api.operation=DescribeEventAggregates src_endpoint.domain!="AWS Internal" 
+    #   | bin span=5m _time 
+    #   | stats min(_time) as firstTime max(_time) as lastTime values(api.operation) as api.operation values(api.service.name) as api.service.name values(http_request.user_agent) as http_request.user_agent values(src_endpoint.ip) as src_ip values(actor.user.account.uid) as actor.user.account.uid values(cloud.provider) as cloud.provider values(cloud.region) as cloud.region dc(src_endpoint.ip) as distinct_ip_count by _time actor.user.uid 
+    #   | where distinct_ip_count > 1 
+    #   | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `asl_aws_concurrent_sessions_from_different_ips_filter`
+  condition: selection
+level: medium

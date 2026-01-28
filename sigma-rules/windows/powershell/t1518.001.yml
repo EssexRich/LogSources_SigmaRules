@@ -1,0 +1,46 @@
+title: Security Software Discovery Via Powershell Script
+id: 1c08b93e-1c08-4c08-ac08-1c08b93e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1518.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_get_process_security_software_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1518.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_cmdlet:
+    #         ScriptBlockText|contains:
+    #             - 'get-process | \?'
+    #             - 'get-process | where'
+    #             - 'gps | \?'
+    #             - 'gps | where'
+    #     selection_field:
+    #         ScriptBlockText|contains:
+    #             - 'Company -like'
+    #             - 'Description -like'
+    #             - 'Name -like'
+    #             - 'Path -like'
+    #             - 'Product -like'
+    #     selection_keywords:
+    #         ScriptBlockText|contains:
+    #             # Note: These strings are using wildcard assuming the search is using the "-like" operator.
+    #             #       You can add specific variant with the actual process names to increase coverage
+    #             - '\*avira\*'
+    #             - '\*carbonblack\*'
+    #             - '\*cylance\*'
+    #             - '\*defender\*'
+    #             - '\*kaspersky\*'
+    #             - '\*malware\*'
+    #             - '\*sentinel\*'
+    #             - '\*symantec\*'
+    #             - '\*virus\*'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

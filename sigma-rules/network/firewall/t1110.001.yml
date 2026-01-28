@@ -1,0 +1,26 @@
+title: Windows Remote Desktop Network Bruteforce Attempt
+id: 0f80367e-0f80-4f80-af80-0f80367e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/windows_remote_desktop_network_bruteforce_attempt.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.001
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count, min(_time) as firstTime,
+    #   max(_time) as lastTime values(Al_Traffic.src_port) as src_port from datamodel=Network_Traffic
+    #   where (All_Traffic.app=rdp OR All_Traffic.dest_port=3389)   by All_Traffic.action
+    #   All_Traffic.app All_Traffic.dest All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.direction  All_Traffic.dvc
+    #   All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip  All_Traffic.transport
+    #   All_Traffic.user All_Traffic.vendor_product | `drop_dm_object_name("All_Traffic")`  |
+    #   eval duration=lastTime-firstTime  | where count > 10 AND duration < 3600  | `security_content_ctime(firstTime)`  |
+    #   `security_content_ctime(lastTime)`  | `windows_remote_desktop_network_bruteforce_attempt_filter`
+  condition: selection
+level: medium

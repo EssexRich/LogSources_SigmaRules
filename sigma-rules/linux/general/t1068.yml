@@ -1,0 +1,26 @@
+title: Buffer Overflow Attempts
+id: 260a2494-260a-460a-a60a-260a24940000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1068
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/builtin/lnx_buffer_overflows.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1068
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     keywords:
+    #         - 'attempt to execute code on stack by'
+    #         - '0bin0sh1'
+    #         # - 'rpc.statd[\d+]: gethostbyname error for'  # it's an expensive regex and produces questionable results
+    #         - 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'  # this can cause false positives in Base64 encoded data
+    #         - 'stack smashing detected'
+    #     condition: keywords
+    # 
+  condition: selection
+level: medium

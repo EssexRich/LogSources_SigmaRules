@@ -1,0 +1,27 @@
+title: Execution from a Removable Media with Network Connection
+id: 2cb0d0ce-2cb0-4cb0-acb0-2cb0d0ce0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1091
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/initial_access_execution_from_removable_media.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1091
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=5m
+    #  [process where host.os.type == "windows" and event.action == "start" and
+    # 
+    #   /* Direct Exec from USB */
+    #   (process.Ext.device.bus_type : "usb" or process.Ext.device.product_id : "USB *") and
+    #   (process.code_signature.trusted == false or process.code_signature.exists == false) and
+    # 
+    #   not process.code_signature.status : ("errorExpired", "errorCode_endpoint*")]
+    #  [network where host.os.type == "windows" and event.action == "connection_attempted"]
+  condition: selection
+level: medium

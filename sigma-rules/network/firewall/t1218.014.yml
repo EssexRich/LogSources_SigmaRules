@@ -1,0 +1,23 @@
+title: UAC Bypass via Windows Firewall Snap-In Hijack
+id: 081f453a-081f-481f-a81f-081f453a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.014
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_uac_bypass_winfw_mmc_hijack.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.014
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #  process.parent.name == "mmc.exe" and
+    #  /* process.Ext.token.integrity_level_name == "high" can be added in future for tuning */
+    #  /* args of the Windows Firewall SnapIn */
+    #   process.parent.args == "WF.msc" and process.name != "WerFault.exe"
+  condition: selection
+level: medium

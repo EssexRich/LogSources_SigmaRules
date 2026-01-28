@@ -1,0 +1,24 @@
+title: Linux Audio Recording Activity Detected
+id: 29f58924-29f5-49f5-a9f5-29f589240000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1123
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/collection_potential_audio_recording_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1123
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:"linux" and event.type:"start" and event.action:("exec" or "exec_event" or "start") and (
+    #   process.name:("arecord" or "parec" or "pw-record" or "ecasound") or
+    #   (process.name:"pw-cat" and process.args:"-r") or
+    #   (process.name:"ffmpeg" and process.args:"-i")
+    # ) and
+    # not process.args:("-h" or "--help" or "--version")
+  condition: selection
+level: medium

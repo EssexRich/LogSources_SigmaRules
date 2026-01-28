@@ -1,0 +1,20 @@
+title: Active Directory Discovery using AdExplorer
+id: 1262d2b0-1262-4262-a262-1262d2b00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1069
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_ad_explorer_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1069
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   (process.name : "ADExplorer*.exe" or ?process.pe.original_file_name == "AdExp")
+  condition: selection
+level: medium

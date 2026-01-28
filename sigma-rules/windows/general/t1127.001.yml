@@ -1,0 +1,27 @@
+title: Silenttrinity Stager Msbuild Activity
+id: 0c790398-0c79-4c79-ac79-0c7903980000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1127.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_silenttrinity_stager_msbuild_activity.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1127.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\msbuild.exe'
+    #     filter:
+    #         DestinationPort:
+    #             - 80
+    #             - 443
+    #         Initiated: 'true'
+    #     condition: selection and filter
+    # 
+  condition: selection
+level: medium

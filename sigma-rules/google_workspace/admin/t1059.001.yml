@@ -1,0 +1,26 @@
+title: Mailsniper Invoke functions
+id: 1dd54cb6-1dd5-4dd5-add5-1dd54cb60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/mailsniper_invoke_functions.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.001
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original splunk detection logic
+    # `powershell` EventCode=4104 ScriptBlockText IN ("*Invoke-GlobalO365MailSearch*",
+    #   "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*",
+    #   "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*",
+    #   "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*")
+    #   | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest
+    #   signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID
+    #   ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `mailsniper_invoke_functions_filter`
+  condition: selection
+level: medium

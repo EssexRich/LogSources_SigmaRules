@@ -1,0 +1,25 @@
+title: PSExec and WMI Process Creations Block
+id: 6f4baa3f-6f4b-4f4b-af4b-6f4baa3f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1047
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/windefend/win_defender_asr_psexec_wmi.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1047
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 1121
+    #         ProcessName|endswith:
+    #             - '\wmiprvse.exe'
+    #             - '\psexesvc.exe'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

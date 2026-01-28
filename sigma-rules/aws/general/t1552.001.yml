@@ -1,0 +1,25 @@
+title: AWS Credentials Searched For Inside A Container
+id: 3bfddde6-3bfd-4bfd-abfd-3bfddde60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_aws_creds_search_inside_container.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.001
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
+    # process.entry_leader.entry_meta.type == "container" and
+    # process.name in ("grep", "egrep", "fgrep", "find", "locate", "mlocate", "cat", "sed", "awk") and
+    # process.command_line like~ (
+    #   "*aws_access_key_id*", "*aws_secret_access_key*", "*aws_session_token*", "*accesskeyid*", "*secretaccesskey*",
+    #   "*access_key*", "*.aws/credentials*"
+    # )
+  condition: selection
+level: medium

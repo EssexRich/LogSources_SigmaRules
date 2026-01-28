@@ -1,0 +1,27 @@
+title: O365 Email Hard Delete Excessive Volume
+id: 5022addb-5022-4022-a022-5022addb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.008
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_email_hard_delete_excessive_volume.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.008
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #   `o365_management_activity` Workload=Exchange (Operation IN ("HardDelete") AND Folder.Path IN ("\\Sent Items","\\Recoverable Items\\Deletions"))
+    #   | eval user = lower(UserId), sender = lower(CASE(isnotnull(SendAsUserSmtp),SendAsUserSmtp,isnotnull(SendOnBehalfOfUserSmtp),SendOnBehalfOfUserSmtp,true(),MailboxOwnerUPN)), subject = trim(CASE(Operation IN ("Send","SendAs","SendOnBehalf"),'Item.Subject',Operation IN ("SoftDelete","HardDelete"),'AffectedItems{}.Subject')), -time = _time,file_name = CASE(Operation IN ("Send","SendAs","SendOnBehalf"),split('Item.Attachments',"; "),Operation IN ("SoftDelete","HardDelete"),split('AffectedItems{}.Attachments',"; ")), file_size = CASE(Operation IN ("Send","SendAs","SendOnBehalf"),round(tonumber('Item.SizeInBytes')/1024/1024,2),true(),round(tonumber(replace(file_name, "(.+)\s\((\d+)(b\)$)", "\2"))/1024/1024,2))
+    #   | bin _time span=1hr
+    #   | stats values(sender) as sender, values(ClientIPAddress) as src, values(ClientInfoString) as http_user_agent, values(Operation) as signature, latest(file_name) as file_name, sum(file_size) as file_size, values(Folder.Path) as file_path, min(-time) as firstTime, max(-time) as lastTime, dc(subject) as count by _time,user
+    #   | where count > 50 OR file_size > 10
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)`
+    #   | `o365_email_hard_delete_excessive_volume_filter`
+  condition: selection
+level: medium

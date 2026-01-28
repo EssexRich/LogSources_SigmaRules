@@ -1,0 +1,24 @@
+title: Linux Auditd Service Started
+id: 2bbb6a93-2bbb-4bbb-abbb-2bbb6a930000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1569.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_service_started.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1569.002
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # `linux_auditd`  proctitle IN ("*systemctl *", "*service *") AND proctitle IN ("* start*", "* enable*")
+    #   | rename host as dest  
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by  proctitle  dest 
+    #   | `security_content_ctime(firstTime)`
+    #   |`security_content_ctime(lastTime)`
+    #   | `linux_auditd_service_started_filter`
+  condition: selection
+level: medium

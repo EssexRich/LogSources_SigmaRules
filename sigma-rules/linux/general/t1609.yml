@@ -1,0 +1,48 @@
+title: Container Management Utility Execution Detected via Defend for Containers
+id: 4f94293a-4f94-4f94-af94-4f94293a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1609
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_container_management_binary_launched_inside_a_container.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1609
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and (
+    #   process.name in ("dockerd", "kubelet", "kube-proxy", "kubectl", "containerd", "systemd", "crictl") or
+    #   (
+    #     /* Account for tools that execute utilities as a subprocess, in this case the target utility name will appear as a process arg */
+    #     process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "busybox") and
+    #     process.args in (
+    #       "dockerd", "/bin/dockerd", "/usr/bin/dockerd", "/usr/local/bin/dockerd",
+    #       "kubelet", "/bin/kubelet", "/usr/bin/kubelet", "/usr/local/bin/kubelet",
+    #       "kube-proxy", "/bin/kube-proxy", "/usr/bin/kube-proxy", "/usr/local/bin/kube-proxy",
+    #       "kubectl", "/bin/kubectl", "/usr/bin/kubectl", "/usr/local/bin/kubectl",
+    #       "containerd", "/bin/containerd", "/usr/bin/containerd", "/usr/local/bin/containerd",
+    #       "systemd", "/bin/systemd", "/usr/bin/systemd", "/usr/local/bin/systemd",
+    #       "crictl", "/bin/crictl", "/usr/bin/crictl", "/usr/local/bin/crictl"
+    #     ) and 
+    #     /* default exclusion list to not FP on default multi-process commands */
+    #     not process.args in (
+    #       "which", "/bin/which", "/usr/bin/which", "/usr/local/bin/which",
+    #       "man", "/bin/man", "/usr/bin/man", "/usr/local/bin/man",
+    #       "chmod", "/bin/chmod", "/usr/bin/chmod", "/usr/local/bin/chmod",
+    #       "chown", "/bin/chown", "/usr/bin/chown", "/usr/local/bin/chown"
+    #     )
+    #   )
+    # ) and
+    # process.interactive == true and container.id like "*" and
+    # not (
+    #   process.parent.executable in ("/sbin/init", "/usr/bin/dockerd", "/usr/bin/runc", "/usr/bin/containerd-shim-runc-v2") or
+    #   process.working_directory == "/aws" or
+    #   (process.parent.args == "init" and process.parent.args == "runc") or
+    #   (process.parent.name == "busybox" and process.name == "kubectl")
+    # )
+  condition: selection
+level: medium

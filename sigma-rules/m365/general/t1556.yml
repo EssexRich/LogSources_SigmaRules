@@ -1,0 +1,25 @@
+title: O365 Disable MFA
+id: 54a5a74f-54a5-44a5-a4a5-54a5a74f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_disable_mfa.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `o365_management_activity` Operation="Disable Strong Authentication." 
+    #   | rename UserId as user object as src_user
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product src_user
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)` 
+    #   | `o365_disable_mfa_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,80 @@
+title: AWS EC2 LOLBin Execution via SSM SendCommand
+id: 3df1f63d-3df1-4df1-adf1-3df1f63d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1651
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_aws_ec2_lolbin_via_ssm.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1651
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-aws.cloudtrail*, logs-endpoint.events.process-* METADATA _id, _version, _index
+    # | WHERE
+    #   // CloudTrail SSM SendCommand with AWS-RunShellScript
+    #   (
+    #     event.dataset == "aws.cloudtrail"
+    #     AND event.action == "SendCommand"
+    #     AND aws.cloudtrail.request_parameters LIKE "*documentName=AWS-RunShellScript*"
+    #   )
+    #   // Linux endpoint process events, prefiltered to SSM shell runner OR LOLBins/GTFOBins
+    #   OR
+    #   (
+    #     event.dataset == "endpoint.events.process"
+    #     AND host.os.type == "linux"
+    #     AND (
+    #       // SSM shell (_script.sh) runner
+    #       process.command_line LIKE "%/document/orchestration/%/awsrunShellScript/%/_script.sh"
+    #       // LOLBins / GTFOBins
+    #       OR process.name IN (
+    #         "base64",
+    #         "curl",
+    #         "wget",
+    #         "openssl",
+    #         "nc", "ncat", "netcat",
+    #         "socat",
+    #         "python", "python3",
+    #         "perl",
+    #         "php",
+    #         "ruby",
+    #         "ssh",
+    #         "scp",
+    #         "sftp",
+    #         "rsync"
+    #       )
+    #     )
+    #   )
+    # 
+    # // Endpoint leg: extract SSM command ID from parent command line
+    # | DISSECT process.parent.command_line
+    #     "%{}/document/orchestration/%{Esql.process_parent_command_line_ssm_command_id}/%{}"
+    # 
+    # // CloudTrail leg: extract SSM command ID from response_elements
+    # | DISSECT aws.cloudtrail.response_elements
+    #     "%{}commandId=%{Esql.aws_cloudtrail_response_elements_ssm_command_id},%{}"
+    # 
+    # // Coalesce SSM command ID from both data sources
+    # | EVAL Esql.aws_ssm_command_id = COALESCE(
+    #     Esql.aws_cloudtrail_response_elements_ssm_command_id,
+    #     Esql.process_parent_command_line_ssm_command_id
+    # )
+    # | WHERE Esql.aws_ssm_command_id IS NOT NULL
+    # 
+    # // Role flags
+    # | EVAL Esql.is_cloud_event    = event.dataset == "aws.cloudtrail"
+    # | EVAL Esql.is_endpoint_event = event.dataset == "endpoint.events.process"
+    # 
+    # // Identify the SSM shell processes (the _script.sh runners)
+    # | EVAL Esql.is_ssm_shell_process =
+    #     Esql.is_endpoint_event
+    #     AND process.command_line LIKE "%/document/orchestration/%/awsrunShellScript/%/_script.sh"
+    # 
+    # // LOLBins / GTFOBins on Linu
+    # ... [truncated]
+  condition: selection
+level: medium

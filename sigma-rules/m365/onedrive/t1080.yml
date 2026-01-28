@@ -1,0 +1,19 @@
+title: M365 OneDrive Malware File Upload
+id: 7de8e3e7-7de8-4de8-ade8-7de8e3e70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1080
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/lateral_movement_onedrive_malware_uploaded.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1080
+logsource:
+  product: m365
+  service: onedrive
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and event.provider:OneDrive and event.code:SharePointFileOperation and event.action:FileMalwareDetected
+  condition: selection
+level: medium

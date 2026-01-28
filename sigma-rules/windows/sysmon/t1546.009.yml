@@ -1,0 +1,25 @@
+title: New DLL Added to AppCertDlls Registry Key
+id: 2b5a3aa7-2b5a-4b5a-ab5a-2b5a3aa70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.009
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_event/registry_event_new_dll_added_to_appcertdlls_registry_key.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546.009
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         # Sysmon gives us HKLM\SYSTEM\CurrentControlSet\.. if ControlSetXX is the selected one
+    #         - TargetObject: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\AppCertDlls'
+    #         # key rename
+    #         - NewName: 'HKLM\SYSTEM\CurentControlSet\Control\Session Manager\AppCertDlls'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

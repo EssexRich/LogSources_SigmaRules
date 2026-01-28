@@ -1,0 +1,32 @@
+title: Windows SQL Server Extended Procedure DLL Loading Hunt
+id: 1947a41e-1947-4947-a947-1947a41e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.009
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_sql_server_extended_procedure_dll_loading_hunt.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.009
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `wineventlog_application` EventCode=8128
+    #   | rex field=EventData_Xml "<Data>(?<dll_name>[^<]+)</Data><Data>(?<dll_version>[^<]+)</Data><Data>(?<procedure_name>[^<]+)</Data>"
+    #   | rename host as dest
+    #   | eval dll_category=case(
+    #       dll_name=="xpstar.dll", "Extended Procedures",
+    #       dll_name=="odsole70.dll", "OLE Automation",
+    #       dll_name=="xplog70.dll", "Logging Procedures",
+    #       true(), "Other")
+    #   | stats 
+    #       count as execution_count,
+    #       values(procedure_name) as procedures_used,
+    #       latest(_time) as last_seen
+    #       by dest dll_name dll_category dll_version
+    #   | sort - execution_count | `windows_sql_server_extended_procedure_dll_loading_hunt_filter`
+  condition: selection
+level: medium

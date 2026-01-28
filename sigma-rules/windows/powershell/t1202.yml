@@ -1,0 +1,41 @@
+title: Suspicious Child Process Of BgInfo.EXE
+id: 5afe80e6-5afe-4afe-aafe-5afe80e60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1202
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_bginfo_suspicious_child_process.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1202
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|endswith:
+    #             - '\bginfo.exe'
+    #             - '\bginfo64.exe'
+    #     selection_child:
+    #         - Image|endswith:
+    #               - '\calc.exe'
+    #               - '\cmd.exe'
+    #               - '\cscript.exe'
+    #               - '\mshta.exe'
+    #               - '\notepad.exe'
+    #               - '\powershell.exe'
+    #               - '\pwsh.exe'
+    #               - '\wscript.exe'
+    #         - Image|contains:
+    #               - '\AppData\Local\'
+    #               - '\AppData\Roaming\'
+    #               - ':\Users\Public\'
+    #               - ':\Temp\'
+    #               - ':\Windows\Temp\'
+    #               - ':\PerfLogs\'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

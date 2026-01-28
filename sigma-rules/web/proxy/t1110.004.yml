@@ -1,0 +1,19 @@
+title: CrushFTP Max Simultaneous Users From IP
+id: 568bfe7f-568b-468b-a68b-568bfe7f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/web/crushftp_max_simultaneous_users_from_ip.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.004
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `crushftp` "*User access not allowed.  Max simultaneous users from your IP*" | rex field=_raw "SESSION\\|\\d+\\/\\d+\\/\\d+ \\d+:\\d+:\\d+\\.\\d+\\|\\[HTTP:[^:]+:(?<user>[^:]+):(?<src_ip>[0-9\\.]+)\\]" | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip | where count >= 3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `crushftp_max_simultaneous_users_from_ip_filter`
+  condition: selection
+level: medium

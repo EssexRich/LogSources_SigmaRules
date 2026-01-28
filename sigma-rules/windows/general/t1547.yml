@@ -1,0 +1,25 @@
+title: Potential RipZip Attack on Startup Folder
+id: 0449e8f0-0449-4449-a449-0449e8f00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_ripzip_attack.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection: # %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\target.lnk.{0AFACED1-E828-11D1-9187-B532F1E9575D}\target.lnk
+    #         TargetFilename|contains|all:
+    #             - '\Microsoft\Windows\Start Menu\Programs\Startup'
+    #             - '.lnk.{0AFACED1-E828-11D1-9187-B532F1E9575D}'
+    #         Image|endswith: '\explorer.exe'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

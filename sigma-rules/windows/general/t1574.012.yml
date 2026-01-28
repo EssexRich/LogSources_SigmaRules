@@ -1,0 +1,25 @@
+title: Registry-Free Process Scope COR_PROFILER
+id: 5a191356-5a19-4a19-aa19-5a1913560000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.012
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_cor_profiler.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.012
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - '$env:COR_ENABLE_PROFILING'
+    #             - '$env:COR_PROFILER'
+    #             - '$env:COR_PROFILER_PATH'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

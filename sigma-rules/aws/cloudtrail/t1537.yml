@@ -1,0 +1,19 @@
+title: Deprecated - AWS EC2 Snapshot Activity
+id: 74b5d123-74b5-44b5-a4b5-74b5d1230000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1537
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/exfiltration_ec2_snapshot_change_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1537
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail and event.provider:ec2.amazonaws.com and event.action:ModifySnapshotAttribute
+  condition: selection
+level: medium

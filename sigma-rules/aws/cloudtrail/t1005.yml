@@ -1,0 +1,19 @@
+title: Deprecated - AWS EC2 VM Export Failure
+id: 77c8ffbb-77c8-47c8-a7c8-77c8ffbb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/exfiltration_ec2_vm_export_failure.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1005
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail and event.provider:ec2.amazonaws.com and event.action:CreateInstanceExportTask and event.outcome:failure
+  condition: selection
+level: medium

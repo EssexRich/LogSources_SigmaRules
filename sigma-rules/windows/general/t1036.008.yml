@@ -1,0 +1,72 @@
+title: Potential Homoglyph Attack Using Lookalike Characters in Filename
+id: 23af193d-23af-43af-a3af-23af193d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.008
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_homoglyph_filename.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.008
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_upper:
+    #         TargetFilename|contains:
+    #             - "\u0410" # А/A
+    #             - "\u0412" # В/B
+    #             - "\u0415" # Е/E
+    #             - "\u041a" # К/K
+    #             - "\u041c" # М/M
+    #             - "\u041d" # Н/H
+    #             - "\u041e" # О/O
+    #             - "\u0420" # Р/P
+    #             - "\u0421" # С/C
+    #             - "\u0422" # Т/T
+    #             - "\u0425" # Х/X
+    #             - "\u0405" # Ѕ/S
+    #             - "\u0406" # І/I
+    #             - "\u0408" # Ј/J
+    #             - "\u04ae" # Ү/Y
+    #             - "\u04c0" # Ӏ/I
+    #             - "\u050C" # Ԍ/G
+    #             - "\u051a" # Ԛ/Q
+    #             - "\u051c" # Ԝ/W
+    #             - "\u0391" # Α/A
+    #             - "\u0392" # Β/B
+    #             - "\u0395" # Ε/E
+    #             - "\u0396" # Ζ/Z
+    #             - "\u0397" # Η/H
+    #             - "\u0399" # Ι/I
+    #             - "\u039a" # Κ/K
+    #             - "\u039c" # Μ/M
+    #             - "\u039d" # Ν/N
+    #             - "\u039f" # Ο/O
+    #             - "\u03a1" # Ρ/P
+    #             - "\u03a4" # Τ/T
+    #             - "\u03a5" # Υ/Y
+    #             - "\u03a7" # Χ/X
+    #     selection_lower:
+    #         TargetFilename|contains:
+    #             - "\u0430" # а/a
+    #             - "\u0435" # е/e
+    #             - "\u043e" # о/o
+    #             - "\u0440" # р/p
+    #             - "\u0441" # с/c
+    #             - "\u0445" # х/x
+    #             - "\u0455" # ѕ/s
+    #             - "\u0456" # і/i
+    #             - "\u04cf" # ӏ/l
+    #             - "\u0458" # ј/j
+    #             - "\u04bb" # һ/h
+    #             - "\u0501" # ԁ/d
+    #             - "\u051b" # ԛ/q
+    #             - "\u051d" # ԝ/w
+    #             - "\u03bf" # ο/o
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,20 @@
+title: Google Drive Ownership Transferred via Google Workspace
+id: 777cdcdf-777c-477c-a77c-777cdcdf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1074.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/collection_google_drive_ownership_transferred_via_google_workspace.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1074.002
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:"google_workspace.admin" and event.action:"CREATE_DATA_TRANSFER_REQUEST"
+    #   and event.category:"iam" and google_workspace.admin.application.name:Drive*
+  condition: selection
+level: medium

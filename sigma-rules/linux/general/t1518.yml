@@ -1,0 +1,51 @@
+title: Tool Enumeration Detected via Defend for Containers
+id: 1ef7bb50-1ef7-4ef7-aef7-1ef7bb500000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1518
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_tool_enumeration.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1518
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and (
+    #   process.name == "which" or
+    #   (
+    #     /* Account for tools that execute utilities as a subprocess, in this case the target utility name will appear as a process arg */
+    #     process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "busybox") and
+    #     process.args in ("which", "/bin/which", "/usr/bin/which", "/usr/local/bin/which") and
+    #     /* default exclusion list to not FP on default multi-process commands */
+    #     not process.args in (
+    #       "man", "/bin/man", "/usr/bin/man", "/usr/local/bin/man",
+    #       "chmod", "/bin/chmod", "/usr/bin/chmod", "/usr/local/bin/chmod",
+    #       "chown", "/bin/chown", "/usr/bin/chown", "/usr/local/bin/chown"
+    #     )
+    #   )
+    # ) and
+    # process.args in (
+    # 
+    #   /* TCP IP */
+    #   "curl", "wget", "socat", "nc", "netcat", "ncat", "busybox", "python3", "python", "perl", "node", "openssl", "ruby", "lua",
+    # 
+    #   /* networking */
+    #   "getent", "dig", "nslookup", "host", "ip", "tcpdump", "tshark",
+    # 
+    #   /* container management */
+    #   "kubectl", "docker", "kubelet", "kube-proxy", "containerd", "systemd", "crictl",
+    # 
+    #   /* compilation */
+    #   "gcc", "g++", "clang", "clang++", "cc", "c++", "c99", "c89", "cc1*", "musl-gcc", "musl-clang", "tcc", "zig", "ccache", "distcc", "make",
+    # 
+    #   /* scanning */
+    #   "nmap", "zenmap", "nuclei", "netdiscover", "legion", "masscan", "zmap", "zgrab", "ngrep", "telnet", "mitmproxy", "zmap",
+    #   "masscan", "zgrab"
+    # ) and
+    # process.interactive == true and container.id like "*"
+  condition: selection
+level: medium

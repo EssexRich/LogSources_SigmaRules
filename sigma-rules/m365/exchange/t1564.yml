@@ -1,0 +1,44 @@
+title: M365 Exchange Inbox Phishing Evasion Rule Created
+id: 6ba6213c-6ba6-4ba6-aba6-6ba6213c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_exchange_new_inbox_rule_delete_or_move.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564
+logsource:
+  product: m365
+  service: exchange
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "o365.audit" and
+    #     event.action: "New-InboxRule" and event.outcome: "success" and
+    #     o365.audit.Parameters.SubjectContainsWords: (
+    #         *phish* or
+    #         *hack* or
+    #         *alert* or
+    #         *malware* or
+    #         *security* or
+    #         *invoice* or
+    #         *payment* or
+    #         *wire* or
+    #         *transfer* or
+    #         *fraud* or
+    #         *reset* or
+    #         *unusual* or
+    #         *protection* or
+    #         *login* or
+    #         *suspicious*
+    #     ) and (
+    #     o365.audit.Parameters.DeleteMessage: True or
+    #     o365.audit.Parameters.MoveToFolder: (
+    #         *Deleted* or
+    #         *Junk* or
+    #         *RSS*
+    #     )
+    # )
+  condition: selection
+level: medium

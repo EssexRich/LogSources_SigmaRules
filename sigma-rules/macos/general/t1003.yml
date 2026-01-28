@@ -1,0 +1,20 @@
+title: Dumping Account Hashes via Built-In Commands
+id: 437f05a4-437f-437f-a37f-437f05a40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_dumping_hashes_bi_cmds.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.name in ("defaults", "mkpassdb") and process.args like~ ("ShadowHashData", "-dump")
+  condition: selection
+level: medium

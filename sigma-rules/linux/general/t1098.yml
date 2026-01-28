@@ -1,0 +1,32 @@
+title: Privileged User Has Been Created
+id: 459d18d1-459d-459d-a59d-459d18d10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/builtin/lnx_privileged_user_creation.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     # Example of the events that could be observed when matching these would be as follow
+    #     #   Dec 21 16:42:19 testserver useradd[1337]: new user: name=butter1, UID=1000, GID=0, home=/root, shell=/bin/bash
+    #     #   Dec 21 17:13:54 testserver useradd[1337]: new user: name=john, UID=0, GID=0, home=/home/john, shell=/bin/bash
+    #     #   Dec 21 17:24:40 testserver useradd[1337]: new user: name=butter3, UID=1000, GID=10, home=/home/butter3, shell=/bin/bash
+    #     #   Dec 21 17:30:22 testserver useradd[1337]: new user: name=butter4, UID=1000, GID=27, home=/home/butter4, shell=/bin/bash
+    #     selection_new_user:
+    #         - 'new user'
+    #     selection_uids_gids:
+    #         - 'GID=0,' # root group
+    #         - 'UID=0,' # root UID
+    #         - 'GID=10,' # wheel group
+    #         - 'GID=27,' # sudo group
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

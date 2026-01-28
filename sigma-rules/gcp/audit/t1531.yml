@@ -1,0 +1,24 @@
+title: Google Cloud Service Account Disabled or Deleted
+id: 0a14347f-0a14-4a14-aa14-0a14347f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1531
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_service_account_disabled_or_deleted.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1531
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         gcp.audit.method_name|endswith:
+    #             - .serviceAccounts.disable
+    #             - .serviceAccounts.delete
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

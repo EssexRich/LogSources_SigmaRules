@@ -1,0 +1,21 @@
+title: Suspicious Installer Package Spawns Network Event
+id: 36d16360-36d1-46d1-a6d1-36d163600000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/execution_installer_package_spawned_network_event.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.007
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id, process.entity_id with maxspan=15s
+    # [process where host.os.type == "macos" and event.type == "start" and event.action == "exec" and process.parent.name like~ ("installer", "package_script_service") and ((process.name in ("bash", "sh", "zsh") and process.args == "-c") or (process.name like~ ("python*", "osascript", "tclsh*", "curl", "nscurl")))]
+    # [network where host.os.type == "macos" and event.type == "start"]
+  condition: selection
+level: medium

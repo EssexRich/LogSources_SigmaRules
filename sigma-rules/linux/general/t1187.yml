@@ -1,0 +1,21 @@
+title: Active Directory Forced Authentication from Linux Host - SMB Named Pipes
+id: 61a243d3-61a2-41a2-a1a2-61a243d30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1187
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_forced_authentication_pipes.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1187
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence with maxspan=15s
+    # [network where host.os.type == "linux" and event.action == "connection_attempted" and destination.port == 445 and not startswith~(string(destination.ip), string(host.ip))] by host.ip, data_stream.namespace
+    # [file where host.os.type == "windows" and event.code == "5145" and file.name : ("Spoolss", "netdfs", "lsarpc", "lsass", "netlogon", "samr", "efsrpc", "FssagentRpc")] by source.ip, data_stream.namespace
+  condition: selection
+level: medium

@@ -1,0 +1,28 @@
+title: Sensitive Audit Policy Sub-Category Disabled
+id: 280294c7-2802-4802-a802-280294c70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_audit_policy_disabled_winlog.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.006
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.code : "4719" and host.os.type : "windows" and
+    #   winlog.event_data.AuditPolicyChangesDescription : "Success removed" and
+    #   winlog.event_data.SubCategory : (
+    #      "Logon" or
+    #      "Audit Policy Change" or
+    #      "Process Creation" or
+    #      "Audit Other System Events" or
+    #      "Audit Security Group Management" or
+    #      "Audit User Account Management"
+    #   )
+  condition: selection
+level: medium

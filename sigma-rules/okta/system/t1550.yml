@@ -1,0 +1,27 @@
+title: Unauthorized Scope for Public App OAuth2 Token Grant with Client Credentials
+id: 0f043876-0f04-4f04-af04-0f0438760000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/defense_evasion_first_occurence_public_app_client_credential_token_exchange.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: okta.system
+    #     and event.action: "app.oauth2.as.token.grant"
+    #     and okta.actor.type: "PublicClientApp"
+    #     and okta.debug_context.debug_data.flattened.grantType: "client_credentials"
+    #     and okta.outcome.result: "FAILURE"
+    #     and not okta.client.user_agent.raw_user_agent: "Okta-Integrations"
+    #     and not okta.actor.display_name: (Okta* or Datadog)
+    #     and not okta.debug_context.debug_data.flattened.requestedScopes: ("okta.logs.read" or "okta.eventHooks.read" or "okta.inlineHooks.read")
+    #     and okta.outcome.reason: "no_matching_scope"
+  condition: selection
+level: medium

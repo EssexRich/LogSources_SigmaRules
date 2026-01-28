@@ -1,0 +1,24 @@
+title: System Integrity Protection (SIP) Disabled
+id: 212bc7c5-212b-412b-a12b-212bc7c50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1518.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_csrutil_disable.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1518.001
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     # VT Query: behavior_processes:"csrutil status" p:5+ type:mac
+    #     selection:
+    #         Image|endswith: '/csrutil'
+    #         CommandLine|contains: 'disable'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

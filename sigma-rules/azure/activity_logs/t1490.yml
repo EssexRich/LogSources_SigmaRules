@@ -1,0 +1,21 @@
+title: Azure Compute Restore Point Collection Deleted by Unusual User
+id: 245f0cf7-245f-445f-a45f-245f0cf70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1490
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/impact_azure_compute_restore_point_collection_deleted.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1490
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: azure.activitylogs and
+    #     event.action: "MICROSOFT.COMPUTE/RESTOREPOINTCOLLECTIONS/DELETE" and
+    #     event.outcome: (Success or success)
+  condition: selection
+level: medium

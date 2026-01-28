@@ -1,0 +1,22 @@
+title: AWS Credential Access Failed Login
+id: 24dc366b-24dc-44dc-a4dc-24dc366b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_credential_access_failed_login.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.001
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cloudtrail` eventName = ConsoleLogin errorMessage="Failed authentication"
+    #   | rename user_name as user
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user user_agent src vendor_account vendor_region vendor_product
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_credential_access_failed_login_filter`
+  condition: selection
+level: medium

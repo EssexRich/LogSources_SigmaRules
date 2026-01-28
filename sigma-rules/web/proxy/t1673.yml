@@ -1,0 +1,31 @@
+title: ESXi Bulk VM Termination
+id: 60c83480-60c8-40c8-a0c8-60c834800000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1673
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_bulk_vm_termination.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1673
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `esxi_syslog` | rex field=_raw "\s\[(?<user>[^\]]+)\]:\s(?<shell_command>.+)$"
+    #   | rex field=_raw "Z (?<dest>[\w\.]+)\s.*:\s(?<esxicli_Command>esxcli\s.+)"
+    #   | eval command=mvappend(esxicli_Command, shell_Command) 
+    #   | where isnotnull(command) 
+    #   | search (command="pkill -9 vmx-*") OR (
+    #       command="*esxcli*" 
+    #       AND command="*--format-param*"
+    #       AND command="*vm process list*"
+    #       AND command="*awk*"
+    #       AND command="*esxcli vm process kill*")
+    #   | stats min(_time) as firstTime max(_time) as lastTime values(_time) as timeStamp values(command) as commands values(user) as user by dest 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `esxi_bulk_vm_termination_filter`
+  condition: selection
+level: medium

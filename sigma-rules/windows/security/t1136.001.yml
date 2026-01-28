@@ -1,0 +1,25 @@
+title: Hidden Local User Creation
+id: 62727e3e-6272-4272-a272-62727e3e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_hidden_user_creation.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4720
+    #         TargetUserName|endswith: '$'
+    #     filter_main_homegroup:
+    #         TargetUserName: 'HomeGroupUser$'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

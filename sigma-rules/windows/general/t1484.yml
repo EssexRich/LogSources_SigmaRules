@@ -1,0 +1,25 @@
+title: Creation or Modification of a new GPO Scheduled Task or Service
+id: 5e8acb62-5e8a-4e8a-ae8a-5e8acb620000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1484
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_gpo_schtask_service_creation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1484
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "windows" and event.type != "deletion" and event.action != "open" and
+    #  file.name : ("ScheduledTasks.xml", "Services.xml") and
+    #   file.path : (
+    #     "?:\\Windows\\SYSVOL\\domain\\Policies\\*\\MACHINE\\Preferences\\ScheduledTasks\\ScheduledTasks.xml",
+    #     "?:\\Windows\\SYSVOL\\domain\\Policies\\*\\MACHINE\\Preferences\\Services\\Services.xml"
+    #   ) and
+    #   not process.executable : "C:\\Windows\\System32\\dfsrs.exe"
+  condition: selection
+level: medium

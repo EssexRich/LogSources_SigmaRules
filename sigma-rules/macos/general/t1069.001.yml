@@ -1,0 +1,33 @@
+title: Local Groups Discovery - MacOs
+id: 1b4993cd-1b49-4b49-ab49-1b4993cd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1069.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_local_groups.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1069.001
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1:
+    #         Image|endswith: '/dscacheutil'
+    #         CommandLine|contains|all:
+    #             - '-q'
+    #             - 'group'
+    #     selection_2:
+    #         Image|endswith: '/cat'
+    #         CommandLine|contains: '/etc/group'
+    #     selection_3:
+    #         Image|endswith: '/dscl'
+    #         CommandLine|contains|all:
+    #             - '-list'
+    #             - '/groups'
+    #     condition: 1 of selection*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,47 @@
+title: Cisco NVM - Outbound Connection to Suspicious Port
+id: 06b63bc5-06b6-46b6-a6b6-06b63bc50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1571
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cisco_nvm___outbound_connection_to_suspicious_port.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1571
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_network_visibility_module_flowdata`
+    #   NOT dest IN (
+    #           "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+    #           "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+    #           "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+    #           "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+    #           "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1"
+    #           )
+    #   | stats count min(_time) as firstTime max(_time) as lastTime
+    #           values(parent_process_arguments) as parent_process_arguments
+    #           values(process_arguments) as process_arguments
+    #           values(parent_process_hash) as parent_process_hash
+    #           values(process_hash) as process_hash
+    #           values(module_name_list) as module_name_list
+    #           values(module_hash_list) as module_hash_list
+    #           values(dest_port) as dest_port
+    #           values(aliul) as additional_logged_in_users_list
+    #           values(dest_hostname) as dest_hostname
+    #           by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport
+    #   | lookup suspicious_ports_list dest_port OUTPUTNEW comment as dest_port_metadata confidence as dest_confidence category as dest_port_category
+    #   | where isnotnull(dest_port_metadata)
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | table
+    #     parent_process_integrity_level parent_process_path parent_process_arguments parent_process_hash
+    #     process_integrity_level process_path process_name process_arguments process_hash process_id
+    #     additional_logged_in_users_list module_name_list module_hash_list
+    #     src dest_hostname dest dest_port transport firstTime lastTime
+    #   | `cisco_nvm___outbound_connection_to_suspicious_port_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,24 @@
+title: Hidden Executable In NTFS Alternate Data Stream
+id: 320a66a3-320a-420a-a20a-320a66a30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/create_stream_hash/create_stream_hash_ads_executable.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564.004
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Hash|contains: 'IMPHASH='
+    #     filter_main_null:
+    #         Hash|contains: 'IMPHASH=00000000000000000000000000000000'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

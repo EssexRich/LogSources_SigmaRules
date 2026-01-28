@@ -1,0 +1,26 @@
+title: Clipboard Collection with Xclip Tool
+id: 1a20f37b-1a20-4a20-aa20-1a20f37b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1115
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_clipboard_collection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1115
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|contains: 'xclip'
+    #         CommandLine|contains|all:
+    #             - '-sel'
+    #             - 'clip'
+    #             - '-o'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

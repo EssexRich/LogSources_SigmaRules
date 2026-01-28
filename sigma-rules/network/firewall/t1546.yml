@@ -1,0 +1,34 @@
+title: Suspicious APT Package Manager Network Connection
+id: 684fd074-684f-484f-a84f-684fd0740000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_apt_package_manager_netcon.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id with maxspan=5s
+    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
+    #    process.parent.name == "apt" and process.args == "-c" and
+    #    process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and
+    #     not process.args == "/usr/bin/apt-listbugs apt"
+    #   ] by process.entity_id
+    #   [network where host.os.type == "linux" and event.action == "connection_attempted" and event.type == "start" and not (
+    #      destination.ip == null or destination.ip == "0.0.0.0" or cidrmatch(
+    #      destination.ip, "10.0.0.0/8", "127.0.0.0/8", "169.254.0.0/16", "172.16.0.0/12", "192.0.0.0/24", "192.0.0.0/29",
+    #      "192.0.0.8/32", "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+    #      "192.31.196.0/24", "192.52.193.0/24", "192.168.0.0/16", "192.88.99.0/24", "224.0.0.0/4", "100.64.0.0/10",
+    #      "192.175.48.0/24","198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1", "FE80::/10",
+    #      "FF00::/8", "172.31.0.0/16"
+    #      )
+    #    ) and not process.executable == "/usr/bin/apt-listbugs"
+    #   ] by process.parent.entity_id
+  condition: selection
+level: medium

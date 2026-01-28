@@ -1,0 +1,25 @@
+title: Azure Automation Webhook Created
+id: 65602b2d-6560-4560-a560-65602b2d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1608
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/persistence_automation_webhook_created.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1608
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.activitylogs and
+    #   azure.activitylogs.operation_name:
+    #     (
+    #       "MICROSOFT.AUTOMATION/AUTOMATIONACCOUNTS/WEBHOOKS/ACTION" or
+    #       "MICROSOFT.AUTOMATION/AUTOMATIONACCOUNTS/WEBHOOKS/WRITE"
+    #     ) and
+    #   event.outcome:(Success or success)
+  condition: selection
+level: medium

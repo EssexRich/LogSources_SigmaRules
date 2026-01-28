@@ -1,0 +1,25 @@
+title: AWS Config Disabling Channel/Recorder
+id: 4cab9c9d-4cab-4cab-acab-4cab9c9d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.008
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_config_disable_recording.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.008
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: 'config.amazonaws.com'
+    #         eventName:
+    #             - 'DeleteDeliveryChannel'
+    #             - 'StopConfigurationRecorder'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

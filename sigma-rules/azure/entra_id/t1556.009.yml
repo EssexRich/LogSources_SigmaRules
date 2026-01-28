@@ -1,0 +1,21 @@
+title: Entra ID Conditional Access Policy (CAP) Modified
+id: 447ca5dc-447c-447c-a47c-447ca5dc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.009
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/persistence_entra_id_conditional_access_policy_modified.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556.009
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "azure.auditlogs"
+    #     and event.action:"Update conditional access policy"
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

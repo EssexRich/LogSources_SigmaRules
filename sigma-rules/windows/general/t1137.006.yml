@@ -1,0 +1,35 @@
+title: Potential Persistence Via Microsoft Office Add-In
+id: 55c48489-55c4-45c4-a5c4-55c484890000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1137.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_office_addin_persistence.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1137.006
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_wlldropped:
+    #         TargetFilename|contains: '\Microsoft\Word\Startup\'
+    #         TargetFilename|endswith: '.wll'
+    #     selection_xlldropped:
+    #         TargetFilename|contains: '\Microsoft\Excel\Startup\'
+    #         TargetFilename|endswith: '.xll'
+    #     selection_xladropped:
+    #         TargetFilename|contains: 'Microsoft\Excel\XLSTART\'
+    #         TargetFilename|endswith: '.xlam'
+    #     selection_generic:
+    #         TargetFilename|contains: '\Microsoft\Addins\'
+    #         TargetFilename|endswith:
+    #             - '.xlam'
+    #             - '.xla'
+    #             - '.ppam'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

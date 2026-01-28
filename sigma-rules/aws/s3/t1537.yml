@@ -1,0 +1,30 @@
+title: AWS S3 Data Management Tampering
+id: 64fa5da8-64fa-44fa-a4fa-64fa5da80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1537
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_s3_data_management_tampering.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1537
+logsource:
+  product: aws
+  service: s3
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: s3.amazonaws.com
+    #         eventName:
+    #             - PutBucketLogging
+    #             - PutBucketWebsite
+    #             - PutEncryptionConfiguration
+    #             - PutLifecycleConfiguration
+    #             - PutReplicationConfiguration
+    #             - ReplicateObject
+    #             - RestoreObject
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

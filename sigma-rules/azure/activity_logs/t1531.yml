@@ -1,0 +1,25 @@
+title: Azure Kubernetes Service Account Modified or Deleted
+id: 70601c3d-7060-4060-a060-70601c3d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1531
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_kubernetes_service_account_modified_or_deleted.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1531
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         operationName:
+    #             - MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/SERVICEACCOUNTS/WRITE
+    #             - MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/SERVICEACCOUNTS/DELETE
+    #             - MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/SERVICEACCOUNTS/IMPERSONATE/ACTION
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

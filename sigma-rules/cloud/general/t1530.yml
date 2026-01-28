@@ -1,0 +1,26 @@
+title: Detect S3 access from a new IP
+id: 22b1f445-22b1-42b1-a2b1-22b1f4450000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1530
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/detect_s3_access_from_a_new_ip.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1530
+logsource:
+  product: cloud
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `aws_s3_accesslogs` http_status=200  [search `aws_s3_accesslogs` http_status=200
+    #   | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip
+    #   | inputlookup append=t previously_seen_S3_access_from_remote_ip | stats min(firstTime)
+    #   as firstTime, max(lastTime) as lastTime by bucket_name remote_ip | outputlookup
+    #   previously_seen_S3_access_from_remote_ip | eval newIP=if(firstTime >= relative_time(now(),
+    #   "-70m@m"), 1, 0) | where newIP=1 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+    #   | table bucket_name remote_ip]| iplocation remote_ip |rename remote_ip as src_ip
+    #   | table _time bucket_name src_ip City Country operation request_uri | `detect_s3_access_from_a_new_ip_filter`
+  condition: selection
+level: medium

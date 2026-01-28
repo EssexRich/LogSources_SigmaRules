@@ -1,0 +1,28 @@
+title: Adding Hidden File Attribute via Attrib
+id: 2ef48923-2ef4-4ef4-aef4-2ef489230000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1222
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_adding_the_hidden_file_attribute_with_via_attribexe.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1222
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   (process.name : "attrib.exe" or ?process.pe.original_file_name == "ATTRIB.EXE") and process.args : "+h" and
+    #   not (process.parent.name: "cmd.exe" and process.command_line: "attrib  +R +H +S +A *.cui") and
+    # 
+    #   not (
+    #     process.parent.name: "draw.io.exe" and
+    #     (
+    #       process.command_line : ("*drawio.bkp*", "*drawio.dtmp*")
+    #     )
+    #   )
+  condition: selection
+level: medium

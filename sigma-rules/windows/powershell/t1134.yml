@@ -1,0 +1,63 @@
+title: Suspicious SYSTEM User Process Creation
+id: 45f37c03-45f3-45f3-a5f3-45f37c030000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1134
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_system_user_anomaly.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1134
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         IntegrityLevel:
+    #             - 'System'
+    #             - 'S-1-16-16384'
+    #         User|contains: # covers many language settings
+    #             - 'AUTHORI'
+    #             - 'AUTORI'
+    #     selection_special:
+    #         - Image|endswith:
+    #               - '\calc.exe'
+    #               - '\cscript.exe'
+    #               - '\forfiles.exe'
+    #               - '\hh.exe'
+    #               - '\mshta.exe'
+    #               - '\ping.exe'
+    #               - '\wscript.exe'
+    #         - CommandLine|re: 'net\s+user\s+'
+    #         - CommandLine|contains:
+    #               # - 'sc stop ' # stops a system service # causes FPs
+    #               - ' -NoP '  # Often used in malicious PowerShell commands
+    #               - ' -W Hidden '  # Often used in malicious PowerShell commands
+    #               - ' -decode '  # Used with certutil
+    #               - ' /decode '  # Used with certutil
+    #               - ' /urlcache '  # Used with certutil
+    #               - ' -urlcache '  # Used with certutil
+    #               - ' -e* JAB'  # PowerShell encoded commands
+    #               - ' -e* SUVYI'  # PowerShell encoded commands
+    #               - ' -e* SQBFAFgA'  # PowerShell encoded commands
+    #               - ' -e* aWV4I'  # PowerShell encoded commands
+    #               - ' -e* IAB'  # PowerShell encoded commands
+    #               - ' -e* PAA'  # PowerShell encoded commands
+    #               - ' -e* aQBlAHgA'  # PowerShell encoded commands
+    #               - 'vssadmin delete shadows'  # Ransomware
+    #               - 'reg SAVE HKLM'  # save registry SAM - syskey extraction
+    #               - ' -ma '  # ProcDump
+    #               - 'Microsoft\Windows\CurrentVersion\Run'  # Run key in command line - often in combination with REG ADD
+    #               - '.downloadstring('  # PowerShell download command
+    #               - '.downloadfile('  # PowerShell download command
+    #               - ' /ticket:'  # Rubeus
+    #               - 'dpapi::'     # Mimikatz
+    #               - 'event::clear'        # Mimikatz
+    #               - 'event::drop'     # Mimikatz
+    #               - 'id::modify'      # Mimikatz
+    #         
+    # ... [truncated]
+  condition: selection
+level: medium

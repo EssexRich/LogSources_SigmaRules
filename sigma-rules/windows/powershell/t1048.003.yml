@@ -1,0 +1,25 @@
+title: PowerShell ICMP Exfiltration
+id: 5763e97a-5763-4763-a763-5763e97a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1048.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_icmp_exfiltration.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1048.003
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - 'New-Object'
+    #             - 'System.Net.NetworkInformation.Ping'
+    #             - '.Send('
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

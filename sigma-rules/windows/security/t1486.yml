@@ -1,0 +1,25 @@
+title: Ryuk Test Files Detected
+id: 488ee66e-488e-488e-a88e-488ee66e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1486
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/ryuk_test_files_detected.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1486
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime FROM datamodel=Endpoint.Filesystem WHERE "Filesystem.file_path"=C:\\*Ryuk*
+    #   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+    #   Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
+    #   Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+    #   Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` |
+    #   `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `ryuk_test_files_detected_filter`
+  condition: selection
+level: medium

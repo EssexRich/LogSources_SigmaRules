@@ -1,0 +1,27 @@
+title: Detected Windows Software Discovery - PowerShell
+id: 53bda57a-53bd-43bd-a3bd-53bda57a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1518
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_software_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1518
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             # Example: Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -Autosize
+    #             - 'get-itemProperty'
+    #             - '\software\'
+    #             - 'select-object'
+    #             - 'format-table'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,35 @@
+title: Uncommon Outbound Kerberos Connection
+id: 50e97b12-50e9-40e9-a0e9-50e97b120000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_susp_outbound_kerberos_connection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         DestinationPort: 88
+    #         Initiated: 'true'
+    #     filter_main_lsass:
+    #         Image: 'C:\Windows\System32\lsass.exe'
+    #     filter_optional_chrome:
+    #         Image:
+    #             - 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+    #             - 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+    #     filter_optional_firefox:
+    #         Image:
+    #             - 'C:\Program Files (x86)\Mozilla Firefox\firefox.exe'
+    #             - 'C:\Program Files\Mozilla Firefox\firefox.exe'
+    #     filter_optional_tomcat:
+    #         Image|endswith: '\tomcat\bin\tomcat8.exe'
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

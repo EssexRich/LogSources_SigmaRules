@@ -1,0 +1,31 @@
+title: Network Activity Detected via Kworker
+id: 01541ccd-0154-4154-a154-01541ccd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_linux_kworker_netcon.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:linux and event.category:network and event.action:(connection_attempted or connection_accepted) and
+    # process.name:kworker* and not destination.ip:(
+    #   10.0.0.0/8 or
+    #   127.0.0.0/8 or
+    #   169.254.0.0/16 or
+    #   172.16.0.0/12 or
+    #   192.168.0.0/16 or
+    #   224.0.0.0/4 or
+    #   "::1" or
+    #   "FE80::/10" or
+    #   "FF00::/8" or
+    #   "0.0.0.0"
+    # ) and not destination.port:("2049" or "111" or "892" or "597")
+  condition: selection
+level: medium

@@ -1,0 +1,19 @@
+title: Attempt to Deactivate an Okta Application
+id: 0492ecbb-0492-4492-a492-0492ecbb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1489
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/impact_okta_attempt_to_deactivate_okta_application.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1489
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:okta.system and event.action:application.lifecycle.deactivate
+  condition: selection
+level: medium

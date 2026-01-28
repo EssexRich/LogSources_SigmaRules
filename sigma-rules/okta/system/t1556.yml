@@ -1,0 +1,22 @@
+title: MFA Deactivation with no Re-Activation for Okta User Account
+id: 1fa65e76-1fa6-4fa6-afa6-1fa65e760000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/persistence_mfa_deactivation_with_no_reactivation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by okta.target.id with maxspan=12h
+    #     [any where event.dataset == "okta.system" and okta.event_type in ("user.mfa.factor.deactivate", "user.mfa.factor.reset_all")
+    #         and okta.outcome.reason != "User reset SECURITY_QUESTION factor" and okta.outcome.result == "SUCCESS"]
+    #     ![any where event.dataset == "okta.system" and okta.event_type == "user.mfa.factor.activate"]
+  condition: selection
+level: medium

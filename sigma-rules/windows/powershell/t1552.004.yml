@@ -1,0 +1,26 @@
+title: Certificate Exported Via PowerShell - ScriptBlock
+id: 0f96f0b0-0f96-4f96-af96-0f96f0b00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_export_certificate.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.004
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains:
+    #             - 'Export-PfxCertificate'
+    #             - 'Export-Certificate'
+    #     filter_optional_module_export:
+    #         ScriptBlockText|contains: 'CmdletsToExport = @('
+    #     condition: selection and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

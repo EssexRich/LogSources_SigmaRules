@@ -1,0 +1,45 @@
+title: Suspicious Execution via macOS Script Editor
+id: 69a7ee6b-69a7-49a7-a9a7-69a7ee6b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_susp_execution_macos_script_editor.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|endswith: '/Script Editor'
+    #     selection_img:
+    #         - Image|endswith:
+    #               - '/curl'
+    #               - '/bash'
+    #               - '/sh'
+    #               - '/zsh'
+    #               - '/dash'
+    #               - '/fish'
+    #               - '/osascript'
+    #               - '/mktemp'
+    #               - '/chmod'
+    #               - '/php'
+    #               - '/nohup'
+    #               - '/openssl'
+    #               - '/plutil'
+    #               - '/PlistBuddy'
+    #               - '/xattr'
+    #               - '/sqlite'
+    #               - '/funzip'
+    #               - '/popen'
+    #         - Image|contains:
+    #               - 'python'
+    #               - 'perl'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

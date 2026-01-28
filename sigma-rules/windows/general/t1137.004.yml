@@ -1,0 +1,23 @@
+title: Outlook Home Page Registry Modification
+id: 6c6a5369-6c6a-4c6a-ac6a-6c6a53690000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1137.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_outlook_home_page.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1137.004
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # registry where host.os.type == "windows" and event.action != "deletion" and registry.value : "URL" and
+    #     registry.path : (
+    #         "*\\SOFTWARE\\Microsoft\\Office\\*\\Outlook\\Webview\\*",
+    #         "*\\SOFTWARE\\Microsoft\\Office\\*\\Outlook\\Today\\*"
+    #     ) and registry.data.strings : ("*://*", "*:\\*")
+  condition: selection
+level: medium

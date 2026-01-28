@@ -1,0 +1,24 @@
+title: Microsoft Intune Device Health Scripts
+id: 4e456a09-4e45-4e45-ae45-4e456a090000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1202
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/microsoft_intune_device_health_scripts.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1202
+logsource:
+  product: azure
+  service: intune
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #   `azure_monitor_activity` operationName="*DeviceHealthScript*" 
+    #   | rename identity as user, properties.TargetObjectIds{} as TargetObjectId, properties.TargetDisplayNames{} as TargetDisplayName, properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin
+    #   | rex field="operationName" "^(?P<action>\w+?)DeviceHealthScript" | replace "patch" with "updated", "create" with "created", "delete", with "deleted", "assign", with "assigned" IN action
+    #   | table _time operationName action user user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId status tenantId correlationId
+    #   | `microsoft_intune_device_health_scripts_filter`
+  condition: selection
+level: medium

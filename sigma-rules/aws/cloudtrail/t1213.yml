@@ -1,0 +1,22 @@
+title: AWS RDS Snapshot Export
+id: 577522e2-5775-4775-a775-577522e20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1213
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/exfiltration_rds_snapshot_export.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1213
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: aws.cloudtrail 
+    #     and event.provider: rds.amazonaws.com 
+    #     and event.action: StartExportTask 
+    #     and event.outcome: success
+  condition: selection
+level: medium

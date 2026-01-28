@@ -1,0 +1,23 @@
+title: New Network ACL Entry Added
+id: 72b893b8-72b8-42b8-a2b8-72b893b80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.007
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_new_acl_entries.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.007
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: 'ec2.amazonaws.com'
+    #         eventName: 'CreateNetworkAclEntry'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: Linux Auditd Find Ssh Private Keys
+id: 105b5abd-105b-405b-a05b-105b5abd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_find_ssh_private_keys.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.004
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # `linux_auditd` execve_command IN ("*find*", "*grep*") AND execve_command IN ("*id_rsa*", "*id_dsa*", "*.key*", "*ssh_key*", "*authorized_keys*")
+    #   | rename host as dest 
+    #   | rename comm as process_name 
+    #   | rename exe as process 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by argc execve_command dest 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `linux_auditd_find_ssh_private_keys_filter`
+  condition: selection
+level: medium

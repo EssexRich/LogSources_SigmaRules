@@ -1,0 +1,103 @@
+title: Download From Suspicious TLD - Blacklist
+id: 1f2eade4-1f2e-4f2e-af2e-1f2eade40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/proxy_generic/proxy_download_susp_tlds_blacklist.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         c-uri-extension:
+    #             - 'exe'
+    #             - 'vbs'
+    #             - 'bat'
+    #             - 'rar'
+    #             - 'ps1'
+    #             - 'doc'
+    #             - 'docm'
+    #             - 'xls'
+    #             - 'xlsm'
+    #             - 'pptm'
+    #             - 'rtf'
+    #             - 'hta'
+    #             - 'dll'
+    #             - 'ws'
+    #             - 'wsf'
+    #             - 'sct'
+    #             - 'zip'
+    #             # If you want to add more extensions - see https://docs.google.com/spreadsheets/d/1TWS238xacAto-fLKh1n5uTsdijWdCEsGIM0Y0Hvmc5g/
+    #         cs-host|endswith:
+    #             # Symantec / Chris Larsen analysis
+    #             - '.country'
+    #             - '.stream'
+    #             - '.gdn'
+    #             - '.mom'
+    #             - '.xin'
+    #             - '.kim'
+    #             - '.men'
+    #             - '.loan'
+    #             - '.download'
+    #             - '.racing'
+    #             - '.online'
+    #             - '.science'
+    #             - '.ren'
+    #             - '.gb'
+    #             - '.win'
+    #             - '.top'
+    #             - '.review'
+    #             - '.vip'
+    #             - '.party'
+    #             - '.tech'
+    #             - '.xyz'
+    #             - '.date'
+    #             - '.faith'
+    #             - '.zip'
+    #             - '.cricket'
+    #             - '.space'
+    #             # McAfee report
+    #             - '.info'
+    #             - '.vn'
+    #             - '.cm'
+    #             - '.am'
+    #             - '.cc'
+    #             - '.asia'
+    #             - '.ws'
+    #             - '.tk'
+    #             - '.biz'
+    #             - '.su'
+    #             - '.st'
+    #             - '.ro'
+    #             - '.ge'
+    #             - '.ms'
+    #             - '.pk'
+    #             - '.nu'
+    #             - '.me'
+    #             - '.ph'
+    #             - '.to'
+    #             - '.tt'
+    #             - '.name'
+    #             - '.tv'
+    #             - '.kz'
+    #             - '.tc'
+    #             - '.mobi'
+    #             # Spamhaus
+    #             - '.study'
+    #             - '.click'
+    #             - '.link'
+    #             - '.trade'
+    #             - '.accountant'
+    #             # Spamhaus 2018 https://krebsonsecurity.com/2018/06/bad-men-at-work-please-dont-click/
+    #             - '.cf'
+    #             - '.gq'
+    #     
+    # ... [truncated]
+  condition: selection
+level: medium

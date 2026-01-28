@@ -1,0 +1,19 @@
+title: M365 Exchange Management Group Role Assigned
+id: 399871c2-3998-4998-a998-399871c20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/persistence_exchange_management_role_assignment.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.003
+logsource:
+  product: m365
+  service: exchange
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and event.provider:Exchange and event.category:web and event.action:"New-ManagementRoleAssignment" and event.outcome:success
+  condition: selection
+level: medium

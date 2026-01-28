@@ -1,0 +1,24 @@
+title: Network Reconnaissance Activity
+id: 73c073f0-73c0-43c0-a3c0-73c073f00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_nslookup_domain_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1087
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         CommandLine|contains|all:
+    #             - 'nslookup'
+    #             - '_ldap._tcp.dc._msdcs.'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,33 @@
+title: System Shutdown/Reboot - Linux
+id: 7761b918-7761-4761-a761-7761b9180000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1529
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_system_shutdown_reboot.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1529
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     execve:
+    #         type: 'EXECVE'
+    #     shutdowncmd:
+    #         - 'shutdown'
+    #         - 'reboot'
+    #         - 'halt'
+    #         - 'poweroff'
+    #     init:
+    #         - 'init'
+    #         - 'telinit'
+    #     initselection:
+    #         - 0
+    #         - 6
+    #     condition: execve and (shutdowncmd or (init and initselection))
+    # 
+  condition: selection
+level: medium

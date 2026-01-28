@@ -1,0 +1,22 @@
+title: Modification of Environment Variable via Unsigned or Untrusted Parent
+id: 205dedaf-205d-405d-a05d-205dedaf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_modify_environment_launchctl.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.007
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #   process.name == "launchctl" and
+    #   (process.parent.code_signature.exists == false or process.parent.code_signature.trusted == false) and
+    #   process.args == "setenv"
+  condition: selection
+level: medium

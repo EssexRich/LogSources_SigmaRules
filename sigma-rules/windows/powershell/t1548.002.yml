@@ -1,0 +1,28 @@
+title: PowerShell Web Access Feature Enabled Via DISM
+id: 1d007190-1d00-4d00-ad00-1d0071900000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_dism_enable_powershell_web_access_feature.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548.002
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\dism.exe'
+    #         - OriginalFileName: 'DISM.EXE'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - 'WindowsPowerShellWebAccess'
+    #             - '/online'
+    #             - '/enable-feature'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

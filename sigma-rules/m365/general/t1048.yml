@@ -1,0 +1,28 @@
+title: O365 DLP Rule Triggered
+id: 3f9d8954-3f9d-4f9d-af9d-3f9d89540000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1048
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_dlp_rule_triggered.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1048
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `o365_management_activity` Operation=DLPRuleMatch | eval recipient = ''ExchangeMetaData.To{}'',
+    #   signature_id = ''ExchangeMetaData.UniqueID'', signature = ''PolicyDetails{}.Rules{}.RuleName''
+    #   , src_user = UserId, reason =''PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.SensitiveInformationTypeName'',
+    #   result=''PolicyDetails{}.Rules{}.Actions{}'', file_name=case(NOT match(''PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.Location'',"Message
+    #   Body"),''PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.Location'')
+    #   | fillnull | stats count min(_time) as firstTime max(_time) as lastTime values(signature)
+    #   as signature values(file_name) as file_name values(ExchangeMetaData.Subject) AS
+    #   subject values(Workload) as app values(result) as result by action dest user src
+    #   vendor_account vendor_product src_user recipient signature_id reason | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `o365_dlp_rule_triggered_filter`
+  condition: selection
+level: medium

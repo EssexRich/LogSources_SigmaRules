@@ -1,0 +1,41 @@
+title: Potentially Suspicious NTFS Symlink Behavior Modification
+id: 56ca91ef-56ca-46ca-a6ca-56ca91ef0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1222.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_fsutil_symlinkevaluation.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1222.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img_proxy:
+    #         # Note: Example command observed:  cmd.exe /c "fsutil behaviour set SymlinkEvaluation"
+    #         - Image|endswith:
+    #               - '\cmd.exe'
+    #               - '\powershell.exe'
+    #               - '\pwsh.exe'
+    #         - OriginalFileName:
+    #               - 'Cmd.Exe'
+    #               - 'PowerShell.EXE'
+    #               - 'pwsh.dll'
+    #     selection_fsutil_cli:
+    #         CommandLine|contains|all:
+    #             - 'fsutil'
+    #             - 'behavior'
+    #             - 'set'
+    #             - 'SymlinkEvaluation'
+    #     selection_symlink_params:
+    #         CommandLine|contains:
+    #             - 'R2L:1' # Remote to Local
+    #             - 'R2R:1' # Remote to Remote
+    #             - 'L2L:1' # Local to Local
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

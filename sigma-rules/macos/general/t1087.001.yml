@@ -1,0 +1,42 @@
+title: Local System Accounts Discovery - MacOs
+id: 4587be98-4587-4587-a587-4587be980000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_local_account.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1087.001
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1:
+    #         Image|endswith: '/dscl'
+    #         CommandLine|contains|all:
+    #             - 'list'
+    #             - '/users'
+    #     selection_2:
+    #         Image|endswith: '/dscacheutil'
+    #         CommandLine|contains|all:
+    #             - '-q'
+    #             - 'user'
+    #     selection_3:
+    #         CommandLine|contains: '''x:0:'''
+    #     selection_4:
+    #         Image|endswith: '/cat'
+    #         CommandLine|contains:
+    #             - '/etc/passwd'
+    #             - '/etc/sudoers'
+    #     selection_5:
+    #         Image|endswith: '/id'
+    #     selection_6:
+    #         Image|endswith: '/lsof'
+    #         CommandLine|contains: '-u'
+    #     condition: 1 of selection*
+    # 
+  condition: selection
+level: medium

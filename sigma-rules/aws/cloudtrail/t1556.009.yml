@@ -1,0 +1,26 @@
+title: AWS RDS DB Instance Made Public
+id: 04162d30-0416-4416-a416-04162d300000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.009
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_rds_instance_made_public.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556.009
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # any where event.dataset == "aws.cloudtrail"
+    #     and event.provider == "rds.amazonaws.com"
+    #     and event.outcome == "success"
+    #     and (
+    #         (event.action == "ModifyDBInstance" and stringContains(aws.cloudtrail.request_parameters, "publiclyAccessible=true"))
+    #         or
+    #         (event.action in ("CreateDBInstance", "CreateDBCluster") and stringContains(aws.cloudtrail.request_parameters, "publiclyAccessible=true"))
+    #     )
+  condition: selection
+level: medium

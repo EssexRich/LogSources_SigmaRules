@@ -1,0 +1,25 @@
+title: Admin User Remote Logon
+id: 158f236f-158f-458f-a58f-158f236f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_admin_rdp_login.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4624
+    #         LogonType: 10
+    #         AuthenticationPackageName: Negotiate
+    #         TargetUserName|startswith: 'Admin'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

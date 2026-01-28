@@ -1,0 +1,19 @@
+title: Deprecated - AWS RDS Instance/Cluster Stoppage
+id: 278f30ee-278f-478f-a78f-278f30ee0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1489
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/impact_rds_instance_cluster_stoppage.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1489
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail and event.provider:rds.amazonaws.com and event.action:(StopDBCluster or StopDBInstance) and event.outcome:success
+  condition: selection
+level: medium

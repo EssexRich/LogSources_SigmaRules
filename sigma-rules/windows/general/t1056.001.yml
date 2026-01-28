@@ -1,0 +1,22 @@
+title: Potential Keylogger Activity
+id: 024e5954-024e-424e-a24e-024e59540000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1056.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_keylogger_activity.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1056.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains: '[Windows.Input.Keyboard]::IsKeyDown([System.Windows.Input.Key]::'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

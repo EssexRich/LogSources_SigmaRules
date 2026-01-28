@@ -1,0 +1,33 @@
+title: Potential Suspicious Activity Using SeCEdit
+id: 24768a03-2476-4476-a476-24768a030000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1082
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_secedit_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1082
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\secedit.exe'
+    #         - OriginalFileName: 'SeCEdit'
+    #     selection_flags_discovery:
+    #         CommandLine|contains|all:
+    #             - '/export'
+    #             - '/cfg'
+    #     selection_flags_configure:
+    #         CommandLine|contains|all:
+    #             - '/configure'
+    #             - '/db'
+    #     # filter:
+    #     #     SubjectUserName|endswith: '$'  SubjectUserName is from event ID 4719 in the Windows Security log
+    #     condition: selection_img and (1 of selection_flags_*)
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,27 @@
+title: NTFS Vulnerability Exploitation
+id: 1cdfebc4-1cdf-4cdf-acdf-1cdfebc40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1499.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/ntfs/win_system_ntfs_vuln_exploit.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1499.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Provider_Name: Ntfs
+    #         EventID: 55
+    #         Origin: 'File System Driver'
+    #         Description|contains|all:
+    #             - 'contains a corrupted file record'
+    #             - 'The name of the file is "\"'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

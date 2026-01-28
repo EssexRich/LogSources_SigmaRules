@@ -1,0 +1,27 @@
+title: SchCache Change By App Connect And Create ADSI Object
+id: 1abf8664-1abf-4abf-aabf-1abf86640000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/schcache_change_by_app_connect_and_create_adsi_object.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1087.002
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #   `sysmon` EventCode=11 TargetFilename = "*\\Windows\\SchCache\\*" TargetFilename
+    #       = "*.sch*" NOT (Image IN ("*\\Windows\\system32\\mmc.exe")) 
+    #   | stats count min(_time)
+    #       as firstTime max(_time) as lastTime by action dest file_name file_path process_guid
+    #       process_id user_id vendor_product process_name 
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)`
+    #   | `schcache_change_by_app_connect_and_create_adsi_object_filter`
+  condition: selection
+level: medium

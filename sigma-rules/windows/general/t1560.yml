@@ -1,0 +1,28 @@
+title: Compressed File Creation Via Tar.EXE
+id: 2861aa98-2861-4861-a861-2861aa980000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1560
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_tar_compression.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1560
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\tar.exe'
+    #         - OriginalFileName: 'bsdtar'
+    #     selection_create:
+    #         CommandLine|contains:
+    #             - '-c'
+    #             - '-r'
+    #             - '-u'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

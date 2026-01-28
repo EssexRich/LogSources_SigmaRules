@@ -1,0 +1,34 @@
+title: Publicly Accessible RDP Service
+id: 1eeeec59-1eee-4eee-aeee-1eeeec590000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/zeek/zeek_rdp_public_listener.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.001
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         id.orig_h|cidr:
+    #             - '::1/128'  # IPv6 loopback
+    #             - '10.0.0.0/8'
+    #             - '127.0.0.0/8'
+    #             - '172.16.0.0/12'
+    #             - '192.168.0.0/16'
+    #             - '169.254.0.0/16'
+    #             - '2620:83:8000::/48'
+    #             - 'fc00::/7'  # IPv6 private addresses
+    #             - 'fe80::/10'  # IPv6 link-local addresses
+    #     # approved_rdp:
+    #       # dst_ip:
+    #         # - x.x.x.x
+    #     condition: not selection # and not approved_rdp
+    # 
+  condition: selection
+level: medium

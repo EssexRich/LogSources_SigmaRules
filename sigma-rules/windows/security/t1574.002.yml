@@ -1,0 +1,28 @@
+title: Windows Known Abused DLL Created
+id: 138da340-138d-438d-a38d-138da3400000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_known_abused_dll_created.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
+    #   where Filesystem.file_path IN ("*\\users\\*","*\\Windows\Temp\\*","*\\programdata\\*")
+    #   Filesystem.file_name="*.dll" by Filesystem.action Filesystem.dest Filesystem.file_access_time
+    #   Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name
+    #   Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid
+    #   Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)`
+    #   | lookup hijacklibs_loaded library AS file_name OUTPUT islibrary, ttp, comment as
+    #   desc | lookup hijacklibs_loaded library AS file_name excludes as file_path OUTPUT
+    #   islibrary as excluded | search islibrary = TRUE AND excluded != TRUE | where isnotnull(file_name)
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |  `windows_known_abused_dll_created_filter`
+  condition: selection
+level: medium

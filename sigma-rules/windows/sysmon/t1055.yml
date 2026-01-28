@@ -1,0 +1,22 @@
+title: Process Injection by the Microsoft Build Engine
+id: 62f48f64-62f4-42f4-a2f4-62f48f640000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1055
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_injection_msbuild.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1055
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and
+    #   event.provider == "Microsoft-Windows-Sysmon" and
+    #   /* CreateRemoteThread */
+    #   event.code == "8" and process.name: "MSBuild.exe"
+  condition: selection
+level: medium

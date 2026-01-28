@@ -1,0 +1,30 @@
+title: Windows Network Access Suspicious desktop.ini Action
+id: 4cbbbce5-4cbb-4cbb-acbb-4cbbbce50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.009
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_net_share_obj_susp_desktop_ini.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.009
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 5145
+    #         ObjectType: File
+    #         RelativeTargetName|endswith: '\desktop.ini'
+    #         AccessList|contains:
+    #             - 'WriteData'
+    #             - 'DELETE'
+    #             - 'WriteDAC'
+    #             - 'AppendData'
+    #             - 'AddSubdirectory'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

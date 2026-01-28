@@ -1,0 +1,26 @@
+title: Suspicious Scheduled Task Write to System32 Tasks
+id: 0327d785-0327-4327-a327-0327d7850000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_task_write.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetFilename|contains: '\Windows\System32\Tasks'
+    #         Image|contains:
+    #             - '\AppData\'
+    #             - 'C:\PerfLogs'
+    #             - '\Windows\System32\config\systemprofile'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

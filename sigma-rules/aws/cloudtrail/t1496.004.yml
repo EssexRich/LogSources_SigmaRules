@@ -1,0 +1,22 @@
+title: AWS SNS Rare Protocol Subscription by User
+id: 4b4e2aeb-4b4e-4b4e-ab4e-4b4e2aeb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1496.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/exfiltration_sns_rare_protocol_subscription_by_user.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1496.004
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "sns.amazonaws.com"
+    #     and event.action: "Subscribe"
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

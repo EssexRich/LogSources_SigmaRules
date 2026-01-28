@@ -1,0 +1,23 @@
+title: InstallUtil Process Making Network Connections
+id: 5e5aa2ef-5e5a-4e5a-ae5a-5e5aa2ef0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_installutil_beacon.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.004
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # /* the benefit of doing this as an eql sequence vs kql is this will limit to alerting only on the first network connection */
+    # 
+    # sequence by process.entity_id
+    #   [process where host.os.type == "windows" and event.type == "start" and process.name : "installutil.exe"]
+    #   [network where host.os.type == "windows" and process.name : "installutil.exe" and network.direction : ("outgoing", "egress")]
+  condition: selection
+level: medium

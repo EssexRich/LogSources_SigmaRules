@@ -1,0 +1,31 @@
+title: Interactive Terminal Spawned via Python
+id: 77f29eda-77f2-47f2-a7f2-77f29eda0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_python_tty_shell.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.006
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start") and
+    # (
+    #   (process.parent.name : "python*" and process.name in ("bash", "dash", "ash", "sh", "tcsh", "csh", "zsh", "ksh",
+    #    "fish") and process.parent.args_count >= 3 and process.parent.args : "*pty.spawn*" and process.parent.args : "-c") or
+    #   (process.parent.name : "python*" and process.name in ("bash", "dash", "ash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and
+    #    process.args in (
+    #      "sh", "dash", "bash", "zsh",
+    #      "/bin/sh", "/bin/dash", "/bin/bash", "/bin/zsh",
+    #      "/usr/bin/sh", "/usr/bin/dash", "/usr/bin/bash", "/usr/bin/zsh",
+    #      "/usr/local/bin/sh", "/usr/local/bin/dash", "/usr/local/bin/bash", "/usr/local/bin/zsh"
+    #    ) and process.args_count == 1 and process.parent.args_count == 1
+    #   )
+    # )
+  condition: selection
+level: medium

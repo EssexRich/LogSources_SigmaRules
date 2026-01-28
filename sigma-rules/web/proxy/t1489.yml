@@ -1,0 +1,25 @@
+title: Application Uninstalled
+id: 43f0ad8c-43f0-43f0-a3f0-43f0ad8c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1489
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/application/msiinstaller/win_builtin_remove_application.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1489
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Provider_Name: 'MsiInstaller'
+    #         EventID:
+    #             - 1034 # Windows Installer removed the product
+    #             - 11724 # Product Removal Successful
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

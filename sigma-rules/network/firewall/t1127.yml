@@ -1,0 +1,44 @@
+title: MsBuild Making Network Connections
+id: 522f7f2a-522f-422f-a22f-522f7f2a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1127
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_msbuild_making_network_connections.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1127
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=30s
+    # 
+    #   /* Look for MSBuild.exe process execution */
+    #   /* The events for this first sequence may be noisy, consider adding exceptions */
+    #   [process where host.os.type == "windows" and event.type == "start" and
+    #     (
+    #       process.pe.original_file_name: "MSBuild.exe" or
+    #       process.name: "MSBuild.exe"
+    #     ) and
+    #     not user.id == "S-1-5-18"]
+    # 
+    #   /* Followed by a network connection to an external address */
+    #   /* Exclude domains that are known to be benign */
+    #   [network where host.os.type == "windows" and
+    #     event.action: ("connection_attempted", "lookup_requested") and
+    #     (
+    #       process.pe.original_file_name: "MSBuild.exe" or
+    #       process.name: "MSBuild.exe"
+    #     ) and
+    #     not user.id == "S-1-5-18" and
+    #     not cidrmatch(destination.ip, "127.0.0.1", "::1") and
+    #     not dns.question.name : (
+    #       "localhost",
+    #       "dc.services.visualstudio.com",
+    #       "vortex.data.microsoft.com",
+    #       "api.nuget.org")]
+  condition: selection
+level: medium

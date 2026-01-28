@@ -1,0 +1,27 @@
+title: DllUnregisterServer Function Call Via Msiexec.EXE
+id: 2b92617b-2b92-4b92-ab92-2b92617b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.007
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msiexec_dll.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.007
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\msiexec.exe'
+    #         - OriginalFileName: '\msiexec.exe'
+    #     selection_flag:
+    #         CommandLine|contains|windash: ' -z '
+    #     selection_dll:
+    #         CommandLine|contains: '.dll'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

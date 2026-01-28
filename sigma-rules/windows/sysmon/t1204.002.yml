@@ -1,0 +1,22 @@
+title: Drop IcedID License dat
+id: 154d9723-154d-454d-a54d-154d97230000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1204.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/drop_icedid_license_dat.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1204.002
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*"
+    #   OR TargetFilename="*\\programdata\\*") |stats count min(_time) as firstTime max(_time)
+    #   as lastTime by TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `drop_icedid_license_dat_filter`
+  condition: selection
+level: medium

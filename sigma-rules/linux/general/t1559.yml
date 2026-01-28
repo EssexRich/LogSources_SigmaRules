@@ -1,0 +1,36 @@
+title: Unix Socket Connection
+id: 135409a6-1354-4354-a354-135409a60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1559
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_unix_socket_communication.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1559
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    #  event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
+    #  (
+    #   (process.name in ("nc", "ncat", "netcat", "nc.openbsd") and
+    #    process.args == "-U" and process.args : ("/usr/local/*", "/run/*", "/var/run/*")) or
+    #   (process.name == "socat" and
+    #    process.args == "-" and process.args : ("UNIX-CLIENT:/usr/local/*", "UNIX-CLIENT:/run/*", "UNIX-CLIENT:/var/run/*")) or
+    #   (process.name == "curl" and process.args : ("--unix-socket", "--abstract-unix-socket"))
+    # ) and
+    # not (
+    #   process.args == "/var/run/libvirt/libvirt-sock" or
+    #   process.parent.name in ("bundle", "ruby", "haproxystatus.sh") or
+    #   process.parent.command_line == "sh /docker-entrypoint autoheal" or
+    #   process.command_line like "*runtime.autoheal*" or
+    #   process.parent.executable == "/app/letsencrypt_service" or
+    #   process.parent.args in ("/usr/libexec/netdata/plugins.d/cgroup-name.sh", "/healthcheck") or
+    #   ?process.working_directory == "/app"
+    # )
+  condition: selection
+level: medium

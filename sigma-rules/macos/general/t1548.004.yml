@@ -1,0 +1,21 @@
+title: Execution with Explicit Credentials via Scripting
+id: 41bf6550-41bf-41bf-a1bf-41bf65500000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/privilege_escalation_explicit_creds_via_scripting.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548.004
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.name == "security_authtrampoline" and
+    #  process.parent.name like~ ("osascript", "com.apple.automator.runner", "sh", "bash", "dash", "zsh", "python*", "perl*", "php*", "ruby", "pwsh")
+  condition: selection
+level: medium

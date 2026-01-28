@@ -1,0 +1,25 @@
+title: DPAPI Domain Backup Key Extraction
+id: 140fcfed-140f-440f-a40f-140fcfed0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_dpapi_domain_backupkey_extraction.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.004
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4662
+    #         ObjectType: 'SecretObject'
+    #         AccessMask: '0x2'
+    #         ObjectName|contains: 'BCKUPKEY'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

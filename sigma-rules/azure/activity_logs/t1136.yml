@@ -1,0 +1,23 @@
+title: Azure Automation Account Created
+id: 275e8429-275e-475e-a75e-275e84290000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_automation_account_created.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original splunk detection logic
+    # `azure_audit` operationName.value="Microsoft.Automation/automationAccounts/write" status.value=Succeeded 
+    #   | dedup object 
+    #   | rename claims.ipaddr as src, subscriptionId as vendor_account, operationName.value as signature
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product object object_path signature
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_automation_account_created_filter`
+  condition: selection
+level: medium

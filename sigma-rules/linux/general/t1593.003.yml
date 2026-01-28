@@ -1,0 +1,41 @@
+title: Suspicious Git Clone - Linux
+id: 378cbae1-378c-478c-a78c-378cbae10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1593.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_susp_git_clone.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1593.003
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         Image|endswith: '/git'
+    #         CommandLine|contains: ' clone '
+    #     selection_keyword:
+    #         CommandLine|contains:
+    #             # Add more suspicious keywords
+    #             - 'exploit'
+    #             - 'Vulns'
+    #             - 'vulnerability'
+    #             - 'RCE'
+    #             - 'RemoteCodeExecution'
+    #             - 'Invoke-'
+    #             - 'CVE-'
+    #             - 'poc-'
+    #             - 'ProofOfConcept'
+    #             # Add more vuln names
+    #             - 'proxyshell'
+    #             - 'log4shell'
+    #             - 'eternalblue'
+    #             - 'eternal-blue'
+    #             - 'MS17-'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

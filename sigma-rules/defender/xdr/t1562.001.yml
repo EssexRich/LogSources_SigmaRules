@@ -1,0 +1,23 @@
+title: Windows Defender Exclusion List Modified
+id: 28ee246b-28ee-48ee-a8ee-28ee246b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_windows_defender_exclusions_registry_modified.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+logsource:
+  product: defender
+  service: xdr
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4657 # A registry value was modified.
+    #         ObjectName|contains: '\Microsoft\Windows Defender\Exclusions\'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

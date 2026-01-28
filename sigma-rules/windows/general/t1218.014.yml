@@ -1,0 +1,26 @@
+title: MMC Loading Script Engines DLLs
+id: 288e000c-288e-488e-a88e-288e000c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.014
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_win_mmc_loads_script_engine_dll.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.014
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\mmc.exe'
+    #         ImageLoaded|endswith:
+    #             - '\vbscript.dll'
+    #             - '\jscript.dll'
+    #             - '\jscript9.dll'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

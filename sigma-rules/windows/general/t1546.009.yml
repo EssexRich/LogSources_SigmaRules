@@ -1,0 +1,32 @@
+title: Session Manager Autorun Keys Modification
+id: 5959c483-5959-4959-a959-5959c4830000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.009
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_session_manager.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546.009
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     session_manager_base:
+    #         TargetObject|contains: '\System\CurrentControlSet\Control\Session Manager'
+    #     session_manager:
+    #         TargetObject|contains:
+    #             - '\SetupExecute'
+    #             - '\S0InitialCommand'
+    #             - '\KnownDlls'
+    #             - '\Execute'
+    #             - '\BootExecute'
+    #             - '\AppCertDlls'
+    #     filter:
+    #         Details: '(Empty)'
+    #     condition: session_manager_base and session_manager and not filter
+    # 
+  condition: selection
+level: medium

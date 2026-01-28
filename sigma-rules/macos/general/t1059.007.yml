@@ -1,0 +1,40 @@
+title: Suspicious Installer Package Child Process
+id: 182a976f-182a-482a-a82a-182a976f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.007
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_installer_susp_child_process.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.007
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_installer:
+    #         ParentImage|endswith:
+    #             - '/package_script_service'
+    #             - '/installer'
+    #         Image|endswith:
+    #             - '/sh'
+    #             - '/bash'
+    #             - '/dash'
+    #             - '/python'
+    #             - '/ruby'
+    #             - '/perl'
+    #             - '/php'
+    #             - '/javascript'
+    #             - '/osascript'
+    #             - '/tclsh'
+    #             - '/curl'
+    #             - '/wget'
+    #         CommandLine|contains:
+    #             - 'preinstall'
+    #             - 'postinstall'
+    #     condition: selection_installer
+    # 
+  condition: selection
+level: medium

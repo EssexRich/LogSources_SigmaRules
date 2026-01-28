@@ -1,0 +1,38 @@
+title: Suspicious Microsoft Office Child Process - MacOS
+id: 71a0d145-71a0-41a0-a1a0-71a0d1450000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1137.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_office_susp_child_processes.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1137.002
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ParentImage|contains:
+    #             - 'Microsoft Word'
+    #             - 'Microsoft Excel'
+    #             - 'Microsoft PowerPoint'
+    #             - 'Microsoft OneNote'
+    #         Image|endswith:
+    #             - '/bash'
+    #             - '/curl'
+    #             - '/dash'
+    #             - '/fish'
+    #             - '/osacompile'
+    #             - '/osascript'
+    #             - '/sh'
+    #             - '/zsh'
+    #             - '/python'
+    #             - '/python3'
+    #             - '/wget'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

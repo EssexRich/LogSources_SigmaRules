@@ -1,0 +1,27 @@
+title: Azure Kubernetes CronJob
+id: 1452e937-1452-4452-a452-1452e9370000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_kubernetes_cronjob.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053.003
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         operationName|startswith:
+    #             - 'MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/BATCH'
+    #             - 'MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS/BATCH'
+    #         operationName|endswith:
+    #             - '/CRONJOBS/WRITE'
+    #             - '/JOBS/WRITE'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

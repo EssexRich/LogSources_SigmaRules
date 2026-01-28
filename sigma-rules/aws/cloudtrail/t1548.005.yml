@@ -1,0 +1,23 @@
+title: AWS IAM Customer-Managed Policy Attached to Role by Rare User
+id: 7aa706bd-7aa7-4aa7-aaa7-7aa706bd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/privilege_escalation_iam_customer_managed_policy_attached_to_role.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548.005
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "iam.amazonaws.com"
+    #     and event.action: "AttachRolePolicy"
+    #     and event.outcome: "success"
+    #     and not related.entity: arn\:aws\:iam\:\:aws\:policy*
+  condition: selection
+level: medium

@@ -1,0 +1,79 @@
+title: Suspicious Windows Service Tampering
+id: 2a27ef4d-2a27-4a27-aa27-2a27ef4d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1489
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_service_tamper.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1489
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_tools_img:
+    #         - OriginalFileName:
+    #               - 'net.exe'
+    #               - 'net1.exe'
+    #               - 'PowerShell_ISE.EXE'
+    #               - 'PowerShell.EXE'
+    #               - 'psservice.exe'
+    #               - 'pwsh.dll'
+    #               - 'sc.exe'
+    #               - 'wmic.exe'
+    #         - Image|endswith:
+    #               - '\net.exe'
+    #               - '\net1.exe'
+    #               - '\PowerShell_ISE.EXE'
+    #               - '\powershell.exe'
+    #               - '\PsService.exe'
+    #               - '\PsService64.exe'
+    #               - '\pwsh.exe'
+    #               - '\sc.exe'
+    #               - '\wmic.exe' # wmic process call win32_service where name='servicename' delete
+    #     selection_tools_cli:
+    #         - CommandLine|contains:
+    #               - ' delete '
+    #               - '.delete()' # Get-WmiObject win32_service -Filter "name='$serviceName'" ).delete()
+    #               - ' pause ' # Covers flags from: PsService and Sc.EXE
+    #               - ' stop ' # Covers flags from: PsService.EXE, Net.EXE and Sc.EXE
+    #               - 'Stop-Service '
+    #               - 'Remove-Service '
+    #         - CommandLine|contains|all:
+    #               - 'config'
+    #               - 'start=disabled'
+    #     selection_services:
+    #         CommandLine|contains:
+    #             - '143Svc'
+    #             - 'Acronis VSS Provider'
+    #             - 'AcronisAgent'
+    #             - 'AcrSch2Svc'
+    #             - 'AdobeARMservice'
+    #             - 'AHS Service'
+    #             - 'Antivirus'
+    #             - 'Apache4'
+    #             - 'ARSM'
+    #             - 'aswBcc'
+    #             - 'AteraAgent'
+    #             - 'Avast Business Console Client Antivirus Service'
+    #             - 'avast! Antivirus'
+    #             - 'AVG Antivirus'
+    #             - 'avgAdminClient'
+    #             - 'AvgAdminServer'
+    #             - 'AVP1'
+    #             - 'BackupExec'
+    #             - 'bedbg'
+    #             - 'BITS'
+    #             - 'BrokerInfrastructure'
+    #             - 'CASLicenceServer'
+    #             - 'CASWebServer'
+    #             - 'Client Agent 7.60'
+    #             - 'Core Browsing Protection'
+    #             - 'Core Mail Protection'
+    #            
+    # ... [truncated]
+  condition: selection
+level: medium

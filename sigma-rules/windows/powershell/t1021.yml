@@ -1,0 +1,32 @@
+title: Privilege Escalation via Named Pipe Impersonation
+id: 53472268-5347-4347-a347-534722680000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_priv_escalation_via_named_pipe.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_name:
+    #         - Image|endswith:
+    #               - '\cmd.exe'
+    #               - '\powershell.exe'
+    #         - OriginalFileName:
+    #               - 'Cmd.Exe'
+    #               - 'PowerShell.EXE'
+    #     selection_args:
+    #         CommandLine|contains|all:
+    #             - 'echo'
+    #             - '>'
+    #             - '\\\\.\\pipe\\'
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,20 @@
+title: Attempt to Unload Elastic Endpoint Security Kernel Extension
+id: 3103b987-3103-4103-a103-3103b9870000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_unload_endpointsecurity_kext.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.006
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.name == "kextunload" and process.args like~ ("/System/Library/Extensions/EndpointSecurity.kext", "EndpointSecurity.kext")
+  condition: selection
+level: medium

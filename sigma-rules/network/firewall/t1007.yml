@@ -1,0 +1,27 @@
+title: ESXi Network Configuration Discovery Via ESXCLI
+id: 35ac5e36-35ac-45ac-a5ac-35ac5e360000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1007
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_esxcli_network_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1007
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         Image|endswith: '/esxcli'
+    #         CommandLine|contains: 'network'
+    #     selection_cli:
+    #         CommandLine|contains:
+    #             - ' get'
+    #             - ' list'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

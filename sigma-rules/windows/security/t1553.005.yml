@@ -1,0 +1,30 @@
+title: ISO Image Mounted
+id: 03043036-0304-4304-a304-030430360000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1553.005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_iso_mount.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1553.005
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4663
+    #         ObjectServer: 'Security'
+    #         ObjectType: 'File'
+    #         ObjectName|startswith: '\Device\CdRom'
+    #     filter_main_generic:
+    #         ObjectName:
+    #             - '\Device\CdRom0\autorun.ico'
+    #             - '\Device\CdRom0\setup.exe'
+    #             - '\Device\CdRom0\setup64.exe'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

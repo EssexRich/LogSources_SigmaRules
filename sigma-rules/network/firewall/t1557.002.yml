@@ -1,0 +1,22 @@
+title: Detect ARP Poisoning
+id: 2091ff3d-2091-4091-a091-2091ff3d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1557.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/detect_arp_poisoning.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1557.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_networks` facility="PM" mnemonic="ERR_DISABLE" disable_cause="arp-inspection"
+    #   | eval src_interface=src_int_prefix_long+src_int_suffix | stats min(_time) AS firstTime
+    #   max(_time) AS lastTime count BY host src_interface | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
+    #   `detect_arp_poisoning_filter`
+  condition: selection
+level: medium

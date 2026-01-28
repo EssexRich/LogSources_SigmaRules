@@ -1,0 +1,33 @@
+title: Outbound Network Connection To Public IP Via Winlogon
+id: 798b769d-798b-498b-a98b-798b769d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.011
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_winlogon_net_connections.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.011
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\winlogon.exe'
+    #         Initiated: 'true'
+    #     filter_main_local_ranges:
+    #         DestinationIp|cidr:
+    #             - '127.0.0.0/8'
+    #             - '10.0.0.0/8'
+    #             - '172.16.0.0/12'
+    #             - '192.168.0.0/16'
+    #             - '169.254.0.0/16'
+    #             - '::1/128'  # IPv6 loopback
+    #             - 'fe80::/10'  # IPv6 link-local addresses
+    #             - 'fc00::/7'  # IPv6 private addresses
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

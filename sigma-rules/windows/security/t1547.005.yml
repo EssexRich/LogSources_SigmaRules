@@ -1,0 +1,28 @@
+title: Security Support Provider (SSP) Added to LSA Configuration
+id: 7e76b7e5-7e76-4e76-ae76-7e76b7e50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_event/registry_event_ssp_added_lsa_config.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.005
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetObject|endswith:
+    #             - '\Control\Lsa\Security Packages'
+    #             - '\Control\Lsa\OSConfig\Security Packages'
+    #     filter_main_msiexec:
+    #         Image:
+    #             - 'C:\Windows\system32\msiexec.exe'
+    #             - 'C:\Windows\syswow64\MsiExec.exe'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

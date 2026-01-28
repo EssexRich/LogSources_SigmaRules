@@ -1,0 +1,44 @@
+title: Direct Interactive Kubernetes API Request by Common Utilities
+id: 7151cfae-7151-4151-a151-7151cfae0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1613
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_d4c_k8s_mda_direct_interactive_kubernetes_api_request_by_usual_utilities.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1613
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence with maxspan=1s
+    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and (
+    #      process.name in ("wget", "curl", "openssl", "socat", "ncat", "kubectl") or
+    #      (
+    #        /* Account for tools that execute utilities as a subprocess, in this case the target utility name will appear as a process arg */
+    #        process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "busybox") and
+    #        process.args in (
+    #          "wget", "/bin/wget", "/usr/bin/wget", "/usr/local/bin/wget",
+    #          "ssl_client", "/bin/ssl_client", "/usr/bin/ssl_client", "/usr/local/bin/ssl_client",
+    #          "curl", "/bin/curl", "/usr/bin/curl", "/usr/local/bin/curl",
+    #          "openssl", "/bin/openssl", "/usr/bin/openssl", "/usr/local/bin/openssl",
+    #          "socat", "/bin/socat", "/usr/bin/socat", "/usr/local/bin/socat",
+    #          "ncat", "/bin/ncat", "/usr/bin/ncat", "/usr/local/bin/ncat",
+    #          "kubectl", "/bin/kubectl", "/usr/bin/kubectl", "/usr/local/bin/kubectl"
+    #        ) and
+    #        /* default exclusion list to not FP on default multi-process commands */
+    #        not process.args in (
+    #          "which", "/bin/which", "/usr/bin/which", "/usr/local/bin/which",
+    #          "man", "/bin/man", "/usr/bin/man", "/usr/local/bin/man",
+    #          "chmod", "/bin/chmod", "/usr/bin/chmod", "/usr/local/bin/chmod",
+    #          "chown", "/bin/chown", "/usr/bin/chown", "/usr/local/bin/chown"
+    #        )
+    #      )
+    #    ) and process.interactive == true and container.id like "*"
+    #   ] by orchestrator.resource.name
+    #   [any where event.dataset == "kubernetes.audit_logs" and kubernetes.audit.stage in ("ResponseComplete", "ResponseStarted")] by `kubernetes.audit.user.extra.authentication.kubernetes.io/pod-name`
+  condition: selection
+level: medium

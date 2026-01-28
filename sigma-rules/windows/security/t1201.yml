@@ -1,0 +1,24 @@
+title: Password Policy Enumerated
+id: 35a0293a-35a0-45a0-a5a0-35a0293a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1201
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_password_policy_enumerated.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1201
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4661 # A handle to an object was requested.
+    #         AccessList|contains: '%%5392' # ReadPasswordParameters
+    #         ObjectServer: 'Security Account Manager'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

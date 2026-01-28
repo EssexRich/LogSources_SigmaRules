@@ -1,0 +1,47 @@
+title: Entra ID OAuth Device Code Flow with Concurrent Sign-ins
+id: 73052fc9-7305-4305-a305-73052fc90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1528
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_azure_entra_susp_device_code_signin.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1528
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-azure.signinlogs-* metadata _id, _version, _index
+    # 
+    # | where event.category == "authentication" and event.dataset == "azure.signinlogs" and
+    #         azure.signinlogs.properties.original_transfer_method == "deviceCodeFlow"
+    # 
+    # // Track events with deviceCode authentication protocol (browser auth) vs polling client
+    # | eval is_device_code_auth = case(azure.signinlogs.properties.authentication_protocol == "deviceCode", 1, 0)
+    # 
+    # | stats Esql.count_logon = count(*),
+    #         Esql.device_code_auth_count = sum(is_device_code_auth),
+    #         Esql.timestamp_values = values(@timestamp),
+    #         Esql.source_ip_count_distinct = count_distinct(source.ip),
+    #         Esql.user_agent_count_distinct = count_distinct(user_agent.original),
+    #         Esql.user_agent_values = values(user_agent.original),
+    #         Esql.authentication_protocol_values = values(azure.signinlogs.properties.authentication_protocol),
+    #         Esql.azure_signinlogs_properties_client_app_values = values(azure.signinlogs.properties.app_display_name),
+    #         Esql.azure_signinlogs_properties_app_id_values = values(azure.signinlogs.properties.app_id),
+    #         Esql.azure_signinlogs_properties_resource_display_name_values = values(azure.signinlogs.properties.resource_display_name),
+    #         Esql.azure_signinlogs_properties_auth_requirement_values = values(azure.signinlogs.properties.authentication_requirement),
+    #         Esql.azure_signinlogs_properties_tenant_id = values(azure.tenant_id),
+    #         Esql.azure_signinlogs_properties_status_error_code_values = values(azure.signinlogs.properties.status.error_code),
+    #         Esql.message_values = values(message),
+    #         Esql.azure_signinlogs_properties_resource_id_values = values(azure.signinlogs.properties.resource_id),
+    #         Esql.source_ip_values = values(source.ip)
+    #         by azure.signinlogs.properties.session_id, azure.signinlogs.identity
+    # 
+    # // Require: 2+ events, at least one deviceCode auth protocol event, and either 2+ IPs or 2+ user agents
+    # | where Esql.count_logon >= 2 and E
+    # ... [truncated]
+  condition: selection
+level: medium

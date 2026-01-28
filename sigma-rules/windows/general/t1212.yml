@@ -1,0 +1,31 @@
+title: Suspicious NTLM Authentication on the Printer Spooler Service
+id: 484a84ee-484a-484a-a84a-484a84ee0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1212
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_rundll32_ntlmrelay.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1212
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\rundll32.exe'
+    #         - OriginalFileName: 'RUNDLL32.EXE'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - 'C:\windows\system32\davclnt.dll,DavSetCookie'
+    #             - 'http'
+    #         CommandLine|contains:
+    #             - 'spoolss'
+    #             - 'srvsvc'
+    #             - '/print/pipe/'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

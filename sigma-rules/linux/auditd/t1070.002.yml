@@ -1,0 +1,27 @@
+title: Clear or Disable Kernel Ring Buffer Logs via Syslog Syscall
+id: 6560ec81-6560-4560-a560-6560ec810000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_clean_disable_dmesg_logs_via_syslog.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.002
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'SYSCALL'
+    #         SYSCALL: 'syslog'
+    #         a0:
+    #             - 4 # SYSLOG_ACTION_READ_CLEAR : Read and clear log
+    #             - 5 # SYSLOG_ACTION_CLEAR: Clear kernel ring buffer (without reading)
+    #             - 6 # SYSLOG_ACTION_CONSOLE_OFF: Disable logging to console
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

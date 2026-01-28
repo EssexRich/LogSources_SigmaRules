@@ -1,0 +1,34 @@
+title: Print History File Contents
+id: 0344519d-0344-4344-a344-0344519d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1592.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_susp_history_recon.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1592.004
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '/cat'
+    #             - '/head'
+    #             - '/tail'
+    #             - '/more'
+    #     selection_history:
+    #         - CommandLine|contains:
+    #               - '/.bash_history'
+    #               - '/.zsh_history'
+    #         - CommandLine|endswith:
+    #               - '_history'
+    #               - '.history'
+    #               - 'zhistory'
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,27 @@
+title: Registry Keys Used For Privilege Escalation
+id: 4287b19b-4287-4287-a287-4287b19b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.012
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/registry_keys_used_for_privilege_escalation.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546.012
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime FROM datamodel=Endpoint.Registry WHERE ((Registry.registry_path="*Microsoft\\Windows
+    #   NT\\CurrentVersion\\Image File Execution Options*") AND (Registry.registry_value_name=GlobalFlag
+    #   OR Registry.registry_value_name=Debugger)) by Registry.action Registry.dest Registry.process_guid
+    #   Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name
+    #   Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type
+    #   Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)`
+    #   | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `registry_keys_used_for_privilege_escalation_filter`
+  condition: selection
+level: medium

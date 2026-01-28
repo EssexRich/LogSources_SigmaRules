@@ -1,0 +1,23 @@
+title: Vulnerable Netlogon Secure Channel Connection Allowed
+id: 7b1ed269-7b1e-4b1e-ab1e-7b1ed2690000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/netlogon/win_system_vul_cve_2020_1472.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Provider_Name: NetLogon  # Active Directory: NetLogon ETW GUID {F33959B4-DBEC-11D2-895B-00C04F79AB69}
+    #         EventID: 5829
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

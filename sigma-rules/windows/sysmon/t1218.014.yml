@@ -1,0 +1,24 @@
+title: UAC Bypass MMC Load Unsigned Dll
+id: 116f8455-116f-416f-a16f-116f84550000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.014
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/uac_bypass_mmc_load_unsigned_dll.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.014
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=7  ImageLoaded = "*.dll" Image = "*\\mmc.exe" Signed=false
+    #   Company != "Microsoft Corporation" | fillnull | stats count min(_time) as firstTime
+    #   max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name
+    #   process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists
+    #   service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `uac_bypass_mmc_load_unsigned_dll_filter`
+  condition: selection
+level: medium

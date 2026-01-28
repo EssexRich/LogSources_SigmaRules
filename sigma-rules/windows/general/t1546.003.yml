@@ -1,0 +1,34 @@
+title: WMI Persistence
+id: 1adb6e12-1adb-4adb-aadb-1adb6e120000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/wmi/win_wmi_persistence.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     wmi_filter_to_consumer_binding:
+    #         EventID: 5861
+    #     consumer_keywords:
+    #         - 'ActiveScriptEventConsumer'
+    #         - 'CommandLineEventConsumer'
+    #         - 'CommandLineTemplate'
+    #         # - 'Binding EventFilter'  # too many false positive with HP Health Driver
+    #     wmi_filter_registration:
+    #         EventID: 5859
+    #     filter_scmevent:
+    #         Provider: 'SCM Event Provider'
+    #         Query: 'select * from MSFT_SCMEventLogEvent'
+    #         User: 'S-1-5-32-544'
+    #         PossibleCause: 'Permanent'
+    #     condition: ( (wmi_filter_to_consumer_binding and consumer_keywords) or (wmi_filter_registration) ) and not filter_scmevent
+    # 
+  condition: selection
+level: medium

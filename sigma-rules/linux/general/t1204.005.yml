@@ -1,0 +1,21 @@
+title: Node.js Pre or Post-Install Script Execution
+id: 18bde235-18bd-48bd-a8bd-18bde2350000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1204.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_nodejs_pre_or_post_install_script_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1204.005
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id with maxspan=10s
+    #   [process where host.os.type in ("linux", "macos") and event.type == "start" and event.action in ("exec", "ProcessRollup2", "start") and process.name == "node" and process.args == "install"] by process.entity_id
+    #   [process where host.os.type in ("linux", "macos") and event.type == "start" and event.action in ("exec", "ProcessRollup2", "start") and process.parent.name == "node"] by process.parent.entity_id
+  condition: selection
+level: medium

@@ -1,0 +1,22 @@
+title: CodeIntegrity - Blocked Image/Driver Load For Policy Violation
+id: 6c29637d-6c29-4c29-ac29-6c29637d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1543
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/code_integrity/win_codeintegrity_enforced_policy_block.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1543
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 3077 # Code Integrity determined that a process (%4) attempted to load %2 that did not meet the %5 signing level requirements or violated code integrity policy (Policy ID:%XX).
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

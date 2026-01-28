@@ -1,0 +1,35 @@
+title: External Remote RDP Logon from Public IP
+id: 7ab7591b-7ab7-4ab7-aab7-7ab7591b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_successful_external_remote_rdp_login.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4624
+    #         LogonType: 10
+    #     filter_main_local_ranges:
+    #         IpAddress|cidr:
+    #             - '::1/128'  # IPv6 loopback
+    #             - '10.0.0.0/8'
+    #             - '127.0.0.0/8'
+    #             - '172.16.0.0/12'
+    #             - '192.168.0.0/16'
+    #             - '169.254.0.0/16'
+    #             - 'fc00::/7'  # IPv6 private addresses
+    #             - 'fe80::/10'  # IPv6 link-local addresses
+    #     filter_main_empty:
+    #         IpAddress: '-'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

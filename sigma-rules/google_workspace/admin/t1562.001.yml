@@ -1,0 +1,22 @@
+title: Application Removed from Blocklist in Google Workspace
+id: 33a2ec30-33a2-43a2-a3a2-33a2ec300000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/defense_evasion_application_removed_from_blocklist_in_google_workspace.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:"google_workspace.admin" and event.category:"iam" and event.type:"change"  and
+    #   event.action:"CHANGE_APPLICATION_SETTING" and
+    #   google_workspace.admin.application.name:"Google Workspace Marketplace" and
+    #   google_workspace.admin.old_value: *allowed*false* and google_workspace.admin.new_value: *allowed*true*
+  condition: selection
+level: medium

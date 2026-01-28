@@ -1,0 +1,25 @@
+title: UAC Bypass With Colorui COM Object
+id: 540fe1d5-540f-440f-a40f-540fe1d50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.015
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/uac_bypass_with_colorui_com_object.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546.015
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe"
+    #   NOT(Image IN("*\\windows\\*", "*\\program files*")) | fillnull | stats count min(_time)
+    #   as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path
+    #   original_file_name process_exec process_guid process_hash process_id process_name
+    #   process_path service_dll_signature_exists service_dll_signature_verified signature
+    #   signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `uac_bypass_with_colorui_com_object_filter`
+  condition: selection
+level: medium

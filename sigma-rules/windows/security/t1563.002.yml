@@ -1,0 +1,21 @@
+title: Windows RDP Connection Successful
+id: 7d26be99-7d26-4d26-ad26-7d26be990000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1563.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_rdp_connection_successful.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1563.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `remoteconnectionmanager` EventCode=1149 | stats count min(_time) as firstTime
+    #   max(_time) as lastTime by Computer, user_id | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | rename Computer as dest | `windows_rdp_connection_successful_filter`
+  condition: selection
+level: medium

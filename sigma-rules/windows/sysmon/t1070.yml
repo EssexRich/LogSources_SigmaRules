@@ -1,0 +1,27 @@
+title: Sysmon Driver Unloaded Via Fltmc.EXE
+id: 714975d2-7149-4149-a149-714975d20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_fltmc_unload_driver_sysmon.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\fltMC.exe'
+    #         - OriginalFileName: 'fltMC.exe'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - 'unload'
+    #             - 'sysmon'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

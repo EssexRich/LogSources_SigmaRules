@@ -1,0 +1,31 @@
+title: Unsigned .node File Loaded
+id: 09679adc-0967-4967-a967-09679adc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1129
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_dll_unsigned_node_load.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1129
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_node_extension:
+    #         ImageLoaded|endswith: '.node'
+    #     selection_status:
+    #         - Signed: 'false'
+    #         - SignatureStatus: 'Unavailable'
+    #     filter_optional_vscode_jupyter:
+    #         Image|endswith: '\Code.exe'
+    #         ImageLoaded|contains: '.vscode\extensions\ms-toolsai.jupyter-'
+    #         ImageLoaded|endswith:
+    #             - '\electron.napi.node'
+    #             - '\node.napi.glibc.node'
+    #     condition: all of selection_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

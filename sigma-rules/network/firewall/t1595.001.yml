@@ -1,0 +1,20 @@
+title: Potential Network Sweep Detected
+id: 2c8dec4c-2c8d-4c8d-ac8d-2c8dec4c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1595.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/discovery_potential_network_sweep_detected.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1595.001
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.action:network_flow and destination.port:(21 or 22 or 23 or 25 or 139 or 445 or 3389 or 5985 or 5986) and
+    # source.ip:(10.0.0.0/8 or 172.16.0.0/12 or 192.168.0.0/16)
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: Potential Credential Dumping Attempt Via PowerShell Remote Thread
+id: 777c6771-777c-477c-a77c-777c67710000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/create_remote_thread/create_remote_thread_win_powershell_lsass.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         SourceImage|endswith:
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #         TargetImage|endswith: '\lsass.exe'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

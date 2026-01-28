@@ -1,0 +1,50 @@
+title: MITRE BZAR Indicators for Execution
+id: 0973db33-0973-4973-a973-0973db330000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/zeek/zeek_dce_rpc_mitre_bzar_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     op1:
+    #         endpoint: 'JobAdd'
+    #         operation: 'atsvc'
+    #     op2:
+    #         endpoint: 'ITaskSchedulerService'
+    #         operation: 'SchRpcEnableTask'
+    #     op3:
+    #         endpoint: 'ITaskSchedulerService'
+    #         operation: 'SchRpcRegisterTask'
+    #     op4:
+    #         endpoint: 'ITaskSchedulerService'
+    #         operation: 'SchRpcRun'
+    #     op5:
+    #         endpoint: 'IWbemServices'
+    #         operation: 'ExecMethod'
+    #     op6:
+    #         endpoint: 'IWbemServices'
+    #         operation: 'ExecMethodAsync'
+    #     op7:
+    #         endpoint: 'svcctl'
+    #         operation: 'CreateServiceA'
+    #     op8:
+    #         endpoint: 'svcctl'
+    #         operation: 'CreateServiceW'
+    #     op9:
+    #         endpoint: 'svcctl'
+    #         operation: 'StartServiceA'
+    #     op10:
+    #         endpoint: 'svcctl'
+    #         operation: 'StartServiceW'
+    #     condition: 1 of op*
+    # 
+  condition: selection
+level: medium

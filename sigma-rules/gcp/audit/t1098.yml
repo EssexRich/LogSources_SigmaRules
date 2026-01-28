@@ -1,0 +1,28 @@
+title: GCP Access Policy Deleted
+id: 1017a63c-1017-4017-a017-1017a63c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_access_policy_deleted.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         data.protoPayload.authorizationInfo.permission:
+    #             - 'accesscontextmanager.accessPolicies.delete'
+    #             - 'accesscontextmanager.accessPolicies.accessLevels.delete'
+    #             - 'accesscontextmanager.accessPolicies.accessZones.delete'
+    #             - 'accesscontextmanager.accessPolicies.authorizedOrgsDescs.delete'
+    #         data.protoPayload.authorizationInfo.granted: 'true'
+    #         data.protoPayload.serviceName: 'accesscontextmanager.googleapis.com'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

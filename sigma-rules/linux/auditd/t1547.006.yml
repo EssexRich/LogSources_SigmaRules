@@ -1,0 +1,24 @@
+title: Loading of Kernel Module via Insmod
+id: 38d3556c-38d3-48d3-a8d3-38d3556c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_load_module_insmod.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.006
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'SYSCALL'
+    #         comm: insmod
+    #         exe: /usr/bin/kmod
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

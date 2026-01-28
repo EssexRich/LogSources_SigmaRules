@@ -1,0 +1,32 @@
+title: Sublime Plugin or Application Script Modification
+id: 2ed6fc06-2ed6-4ed6-aed6-2ed6fc060000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1554
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_modification_sublime_app_plugin_or_script.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1554
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "macos" and event.action == "modification" and file.extension == "py" and
+    #   file.path like
+    #     (
+    #       "/Users/*/Library/Application Support/Sublime Text*/Packages/*.py",
+    #       "/Applications/Sublime Text.app/Contents/MacOS/sublime.py"
+    #     ) and
+    #   not process.executable like
+    #     (
+    #       "/Applications/Sublime Text*.app/Contents/*",
+    #       "/usr/local/Cellar/git/*/bin/git",
+    #       "/Library/Developer/CommandLineTools/usr/bin/git",
+    #       "/usr/libexec/xpcproxy",
+    #       "/System/Library/PrivateFrameworks/DesktopServicesPriv.framework/Versions/A/Resources/DesktopServicesHelper"
+    #     )
+  condition: selection
+level: medium

@@ -1,0 +1,31 @@
+title: Kubernetes Admission Controller Modification
+id: 393b0fbe-393b-493b-a93b-393b0fbe0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/application/kubernetes/audit/kubernetes_audit_change_admission_controller.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         objectRef.apiGroup: 'admissionregistration.k8s.io'
+    #         objectRef.resource:
+    #             - 'mutatingwebhookconfigurations'
+    #             - 'validatingwebhookconfigurations'
+    #         verb:
+    #             - 'create'
+    #             - 'delete'
+    #             - 'patch'
+    #             - 'replace'
+    #             - 'update'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

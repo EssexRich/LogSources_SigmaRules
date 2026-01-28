@@ -1,0 +1,29 @@
+title: smbexec.py Service Installation
+id: 3926bc5d-3926-4926-a926-3926bc5d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1569.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/service_control_manager/win_system_hack_smbexec.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1569.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_eid:
+    #         Provider_Name: 'Service Control Manager'
+    #         EventID: 7045
+    #     selection_service_name:
+    #         ServiceName: 'BTOBTO'
+    #     selection_service_image:
+    #         ImagePath|contains:
+    #             - '.bat & del '
+    #             - '__output 2^>^&1 >'
+    #     condition: selection_eid and 1 of selection_service_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,27 @@
+title: MS Office Macro Security Registry Modifications
+id: 072a52a4-072a-472a-a72a-072a52a40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1204.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_ms_office_suspicious_regmod.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1204.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original elastic detection logic
+    # registry where host.os.type == "windows" and event.type == "change" and
+    #     registry.value : ("AccessVBOM", "VbaWarnings") and
+    #     registry.data.strings : ("0x00000001", "1")
+    # 
+    # /*
+    #     Full registry key paths omitted due to data source variations:
+    #     "HKCU\\S-1-*\\SOFTWARE\\Microsoft\\Office\\*\\Security\\AccessVBOM"
+    #     "HKCU\\S-1-*\\SOFTWARE\\Microsoft\\Office\\*\\Security\\VbaWarnings"
+    # */
+  condition: selection
+level: medium

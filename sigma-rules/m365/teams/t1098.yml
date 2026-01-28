@@ -1,0 +1,21 @@
+title: M365 Teams Guest Access Enabled
+id: 2037ea75-2037-4037-a037-2037ea750000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/persistence_teams_guest_access_enabled.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098
+logsource:
+  product: m365
+  service: teams
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and event.provider:(SkypeForBusiness or MicrosoftTeams) and
+    # event.category:web and event.action:"Set-CsTeamsClientConfiguration" and
+    # o365.audit.Parameters.AllowGuestUser:True and event.outcome:success
+  condition: selection
+level: medium

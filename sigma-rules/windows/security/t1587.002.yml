@@ -1,0 +1,25 @@
+title: Windows Registry Certificate Added
+id: 08669cd1-0866-4866-a866-08669cd10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1587.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_registry_certificate_added.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1587.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path IN ("*\\certificates\\*")
+    #   AND Registry.registry_value_name="Blob" by Registry.action Registry.dest Registry.process_guid
+    #   Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name
+    #   Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type
+    #   Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)`
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_registry_certificate_added_filter`
+  condition: selection
+level: medium

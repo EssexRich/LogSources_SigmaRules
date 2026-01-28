@@ -1,0 +1,40 @@
+title: Account Discovery Command via SYSTEM Account
+id: 5620c2aa-5620-4620-a620-5620c2aa0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_command_system_account.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078.003
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   (?process.Ext.token.integrity_level_name : "System" or
+    #   ?winlog.event_data.IntegrityLevel : "System") and
+    #   (
+    #     process.name : "whoami.exe" or
+    #     (
+    #       process.name : "net1.exe" and not process.parent.name : "net.exe" and not process.args : ("start", "stop", "/active:*")
+    #     )
+    #   ) and 
+    # process.parent.executable != null and 
+    # not (process.name : "net1.exe" and process.working_directory : "C:\\ProgramData\\Microsoft\\Windows Defender Advanced Threat Protection\\Downloads\\") and 
+    # not process.parent.executable : 
+    #                 ("C:\\Program Files\\Microsoft Monitoring Agent\\Agent\\MonitoringHost.exe", 
+    #                  "C:\\Program Files\\Dell\\SupportAssistAgent\\SRE\\SRE.exe", 
+    #                  "C:\\Program Files\\Obkio Agent\\main.dist\\ObkioAgentSoftware.exe", 
+    #                  "C:\\Windows\\Temp\\WinGet\\defaultState\\PostgreSQL.PostgreSQL*\\postgresql-*-windows-x64.exe", 
+    #                  "C:\\Program Files\\Obkio Agent\\main.dist\\ObkioAgentSoftware.exe", 
+    #                  "C:\\Program Files (x86)\\SolarWinds\\Agent\\Plugins\\JobEngine\\SWJobEngineWorker2.exe") and 
+    # not (process.parent.executable : "C:\\Windows\\Sys?????\\WindowsPowerShell\\v1.0\\powershell.exe" and 
+    #      process.parent.args : ("C:\\Program Files (x86)\\Microsoft Intune Management Extension\\*.ps1", 
+    #                             "Agent\\Modules\\AdHealthConfiguration\\AdHealthConfiguration.psd1'")) and 
+    # not (process.parent.name : "cmd.exe" and process.working_directory : "C:\\Program Files\\Infraon Corp\\SecuraAgent\\")
+  condition: selection
+level: medium

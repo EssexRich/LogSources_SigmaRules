@@ -1,0 +1,28 @@
+title: Discovery of a System Time
+id: 222c1677-222c-422c-a22c-222c16770000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1124
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_remote_time_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1124
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_time:
+    #         Image|endswith:
+    #             - '\net.exe'
+    #             - '\net1.exe'
+    #         CommandLine|contains: 'time'
+    #     selection_w32tm:
+    #         Image|endswith: '\w32tm.exe'
+    #         CommandLine|contains: 'tz'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

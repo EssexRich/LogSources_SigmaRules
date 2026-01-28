@@ -1,0 +1,29 @@
+title: Linux Keylogging with Pam.d
+id: 13eb8f2f-13eb-43eb-a3eb-13eb8f2f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_keylogging_with_pam_d.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_path_events:
+    #         type: PATH
+    #         name:
+    #             - '/etc/pam.d/system-auth'
+    #             - '/etc/pam.d/password-auth'
+    #     selection_tty_events:
+    #         type:
+    #             - 'TTY'
+    #             - 'USER_TTY'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

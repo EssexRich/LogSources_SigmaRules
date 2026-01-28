@@ -1,0 +1,29 @@
+title: Spoolsv Suspicious Loaded Modules
+id: 0e1952e6-0e19-4e19-ae19-0e1952e60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.012
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/spoolsv_suspicious_loaded_modules.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547.012
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*"
+    #   ImageLoaded = "*.dll" | stats dc(ImageLoaded) as countImgloaded values(ImageLoaded)
+    #   as ImageLoaded values(loaded_file) as loaded_file values(loaded_file_path) as loaded_file_path
+    #   values(original_file_name) as original_file_name values(process_exec) as process_exec
+    #   values(process_guid) as process_guid values(process_hash) as process_hash values(process_name)
+    #   as process_name values(service_dll_signature_exists) as service_dll_signature_exists
+    #   values(service_dll_signature_verified) as service_dll_signature_verified values(signature)
+    #   as signature values(signature_id) as signature_id values(user_id) as user_id values(vendor_product)
+    #   as vendor_product values(Image) as Image count min(_time) as firstTime max(_time) as lastTime by process_path
+    #   dest process_id | where countImgloaded >= 3 | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `spoolsv_suspicious_loaded_modules_filter`
+  condition: selection
+level: medium

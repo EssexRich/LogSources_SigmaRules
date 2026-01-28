@@ -1,0 +1,22 @@
+title: AWS SNS Topic Created by Rare User
+id: 51425600-5142-4142-a142-514256000000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1608
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/resource_development_sns_topic_created_by_rare_user.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1608
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "sns.amazonaws.com"
+    #     and event.action: "CreateTopic"
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

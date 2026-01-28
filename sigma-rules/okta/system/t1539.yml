@@ -1,0 +1,43 @@
+title: Multiple Device Token Hashes for Single Okta Session
+id: 2b34671a-2b34-4b34-ab34-2b34671a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1539
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_multiple_device_token_hashes_for_single_okta_session.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1539
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-okta*
+    # | where
+    #     event.dataset == "okta.system" and
+    #     not event.action in (
+    #         "policy.evaluate_sign_on",
+    #         "user.session.start",
+    #         "user.authentication.sso"
+    #     ) and
+    #     okta.actor.alternate_id != "system@okta.com" and
+    #     okta.actor.alternate_id rlike "[^@\\s]+\\@[^@\\s]+" and
+    #     okta.authentication_context.external_session_id != "unknown"
+    # | keep
+    #     event.action,
+    #     okta.actor.alternate_id,
+    #     okta.authentication_context.external_session_id,
+    #     okta.debug_context.debug_data.dt_hash
+    # | stats
+    #     Esql.okta_debug_context_debug_data_dt_hash_count_distinct = count_distinct(okta.debug_context.debug_data.dt_hash)
+    #   by
+    #     okta.actor.alternate_id,
+    #     okta.authentication_context.external_session_id
+    # | where
+    #     Esql.okta_debug_context_debug_data_dt_hash_count_distinct >= 2
+    # | sort
+    #     Esql.okta_debug_context_debug_data_dt_hash_count_distinct desc
+  condition: selection
+level: medium

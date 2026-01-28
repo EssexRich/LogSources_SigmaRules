@@ -1,0 +1,24 @@
+title: AWS Excessive Security Scanning
+id: 2ad32108-2ad3-4ad3-aad3-2ad321080000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1526
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_excessive_security_scanning.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1526
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cloudtrail` eventName=Describe* OR eventName=List* OR eventName=Get*  
+    #   | fillnull
+    #   | rename user_name as user
+    #   | stats dc(signature) as dc_events min(_time) as firstTime max(_time) as lastTime values(signature) as signature values(dest) as dest values(user_agent) as user_agent values(src) as src values(vendor_account) as vendor_account values(vendor_region) as vendor_region by user 
+    #   | where dc_events > 50 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`aws_excessive_security_scanning_filter`
+  condition: selection
+level: medium

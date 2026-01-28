@@ -1,0 +1,49 @@
+title: ETW Trace Evasion Activity
+id: 5794aa74-5794-4794-a794-5794aa740000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_etw_trace_evasion.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.006
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_clear_1:
+    #         CommandLine|contains|all:
+    #             - 'cl'
+    #             - '/Trace'
+    #     selection_clear_2:
+    #         CommandLine|contains|all:
+    #             - 'clear-log'
+    #             - '/Trace'
+    #     selection_disable_1:
+    #         CommandLine|contains|all:
+    #             - 'sl'
+    #             - '/e:false'
+    #     selection_disable_2:
+    #         CommandLine|contains|all:
+    #             - 'set-log'
+    #             - '/e:false'
+    #     selection_disable_3:   # ETW provider removal from a trace session
+    #         CommandLine|contains|all:
+    #             - 'logman'
+    #             - 'update'
+    #             - 'trace'
+    #             - '--p'
+    #             - '-ets'
+    #     selection_pwsh_remove:   # Autologger provider removal
+    #         CommandLine|contains: 'Remove-EtwTraceProvider'
+    #     selection_pwsh_set:   # Provider “Enable” property modification
+    #         CommandLine|contains|all:
+    #             - 'Set-EtwTraceProvider'
+    #             - '0x11'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

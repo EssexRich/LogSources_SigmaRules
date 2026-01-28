@@ -1,0 +1,26 @@
+title: Microsoft Malware Protection Engine Crash
+id: 6682d047-6682-4682-a682-6682d0470000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1211
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/application/application_error/win_application_error_msmpeng_crash.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1211
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Provider_Name: 'Application Error'
+    #         EventID: 1000
+    #         Data|contains|all:
+    #             - 'MsMpEng.exe'
+    #             - 'mpengine.dll'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,28 @@
+title: Clear Linux Logs
+id: 544c1559-544c-444c-a44c-544c15590000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_clear_logs.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.002
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '/rm'    # covers /rmdir as well
+    #             - '/shred'
+    #             - '/unlink'
+    #         CommandLine|contains:
+    #             - '/var/log'
+    #             - '/var/spool/mail'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

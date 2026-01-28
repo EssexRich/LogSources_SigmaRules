@@ -1,0 +1,30 @@
+title: Potential Ransomware or Unauthorized MBR Tampering Via Bcdedit.EXE
+id: 15abf719-15ab-45ab-a5ab-15abf7190000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1542.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_bcdedit_susp_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1542.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\bcdedit.exe'
+    #         - OriginalFileName: 'bcdedit.exe'
+    #     selection_cli:
+    #         CommandLine|contains:
+    #             - 'delete'
+    #             - 'deletevalue'
+    #             - 'import'
+    #             - 'safeboot'
+    #             - 'network'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

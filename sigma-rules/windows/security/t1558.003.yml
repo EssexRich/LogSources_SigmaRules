@@ -1,0 +1,30 @@
+title: Kerberoasting Activity - Initial Query
+id: 248baa35-248b-448b-a48b-248baa350000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1558.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_kerberoasting_activity.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1558.003
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4769
+    #         Status: '0x0' # Translated as status from failure code field. Query only for successes
+    #         TicketEncryptionType: '0x17' # RC4 ticket encryption type
+    #     filter_main_krbtgt:
+    #         ServiceName|endswith:
+    #             - 'krbtgt' # Ignore requests for the krbtgt service
+    #             - '$' # Ignore requests from service names that end with $ which are associated with genuine kerberos traffic
+    #     filter_main_machine_accounts:
+    #         TargetUserName|contains: '$@' # Ignore requests from machines
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

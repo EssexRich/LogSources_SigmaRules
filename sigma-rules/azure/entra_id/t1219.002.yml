@@ -1,0 +1,26 @@
+title: Remote Access Tool - MeshAgent Command Execution via MeshCentral
+id: 075858f4-0758-4758-a758-075858f40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1219.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_remote_access_tools_meshagent_exec.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1219.002
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ParentImage|endswith: '\meshagent.exe'
+    #         Image|endswith:
+    #             - '\cmd.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: Suspicious Recursive Takeown
+id: 2437d51f-2437-4437-a437-2437d51f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1222.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_takeown_recursive_own.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1222.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\takeown.exe'
+    #         CommandLine|contains|all:
+    #             - '/f '
+    #             - '/r'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

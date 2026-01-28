@@ -1,0 +1,27 @@
+title: Telegram API Access
+id: 3f49264a-3f49-4f49-af49-3f49264a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1102.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/proxy_generic/proxy_telegram_api.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1102.002
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         cs-host: 'api.telegram.org' # Often used by Bots
+    #     filter:
+    #         c-useragent|contains:
+    #             # Used https://core.telegram.org/bots/samples for this list
+    #             - 'Telegram'
+    #             - 'Bot'
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

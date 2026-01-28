@@ -1,0 +1,22 @@
+title: O365 Add App Role Assignment Grant User
+id: 22d7ec26-22d7-42d7-a2d7-22d7ec260000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_add_app_role_assignment_grant_user.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136.003
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user."
+    #   | fillnull
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_add_app_role_assignment_grant_user_filter`
+  condition: selection
+level: medium

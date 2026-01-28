@@ -1,0 +1,21 @@
+title: Cobalt Strike Command and Control Beacon
+id: 5794ce0f-5794-4794-a794-5794ce0f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1568.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_cobalt_strike_beacon.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1568.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # ((event.category: (network OR network_traffic) AND type: (tls OR http))
+    #     OR event.dataset: (network_traffic.tls OR network_traffic.http)
+    # ) AND destination.domain:/[a-z]{3}.stage.[0-9]{8}\..*/
+  condition: selection
+level: medium

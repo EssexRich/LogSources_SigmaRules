@@ -1,0 +1,29 @@
+title: Steganography Hide Zip Information in Picture File
+id: 215886d6-2158-4158-a158-215886d60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_hidden_zip_files_steganography.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027.003
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     commands:
+    #         type: EXECVE
+    #         a0: cat
+    #     a1:
+    #         a1|endswith:
+    #             - '.jpg'
+    #             - '.png'
+    #     a2:
+    #         a2|endswith: '.zip'
+    #     condition: commands and a1 and a2
+    # 
+  condition: selection
+level: medium

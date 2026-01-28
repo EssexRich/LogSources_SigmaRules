@@ -1,0 +1,23 @@
+title: Windows Raw Access To Disk Volume Partition
+id: 1fcd678b-1fcd-4fcd-afcd-1fcd678b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1561.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_raw_access_to_disk_volume_partition.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1561.002
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=9 Device = \\Device\\HarddiskVolume* NOT (Image IN("*\\Windows\\System32\\*",
+    #   "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
+    #   lastTime by dest dvc process_exec process_guid process_id process_name process_path
+    #   signature signature_id user_id vendor_product Device Image | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `windows_raw_access_to_disk_volume_partition_filter`
+  condition: selection
+level: medium

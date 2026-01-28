@@ -1,0 +1,55 @@
+title: Linux Auditd Doas Conf File Creation
+id: 26e5ea9d-26e5-46e5-a6e5-26e5ea9d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_doas_conf_file_creation.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548.003
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # `linux_auditd`
+    #   (
+    #     (type=PATH nametype="CREATE")
+    #     OR
+    #     type=CWD
+    #   )
+    #   | rex "msg=audit\([^)]*:(?<audit_id>\d+)\)"
+    # 
+    #   | stats
+    #     values(type) as types
+    #     values(name) as names
+    #     values(nametype) as nametype
+    #     values(cwd) as cwd_list
+    #     values(_time) as event_times
+    #     by audit_id host
+    # 
+    #   | eval current_working_directory = coalesce(mvindex(cwd_list, 0), "N/A")
+    #   | eval candidate_paths = mvmap(names, if(match(names, "^/"), names, current_working_directory + "/" + names))
+    #   | eval matched_paths = mvfilter(match(candidate_paths, "/etc/doas.conf.*"))
+    #   | eval match_count = mvcount(matched_paths)
+    #   | eval reconstructed_path = mvindex(matched_paths, 0)
+    #   | eval e_time = mvindex(event_times, 0)
+    #   | where match_count > 0
+    #   | rename host as dest
+    # 
+    #   | stats count min(e_time) as firstTime max(e_time) as lastTime
+    #     values(nametype) as nametype
+    #     by current_working_directory
+    #        reconstructed_path
+    #        match_count
+    #        dest
+    #        audit_id
+    # 
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | table nametype current_working_directory reconstructed_path dest audit_id match_count firstTime lastTime
+    #   | `linux_auditd_doas_conf_file_creation_filter`
+  condition: selection
+level: medium

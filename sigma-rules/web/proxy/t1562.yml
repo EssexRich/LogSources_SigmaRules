@@ -1,0 +1,32 @@
+title: Cisco ASA - Core Syslog Message Volume Drop
+id: 27c8c238-27c8-47c8-a7c8-27c8c2380000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/cisco_asa___core_syslog_message_volume_drop.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_asa`
+    #   message_id IN (302013, 302014, 609002, 710005)
+    #   | eval msg_desc=case(
+    #     message_id="302013","Built inbound TCP connection",
+    #     message_id="302014","Teardown TCP connection",
+    #     message_id="609002","Teardown local-host management",
+    #     message_id="710005","TCP request discarded"
+    #   )
+    #   | bin _time span=15m
+    #   | stats count values(msg_desc) as message_description
+    #                 values(dest) as dest
+    #     by _time message_id
+    #   | xyseries _time message_id count
+    #   | `cisco_asa___core_syslog_message_volume_drop_filter`
+  condition: selection
+level: medium

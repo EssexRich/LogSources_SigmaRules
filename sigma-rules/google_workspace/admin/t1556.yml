@@ -1,0 +1,19 @@
+title: Google Workspace 2SV Policy Disabled
+id: 781f748f-781f-481f-a81f-781f748f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/persistence_google_workspace_2sv_policy_disabled.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:"google_workspace.login" and event.action:"2sv_disable"
+  condition: selection
+level: medium

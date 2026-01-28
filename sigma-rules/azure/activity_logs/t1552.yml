@@ -1,0 +1,31 @@
+title: Azure Keyvault Key Modified or Deleted
+id: 4cbd3ffa-4cbd-4cbd-acbd-4cbd3ffa0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_keyvault_key_modified_or_deleted.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         operationName:
+    #             - MICROSOFT.KEYVAULT/VAULTS/KEYS/UPDATE/ACTION
+    #             - MICROSOFT.KEYVAULT/VAULTS/KEYS/CREATE
+    #             - MICROSOFT.KEYVAULT/VAULTS/KEYS/CREATE/ACTION
+    #             - MICROSOFT.KEYVAULT/VAULTS/KEYS/IMPORT/ACTION
+    #             - MICROSOFT.KEYVAULT/VAULTS/KEYS/RECOVER/ACTION
+    #             - MICROSOFT.KEYVAULT/VAULTS/KEYS/RESTORE/ACTION
+    #             - MICROSOFT.KEYVAULT/VAULTS/KEYS/DELETE
+    #             - MICROSOFT.KEYVAULT/VAULTS/KEYS/BACKUP/ACTION
+    #             - MICROSOFT.KEYVAULT/VAULTS/KEYS/PURGE/ACTION
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

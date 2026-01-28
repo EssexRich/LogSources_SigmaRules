@@ -1,0 +1,30 @@
+title: Potentially Suspicious WebDAV LNK Execution
+id: 34641956-3464-4464-a464-346419560000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1204
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_webdav_lnk_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1204
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ParentImage|endswith: '\explorer.exe'
+    #         Image|endswith:
+    #             - '\cmd.exe'
+    #             - '\cscript.exe'
+    #             - '\mshta.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\wscript.exe'
+    #         CommandLine|contains: '\DavWWWRoot\'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

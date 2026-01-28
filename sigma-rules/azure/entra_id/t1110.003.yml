@@ -1,0 +1,59 @@
+title: Entra ID User Sign-in Brute Force Attempted
+id: 6b8a39df-6b8a-4b8a-ab8a-6b8a39df0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_entra_id_brute_force_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.003
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-azure.signinlogs-*
+    # 
+    # // Define a time window for grouping and maintain the original event timestamp
+    # | eval Esql.time_window_date_trunc = date_trunc(15 minutes, @timestamp)
+    # 
+    # // Filter relevant failed authentication events with specific error codes
+    # | where event.dataset == "azure.signinlogs"
+    #     and event.category == "authentication"
+    #     and azure.signinlogs.category in ("NonInteractiveUserSignInLogs", "SignInLogs")
+    #     and event.outcome == "failure"
+    #     and azure.signinlogs.properties.authentication_requirement == "singleFactorAuthentication"
+    #     and azure.signinlogs.properties.status.error_code in (
+    #         50034,  // UserAccountNotFound
+    #         50126,  // InvalidUsernameOrPassword
+    #         50055,  // PasswordExpired
+    #         50056,  // InvalidPassword
+    #         50057,  // UserDisabled
+    #         50064,  // CredentialValidationFailure
+    #         50076,  // MFARequiredButNotPassed
+    #         50079,  // MFARegistrationRequired
+    #         50105,  // EntitlementGrantsNotFound
+    #         70000,  // InvalidGrant
+    #         70008,  // ExpiredOrRevokedRefreshToken
+    #         70043,  // BadTokenDueToSignInFrequency
+    #         80002,  // OnPremisePasswordValidatorRequestTimedOut
+    #         80005,  // OnPremisePasswordValidatorUnpredictableWebException
+    #         50144,  // InvalidPasswordExpiredOnPremPassword
+    #         50135,  // PasswordChangeCompromisedPassword
+    #         50142,  // PasswordChangeRequiredConditionalAccess
+    #         120000, // PasswordChangeIncorrectCurrentPassword
+    #         120002, // PasswordChangeInvalidNewPasswordWeak
+    #         120020  // PasswordChangeFailure
+    #     )
+    #     and azure.signinlogs.properties.user_principal_name is not null and azure.signinlogs.properties.user_principal_name != ""
+    #     and user_agent.original != "Mozilla/5.0 (compatible; MSAL 1.0) PKeyAuth/1.0"
+    #     and source.`as`.organization.name != "MICROSOFT-CORP-MSN-as-BLOCK"
+    # 
+    # | stats
+    #     Esql.azure_signinlogs_properties_authentication_requirement_values = values(azure.signinlogs.properties.authentication_requirement),
+    #     Esq
+    # ... [truncated]
+  condition: selection
+level: medium

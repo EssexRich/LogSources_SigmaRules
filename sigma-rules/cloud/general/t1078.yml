@@ -1,0 +1,45 @@
+title: Geographic Improbable Location
+id: 5703a290-5703-4703-a703-5703a2900000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/geographic_improbable_location.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078
+logsource:
+  product: cloud
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats summariesonly=true values(Authentication.app) as app from datamodel=Authentication.Authentication 
+    #   where (`okta` OR (index="firewall" AND sourcetype="pan:globalprotect")) 
+    #   AND Authentication.action="success" AND Authentication.app IN ("Workday", "Slack", "*GlobalProtect", "Jira*",
+    #   "Atlassian Cloud", "Zoom") AND NOT Authentication.user="unknown" by _time index sourcetype host Authentication.user 
+    #   Authentication.src span=1s
+    #   | `drop_dm_object_name("Authentication")` 
+    #   | fields user,src,app,_time,count,host 
+    #   | eval user=lower(replace(user, "((^.*\\\)|(@.*$))", ""))
+    #   | join type=outer user 
+    #       [| inputlookup identity_lookup_expanded where user_status=active
+    #   | rex field=email "^(?<user>[a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" 
+    #   | rename email as user_email bunit as user_bunit priority as user_priority work_country as user_work_country work_city as user_work_city 
+    #   | fields user user_email user_bunit user_priority user_work_country user_work_city] 
+    #   | eventstats dc(src) as src_count by user 
+    #   | eventstats dc(user) as user_count by src 
+    #   | sort 0 + _time 
+    #   | iplocation src 
+    #   | lookup local=true asn_lookup_by_cidr ip as src OUTPUT ip asn description 
+    #   | eval session_lat=if(isnull(src_lat), lat, src_lat), session_lon=if(isnull(src_long), lon, src_long), 
+    #   session_city=if(isnull(src_city), City, src_city), session_country=if(isnull(src_country), Country, src_country),
+    #   session_region=if(isnull(src_region), Region, src_region) 
+    #   | eval session_city=if(isnull(session_city) OR match(session_city,"^\s+|^$"), null(), session_city), 
+    #   session_country=if(isnull(session_country) OR match(session_country,"^\s+|^$"), null(), session_country), 
+    #   session_region=if(isnull(session_region) OR match(session_region,"^\s+|^$"), null(), session_region) 
+    #   | where isnotnull(session_lat) and isnotnull(session_lon) 
+    #   | eval session_city=if(isnull(session_city),"-",session_city), session_country=if(isnull(session_country),"-",session_country
+    # ... [truncated]
+  condition: selection
+level: medium

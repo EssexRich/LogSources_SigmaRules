@@ -1,0 +1,42 @@
+title: Program Executions in Suspicious Folders
+id: 09e781a6-09e7-49e7-a9e7-09e781a60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1587
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_susp_exe_folders.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1587
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'SYSCALL'
+    #         exe|startswith:
+    #             # Temporary folder
+    #             - '/tmp/'
+    #             # Web server
+    #             - '/var/www/'              # Standard
+    #             - '/home/*/public_html/'   # Per-user
+    #             - '/usr/local/apache2/'    # Classical Apache
+    #             - '/usr/local/httpd/'      # Old SuSE Linux 6.* Apache
+    #             - '/var/apache/'           # Solaris Apache
+    #             - '/srv/www/'              # SuSE Linux 9.*
+    #             - '/home/httpd/html/'      # Redhat 6 or older Apache
+    #             - '/srv/http/'             # ArchLinux standard
+    #             - '/usr/share/nginx/html/' # ArchLinux nginx
+    #             # Data dirs of typically exploited services (incomplete list)
+    #             - '/var/lib/pgsql/data/'
+    #             - '/usr/local/mysql/data/'
+    #             - '/var/lib/mysql/'
+    #             - '/var/vsftpd/'
+    #             - '/etc/bind/'
+    #             - '/var/named/'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

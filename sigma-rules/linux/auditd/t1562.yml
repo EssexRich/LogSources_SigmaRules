@@ -1,0 +1,26 @@
+title: Attempt to Disable Auditd Service
+id: 014c62a1-014c-414c-a14c-014c62a10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_attempt_to_disable_auditd_service.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start", "ProcessRollup2") and (
+    #   (process.name == "service" and process.args == "stop") or
+    #   (process.name == "chkconfig" and process.args == "off") or
+    #   (process.name == "update-rc.d" and process.args in ("remove", "disable")) or
+    #   (process.name == "systemctl" and process.args in ("disable", "stop", "kill", "mask"))
+    # ) and
+    # process.args in ("auditd", "auditd.service") and 
+    # not ?process.parent.name == "auditd.prerm"
+  condition: selection
+level: medium

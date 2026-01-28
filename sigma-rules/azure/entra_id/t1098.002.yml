@@ -1,0 +1,29 @@
+title: Azure AD FullAccessAsApp Permission Assigned
+id: 3ec60238-3ec6-4ec6-aec6-3ec602380000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_ad_fullaccessasapp_permission_assigned.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.002
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original splunk detection logic
+    # `azure_monitor_aad` category=AuditLogs operationName=\"Update application\" 
+    #   | eval newvalue = mvindex('properties.targetResources{}.modifiedProperties{}.newValue',0) 
+    #   | spath input=newvalue 
+    #   | search \"{}.ResourceAppId\"=\"00000002-0000-0ff1-ce00-000000000000\" \"{}.RequiredAppPermissions{}.EntitlementId\"=\"dc890d15-9560-4a4c-9b7f-a736ec74ec40\" 
+    #   | eval Permissions = '{}.RequiredAppPermissions{}.EntitlementId' 
+    #   | rename properties.userAgent as user_agent 
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product user_agent Permissions object signature
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)` 
+    #   | `azure_ad_fullaccessasapp_permission_assigned_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,61 @@
+title: MSHTA Execution with Suspicious File Extensions
+id: 0a92075f-0a92-4a92-aa92-0a92075f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1140
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mshta_susp_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1140
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\mshta.exe'
+    #         - OriginalFileName: 'mshta.exe'
+    #     selection_cli:
+    #         CommandLine|contains:
+    #             - '.7z'
+    #             - '.avi'
+    #             - '.bat'
+    #             - '.bmp'
+    #             - '.conf'
+    #             - '.csv'
+    #             - '.dll'
+    #             - '.doc'
+    #             - '.gif'
+    #             - '.gz'
+    #             - '.ini'
+    #             - '.jpe'
+    #             - '.jpg'
+    #             - '.json'
+    #             - '.lnk'
+    #             - '.log'
+    #             - '.mkv'
+    #             - '.mp3'
+    #             - '.mp4'
+    #             - '.pdf'
+    #             - '.png'
+    #             - '.ppt'
+    #             - '.rar'
+    #             - '.rtf'
+    #             - '.svg'
+    #             - '.tar'
+    #             - '.tmp'
+    #             - '.txt'
+    #             - '.xls'
+    #             - '.xml'
+    #             - '.yaml'
+    #             - '.yml'
+    #             - '.zip'
+    #             - 'vbscript'
+    #             # - '.chm'  # could be prone to false positives
+    #             # - '.exe'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

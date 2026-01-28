@@ -1,0 +1,42 @@
+title: Access to a Sensitive LDAP Attribute
+id: 7c778145-7c77-4c77-ac77-7c7781450000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_ldap_attributes.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.004
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original elastic detection logic
+    # any where host.os.type == "windows" and event.code == "4662" and
+    # 
+    #   not winlog.event_data.SubjectUserSid : "S-1-5-18" and
+    # 
+    #   winlog.event_data.Properties : (
+    #    /* unixUserPassword */
+    #   "*612cb747-c0e8-4f92-9221-fdd5f15b550d*",
+    # 
+    #   /* ms-PKI-AccountCredentials */
+    #   "*b8dfa744-31dc-4ef1-ac7c-84baf7ef9da7*",
+    # 
+    #   /*  ms-PKI-DPAPIMasterKeys */
+    #   "*b3f93023-9239-4f7c-b99c-6745d87adbc2*",
+    # 
+    #   /* msPKI-CredentialRoamingTokens */
+    #   "*b7ff5a38-0818-42b0-8110-d3d154c97f24*"
+    #   ) and
+    # 
+    #   /*
+    #    Excluding noisy AccessMasks
+    #    0x0 undefined and 0x100 Control Access
+    #    https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4662
+    #    */
+    #   not winlog.event_data.AccessMask in ("0x0", "0x100")
+  condition: selection
+level: medium

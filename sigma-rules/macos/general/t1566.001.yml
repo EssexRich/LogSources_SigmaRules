@@ -1,0 +1,25 @@
+title: Disk Image Mounting Via Hdiutil - MacOS
+id: 5b918c92-5b91-4b91-ab91-5b918c920000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_hdiutil_mount.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566.001
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: /hdiutil
+    #         CommandLine|contains:
+    #             - 'attach '
+    #             - 'mount '
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

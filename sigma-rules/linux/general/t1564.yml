@@ -1,0 +1,25 @@
+title: Mount Execution With Hidepid Parameter
+id: 021e1f38-021e-421e-a21e-021e1f380000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_mount_hidepid.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/mount'
+    #         CommandLine|contains|all:
+    #             - 'hidepid=2'
+    #             - ' -o '
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

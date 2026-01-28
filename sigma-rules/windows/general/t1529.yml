@@ -1,0 +1,38 @@
+title: Silence.EDA Detection
+id: 0b843d36-0b84-4b84-ab84-0b843d360000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1529
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_apt_silence_eda.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1529
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     empire:
+    #         # better to randomise the order
+    #         ScriptBlockText|contains|all:
+    #             - 'System.Diagnostics.Process'
+    #             - 'Stop-Computer'
+    #             - 'Restart-Computer'
+    #             - 'Exception in execution'
+    #             - '$cmdargs'
+    #             - 'Close-Dnscat2Tunnel'
+    #     dnscat:
+    #         # better to randomise the order
+    #         ScriptBlockText|contains|all:
+    #             - 'set type=$LookupType`nserver'
+    #             - '$Command | nslookup 2>&1 | Out-String'
+    #             - 'New-RandomDNSField'
+    #             - '[Convert]::ToString($SYNOptions, 16)'
+    #             - '$Session.Dead = $True'
+    #             - '$Session["Driver"] -eq'
+    #     condition: empire and dnscat
+    # 
+  condition: selection
+level: medium

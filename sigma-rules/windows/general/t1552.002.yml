@@ -1,0 +1,35 @@
+title: Enumeration for Credentials in Registry
+id: 52f1b6e6-52f1-42f1-a2f1-52f1b6e60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_reg_enumeration_for_credentials_in_registry.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     reg:
+    #         Image|endswith: '\reg.exe'
+    #         CommandLine|contains|all:
+    #             - ' query '
+    #             - '/t '
+    #             - 'REG_SZ'
+    #             - '/s'
+    #     hive:
+    #         - CommandLine|contains|all:
+    #               - '/f '
+    #               - 'HKLM'
+    #         - CommandLine|contains|all:
+    #               - '/f '
+    #               - 'HKCU'
+    #         - CommandLine|contains: 'HKCU\Software\SimonTatham\PuTTY\Sessions'
+    #     condition: reg and hive
+    # 
+  condition: selection
+level: medium

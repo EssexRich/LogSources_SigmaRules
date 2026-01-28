@@ -1,0 +1,28 @@
+title: Processes Accessing the Microphone and Webcam
+id: 5e35b62c-5e35-4e35-ae35-5e35b62c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1123
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_camera_microphone_access.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1123
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID:
+    #             - 4657
+    #             - 4656
+    #             - 4663
+    #         ObjectName|contains:
+    #             - '\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone\NonPackaged'
+    #             - '\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

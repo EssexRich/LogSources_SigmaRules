@@ -1,0 +1,22 @@
+title: AWS CloudTrail Log Deleted
+id: 04263a2d-0426-4426-a426-04263a2d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_cloudtrail_logging_deleted.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "cloudtrail.amazonaws.com"
+    #     and event.action: "DeleteTrail"
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

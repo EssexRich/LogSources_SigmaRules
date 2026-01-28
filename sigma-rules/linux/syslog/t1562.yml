@@ -1,0 +1,30 @@
+title: Attempt to Disable Syslog Service
+id: 11555c8d-1155-4155-a155-11555c8d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_attempt_to_disable_syslog_service.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2") and (
+    #   (process.name == "service" and process.args == "stop") or
+    #   (process.name == "chkconfig" and process.args == "off") or
+    #   (process.name == "update-rc.d" and process.args in ("remove", "disable")) or
+    #   (process.name == "systemctl" and process.args in ("disable", "stop", "kill", "mask"))
+    # ) and
+    # process.args in ("syslog", "rsyslog", "syslog-ng", "syslog.service", "rsyslog.service", "syslog-ng.service") and
+    # not (
+    #   process.parent.name == "rsyslog-rotate" or
+    #   process.args == "HUP"
+    # )
+  condition: selection
+level: medium

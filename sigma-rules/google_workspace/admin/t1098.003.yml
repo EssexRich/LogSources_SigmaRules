@@ -1,0 +1,22 @@
+title: Google Workspace User Group Access Modified to Allow External Access
+id: 458794e2-4587-4587-a587-458794e20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_google_workspace_user_group_access_modified_to_allow_external_access.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.003
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:"google_workspace.admin" and event.action:"CHANGE_GROUP_SETTING" and event.category:"iam"
+    #     and ((google_workspace.admin.setting.name:"ALLOW_EXTERNAL_MEMBERS" and google_workspace.admin.new_value:"true")
+    #         or (google_workspace.admin.setting.name:"WHO_CAN_JOIN" and not (google_workspace.admin.new_value:"INVITED_CAN_JOIN"
+    #             or google_workspace.admin.new_value:"CAN_REQUEST_TO_JOIN")))
+  condition: selection
+level: medium

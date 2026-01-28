@@ -1,0 +1,73 @@
+title: Potentially Suspicious AccessMask Requested From LSASS
+id: 20ddfd4c-20dd-40dd-a0dd-20ddfd4c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_susp_lsass_dump_generic.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.001
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1:
+    #         EventID: 4656 # A handle to an object was requested.
+    #         ObjectName|endswith: '\lsass.exe'
+    #         AccessMask|contains:
+    #             - '0x40'
+    #             - '0x1400'
+    #             # - '0x1000'  # minimum access requirements to query basic info from service
+    #             - '0x100000'
+    #             - '0x1410'    # car.2019-04-004
+    #             - '0x1010'    # car.2019-04-004
+    #             - '0x1438'    # car.2019-04-004
+    #             - '0x143a'    # car.2019-04-004
+    #             - '0x1418'    # car.2019-04-004
+    #             - '0x1f0fff'
+    #             - '0x1f1fff'
+    #             - '0x1f2fff'
+    #             - '0x1f3fff'
+    #     selection_2:
+    #         EventID: 4663 # An attempt was made to access an object
+    #         ObjectName|endswith: '\lsass.exe'
+    #         AccessList|contains:
+    #             - '4484'
+    #             - '4416'
+    #     filter_main_specific:
+    #         ProcessName|endswith:
+    #             - '\csrss.exe'
+    #             - '\GamingServices.exe'
+    #             - '\lsm.exe'
+    #             - '\MicrosoftEdgeUpdate.exe'
+    #             - '\minionhost.exe'  # Cyberreason
+    #             - '\MRT.exe'         # MS Malware Removal Tool
+    #             - '\MsMpEng.exe'     # Defender
+    #             - '\perfmon.exe'
+    #             - '\procexp.exe'
+    #             - '\procexp64.exe'
+    #             - '\svchost.exe'
+    #             - '\taskmgr.exe'
+    #             - '\thor.exe'        # THOR
+    #             - '\thor64.exe'      # THOR
+    #             - '\vmtoolsd.exe'
+    #             - '\VsTskMgr.exe'    # McAfee Enterprise
+    #             - '\wininit.exe'
+    #             - '\wmiprvse.exe'
+    #             - 'RtkAudUService64' # https://medium.com/falconforce/the-curious-case-of-realtek-and-lsass-33fc0c8482ff
+    #         ProcessName|contains:
+    #             - ':\Program Files (x86)\'
+    #             - ':\Program Files\'
+    #             - ':\ProgramData\Microsoft\Windows Defender\Platform\'
+    #             - ':\Windows\SysNative\'
+    #             - ':\Windows\System32\'
+    #             - ':\Windows\SysWow64\'
+    #             - ':\Windows\Temp\asgard2-agent\'
+    #     filter_main_generic:
+    #         P
+    # ... [truncated]
+  condition: selection
+level: medium

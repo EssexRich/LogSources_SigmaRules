@@ -1,0 +1,31 @@
+title: AWS GuardDuty Detector Deleted Or Updated
+id: 7878561b-7878-4878-a878-7878561b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_guardduty_detector_deleted_or_updated.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+logsource:
+  product: aws
+  service: guardduty
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_event_source:
+    #         eventSource: 'guardduty.amazonaws.com'
+    #     selection_action_delete:
+    #         eventName: 'DeleteDetector'
+    #     selection_action_update:
+    #         eventName: 'UpdateDetector'
+    #         requestParameters.enable: 'false'
+    #     selection_status_success:
+    #         errorCode: 'Success'
+    #     selection_status_null:
+    #         errorCode: null
+    #     condition: selection_event_source and 1 of selection_action_* and 1 of selection_status_*
+    # 
+  condition: selection
+level: medium

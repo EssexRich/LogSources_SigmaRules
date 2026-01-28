@@ -1,0 +1,32 @@
+title: Potential Manage-bde.wsf Abuse To Proxy Execution
+id: 1f1defc3-1f1d-4f1d-af1d-1f1defc30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1216
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_lolbin_manage_bde.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1216
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_wscript_img:
+    #         - Image|endswith: '\wscript.exe'
+    #         - OriginalFileName: 'wscript.exe'
+    #     selection_wscript_cli:
+    #         CommandLine|contains: 'manage-bde.wsf'
+    #     selection_parent:
+    #         ParentImage|endswith:
+    #             - '\cscript.exe'
+    #             - '\wscript.exe'
+    #         ParentCommandLine|contains: 'manage-bde.wsf'
+    #     selection_filter_cmd:
+    #         Image|endswith: '\cmd.exe'
+    #     condition: all of selection_wscript_* or (selection_parent and not selection_filter_cmd)
+    # 
+  condition: selection
+level: medium

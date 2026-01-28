@@ -1,0 +1,28 @@
+title: Rubeus Kerberos Ticket Exports Through Winlogon Access
+id: 37670974-3767-4767-a767-376709740000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/rubeus_kerberos_ticket_exports_through_winlogon_access.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=10 TargetImage=C:\\Windows\\system32\\winlogon.exe (GrantedAccess=0x1f3fff)
+    #   (SourceImage!=C:\\Windows\\system32\\svchost.exe AND SourceImage!=C:\\Windows\\system32\\lsass.exe
+    #   AND SourceImage!=C:\\Windows\\system32\\LogonUI.exe AND SourceImage!=C:\\Windows\\system32\\smss.exe
+    #   AND SourceImage!=C:\\Windows\\system32\\wbem\\wmiprvse.exe) | stats count min(_time)
+    #   as firstTime max(_time) as lastTime by CallTrace EventID GrantedAccess Guid Opcode
+    #   ProcessID SecurityID SourceImage SourceProcessGUID SourceProcessId TargetImage TargetProcessGUID
+    #   TargetProcessId UserID dest granted_access parent_process_exec parent_process_guid
+    #   parent_process_id parent_process_name parent_process_path process_exec process_guid
+    #   process_id process_name process_path signature signature_id user_id vendor_product
+    #   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `rubeus_kerberos_ticket_exports_through_winlogon_access_filter`
+  condition: selection
+level: medium

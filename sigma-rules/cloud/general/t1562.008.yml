@@ -1,0 +1,24 @@
+title: GitHub Enterprise Disable Audit Log Event Stream
+id: 21820342-2182-4182-a182-218203420000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.008
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/github_enterprise_disable_audit_log_event_stream.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.008
+logsource:
+  product: cloud
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `github_enterprise` action=audit_log_streaming.destroy
+    #   | fillnull
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_ip, actor_is_bot, actor_location.country_code, business, business_id, user_agent, action
+    #   | eval user=actor
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+    #   | `github_enterprise_disable_audit_log_event_stream_filter`
+  condition: selection
+level: medium

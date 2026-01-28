@@ -1,0 +1,28 @@
+title: GCP Break-glass Container Workload Deployed
+id: 3995d7b1-3995-4995-a995-3995d7b10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_breakglass_container_workload_deployed.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         data.protoPayload.resource.type: 'k8s_cluster'
+    #         data.protoPayload.logName:
+    #             - 'cloudaudit.googleapis.com/activity'
+    #             - 'cloudaudit.googleapis.com%2Factivity'
+    #         data.protoPayload.methodName: 'io.k8s.core.v1.pods.create'
+    #     keywords:
+    #         - 'image-policy.k8s.io/break-glass'
+    #     condition: selection and keywords
+    # 
+  condition: selection
+level: medium

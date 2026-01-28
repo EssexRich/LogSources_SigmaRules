@@ -1,0 +1,24 @@
+title: Entra ID Protection - Risk Detection - Sign-in Risk
+id: 0e251824-0e25-4e25-ae25-0e2518240000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_protection_sign_in_risk_detected.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1071
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "azure.identity_protection" and
+    #     event.action: "User Risk Detection" and
+    #     azure.identityprotection.properties.activity: "signin" and
+    #     not azure.identityprotection.properties.risk_state: (
+    #         "remediated" or "dismissed" or "confirmedSafe"
+    #     )
+  condition: selection
+level: medium

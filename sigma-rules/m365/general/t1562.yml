@@ -1,0 +1,29 @@
+title: M365 Copilot Agentic Jailbreak Attack
+id: 0f23107e-0f23-4f23-af23-0f23107e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/m365_copilot_agentic_jailbreak_attack.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `m365_exported_ediscovery_prompt_logs`
+    #   | eval user = Sender
+    #   | eval rule_injection=if(match(Subject_Title, "(?i)(rules|instructions)\s*="), "YES", "NO")
+    #   | eval universal_trigger=if(match(Subject_Title, "(?i)(every|all).*prompt"), "YES", "NO")
+    #   | eval response_automation=if(match(Subject_Title, "(?i)(always|automatic).*respond"), "YES", "NO")
+    #   | eval system_override=if(match(Subject_Title, "(?i)(override|bypass|ignore).*(system|default)"), "YES", "NO")
+    #   | eval persona_establishment=if(match(Subject_Title, "(?i)(with.*\[.*\]|persona)"), "YES", "NO")
+    #   | where rule_injection="YES" OR universal_trigger="YES" OR response_automation="YES" OR system_override="YES" OR persona_establishment="YES"
+    #   | table _time, "Source ID", user, Subject_Title, rule_injection, universal_trigger, response_automation, system_override, persona_establishment, Workload
+    #   | sort -_time
+    #   | `m365_copilot_agentic_jailbreak_attack_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,24 @@
+title: Kerberos User Enumeration
+id: 537ac181-537a-437a-a37a-537ac1810000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1589
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_user_enumeration.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1589
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `wineventlog_security` EventCode=4768 Status=0x6 TargetUserName!="*$" | bucket
+    #   span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
+    #   as tried_accounts values(dest) as dest by _time, src_ip | eventstats avg(unique_accounts)
+    #   as comp_avg , stdev(unique_accounts) as comp_std by src_ip | eval upperBound=(comp_avg+comp_std*3)
+    #   | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
+    #   | search isOutlier=1| `kerberos_user_enumeration_filter`
+  condition: selection
+level: medium

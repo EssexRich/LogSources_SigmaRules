@@ -1,0 +1,31 @@
+title: Cisco ASA - New Local User Account Created
+id: 7492017c-7492-4492-a492-7492017c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/cisco_asa___new_local_user_account_created.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078.003
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_asa`
+    #   message_id IN (502101)
+    #   | fillnull
+    #   | stats count earliest(_time) as firstTime
+    #           latest(_time) as lastTime
+    #           values(action) as action
+    #           values(message_id) as message_id
+    #           values(result) as result
+    #           values(privilege_level) as privilege_level
+    #     by host user
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `cisco_asa___new_local_user_account_created_filter`
+  condition: selection
+level: medium

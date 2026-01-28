@@ -1,0 +1,30 @@
+title: Network Sniffing - Linux
+id: 07928c4f-0792-4792-a792-07928c4f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1040
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_network_sniffing.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1040
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1:
+    #         type: 'execve'
+    #         a0: 'tcpdump'
+    #         a1: '-c'
+    #         a3|contains: '-i'
+    #     selection_2:
+    #         type: 'execve'
+    #         a0: 'tshark'
+    #         a1: '-c'
+    #         a3: '-i'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

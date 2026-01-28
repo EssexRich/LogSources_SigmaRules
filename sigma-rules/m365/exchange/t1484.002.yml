@@ -1,0 +1,21 @@
+title: M365 Exchange Federated Domain Created or Modified
+id: 029ba712-029b-429b-a29b-029ba7120000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1484.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/privilege_escalation_exchange_new_or_modified_federation_domain.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1484.002
+logsource:
+  product: m365
+  service: exchange
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and event.provider:Exchange and event.category:web and event.action:("Set-AcceptedDomain" or
+    # "Set-MsolDomainFederationSettings" or "Add-FederatedDomain" or "New-AcceptedDomain" or "Remove-AcceptedDomain" or "Remove-FederatedDomain") and
+    # event.outcome:success
+  condition: selection
+level: medium

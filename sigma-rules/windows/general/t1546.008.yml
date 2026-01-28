@@ -1,0 +1,28 @@
+title: Potential Privilege Escalation Using Symlink Between Osk and Cmd
+id: 678d9f4a-678d-478d-a78d-678d9f4a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.008
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cmd_mklink_osk_cmd.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546.008
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\cmd.exe'
+    #         - OriginalFileName: 'Cmd.Exe'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - 'mklink'
+    #             - '\osk.exe'
+    #             - '\cmd.exe'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

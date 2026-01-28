@@ -1,0 +1,25 @@
+title: Flash Player Update from Suspicious Location
+id: 3d99be9a-3d99-4d99-ad99-3d99be9a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1189
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/proxy_generic/proxy_susp_flash_download_loc.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1189
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         - c-uri|contains: '/flash_install.php'
+    #         - c-uri|endswith: '/install_flash_player.exe'
+    #     filter:
+    #         cs-host|endswith: '.adobe.com'
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

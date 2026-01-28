@@ -1,0 +1,24 @@
+title: AWS SAML Provider Deletion Activity
+id: 24b975e7-24b9-44b9-a4b9-24b975e70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1531
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_delete_saml_provider.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1531
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: 'iam.amazonaws.com'
+    #         eventName: 'DeleteSAMLProvider'
+    #         status: 'success'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: Folder Compress To Potentially Suspicious Output Via Compress-Archive Cmdlet
+id: 37539b3c-3753-4753-a753-37539b3c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1074.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_zip_compress.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1074.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         CommandLine|contains:
+    #             - 'Compress-Archive -Path*-DestinationPath $env:TEMP'
+    #             - 'Compress-Archive -Path*-DestinationPath*\AppData\Local\Temp\'
+    #             - 'Compress-Archive -Path*-DestinationPath*:\Windows\Temp\'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

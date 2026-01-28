@@ -1,0 +1,36 @@
+title: Filter Driver Unloaded Via Fltmc.EXE
+id: 27867b8d-2786-4786-a786-27867b8d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_fltmc_unload_driver.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\fltMC.exe'
+    #         - OriginalFileName: 'fltMC.exe'
+    #     selection_cli:
+    #         CommandLine|contains: 'unload'
+    #     filter_optional_avira:
+    #         ParentImage|contains:
+    #             - '\AppData\Local\Temp\'
+    #             - ':\Windows\Temp\'
+    #         ParentImage|endswith: '\endpoint-protection-installer-x64.tmp'
+    #         CommandLine|endswith:
+    #             - 'unload rtp_filesystem_filter'
+    #             - 'unload rtp_filter'
+    #     filter_optional_manageengine:
+    #         ParentImage: 'C:\Program Files (x86)\ManageEngine\uems_agent\bin\dcfaservice64.exe'
+    #         CommandLine|endswith: 'unload DFMFilter'
+    #     condition: all of selection_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

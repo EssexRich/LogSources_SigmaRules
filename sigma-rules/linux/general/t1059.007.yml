@@ -1,0 +1,24 @@
+title: Potential SAP NetWeaver WebShell Creation
+id: 0de2fe45-0de2-4de2-ade2-0de2fe450000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_sap_netweaver_jsp_webshell.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.007
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type in ("linux", "windows") and event.action == "creation" and
+    #  file.extension : ("jsp", "java", "class") and
+    #  file.path : ("/*/sap.com/*/servlet_jsp/irj/root/*",
+    #               "/*/sap.com/*/servlet_jsp/irj/work/*",
+    #               "?:\\*\\sap.com\\*\\servlet_jsp\\irj\\root\\*",
+    #               "?:\\*\\sap.com\\*\\servlet_jsp\\irj\\work\\*")
+  condition: selection
+level: medium

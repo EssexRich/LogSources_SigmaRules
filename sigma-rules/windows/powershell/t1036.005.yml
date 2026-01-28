@@ -1,0 +1,85 @@
+title: Files With System Process Name In Unsuspected Locations
+id: 5a7010de-5a70-4a70-aa70-5a7010de0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_creation_system_file.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.005
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetFilename|endswith:
+    #             - '\AtBroker.exe'
+    #             - '\audiodg.exe'
+    #             - '\backgroundTaskHost.exe'
+    #             - '\bcdedit.exe'
+    #             - '\bitsadmin.exe'
+    #             - '\cmdl32.exe'
+    #             - '\cmstp.exe'
+    #             - '\conhost.exe'
+    #             - '\csrss.exe'
+    #             - '\dasHost.exe'
+    #             - '\dfrgui.exe'
+    #             - '\dllhost.exe'
+    #             - '\dwm.exe'
+    #             - '\eventcreate.exe'
+    #             - '\eventvwr.exe'
+    #             - '\explorer.exe'
+    #             - '\extrac32.exe'
+    #             - '\fontdrvhost.exe'
+    #             - '\ipconfig.exe'
+    #             - '\iscsicli.exe'
+    #             - '\iscsicpl.exe'
+    #             - '\logman.exe'
+    #             - '\LogonUI.exe'
+    #             - '\LsaIso.exe'
+    #             - '\lsass.exe'
+    #             - '\lsm.exe'
+    #             - '\msiexec.exe'
+    #             - '\msinfo32.exe'
+    #             - '\mstsc.exe'
+    #             - '\nbtstat.exe'
+    #             - '\odbcconf.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\regini.exe'
+    #             - '\regsvr32.exe'
+    #             - '\rundll32.exe'
+    #             - '\RuntimeBroker.exe'
+    #             - '\schtasks.exe'
+    #             - '\SearchFilterHost.exe'
+    #             - '\SearchIndexer.exe'
+    #             - '\SearchProtocolHost.exe'
+    #             - '\SecurityHealthService.exe'
+    #             - '\SecurityHealthSystray.exe'
+    #             - '\services.exe'
+    #             - '\ShellAppRuntime.exe'
+    #             - '\sihost.exe'
+    #             - '\smartscreen.exe'
+    #             - '\smss.exe'
+    #             - '\spoolsv.exe'
+    #             - '\svchost.exe'
+    #             - '\SystemSettingsBroker.exe'
+    #             - '\taskhost.exe'
+    #             - '\taskhostw.exe'
+    #             - '\Taskmgr.exe'
+    #             - '\TiWorker.exe'
+    #             - '\vssadmin.exe'
+    #             - '\w32tm.exe'
+    #             - '\WerFault.exe'
+    #             - '\WerFaultSecure.exe'
+    #             - '\wermgr.exe'
+    #             - '\wevtutil.exe'
+    #             - '\wininit.exe'
+    #             - '\winlogon.exe'
+    #             - '\win
+    # ... [truncated]
+  condition: selection
+level: medium

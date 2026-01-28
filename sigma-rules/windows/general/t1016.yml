@@ -1,0 +1,42 @@
+title: DNS Server Discovery Via LDAP Query
+id: 0b016166-0b01-4b01-ab01-0b0161660000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1016
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/dns_query/dns_query_win_dns_server_discovery_via_ldap_query.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1016
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         QueryName|startswith: '_ldap.'
+    #     filter_main_generic:
+    #         Image|contains:
+    #             - ':\Program Files\'
+    #             - ':\Program Files (x86)\'
+    #             - ':\Windows\'
+    #     filter_main_defender:
+    #         Image|contains: ':\ProgramData\Microsoft\Windows Defender\Platform\'
+    #         Image|endswith: '\MsMpEng.exe'
+    #     filter_main_unknown:
+    #         Image: '<unknown process>'
+    #     filter_optional_azure:
+    #         Image|startswith: 'C:\WindowsAzure\GuestAgent'
+    #     filter_main_null:
+    #         Image: null
+    #     filter_optional_browsers:
+    #         # Note: This list is for browsers installed in the user context. To avoid basic evasions based on image name. Best to baseline this list with the browsers you use internally and add their full paths.
+    #         Image|endswith:
+    #             - '\chrome.exe'
+    #             - '\firefox.exe'
+    #             - '\opera.exe'
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

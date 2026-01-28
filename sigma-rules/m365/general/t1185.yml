@@ -1,0 +1,26 @@
+title: O365 Concurrent Sessions From Different Ips
+id: 322a4088-322a-422a-a22a-322a40880000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1185
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_concurrent_sessions_from_different_ips.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1185
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoggedIn 
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime values(src) as src 
+    #     by signature dest user vendor_account vendor_product SessionId
+    #   | where mvcount(src) > 1 
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)` 
+    #   | `o365_concurrent_sessions_from_different_ips_filter`
+  condition: selection
+level: medium

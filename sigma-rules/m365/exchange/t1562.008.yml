@@ -1,0 +1,19 @@
+title: M365 Exchange Mailbox Audit Logging Bypass Added
+id: 25d24a9b-25d2-45d2-a5d2-25d24a9b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.008
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_exchange_mailbox_audit_bypass_association.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.008
+logsource:
+  product: m365
+  service: exchange
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and event.provider:Exchange and event.action:Set-MailboxAuditBypassAssociation and event.outcome:success
+  condition: selection
+level: medium

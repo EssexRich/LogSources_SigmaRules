@@ -1,0 +1,32 @@
+title: ETW Logging Disabled In .NET Processes - Registry
+id: 6747c85a-6747-4747-a747-6747c85a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1112
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_dot_net_etw_tamper.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1112
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_etw_enabled:
+    #         EventID: 4657
+    #         ObjectName|endswith: '\SOFTWARE\Microsoft\.NETFramework'
+    #         ObjectValueName: 'ETWEnabled'
+    #         NewValue: 0
+    #     selection_complus:
+    #         EventID: 4657
+    #         ObjectName|contains: '\Environment'
+    #         ObjectValueName:
+    #             - 'COMPlus_ETWEnabled'
+    #             - 'COMPlus_ETWFlags'
+    #         NewValue: 0
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

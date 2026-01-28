@@ -1,0 +1,42 @@
+title: PsExec/PAExec Escalation to LOCAL SYSTEM
+id: 10f87eb6-10f8-40f8-a0f8-10f87eb60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1587.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_sysinternals_psexec_paexec_escalate_system.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1587.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_sys: # Escalation to LOCAL_SYSTEM
+    #         CommandLine|contains|windash:
+    #             # Note that you don't need to add the ".exe" part when using psexec/paexec
+    #             # The "-" can also be replaced with "/"
+    #             # The order of args isn't important
+    #             # "cmd" can be replaced by "powershell", "pwsh" or any other console like software
+    #             - ' -s cmd'
+    #             - ' -s -i cmd'
+    #             - ' -i -s cmd'
+    #             # Pwsh (For PowerShell 7)
+    #             - ' -s pwsh'
+    #             - ' -s -i pwsh'
+    #             - ' -i -s pwsh'
+    #             # PowerShell (For PowerShell 5)
+    #             - ' -s powershell'
+    #             - ' -s -i powershell'
+    #             - ' -i -s powershell'
+    #     selection_other:
+    #         CommandLine|contains:
+    #             - 'psexec'
+    #             - 'paexec'
+    #             - 'accepteula'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

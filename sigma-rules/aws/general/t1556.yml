@@ -1,0 +1,29 @@
+title: AWS Identity Center Identity Provider Change
+id: 4dcf869d-4dcf-4dcf-adcf-4dcf869d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_sso_idp_change.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource:
+    #             - 'sso-directory.amazonaws.com'
+    #             - 'sso.amazonaws.com'
+    #         eventName:
+    #             - 'AssociateDirectory'
+    #             - 'DisableExternalIdPConfigurationForDirectory'
+    #             - 'DisassociateDirectory'
+    #             - 'EnableExternalIdPConfigurationForDirectory'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

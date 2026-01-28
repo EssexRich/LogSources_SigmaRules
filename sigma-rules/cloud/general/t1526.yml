@@ -1,0 +1,24 @@
+title: Kubernetes Scanner Image Pulling
+id: 2596fe1b-2596-4596-a596-2596fe1b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1526
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/kubernetes_scanner_image_pulling.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1526
+logsource:
+  product: cloud
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `kube_objects_events` object.message IN ("Pulling image *kube-hunter*", "Pulling
+    #   image *kube-bench*", "Pulling image *kube-recon*", "Pulling image *kube-recon*")
+    #   | rename object.* AS * | rename involvedObject.* AS * | rename source.host AS host
+    #   | eval phase="operate" | eval severity="high" | stats min(_time) as firstTime max(_time)
+    #   as lastTime count by host, name, namespace, kind, reason, message, phase, severity
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `kubernetes_scanner_image_pulling_filter`
+  condition: selection
+level: medium

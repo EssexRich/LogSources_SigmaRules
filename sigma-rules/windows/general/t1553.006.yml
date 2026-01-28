@@ -1,0 +1,21 @@
+title: Code Signing Policy Modification Through Built-in tools
+id: 647f79bb-647f-447f-a47f-647f79bb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1553.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_code_signing_policy_modification_builtin_tools.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1553.006
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   (process.name: "bcdedit.exe" or ?process.pe.original_file_name == "bcdedit.exe") and process.args: ("-set", "/set") and 
+    #   process.args: ("TESTSIGNING", "nointegritychecks", "loadoptions", "DISABLE_INTEGRITY_CHECKS")
+  condition: selection
+level: medium

@@ -1,0 +1,33 @@
+title: Suspicious File Drop by Exchange
+id: 490afcfe-490a-490a-a90a-490afcfe0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1190
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_exchange_webshell_drop_suspicious.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1190
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\w3wp.exe'
+    #         CommandLine|contains: 'MSExchange'
+    #     selection_types:
+    #         TargetFilename|endswith:
+    #             - '.aspx'
+    #             - '.asp'
+    #             - '.ashx'
+    #             - '.ps1'
+    #             - '.bat'
+    #             - '.exe'
+    #             - '.dll'
+    #             - '.vbs'
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

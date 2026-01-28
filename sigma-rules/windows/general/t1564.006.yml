@@ -1,0 +1,25 @@
+title: Suspicious Hyper-V Cmdlets
+id: 19e84f43-19e8-49e8-a9e8-19e84f430000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_hyper_v_condlet.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564.006
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains:
+    #             - New-VM
+    #             - Set-VMFirmware
+    #             - Start-VM
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

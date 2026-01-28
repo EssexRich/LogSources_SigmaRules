@@ -1,0 +1,23 @@
+title: Windows Defender AMSI Trigger Detected
+id: 6ae1649a-6ae1-4ae1-aae1-6ae1649a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/windefend/win_defender_malware_detected_amsi_source.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059
+logsource:
+  product: defender
+  service: xdr
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 1116 # The antimalware platform detected malware or other potentially unwanted software.
+    #         SourceName: 'AMSI'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

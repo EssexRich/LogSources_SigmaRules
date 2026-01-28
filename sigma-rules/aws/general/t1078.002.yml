@@ -1,0 +1,26 @@
+title: Malicious Usage Of IMDS Credentials Outside Of AWS Infrastructure
+id: 2db7729a-2db7-4db7-adb7-2db7729a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_imds_malicious_usage.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078.002
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         userIdentity.arn|re: '.+:assumed-role/aws:.+'
+    #     filter_main_generic:
+    #         - eventSource: 'ssm.amazonaws.com'
+    #         - eventName: 'RegisterManagedInstance'
+    #         - sourceIPAddress: 'AWS Internal'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

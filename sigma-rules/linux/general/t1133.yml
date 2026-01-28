@@ -1,0 +1,24 @@
+title: Remote Access Tool - Team Viewer Session Started On Linux Host
+id: 41870409-4187-4187-a187-418704090000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1133
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_remote_access_tools_teamviewer_incoming_connection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1133
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ParentImage|endswith: '/TeamViewer_Service'
+    #         Image|endswith: '/TeamViewer_Desktop'
+    #         CommandLine|endswith: '/TeamViewer_Desktop --IPCport 5939 --Module 1'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

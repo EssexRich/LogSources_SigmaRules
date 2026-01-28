@@ -1,0 +1,69 @@
+title: Malicious PowerShell Commandlets - PoshModule
+id: 45b6e15f-45b6-45b6-a5b6-45b6e15f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_module/posh_pm_malicious_commandlets.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1087.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Payload|contains:
+    #             # Note: Please ensure alphabetical order when adding new entries
+    #             - 'Add-Exfiltration'
+    #             - 'Add-Persistence'
+    #             - 'Add-RegBackdoor'
+    #             - 'Add-RemoteRegBackdoor'
+    #             - 'Add-ScrnSaveBackdoor'
+    #             - 'BadSuccessor'
+    #             - 'Check-VM'
+    #             - 'ConvertTo-Rc4ByteStream'
+    #             - 'Decrypt-Hash'
+    #             - 'Disable-ADIDNSNode'
+    #             - 'Disable-MachineAccount'
+    #             - 'Do-Exfiltration'
+    #             - 'Enable-ADIDNSNode'
+    #             - 'Enable-MachineAccount'
+    #             - 'Enabled-DuplicateToken'
+    #             - 'Exploit-Jboss'
+    #             - 'Export-ADR' # # ADRecon related cmdlets
+    #             - 'Export-ADRCSV' # # ADRecon related cmdlets
+    #             - 'Export-ADRExcel' # # ADRecon related cmdlets
+    #             - 'Export-ADRHTML' # # ADRecon related cmdlets
+    #             - 'Export-ADRJSON' # # ADRecon related cmdlets
+    #             - 'Export-ADRXML' # # ADRecon related cmdlets
+    #             - 'Find-Fruit'
+    #             - 'Find-GPOLocation'
+    #             - 'Find-TrustedDocuments'
+    #             - 'Get-ADIDNS' # Covers: Get-ADIDNSNodeAttribute, Get-ADIDNSNodeOwner, Get-ADIDNSNodeTombstoned, Get-ADIDNSPermission, Get-ADIDNSZone
+    #             - 'Get-ApplicationHost'
+    #             - 'Get-ChromeDump'
+    #             - 'Get-ClipboardContents'
+    #             - 'Get-FoxDump'
+    #             - 'Get-GPPPassword'
+    #             - 'Get-IndexedItem'
+    #             - 'Get-KerberosAESKey'
+    #             - 'Get-Keystrokes'
+    #             - 'Get-LSASecret'
+    #             - 'Get-MachineAccountAttribute'
+    #             - 'Get-MachineAccountCreator'
+    #             - 'Get-PassHashes'
+    #             - 'Get-RegAlwaysInstallElevated'
+    #             - 'Get-RegAutoLogon'
+    #             - 'Get-RemoteBootKey'
+    #             - 'Get-RemoteCachedCredential'
+    #             - 'Get-RemoteLocalAccountHash'
+    #             - 'Get-RemoteLSAKey'
+    #             - 'Get-RemoteMachineAccountHash'
+    #             - 'Get-RemoteNLKMKey'
+    #             - 'Get-RickAstl
+    # ... [truncated]
+  condition: selection
+level: medium

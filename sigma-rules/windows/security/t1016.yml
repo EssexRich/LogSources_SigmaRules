@@ -1,0 +1,36 @@
+title: Windows Common Abused Cmd Shell Risk Behavior
+id: 4d6266b2-4d62-4d62-ad62-4d6266b20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1016
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_common_abused_cmd_shell_risk_behavior.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1016
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
+    #   as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score)
+    #   as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as
+    #   annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id)
+    #   as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id)
+    #   as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id)
+    #   as mitre_technique_id_count, values(All_Risk.tag) as tag, values(source) as source,
+    #   dc(source) as source_count from datamodel=Risk.All_Risk where source IN ("*Windows
+    #   Cmdline Tool Execution From Non-Shell Process*", "*Windows System Network Config
+    #   Discovery Display DNS*", "*Local Account Discovery With Wmic*", "*Windows Group
+    #   Discovery Via Net*", "*Windows Create Local Administrator Account Via Net*", "*Windows
+    #   User Discovery Via Net*", "*Icacls Deny Command*", "*ICACLS Grant Command*", "*Windows
+    #   Proxy Via Netsh*", "*Processes launching netsh*", "*Disabling Firewall with Netsh*",
+    #   "*Windows System Network Connections Discovery Netsh*", "*Network Connection Discovery
+    #   With Arp*", "*Windows System Discovery Using ldap Nslookup*", "*Windows System Shutdown
+    #   CommandLine*") by All_Risk.risk_object All_Risk.risk_object_type All_Risk.annotations.mitre_attack.mitre_tactic
+    #   | `drop_dm_object_name(All_Risk)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | where source_count >= 4 | `windows_common_abused_cmd_shell_risk_behavior_filter`
+  condition: selection
+level: medium

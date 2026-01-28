@@ -1,0 +1,23 @@
+title: Network Share Discovery Via Dir Command
+id: 576aacf0-576a-476a-a76a-576aacf00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1135
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/network_share_discovery_via_dir_command.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1135
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # `wineventlog_security` EventCode=5140 ShareName IN("\\\\*\\ADMIN$","\\\\*\\C$","*\\\\*\\IPC$")
+    #   AccessMask= 0x1 | stats min(_time) as firstTime max(_time) as lastTime count by
+    #   ShareName IpAddress ObjectType SubjectUserName SubjectDomainName IpPort AccessMask
+    #   Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `network_share_discovery_via_dir_command_filter`
+  condition: selection
+level: medium

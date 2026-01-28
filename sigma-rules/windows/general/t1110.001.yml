@@ -1,0 +1,24 @@
+title: Suspicious Rejected SMB Guest Logon From IP
+id: 358fb666-358f-458f-a58f-358fb6660000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/smbclient/security/win_smbclient_security_susp_failed_guest_logon.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 31017
+    #         UserName: ''
+    #         ServerName|startswith: '\1'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

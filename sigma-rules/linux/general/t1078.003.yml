@@ -1,0 +1,21 @@
+title: Potential Suspicious DebugFS Root Device Access
+id: 52d49bc3-52d4-42d4-a2d4-52d49bc30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_sda_disk_mount_non_root.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078.003
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
+    # process.name == "debugfs" and process.args : "/dev/sd*" and not process.args == "-R" and
+    # not user.Ext.real.id == "0" and not group.Ext.real.id == "0"
+  condition: selection
+level: medium

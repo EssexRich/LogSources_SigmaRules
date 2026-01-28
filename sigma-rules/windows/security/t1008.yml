@@ -1,0 +1,23 @@
+title: Outlook Macro Execution Without Warning Setting Enabled
+id: 045aab06-045a-445a-a45a-045aab060000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1008
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_office_outlook_enable_macro_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1008
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetObject|endswith: '\Outlook\Security\Level'
+    #         Details|contains: '0x00000001' # Enable all Macros
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

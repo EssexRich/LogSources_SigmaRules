@@ -1,0 +1,34 @@
+title: Failed Logon From Public IP
+id: 51d90838-51d9-41d9-a1d9-51d908380000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1190
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_susp_failed_logon_source.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1190
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4625
+    #     filter_main_ip_unknown:
+    #         IpAddress|contains: '-'
+    #     filter_main_local_ranges:
+    #         IpAddress|cidr:
+    #             - '::1/128'  # IPv6 loopback
+    #             - '10.0.0.0/8'
+    #             - '127.0.0.0/8'
+    #             - '172.16.0.0/12'
+    #             - '192.168.0.0/16'
+    #             - '169.254.0.0/16'
+    #             - 'fc00::/7'  # IPv6 private addresses
+    #             - 'fe80::/10'  # IPv6 link-local addresses
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

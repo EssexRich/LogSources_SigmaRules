@@ -1,0 +1,65 @@
+title: Suspicious WSMAN Provider Image Loads
+id: 54e57d81-54e5-44e5-a4e5-54e57d810000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_wsman_provider_image_load.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.001
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     request_client:
+    #         - ImageLoaded|endswith:
+    #               - '\WsmSvc.dll'
+    #               - '\WsmAuto.dll'
+    #               - '\Microsoft.WSMan.Management.ni.dll'
+    #         - OriginalFileName:
+    #               - 'WsmSvc.dll'
+    #               - 'WSMANAUTOMATION.DLL'
+    #               - 'Microsoft.WSMan.Management.dll'
+    #     respond_server:
+    #         Image|endswith: '\svchost.exe'
+    #         OriginalFileName: 'WsmWmiPl.dll'
+    #     filter_general:
+    #         Image:
+    #             - 'C:\Program Files (x86)\PowerShell\6\pwsh.exe'
+    #             - 'C:\Program Files (x86)\PowerShell\7\pwsh.exe'
+    #             - 'C:\Program Files\PowerShell\6\pwsh.exe'
+    #             - 'C:\Program Files\PowerShell\7\pwsh.exe'
+    #             - 'C:\Windows\System32\sdiagnhost.exe'
+    #             - 'C:\Windows\System32\services.exe'
+    #             - 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe'
+    #             - 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
+    #     filter_svchost: # not available in Sysmon data, but Aurora logs
+    #         CommandLine|contains:
+    #             - 'svchost.exe -k netsvcs -p -s BITS'
+    #             - 'svchost.exe -k GraphicsPerfSvcGroup -s GraphicsPerfSvc'
+    #             - 'svchost.exe -k NetworkService -p -s Wecsvc'
+    #             - 'svchost.exe -k netsvcs'
+    #     filter_mscorsvw: # Image: C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorsvw.exe
+    #         Image|startswith:
+    #             - 'C:\Windows\Microsoft.NET\Framework64\v'
+    #             - 'C:\Windows\Microsoft.NET\Framework\v'
+    #             - 'C:\Windows\Microsoft.NET\FrameworkArm\v'
+    #             - 'C:\Windows\Microsoft.NET\FrameworkArm64\v'
+    #         Image|endswith: '\mscorsvw.exe'
+    #     filter_svr_2019:
+    #         Image:
+    #             - 'C:\Windows\System32\Configure-SMRemoting.exe'
+    #             - 'C:\Windows\System32\ServerManager.exe'
+    #     filter_nextron:
+    #         Image|startswith: 'C:\Windows\Temp\asgard2-agent\'
+    #     filter_citrix:
+    #         Image|startswith: 'C:\Program Files\Citrix\'
+    #     filter_upgrade:
+    #         Image|startswith: 'C:\$WINDOWS.~BT\Sources\'
+    # 
+    # ... [truncated]
+  condition: selection
+level: medium

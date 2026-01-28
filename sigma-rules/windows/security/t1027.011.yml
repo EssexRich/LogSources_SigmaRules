@@ -1,0 +1,26 @@
+title: Windows Njrat Fileless Storage via Registry
+id: 33ec8d14-33ec-43ec-a3ec-33ec8d140000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.011
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_njrat_fileless_storage_via_registry.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027.011
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\[kl]"
+    #   OR  Registry.registry_value_data IN ("*[ENTER]*", "*[TAP]*", "*[Back]*") by Registry.action
+    #   Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path
+    #   Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name
+    #   Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
+    #   | `drop_dm_object_name(Registry)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+    #   | `windows_njrat_fileless_storage_via_registry_filter`
+  condition: selection
+level: medium

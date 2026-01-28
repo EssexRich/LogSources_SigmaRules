@@ -1,0 +1,24 @@
+title: ASL AWS Multi-Factor Authentication Disabled
+id: 611ab76c-611a-411a-a11a-611ab76c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.006
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/asl_aws_multi_factor_authentication_disabled.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556.006
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `amazon_security_lake` (api.operation=DeleteVirtualMFADevice OR api.operation=DeactivateMFADevice) 
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by actor.user.uid api.operation api.service.name http_request.user_agent src_endpoint.ip actor.user.account.uid cloud.provider cloud.region
+    #   | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+    #   | `asl_aws_multi_factor_authentication_disabled_filter`
+  condition: selection
+level: medium

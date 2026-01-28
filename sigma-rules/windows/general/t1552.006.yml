@@ -1,0 +1,43 @@
+title: Access To Potentially Sensitive Sysvol Files By Uncommon Applications
+id: 66023d8f-6602-4602-a602-66023d8f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_access/file_access_win_susp_gpo_files.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.006
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         FileName|startswith: '\\'
+    #         FileName|contains|all:
+    #             - '\sysvol\'
+    #             - '\Policies\'
+    #         FileName|endswith:
+    #             - 'audit.csv'
+    #             - 'Files.xml'
+    #             - 'GptTmpl.inf'
+    #             - 'groups.xml'
+    #             - 'Registry.pol'
+    #             - 'Registry.xml'
+    #             - 'scheduledtasks.xml'
+    #             - 'scripts.ini'
+    #             - 'services.xml'
+    #     filter_main_generic:
+    #         Image|startswith:
+    #             - 'C:\Program Files (x86)\'
+    #             - 'C:\Program Files\'
+    #             - 'C:\Windows\system32\'
+    #             - 'C:\Windows\SysWOW64\'
+    #     filter_main_explorer:
+    #         Image: 'C:\Windows\explorer.exe'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

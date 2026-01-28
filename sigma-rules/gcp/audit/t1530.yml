@@ -1,0 +1,19 @@
+title: GCP Pub/Sub Subscription Creation
+id: 36b66f86-36b6-46b6-a6b6-36b66f860000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1530
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/collection_gcp_pub_sub_subscription_creation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1530
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:gcp.audit and event.action:google.pubsub.v*.Subscriber.CreateSubscription and event.outcome:success
+  condition: selection
+level: medium

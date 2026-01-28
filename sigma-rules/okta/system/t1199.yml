@@ -1,0 +1,38 @@
+title: Okta Sign-In Events via Third-Party IdP
+id: 2e2b6bd5-2e2b-4e2b-ae2b-2e2b6bd50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1199
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/initial_access_sign_in_events_via_third_party_idp.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1199
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "okta.system"
+    #     and okta.authentication_context.issuer.id: (* and not "Okta")
+    #     and (
+    #         event.action: (
+    #             "user.authentication.auth_via_IDP"
+    #             or "user.authentication.auth_via_inbound_SAML"
+    #             or "user.authentication.auth_via_social"
+    #         )
+    #         or (
+    #             event.action: "user.authentication.auth_via_IDP"
+    #             and okta.outcome.result: "FAILURE"
+    #             and okta.outcome.reason: (
+    #                 "A SAML assert with the same ID has already been processed by Okta for a previous request"
+    #                 or "Unable to match transformed username"
+    #                 or "Unable to resolve IdP endpoint"
+    #                 or "Unable to validate SAML Response"
+    #                 or "Unable to validate incoming SAML Assertion"
+    #             )
+    #         )
+    #     )
+  condition: selection
+level: medium

@@ -1,0 +1,47 @@
+title: Windows PUA Named Pipe
+id: 45dbadd1-45db-45db-a5db-45dbadd10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_pua_named_pipe.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.002
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon`
+    #   (EventCode=17 OR EventCode=18)
+    #   NOT process_path IN (
+    #     "*:\\Program Files \(x86\)\\Adobe*",
+    #     "*:\\Program Files \(x86\)\\Google*",
+    #     "*:\\Program Files \(x86\)\\Microsoft*",
+    #     "*:\\Program Files\\Adobe*",
+    #     "*:\\Program Files\\dotnet\\dotnet.exe",
+    #     "*:\\Program Files\\Google*",
+    #     "*:\\Program Files\\Microsoft*",
+    #     "*:\\Windows\\system32\\SearchIndexer.exe",
+    #     "*:\\Windows\\System32\\svchost.exe",
+    #     "*:\\Windows\\SystemApps\\Microsoft*",
+    #     "*\\Amazon\\SSM\\Instance*",
+    #     "*\\AppData\\Local\\Google*",
+    #     "*\\AppData\\Local\\Kingsoft\\*",
+    #     "*\\AppData\\Local\\Microsoft*",
+    #     "System"
+    #   )
+    #   
+    #   | stats  min(_time) as firstTime max(_time) as lastTime
+    #   count by dest dvc process_exec process_guid process_id process_path signature signature_id 
+    #   vendor_product pipe_name user_id Image process_name
+    # 
+    #   | lookup pua_named_pipes pua_pipe_name AS pipe_name OUTPUT tool, description
+    #   | where isnotnull(tool)
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `windows_pua_named_pipe_filter`
+  condition: selection
+level: medium

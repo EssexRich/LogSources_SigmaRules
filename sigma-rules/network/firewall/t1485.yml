@@ -1,0 +1,24 @@
+title: Detect DNS Query to Decommissioned S3 Bucket
+id: 2c0e35a5-2c0e-4c0e-ac0e-2c0e35a50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1485
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/detect_dns_query_to_decommissioned_s3_bucket.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime from datamodel=Network_Resolution where DNS.message_type=QUERY by DNS.answer
+    #   DNS.answer_count DNS.query DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product
+    #   | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | eval bucket_domain = lower(query) | lookup decommissioned_buckets bucketName as
+    #   bucket_domain OUTPUT bucketName as match | where isnotnull(match) | `detect_dns_query_to_decommissioned_s3_bucket_filter`
+  condition: selection
+level: medium

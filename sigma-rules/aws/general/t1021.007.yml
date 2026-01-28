@@ -1,0 +1,25 @@
+title: AWS Console GetSigninToken Potential Abuse
+id: 5efbc439-5efb-4efb-aefb-5efbc4390000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.007
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_console_getsignintoken.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.007
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: 'signin.amazonaws.com'
+    #         eventName: 'GetSigninToken'
+    #     filter_main_console_ua:
+    #         userAgent|contains: 'Jersey/${project.version}'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

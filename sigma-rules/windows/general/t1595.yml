@@ -1,0 +1,58 @@
+title: PUA - PingCastle Execution
+id: 3cef7158-3cef-4cef-acef-3cef71580000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1595
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_pua_pingcastle.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1595
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         - Hashes|contains:
+    #               # PingCastle.exe
+    #               - 'MD5=f741f25ac909ee434e50812d436c73ff'
+    #               - 'MD5=d40acbfc29ee24388262e3d8be16f622'
+    #               - 'MD5=01bb2c16fadb992fa66228cd02d45c60'
+    #               - 'MD5=9e1b18e62e42b5444fc55b51e640355b'
+    #               - 'MD5=b7f8fe33ac471b074ca9e630ba0c7e79'
+    #               - 'MD5=324579d717c9b9b8e71d0269d13f811f'
+    #               - 'MD5=63257a1ddaf83cfa43fe24a3bc06c207'
+    #               - 'MD5=049e85963826b059c9bac273bb9c82ab'
+    #               - 'MD5=ecb98b7b4d4427eb8221381154ff4cb2'
+    #               - 'MD5=faf87749ac790ec3a10dd069d10f9d63'
+    #               - 'MD5=f296dba5d21ad18e6990b1992aea8f83'
+    #               - 'MD5=93ba94355e794b6c6f98204cf39f7a11'
+    #               - 'MD5=a258ef593ac63155523a461ecc73bdba'
+    #               - 'MD5=97000eb5d1653f1140ee3f47186463c4'
+    #               - 'MD5=95eb317fbbe14a82bd9fdf31c48b8d93'
+    #               - 'MD5=32fe9f0d2630ac40ea29023920f20f49'
+    #               - 'MD5=a05930dde939cfd02677fc18bb2b7df5'
+    #               - 'MD5=124283924e86933ff9054a549d3a268b'
+    #               - 'MD5=ceda6909b8573fdeb0351c6920225686'
+    #               - 'MD5=60ce120040f2cd311c810ae6f6bbc182'
+    #               - 'MD5=2f10cdc5b09100a260703a28eadd0ceb'
+    #               - 'MD5=011d967028e797a4c16d547f7ba1463f'
+    #               - 'MD5=2da9152c0970500c697c1c9b4a9e0360'
+    #               - 'MD5=b5ba72034b8f44d431f55275bace9f8b'
+    #               - 'MD5=d6ed9101df0f24e27ff92ddab42dacca'
+    #               - 'MD5=3ed3cdb6d12aa1ac562ad185cdbf2d1d'
+    #               - 'MD5=5e083cd0143ae95a6cb79b68c07ca573'
+    #               - 'MD5=28caff93748cb84be70486e79f04c2df'
+    #               - 'MD5=9d4f12c30f9b500f896efd1800e4dd11'
+    #               - 'MD5=4586f7dd14271ad65a5fb696b393f4c0'
+    #               - 'MD5=86ba9dddbdf49215145b5bcd081d4011'
+    #               - 'MD5=9dce0a481343874ef9a36c9a825ef991'
+    #               - 'MD5=85890f62e231ad964b1fda7a674747ec'
+    #               - 'MD5=599be548da6441d7fe3e9a1bb8cb0833'
+    #               - 'MD5=9b0c7fd5763f66e9b8c7b457fce53f96'
+    #   
+    # ... [truncated]
+  condition: selection
+level: medium

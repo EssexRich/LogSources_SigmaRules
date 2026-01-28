@@ -1,0 +1,28 @@
+title: Get-ADUser Enumeration Using UserAccountControl Flags
+id: 7ebcf1da-7ebc-4ebc-aebc-7ebcf1da0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1033
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_as_rep_roasting.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1033
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         # 4194304 DONT_REQ_PREAUTH
+    #         ScriptBlockText|contains|all:
+    #             - 'Get-ADUser'
+    #             - '-Filter'
+    #             - 'useraccountcontrol'
+    #             - '-band'
+    #             - '4194304'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,38 @@
+title: Suspicious Process Access via Direct System Call
+id: 3e575fc9-3e57-4e57-ae57-3e575fc90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1106
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_suspicious_process_access_direct_syscall.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1106
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.code == "10" and
+    #  length(winlog.event_data.CallTrace) > 0 and
+    # 
+    #  /* Sysmon CallTrace starting with unknown memory module instead of ntdll which host Windows NT Syscalls */
+    #  not winlog.event_data.CallTrace :
+    #             ("?:\\WINDOWS\\SYSTEM32\\ntdll.dll*",
+    #              "?:\\WINDOWS\\SysWOW64\\ntdll.dll*",
+    #              "?:\\Windows\\System32\\wow64cpu.dll*",
+    #              "?:\\WINDOWS\\System32\\wow64win.dll*",
+    #              "?:\\Windows\\System32\\win32u.dll*") and
+    # 
+    #  not winlog.event_data.TargetImage :
+    #             ("?:\\Program Files (x86)\\Malwarebytes Anti-Exploit\\mbae-svc.exe",
+    #              "?:\\Program Files\\Cisco\\AMP\\*\\sfc.exe",
+    #              "?:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*\\msedgewebview2.exe",
+    #              "?:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\*\\AcroCEF.exe") and
+    # 
+    #  not (process.executable : ("?:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\Acrobat.exe",
+    #                             "?:\\Program Files (x86)\\World of Warcraft\\_classic_\\WowClassic.exe") and
+    #       not winlog.event_data.TargetImage : "?:\\WINDOWS\\system32\\lsass.exe")
+  condition: selection
+level: medium

@@ -1,0 +1,42 @@
+title: Meterpreter or Cobalt Strike Getsystem Service Installation - System
+id: 31da14d0-31da-41da-a1da-31da14d00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1134.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/service_control_manager/win_system_meterpreter_or_cobaltstrike_getsystem_service_installation.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1134.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_id:
+    #         Provider_Name: 'Service Control Manager'
+    #         EventID: 7045
+    #     selection_cli_cmd:
+    #         # meterpreter getsystem technique 1: cmd.exe /c echo 559891bb017 > \\.\pipe\5e120a
+    #         # cobaltstrike getsystem technique 1: %COMSPEC% /c echo 559891bb017 > \\.\pipe\5e120a
+    #         # cobaltstrike getsystem technique 1b (expanded %COMSPEC%): %COMSPEC% /c echo 559891bb017 > \\.\pipe\5e120a
+    #         ImagePath|contains|all:
+    #             - '/c'
+    #             - 'echo'
+    #             - '\pipe\'
+    #         ImagePath|contains:
+    #         - 'cmd'
+    #         - '%COMSPEC%'
+    #     selection_cli_rundll:
+    #         # meterpreter getsystem technique 2: rundll32.exe C:\Users\test\AppData\Local\Temp\tmexsn.dll,a /p:tmexsn
+    #         ImagePath|contains|all:
+    #             - 'rundll32'
+    #             - '.dll,a'
+    #             - '/p:'
+    #     selection_cli_share:
+    #         ImagePath|startswith: '\\\\127.0.0.1\\ADMIN$\'  # https://twitter.com/svch0st/status/1413688851877416960?lang=en
+    #     condition: selection_id and 1 of selection_cli_*
+    # 
+  condition: selection
+level: medium

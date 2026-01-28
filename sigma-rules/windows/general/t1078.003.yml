@@ -1,0 +1,26 @@
+title: Mounting Hidden or WebDav Remote Shares
+id: 39fe2923-39fe-49fe-a9fe-39fe29230000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/lateral_movement_mount_hidden_or_webdav_share_net.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #  ((process.name : "net.exe" or ?process.pe.original_file_name == "net.exe") or ((process.name : "net1.exe" or ?process.pe.original_file_name == "net1.exe") and
+    #  not process.parent.name : "net.exe")) and
+    #  process.args : "use" and
+    #  /* including hidden and webdav based online shares such as onedrive  */
+    #  process.args : ("\\\\*\\*$*", "\\\\*@SSL\\*", "http*") and
+    #  /* excluding shares deletion operation */
+    #  not process.args : "/d*"
+  condition: selection
+level: medium

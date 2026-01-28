@@ -1,0 +1,35 @@
+title: Potential Kerberos Coercion by Spoofing SPNs via DNS Manipulation
+id: 7cedb79d-7ced-4ced-aced-7cedb79d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1557.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_kerberos_coercion_via_dns_object.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1557.003
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_directory_service_changes:
+    #         EventID:
+    #             - 5136
+    #             - 5137
+    #         ObjectClass: 'dnsNode'
+    #         ObjectDN|contains|all: # ObjectDN">DC=foo-11UWhRCAAAAAAAAAAAAAAAAAAAAAAAAAAAAwbEAYBAAAA,DC=domain.com,CN=MicrosoftDNS,DC=DomainDnsZones,DC=domain,DC=com</Data>
+    #             - 'UWhRCA'
+    #             - 'BAAAA'
+    #             - 'CN=MicrosoftDNS'
+    #     selection_directory_service_access:
+    #         EventID: 4662
+    #         AdditionalInfo|contains|all: # AdditionalInfo">DC=foo-11UWhRCAAAAAAAAAAAAAAAAAAAAAAAAAAAAwbEAYBAAAA,DC=domain.com,CN=MicrosoftDNS,DC=DomainDnsZones,DC=domain,DC=com</Data>
+    #             - 'UWhRCA'
+    #             - 'BAAAA'
+    #             - 'CN=MicrosoftDNS'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

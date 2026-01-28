@@ -1,0 +1,29 @@
+title: Potential Privilege Escalation via Local Kerberos Relay over LDAP
+id: 68727be1-6872-4872-a872-68727be10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_susp_privesc_kerberos_relay_over_ldap.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4624
+    #         LogonType: 3
+    #         AuthenticationPackageName: 'Kerberos'
+    #         IpAddress: '127.0.0.1'
+    #         TargetUserSid|startswith: 'S-1-5-21-'
+    #         TargetUserSid|endswith: '-500'
+    #     filter_main_ip_null:
+    #         IpPort: '0'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,23 @@
+title: AWS STS AssumeRole with New MFA Device
+id: 1c03ef42-1c03-4c03-ac03-1c03ef420000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_sts_assume_role_with_new_mfa.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail
+    #     and event.provider:sts.amazonaws.com
+    #     and event.action:(AssumeRole or AssumeRoleWithSAML or AssumeRoleWithWebIdentity)
+    #     and event.outcome:success
+    #     and aws.cloudtrail.flattened.request_parameters.serialNumber:*
+  condition: selection
+level: medium

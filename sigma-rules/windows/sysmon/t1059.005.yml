@@ -1,0 +1,34 @@
+title: Potential Remote SquiblyTwo Technique Execution
+id: 15df5e8c-15df-45df-a5df-15df5e8c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_wmic_squiblytwo_bypass.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.005
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_pe:
+    #         - Image|endswith: '\wmic.exe'
+    #         - OriginalFileName: 'wmic.exe'
+    #         - Hashes|contains:  # Sysmon field hashes contains all types
+    #               - 'IMPHASH=1B1A3F43BF37B5BFE60751F2EE2F326E'
+    #               - 'IMPHASH=37777A96245A3C74EB217308F3546F4C'
+    #               - 'IMPHASH=9D87C9D67CE724033C0B40CC4CA1B206'
+    #               - 'IMPHASH=B12619881D79C3ACADF45E752A58554A'
+    #               - 'IMPHASH=16A48C3CABF98A9DC1BF02C07FE1EA00'
+    #     selection_cli:
+    #         CommandLine|contains|windash: '/format:'
+    #         CommandLine|contains:
+    #             - '://'
+    #             - '\\\\'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,22 @@
+title: High Volume of Bytes Out to Url
+id: 5578417c-5578-4578-a578-5578417c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/web/high_volume_of_bytes_out_to_url.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1567
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats  `security_content_summariesonly` count sum(Web.bytes_out) as sum_bytes_out
+    #   values(Web.user) as user values(Web.app) as app values(Web.dest) as dest from datamodel=Web
+    #   by _time span=2m Web.url Web.src sourcetype | search sum_bytes_out > 1070000000
+    #   | `drop_dm_object_name("Web")`| `high_volume_of_bytes_out_to_url_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,22 @@
+title: GCP Multi-Factor Authentication Disabled
+id: 65f5614f-65f5-45f5-a5f5-65f5614f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/gcp_multi_factor_authentication_disabled.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original splunk detection logic
+    # `gws_reports_admin` command=UNENROLL_USER_FROM_STRONG_AUTH | stats count
+    #   min(_time) as firstTime max(_time) as lastTime by user, command, actor.email, status,
+    #   id.applicationName, event.name, vendor_account, action | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`| `gcp_multi_factor_authentication_disabled_filter`
+  condition: selection
+level: medium

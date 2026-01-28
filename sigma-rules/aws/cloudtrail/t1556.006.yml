@@ -1,0 +1,22 @@
+title: AWS IAM Deactivation of MFA Device
+id: 5074d4a8-5074-4074-a074-5074d4a80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_iam_deactivate_mfa_device.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556.006
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: aws.cloudtrail 
+    #     and event.provider: iam.amazonaws.com 
+    #     and event.action: DeactivateMFADevice 
+    #     and event.outcome: success
+  condition: selection
+level: medium

@@ -1,0 +1,28 @@
+title: PUA - Advanced IP Scanner Execution
+id: 0cd84e29-0cd8-4cd8-acd8-0cd84e290000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1135
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_pua_advanced_ip_scanner.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1135
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|contains: '\advanced_ip_scanner' # Covers also advanced_ip_scanner_console.exe
+    #         - OriginalFileName|contains: 'advanced_ip_scanner' # Covers also advanced_ip_scanner_console.exe
+    #         - Description|contains: 'Advanced IP Scanner'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - '/portable'
+    #             - '/lng'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

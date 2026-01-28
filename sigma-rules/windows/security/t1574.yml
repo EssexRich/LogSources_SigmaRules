@@ -1,0 +1,39 @@
+title: Suspicious Microsoft Antimalware Service Execution
+id: 251a0d2b-251a-451a-a51a-251a0d2b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_execution_windefend_unusual_path.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    # (
+    #   (process.pe.original_file_name == "MsMpEng.exe" and not process.name : "MsMpEng.exe") or
+    #   (
+    #     process.name : "MsMpEng.exe" and
+    #     not process.executable : (
+    #             "?:\\ProgramData\\Microsoft\\Windows Defender\\*.exe",
+    #             "?:\\Program Files\\Windows Defender\\*.exe",
+    #             "?:\\Program Files (x86)\\Windows Defender\\*.exe",
+    #             "?:\\Program Files\\Microsoft Security Client\\*.exe",
+    #             "?:\\Program Files (x86)\\Microsoft Security Client\\*.exe",
+    # 
+    #             /* Crowdstrike specific exclusion as it uses NT Object paths */
+    #             "\\Device\\HarddiskVolume*\\ProgramData\\Microsoft\\Windows Defender\\*.exe",
+    #             "\\Device\\HarddiskVolume*\\Program Files\\Windows Defender\\*.exe",
+    #             "\\Device\\HarddiskVolume*\\Program Files (x86)\\Windows Defender\\*.exe",
+    #             "\\Device\\HarddiskVolume*\\Program Files\\Microsoft Security Client\\*.exe",
+    #             "\\Device\\HarddiskVolume*\\Program Files (x86)\\Microsoft Security Client\\*.exe"
+    #     )
+    #   )
+    # )
+  condition: selection
+level: medium

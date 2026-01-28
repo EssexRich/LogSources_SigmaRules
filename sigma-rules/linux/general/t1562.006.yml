@@ -1,0 +1,28 @@
+title: Kill Command Execution
+id: 47b29268-47b2-47b2-a7b2-47b292680000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_kill_command_executed.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.006
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:linux and event.type:start and event.action:exec and
+    # process.name:(kill or pkill or killall) and not (
+    #   process.args:("-HUP" or "-SIGUSR1" or "-USR2" or "-WINCH" or "-USR1") or
+    #   process.parent.command_line:"runc init" or
+    #   process.parent.executable:(
+    #     "/usr/lib/systemd/systemd" or "/usr/local/qualys/cloud-agent/bin/qualys-cloud-agent" or "/bin/xargs" or
+    #     "/usr/bin/xargs" or "/usr/bin/sudo" or "/usr/sbin/safe_asterisk" or "/usr/local/manageengine/uems_agent/bin/dcservice" or
+    #     "/lib/systemd/systemd" or "/opt/nessus_agent/sbin/nessuscli" or "/etc/rubrik/start_stop_bootstrap.sh" or
+    #     "/usr/local/manageengine/uems_agent/bin/dcpatchscan")
+    # )
+  condition: selection
+level: medium

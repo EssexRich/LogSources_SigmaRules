@@ -1,0 +1,33 @@
+title: Linux Base64 Encoded Pipe to Shell
+id: 4f4ed171-4f4e-4f4e-af4e-4f4ed1710000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1140
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_base64_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1140
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_base64:
+    #         CommandLine|contains: 'base64 '
+    #     selection_exec:
+    #         - CommandLine|contains:
+    #               - '| bash '
+    #               - '| sh '
+    #               - '|bash '
+    #               - '|sh '
+    #         - CommandLine|endswith:
+    #               - ' |sh'
+    #               - '| bash'
+    #               - '| sh'
+    #               - '|bash'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

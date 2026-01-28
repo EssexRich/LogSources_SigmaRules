@@ -1,0 +1,50 @@
+title: Hacktool Execution - Imphash
+id: 5c770a91-5c77-4c77-ac77-5c770a910000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1588.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_execution_via_imphashes.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1588.002
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Hashes|contains: # Sysmon field hashes contains all types
+    #             - IMPHASH=BCCA3C247B619DCD13C8CDFF5F123932 # PetitPotam
+    #             - IMPHASH=3A19059BD7688CB88E70005F18EFC439 # PetitPotam
+    #             - IMPHASH=bf6223a49e45d99094406777eb6004ba # PetitPotam
+    #             - IMPHASH=23867A89C2B8FC733BE6CF5EF902F2D1 # JuicyPotato
+    #             - IMPHASH=A37FF327F8D48E8A4D2F757E1B6E70BC # JuicyPotato
+    #             - IMPHASH=F9A28C458284584A93B14216308D31BD # JuicyPotatoNG
+    #             - IMPHASH=6118619783FC175BC7EBECFF0769B46E # RoguePotato
+    #             - IMPHASH=959A83047E80AB68B368FDB3F4C6E4EA # RoguePotato
+    #             - IMPHASH=563233BFA169ACC7892451F71AD5850A # RoguePotato
+    #             - IMPHASH=87575CB7A0E0700EB37F2E3668671A08 # RoguePotato
+    #             - IMPHASH=13F08707F759AF6003837A150A371BA1 # Pwdump
+    #             - IMPHASH=1781F06048A7E58B323F0B9259BE798B # Pwdump
+    #             - IMPHASH=233F85F2D4BC9D6521A6CAAE11A1E7F5 # Pwdump
+    #             - IMPHASH=24AF2584CBF4D60BBE5C6D1B31B3BE6D # Pwdump
+    #             - IMPHASH=632969DDF6DBF4E0F53424B75E4B91F2 # Pwdump
+    #             - IMPHASH=713C29B396B907ED71A72482759ED757 # Pwdump
+    #             - IMPHASH=749A7BB1F0B4C4455949C0B2BF7F9E9F # Pwdump
+    #             - IMPHASH=8628B2608957A6B0C6330AC3DE28CE2E # Pwdump
+    #             - IMPHASH=8B114550386E31895DFAB371E741123D # Pwdump
+    #             - IMPHASH=94CB940A1A6B65BED4D5A8F849CE9793 # PwDumpX
+    #             - IMPHASH=9D68781980370E00E0BD939EE5E6C141 # Pwdump
+    #             - IMPHASH=B18A1401FF8F444056D29450FBC0A6CE # Pwdump
+    #             - IMPHASH=CB567F9498452721D77A451374955F5F # Pwdump
+    #             - IMPHASH=730073214094CD328547BF1F72289752 # Htran
+    #             - IMPHASH=17B461A082950FC6332228572138B80C # Cobalt Strike beacons
+    #             - IMPHASH=DC25EE78E2EF4D36FAA0BADF1E7461C9 # Cobalt Strike beacons
+    #             - IMPHASH=819B19D53CA6736448F9325A85736792 # Cobalt Strike beacons
+    #             - IMPHASH=829DA329CE140D873B4A8BDE2CBFAA7E # Cobalt Strike beacons
+    #             - IMPH
+    # ... [truncated]
+  condition: selection
+level: medium

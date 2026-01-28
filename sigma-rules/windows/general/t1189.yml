@@ -1,0 +1,70 @@
+title: Potential Masquerading as Business App Installer
+id: 320eb988-320e-420e-a20e-320eb9880000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1189
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_masquerading_business_apps_installer.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1189
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and 
+    #   event.type == "start" and process.executable : "?:\\Users\\*\\Downloads\\*" and
+    #   not process.code_signature.status like ("errorCode_endpoint*", "errorUntrustedRoot", "errorChaining") and process.hash.sha256 != null and 
+    #   (
+    #     /* Slack */
+    #     (process.name : "*slack*.exe" and not
+    #       (process.code_signature.subject_name in (
+    #         "Slack Technologies, Inc.",
+    #         "Slack Technologies, LLC"
+    #        ) and process.code_signature.trusted == true)
+    #     ) or
+    # 
+    #     /* WebEx */
+    #     (process.name : "*webex*.exe" and not
+    #       (process.code_signature.subject_name in ("Cisco WebEx LLC", "Cisco Systems, Inc.") and process.code_signature.trusted == true)
+    #     ) or
+    # 
+    #     /* Teams */
+    #     (process.name : "teams*.exe" and not
+    #       (process.code_signature.subject_name == "Microsoft Corporation" and process.code_signature.trusted == true)
+    #     ) or
+    # 
+    #     /* Discord */
+    #     (process.name : "*discord*.exe" and not
+    #       (process.code_signature.subject_name == "Discord Inc." and process.code_signature.trusted == true)
+    #     ) or
+    # 
+    #     /* WhatsApp */
+    #     (process.name : "*whatsapp*.exe" and not
+    #       (process.code_signature.subject_name in (
+    #         "WhatsApp LLC",
+    #         "WhatsApp, Inc",
+    #         "24803D75-212C-471A-BC57-9EF86AB91435",
+    #         /* WhatsApp Installer - MS Store */
+    #         "Microsoft Corporation"
+    #        ) and process.code_signature.trusted == true)
+    #     ) or
+    # 
+    #     /* Zoom */
+    #     (process.name : ("*zoom*installer*.exe", "*zoom*setup*.exe", "zoom.exe")  and not
+    #       (process.code_signature.subject_name in (
+    #         "Zoom Video Communications, Inc.", "Zoom Communications, Inc."
+    #        ) and process.code_signature.trusted == true)
+    #     ) or
+    # 
+    #     /* Outlook */
+    #     (process.name : "*outlook*.exe" and not
+    #       (
+    #         (process.code_signature.subject_name == "Microsoft Corporation" and process.code_signature.trusted == true) or
+    #         (
+    #           process.name: "MSOutlookHelp-PST-Viewer.exe" and process.code_signature.subject_name == "A
+    # ... [truncated]
+  condition: selection
+level: medium

@@ -1,0 +1,23 @@
+title: AWS EC2 Deprecated AMI Discovery
+id: 4c674a96-4c67-4c67-ac67-4c674a960000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1580
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_ec2_deprecated_ami_discovery.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1580
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "ec2.amazonaws.com"
+    #     and event.action: "DescribeImages"
+    #     and event.outcome: "success"
+    #     and aws.cloudtrail.flattened.request_parameters.includeDeprecated: "true"
+  condition: selection
+level: medium

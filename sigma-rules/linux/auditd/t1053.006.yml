@@ -1,0 +1,24 @@
+title: Linux Auditd Service Restarted
+id: 16fe50f4-16fe-46fe-a6fe-16fe50f40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053.006
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_service_restarted.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053.006
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # `linux_auditd`  proctitle IN ("*systemctl *", "*service *") AND proctitle IN ("*restart*", "*reenable*", "*reload*")
+    #   | rename host as dest  
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by  proctitle  dest 
+    #   | `security_content_ctime(firstTime)`
+    #   |`security_content_ctime(lastTime)`
+    #   | `linux_auditd_service_restarted_filter`
+  condition: selection
+level: medium

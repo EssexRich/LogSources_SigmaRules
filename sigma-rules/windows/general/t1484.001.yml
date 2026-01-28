@@ -1,0 +1,30 @@
+title: Modify Group Policy Settings - ScriptBlockLogging
+id: 70281d2b-7028-4028-a028-70281d2b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1484.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_modify_group_policy_settings.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1484.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_path:
+    #         ScriptBlockText|contains: \SOFTWARE\Policies\Microsoft\Windows\System
+    #     selection_key:
+    #         ScriptBlockText|contains:
+    #             - GroupPolicyRefreshTimeDC
+    #             - GroupPolicyRefreshTimeOffsetDC
+    #             - GroupPolicyRefreshTime
+    #             - GroupPolicyRefreshTimeOffset
+    #             - EnableSmartScreen
+    #             - ShellSmartScreenLevel
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,30 @@
+title: Suspicious Child Process of Adobe Acrobat Reader Update Service
+id: 5278845b-5278-4278-a278-5278845b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1068
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/privilege_escalation_exploit_adobe_acrobat_updater.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1068
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #   process.parent.name like "com.adobe.ARMDC.SMJobBlessHelper" and
+    #   user.name == "root" and
+    #   not process.executable like ("/Library/PrivilegedHelperTools/com.adobe.ARMDC.SMJobBlessHelper",
+    #                                "/usr/bin/codesign",
+    #                                "/private/var/folders/zz/*/T/download/ARMDCHammer",
+    #                                "/usr/sbin/pkgutil",
+    #                                "/usr/bin/shasum",
+    #                                "/usr/bin/perl*",
+    #                                "/usr/sbin/spctl",
+    #                                "/usr/sbin/installer",
+    #                                "/usr/bin/csrutil")
+  condition: selection
+level: medium

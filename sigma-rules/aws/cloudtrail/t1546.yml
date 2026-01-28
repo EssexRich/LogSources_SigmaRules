@@ -1,0 +1,24 @@
+title: AWS Lambda Function Policy Updated to Allow Public Invocation
+id: 1f847bdd-1f84-4f84-af84-1f847bdd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_lambda_backdoor_invoke_function_for_any_principal.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # info where event.dataset == "aws.cloudtrail" 
+    #     and event.provider == "lambda.amazonaws.com" 
+    #     and event.outcome == "success" 
+    #     and event.action : "AddPermission*" 
+    #     and stringContains(aws.cloudtrail.request_parameters, "lambda:InvokeFunction") 
+    #     and stringContains(aws.cloudtrail.request_parameters, "principal=\\*")
+  condition: selection
+level: medium

@@ -1,0 +1,19 @@
+title: Potential macOS SSH Brute Force Detected
+id: 055214ba-0552-4552-a552-055214ba0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_potential_macos_ssh_bruteforce.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:macos and event.type:start and process.name:"sshd-keygen-wrapper" and process.parent.name:launchd
+  condition: selection
+level: medium

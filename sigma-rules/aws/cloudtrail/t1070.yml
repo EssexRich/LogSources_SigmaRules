@@ -1,0 +1,26 @@
+title: AWS S3 Bucket Configuration Deletion
+id: 423a3b28-423a-423a-a23a-423a3b280000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_s3_bucket_configuration_deletion.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail and 
+    #     event.provider:s3.amazonaws.com and
+    #     event.action:(DeleteBucketPolicy or 
+    #                     DeleteBucketReplication or 
+    #                     DeleteBucketCors or 
+    #                     DeleteBucketEncryption or 
+    #                     DeleteBucketLifecycle) and 
+    #     event.outcome:success
+  condition: selection
+level: medium

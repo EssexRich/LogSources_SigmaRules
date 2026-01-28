@@ -1,0 +1,27 @@
+title: MSSQL Destructive Query
+id: 35b3c279-35b3-45b3-a5b3-35b3c2790000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1485
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/application/mssqlserver/win_mssql_destructive_query.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Provider_Name: 'MSSQLSERVER$AUDIT'
+    #         EventID: 33205
+    #         Data|contains:
+    #             - 'statement:TRUNCATE TABLE'
+    #             - 'statement:DROP TABLE'
+    #             - 'statement:DROP DATABASE'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

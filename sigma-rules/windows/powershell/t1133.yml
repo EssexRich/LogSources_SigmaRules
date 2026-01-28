@@ -1,0 +1,22 @@
+title: Exchange PowerShell Abuse via SSRF
+id: 458fc52f-458f-458f-a58f-458fc52f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1133
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/exchange_powershell_abuse_via_ssrf.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1133
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # `windows_exchange_iis` c_uri="*//autodiscover*" cs_uri_query="*PowerShell*" cs_method="POST"
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest, cs_uri_query,
+    #   cs_method, c_uri | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `exchange_powershell_abuse_via_ssrf_filter`
+  condition: selection
+level: medium

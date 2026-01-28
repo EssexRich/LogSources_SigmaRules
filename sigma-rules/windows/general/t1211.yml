@@ -1,0 +1,50 @@
+title: Writing Of Malicious Files To The Fonts Folder
+id: 6785e416-6785-4785-a785-6785e4160000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1211
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_hiding_malware_in_fonts_folder.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1211
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1:
+    #         CommandLine|contains:
+    #             - 'echo'
+    #             - 'copy'
+    #             - 'type'
+    #             - 'file createnew'
+    #             - 'cacls'
+    #     selection_2:
+    #         CommandLine|contains: 'C:\Windows\Fonts\'
+    #     selection_3:
+    #         CommandLine|contains:
+    #             - '.sh'
+    #             - '.exe'
+    #             - '.dll'
+    #             - '.bin'
+    #             - '.bat'
+    #             - '.cmd'
+    #             - '.js'
+    #             - '.msh'
+    #             - '.reg'
+    #             - '.scr'
+    #             - '.ps'
+    #             - '.vb'
+    #             - '.jar'
+    #             - '.pl'
+    #             - '.inf'
+    #             - '.cpl'
+    #             - '.hta'
+    #             - '.msi'
+    #             - '.vbs'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

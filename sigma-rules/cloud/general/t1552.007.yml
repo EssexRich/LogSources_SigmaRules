@@ -1,0 +1,23 @@
+title: Kubernetes Abuse of Secret by Unusual Location
+id: 55ccd0fb-55cc-45cc-a5cc-55ccd0fb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.007
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/kubernetes_abuse_of_secret_by_unusual_location.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.007
+logsource:
+  product: cloud
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `kube_audit` objectRef.resource=secrets verb=get | iplocation sourceIPs{}
+    #   | fillnull | search NOT `kube_allowed_locations` | stats count by objectRef.name
+    #   objectRef.namespace objectRef.resource requestReceivedTimestamp requestURI responseStatus.code
+    #   sourceIPs{} stage user.groups{} user.uid user.username userAgent verb City Country
+    #   | rename sourceIPs{} as src_ip, user.username as user | `kubernetes_abuse_of_secret_by_unusual_location_filter`
+  condition: selection
+level: medium

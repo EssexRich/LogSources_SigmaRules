@@ -1,0 +1,20 @@
+title: Emond Rules Creation or Modification
+id: 631530a9-6315-4315-a315-631530a90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_emond_rules_file_creation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "macos" and event.action == "modification" and
+    #  file.path like ("/private/etc/emond.d/rules/*.plist", "/etc/emon.d/rules/*.plist", "/private/var/db/emondClients/*")
+  condition: selection
+level: medium

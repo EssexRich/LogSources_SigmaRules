@@ -1,0 +1,41 @@
+title: Untrusted DLL Loaded by Azure AD Sync Service
+id: 68986d05-6898-4898-a898-68986d050000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_imageload_azureadconnectauthsvc.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # any where host.os.type == "windows" and process.name : "AzureADConnectAuthenticationAgentService.exe" and
+    # (
+    #  (event.category == "library" and event.action == "load") or
+    #  (event.category == "process" and event.action : "Image loaded*")
+    # ) and
+    # 
+    # not (?dll.code_signature.trusted == true or file.code_signature.status == "Valid") and not
+    # 
+    #   (
+    #    /* Elastic defend DLL path */
+    #    ?dll.path :
+    #          ("?:\\Windows\\assembly\\NativeImages*",
+    #           "?:\\Windows\\Microsoft.NET\\*",
+    #           "?:\\Windows\\WinSxS\\*",
+    #           "?:\\Windows\\System32\\DriverStore\\FileRepository\\*") or
+    # 
+    #    /* Sysmon DLL path is mapped to file.path */
+    #    file.path :
+    #          ("?:\\Windows\\assembly\\NativeImages*",
+    #           "?:\\Windows\\Microsoft.NET\\*",
+    #           "?:\\Windows\\WinSxS\\*",
+    #           "?:\\Windows\\System32\\DriverStore\\FileRepository\\*")
+    #   )
+  condition: selection
+level: medium

@@ -1,0 +1,24 @@
+title: GitHub Enterprise Remove Organization
+id: 591ed404-591e-491e-a91e-591ed4040000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1485
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/github_enterprise_remove_organization.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: cloud
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `github_enterprise` action=business.remove_organization
+    #   | fillnull
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_is_bot, actor_location.country_code, business, business_id, org, org_id, user_agent, action
+    #   | eval user=actor
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+    #   | `github_enterprise_remove_organization_filter`
+  condition: selection
+level: medium

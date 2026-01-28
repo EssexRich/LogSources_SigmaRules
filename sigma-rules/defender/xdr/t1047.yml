@@ -1,0 +1,25 @@
+title: Potential Windows Defender Tampering Via Wmic.EXE
+id: 24968f44-2496-4496-a496-24968f440000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1047
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_wmic_namespace_defender.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1047
+logsource:
+  product: defender
+  service: xdr
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - OriginalFileName: 'wmic.exe'
+    #         - Image|endswith: '\WMIC.exe'
+    #     selection_cli:
+    #         CommandLine|contains: '/Namespace:\\\\root\\Microsoft\\Windows\\Defender'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,28 @@
+title: Windows Unsigned MS DLL Side-Loading
+id: 7c2ec274-7c2e-4c2e-ac2e-7c2ec2740000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_unsigned_ms_dll_side_loading.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1547
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=7 Company="Microsoft Corporation" Signed=false SignatureStatus
+    #   != Valid NOT (Image IN("C:\\Windows\\System32\\*", "C:\\Windows\\SysWow64\\*", "C:\\Program
+    #   Files*")) NOT (ImageLoaded IN("C:\\Windows\\System32\\*", "C:\\Windows\\SysWow64\\*",
+    #   "C:\\Program Files*")) | rex field=Image "(?<ImageFolderPath>.+\\\)" | rex field=ImageLoaded
+    #   "(?<ImageLoadedFolderPath>.+\\\)" | where ImageFolderPath = ImageLoadedFolderPath
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded
+    #   dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash
+    #   process_id process_name process_path service_dll_signature_exists service_dll_signature_verified
+    #   signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `windows_unsigned_ms_dll_side_loading_filter`
+  condition: selection
+level: medium

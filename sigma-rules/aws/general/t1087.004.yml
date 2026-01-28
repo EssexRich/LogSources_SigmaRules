@@ -1,0 +1,24 @@
+title: AWS STS GetCallerIdentity Enumeration Via TruffleHog
+id: 2e776dc0-2e77-4e77-ae77-2e776dc00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_sts_getcalleridentity_trufflehog.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1087.004
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: 'sts.amazonaws.com'
+    #         eventName: 'GetCallerIdentity'
+    #         userAgent|contains: 'TruffleHog'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

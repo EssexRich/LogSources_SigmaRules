@@ -1,0 +1,26 @@
+title: Powershell Keylogging
+id: 203f69f9-203f-403f-a03f-203f69f90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1056.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_keylogging.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1056.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_basic:
+    #         ScriptBlockText|contains: 'Get-Keystrokes'
+    #     selection_high: # want to run in background and keyboard
+    #         ScriptBlockText|contains|all:
+    #             - 'Get-ProcAddress user32.dll GetAsyncKeyState'
+    #             - 'Get-ProcAddress user32.dll GetForegroundWindow'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

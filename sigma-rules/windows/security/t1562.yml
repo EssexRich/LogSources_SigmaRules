@@ -1,0 +1,59 @@
+title: Windows Filtering Platform Blocked Connection From EDR Agent Binary
+id: 518db8ee-518d-418d-a18d-518db8ee0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/object_access/win_security_wfp_endpoint_agent_blocked.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 5157
+    #         Application|endswith:
+    #             - '\AmSvc.exe' # Cybereason
+    #             - '\cb.exe' # Carbon Black EDR
+    #             - '\CETASvc.exe' # TrendMicro Apex One
+    #             - '\CNTAoSMgr.exe' # TrendMicro Apex One
+    #             - '\CrAmTray.exe' # Cybereason
+    #             - '\CrsSvc.exe' # Cybereason
+    #             - '\CSFalconContainer.exe' # CrowdStrike Falcon
+    #             - '\CSFalconService.exe' # CrowdStrike Falcon
+    #             - '\CybereasonAV.exe' # Cybereason
+    #             - '\CylanceSvc.exe' # Cylance
+    #             - '\cyserver.exe' # Palo Alto Networks Traps/Cortex XDR
+    #             - '\CyveraService.exe' # Palo Alto Networks Traps/Cortex XDR
+    #             - '\CyvrFsFlt.exe' # Palo Alto Networks Traps/Cortex XDR
+    #             - '\EIConnector.exe' # ESET Inspect
+    #             - '\elastic-agent.exe' # Elastic EDR
+    #             - '\elastic-endpoint.exe' # Elastic EDR
+    #             - '\EndpointBasecamp.exe' # TrendMicro Apex One
+    #             - '\ExecutionPreventionSvc.exe' # Cybereason
+    #             - '\filebeat.exe' # Elastic EDR
+    #             - '\fortiedr.exe' # FortiEDR
+    #             - '\hmpalert.exe' # Sophos EDR
+    #             - '\hurukai.exe' # Harfanglab EDR
+    #             - '\LogProcessorService.exe' # SentinelOne
+    #             - '\mcsagent.exe' # Sophos EDR
+    #             - '\mcsclient.exe' # Sophos EDR
+    #             - '\MsMpEng.exe' # Microsoft Defender for Endpoint and Microsoft Defender Antivirus
+    #             - '\MsSense.exe' # Microsoft Defender for Endpoint and Microsoft Defender Antivirus
+    #             - '\Ntrtscan.exe' # TrendMicro Apex One
+    #             - '\PccNTMon.exe' # TrendMicro Apex One
+    #             - '\QualysAgent.exe' # Qualys EDR
+    #             - '\RepMgr.exe' # Carbon Black Cloud
+    #             - '\RepUtils.exe' # Carbon Black Cloud
+    #             - '\RepUx.exe' # Carbon Black Cloud
+    #             - '\RepWAV.exe' # Carbon Black Cloud
+    #             - '\RepWSC.exe' # Carbon Black Cloud
+    #             - '\sedservice.exe' # Sophos EDR
+    #             - '\SenseCncProxy.
+    # ... [truncated]
+  condition: selection
+level: medium

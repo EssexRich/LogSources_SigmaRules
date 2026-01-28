@@ -1,0 +1,29 @@
+title: Arbitrary File Download Via ConfigSecurityPolicy.EXE
+id: 6bde2800-6bde-4bde-abde-6bde28000000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_configsecuritypolicy_download_file.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1567
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - CommandLine|contains: ConfigSecurityPolicy.exe
+    #         - Image|endswith: '\ConfigSecurityPolicy.exe'
+    #         - OriginalFileName: 'ConfigSecurityPolicy.exe'
+    #     selection_url:
+    #         CommandLine|contains:
+    #             - 'ftp://'
+    #             - 'http://'
+    #             - 'https://'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

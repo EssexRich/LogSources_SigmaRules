@@ -1,0 +1,19 @@
+title: GCP Storage Bucket Deletion
+id: 112b972a-112b-412b-a12b-112b972a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1485
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/impact_gcp_storage_bucket_deleted.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:gcp.audit and event.action:"storage.buckets.delete"
+  condition: selection
+level: medium

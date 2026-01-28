@@ -1,0 +1,32 @@
+title: Potential Webshell Deployed via Apache Struts CVE-2023-50164 Exploitation
+id: 3eb3d802-3eb3-4eb3-aeb3-3eb3d8020000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/initial_access_apache_struts_cve_2023_50164_exploitation_to_webshell.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1505
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by agent.id with maxspan=10s
+    #   [network where data_stream.dataset == "network_traffic.http" and
+    #       http.request.method == "POST" and
+    #       http.request.body.content like "*WebKitFormBoundary*" and
+    #       url.path like~ "*upload*.action"]
+    #   [file where event.dataset == "endpoint.events.file" and
+    #       host.os.type == "linux" and
+    #       event.action == "creation" and
+    #       process.name == "java" and
+    #       file.extension == "jsp" and
+    #       file.path like "*/webapps/*" and
+    #       not file.path like "*/WEB-INF/*" and
+    #       not file.path like "*/META-INF/*" and
+    #       not process.parent.name in ("apk", "apt", "apt-get", "dpkg", "yum", "rpm", "dnf", "systemd", "init")]
+  condition: selection
+level: medium

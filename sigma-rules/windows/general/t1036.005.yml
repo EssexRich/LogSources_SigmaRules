@@ -1,0 +1,36 @@
+title: Files With System DLL Name In Unsuspected Locations
+id: 4c0e7737-4c0e-4c0e-ac0e-4c0e77370000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_creation_system_dll_files.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.005
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetFilename|endswith:
+    #             # Note: Add more System DLL that can be abused for DLL sideloading to increase coverage
+    #             - '\secur32.dll'
+    #             - '\tdh.dll'
+    #     filter_main_generic:
+    #         # Note: It is recommended to use a more robust filter instead of this generic one, to avoid false negatives.
+    #         TargetFilename|contains:
+    #             # - '\SystemRoot\System32\'
+    #             - 'C:\$WINDOWS.~BT\'
+    #             - 'C:\$WinREAgent\'
+    #             - 'C:\Windows\SoftwareDistribution\'
+    #             - 'C:\Windows\System32\'
+    #             - 'C:\Windows\SysWOW64\'
+    #             - 'C:\Windows\WinSxS\'
+    #             - 'C:\Windows\uus\'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,33 @@
+title: Windows Defacement Modify Transcodedwallpaper File
+id: 2295f6e6-2295-4295-a295-2295f6e60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1491
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_defacement_modify_transcodedwallpaper_file.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1491
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+    #   where Processes.process_path !="*\\Windows\\Explorer.EXE" 
+    #   by _time span=1h Processes.action Processes.dest Processes.original_file_name
+    #   Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+    #   Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    #   Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
+    #   Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
+    #   Processes.user Processes.user_id Processes.vendor_product
+    #   | `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | join proc_guid,
+    #   _time [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
+    #   where Filesystem.file_path = "*\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper"
+    #   by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
+    #   Filesystem.file_path Filesystem.process_guid | `drop_dm_object_name(Filesystem)`
+    #   |rename process_guid as proc_guid | fields file_name file_path process_name process_path
+    #   process dest file_create_time _time proc_guid] | `windows_defacement_modify_transcodedwallpaper_file_filter`
+  condition: selection
+level: medium

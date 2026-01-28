@@ -1,0 +1,25 @@
+title: Linux Auditd At Application Execution
+id: 67a68958-67a6-47a6-a7a6-67a689580000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_at_application_execution.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # `linux_auditd` type=SYSCALL comm IN ("at", "atd") OR exe IN ("/usr/bin/at","/usr/bin/atd") AND NOT (uid IN ("daemon")) 
+    #   | rename host as dest 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime 
+    #   by comm exe  syscall uid ppid pid dest 
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `linux_auditd_at_application_execution_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,21 @@
+title: SSH Authorized Key File Activity Detected via Defend for Containers
+id: 6f03b46f-6f03-4f03-af03-6f03b46f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/persistence_ssh_authorized_keys_modification_inside_a_container.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.004
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "linux" and event.type in ("change", "creation") and
+    # file.name in ("authorized_keys", "authorized_keys2") and
+    # process.interactive == true and container.id like "*"
+  condition: selection
+level: medium

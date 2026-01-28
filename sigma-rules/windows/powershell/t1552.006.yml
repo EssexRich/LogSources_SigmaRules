@@ -1,0 +1,42 @@
+title: Permission Misconfiguration Reconnaissance Via Findstr.EXE
+id: 72d1fc88-72d1-42d1-a2d1-72d1fc880000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_findstr_recon_everyone.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.006
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_findstr_img:
+    #         - Image|endswith:
+    #               - '\find.exe'
+    #               - '\findstr.exe'
+    #         - OriginalFileName:
+    #               - 'FIND.EXE'
+    #               - 'FINDSTR.EXE'
+    #     selection_findstr_cli:
+    #         CommandLine|contains:
+    #             - '"Everyone"'
+    #             - "'Everyone'"
+    #             - '"BUILTIN\\"'
+    #             - "'BUILTIN\\'"
+    #     selection_special:
+    #         CommandLine|contains|all:
+    #             # Example CLI would be: icacls "C:\Program Files\*" 2>nul | findstr "(M)" | findstr "Everyone"
+    #             # You could extend it for other groups and users
+    #             #   Example: icacls "C:\Program Files\*" 2>nul | findstr "(M)" | findstr "BUILTIN\Users"
+    #             # Note: This selection only detects the command when executed from a handler such as a "cmd /c" or "powershell -c"
+    #             - 'icacls '
+    #             - 'findstr '
+    #             - 'Everyone'
+    #     condition: all of selection_findstr_* or selection_special
+    # 
+  condition: selection
+level: medium

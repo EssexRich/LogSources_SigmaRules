@@ -1,0 +1,25 @@
+title: AWS IAM Backdoor Users Keys
+id: 54bcbd2e-54bc-44bc-a4bc-54bcbd2e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_iam_backdoor_users_keys.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_source:
+    #         eventSource: iam.amazonaws.com
+    #         eventName: CreateAccessKey
+    #     filter:
+    #         userIdentity.arn|contains: responseElements.accessKey.userName
+    #     condition: selection_source and not filter
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,19 @@
+title: First Time Seen Removable Device
+id: 4e34130d-4e34-4e34-ae34-4e34130d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1091
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/initial_access_exfiltration_first_time_seen_usb.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1091
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:"registry" and host.os.type:"windows" and registry.value:"FriendlyName" and registry.path:*USBSTOR*
+  condition: selection
+level: medium

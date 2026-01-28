@@ -1,0 +1,43 @@
+title: Potentially Suspicious Execution From Parent Process In Public Folder
+id: 43c8f3ca-43c8-43c8-a3c8-43c8f3ca0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_execution_from_public_folder_as_parent.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|contains: ':\Users\Public\'
+    #     selection_child:
+    #         - Image|endswith:
+    #               - '\bitsadmin.exe'
+    #               - '\certutil.exe'
+    #               - '\cmd.exe'
+    #               - '\cscript.exe'
+    #               - '\mshta.exe'
+    #               - '\powershell.exe'
+    #               - '\pwsh.exe'
+    #               - '\regsvr32.exe'
+    #               - '\rundll32.exe'
+    #               - '\wscript.exe'
+    #         - CommandLine|contains:
+    #               - 'bitsadmin'
+    #               - 'certutil'
+    #               - 'cscript'
+    #               - 'mshta'
+    #               - 'powershell'
+    #               - 'regsvr32'
+    #               - 'rundll32'
+    #               - 'wscript'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

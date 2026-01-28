@@ -1,0 +1,23 @@
+title: Service Account Token or Certificate Access Followed by Kubernetes API Request
+id: 30707703-3070-4070-a070-307077030000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_d4c_k8s_mda_service_account_token_access_followed_by_kubernetes_api_request.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence with maxspan=60s
+    #   [file where host.os.type == "linux" and event.type == "change" and event.action == "open" and
+    #    file.path in ("/var/run/secrets/kubernetes.io/serviceaccount/token", "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt") and
+    #    process.interactive == true and container.id like "*"] by orchestrator.resource.name
+    #   [any where event.dataset == "kubernetes.audit_logs" and kubernetes.audit.stage in ("ResponseComplete", "ResponseStarted")] by `kubernetes.audit.user.extra.authentication.kubernetes.io/pod-name`
+  condition: selection
+level: medium

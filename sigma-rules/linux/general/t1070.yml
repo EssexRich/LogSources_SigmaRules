@@ -1,0 +1,40 @@
+title: Linux Package Uninstall
+id: 40ebec35-40eb-40eb-a0eb-40ebec350000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_remove_package.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_yum:
+    #         Image|endswith: '/yum'
+    #         CommandLine|contains:
+    #             - 'erase'
+    #             - 'remove'
+    #     selection_apt:
+    #         Image|endswith:
+    #             - '/apt'
+    #             - '/apt-get'
+    #         CommandLine|contains:
+    #             - 'remove'
+    #             - 'purge'
+    #     selection_dpkg:
+    #         Image|endswith: '/dpkg'
+    #         CommandLine|contains:
+    #             - '--remove '
+    #             - ' -r '
+    #     selection_rpm:
+    #         Image|endswith: '/rpm'
+    #         CommandLine|contains: ' -e '
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

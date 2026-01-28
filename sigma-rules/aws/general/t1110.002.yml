@@ -1,0 +1,26 @@
+title: ASL AWS Credential Access RDS Password reset
+id: 3e716b1f-3e71-4e71-ae71-3e716b1f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/asl_aws_credential_access_rds_password_reset.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.002
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `amazon_security_lake` api.operation=ModifyDBInstance OR api.operation=ModifyDBCluster 
+    #   | spath input=api.request.data 
+    #   | search masterUserPassword=* 
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by actor.user.uid api.operation api.service.name http_request.user_agent src_endpoint.ip actor.user.account.uid cloud.provider cloud.region api.request.data
+    #   | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+    #   |`asl_aws_credential_access_rds_password_reset_filter`
+  condition: selection
+level: medium

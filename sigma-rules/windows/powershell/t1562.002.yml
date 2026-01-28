@@ -1,0 +1,42 @@
+title: Security Event Logging Disabled via MiniNt Registry Key - Process
+id: 43332c8f-4333-4333-a333-43332c8f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_event_logging_disable_via_key_minint.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.002
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_reg_img:
+    #         # Example: reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\MiniNt"
+    #         - Image|endswith: '\reg.exe'
+    #         - OriginalFileName: 'reg.exe'
+    #     selection_reg_cmd:
+    #         CommandLine|contains|all:
+    #             - ' add '
+    #             - '\SYSTEM\CurrentControlSet\Control\MiniNt'
+    #     selection_powershell_img:
+    #         - Image|endswith:
+    #               - '\powershell.exe'
+    #               - '\pwsh.exe'
+    #               - '\powershell_ise.exe'
+    #         - OriginalFileName:
+    #               - 'PowerShell.EXE'
+    #               - 'pwsh.dll'
+    #     selection_powershell_cmd1:
+    #         CommandLine|contains:
+    #             - 'New-Item '
+    #             - 'ni '
+    #     selection_powershell_cmd2:
+    #         CommandLine|contains: '\SYSTEM\CurrentControlSet\Control\MiniNt'
+    #     condition: all of selection_reg_* or all of selection_powershell_*
+    # 
+  condition: selection
+level: medium

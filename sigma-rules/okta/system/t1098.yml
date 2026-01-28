@@ -1,0 +1,19 @@
+title: Administrator Privileges Assigned to an Okta Group
+id: 176717e6-1767-4767-a767-176717e60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/persistence_administrator_privileges_assigned_to_okta_group.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:okta.system and event.action:group.privilege.grant
+  condition: selection
+level: medium

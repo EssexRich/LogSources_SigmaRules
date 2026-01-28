@@ -1,0 +1,23 @@
+title: AWS Management Console Brute Force of Root User Identity
+id: 68dcb2e6-68dc-48dc-a8dc-68dcb2e60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_root_console_failure_brute_force.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:aws.cloudtrail and 
+    # event.provider:signin.amazonaws.com and 
+    # event.action:ConsoleLogin and 
+    # aws.cloudtrail.user_identity.type:Root and 
+    # event.outcome:failure
+  condition: selection
+level: medium

@@ -1,0 +1,24 @@
+title: Potential MSTSC Shadowing Activity
+id: 164c2645-164c-464c-a64c-164c26450000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1563.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mstsc_rdp_hijack_shadowing.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1563.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         CommandLine|contains|all:
+    #             - 'noconsentprompt'
+    #             - 'shadow:'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

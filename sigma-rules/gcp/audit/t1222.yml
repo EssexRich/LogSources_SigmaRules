@@ -1,0 +1,19 @@
+title: GCP Storage Bucket Permissions Modification
+id: 1c58bd0d-1c58-4c58-ac58-1c58bd0d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1222
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/defense_evasion_gcp_storage_bucket_permissions_modified.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1222
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:gcp.audit and event.action:"storage.setIamPermissions" and event.outcome:success
+  condition: selection
+level: medium

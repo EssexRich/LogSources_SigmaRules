@@ -1,0 +1,32 @@
+title: Cisco Secure Firewall - Rare Snort Rule Triggered
+id: 3a41b58a-3a41-4a41-aa41-3a41b58a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1598
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___rare_snort_rule_triggered.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1598
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_secure_firewall` EventType=IntrusionEvent earliest=-7d
+    #   | stats dc(_time) as TriggerCount min(_time) as firstTime max(_time) as lastTime 
+    #           values(signature) as signature 
+    #           values(src) as src 
+    #           values(dest) as dest 
+    #           values(dest_port) as dest_port
+    #           values(transport) as transport
+    #           values(app) as app 
+    #           values(rule) as rule 
+    #           by signature_id class_desc MitreAttackGroups InlineResult InlineResultReason
+    #   | where TriggerCount = 1
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `cisco_secure_firewall___rare_snort_rule_triggered_filter`
+  condition: selection
+level: medium

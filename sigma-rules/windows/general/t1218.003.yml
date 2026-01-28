@@ -1,0 +1,32 @@
+title: DLL Loaded From Suspicious Location Via Cmspt.EXE
+id: 18365926-1836-4836-a836-183659260000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_cmstp_load_dll_from_susp_location.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\cmstp.exe'
+    #         ImageLoaded|contains:
+    #             # Add more suspicious paths as you see fit in your env
+    #             - '\PerfLogs\'
+    #             - '\ProgramData\'
+    #             - '\Users\'
+    #             - '\Windows\Temp\'
+    #             - 'C:\Temp\'
+    #         ImageLoaded|endswith:
+    #             - '.dll'
+    #             - '.ocx'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

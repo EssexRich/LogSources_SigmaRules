@@ -1,0 +1,19 @@
+title: GCP Logging Sink Modification
+id: 297561f5-2975-4975-a975-297561f50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1537
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/exfiltration_gcp_logging_sink_modification.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1537
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:gcp.audit and event.action:google.logging.v*.ConfigServiceV*.UpdateSink and event.outcome:success
+  condition: selection
+level: medium

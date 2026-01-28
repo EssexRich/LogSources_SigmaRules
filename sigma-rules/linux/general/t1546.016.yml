@@ -1,0 +1,44 @@
+title: Suspicious APT Package Manager Execution
+id: 090ceec7-090c-490c-a90c-090ceec70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.016
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_apt_package_manager_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1546.016
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id with maxspan=5s
+    #   [process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "start", "ProcessRollup2") and
+    #    process.parent.name == "apt" and process.args == "-c" and process.name in (
+    #      "bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish"
+    #    ) and not process.executable == "/usr/lib/venv-salt-minion/bin/python.original"
+    #   ] by process.entity_id
+    #   [process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "start", "ProcessRollup2") and process.name like (
+    #      "bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "python*", "php*",
+    #      "perl", "ruby", "lua*", "openssl", "nc", "netcat", "ncat", "telnet", "awk"
+    #    ) and not (
+    #      ?process.parent.executable like (
+    #        "/run/k3s/containerd*", "/tmp/newroot/*", "/usr/share/debconf/frontend", "/var/tmp/buildah*", "./merged/*",
+    #        "./*/vz/root/*", "/usr/bin/adequate" 
+    #       ) or
+    #      process.executable like ("/usr/lib/venv-salt-minion/bin/python.original", "./merged/var/lib/containers/*") or
+    #      process.command_line in (
+    #        "python3 /usr/sbin/omv-mkaptidx", "python3 /usr/local/bin/abr-upgrade --upgrade",
+    #        "sh -c apt-get indextargets -o Dir::State::lists=/var/lib/apt/lists/ --format='$(FILENAME)' 'Created-By: Packages'",
+    #        "/usr/bin/perl /usr/sbin/dpkg-preconfigure --apt", "/bin/sh -e /usr/lib/update-notifier/update-motd-updates-available",
+    #        "/usr/bin/python3 /usr/lib/cnf-update-db", "/usr/bin/python3 /usr/bin/apt-listchanges --apt",
+    #        "/usr/bin/perl -w /usr/sbin/dpkg-preconfigure --apt", "/bin/sh /usr/lib/needrestart/apt-pinvoke",
+    #        "/bin/sh /usr/bin/kali-check-apt-sources", "/bin/sh /usr/lib/needrestart/apt-pinvoke -m u",
+    #        "/usr/bin/perl /usr/sbin/needrestart",  "/usr/bin/perl -w /usr/bin/apt-show-versions -i",
+    #        "/usr/bin/perl -w /usr/bin/apt-show-versions -i", "/usr/bin/perl -w /bin/apt-show-versions -i",
+    #        "/usr/bin/perl /bin/adequate --help",  "/usr/bin/perl 
+    # ... [truncated]
+  condition: selection
+level: medium

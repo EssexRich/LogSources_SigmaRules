@@ -1,0 +1,26 @@
+title: Credentials In Files - Linux
+id: 0c61e494-0c61-4c61-ac61-0c61e4940000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_find_cred_in_files.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.001
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'EXECVE'
+    #     keywords:
+    #         '|all':
+    #             - 'grep'
+    #             - 'password'
+    #     condition: selection and keywords
+    # 
+  condition: selection
+level: medium

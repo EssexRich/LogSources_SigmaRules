@@ -1,0 +1,27 @@
+title: PowerShell WMI Win32_Product Install MSI
+id: 41c7a779-41c7-41c7-a1c7-41c7a7790000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.007
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_win32_product_install_msi.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.007
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - 'Invoke-CimMethod '
+    #             - '-ClassName '
+    #             - 'Win32_Product '
+    #             - '-MethodName '
+    #             - '.msi'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

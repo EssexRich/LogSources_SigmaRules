@@ -1,0 +1,19 @@
+title: Potential Privilege Escalation via PKEXEC
+id: 695d37bb-695d-495d-a95d-695d37bb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_pkexec_envar_hijack.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.007
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "linux" and file.path : "/*GCONV_PATH*"
+  condition: selection
+level: medium

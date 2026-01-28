@@ -1,0 +1,35 @@
+title: Windows SQL Server Configuration Option Hunt
+id: 32179e06-3217-4217-a217-32179e060000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_sql_server_configuration_option_hunt.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1505
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `wineventlog_application` EventCode=15457 
+    #     | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
+    #     | rename host as dest
+    #     | eval change_type=case(
+    #         old_value="0" AND new_value="1", "enabled",
+    #         old_value="1" AND new_value="0", "disabled",
+    #         true(), "modified"
+    #     )
+    #     | eval risk_score=case(
+    #         change_type="enabled", 90,
+    #         change_type="disabled", 60,
+    #         true(), 70
+    #     )
+    #     | eval risk_message="SQL Server ".config_name." was ".change_type." on host ".dest
+    #     | stats count min(_time) as firstTime max(_time) as lastTime by dest EventCode config_name change_type risk_message risk_score
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)` | `windows_sql_server_configuration_option_hunt_filter`
+  condition: selection
+level: medium

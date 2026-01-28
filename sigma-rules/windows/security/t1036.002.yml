@@ -1,0 +1,40 @@
+title: Detect RTLO In File Name
+id: 5e9057af-5e90-4e90-ae90-5e9057af0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_rtlo_in_file_name.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly`
+    #     count min(_time) as firstTime 
+    #           max(_time) as lastTime
+    #           values(Filesystem.file_create_time) as file_create_time
+    # 
+    #   from datamodel=Endpoint.Filesystem where Filesystem.file_name!=unknown
+    #   
+    #   by Filesystem.action Filesystem.dest Filesystem.file_access_time
+    #      Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+    #      Filesystem.file_name Filesystem.file_path Filesystem.file_acl
+    #      Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+    #      Filesystem.user Filesystem.vendor_product
+    # 
+    #   | `drop_dm_object_name(Filesystem)`
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | regex file_name = "\\x{202E}"
+    #   | rex field=file_name "(?<RTLO_file_1>.+)(?<RTLO_exist_file>\\x{202E})(?<RTLO_file_2>.+)"
+    #   | eval file_name_with_RTLO=file_name
+    #   | eval file_name=RTLO_file_1.RTLO_file_2
+    #   | fields - RTLO*
+    #   | `detect_rtlo_in_file_name_filter`
+  condition: selection
+level: medium

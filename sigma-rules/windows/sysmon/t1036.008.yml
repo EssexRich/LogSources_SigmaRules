@@ -1,0 +1,26 @@
+title: Windows Executable Masquerading as Benign File Types
+id: 641fb603-641f-441f-a41f-641fb6030000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.008
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_executable_masquerading_as_benign_file_types.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.008
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon`
+    #   EventCode=29
+    #   NOT `executable_extensions`
+    #   | stats count min(_time) as firstTime max(_time) as lastTime
+    #     by Image file_name file_path process_guid file_hash process_id dest user EventCode
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)`
+    #   | `windows_executable_masquerading_as_benign_file_types_filter`
+  condition: selection
+level: medium

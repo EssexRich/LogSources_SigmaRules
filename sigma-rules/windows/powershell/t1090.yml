@@ -1,0 +1,25 @@
+title: Suspicious TCP Tunnel Via PowerShell Script
+id: 2f7b3397-2f7b-4f7b-af7b-2f7b33970000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1090
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_proxy_scripts.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1090
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - '[System.Net.HttpWebRequest]'
+    #             - 'System.Net.Sockets.TcpListener'
+    #             - 'AcceptTcpClient'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

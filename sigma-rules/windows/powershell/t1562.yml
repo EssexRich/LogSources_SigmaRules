@@ -1,0 +1,44 @@
+title: Potential Antimalware Scan Interface Bypass via PowerShell
+id: 7ef9bc59-7ef9-4ef9-aef9-7ef9bc590000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_amsi_bypass_powershell.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:"process" and host.os.type:windows and
+    #   (
+    #     powershell.file.script_block_text : (
+    #       "System.Management.Automation.AmsiUtils" or
+    # 			amsiInitFailed or 
+    # 			"Invoke-AmsiBypass" or 
+    # 			"Bypass.AMSI" or 
+    # 			"amsi.dll" or 
+    # 			AntimalwareProvider  or 
+    # 			amsiSession or 
+    # 			amsiContext or
+    # 			AmsiInitialize or 
+    # 			unloadobfuscated or 
+    # 			unloadsilent or 
+    # 			AmsiX64 or 
+    # 			AmsiX32 or 
+    # 			FindAmsiFun or
+    # 		    "AllocHGlobal((9076" or
+    # 		    "[cHAr](65)+[cHaR]([byTe]0x6d)+[ChaR]([ByTe]0x73)+[CHaR]([BYte]0x69"
+    #     ) or
+    #     powershell.file.script_block_text:("[Ref].Assembly.GetType(('System.Management.Automation" and ".SetValue(") or
+    #     powershell.file.script_block_text:("::AllocHGlobal((" and ".SetValue(" and "-replace" and ".NoRMALiZe(")
+    #   ) and
+    #   not powershell.file.script_block_text : (
+    #     "sentinelbreakpoints" and "Set-PSBreakpoint"
+    #   )
+  condition: selection
+level: medium

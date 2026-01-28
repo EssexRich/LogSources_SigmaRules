@@ -1,0 +1,25 @@
+title: Suspicious SSL Connection
+id: 47f755e4-47f7-47f7-a7f7-47f755e40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1573
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_ssl_keyword.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1573
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - System.Net.Security.SslStream
+    #             - Net.Security.RemoteCertificateValidationCallback
+    #             - '.AuthenticateAsClient'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

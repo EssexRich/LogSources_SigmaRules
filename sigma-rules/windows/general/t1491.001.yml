@@ -1,0 +1,47 @@
+title: Potentially Suspicious Desktop Background Change Via Registry
+id: 11843908-1184-4184-a184-118439080000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1491.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_desktop_background_change.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1491.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_keys:
+    #         TargetObject|contains:
+    #             - 'Control Panel\Desktop'
+    #             - 'CurrentVersion\Policies\ActiveDesktop'
+    #             - 'CurrentVersion\Policies\System'
+    #     selection_values_1:
+    #         TargetObject|endswith: 'NoChangingWallpaper'
+    #         Details: 'DWORD (0x00000001)' # Prevent changing desktop background
+    #     selection_values_2:
+    #         TargetObject|endswith: '\Wallpaper'
+    #     selection_values_3:
+    #         TargetObject|endswith: '\WallpaperStyle'
+    #         Details: '2' # Stretch
+    #     filter_main_svchost:
+    #         # Note: Excluding GPO changes
+    #         Image|endswith: '\svchost.exe'
+    #     filter_main_empty:
+    #         TargetObject|endswith: '\Control Panel\Desktop\Wallpaper'
+    #         Details: '(Empty)'
+    #     filter_main_explorer:
+    #         # Normally Explorer.exe is the process that changes the desktop background
+    #         Image|endswith: 'C:\Windows\Explorer.EXE'
+    #     filter_optional_ec2launch:
+    #         Image:
+    #             - 'C:\Program Files\Amazon\EC2Launch\EC2Launch.exe'
+    #             - 'C:\Program Files (x86)\Amazon\EC2Launch\EC2Launch.exe'
+    #         TargetObject|endswith: '\Control Panel\Desktop\Wallpaper'
+    #     condition: selection_keys and 1 of selection_values_* and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

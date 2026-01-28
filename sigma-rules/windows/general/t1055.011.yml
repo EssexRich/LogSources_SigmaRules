@@ -1,0 +1,31 @@
+title: Uncommon Process Access Rights For Target Image
+id: 60ded6bd-60de-40de-a0de-60ded6bd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1055.011
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_access/proc_access_win_susp_all_access_uncommon_target.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1055.011
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetImage|endswith:
+    #             # Note: Add additional uncommon targets to increase coverage.
+    #             - '\calc.exe'
+    #             - '\calculator.exe'
+    #             - '\mspaint.exe'
+    #             - '\notepad.exe'
+    #             - '\ping.exe'
+    #             - '\wordpad.exe'
+    #             - '\write.exe'
+    #         GrantedAccess: '0x1FFFFF' # PROCESS_ALL_ACCESS - All possible access rights for a process object.
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: Remove Account From Domain Admin Group
+id: 442e464a-442e-442e-a42e-442e464a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1531
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_remove_adgroupmember.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1531
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - 'Remove-ADGroupMember'
+    #             - '-Identity '
+    #             - '-Members '
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

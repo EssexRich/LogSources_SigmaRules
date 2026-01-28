@@ -1,0 +1,24 @@
+title: Gzip Archive Decode Via PowerShell
+id: 7ca024c4-7ca0-4ca0-aca0-7ca024c40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1132.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_decode_gzip.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1132.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         CommandLine|contains|all:
+    #             - 'GZipStream'
+    #             - '::Decompress'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

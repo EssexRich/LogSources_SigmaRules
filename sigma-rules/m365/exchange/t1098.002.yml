@@ -1,0 +1,32 @@
+title: M365 Exchange Mailbox High-Risk Permission Delegated
+id: 6bb93823-6bb9-4bb9-abb9-6bb938230000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/persistence_exchange_suspicious_mailbox_permission_delegation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.002
+logsource:
+  product: m365
+  service: exchange
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "o365.audit" and
+    # event.provider: "Exchange" and
+    # event.outcome: "success" and
+    # not o365.audit.UserType : (3 or 4) and
+    # (
+    #     (event.action: "Add-MailboxPermission" and o365.audit.Parameters.AccessRights: "FullAccess") or
+    #     (event.action: "Add-RecipientPermission" and o365.audit.Parameters.AccessRights: "SendAs") or
+    #     (event.action: "Set-Mailbox" and o365.audit.Parameters.GrantSendOnBehalfTo: *)
+    # ) and
+    # not user.id:(
+    #     "NT AUTHORITY\SYSTEM (Microsoft.Exchange.ServiceHost)" or
+    #     "NT AUTHORITY\SYSTEM (Microsoft.Exchange.AdminApi.NetCore)" or
+    #     "NT AUTHORITY\SYSTEM (w3wp)"
+    #     )
+  condition: selection
+level: medium

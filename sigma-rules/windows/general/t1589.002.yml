@@ -1,0 +1,27 @@
+title: Potential Unconstrained Delegation Discovery Via Get-ADComputer - ScriptBlock
+id: 02a73a09-02a7-42a7-a2a7-02a73a090000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1589.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_potential_unconstrained_delegation_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1589.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains:
+    #             - '-Properties*TrustedForDelegation'
+    #             - '-Properties*TrustedToAuthForDelegation'
+    #             - '-Properties*msDS-AllowedToDelegateTo'
+    #             - '-Properties*PrincipalsAllowedToDelegateToAccount'
+    #             - '-LDAPFilter*(userAccountControl:1.2.840.113556.1.4.803:=524288)'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

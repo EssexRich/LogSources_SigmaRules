@@ -1,0 +1,30 @@
+title: OS Architecture Discovery Via Grep
+id: 611b9691-611b-411b-a11b-611b96910000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1082
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_grep_os_arch_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1082
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_process:
+    #         Image|endswith: '/grep'
+    #     selection_architecture:
+    #         CommandLine|endswith:
+    #             - 'aarch64'
+    #             - 'arm'
+    #             - 'i386'
+    #             - 'i686'
+    #             - 'mips'
+    #             - 'x86_64'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

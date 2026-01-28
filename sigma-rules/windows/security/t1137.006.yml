@@ -1,0 +1,64 @@
+title: Potential Persistence Via Visual Studio Tools for Office
+id: 7fdb948e-7fdb-4fdb-afdb-7fdb948e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1137.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_persistence_office_vsto.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1137.006
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetObject|contains:
+    #             - '\Software\Microsoft\Office\Outlook\Addins\'
+    #             - '\Software\Microsoft\Office\Word\Addins\'
+    #             - '\Software\Microsoft\Office\Excel\Addins\'
+    #             - '\Software\Microsoft\Office\Powerpoint\Addins\'
+    #             - '\Software\Microsoft\VSTO\Security\Inclusion\'
+    #     filter_main_system:
+    #         Image:
+    #             - 'C:\Windows\System32\msiexec.exe'
+    #             - 'C:\Windows\SysWOW64\msiexec.exe'
+    #             - 'C:\Windows\System32\regsvr32.exe'
+    #             - 'C:\Windows\SysWOW64\regsvr32.exe' # e.g. default Evernote installation
+    #     filter_main_office_click_to_run:
+    #         Image|startswith:
+    #             - 'C:\Program Files\Common Files (x86)\Microsoft Shared\ClickToRun\'
+    #             - 'C:\Program Files\Common Files\Microsoft Shared\ClickToRun\'
+    #         Image|endswith: '\OfficeClickToRun.exe'
+    #     filter_main_integrator:
+    #         Image:
+    #             - 'C:\Program Files (x86)\Microsoft Office\root\integration\integrator.exe'
+    #             - 'C:\Program Files\Microsoft Office\root\integration\integrator.exe'
+    #     filter_main_office_apps:
+    #         Image|startswith:
+    #             - 'C:\Program Files\Microsoft Office\OFFICE'
+    #             - 'C:\Program Files (x86)\Microsoft Office\OFFICE'
+    #             - 'C:\Program Files\Microsoft Office\Root\OFFICE'
+    #             - 'C:\Program Files (x86)\Microsoft Office\Root\OFFICE'
+    #         Image|endswith:
+    #             - '\excel.exe'
+    #             - '\Integrator.exe'
+    #             - '\outlook.exe'
+    #             - '\powerpnt.exe'
+    #             - '\Teams.exe'
+    #             - '\visio.exe'
+    #             - '\winword.exe'
+    #     filter_optional_avg:
+    #         Image:
+    #             - 'C:\Program Files\AVG\Antivirus\RegSvr.exe'
+    #             - 'C:\Program Files (x86)\AVG\Antivirus\RegSvr.exe'
+    #         TargetObject|contains: '\Microsoft\Office\Outlook\Addins\Antivirus.AsOutExt\'
+    #     filter_optional_avast:
+    #         Image:
+    #             - 'C:\Program Files\Avast Software\Avast\RegSvr.exe'
+    #             - 'C:\Progra
+    # ... [truncated]
+  condition: selection
+level: medium

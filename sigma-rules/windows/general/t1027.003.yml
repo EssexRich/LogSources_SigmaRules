@@ -1,0 +1,32 @@
+title: Findstr Launching .lnk File
+id: 26be6ae6-26be-46be-a6be-26be6ae60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_findstr_lnk.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027.003
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith:
+    #               - '\find.exe'
+    #               - '\findstr.exe'
+    #         - OriginalFileName:
+    #               - 'FIND.EXE'
+    #               - 'FINDSTR.EXE'
+    #     selection_cli:
+    #         CommandLine|endswith:
+    #             - '.lnk'
+    #             - '.lnk"'
+    #             - ".lnk'"
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

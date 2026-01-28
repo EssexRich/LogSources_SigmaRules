@@ -1,0 +1,24 @@
+title: Disabled MFA to Bypass Authentication Mechanisms
+id: 27ce4167-27ce-47ce-a7ce-27ce41670000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_mfa_disabled.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: AzureActiveDirectory
+    #         eventName: 'Disable Strong Authentication.'
+    #         status: success
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

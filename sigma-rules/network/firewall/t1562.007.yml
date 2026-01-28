@@ -1,0 +1,28 @@
+title: Allow File And Printing Sharing In Firewall
+id: 5c442368-5c44-4c44-ac44-5c4423680000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.007
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/allow_file_and_printing_sharing_in_firewall.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.007
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime from datamodel=Endpoint.Processes where `process_netsh` Processes.process=
+    #   "*firewall*" Processes.process= "*group=\"File and Printer Sharing\"*"  Processes.process="*enable=Yes*"
+    #   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+    #   Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+    #   Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+    #   Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    #   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `allow_file_and_printing_sharing_in_firewall_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: System Info Discovery via Sysinfo Syscall
+id: 2a7b3557-2a7b-4a7b-aa7b-2a7b35570000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1057
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_susp_discovery_sysinfo_syscall.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1057
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'SYSCALL'
+    #         SYSCALL: 'sysinfo'
+    #     filter_optional_splunk:
+    #         exe|endswith: '/bin/splunkd'
+    #     condition: selection and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

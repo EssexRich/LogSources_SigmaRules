@@ -1,0 +1,33 @@
+title: 3CX Supply Chain Attack Network Indicators
+id: 7fc26af3-7fc2-4fc2-afc2-7fc26af30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1195.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/3cx_supply_chain_attack_network_indicators.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1195.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly`
+    #     count min(_time) as firstTime
+    #           max(_time) as lastTime
+    #   from datamodel=Network_Resolution where
+    #   DNS.query=*
+    #   NOT DNS.query IN ("-", "unknown")
+    #   by DNS.answer DNS.answer_count DNS.query
+    #      DNS.query_count DNS.reply_code_id DNS.src
+    #      DNS.vendor_product
+    #   | `drop_dm_object_name(DNS)`
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | lookup 3cx_ioc_domains domain as query OUTPUT Description isIOC
+    #   | search isIOC=true
+    #   | `3cx_supply_chain_attack_network_indicators_filter`
+  condition: selection
+level: medium

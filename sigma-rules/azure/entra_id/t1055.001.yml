@@ -1,0 +1,32 @@
+title: ManageEngine Endpoint Central Dctask64.EXE Potential Abuse
+id: 40e770d8-40e7-40e7-a0e7-40e770d80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1055.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_dctask64_arbitrary_command_and_dll_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1055.001
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\dctask64.exe'
+    #         - Hashes|contains:
+    #               - 'IMPHASH=6834B1B94E49701D77CCB3C0895E1AFD'
+    #               - 'IMPHASH=1BB6F93B129F398C7C4A76BB97450BBA'
+    #               - 'IMPHASH=FAA2AC19875FADE461C8D89DCF2710A3'
+    #               - 'IMPHASH=F1039CED4B91572AB7847D26032E6BBF'
+    #     selection_cli:
+    #         CommandLine|contains:
+    #             - ' executecmd64 '
+    #             - ' invokeexe '
+    #             - ' injectDll '
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

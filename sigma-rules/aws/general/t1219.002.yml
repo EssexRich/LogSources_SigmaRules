@@ -1,0 +1,27 @@
+title: Potential Linux Amazon SSM Agent Hijacking
+id: 340b5e3e-340b-440b-a40b-340b5e3e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1219.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_ssm_agent_abuse.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1219.002
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/amazon-ssm-agent'
+    #         CommandLine|contains|all:
+    #             - '-register '
+    #             - '-code '
+    #             - '-id '
+    #             - '-region '
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

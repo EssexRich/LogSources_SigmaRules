@@ -1,0 +1,26 @@
+title: Launch-VsDevShell.PS1 Proxy Execution
+id: 6a0403f6-6a04-4a04-aa04-6a0403f60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1216.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_lolbin_launch_vsdevshell.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1216.001
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_script:
+    #         CommandLine|contains: 'Launch-VsDevShell.ps1'
+    #     selection_flags:
+    #         CommandLine|contains:
+    #             - 'VsWherePath '
+    #             - 'VsInstallationPath '
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,20 @@
+title: AWS SSM Session Started to EC2 Instance
+id: 585e95c0-585e-485e-a85e-585e95c00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/lateral_movement_aws_ssm_start_session_to_ec2_instance.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:"aws.cloudtrail" and event.provider:"ssm.amazonaws.com"
+    #     and event.action:"StartSession" and event.outcome:"success"
+  condition: selection
+level: medium

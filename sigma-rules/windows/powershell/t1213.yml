@@ -1,0 +1,68 @@
+title: Windows SQLCMD Execution
+id: 409de0db-409d-409d-a09d-409de0db0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1213
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_sqlcmd_execution.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1213
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
+    #     from datamodel=Endpoint.Processes 
+    #     where (Processes.process_name=sqlcmd.exe OR Processes.original_file_name=sqlcmd.exe)
+    #     by Processes.dest Processes.user Processes.parent_process_name Processes.process_name 
+    #     Processes.process Processes.process_id Processes.parent_process_id
+    #     | `drop_dm_object_name(Processes)`
+    #     | eval process_lower=lower(process)
+    #     | eval 
+    #         is_help_check=case(
+    #             match(process, "(?i)-[?]"), 1,
+    #             match(process_lower, "(?i)--help"), 1,
+    #             match(process_lower, "(?i)--version"), 1,
+    #             true(), 0
+    #         ),
+    #         has_parameters=if(match(process, "-[A-Za-z]"), 1, 0),
+    #         has_query=case(
+    #             match(process, "-[Qq]\\s+"), 1,
+    #             match(process_lower, "--query\\s+"), 1,
+    #             match(process_lower, "--initial-query\\s+"), 1,
+    #             true(), 0
+    #         ),
+    #         has_output=case(
+    #             match(process, "-[oO]\\s+"), 1,
+    #             match(process_lower, "--output-file\\s+"), 1,
+    #             true(), 0
+    #         ),
+    #         has_input=case(
+    #             match(process, "-[iI]\\s+"), 1,
+    #             match(process_lower, "--input-file\\s+"), 1,
+    #             true(), 0
+    #         ),
+    #         has_url_input=case(
+    #             match(process, "-[iI]\\s+https?://"), 1,
+    #             match(process_lower, "--input-file\\s+https?://"), 1,
+    #             match(process, "-[iI]\\s+ftp://"), 1,
+    #             match(process_lower, "--input-file\\s+ftp://"), 1,
+    #             true(), 0
+    #         ),
+    #         has_admin_conn=case(
+    #             match(process, "-A"), 1,
+    #             match(process_lower, "--dedicated-admin-connection"), 1,
+    #             true(), 0
+    #         ),
+    #         has_suspicious_auth=case(
+    #             match(process, "-U\\s+sa\\b"), 1,
+    #             match(process_lower, "--user-name\\s+sa\\b"), 1,
+    #             match(process, "-U\\s+admin\\b"), 1,
+    #             match(process_lower, "--user-name\\s+admin\\b"), 1,
+    #       
+    # ... [truncated]
+  condition: selection
+level: medium

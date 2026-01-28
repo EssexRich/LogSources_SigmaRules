@@ -1,0 +1,20 @@
+title: Potential Linux Credential Dumping via Unshadow
+id: 5ae051c3-5ae0-4ae0-aae0-5ae051c30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.008
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_credential_dumping.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.008
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
+    # process.name == "unshadow" and process.args_count >= 3
+  condition: selection
+level: medium

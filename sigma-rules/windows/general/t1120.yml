@@ -1,0 +1,25 @@
+title: Fsutil Drive Enumeration
+id: 18ff3bb3-18ff-48ff-a8ff-18ff3bb30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1120
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_fsutil_drive_enumeration.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1120
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\fsutil.exe'
+    #         - OriginalFileName: 'fsutil.exe'
+    #     selection_cli:
+    #         CommandLine|contains: 'drives'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,28 @@
+title: Web Server Spawned via Python
+id: 641ad0df-641a-441a-a41a-641ad0df0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1570
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_python_webserver_spawned.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1570
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
+    # (
+    #   (process.name like "python*" and process.args in ("http.server", "SimpleHTTPServer")) or
+    #   (
+    #     process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and
+    #     process.command_line like~ "*python* -m http.server*"
+    #   )
+    # ) and
+    # not process.parent.executable == "/usr/lib/systemd/systemd"
+  condition: selection
+level: medium

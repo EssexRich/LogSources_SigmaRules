@@ -1,0 +1,57 @@
+title: Unusual Network Activity from a Windows System Binary
+id: 46d50336-46d5-46d5-a6d5-46d503360000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_network_connection_from_windows_binary.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1036.005
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=1m
+    #   [process where host.os.type == "windows" and event.type == "start" and
+    # 
+    #      /* known applocker bypasses */
+    #      (process.name : "bginfo.exe" or
+    #       process.name : "cdb.exe" or
+    #       process.name : "control.exe" or
+    #       process.name : "cmstp.exe" or
+    #       process.name : "csi.exe" or
+    #       process.name : "dnx.exe" or
+    #       process.name : "fsi.exe" or
+    #       process.name : "ieexec.exe" or
+    #       process.name : "iexpress.exe" or
+    #       process.name : "installutil.exe" or
+    #       process.name : "Microsoft.Workflow.Compiler.exe" or
+    #       process.name : "MSBuild.exe" or
+    #       process.name : "msdt.exe" or
+    #       process.name : "mshta.exe" or
+    #       process.name : "wscript.exe" or
+    #       process.name : "msiexec.exe" or
+    #       process.name : "msxsl.exe" or
+    #       process.name : "odbcconf.exe" or
+    #       process.name : "rcsi.exe" or
+    #       process.name : "regsvr32.exe" or
+    #       process.name : "xwizard.exe") and
+    # 
+    #   not (process.name : "mshta.exe" and
+    #        process.parent.executable : ("C:\\Program Files (x86)\\Bentley\\*.exe",
+    #                                     "C:\\Program Files\\Bentley\\*.exe",
+    #                                     "C:\\Program Files (x86)\\Amazon\\Amazon Assistant\\amazonAssistantService.exe",
+    #                                     "C:\\Users\\*\\AppData\\Local\\Temp\\TeamViewer\\TeamViewer.exe"))
+    #   ]
+    #   [network where dns.question.name != null and
+    #       not dns.question.name : ("localhost", "setup.officetimeline.com", "us.deployment.endpoint.ingress.rapid7.com", 
+    #         "ctldl.windowsupdate.com", "crl?.digicert.com", "ocsp.digicert.com", "addon-cms-asl.eu.goskope.com", "crls.ssl.com", 
+    #         "evcs-ocsp.ws.symantec.com", "s.symcd.com", "s?.symcb.com", "crl.verisign.com", "oneocsp.microsoft.com", "crl.verisign.com", 
+    #         "aka.ms", "crl.comodoca.com", "acroipm2.adobe.com", "sv.symcd.com", "_ldap._tcp.*", "..localmachine", "secure.globalsign.com",
+    #         "acroipm2.adobe.com", "www.ssl.com", "ocsp.digicert.com", "ocsp.
+    # ... [truncated]
+  condition: selection
+level: medium

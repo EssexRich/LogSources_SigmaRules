@@ -1,0 +1,54 @@
+title: Unsigned or Unencrypted SMB Connection to Share Established
+id: 6416d126-6416-4416-a416-6416d1260000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/smbserver/connectivity/win_smbserver_connectivity_unsigned_and_unencrypted_share_connection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_shares:
+    #         EventID: 4000
+    #         ShareName|contains:
+    #             - 'IPC$'
+    #             - 'ADMIN$'
+    #             - 'C$'
+    #     selection_status:
+    #         - SigningUsed: 'false'
+    #         - EncyptionUsed: 'false' # Note: typo in the original event field name
+    #     filter_main_local_ips:
+    #         - ClientAddress|cidr:
+    #               # IPv4
+    #               # - '10.0.0.0/8'
+    #               - '127.0.0.0/8'
+    #               - '169.254.0.0/16'
+    #               # - '172.16.0.0/12'
+    #               # - '192.168.0.0/16'
+    #               # IPv6
+    #               - '::1/128'  # IPv6 loopback
+    #               - 'fe80::/10'  # IPv6 link-local addresses
+    #               - 'fc00::/7'  # IPv6 private addresses
+    #         # The filters below cover the XML raw log
+    #         - ClientAddress|contains:
+    #               # IPv6
+    #               - '00000000000000000000000000000001' # ::1 - IPv6 loopback
+    #               - 'FE80000000000000' # fe80:: - IPv6 link-local addresses
+    #               - 'FC00000000000000' # fc00:: - IPv6 private addresses
+    #               # IPv4
+    #               # The "?" are meant to represent the port
+    #               # - '0200????C0A8' # 192.168.
+    #               # - '0200????AC' # 172.
+    #               # - '0200????0A' # 10.
+    #               - '0200????7F' # 127
+    #               - '0200????A9FE' # 169.254.
+    #     condition: all of selection_* and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

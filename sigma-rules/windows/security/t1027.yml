@@ -1,0 +1,26 @@
+title: Invoke-Obfuscation CLIP+ Launcher - Security
+id: 5d25d311-5d25-4d25-ad25-5d25d3110000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_invoke_obfuscation_clip_services_security.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4697
+    #         ServiceFileName|contains|all:
+    #             - 'cmd'
+    #             - '&&'
+    #             - 'clipboard]::'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

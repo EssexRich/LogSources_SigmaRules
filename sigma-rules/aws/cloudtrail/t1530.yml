@@ -1,0 +1,22 @@
+title: AWS CloudTrail Log Created
+id: 52d3a1e0-52d3-42d3-a2d3-52d3a1e00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1530
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/collection_cloudtrail_logging_created.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1530
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail" 
+    #     and event.provider: "cloudtrail.amazonaws.com" 
+    #     and event.action: "CreateTrail" 
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

@@ -1,0 +1,23 @@
+title: Multifactor Authentication Denied
+id: 1051e0b2-1051-4051-a051-1051e0b20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1621
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/signin_logs/azure_mfa_denies.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1621
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         AuthenticationRequirement: 'multiFactorAuthentication'
+    #         Status|contains: 'MFA Denied'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

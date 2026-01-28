@@ -1,0 +1,24 @@
+title: Microsoft Intune Manual Device Management
+id: 46b38988-46b3-46b3-a6b3-46b389880000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1529
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/microsoft_intune_manual_device_management.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1529
+logsource:
+  product: azure
+  service: intune
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #   `azure_monitor_activity` operationName="*ManagedDevice*" 
+    #   | rename identity as user, properties.TargetObjectIds{} as TargetObjectId, properties.TargetDisplayNames{} as TargetDisplayName, properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin
+    #   | rex field="operationName" "^(?P<action>\w+)\s"
+    #   | table _time operationName action user user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId status tenantId correlationId
+    #   | `microsoft_intune_manual_device_management_filter`
+  condition: selection
+level: medium

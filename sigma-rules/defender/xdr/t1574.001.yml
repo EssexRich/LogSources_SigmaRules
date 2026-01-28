@@ -1,0 +1,27 @@
+title: Microsoft Defender Blocked from Loading Unsigned DLL
+id: 6d9edc47-6d9e-4d9e-ad9e-6d9edc470000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security_mitigations/win_security_mitigations_defender_load_unsigned_dll.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.001
+logsource:
+  product: defender
+  service: xdr
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID:
+    #             - 11
+    #             - 12 # MDE: ExploitGuardNonMicrosoftSignedBlocked
+    #         ProcessPath|endswith:
+    #             - '\MpCmdRun.exe'
+    #             - '\NisSrv.exe'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

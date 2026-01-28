@@ -1,0 +1,37 @@
+title: Clear PowerShell History - PowerShell Module
+id: 61f7d6ac-61f7-41f7-a1f7-61f7d6ac0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_module/posh_pm_clear_powershell_history.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.003
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1a_payload:
+    #         Payload|contains:
+    #             - 'del'
+    #             - 'Remove-Item'
+    #             - 'rm'
+    #     selection_1b_payload:
+    #         Payload|contains: '(Get-PSReadlineOption).HistorySavePath'
+    #     selection_payload_2:
+    #         Payload|contains|all:
+    #             - 'Set-PSReadlineOption'
+    #             - '–HistorySaveStyle'  # not sure if the homoglyph –/- is intended, just checking for both
+    #             - 'SaveNothing'
+    #     selection_payload_3:
+    #         Payload|contains|all:
+    #             - 'Set-PSReadlineOption'
+    #             - '-HistorySaveStyle'
+    #             - 'SaveNothing'
+    #     condition: 1 of selection_payload_* or all of selection_1*
+    # 
+  condition: selection
+level: medium

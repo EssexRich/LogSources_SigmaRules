@@ -1,0 +1,20 @@
+title: Abnormally Large DNS Response
+id: 131efda1-131e-431e-a31e-131efda10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1210
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/lateral_movement_dns_server_overflow.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1210
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # (event.dataset: network_traffic.dns or (event.category: (network or network_traffic) and destination.port: 53)) and
+    #   (event.dataset:zeek.dns or type:dns or event.type:connection) and network.bytes > 60000
+  condition: selection
+level: medium

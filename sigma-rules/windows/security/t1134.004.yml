@@ -1,0 +1,56 @@
+title: Privileges Elevation via Parent Process PID Spoofing
+id: 75c59a78-75c5-45c5-a5c5-75c59a780000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1134.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_via_ppid_spoofing.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1134.004
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original elastic detection logic
+    # /* This rule is compatible with Elastic Endpoint only */
+    # 
+    # process where host.os.type == "windows" and event.action == "start" and
+    # 
+    #  /* process creation via seclogon */
+    #  process.parent.Ext.real.pid > 0 and
+    # 
+    #  /* PrivEsc to SYSTEM */
+    #  user.id : "S-1-5-18"  and
+    # 
+    #  /* Common FPs - evasion via hollowing is possible, should be covered by code injection */
+    #  not process.executable : ("?:\\Windows\\System32\\WerFault.exe",
+    #                            "?:\\Windows\\SysWOW64\\WerFault.exe",
+    #                            "?:\\Windows\\System32\\WerFaultSecure.exe",
+    #                            "?:\\Windows\\SysWOW64\\WerFaultSecure.exe",
+    #                            "?:\\Windows\\System32\\Wermgr.exe",
+    #                            "?:\\Windows\\SysWOW64\\Wermgr.exe",
+    #                            "?:\\Windows\\SoftwareDistribution\\Download\\Install\\securityhealthsetup.exe") and
+    #  /* Logon Utilities */
+    #  not (process.parent.executable : "?:\\Windows\\System32\\Utilman.exe" and
+    #      process.executable : ("?:\\Windows\\System32\\osk.exe",
+    #                            "?:\\Windows\\System32\\Narrator.exe",
+    #                            "?:\\Windows\\System32\\Magnify.exe",
+    #                            "?:\\Windows\\System32\\VoiceAccess.exe")) and
+    # 
+    #  not process.parent.executable : "?:\\Windows\\System32\\AtBroker.exe" and
+    # 
+    #  not (process.code_signature.subject_name in
+    #            ("philandro Software GmbH", "Freedom Scientific Inc.", "TeamViewer Germany GmbH", "Projector.is, Inc.",
+    #             "TeamViewer GmbH", "Cisco WebEx LLC", "Dell Inc") and process.code_signature.trusted == true) and
+    # 
+    #  /* AM_Delta_Patch Windows Update */
+    #  not (process.executable : ("?:\\Windows\\System32\\MpSigStub.exe", "?:\\Windows\\SysWOW64\\MpSigStub.exe") and
+    #       process.parent.executable : ("?:\\Windows\\System32\\wuauclt.exe",
+    #                                    "?:\\Windows\\SysWOW64\\wuauclt.exe",
+    #                                    "?:\\Windows\\UUS\\Packages\\Preview\\*\\wuaucltcore.exe",
+    #                                  
+    # ... [truncated]
+  condition: selection
+level: medium

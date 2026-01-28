@@ -1,0 +1,27 @@
+title: Potential Binary Proxy Execution Via Cdb.EXE
+id: 29485651-2948-4948-a948-294856510000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1106
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cdb_arbitrary_command_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1106
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\cdb.exe'
+    #         - OriginalFileName: 'CDB.Exe'
+    #     selection_cli:
+    #         CommandLine|contains:
+    #             - ' -c ' # Using a debugger script
+    #             - ' -cf '
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

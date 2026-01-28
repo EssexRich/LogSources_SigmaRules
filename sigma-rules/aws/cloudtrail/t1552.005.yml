@@ -1,0 +1,21 @@
+title: AWS EC2 Unauthorized Admin Credential Fetch via Assumed Role
+id: 195d2de8-195d-495d-a95d-195d2de80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_aws_getpassword_for_ec2_instance.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.005
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:"aws.cloudtrail"
+    #     and event.provider:"ec2.amazonaws.com" and event.action:"GetPasswordData"
+    #     and aws.cloudtrail.user_identity.type:"AssumedRole" and aws.cloudtrail.error_code:"Client.UnauthorizedOperation"
+  condition: selection
+level: medium

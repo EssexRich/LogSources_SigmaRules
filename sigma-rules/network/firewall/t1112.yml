@@ -1,0 +1,23 @@
+title: Windows Modify Registry Delete Firewall Rules
+id: 5b493400-5b49-4b49-ab49-5b4934000000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1112
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_modify_registry_delete_firewall_rules.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1112
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=12 TargetObject = "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"
+    #   EventType=DeleteValue |  stats count min(_time) as firstTime max(_time) as lastTime
+    #   by action dest process_guid process_id registry_hive registry_path registry_key_name
+    #   status user vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `windows_modify_registry_delete_firewall_rules_filter`
+  condition: selection
+level: medium

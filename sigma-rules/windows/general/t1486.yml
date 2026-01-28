@@ -1,0 +1,26 @@
+title: Suspicious Creation TXT File in User Desktop
+id: 16fc17bc-16fc-46fc-a6fc-16fc17bc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1486
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_desktop_txt.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1486
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\cmd.exe'
+    #         TargetFilename|contains|all:
+    #             - '\Users\'
+    #             - '\Desktop\'
+    #         TargetFilename|endswith: '.txt'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,26 @@
+title: GSuite Email Suspicious Attachment
+id: 42605091-4260-4260-a260-426050910000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/gsuite_email_suspicious_attachment.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566.001
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original splunk detection logic
+    # `gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb", "sh",
+    #   "bat", "exe", "dll", "cpl", "com", "js", "vbs", "ps1", "reg","swf", "cmd", "go")
+    #   | eval phase="plan" | eval severity="medium" | stats count min(_time) as firstTime
+    #   max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments,
+    #   values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size
+    #   by destination{}.service num_message_attachments  subject destination{}.address
+    #   source.address phase severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `gsuite_email_suspicious_attachment_filter`
+  condition: selection
+level: medium

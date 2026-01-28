@@ -1,0 +1,22 @@
+title: Azure Blob Storage Permissions Modified
+id: 4496f92e-4496-4496-a496-4496f92e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1222
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/defense_evasion_storage_blob_permissions_modified.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1222
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.activitylogs and azure.activitylogs.operation_name:(
+    #      "MICROSOFT.STORAGE/STORAGEACCOUNTS/BLOBSERVICES/CONTAINERS/BLOBS/MANAGEOWNERSHIP/ACTION" or
+    #      "MICROSOFT.STORAGE/STORAGEACCOUNTS/BLOBSERVICES/CONTAINERS/BLOBS/MODIFYPERMISSIONS/ACTION") and
+    #   event.outcome:(Success or success)
+  condition: selection
+level: medium

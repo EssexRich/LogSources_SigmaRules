@@ -1,0 +1,23 @@
+title: PowerShell WebRequest Using Memory Stream
+id: 6de6715c-6de6-4de6-ade6-6de6715c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.011
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/powershell_webrequest_using_memory_stream.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1027.011
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # `powershell` EventCode=4104  ScriptBlockText IN ("*system.net.webclient*","*system.net.webrequest*")
+    #   AND ScriptBlockText="*IO.MemoryStream*" | fillnull | stats count min(_time) as firstTime
+    #   max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID
+    #   Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `powershell_webrequest_using_memory_stream_filter`
+  condition: selection
+level: medium

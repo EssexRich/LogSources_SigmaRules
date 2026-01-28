@@ -1,0 +1,43 @@
+title: Curl or Wget Egress Network Connection via LoLBin
+id: 3120813f-3120-4120-a120-3120813f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_curl_or_wget_executed_via_lolbin.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence with maxspan=3s
+    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.name in (
+    #      "aa-exec", "aoss", "awk", "run-parts", "bundle", "bundler", "busctl", "busybox", "byebug", "c89", "c99", "cabal",
+    #      "capsh", "cdist", "certbot", "check_by_ssh", "choom", "cobc", "cowsay", "cowthink", "cpio", "cpulimit", "csvtool",
+    #      "dc", "distcc", "easy_install", "emacs", "enscript", "expect", "find", "flock", "gawk", "gcc", "gdb", "gem",
+    #      "genie", "ghc", "ghci", "gimp", "grc", "gtester", "ionice", "irb", "jjs", "jrunscript", "knife", "latex",
+    #      "latexmk", "lftp", "logsave", "ltrace", "mail", "mawk", "msgfilter", "multitime", "mysql", "nawk", "neofetch",
+    #      "nice", "nohup", "npm", "nroff", "nsenter", "octave", "openvpn", "pandoc", "pdb", "pdflatex", "pdftex", "perf",
+    #      "pexec", "pip", "rake", "rc", "rlwrap", "rpmdb", "rpmquery", "rpmverify", "rsync", "rtorrent", "runscript",
+    #      "rview", "rvim", "script", "scrot", "sed", "service", "setarch", "setlock", "sg", "socat", "softlimit", "split",
+    #      "sqlite3", "sqlmap", "sshpass", "start-stop-daemon", "stdbuf", "tar", "taskset",
+    #      "tasksh", "tex", "time", "tmate", "torify", "torsocks", "tshark", "valgrind", "vi", "view",
+    #      "vim", "vimdiff", "watch", "xdg-user-dir", "xdotool", "xelatex", "xetex", "yarn", "zip", "zypper"
+    #    ) and not (
+    #      process.executable == "/tmp/newroot/unshare" or
+    #      process.parent.args in (
+    #        "/etc/.agent/server_agent.sh", "/nessus/update2.sh", "/etc/cron.daily/spamassassin", "/etc/cron.daily/rkhunter",
+    #        "buildkit-runc", "/usr/sbin/spamassassin-maint"
+    #      ) or
+    #      process.parent.executable like (
+    #        "/usr/local/bin/fail2ban_cluster.sh", "/script/downloadArtifacts.sh", "/etc/cron.daily/rkhunter",
+    #        "/usr/bin/bbb-conf", "/usr/sbin/sos", "/usr/bin/make", "/var/lib/amagent/*", "/etc/cron.daily/spamassassin",
+    #        "/usr/lib/cron/run-crons", "/usr/sbin/spamassassin-maint", "/usr/sbin/oracle-libs-update"
+    #      )
+    # ... [truncated]
+  condition: selection
+level: medium

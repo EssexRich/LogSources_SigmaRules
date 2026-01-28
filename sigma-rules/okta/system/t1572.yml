@@ -1,0 +1,29 @@
+title: Okta Non-Standard VPN Usage
+id: 472c3799-472c-472c-a72c-472c37990000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1572
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/okta_non_standard_vpn_usage.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1572
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original splunk detection logic
+    # `okta` debugContext.debugData.tunnels IN (*Astrill*,*Azire*,*CyberGhost*,*Express*VPN,*HideMe*,
+    #   *IPVanish*,*Mullvad*,*Nord*VPN*,*OVPN*,*PIA*VPN*,*Proton*VPN*,*Pure*VPN*,*Slick*VPN*,*Surf*Easy*,
+    #   *SurfShark*,*Star*VPN*,*TorGuard*,*TorProxy*,*Tiger*VPN*,*TunnelBear*,*Unblock*VPN*,*Warp*VPN*,*WarpSpeed*,
+    #   *VPNReactor*,*VPN*Shield*,*VPN*Super*VPN*,*ZenMate*) ```listing of commonly used known VPN providers. Add or remove whatever is appropriate for your environment```
+    #   | eval user=coalesce(''actor.alternateId'',user), user=mvindex(split(user, "@"), 0) 
+    #   | rename targetUserAlternateId as user client.* as * request.* as * ipChain{}.* as * geographicalContext.* as * debugContext.* as * debugData.* as * 
+    #   | eval status=case(match(_raw, "FAILURE"), "failure", !match(_raw, "FAILURE"), "success") 
+    #   | stats count values(status) as status max(published) as UTC min(_time) as firsttime max(_time) as lasttime values(target_data) as target_data values(displayMessage) as displayMessage values(eventType) as eventType values(city) as city values(country) as country values(action) as action values(src_ip) as src_ip values(outcome.*) as * values(user) as user by tunnels,_time,host sourcetype index 
+    #   | fillnull value="N/A" 
+    #   | convert ctime(*ttime) 
+    #   | `okta_non_standard_vpn_usage_filter`
+  condition: selection
+level: medium

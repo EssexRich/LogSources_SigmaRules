@@ -1,0 +1,28 @@
+title: Triple Cross eBPF Rootkit Install Commands
+id: 681dc655-681d-481d-a81d-681dc6550000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1014
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_triple_cross_rootkit_install.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1014
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/sudo'
+    #         CommandLine|contains|all:
+    #             - ' tc '
+    #             - ' enp0s3 '
+    #         CommandLine|contains:
+    #             - ' qdisc '
+    #             - ' filter '
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

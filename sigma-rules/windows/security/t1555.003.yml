@@ -1,0 +1,23 @@
+title: Non Chrome Process Accessing Chrome Default Dir
+id: 57559b14-5755-4755-a755-57559b140000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1555.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/non_chrome_process_accessing_chrome_default_dir.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1555.003
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\chrome.exe",
+    #   "*\\explorer.exe", "*sql*", "*\\dllhost.exe")) ObjectName="*\\Google\\Chrome\\User
+    #   Data\\Default*" | stats count min(_time) as firstTime max(_time) as lastTime by
+    #   ObjectName ObjectType ProcessName AccessMask EventCode dest | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `non_chrome_process_accessing_chrome_default_dir_filter`
+  condition: selection
+level: medium

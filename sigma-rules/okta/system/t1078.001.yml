@@ -1,0 +1,24 @@
+title: Okta New API Token Created
+id: 211fc382-211f-411f-a11f-211fc3820000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/okta_new_api_token_created.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1078.001
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time)
+    #   as firstTime from datamodel=Change where All_Changes.action=created AND All_Changes.command=system.api_token.create
+    #   by _time span=5m All_Changes.user All_Changes.result All_Changes.command sourcetype
+    #   All_Changes.src All_Changes.action All_Changes.object_category All_Changes.dest
+    #   | `drop_dm_object_name("All_Changes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `okta_new_api_token_created_filter`
+  condition: selection
+level: medium

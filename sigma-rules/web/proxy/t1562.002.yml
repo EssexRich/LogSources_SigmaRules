@@ -1,0 +1,35 @@
+title: Cisco ASA - Logging Message Suppression
+id: 726b8a27-726b-426b-a26b-726b8a270000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/cisco_asa___logging_message_suppression.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.002
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_asa`
+    #   message_id IN (111008, 111010)
+    #   command = "no logging message *"
+    #   | fillnull
+    #   | stats count
+    #           earliest(_time) as firstTime
+    #           latest(_time) as lastTime
+    #           values(user) as user
+    #           values(action) as action
+    #           values(message_id) as message_id
+    #           values(command) as command
+    #           values(src_ip) as src_ip
+    #           values(process_name) as process_name
+    #     by host
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `cisco_asa___logging_message_suppression_filter`
+  condition: selection
+level: medium

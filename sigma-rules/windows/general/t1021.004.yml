@@ -1,0 +1,24 @@
+title: OpenSSH Server Listening On Socket
+id: 24c97b07-24c9-44c9-a4c9-24c97b070000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/openssh/win_sshd_openssh_server_listening_on_socket.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.004
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4
+    #         process: sshd
+    #         payload|startswith: 'Server listening on '
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,55 @@
+title: Potential Initial Access via DLL Search Order Hijacking
+id: 15565336-1556-4556-a556-155653360000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_initial_access_dll_search_order_hijacking.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             # add more processes when you find them
+    #             - '\winword.exe'
+    #             - '\excel.exe'
+    #             - '\powerpnt.exe'
+    #             - '\MSACCESS.EXE'
+    #             - '\MSPUB.EXE'
+    #             - '\fltldr.exe'
+    #             - '\cmd.exe'
+    #             - '\certutil.exe'
+    #             - '\mshta.exe'
+    #             - '\cscript.exe'
+    #             - '\wscript.exe'
+    #             - '\curl.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #         TargetFilename|endswith: '.dll'
+    #         TargetFilename|contains|all:
+    #             - '\Users\'
+    #             - '\AppData\'
+    #         TargetFilename|contains:
+    #             # add more suspicious paths when you find them
+    #             - '\Microsoft\OneDrive\'
+    #             - '\Microsoft OneDrive\'
+    #             - '\Microsoft\Teams\'
+    #             - '\Local\slack\app-'
+    #             - '\Local\Programs\Microsoft VS Code\'
+    #     filter:
+    #         Image|endswith: '\cmd.exe'
+    #         TargetFilename|contains|all:
+    #             - '\Users\'
+    #             - '\AppData\'
+    #             - '\Microsoft\OneDrive\'
+    #             - '\api-ms-win-core-'
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

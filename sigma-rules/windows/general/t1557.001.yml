@@ -1,0 +1,26 @@
+title: Local Privilege Escalation Indicator TabTip
+id: 72bbdcdc-72bb-42bb-a2bb-72bbdcdc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1557.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/microsoft_windows_distributed_com/win_system_lpe_indicators_tabtip.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1557.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Provider_Name: 'Microsoft-Windows-DistributedCOM'
+    #         EventID: 10001
+    #         param1: 'C:\Program Files\Common Files\microsoft shared\ink\TabTip.exe'  # Binary starting/started
+    #         param2: 2147943140                                                       # ERROR id
+    #         param3: '{054AAE20-4BEA-4347-8A35-64A533254A9D}'                         # DCOM Server
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

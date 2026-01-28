@@ -1,0 +1,23 @@
+title: Windows Archive Collected Data via Powershell
+id: 320cdd12-320c-420c-a20c-320cdd120000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1560
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_archive_collected_data_via_powershell.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1560
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # `powershell` EventCode=4104 ScriptBlockText = "*Compress-Archive*"  ScriptBlockText
+    #   = "*\\Temp\\*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime
+    #   by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path
+    #   ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` |
+    #   `security_content_ctime(lastTime)` | `windows_archive_collected_data_via_powershell_filter`
+  condition: selection
+level: medium

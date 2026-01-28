@@ -1,0 +1,29 @@
+title: Possible DCSync Attack
+id: 13b39153-13b3-43b3-a3b3-13b391530000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1033
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/application/rpc_firewall/rpc_firewall_dcsync_attack.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1033
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventLog: RPCFW
+    #         EventID: 3
+    #         InterfaceUuid: e3514235-4b06-11d1-ab04-00c04fc2dcd2
+    #     filter:
+    #         OpNum:
+    #             - 0
+    #             - 1
+    #             - 12
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

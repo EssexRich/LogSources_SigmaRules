@@ -1,0 +1,32 @@
+title: Python WebServer Execution - Linux
+id: 15b83e9d-15b8-45b8-a5b8-15b83e9d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1048.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_python_http_server_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1048.003
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith:
+    #               - '/python'
+    #               - '/python2'
+    #               - '/python3'
+    #         - Image|contains:
+    #               - '/python2.'  # python image is always of the form ../python3.10; ../python is just a symlink
+    #               - '/python3.'
+    #     selection_module:
+    #         CommandLine|contains:
+    #             - 'http.server'
+    #             - 'SimpleHTTPServer'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

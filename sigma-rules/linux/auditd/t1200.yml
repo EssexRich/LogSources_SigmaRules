@@ -1,0 +1,23 @@
+title: Linux Auditd Hardware Addition Swapoff
+id: 1111753d-1111-4111-a111-1111753d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1200
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_hardware_addition_swapoff.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1200
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # `linux_auditd` proctitle = "*swapoff*" AND proctitle = "*-a*"
+    #   | rename host as dest 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by proctitle dest 
+    #   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+    #   | `linux_auditd_hardware_addition_swapoff_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,26 @@
+title: PUA - 3Proxy Execution
+id: 039aa838-039a-439a-a39a-039aa8380000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1572
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_pua_3proxy_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1572
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         Image|endswith: '\3proxy.exe'
+    #     selection_pe:
+    #         Description: '3proxy - tiny proxy server'
+    #     selection_params: # param combos seen in the wild
+    #         CommandLine|contains: '.exe -i127.0.0.1 -p'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

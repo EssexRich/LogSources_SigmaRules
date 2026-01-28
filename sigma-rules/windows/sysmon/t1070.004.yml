@@ -1,0 +1,32 @@
+title: Potentially Suspicious Ping/Copy Command Combination
+id: 43ae6535-43ae-43ae-a3ae-43ae65350000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cmd_ping_copy_combined_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.004
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     # Note: In the case of sysmon and similar logging utilities, see this discussion https://github.com/SigmaHQ/sigma/discussions/4277
+    #     selection_cmd:
+    #         - Image|endswith: '\cmd.exe'
+    #         - OriginalFileName: 'Cmd.Exe'
+    #     selection_action:
+    #         CommandLine|contains|all:
+    #             - 'ping' # Covers "ping" and "ping.exe"
+    #             - 'copy '
+    #     selection_cli_1:
+    #         CommandLine|contains|windash: ' -n ' # Count
+    #     selection_cli_2:
+    #         CommandLine|contains|windash: ' -y '
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

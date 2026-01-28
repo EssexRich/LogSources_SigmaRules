@@ -1,0 +1,32 @@
+title: PowerShell Keylogging Script
+id: 67c65df5-67c6-47c6-a7c6-67c65df50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1056
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_posh_keylogger.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1056
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    #   (
+    #     powershell.file.script_block_text : (GetAsyncKeyState or NtUserGetAsyncKeyState or GetKeyboardState or "Get-Keystrokes") or
+    #     powershell.file.script_block_text : (
+    #       (SetWindowsHookEx or SetWindowsHookExA or SetWindowsHookExW or NtUserSetWindowsHookEx) and
+    #       (
+    #         GetForegroundWindow or GetWindowTextA or GetWindowTextW or "WM_KEYBOARD_LL" or "WH_MOUSE_LL" or
+    #         "WH_KEYBOARD_LL" or "LowLevelKeyboardProc" or "CallNextHookEx"
+    #       )
+    #    )
+    #   ) and not user.id : "S-1-5-18" and
+    #   not powershell.file.script_block_text : (
+    #     "sentinelbreakpoints" and "Set-PSBreakpoint"
+    #   )
+  condition: selection
+level: medium

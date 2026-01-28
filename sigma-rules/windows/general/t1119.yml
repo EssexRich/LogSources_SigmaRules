@@ -1,0 +1,41 @@
+title: Automated Collection Command Prompt
+id: 5cf22076-5cf2-4cf2-acf2-5cf220760000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1119
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_automated_collection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1119
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_ext:
+    #         CommandLine|contains:
+    #             - '.doc'
+    #             - '.docx'
+    #             - '.xls'
+    #             - '.xlsx'
+    #             - '.ppt'
+    #             - '.pptx'
+    #             - '.rtf'
+    #             - '.pdf'
+    #             - '.txt'
+    #     selection_other_dir:
+    #         CommandLine|contains|all:
+    #             - 'dir '
+    #             - ' /b '
+    #             - ' /s '
+    #     selection_other_findstr:
+    #         OriginalFileName: 'FINDSTR.EXE'
+    #         CommandLine|contains:
+    #             - ' /e '
+    #             - ' /si '
+    #     condition: selection_ext and 1 of selection_other_*
+    # 
+  condition: selection
+level: medium

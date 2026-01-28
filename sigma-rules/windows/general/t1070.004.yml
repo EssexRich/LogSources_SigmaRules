@@ -1,0 +1,28 @@
+title: Prefetch File Deleted
+id: 2d63ee59-2d63-4d63-ad63-2d63ee590000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_delete/file_delete_win_delete_prefetch.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.004
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         TargetFilename|contains: ':\Windows\Prefetch\'
+    #         TargetFilename|endswith: '.pf'
+    #     filter_main_svchost:
+    #         Image|endswith: ':\windows\system32\svchost.exe'
+    #         User|contains: # covers many language settings
+    #             - 'AUTHORI'
+    #             - 'AUTORI'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

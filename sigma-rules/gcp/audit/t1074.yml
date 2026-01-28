@@ -1,0 +1,28 @@
+title: Google Full Network Traffic Packet Capture
+id: 701fb8c8-701f-401f-a01f-701fb8c80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1074
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_full_network_traffic_packet_capture.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1074
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         gcp.audit.method_name:
+    #             - v*.Compute.PacketMirrorings.Get
+    #             - v*.Compute.PacketMirrorings.Delete
+    #             - v*.Compute.PacketMirrorings.Insert
+    #             - v*.Compute.PacketMirrorings.Patch
+    #             - v*.Compute.PacketMirrorings.List
+    #             - v*.Compute.PacketMirrorings.aggregatedList
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

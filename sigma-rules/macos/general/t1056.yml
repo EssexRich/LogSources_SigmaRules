@@ -1,0 +1,20 @@
+title: Suspicious pbpaste High Volume Activity
+id: 0ca88a90-0ca8-4ca8-aca8-0ca88a900000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1056
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_high_volume_of_pbpaste.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1056
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.hostname, host.id with maxspan=1m
+    # [process where host.os.type == "macos" and event.type == "start" and event.action == "exec" and process.name: "pbpaste"] with runs = 5
+  condition: selection
+level: medium

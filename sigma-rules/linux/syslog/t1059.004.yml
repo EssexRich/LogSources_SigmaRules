@@ -1,0 +1,20 @@
+title: Process Started with Executable Stack
+id: 6ab4d036-6ab4-4ab4-aab4-6ab4d0360000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_executable_stack_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.004
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:"linux" and event.dataset:"system.syslog" and process.name:"kernel" and
+    # message:"started with executable stack"
+  condition: selection
+level: medium

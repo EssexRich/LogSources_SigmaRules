@@ -1,0 +1,28 @@
+title: Entra ID Service Principal Created
+id: 0629fd13-0629-4629-a629-0629fd130000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/persistence_entra_id_service_principal_created.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1136.003
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.auditlogs
+    #     and azure.auditlogs.operation_name:"Add service principal"
+    #     and event.outcome:(success or Success)
+    #     and not azure.auditlogs.identity: (
+    #         "Managed Service Identity" or
+    #         "Windows Azure Service Management API" or
+    #         "Microsoft Azure AD Internal - Jit Provisioning" or
+    #         "AAD App Management" or
+    #         "Power Virtual Agents Service"
+    #         )
+  condition: selection
+level: medium

@@ -1,0 +1,31 @@
+title: PowerShell Deleted Mounted Share
+id: 0af1b7e9-0af1-4af1-aaf1-0af1b7e90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_mounted_share_deletion.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.005
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains:
+    #             - 'Remove-SmbShare'
+    #             - 'Remove-FileShare'
+    #     filter_main_module_load:
+    #         ScriptBlockText|contains|all:
+    #             - 'FileShare.cdxml'
+    #             - 'Microsoft.PowerShell.Core\Export-ModuleMember'
+    #             - 'ROOT/Microsoft/Windows/Storage/MSFT_FileShare'
+    #             - 'ObjectModelWrapper'
+    #             - 'Cmdletization.MethodParameter'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

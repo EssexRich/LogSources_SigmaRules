@@ -1,0 +1,26 @@
+title: Possible Impacket SecretDump Remote Activity - Zeek
+id: 51763e6d-5176-4176-a176-51763e6d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/zeek/zeek_smb_converted_win_impacket_secretdump.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         path|contains|all:
+    #             - '\'
+    #             - 'ADMIN$'
+    #         name|contains: 'SYSTEM32\'
+    #         name|endswith: '.tmp'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

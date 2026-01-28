@@ -1,0 +1,62 @@
+title: Uncommon File Created In Office Startup Folder
+id: 748209f1-7482-4482-a482-748209f10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1587.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_office_uncommon_file_startup.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1587.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_word_paths:
+    #         - TargetFilename|contains: '\Microsoft\Word\STARTUP'
+    #         - TargetFilename|contains|all:
+    #               - '\Office'
+    #               - '\Program Files'
+    #               - '\STARTUP'
+    #     filter_exclude_word_ext:
+    #         TargetFilename|endswith:
+    #             - '.docb' # Word binary document introduced in Microsoft Office 2007
+    #             - '.docm' # Word macro-enabled document; same as docx, but may contain macros and scripts
+    #             - '.docx' # Word document
+    #             - '.dotm' # Word macro-enabled template; same as dotx, but may contain macros and scripts
+    #             - '.mdb' # MS Access DB
+    #             - '.mdw' # MS Access DB
+    #             - '.pdf' # PDF documents
+    #             - '.wll' # Word add-in
+    #             - '.wwl' # Word add-in
+    #     selection_excel_paths:
+    #         - TargetFilename|contains: '\Microsoft\Excel\XLSTART'
+    #         - TargetFilename|contains|all:
+    #               - '\Office'
+    #               - '\Program Files'
+    #               - '\XLSTART'
+    #     filter_exclude_excel_ext:
+    #         TargetFilename|endswith:
+    #             - '.xll'
+    #             - '.xls'
+    #             - '.xlsm'
+    #             - '.xlsx'
+    #             - '.xlt'
+    #             - '.xltm'
+    #             - '.xlw'
+    #     filter_main_office_click_to_run:
+    #         Image|contains: ':\Program Files\Common Files\Microsoft Shared\ClickToRun\'
+    #         Image|endswith: '\OfficeClickToRun.exe'
+    #     filter_main_office_apps:
+    #         Image|contains:
+    #             - ':\Program Files\Microsoft Office\'
+    #             - ':\Program Files (x86)\Microsoft Office\'
+    #         Image|endswith:
+    #             - '\winword.exe'
+    #             - '\excel.exe'
+    #     condition: ((selection_word_paths and not filter_exclude_word_ext) or (selection_excel_paths and not filter_exclude_excel_ext)) and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

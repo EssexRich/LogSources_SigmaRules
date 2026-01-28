@@ -1,0 +1,87 @@
+title: Weak Encryption Enabled and Kerberoast
+id: 51aa7bc7-51aa-41aa-a1aa-51aa7bc70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_alert_enable_weak_encryption.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 4738
+    #     # According to Microsoft, the bit values are listed here: https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4720
+    #     # However, that seems to be a simple copy from https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/useraccountcontrol-manipulate-account-properties
+    #     # and the actual flags that are used are quite different and, unfortunately, not documented.
+    #     # https://github.com/mdecrevoisier/EVTX-to-MITRE-Attack/ contains a number of EVTX files with relevant events, which can be used to extract
+    #     # the following values.
+    #     olduac_des: # 0x8000
+    #         OldUacValue|endswith:
+    #             - 8???
+    #             - 9???
+    #             - A???
+    #             - B???
+    #             - C???
+    #             - D???
+    #             - E???
+    #             - F???
+    #     newuac_des:
+    #         NewUacValue|endswith:
+    #             - 8???
+    #             - 9???
+    #             - A???
+    #             - B???
+    #             - C???
+    #             - D???
+    #             - E???
+    #             - F???
+    #     olduac_preauth: # 0x10000
+    #         OldUacValue|endswith:
+    #             - 1????
+    #             - 3????
+    #             - 5????
+    #             - 7????
+    #             - 9????
+    #             - B????
+    #             - D????
+    #             - F????
+    #     newuac_preauth:
+    #         NewUacValue|endswith:
+    #             - 1????
+    #             - 3????
+    #             - 5????
+    #             - 7????
+    #             - 9????
+    #             - B????
+    #             - D????
+    #             - F????
+    #     olduac_encrypted: # 0x800
+    #         OldUacValue|endswith:
+    #             - 8??
+    #             - 9??
+    #             - A??
+    #             - B??
+    #             - C??
+    #             - D??
+    #             - E??
+    #             - F??
+    #     newuac_encrypted:
+    #         NewUacValue|endswith:
+    #             - 8??
+    #             - 9??
+    #             - A??
+    #             - B??
+    #             - C??
+    #             - D??
+    #             - E??
+    #             - F??
+    #     condition: selection and ((newuac_des and not olduac_des) or (newuac_preauth and not oldu
+    # ... [truncated]
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: Linux Auditd Edit Cron Table Parameter
+id: 48f366c9-48f3-48f3-a8f3-48f366c90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_edit_cron_table_parameter.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053.003
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # `linux_auditd` type=SYSCALL syscall IN ("rename", "execve") (comm IN ("crontab") OR exe IN ("*/crontab")) success=yes AND NOT (UID IN("daemon"))
+    #   | rename host as dest 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime 
+    #   by comm exe  syscall uid ppid pid dest 
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)`
+    #   | `linux_auditd_edit_cron_table_parameter_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,24 @@
+title: Windows Gather Victim Host Information Camera
+id: 5e6445b0-5e64-4e64-ae64-5e6445b00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1592.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_gather_victim_host_information_camera.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1592.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # `powershell` EventCode=4104 ScriptBlockText= "* Win32_PnPEntity *" ScriptBlockText=
+    #   "*SELECT*" ScriptBlockText= "*WHERE*" ScriptBlockText = "*PNPClass*" ScriptBlockText
+    #   IN ("*Image*", "*Camera*") | fillnull | stats count min(_time) as firstTime max(_time)
+    #   as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode
+    #   Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `windows_gather_victim_host_information_camera_filter`
+  condition: selection
+level: medium

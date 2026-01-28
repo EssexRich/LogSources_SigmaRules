@@ -1,0 +1,26 @@
+title: Possible PetitPotam Coerce Authentication Attempt
+id: 75e01778-75e0-45e0-a5e0-75e017780000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1187
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_petitpotam_network_share.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1187
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 5145
+    #         ShareName|startswith: '\\\\' # looking for the string \\somethink\IPC$
+    #         ShareName|endswith: '\IPC$'
+    #         RelativeTargetName: lsarpc
+    #         SubjectUserName: ANONYMOUS LOGON
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

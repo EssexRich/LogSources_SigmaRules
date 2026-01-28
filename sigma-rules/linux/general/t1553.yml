@@ -1,0 +1,35 @@
+title: Root Certificate Installation
+id: 54cdc4f6-54cd-44cd-a4cd-54cdc4f60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1553
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_root_certificate_installation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1553
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start") and
+    # process.name in ("update-ca-trust", "update-ca-certificates") and not (
+    #   process.parent.name like (
+    #     "ca-certificates.postinst", "ca-certificates-*.trigger", "pacman", "pamac-daemon", "autofirma.postinst",
+    #     "ipa-client-install", "su", "platform-python", "python*", "kesl", "execd", "systemd", "flock"
+    #   ) or
+    #   process.parent.args like "/var/tmp/rpm*" or
+    #   (process.parent.name in ("sh", "bash", "zsh") and process.args == "-e") or
+    #   process.parent.executable in (
+    #     "/app/update-cert-trust.sh", "/opt/puppetlabs/puppet/bin/puppet", "/opt/puppetlabs/puppet/bin/ruby",
+    #     "/start-haproxy", "/usr/bin/entrypoint.sh", "/usr/bin/crun"
+    #   ) or
+    #   process.parent.args like (
+    #     "/entrypoint.sh", "/entrypoint", "./bootstrap-RHEL*", "lib/apk/exec/ca-certificates-*trigger"
+    #   ) or
+    #   ?process.working_directory == "/var/lib/rancher"
+    # )
+  condition: selection
+level: medium

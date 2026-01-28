@@ -1,0 +1,25 @@
+title: ASL AWS Credential Access GetPasswordData
+id: 0cfd4e27-0cfd-4cfd-acfd-0cfd4e270000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1586.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/asl_aws_credential_access_getpassworddata.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1586.003
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `amazon_security_lake` api.operation=GetPasswordData 
+    #   | spath input=api.request.data 
+    #   | fillnull 
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by actor.user.uid api.operation api.service.name http_request.user_agent src_endpoint.ip actor.user.account.uid cloud.provider cloud.region instanceId
+    #   | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region 
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+    #   |`asl_aws_credential_access_getpassworddata_filter`
+  condition: selection
+level: medium

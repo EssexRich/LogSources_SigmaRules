@@ -1,0 +1,29 @@
+title: Use Of Hidden Paths Or Files
+id: 51dffc05-51df-41df-a1df-51dffc050000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/path/lnx_auditd_hidden_binary_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.001
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: 'PATH'
+    #         name|contains: '/.'
+    #     filter:
+    #         name|contains:
+    #             - '/.cache/'
+    #             - '/.config/'
+    #             - '/.pyenv/'
+    #             - '/.rustup/toolchains'
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: DLL Execution Via Register-cimprovider.exe
+id: 0bac7298-0bac-4bac-abac-0bac72980000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_registry_cimprovider_dll_load.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\register-cimprovider.exe'
+    #         CommandLine|contains|all:
+    #             - '-path'
+    #             - 'dll'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

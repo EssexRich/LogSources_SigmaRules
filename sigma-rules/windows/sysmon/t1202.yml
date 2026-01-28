@@ -1,0 +1,85 @@
+title: Potential Binary Impersonating Sysinternals Tools
+id: 16217a51-1621-4621-a621-16217a510000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1202
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_sysinternals_tools_masquerading.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1202
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_exe:
+    #         Image|endswith:
+    #             - '\accesschk.exe'
+    #             - '\accesschk64.exe'
+    #             - '\AccessEnum.exe'
+    #             - '\ADExplorer.exe'
+    #             - '\ADExplorer64.exe'
+    #             - '\ADInsight.exe'
+    #             - '\ADInsight64.exe'
+    #             - '\adrestore.exe'
+    #             - '\adrestore64.exe'
+    #             - '\Autologon.exe'
+    #             - '\Autologon64.exe'
+    #             - '\Autoruns.exe'
+    #             - '\Autoruns64.exe'
+    #             - '\autorunsc.exe'
+    #             - '\autorunsc64.exe'
+    #             - '\Bginfo.exe'
+    #             - '\Bginfo64.exe'
+    #             - '\Cacheset.exe'
+    #             - '\Cacheset64.exe'
+    #             - '\Clockres.exe'
+    #             - '\Clockres64.exe'
+    #             - '\Contig.exe'
+    #             - '\Contig64.exe'
+    #             - '\Coreinfo.exe'
+    #             - '\Coreinfo64.exe'
+    #             - '\CPUSTRES.EXE'
+    #             - '\CPUSTRES64.EXE'
+    #             - '\ctrl2cap.exe'
+    #             - '\Dbgview.exe'
+    #             - '\dbgview64.exe'
+    #             - '\Desktops.exe'
+    #             - '\Desktops64.exe'
+    #             - '\disk2vhd.exe'
+    #             - '\disk2vhd64.exe'
+    #             - '\diskext.exe'
+    #             - '\diskext64.exe'
+    #             - '\Diskmon.exe'
+    #             - '\Diskmon64.exe'
+    #             - '\DiskView.exe'
+    #             - '\DiskView64.exe'
+    #             - '\du.exe'
+    #             - '\du64.exe'
+    #             - '\efsdump.exe'
+    #             - '\FindLinks.exe'
+    #             - '\FindLinks64.exe'
+    #             - '\handle.exe'
+    #             - '\handle64.exe'
+    #             - '\hex2dec.exe'
+    #             - '\hex2dec64.exe'
+    #             - '\junction.exe'
+    #             - '\junction64.exe'
+    #             - '\ldmdump.exe'
+    #             - '\listdlls.exe'
+    #             - '\listdlls64.exe'
+    #             - '\livekd.exe'
+    #             - '\livekd64.exe'
+    #             - '\loadOrd.exe'
+    #             - '\loadOrd64.exe'
+    #             - '\loadOrdC.exe'
+    #             - '\loadOrdC64.exe'
+    #             - '\logonsessions.exe'
+    #             - '\logonsessions64.exe'
+    #             - '\movefile.exe'
+    #             - '\movef
+    # ... [truncated]
+  condition: selection
+level: medium

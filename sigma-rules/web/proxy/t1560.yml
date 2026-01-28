@@ -1,0 +1,24 @@
+title: Multiple Archive Files Http Post Traffic
+id: 76322313-7632-4632-a632-763223130000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1560
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/web/multiple_archive_files_http_post_traffic.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1560
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `stream_http` http_method=POST |eval archive_hdr1=substr(form_data,1,2) |
+    #   eval archive_hdr2 = substr(form_data,1,4) |stats values(form_data) as http_request_body
+    #   min(_time) as firstTime max(_time) as lastTime count by src_ip dest_ip http_method
+    #   http_user_agent uri_path url bytes_in bytes_out archive_hdr1 archive_hdr2 |where
+    #   count >20 AND (archive_hdr1 = "7z" OR archive_hdr1 = "PK" OR archive_hdr2="Rar!")
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `multiple_archive_files_http_post_traffic_filter`
+  condition: selection
+level: medium

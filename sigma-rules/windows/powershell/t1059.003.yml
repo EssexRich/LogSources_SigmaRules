@@ -1,0 +1,26 @@
+title: Powershell Execute Batch Script
+id: 08beda50-08be-48be-a8be-08beda500000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_execute_batch_script.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1059.003
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_start:
+    #         ScriptBlockText|contains: Start-Process
+    #     selection_batch:
+    #         ScriptBlockText|contains:
+    #             - '.cmd'
+    #             - '.bat'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

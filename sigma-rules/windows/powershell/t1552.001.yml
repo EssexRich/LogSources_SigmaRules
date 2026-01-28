@@ -1,0 +1,29 @@
+title: HackTool - Typical HiveNightmare SAM File Export
+id: 0b2abb91-0b2a-4b2a-ab2a-0b2abb910000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_hktl_hivenightmare_file_exports.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         - TargetFilename|contains:
+    #               - '\hive_sam_'  # Go version
+    #               - '\SAM-2021-'  # C++ version
+    #               - '\SAM-2022-'  # C++ version
+    #               - '\SAM-2023-'  # C++ version
+    #               - '\SAM-haxx'   # Early C++ versions
+    #               - '\Sam.save'   # PowerShell version
+    #         - TargetFilename: 'C:\windows\temp\sam'  # C# version of HiveNightmare
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,22 @@
+title: Windows Defender ASR Audit Events
+id: 0f668e9b-0f66-4f66-af66-0f668e9b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_defender_asr_audit_events.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566.002
+logsource:
+  product: defender
+  service: xdr
+detection:
+  selection:
+    # Original splunk detection logic
+    # `ms_defender` EventCode IN (1122, 1125, 1126, 1132, 1134) | stats count min(_time)
+    #   as firstTime max(_time) as lastTime by host, Process_Name, Target_Commandline, Path,
+    #   ID, EventCode | lookup asr_rules ID OUTPUT ASR_Rule | fillnull value=NULL | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`| rename host as dest | `windows_defender_asr_audit_events_filter`
+  condition: selection
+level: medium

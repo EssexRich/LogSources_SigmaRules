@@ -1,0 +1,58 @@
+title: Malicious Driver Load
+id: 5a8dfc7a-5a8d-4a8d-aa8d-5a8dfc7a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1068
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/driver_load/driver_load_win_mal_drivers.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1068
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Hashes|contains:
+    #             - 'MD5=5be61a24f50eb4c94d98b8a82ef58dcf'
+    #             - 'MD5=d70a80fc73dd43469934a7b1cc623c76'
+    #             - 'MD5=3b71eab204a5f7ed77811e41fed73105'
+    #             - 'MD5=528ce5ce19eb34f401ef024de7ddf222'
+    #             - 'MD5=ae548418b491cd3f31618eb9e5730973'
+    #             - 'MD5=72f53f55898548767e0276c472be41e8'
+    #             - 'MD5=508faa4647f305a97ed7167abc4d1330'
+    #             - 'MD5=ed2b653d55c03f0bffa250372d682b75'
+    #             - 'MD5=0d2ba47286f1c68e87622b3a16bf9d92'
+    #             - 'MD5=3164bd6c12dd0fe1bdf3b833d56323b9'
+    #             - 'MD5=70fd7209ce5c013a1f9e699b5cc86cdc'
+    #             - 'MD5=c71be7b112059d2dc84c0f952e04e6cc'
+    #             - 'MD5=acac842a46f3501fe407b1db1b247a0b'
+    #             - 'MD5=01c2e4d8234258451083d6ce4e8910b7'
+    #             - 'MD5=c8541a9cef64589593e999968a0385b9'
+    #             - 'MD5=e172a38ade3aa0a2bc1bf9604a54a3b5'
+    #             - 'MD5=6fcf56f6ca3210ec397e55f727353c4a'
+    #             - 'MD5=2b80be31fbb11d4c1ef6d6a80b2e0c16'
+    #             - 'MD5=07056573d464b0f5284f7e3acedd4a3f'
+    #             - 'MD5=c7b7f1edb9bbef174e6506885561d85d'
+    #             - 'MD5=d5918d735a23f746f0e83f724c4f26e5'
+    #             - 'MD5=84763d8ca9fe5c3bff9667b2adf667de'
+    #             - 'MD5=fb593b1f1f80d20fc7f4b818065c64b6'
+    #             - 'MD5=909f3fc221acbe999483c87d9ead024a'
+    #             - 'MD5=e29f6311ae87542b3d693c1f38e4e3ad'
+    #             - 'MD5=aeb0801f22d71c7494e884d914446751'
+    #             - 'MD5=3f11a94f1ac5efdd19767c6976da9ba4'
+    #             - 'MD5=be6318413160e589080df02bb3ca6e6a'
+    #             - 'MD5=0b311af53d2f4f77d30f1aed709db257'
+    #             - 'MD5=d075d56dfce6b9b13484152b1ef40f93'
+    #             - 'MD5=27384ec4c634701012a2962c30badad2'
+    #             - 'MD5=5eb2c576597dd21a6b44557c237cf896'
+    #             - 'MD5=f56db4eba3829c0918413b5c0b42f00f'
+    #             - 'MD5=e27b2486aa5c256b662812b465b6036c'
+    #             - 'MD5=db86dfd7aefbb5be6728a63461b0f5f3'
+    #             - 'MD5=04a88f5974caa621cee18f34300fc08a'
+    #             - 'MD5=5129d8fd53d6a4aba81657ab2aa5d243'
+    # ... [truncated]
+  condition: selection
+level: medium

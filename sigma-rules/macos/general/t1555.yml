@@ -1,0 +1,23 @@
+title: Keychain CommandLine Interaction via Unsigned or Untrusted Process
+id: 6b2d289f-6b2d-4b2d-ab2d-6b2d289f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1555
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_credentials_keychains.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1555
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and event.action == "exec" and
+    #   process.args like ("/Users/*/Library/Keychains/*", "/Library/Keychains/*", "login.keychain-db", "login.keychain") and 
+    #   ((process.code_signature.trusted == false or process.code_signature.exists == false) or 
+    #    (process.name in ("bash", "sh", "zsh", "osascript", "cat", "echo", "cp") and 
+    #    (process.parent.code_signature.trusted == false or process.parent.code_signature.exists == false)))
+  condition: selection
+level: medium

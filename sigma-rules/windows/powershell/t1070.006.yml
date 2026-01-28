@@ -1,0 +1,28 @@
+title: Powershell Timestomp
+id: 70c536de-70c5-40c5-a0c5-70c536de0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_timestomp.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1070.006
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_ioc:
+    #         ScriptBlockText|contains:
+    #             - '.CreationTime ='
+    #             - '.LastWriteTime ='
+    #             - '.LastAccessTime ='
+    #             - '[IO.File]::SetCreationTime'
+    #             - '[IO.File]::SetLastAccessTime'
+    #             - '[IO.File]::SetLastWriteTime'
+    #     condition: selection_ioc
+    # 
+  condition: selection
+level: medium

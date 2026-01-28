@@ -1,0 +1,40 @@
+title: Windows File Transfer Protocol In Non-Common Process Path
+id: 11fa299b-11fa-41fa-a1fa-11fa299b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_file_transfer_protocol_in_non_common_process_path.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1071.003
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon`
+    #   EventCode=3
+    #   NOT Image IN(
+    #     "C:\\Program Files \(x86\)\\*",
+    #     "C:\\Program Files\\*",
+    #     "C:\\Windows\\System32\\*",
+    #     "C:\\Windows\\SysWOW64\\*"
+    #   )
+    #   (
+    #     DestinationPortName="ftp"
+    #     OR
+    #     DestinationPort=21
+    #   )
+    #   | stats count min(_time) as firstTime
+    #           max(_time) as lastTime
+    # 
+    #   by action app dest dest_ip dest_port direction dvc protocol protocol_version
+    #      src src_ip src_port transport user vendor_product process_name
+    #      process_exec process_guid process_id
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `windows_file_transfer_protocol_in_non_common_process_path_filter`
+  condition: selection
+level: medium

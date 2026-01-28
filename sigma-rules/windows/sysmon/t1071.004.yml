@@ -1,0 +1,27 @@
+title: Windows AI Platform DNS Query
+id: 46ac04ef-46ac-46ac-a6ac-46ac04ef0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_ai_platform_dns_query.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1071.004
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=22 QueryName IN ("router.huggingface.co", "api.openai.com")
+    #     | lookup update=true browser_app_list browser_process_name AS process_name OUTPUT isAllowed | search isAllowed!=true
+    #     | rename dvc as dest
+    #     | stats count min(_time) as firstTime max(_time) as lastTime 
+    #     by answer answer_count dest process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id Image
+    #     vendor_product QueryName QueryResults QueryStatus 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #   | `windows_ai_platform_dns_query_filter`
+  condition: selection
+level: medium

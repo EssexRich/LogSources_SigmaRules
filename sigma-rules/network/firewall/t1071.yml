@@ -1,0 +1,75 @@
+title: High Number of Egress Network Connections from Unusual Executable
+id: 44e73243-44e7-44e7-a4e7-44e732430000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_frequent_egress_netcon_from_sus_executable.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1071
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-endpoint.events.network-* metadata _id, _index, _version
+    # | mv_expand event.action 
+    # | where
+    #     host.os.type == "linux" and
+    #     event.type == "start" and
+    #     event.action == "connection_attempted" and
+    #     (
+    #         process.executable like "/tmp/*" or
+    #         process.executable like "/var/tmp/*" or
+    #         process.executable like "/dev/shm/*" or
+    #         process.executable like "/var/log/*" or
+    #         process.executable like "/sys/*" or
+    #         process.executable like "/media/*" or
+    #         process.executable like "/proc/*" or
+    #         process.executable like "/var/backups/*" or
+    #         process.executable like "/var/mail/*" or
+    #         process.executable like "/var/spool/*" or
+    #         process.executable like "./*" or
+    #         process.name like ".*"
+    #     ) and
+    #     not (
+    #         cidr_match(destination.ip,
+    #             "10.0.0.0/8", "127.0.0.0/8", "169.254.0.0/16", "172.16.0.0/12",
+    #             "192.0.0.0/24", "192.0.0.29/32", "192.0.0.8/32", "192.0.0.9/32",
+    #             "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+    #             "192.31.196.0/24", "192.52.193.0/24", "192.168.0.0/16", "192.88.99.0/24",
+    #             "224.0.0.0/4", "100.64.0.0/10", "192.175.48.0/24", "198.18.0.0/15",
+    #             "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1", "FE80::/10", "FF00::/8"
+    #         ) or
+    #         process.executable like "/tmp/newroot/*" or
+    #         process.executable like "/tmp/.mount*" or
+    #         process.executable like "/tmp/go-build*"
+    #     )
+    # | keep
+    #     @timestamp,
+    #     _id,
+    #     _index,
+    #     _version,
+    #     host.os.type,
+    #     event.type,
+    #     event.action,
+    #     process.name,
+    #     process.executable,
+    #     destination.ip,
+    #     agent.id,
+    #     host.name,
+    #     event.dataset,
+    #     data_stream.namespace
+    # 
+    # | stats
+    #     Esql.event_count = count(),
+    #     Esql.agent_id_count_distinct = count_distinct(agent.id),
+    #     Esql.host_name_values = values(host.name),
+    #     Esql.agent_id_values = values(agent.id),
+    #     Esql.event_dataset_values = values(event.dataset),
+    #     Esql.data_stream_na
+    # ... [truncated]
+  condition: selection
+level: medium

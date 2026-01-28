@@ -1,0 +1,26 @@
+title: Process Creating LNK file in Suspicious Location
+id: 54cc940d-54cc-44cc-a4cc-54cc940d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/process_creating_lnk_file_in_suspicious_location.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1566.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.lnk"
+    #   AND (Filesystem.file_path="C:\\Users\\*" OR Filesystem.file_path="*\\Temp\\*") by
+    #   Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+    #   Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
+    #   Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+    #   Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` |
+    #   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `process_creating_lnk_file_in_suspicious_location_filter`
+  condition: selection
+level: medium

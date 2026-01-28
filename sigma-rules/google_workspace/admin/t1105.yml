@@ -1,0 +1,30 @@
+title: Suspicious File Downloaded from Google Drive
+id: 39452c85-3945-4945-a945-39452c850000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1105
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_google_drive_malicious_file_download.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1105
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where
+    # 
+    #     /* common browser processes  */
+    #     event.action in ("exec", "fork", "start") and
+    # 
+    #     process.name : ("Microsoft Edge", "chrome.exe", "Google Chrome", "google-chrome-stable",
+    #                     "google-chrome-beta", "google-chrome", "msedge.exe", "firefox.exe", "brave.exe",
+    #                     "whale.exe", "browser.exe", "dragon.exe", "vivaldi.exe", "opera.exe", "firefox",
+    #                     "powershell.exe", "curl", "curl.exe", "wget", "wget.exe") and
+    # 
+    #     /* Look for Google Drive download URL with AV flag skipping */
+    #     (process.command_line : "*drive.google.com*" and process.command_line : "*export=download*" and process.command_line : "*confirm=no_antivirus*")
+  condition: selection
+level: medium

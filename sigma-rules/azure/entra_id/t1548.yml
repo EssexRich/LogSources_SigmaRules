@@ -1,0 +1,38 @@
+title: Entra ID Actor Token User Impersonation Abuse
+id: 055a1933-055a-455a-a55a-055a19330000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_actor_token_user_impersonation_abuse.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-azure.auditlogs-* metadata _id, _version, _index
+    # | where azure.auditlogs.properties.initiated_by.user.displayName in (
+    #     "Office 365 Exchange Online",
+    #     "Skype for Business Online",
+    #     "Dataverse",
+    #     "Office 365 SharePoint Online",
+    #     "Microsoft Dynamics ERP"
+    #   ) and
+    #   not azure.auditlogs.operation_name like "*group*" and
+    #   azure.auditlogs.operation_name != "Set directory feature on tenant"
+    #   and azure.auditlogs.properties.initiated_by.user.userPrincipalName rlike ".+@[A-Za-z0-9.]+\\.[A-Za-z]{2,}"
+    # | keep
+    #     @timestamp,
+    #     azure.*,
+    #     client.*,
+    #     event.*,
+    #     source.*,
+    #     _id,
+    #     _version,
+    #     _index
+  condition: selection
+level: medium

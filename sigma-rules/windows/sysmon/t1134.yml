@@ -1,0 +1,26 @@
+title: Privilege Escalation via Rogue Named Pipe Impersonation
+id: 797c74c5-797c-497c-a97c-797c74c50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1134
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_via_rogue_named_pipe.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1134
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "windows" and
+    #   event.provider == "Microsoft-Windows-Sysmon" and
+    #   
+    #   /* Named Pipe Creation */
+    #   event.code == "17" and
+    #   
+    #   /* Sysmon truncates the "Pipe" keyword in normal named pipe creation events */
+    #   file.name : "\\*\\Pipe\\*"
+  condition: selection
+level: medium

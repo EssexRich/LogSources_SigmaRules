@@ -1,0 +1,27 @@
+title: Ingress/Egress Security Group Modification
+id: 76c6c792-76c6-46c6-a6c6-76c6c7920000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1190
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_security_group_change_ingress_egress.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1190
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: 'ec2.amazonaws.com'
+    #         eventName:
+    #             - 'AuthorizeSecurityGroupEgress'
+    #             - 'AuthorizeSecurityGroupIngress'
+    #             - 'RevokeSecurityGroupEgress'
+    #             - 'RevokeSecurityGroupIngress'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

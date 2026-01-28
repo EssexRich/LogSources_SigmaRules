@@ -1,0 +1,37 @@
+title: Privileged Account Brute Force
+id: 2c2d0b02-2c2d-4c2d-ac2d-2c2d0b020000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_bruteforce_admin_account.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-system.security*, logs-windows.forwarded*, winlogbeat-* metadata _id, _version, _index
+    # | where event.category == "authentication" and host.os.type == "windows" and event.action == "logon-failed" and
+    #   winlog.logon.type == "Network" and source.ip is not null and winlog.computer_name is not null and
+    #   not cidr_match(TO_IP(source.ip), "127.0.0.0/8", "::1") and
+    #   to_lower(winlog.event_data.TargetUserName) like "*admin*"  and
+    #   /*
+    #     noisy failure status codes often associated to authentication misconfiguration
+    #      0xC000015B - The user has not been granted the requested logon type (also called the logon right) at this machine.
+    #      0XC000005E - There are currently no logon servers available to service the logon request.
+    #      0XC0000133 - Clocks between DC and other computer too far out of sync.
+    #      0XC0000192 An attempt was made to logon, but the Netlogon service was not started.
+    #      0xc00000dc - DC is in shutdown phase, it will normally tell current clients to use another DC for authentication.
+    #   */
+    #   not winlog.event_data.Status in ("0xc000015b", "0xc000005e", "0xc0000133", "0xc0000192", "0xc00000dc")
+    # // truncate the timestamp to a 60-second window
+    # | eval Esql.time_window = date_trunc(60 seconds, @timestamp)
+    # | stats Esql.failed_auth_count = COUNT(*), Esql.target_user_name_values = VALUES(winlog.event_data.TargetUserName), Esql.user_domain_values = VALUES(user.domain), Esql.error_codes = VALUES(winlog.event_data.Status), Esql.data_stream_namespace.values = VALUES(data_stream.namespace) by winlog.computer_name, source.ip, Esql.time_window, winlog.logon.type
+    # | where Esql.failed_auth_count >= 50
+    # | KEEP winlog.computer_name, source.ip, Esql.time_window, winlog.logon.type, Esql.*
+  condition: selection
+level: medium

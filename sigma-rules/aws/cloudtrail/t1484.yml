@@ -1,0 +1,23 @@
+title: AWS IAM SAML Provider Updated
+id: 7ed49537-7ed4-4ed4-aed4-7ed495370000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1484
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/privilege_escalation_iam_saml_provider_updated.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1484
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "iam.amazonaws.com"
+    #     and event.action: "UpdateSAMLProvider"
+    #     and event.outcome: "success"
+    #     and not (source.address: "sso.amazonaws.com" and user_agent.original: "sso.amazonaws.com")
+  condition: selection
+level: medium

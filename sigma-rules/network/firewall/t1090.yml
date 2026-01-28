@@ -1,0 +1,30 @@
+title: Kubectl Network Configuration Modification
+id: 67e7d2bf-67e7-47e7-a7e7-67e7d2bf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1090
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_kubectl_networking_modification.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1090
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
+    # process.name == "kubectl" and (
+    #   process.args == "port-forward" and process.command_line like "*:*" or
+    #   process.args in ("proxy", "expose")
+    # ) and (
+    #   process.parent.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") or
+    #   (
+    #     process.parent.executable like ("/tmp/*", "/var/tmp/*", "/dev/shm/*", "/root/*", "/home/*") or
+    #     process.parent.name like (".*", "*.sh")
+    #   )
+    # )
+  condition: selection
+level: medium

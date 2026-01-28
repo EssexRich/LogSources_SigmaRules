@@ -1,0 +1,28 @@
+title: Potential Impersonation Attempt via Kubectl
+id: 1384271b-1384-4384-a384-1384271b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_potential_kubectl_impersonation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "executed", "process_started") and
+    # process.name == "kubectl" and (
+    #   process.parent.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") or
+    #   (
+    #     process.parent.executable like ("/tmp/*", "/var/tmp/*", "/dev/shm/*", "/root/*", "/home/*") or
+    #     process.parent.name like (".*", "*.sh")
+    #   )
+    # ) and process.args like~ ("--kubeconfig*", "--token*", "--as*", "--as-group*", "--as-uid*") and
+    # not process.parent.args like ("/snap/microk8s/*/apiservice-kicker", "/snap/microk8s/*/microk8s-start.wrapper")
+  condition: selection
+level: medium

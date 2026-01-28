@@ -1,0 +1,24 @@
+title: Okta New Device Enrolled on Account
+id: 3295a8a2-3295-4295-a295-3295a8a20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.005
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/okta_new_device_enrolled_on_account.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.005
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time)
+    #   as firstTime from datamodel=Change where All_Changes.action=created All_Changes.command=device.enrollment.create
+    #   by _time span=5m All_Changes.user All_Changes.result All_Changes.command sourcetype
+    #   All_Changes.src All_Changes.action All_Changes.object_category All_Changes.dest
+    #   | `drop_dm_object_name("All_Changes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `okta_new_device_enrolled_on_account_filter`
+  condition: selection
+level: medium

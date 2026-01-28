@@ -1,0 +1,28 @@
+title: Copy Passwd Or Shadow From TMP Path
+id: 74588433-7458-4458-a458-745884330000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_cp_passwd_or_shadow_tmp.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1552.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         Image|endswith: '/cp'
+    #     selection_path:
+    #         CommandLine|contains: '/tmp/'
+    #     selection_file:
+    #         CommandLine|contains:
+    #             - 'passwd'
+    #             - 'shadow'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

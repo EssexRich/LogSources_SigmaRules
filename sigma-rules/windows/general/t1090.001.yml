@@ -1,0 +1,26 @@
+title: Cloudflared Portable Execution
+id: 218779d0-2187-4187-a187-218779d00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1090.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cloudflared_portable_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1090.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\cloudflared.exe'
+    #     filter_main_admin_location:
+    #         Image|contains:
+    #             - ':\Program Files (x86)\cloudflared\'
+    #             - ':\Program Files\cloudflared\'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,25 @@
+title: Remote Task Creation via ATSVC Named Pipe
+id: 6ee13760-6ee1-4ee1-aee1-6ee137600000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_atsvc_task.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053.002
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 5145
+    #         ShareName: '\\\\\*\\IPC$' # looking for the string \\*\IPC$
+    #         RelativeTargetName: atsvc
+    #         AccessList|contains: 'WriteData'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

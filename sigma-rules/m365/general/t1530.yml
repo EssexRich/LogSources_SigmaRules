@@ -1,0 +1,29 @@
+title: O365 Exfiltration via File Access
+id: 12560c9e-1256-4256-a256-12560c9e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1530
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_exfiltration_via_file_access.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1530
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #   `o365_management_activity` Operation IN ("fileaccessed") UserId!=app@sharepoint NOT SourceFileExtension IN (bmp,png,jpeg,jpg)
+    #   | eval user = replace(mvindex(split(lower(UserId),"#ext#"),0),"_","@"), user_flat = replace(UserId, "[^A-Za-z0-9]","_")
+    #   | where NOT match(SiteUrl,user_flat)
+    #   | stats values(user) as user, latest(ClientIP) as src values(ZipFileName) as file_name, values(Operation) as signature, values(UserAgent) as http_user_agent, dc(SourceFileName) as count, min(_time) as firstTime, max(_time) as lastTime by Workload,UserId,SiteUrl
+    #   | eventstats avg(count) as avg stdev(count) as stdev by Workload
+    #   | rename SiteUrl as file_path,Workload as app
+    #   | where count > 50 AND count > (avg + (3*(stdev))) 
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)`
+    #   | `o365_exfiltration_via_file_access_filter`
+  condition: selection
+level: medium

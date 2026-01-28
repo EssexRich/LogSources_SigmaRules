@@ -1,0 +1,29 @@
+title: Potential Windows Defender AV Bypass Via Dump64.EXE Rename
+id: 573537e1-5735-4735-a735-573537e10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_dump64_defender_av_bypass_rename.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.001
+logsource:
+  product: defender
+  service: xdr
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_dump:
+    #         Image|startswith: ':\Program Files'
+    #         Image|contains: '\Microsoft Visual Studio\'
+    #         Image|endswith: '\dump64.exe'
+    #     selection_tools_procdump:
+    #         - OriginalFileName: 'procdump'
+    #         - CommandLine|contains:
+    #               - ' -ma ' # Full Dump
+    #               - ' -mp ' # Mini Plus
+    #     condition: selection_dump and 1 of selection_tools_*
+    # 
+  condition: selection
+level: medium

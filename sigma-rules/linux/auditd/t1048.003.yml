@@ -1,0 +1,24 @@
+title: Data Exfiltration with Wget
+id: 74823b6f-7482-4482-a482-74823b6f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1048.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_data_exfil_wget.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1048.003
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         type: EXECVE
+    #         a0: wget
+    #         a1|startswith: '--post-file='
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

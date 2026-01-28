@@ -1,0 +1,21 @@
+title: Windows BootLoader Inventory
+id: 355fbb66-355f-455f-a55f-355fbb660000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1542.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_bootloader_inventory.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1542.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `bootloader_inventory` | stats count min(_time) as firstTime max(_time) as
+    #   lastTime values(_raw) by host | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `windows_bootloader_inventory_filter`
+  condition: selection
+level: medium

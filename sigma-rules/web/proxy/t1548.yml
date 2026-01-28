@@ -1,0 +1,44 @@
+title: Potential Privilege Escalation via SUID/SGID Proxy Execution
+id: 6451dcde-6451-4451-a451-6451dcde0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_potential_suid_sgid_proxy_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and (
+    #   (process.user.id == "0" and process.real_user.id != "0") or
+    #   (process.group.id == "0" and process.real_group.id != "0")
+    # ) and process.args in (
+    #   "/bin/su", "/usr/bin/su",
+    #   "/usr/bin/sudo",
+    #   "/bin/mount", "/usr/bin/mount",
+    #   "/bin/umount", "/usr/bin/umount",
+    #   "/usr/bin/fusermount3",
+    #   "/bin/passwd", "/usr/bin/passwd",
+    #   "/bin/chfn", "/usr/bin/chfn",
+    #   "/bin/chsh", "/usr/bin/chsh",
+    #   "/bin/gpasswd", "/usr/bin/gpasswd",
+    #   "/bin/newgrp", "/usr/bin/newgrp",
+    #   "/sbin/unix_chkpwd", "/usr/sbin/unix_chkpwd",
+    #   "/usr/bin/newuidmap", "/usr/bin/newgidmap",
+    #   "/usr/lib/dbus-1.0/dbus-daemon-launch-helper", "/usr/libexec/dbus-daemon-launch-helper",
+    #   "/usr/lib/openssh/ssh-keysign", "/usr/libexec/openssh/ssh-keysign",
+    #   "/usr/bin/pkexec", "/usr/libexec/pkexec", "/usr/lib/polkit-1/pkexec",
+    #   "/usr/lib/polkit-1/polkit-agent-helper-1", "/usr/libexec/polkit-agent-helper-1",
+    #   "/usr/lib/snapd/snap-confine"
+    # ) and process.parent.args_count == 1 and
+    # not process.parent.executable in (
+    #   "/usr/libexec/oracle-cloud-agent/plugins/unifiedmonitoring/unifiedmonitoring", "/usr/libexec/oracle-cloud-agent/agent",
+    #   "/usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1", "/usr/libexec/xfce-polkit", "/usr/bin/dolphin"
+    # )
+  condition: selection
+level: medium

@@ -1,0 +1,34 @@
+title: Local Account TokenFilter Policy Disabled
+id: 0df720cb-0df7-4df7-adf7-0df720cb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_persistence_account_tokenfilterpolicy.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # registry where host.os.type == "windows" and event.type == "change" and
+    #   registry.value : "LocalAccountTokenFilterPolicy" and
+    #   registry.path : (
+    #     "HKLM\\*\\LocalAccountTokenFilterPolicy",
+    #     "\\REGISTRY\\MACHINE\\*\\LocalAccountTokenFilterPolicy",
+    #     "MACHINE\\*\\LocalAccountTokenFilterPolicy"
+    #   ) and registry.data.strings : ("1", "0x00000001") and
+    #   not process.executable : (
+    #     /* Intune */
+    #     "C:\\Windows\\system32\\deviceenroller.exe",
+    #     "C:\\Windows\\system32\\omadmclient.exe",
+    # 
+    #     /* Crowdstrike specific exclusion as it uses NT Object paths */
+    #     "\\Device\\HarddiskVolume*\\system32\\deviceenroller.exe",
+    #     "\\Device\\HarddiskVolume*\\system32\\omadmclient.exe"
+    #   )
+  condition: selection
+level: medium

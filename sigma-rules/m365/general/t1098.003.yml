@@ -1,0 +1,27 @@
+title: M365 Identity Global Administrator Role Assigned
+id: 34b4e32f-34b4-44b4-a4b4-34b4e32f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/persistence_entra_id_global_administrator_role_assign.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098.003
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit
+    #     and event.code:"AzureActiveDirectory"
+    #     and event.action:"Add member to role."
+    #     and event.outcome: "success"
+    #     and o365.audit.ModifiedProperties.Role_DisplayName.NewValue: (
+    #         "Global Administrator" or "Company Administrator"
+    #     )
+    #     and o365.audit.AzureActiveDirectoryEventType: 1
+    #     and o365.audit.RecordType: 8
+  condition: selection
+level: medium

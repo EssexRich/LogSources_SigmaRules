@@ -1,0 +1,54 @@
+title: Potential Azure Browser SSO Abuse
+id: 03943e0d-0394-4394-a394-03943e0d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_dll_azure_microsoft_account_token_provider_dll_load.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1574.001
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         ImageLoaded: 'C:\Windows\System32\MicrosoftAccountTokenProvider.dll'
+    #     filter_main_bgtaskhost:
+    #         Image|startswith:
+    #             - 'C:\Windows\System32\'
+    #             - 'C:\Windows\SysWOW64\'
+    #         Image|endswith: '\BackgroundTaskHost.exe'
+    #         # CommandLine|contains: '-ServerNameBackgroundTaskHost.WebAccountProvider'
+    #     filter_optional_devenv:
+    #         Image|startswith:
+    #             - 'C:\Program Files\Microsoft Visual Studio\'
+    #             - 'C:\Program Files (x86)\Microsoft Visual Studio\'
+    #         Image|endswith: '\IDE\devenv.exe'
+    #     filter_optional_ie:
+    #         Image:
+    #             - 'C:\Program Files (x86)\Internet Explorer\iexplore.exe'
+    #             - 'C:\Program Files\Internet Explorer\iexplore.exe'
+    #     filter_optional_edge_1:
+    #         - Image|startswith: 'C:\Program Files (x86)\Microsoft\EdgeWebView\Application\'
+    #         - Image|endswith: '\WindowsApps\MicrosoftEdge.exe'
+    #         - Image:
+    #               - 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+    #               - 'C:\Program Files\Microsoft\Edge\Application\msedge.exe'
+    #     filter_optional_edge_2:
+    #         Image|startswith:
+    #             - 'C:\Program Files (x86)\Microsoft\EdgeCore\'
+    #             - 'C:\Program Files\Microsoft\EdgeCore\'
+    #         Image|endswith:
+    #             - '\msedge.exe'
+    #             - '\msedgewebview2.exe'
+    #     filter_optional_onedrive:
+    #         Image|endswith: '\AppData\Local\Microsoft\OneDrive\OneDrive.exe'
+    #     filter_optional_null:
+    #         Image: null
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

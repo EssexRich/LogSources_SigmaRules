@@ -1,0 +1,22 @@
+title: AWS IAM User Addition to Group
+id: 5f784714-5f78-4f78-af78-5f7847140000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_iam_user_addition_to_group.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1098
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: aws.cloudtrail and 
+    #     event.provider: iam.amazonaws.com and 
+    #     event.action: AddUserToGroup and 
+    #     event.outcome: success
+  condition: selection
+level: medium

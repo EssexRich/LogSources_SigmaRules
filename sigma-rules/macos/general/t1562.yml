@@ -1,0 +1,21 @@
+title: SoftwareUpdate Preferences Modification
+id: 1718232b-1718-4718-a718-1718232b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_apple_softupdates_modification.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.name == "defaults" and
+    #  process.args like "write" and process.args like "-bool" and process.args like~ ("com.apple.SoftwareUpdate", "/Library/Preferences/com.apple.SoftwareUpdate.plist") and not process.args like ("TRUE", "true")
+  condition: selection
+level: medium

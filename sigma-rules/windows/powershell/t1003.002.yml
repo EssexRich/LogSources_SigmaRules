@@ -1,0 +1,41 @@
+title: NTDS.DIT Creation By Uncommon Process
+id: 0821d646-0821-4821-a821-0821d6460000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_ntds_dit_uncommon_process.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1003.002
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_ntds:
+    #         TargetFilename|endswith: '\ntds.dit'
+    #     selection_process_img:
+    #         Image|endswith:
+    #             # Add more suspicious processes as you see fit
+    #             - '\cmd.exe'
+    #             - '\cscript.exe'
+    #             - '\mshta.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\regsvr32.exe'
+    #             - '\rundll32.exe'
+    #             - '\wscript.exe'
+    #             - '\wsl.exe'
+    #             - '\wt.exe'
+    #     selection_process_paths:
+    #         Image|contains:
+    #             - '\AppData\'
+    #             - '\Temp\'
+    #             - '\Public\'
+    #             - '\PerfLogs\'
+    #     condition: selection_ntds and 1 of selection_process_*
+    # 
+  condition: selection
+level: medium

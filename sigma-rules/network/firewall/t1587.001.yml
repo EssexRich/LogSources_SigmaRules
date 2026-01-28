@@ -1,0 +1,27 @@
+title: Cisco Secure Firewall - Possibly Compromised Host
+id: 10ff586f-10ff-40ff-a0ff-10ff586f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1587.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___possibly_compromised_host.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1587.001
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_secure_firewall` EventType=IntrusionEvent Impact IN (1,2)
+    #   | stats count as TotalDetections values(signature_id) as signature_id 
+    #           values(signature) as signature 
+    #           values(rule) as rule 
+    #           min(_time) as firstTime max(_time) as lastTime 
+    #           by src dest dest_port transport Impact app impact_desc class_desc MitreAttackGroups InlineResult InlineResultReason
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `cisco_secure_firewall___possibly_compromised_host_filter`
+  condition: selection
+level: medium

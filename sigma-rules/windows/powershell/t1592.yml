@@ -1,0 +1,24 @@
+title: Recon AVProduct Through Pwh or WMI
+id: 420bb505-420b-420b-a20b-420bb5050000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1592
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/recon_avproduct_through_pwh_or_wmi.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1592
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # `powershell` EventCode=4104 (ScriptBlockText = "*SELECT*" OR ScriptBlockText
+    #   = "*WMIC*") AND (ScriptBlockText = "*AntiVirusProduct*" OR ScriptBlockText = "*AntiSpywareProduct*")
+    #   | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest
+    #   signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID
+    #   ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `recon_avproduct_through_pwh_or_wmi_filter`
+  condition: selection
+level: medium

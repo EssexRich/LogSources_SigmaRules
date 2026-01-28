@@ -1,0 +1,19 @@
+title: Windows CryptoAPI Spoofing Vulnerability (CVE-2020-0601 - CurveBall)
+id: 6cc668b7-6cc6-4cc6-acc6-6cc668b70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1553.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_cve_2020_0601.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1553.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.provider:"Microsoft-Windows-Audit-CVE" and message:"[CVE-2020-0601]" and host.os.type:windows
+  condition: selection
+level: medium

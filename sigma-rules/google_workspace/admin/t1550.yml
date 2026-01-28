@@ -1,0 +1,20 @@
+title: First Time Seen Google Workspace OAuth Login from Third-Party Application
+id: 49c4917e-49c4-49c4-a9c4-49c4917e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/defense_evasion_google_workspace_new_oauth_login_from_third_party_application.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1550
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "google_workspace.token" and event.action: "authorize" and
+    # google_workspace.token.scope.data: *Login and google_workspace.token.client.id: *apps.googleusercontent.com
+  condition: selection
+level: medium

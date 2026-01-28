@@ -1,0 +1,28 @@
+title: Tool Installation Detected via Defend for Containers
+id: 55a35266-55a3-45a3-a5a3-55a352660000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1072
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_tool_installation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1072
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and (
+    #   (process.name in ("apt", "apt-get", "dnf", "microdnf", "yum", "zypper", "tdnf") and process.args == "install") or
+    #   (process.name == "apk" and process.args == "add") or
+    #   (process.name == "pacman" and process.args like "-*S*") or
+    #   (process.name in ("rpm", "dpkg") and process.args in ("-i", "--install"))
+    # ) and process.args like (
+    #   "curl", "wget", "socat", "busybox", "openssl", "torsocks",
+    #   "netcat", "netcat-openbsd", "netcat-traditional", "ncat", "tor",
+    #   "python*", "perl", "node", "nodejs", "ruby", "lua"
+    # ) and process.interactive == true and container.id like "*"
+  condition: selection
+level: medium

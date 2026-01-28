@@ -1,0 +1,25 @@
+title: Dropping Of Password Filter DLL
+id: 42658e35-4265-4265-a265-42658e350000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_reg_credential_access_via_password_filter.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1556.002
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_cmdline:
+    #         CommandLine|contains|all:
+    #             - 'HKLM\SYSTEM\CurrentControlSet\Control\Lsa'
+    #             - 'scecli\0*'
+    #             - 'reg add'
+    #     condition: selection_cmdline
+    # 
+  condition: selection
+level: medium

@@ -1,0 +1,47 @@
+title: System Information Discovery - Auditd
+id: 002fecc1-002f-402f-a02f-002fecc10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1082
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_system_info_discovery.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1082
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_1:
+    #         type: PATH
+    #         name:
+    #             - /etc/lsb-release
+    #             - /etc/redhat-release
+    #             - /etc/issue
+    #     selection_2:
+    #         type: EXECVE
+    #         a0:
+    #             - uname
+    #             - uptime
+    #             - lsmod
+    #             - hostname
+    #             - env
+    #     selection_3:
+    #         type: EXECVE
+    #         a0: grep
+    #         a1|contains:
+    #             - vbox
+    #             - vm
+    #             - xen
+    #             - virtio
+    #             - hv
+    #     selection_4:
+    #         type: EXECVE
+    #         a0: kmod
+    #         a1: list
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

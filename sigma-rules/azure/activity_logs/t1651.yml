@@ -1,0 +1,19 @@
+title: Azure Compute VM Command Executed
+id: 138bbf49-138b-438b-a38b-138bbf490000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1651
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/execution_compute_vm_command_executed.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1651
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.activitylogs and azure.activitylogs.operation_name:"MICROSOFT.COMPUTE/VIRTUALMACHINES/RUNCOMMAND/ACTION" and event.outcome:(Success or success)
+  condition: selection
+level: medium

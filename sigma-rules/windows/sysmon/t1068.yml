@@ -1,0 +1,26 @@
+title: HackTool - SysmonEOP Execution
+id: 5f3c1ad5-5f3c-4f3c-af3c-5f3c1ad50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1068
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_sysmoneop.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1068
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         Image|endswith: '\SysmonEOP.exe'
+    #     selection_hash:
+    #         Hashes|contains:
+    #             - 'IMPHASH=22F4089EB8ABA31E1BB162C6D9BF72E5'
+    #             - 'IMPHASH=5123FA4C4384D431CD0D893EEB49BBEC'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

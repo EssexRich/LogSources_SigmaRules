@@ -1,0 +1,40 @@
+title: O365 Email Password and Payroll Compromise Behavior
+id: 78902999-7890-4890-a890-789029990000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1114.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_email_password_and_payroll_compromise_behavior.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1114.001
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #   `o365_messagetrace` subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*")
+    #   | eval mailtime = _time
+    #   | bin _time span=4hr
+    #   | eval user = lower(RecipientAddress)
+    #   | eval InternetMessageId = lower(MessageId)
+    #   | join InternetMessageId, user max=0
+    #     [
+    #     | search `o365_management_activity` Workload=Exchange Operation IN ("SoftDelete","HardDelete")
+    #     | spath path=AffectedItems{}  output=AffectedItemSplit
+    #     | fields _time,ClientIP,ClientInfoString,UserId,Operation,ResultStatus,MailboxOwnerUPN,AffectedItemSplit 
+    #     | mvexpand AffectedItemSplit | spath input=AffectedItemSplit
+    #     | search Subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*") 
+    #     | eval deltime = _time
+    #     | bin _time span=4hr
+    #     | eval InternetMessageId = lower(InternetMessageId), user = lower(UserId)
+    #     ]
+    #   | stats values(ClientInfoString) as http_user_agent, values(ClientIP) as src, values(Subject) as subject, dc(Subject) as subject_count, values(Operation) as action, values(ResultStatus) as result, count, min(mailtime) as firstTime, max(deltime) as lastTime by user,_time
+    #   | search subject IN ("*banking*","*direct deposit*","*pay-to*") AND subject IN ("*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*") 
+    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(lastTime)`
+    #   | `o365_email_password_and_payroll_compromise_behavior_filter`
+  condition: selection
+level: medium

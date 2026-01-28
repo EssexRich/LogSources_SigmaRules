@@ -1,0 +1,22 @@
+title: AWS S3 Bucket Enumeration or Brute Force
+id: 1ff6cc3c-1ff6-4ff6-aff6-1ff6cc3c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1657
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_aws_s3_bucket_enumeration_or_brute_force.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1657
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail" and 
+    #   event.provider : "s3.amazonaws.com" and 
+    #   aws.cloudtrail.error_code : "AccessDenied" and 
+    #   tls.client.server_name : *
+  condition: selection
+level: medium

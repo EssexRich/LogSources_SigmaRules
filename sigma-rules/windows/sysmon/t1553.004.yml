@@ -1,0 +1,47 @@
+title: Creation or Modification of Root Certificate
+id: 03c60a61-03c6-43c6-a3c6-03c60a610000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1553.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_create_mod_root_certificate.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1553.004
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # registry where host.os.type == "windows" and event.type == "change" and registry.value : "Blob" and
+    #   registry.path :
+    #     (
+    #       "HKLM\\Software\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob",
+    #       "HKLM\\Software\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob",
+    #       "HKLM\\Software\\Policies\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob",
+    #       "HKLM\\Software\\Policies\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob",
+    #       "\\REGISTRY\\MACHINE\\Software\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob",
+    #       "\\REGISTRY\\MACHINE\\Software\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob",
+    #       "\\REGISTRY\\MACHINE\\Software\\Policies\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob",
+    #       "\\REGISTRY\\MACHINE\\Software\\Policies\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob",
+    #       "MACHINE\\Software\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob",
+    #       "MACHINE\\Software\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob",
+    #       "MACHINE\\Software\\Policies\\Microsoft\\SystemCertificates\\Root\\Certificates\\*\\Blob",
+    #       "MACHINE\\Software\\Policies\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*\\Blob"
+    #     ) and
+    #   not process.executable : (
+    #           "?:\\Program Files (x86)\\*.exe",
+    #           "?:\\Program Files\\*.exe",
+    #           "?:\\ProgramData\\bomgar-*\\*\\sra-pin.exe",
+    #           "?:\\ProgramData\\bomgar-*\\*\\bomgar-scc.exe",
+    #           "?:\\ProgramData\\CTES\\Ctes.exe",
+    #           "?:\\ProgramData\\CTES\\Components\\SNG\\AbtSngSvc.exe",
+    #           "?:\\ProgramData\\CTES\\Components\\SVC\\CtesHostSvc.exe",
+    #           "?:\\ProgramData\\Lenovo\\Vantage\\Addins\\LenovoHardwareScanAddin\\*\\LdeApi.Server.exe",
+    #           "?:\\ProgramData\\Logishrd\\LogiOptionsPlus\\Plugins\\64\\certmgr.exe",
+    #           "?:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*\\*.exe",
+    #           "?:\\ProgramData\\Quest\\KA
+    # ... [truncated]
+  condition: selection
+level: medium

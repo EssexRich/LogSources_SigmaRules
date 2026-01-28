@@ -1,0 +1,24 @@
+title: Linux Auditd Setuid Using Chmod Utility
+id: 6cc60ed6-6cc6-4cc6-acc6-6cc60ed60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1548.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_setuid_using_chmod_utility.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1548.001
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # `linux_auditd`  proctitle IN ("*chmod *")  AND proctitle IN ("* u+s *", "* g+s *", "* 4777 *", "* 4577 *")
+    #   | rename host as dest  
+    #   | stats count min(_time) as firstTime max(_time) as lastTime by  proctitle  dest 
+    #   | `security_content_ctime(firstTime)`
+    #   |`security_content_ctime(lastTime)`
+    #   | `linux_auditd_setuid_using_chmod_utility_filter`
+  condition: selection
+level: medium

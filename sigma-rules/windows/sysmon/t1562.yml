@@ -1,0 +1,26 @@
+title: Sysmon Application Crashed
+id: 3b0be084-3b0b-4b0b-ab0b-3b0be0840000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/application_popup/win_system_application_sysmon_crash.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Provider_Name: 'Application Popup'
+    #         EventID: 26
+    #         Caption:
+    #             - 'sysmon64.exe - Application Error'
+    #             - 'sysmon.exe - Application Error'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

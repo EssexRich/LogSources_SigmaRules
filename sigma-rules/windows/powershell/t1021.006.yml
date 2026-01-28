@@ -1,0 +1,46 @@
+title: Potential Remote PowerShell Session Initiated
+id: 5d73cdfb-5d73-4d73-ad73-5d73cdfb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_susp_remote_powershell_session.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.006
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         DestinationPort:
+    #             - 5985
+    #             - 5986
+    #         Initiated: 'true' # only matches of the initiating system can be evaluated
+    #         SourceIsIpv6: 'false'
+    #     filter_main_service_users:
+    #         - User|contains: # covers many language settings for Network Service. Please expand
+    #               - 'NETWORK SERVICE'
+    #               - 'NETZWERKDIENST'
+    #               - 'SERVICIO DE RED'
+    #               - 'SERVIZIO DI RETE'
+    #         - User|contains|all:
+    #               - 'SERVICE R'
+    #               - 'SEAU'
+    #     filter_main_localhost:
+    #         SourceIp:
+    #             - '::1'
+    #             - '127.0.0.1'
+    #         DestinationIp:
+    #             - '::1'
+    #             - '127.0.0.1'
+    #     filter_optional_avast:
+    #         Image:
+    #             - 'C:\Program Files\Avast Software\Avast\AvastSvc.exe'
+    #             - 'C:\Program Files (x86)\Avast Software\Avast\AvastSvc.exe'
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
+  condition: selection
+level: medium

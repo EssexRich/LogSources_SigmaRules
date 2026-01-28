@@ -1,0 +1,92 @@
+title: Connection to Commonly Abused Web Services
+id: 6b862994-6b86-4b86-ab86-6b8629940000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1568
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_common_webservices.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1568
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # network where host.os.type == "windows" and
+    #     dns.question.name != null and process.name != null and
+    #     not (?user.id in ("S-1-5-18", "S-1-5-19", "S-1-5-20") or user.domain == "NT AUTHORITY") and
+    #     /* Add new WebSvc domains here */
+    #     dns.question.name :
+    #        (
+    #         "raw.githubusercontent.*",
+    #         "pastebin.*",
+    #         "paste4btc.com",
+    #         "paste.ee",
+    #         "ghostbin.com",
+    #         "drive.google.com",
+    #         "?.docs.live.net",
+    #         "api.dropboxapi.*",
+    #         "content.dropboxapi.*",
+    #         "dl.dropboxusercontent.*",
+    #         "api.onedrive.com",
+    #         "*.onedrive.org",
+    #         "onedrive.live.com",
+    #         "filebin.net",
+    #         "*.ngrok.io",
+    #         "ngrok.com",
+    #         "*.portmap.*",
+    #         "*serveo.net",
+    #         "*localtunnel.me",
+    #         "*pagekite.me",
+    #         "*localxpose.io",
+    #         "*notabug.org",
+    #         "rawcdn.githack.*",
+    #         "paste.nrecom.net",
+    #         "zerobin.net",
+    #         "controlc.com",
+    #         "requestbin.net",
+    #         "slack.com",
+    #         "api.slack.com",
+    #         "slack-redir.net",
+    #         "slack-files.com",
+    #         "cdn.discordapp.com",
+    #         "discordapp.com",
+    #         "discord.com",
+    #         "apis.azureedge.net",
+    #         "cdn.sql.gg",
+    #         "?.top4top.io",
+    #         "top4top.io",
+    #         "www.uplooder.net",
+    #         "*.cdnmegafiles.com",
+    #         "transfer.sh",
+    #         "gofile.io",
+    #         "updates.peer2profit.com",
+    #         "api.telegram.org",
+    #         "t.me",
+    #         "meacz.gq",
+    #         "rwrd.org",
+    #         "*.publicvm.com",
+    #         "*.blogspot.com",
+    #         "api.mylnikov.org",
+    #         "file.io",
+    #         "stackoverflow.com",
+    #         "*files.1drv.com",
+    #         "api.anonfile.com",
+    #         "*hosting-profi.de",
+    #         "ipbase.com",
+    #         "ipfs.io",
+    #         "*up.freeo*.space",
+    #         "api.mylnikov.org",
+    #         "script.google.com",
+    #         "script.googleusercontent.com",
+    #         "api.notion.com",
+    #         "graph.microsoft.com",
+    #         "*.sharepoint.com",
+    #         "mbasic.facebook.com",
+    #         "login.live.com",
+    #         "ap
+    # ... [truncated]
+  condition: selection
+level: medium

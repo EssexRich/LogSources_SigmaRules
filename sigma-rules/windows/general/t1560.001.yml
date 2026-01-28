@@ -1,0 +1,34 @@
+title: 7Zip Compressing Dump Files
+id: 36ae6687-36ae-46ae-a6ae-36ae66870000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1560.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_7zip_exfil_dmp_files.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1560.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Description|contains: '7-Zip'
+    #         - Image|endswith:
+    #               - '\7z.exe'
+    #               - '\7zr.exe'
+    #               - '\7za.exe'
+    #         - OriginalFileName:
+    #               - '7z.exe'
+    #               - '7za.exe'
+    #     selection_extension:
+    #         CommandLine|contains:
+    #             - '.dmp'
+    #             - '.dump'
+    #             - '.hdmp'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

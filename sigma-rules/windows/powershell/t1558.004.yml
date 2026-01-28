@@ -1,0 +1,23 @@
+title: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser
+id: 366544ca-3665-4665-a665-366544ca0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1558.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/disabled_kerberos_pre_authentication_discovery_with_get_aduser.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1558.004
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADUser*" AND ScriptBlockText="*4194304*")
+    #   | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest
+    #   signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID
+    #   ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`
+  condition: selection
+level: medium

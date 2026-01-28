@@ -1,0 +1,26 @@
+title: Modification Of Wallpaper
+id: 6784a951-6784-4784-a784-6784a9510000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1491
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/modification_of_wallpaper.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1491
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode =13  (TargetObject IN ("*\\Control Panel\\Desktop\\Wallpaper","*\\Control
+    #   Panel\\Desktop\\WallpaperStyle") AND Image != "*\\explorer.exe") OR (TargetObject
+    #   IN ("*\\Control Panel\\Desktop\\Wallpaper","*\\Control Panel\\Desktop\\WallpaperStyle")
+    #   AND Details IN ("*\\temp\\*", "*\\users\\public\\*")) | stats count min(_time) as
+    #   firstTime max(_time) as lastTime by action dest process_guid process_id registry_hive
+    #   registry_path registry_key_name registry_value_data registry_value_name status user_id
+    #   vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    #   | `modification_of_wallpaper_filter`
+  condition: selection
+level: medium

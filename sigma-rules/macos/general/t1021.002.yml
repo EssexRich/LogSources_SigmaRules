@@ -1,0 +1,26 @@
+title: Attempt to Mount SMB Share via Command Line
+id: 1505995e-1505-4505-a505-1505995e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/lateral_movement_mounting_smb_share.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1021.002
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #   (
+    #     process.name == "mount_smbfs" or
+    #     (process.name == "open" and process.args like~ "smb://*") or
+    #     (process.name == "mount" and process.args like~ "smbfs") or
+    #     (process.name == "osascript" and process.command_line : "osascript*mount volume*smb://*")
+    #   ) and
+    #   not process.parent.executable like "/Applications/Google Drive.app/Contents/MacOS/Google Drive"
+  condition: selection
+level: medium

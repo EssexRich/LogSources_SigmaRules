@@ -1,0 +1,58 @@
+title: Suspicious Execution via Microsoft Office Add-Ins
+id: 46d87dc0-46d8-46d8-a6d8-46d87dc00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1137
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/initial_access_execution_via_office_addins.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1137
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where
+    # 
+    #     host.os.type == "windows" and event.type == "start" and
+    # 
+    #     process.name : ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE", "MSACCESS.EXE", "VSTOInstaller.exe") and
+    # 
+    #     process.args regex~ """.+\.(wll|xll|ppa|ppam|xla|xlam|vsto)""" and
+    # 
+    #     /* Office Add-In from suspicious paths */
+    #     (process.args :
+    #              ("?:\\Users\\*\\Temp\\7z*",
+    #               "?:\\Users\\*\\Temp\\Rar$*",
+    #               "?:\\Users\\*\\Temp\\Temp?_*",
+    #               "?:\\Users\\*\\Temp\\BNZ.*",
+    #               "?:\\Users\\*\\Downloads\\*",
+    #               "?:\\Users\\*\\AppData\\Roaming\\*",
+    #               "?:\\Users\\Public\\*",
+    #               "?:\\ProgramData\\*",
+    #               "?:\\Windows\\Temp\\*",
+    #               "\\Device\\*",
+    #               "http*") or
+    # 
+    #     process.parent.name : ("explorer.exe", "OpenWith.exe") or
+    # 
+    #     /* Office Add-In from suspicious parent */
+    #     process.parent.name : ("cmd.exe", "powershell.exe")) and
+    # 
+    #     /* False Positives */
+    #     not (process.args : "*.vsto" and
+    #          process.parent.executable :
+    #                    ("?:\\Program Files\\Logitech\\LogiOptions\\PlugInInstallerUtility*.exe",
+    #                     "?:\\ProgramData\\Logishrd\\LogiOptions\\Plugins\\VSTO\\*\\VSTOInstaller.exe",
+    #                     "?:\\Program Files\\Logitech\\LogiOptions\\PlugInInstallerUtility.exe",
+    #                     "?:\\Program Files\\LogiOptionsPlus\\PlugInInstallerUtility*.exe",
+    #                     "?:\\ProgramData\\Logishrd\\LogiOptionsPlus\\Plugins\\VSTO\\*\\VSTOInstaller.exe",
+    #                     "?:\\Program Files\\Common Files\\microsoft shared\\VSTO\\*\\VSTOInstaller.exe")) and
+    #     not (process.args : "/Uninstall" and process.name : "VSTOInstaller.exe") and
+    #     not (process.parent.name : "rundll32.exe" and
+    #          process.parent.args : "?:\\WINDOWS\\Installer\\MSI*.tmp,zzzzInvokeManagedCustomActionOutOfProc") and
+    #     not (process.name : "VSTOInstaller.exe" and process.args : "https://dl.getsidekick.com/outlook/vsto/Sidekick.vsto")
+  condition: selection
+level: medium

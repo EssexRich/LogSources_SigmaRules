@@ -1,0 +1,31 @@
+title: Hidden Files and Directories
+id: 15b39097-15b3-45b3-a5b3-15b390970000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_hidden_files_directories.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1564.001
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_commands:
+    #         type: 'EXECVE'
+    #         a0:
+    #             - 'mkdir'
+    #             - 'nano'
+    #             - 'touch'
+    #             - 'vi'
+    #             - 'vim'
+    #     selection_arguments:
+    #         - a1|re: '(^|\/)\.[^.\/]'
+    #         - a2|re: '(^|\/)\.[^.\/]'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

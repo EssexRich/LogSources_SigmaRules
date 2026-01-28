@@ -1,0 +1,22 @@
+title: Potential SSH Brute Force Detected on Privileged Account
+id: 7590e843-7590-4590-a590-7590e8430000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/credential_access_potential_linux_ssh_bruteforce_root.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1110.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id, source.ip with maxspan=10s
+    #   [authentication where host.os.type == "linux" and event.action  in ("ssh_login", "user_login") and
+    #    event.outcome == "failure" and source.ip != null and source.ip != "0.0.0.0" and
+    #    source.ip != "::" and  user.name : ("*root*" , "*admin*")] with runs=3
+  condition: selection
+level: medium

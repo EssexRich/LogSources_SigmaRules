@@ -1,0 +1,25 @@
+title: Potential Bucket Enumeration on AWS
+id: 21c43543-21c4-41c4-a1c4-21c435430000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1619
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_enum_buckets.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1619
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: 's3.amazonaws.com'
+    #         eventName: 'ListBuckets'
+    #     filter:
+    #         userIdentity.type: 'AssumedRole'
+    #     condition: selection and not filter
+    # 
+  condition: selection
+level: medium

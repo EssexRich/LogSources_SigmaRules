@@ -1,0 +1,19 @@
+title: M365 Exchange Mail Flow Transport Rule Created
+id: 043b7b53-043b-443b-a43b-043b7b530000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1537
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/exfiltration_exchange_transport_rule_creation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1537
+logsource:
+  product: m365
+  service: exchange
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and event.provider:Exchange and event.category:web and event.action:"New-TransportRule" and event.outcome:success
+  condition: selection
+level: medium

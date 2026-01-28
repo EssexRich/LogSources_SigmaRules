@@ -1,0 +1,28 @@
+title: Windows Update Error
+id: 6e770c63-6e77-4e77-ae77-6e770c630000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1584
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/microsoft_windows_windows_update_client/win_system_susp_system_update_error.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1584
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Provider_Name: Microsoft-Windows-WindowsUpdateClient
+    #         EventID:
+    #             - 16 # Unable to Connect: Windows is unable to connect to the automatic updates service and therefore cannot download and install updates according to the set schedule
+    #             - 20 # Installation Failure: Windows failed to install the following update with error
+    #             - 24 # Uninstallation Failure: Windows failed to uninstall the following update with error
+    #             - 213 # Revert Failure: Windows failed to revert the following update with error
+    #             - 217 # Commit Failure: Windows failed to commit the following update with error
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

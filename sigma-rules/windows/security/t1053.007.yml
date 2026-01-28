@@ -1,0 +1,28 @@
+title: Cisco Isovalent - Cron Job Creation
+id: 08d62592-08d6-48d6-a8d6-08d625920000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053.007
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cisco_isovalent___cron_job_creation.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1053.007
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # `cisco_isovalent_process_exec` process_name IN ("crond","cron","crontab")
+    #   | search pod_name!=""
+    #   | stats count 
+    #           min(_time) as firstTime 
+    #           max(_time) as lastTime 
+    #           values(process) as process
+    #       by cluster_name pod_name parent_process_name process_name process_exec process_id node_name
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `cisco_isovalent___cron_job_creation_filter`
+  condition: selection
+level: medium

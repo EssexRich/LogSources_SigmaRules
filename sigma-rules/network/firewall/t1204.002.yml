@@ -1,0 +1,27 @@
+title: Network Connection via Compiled HTML File
+id: 6ec245ee-6ec2-4ec2-aec2-6ec245ee0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1204.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_html_help_executable_program_connecting_to_the_internet.toml
+author: elastic (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1204.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id
+    #   [process where host.os.type == "windows" and process.name : "hh.exe" and event.type == "start"]
+    #   [network where host.os.type == "windows" and process.name : "hh.exe" and
+    #      not cidrmatch(destination.ip, "10.0.0.0/8", "127.0.0.0/8", "169.254.0.0/16", "172.16.0.0/12", "192.0.0.0/24",
+    #        "192.0.0.0/29", "192.0.0.8/32", "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32",
+    #        "192.0.2.0/24", "192.31.196.0/24", "192.52.193.0/24", "192.168.0.0/16", "192.88.99.0/24", "224.0.0.0/4",
+    #        "100.64.0.0/10", "192.175.48.0/24","198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1",
+    #        "FE80::/10", "FF00::/8") and
+    #      not dns.question.name : "localhost"]
+  condition: selection
+level: medium

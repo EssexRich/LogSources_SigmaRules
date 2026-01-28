@@ -1,0 +1,27 @@
+title: Email files written outside of the Outlook directory
+id: 39c0f690-39c0-49c0-a9c0-39c0f6900000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1114.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/email_files_written_outside_of_the_outlook_directory.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1114.001
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count values(Filesystem.file_path)
+    #   as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
+    #   where (Filesystem.file_name=*.pst OR Filesystem.file_name=*.ost) Filesystem.file_path
+    #   != "C:\\Users\\*\\My Documents\\Outlook Files\\*"  Filesystem.file_path!="C:\\Users\\*\\AppData\\Local\\Microsoft\\Outlook*"
+    #   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+    #   Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
+    #   Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+    #   Filesystem.user Filesystem.vendor_product | `drop_dm_object_name("Filesystem")`
+    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `email_files_written_outside_of_the_outlook_directory_filter`
+  condition: selection
+level: medium

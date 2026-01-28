@@ -1,0 +1,38 @@
+title: Modify System Firewall
+id: 049f4f40-049f-449f-a49f-049f4f400000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_modify_system_firewall.yml
+author: sigma (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1562.004
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection1:
+    #         type: 'EXECVE'
+    #         a0: 'iptables'
+    #         a1|contains: 'DROP'
+    #     selection2:
+    #         type: 'EXECVE'
+    #         a0: 'firewall-cmd'
+    #         a1|contains: 'remove'
+    #     selection3:
+    #         type: 'EXECVE'
+    #         a0: 'ufw'
+    #         a1|contains: 'delete'
+    #     selection4:
+    #         type: 'EXECVE'
+    #         a0: 'nft'
+    #         a1|contains:
+    #             - 'delete'
+    #             - 'flush'
+    #     condition: 1 of selection*
+    # 
+  condition: selection
+level: medium

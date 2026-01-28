@@ -1,0 +1,24 @@
+title: Windows InstallUtil Credential Theft
+id: 151e9445-151e-451e-a51e-151e94450000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1218.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_installutil_credential_theft.yml
+author: splunk (via IncidentBuddy)
+date: 2026-01-28
+tags:
+  - attack.t1218.004
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # `sysmon` EventCode=7 process_name=installutil.exe loaded_file_path IN ("*\\samlib.dll",
+    #   "*\\vaultcli.dll") | fillnull | stats count min(_time) as firstTime max(_time) as
+    #   lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name
+    #   process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists
+    #   service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)` | `windows_installutil_credential_theft_filter`
+  condition: selection
+level: medium
