@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T3181 Detection
+    id: 1dd61ea3-edc1-43e4-87b9-d8667011be3b
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T3181.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T3181/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T3181
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T3181
+    
