@@ -184,17 +184,54 @@ async function main() {
     console.warn('[SigmaGen] Warning: Could not fetch MITRE relationships:', error.message);
   }
 
-  // Fetch MITRE technique names
+  // Fetch MITRE technique names and build UUID-to-TechID mapping
   console.log('\n[SigmaGen] Fetching MITRE technique names...');
+  let uuidToTechId = {}; // Maps UUID to T-number like T1486
   try {
     const mitreIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/index.json');
     if (mitreIndex.techniques) {
-      techniqueNames = mitreIndex.techniques;
+      // Build mapping from UUID to technique ID
+      Object.entries(mitreIndex.techniques).forEach(([techId, techName]) => {
+        // techId should be like "T1486" or "T1486.001"
+        techniqueNames[techId] = techName;
+      });
       console.log(`[SigmaGen] Loaded ${Object.keys(techniqueNames).length} technique names`);
     }
   } catch (error) {
     console.warn('[SigmaGen] Warning: Could not fetch MITRE index');
   }
+
+  // Fetch MITRE techniques to build UUID-to-TechID mapping
+  console.log('\n[SigmaGen] Building UUID-to-TechID mapping from MITRE data...');
+  try {
+    const techniques = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques.json');
+    if (Array.isArray(techniques)) {
+      techniques.forEach(tech => {
+        if (tech.id && tech.external_references) {
+          // Find the external reference with MITRE ATT&CK URL to get the T-number
+          const mitreRef = tech.external_references.find(ref => ref.url && ref.url.includes('attack.mitre.org'));
+          if (mitreRef && mitreRef.external_id) {
+            // external_id is like "T1486" or "T1486.001"
+            uuidToTechId[tech.id.split('--')[1]] = mitreRef.external_id;
+          }
+        }
+      });
+      console.log(`[SigmaGen] Built UUID-to-TechID mapping for ${Object.keys(uuidToTechId).length} techniques`);
+    }
+  } catch (error) {
+    console.warn('[SigmaGen] Warning: Could not build UUID mapping:', error.message);
+  }
+
+  // Convert MITRE actor map from UUID keys to T-number keys
+  const convertedMitreActorMap = {};
+  Object.entries(mitreActorMap).forEach(([uuidKey, actors]) => {
+    const techId = uuidToTechId[uuidKey] || uuidKey; // Fallback to UUID if mapping fails
+    if (!convertedMitreActorMap[techId]) {
+      convertedMitreActorMap[techId] = [];
+    }
+    convertedMitreActorMap[techId].push(...actors);
+  });
+  mitreActorMap = convertedMitreActorMap;
 
   // Combine all actor-technique mappings
   const allActorTechMap = {};
@@ -207,7 +244,7 @@ async function main() {
     allActorTechMap[tech].push(...actors);
   });
   
-  // Add MITRE intrusion-sets
+  // Add MITRE intrusion-sets (now with proper T-numbers)
   Object.entries(mitreActorMap).forEach(([tech, actors]) => {
     if (!allActorTechMap[tech]) {
       allActorTechMap[tech] = [];
@@ -246,6 +283,12 @@ async function main() {
       uniqueActors.forEach((actor) => {
         const rule = generateSigmaRule(techniqueId, techName, logsource, conditions);
 
+        // Validate technique ID to prevent empty/invalid filenames
+        if (!techniqueId || typeof techniqueId !== 'string' || !techniqueId.match(/^T\d+(\.\d+)?$/)) {
+          console.warn(`[SigmaGen] Skipping invalid technique ID: "${techniqueId}"`);
+          return;
+        }
+
         // Create product/service/actor-specific directory
         const actorDir = path.join(baseDir, logsource.product, logsource.service, actor);
         if (!fs.existsSync(actorDir)) {
@@ -254,9 +297,13 @@ async function main() {
 
         const filename = `${techniqueId}.yml`;
         const filepath = path.join(actorDir, filename);
-        fs.writeFileSync(filepath, rule);
-
-        totalRulesGenerated++;
+        
+        try {
+          fs.writeFileSync(filepath, rule);
+          totalRulesGenerated++;
+        } catch (error) {
+          console.warn(`[SigmaGen] Failed to write rule for ${techniqueId}/${actor}: ${error.message}`);
+        }
       });
     });
   });
@@ -266,6 +313,16 @@ async function main() {
   console.log(`[SigmaGen] Ransomware gangs: ${Object.keys(ransomwareActorMap).length} techniques`);
   console.log(`[SigmaGen] MITRE intrusion-sets: ${Object.keys(mitreActorMap).length} techniques`);
   console.log(`[SigmaGen] Rules saved to: ${baseDir}`);
+  console.log(`\n[SigmaGen] Directory structure:`);
+  console.log(`[SigmaGen]   sigma-rules-intelligent/`);
+  console.log(`[SigmaGen]   ├─ windows/`);
+  console.log(`[SigmaGen]   │  ├─ security/[actors]/[techniques]`);
+  console.log(`[SigmaGen]   │  ├─ sysmon/[actors]/[techniques]`);
+  console.log(`[SigmaGen]   │  └─ defender/[actors]/[techniques]`);
+  console.log(`[SigmaGen]   ├─ linux/auditd/[actors]/[techniques]`);
+  console.log(`[SigmaGen]   ├─ macos/unified_logging/[actors]/[techniques]`);
+  console.log(`[SigmaGen]   ├─ m365/entra_id/[actors]/[techniques]`);
+  console.log(`[SigmaGen]   └─ google/workspace/[actors]/[techniques]`);
 }
 
 main().catch(err => {
