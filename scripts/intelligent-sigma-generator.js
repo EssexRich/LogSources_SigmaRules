@@ -66,13 +66,31 @@ function generateUUID() {
 }
 
 function extractTNumberFromYAML(content) {
-  const match = content.match(/attack\.t\d+(\.\d+)?/gi);
-  return match ? match[0].replace('attack.', '').toUpperCase() : null;
+  // Try attack.t#### format first
+  let match = content.match(/attack\.t\d+(\.\d+)?/gi);
+  if (match) return match[0].replace('attack.', '').toUpperCase();
+  
+  // Try T#### format
+  match = content.match(/T\d+(\.\d+)?/);
+  if (match) return match[0].toUpperCase();
+  
+  return null;
 }
 
 function extractTNumberFromTOML(content) {
-  const match = content.match(/T\d+(\.\d+)?/);
-  return match ? match[0] : null;
+  // Try T#### format in quotes
+  let match = content.match(/"T\d+(\.\d+)?"/);
+  if (match) return match[0].replace(/"/g, '');
+  
+  // Try unquoted T#### format
+  match = content.match(/T\d+(\.\d+)?/);
+  if (match) return match[0];
+  
+  // Try attack.t#### format
+  match = content.match(/attack\.t\d+(\.\d+)?/i);
+  if (match) return match[0].replace(/attack\./i, '').toUpperCase();
+  
+  return null;
 }
 
 function buildDetectionYAML(conditions) {
@@ -241,7 +259,7 @@ async function fetchExternalRules() {
   // Fetch Microsoft Sentinel rules tree
   try {
     console.log('[SigmaGen]   - Querying Microsoft Tree API...');
-    const msUrl = 'https://api.github.com/repos/microsoft/Microsoft-Sentinel2Go/git/trees/master?recursive=1';
+    const msUrl = 'https://api.github.com/repos/microsoft/Microsoft-Sentinel2Go/git/trees/main?recursive=1';
     console.log(`[SigmaGen]     URL: ${msUrl}`);
     
     const msTree = await fetchURL(msUrl);
@@ -265,7 +283,7 @@ async function fetchExternalRules() {
         for (let i = 0; i < Math.min(ruleFiles.length, 50); i++) {
           try {
             const file = ruleFiles[i];
-            const content = await fetchText(`https://raw.githubusercontent.com/microsoft/Microsoft-Sentinel2Go/master/${file.path}`);
+            const content = await fetchText(`https://raw.githubusercontent.com/microsoft/Microsoft-Sentinel2Go/main/${file.path}`);
             const tNum = extractTNumberFromYAML(content);
             if (tNum) {
               if (!rules.microsoft[tNum]) rules.microsoft[tNum] = [];
