@@ -1,0 +1,33 @@
+title: Using SettingSyncHost.exe as LOLBin
+id: 54705866-adde-4d09-9915-d4cdb4e9d931
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1574.008.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1574/008/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_lolbin_settingsynchost.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1574.008
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      system_utility:
+          Image|startswith:
+              - 'C:\Windows\System32\'
+              - 'C:\Windows\SysWOW64\'
+      parent_is_settingsynchost:
+          ParentCommandLine|contains|all:
+              - 'cmd.exe /c'
+              - 'RoamDiag.cmd'
+              - '-outputpath'
+      condition: not system_utility and parent_is_settingsynchost
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

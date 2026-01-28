@@ -1,0 +1,47 @@
+title: Disable Security Tools
+id: b6b5e3f7-601a-4446-a79e-ab83b4fa3c88
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1562/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_disable_security_tools.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      launchctl_unload:
+          Image: '/bin/launchctl'
+          CommandLine|contains: 'unload'
+      security_plists:
+          CommandLine|contains:
+              - 'com.objective-see.lulu.plist'                     # Objective-See firewall management utility
+              - 'com.objective-see.blockblock.plist'               # Objective-See persistence locations watcher/blocker
+              - 'com.google.santad.plist'                          # google santa
+              - 'com.carbonblack.defense.daemon.plist'             # carbon black
+              - 'com.carbonblack.daemon.plist'                     # carbon black
+              - 'at.obdev.littlesnitchd.plist'                     # Objective Development Software firewall management utility
+              - 'com.tenablesecurity.nessusagent.plist'            # Tenable Nessus
+              - 'com.opendns.osx.RoamingClientConfigUpdater.plist' # OpenDNS Umbrella
+              - 'com.crowdstrike.falcond.plist'                    # Crowdstrike Falcon
+              - 'com.crowdstrike.userdaemon.plist'                 # Crowdstrike Falcon
+              - 'osquery'                                          # facebook osquery
+              - 'filebeat'                                         # elastic log file shipper
+              - 'auditbeat'                                        # elastic auditing agent/log shipper
+              - 'packetbeat'                                       # elastic network logger/shipper
+              - 'td-agent'                                         # fluentd log shipper
+      disable_gatekeeper:
+          Image: '/usr/sbin/spctl'
+          CommandLine|contains: 'disable'
+      condition: (launchctl_unload and security_plists) or disable_gatekeeper
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

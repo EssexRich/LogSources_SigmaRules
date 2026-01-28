@@ -1,0 +1,26 @@
+title: Suspicious C2 Activities
+id: bb69765a-5cff-4baa-bdf1-52ee64d9e622
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1095.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1095/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_susp_c2_commands.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1095
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          key: 'susp_activity'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,27 @@
+title: SSH Key Generated via ssh-keygen
+id: 2ff8634b-07cd-4e68-8480-580c5227467c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1098.004.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1098/004/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_ssh_key_generation.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1098.004
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    file.path:
+      - '/home/*/.ssh/*'
+      - '/etc/ssh/*'
+    file.name: 'known_hosts.*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

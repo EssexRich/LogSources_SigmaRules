@@ -1,0 +1,29 @@
+title: Exporting Exchange Mailbox via PowerShell
+id: a36e58c8-97a3-48a3-aafe-b6c0fc524238
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1114.002.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1114/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_email_powershell_exchange_mailbox.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1114.002
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.name:
+      - 'powershell.exe'
+      - 'powershell_ise.exe'
+    process.command_line:
+      - '*MailboxExportRequest*'
+      - '*-Mailbox*-ContentFilter*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

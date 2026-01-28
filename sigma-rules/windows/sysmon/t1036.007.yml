@@ -1,0 +1,63 @@
+title: Suspicious Parent Double Extension File Execution
+id: 762cd111-216a-47e2-ac5a-4ed37df231cf
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1036.007.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1036/007/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_double_extension_parent.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1036.007
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          - ParentImage|endswith:
+                - '.doc.lnk'
+                - '.docx.lnk'
+                - '.xls.lnk'
+                - '.xlsx.lnk'
+                - '.ppt.lnk'
+                - '.pptx.lnk'
+                - '.rtf.lnk'
+                - '.pdf.lnk'
+                - '.txt.lnk'
+                - '.doc.js'
+                - '.docx.js'
+                - '.xls.js'
+                - '.xlsx.js'
+                - '.ppt.js'
+                - '.pptx.js'
+                - '.rtf.js'
+                - '.pdf.js'
+                - '.txt.js'
+          - ParentCommandLine|contains:
+                - '.doc.lnk'
+                - '.docx.lnk'
+                - '.xls.lnk'
+                - '.xlsx.lnk'
+                - '.ppt.lnk'
+                - '.pptx.lnk'
+                - '.rtf.lnk'
+                - '.pdf.lnk'
+                - '.txt.lnk'
+                - '.doc.js'
+                - '.docx.js'
+                - '.xls.js'
+                - '.xlsx.js'
+                - '.ppt.js'
+                - '.pptx.js'
+                - '.rtf.js'
+                - '.pdf.js'
+                - '.txt.js'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,24 @@
+title: Linux Auditd Service Started
+id: 59c43eea-587c-4df1-857f-743db983d989
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1569.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1569/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_service_started.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1569.002
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,39 @@
+title: External Remote RDP Logon from Public IP
+id: 788eae75-5ce0-4a99-8df8-a055e065dca6
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1133.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1133/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_successful_external_remote_rdp_login.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1133
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 4624
+          LogonType: 10
+      filter_main_local_ranges:
+          IpAddress|cidr:
+              - '::1/128'  # IPv6 loopback
+              - '10.0.0.0/8'
+              - '127.0.0.0/8'
+              - '172.16.0.0/12'
+              - '192.168.0.0/16'
+              - '169.254.0.0/16'
+              - 'fc00::/7'  # IPv6 private addresses
+              - 'fe80::/10'  # IPv6 link-local addresses
+      filter_main_empty:
+          IpAddress: '-'
+      condition: selection and not 1 of filter_main_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,28 @@
+title: Registry Persistence via AppInit DLL
+id: 072d59d2-bdc8-475f-9020-51fa7b7f1c15
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1546.010.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1546/010/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_appinitdlls_registry.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1546.010
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    registry.value: 'AppInit_Dlls'
+    process.executable:
+      - '?:\\Windows\\System32\\DriverStore\\FileRepository\\*\\Display.NvContainer\\NVDisplay.Container.exe'
+      - '?:\\Program Files\\NVIDIA Corporation\\Display.NvContainer\\NVDisplay.Container.exe'
+    variations: 'HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\AppInit_Dlls'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

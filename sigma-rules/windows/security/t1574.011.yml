@@ -1,0 +1,30 @@
+title: Service Registry Key Read Access Request
+id: f852b2b9-ded8-4dbc-a7a4-d60fffc569ed
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1574.011.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1574/011/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_registry_permissions_weakness_check.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1574.011
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 4663
+          ObjectName|contains|all:
+              - '\SYSTEM\'
+              - 'ControlSet\Services\'
+          AccessList|contains: '%%1538' # READ_CONTROL
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

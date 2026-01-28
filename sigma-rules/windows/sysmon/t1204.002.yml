@@ -1,0 +1,30 @@
+title: AppLocker Prevented Application or Script from Running
+id: dbe0fccd-9e87-4e6e-9fe4-7f74baab2e4c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1204.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1204/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/applocker/win_applocker_application_was_prevented_from_running.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1204.002
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          EventID:
+              - 8004 # EXE and DLL
+              - 8007 # MSI and Script
+              - 8022 # Packaged app execution
+              - 8025 # Packaged app deployment
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

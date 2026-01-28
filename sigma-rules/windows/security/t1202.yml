@@ -1,0 +1,31 @@
+title: Indirect Inline Command Execution Via Bash.EXE
+id: 11af3562-2b5c-44e9-8cde-deeff53dee80
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1202.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1202/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_bash_command_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1202
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_img:
+          - Image|endswith:
+                - ':\Windows\System32\bash.exe'
+                - ':\Windows\SysWOW64\bash.exe'
+          - OriginalFileName: 'Bash.exe'
+      selection_cli:
+          CommandLine|contains: ' -c '
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

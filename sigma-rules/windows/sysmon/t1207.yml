@@ -1,0 +1,28 @@
+title: Add or Remove Computer from DC
+id: 31a2d6bc-5248-43f0-a94a-1d601680b881
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1207.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1207/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_add_remove_computer.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1207
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          EventID:
+              - 4741
+              - 4743
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

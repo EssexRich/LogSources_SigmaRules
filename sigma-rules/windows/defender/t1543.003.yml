@@ -1,0 +1,39 @@
+title: CobaltStrike Service Installations - Security
+id: b2b82f75-c8bb-44ff-b84a-07944d619940
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1543.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1543/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_cobaltstrike_service_installs.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1543.003
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      event_id:
+          EventID: 4697
+      selection1:
+          ServiceFileName|contains|all:
+              - 'ADMIN$'
+              - '.exe'
+      selection2:
+          ServiceFileName|contains|all:
+              - '%COMSPEC%'
+              - 'start'
+              - 'powershell'
+      selection3:
+          ServiceFileName|contains: 'powershell -nop -w hidden -encodedcommand'
+      selection4:
+          ServiceFileName|base64offset|contains: "IEX (New-Object Net.Webclient).DownloadString('http://127.0.0.1:"
+      condition: event_id and 1 of selection*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

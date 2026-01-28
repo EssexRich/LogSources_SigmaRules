@@ -1,0 +1,44 @@
+title: Linux Package Uninstall
+id: f5ddecec-4d57-4a89-ac04-7baa6e620d59
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1070/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_remove_package.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1070
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection_yum:
+          Image|endswith: '/yum'
+          CommandLine|contains:
+              - 'erase'
+              - 'remove'
+      selection_apt:
+          Image|endswith:
+              - '/apt'
+              - '/apt-get'
+          CommandLine|contains:
+              - 'remove'
+              - 'purge'
+      selection_dpkg:
+          Image|endswith: '/dpkg'
+          CommandLine|contains:
+              - '--remove '
+              - ' -r '
+      selection_rpm:
+          Image|endswith: '/rpm'
+          CommandLine|contains: ' -e '
+      condition: 1 of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

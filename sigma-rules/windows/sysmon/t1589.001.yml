@@ -1,0 +1,24 @@
+title: Linux Medusa Rootkit
+id: 0f2e05e8-f2fb-4331-8820-0e826df70c12
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1589.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1589/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_medusa_rootkit.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1589.001
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Filesystem'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

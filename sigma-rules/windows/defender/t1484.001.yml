@@ -1,0 +1,30 @@
+title: Windows Default Domain GPO Modification
+id: b7d002a9-91bc-4f8b-b258-66196b6e3d07
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1484.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1484/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_default_domain_gpo_modification.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1484.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 5136
+          ObjectClass: 'groupPolicyContainer'
+          ObjectDN|startswith:
+              - 'CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=POLICIES,CN=SYSTEM' # Default Domain Policy
+              - 'CN={6AC1786C-016F-11D2-945F-00C04FB984F9},CN=POLICIES,CN=SYSTEM' # Default Domain Controllers Policy
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

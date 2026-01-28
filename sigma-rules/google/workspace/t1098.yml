@@ -1,0 +1,32 @@
+title: GCP Access Policy Deleted
+id: 48f060bb-3ba6-4b44-8d8b-016fe2506e79
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1098.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_access_policy_deleted.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1098
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+      selection:
+          data.protoPayload.authorizationInfo.permission:
+              - 'accesscontextmanager.accessPolicies.delete'
+              - 'accesscontextmanager.accessPolicies.accessLevels.delete'
+              - 'accesscontextmanager.accessPolicies.accessZones.delete'
+              - 'accesscontextmanager.accessPolicies.authorizedOrgsDescs.delete'
+          data.protoPayload.authorizationInfo.granted: 'true'
+          data.protoPayload.serviceName: 'accesscontextmanager.googleapis.com'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

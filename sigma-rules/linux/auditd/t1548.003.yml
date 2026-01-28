@@ -1,0 +1,24 @@
+title: Potential Defense Evasion via Doas
+id: 103ca6af-3909-451e-8af3-e4794aac7b0a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1548.003.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1548/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_doas_configuration_creation_or_rename.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1548.003
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

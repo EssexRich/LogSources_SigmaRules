@@ -1,0 +1,29 @@
+title: External Disk Drive Or USB Storage Device Was Recognized By The System
+id: a7480723-8d3d-49b7-8d26-12890363d536
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1091.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1091/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_external_device.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1091
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_eid:
+          EventID: 6416
+      selection_field:
+          - ClassName: 'DiskDrive'
+          - DeviceDescription: 'USB Mass Storage Device'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

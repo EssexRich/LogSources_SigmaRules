@@ -1,0 +1,27 @@
+title: Crash Dump Created By Operating System
+id: 80eaf4b2-cd67-406e-8670-a8d0fb3345d1
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1005.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/microsoft_windows_wer_systemerrorreporting/win_system_crash_dump_created.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1005
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          Provider_Name: 'Microsoft-Windows-WER-SystemErrorReporting'
+          EventID: 1001
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

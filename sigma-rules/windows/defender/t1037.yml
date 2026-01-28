@@ -1,0 +1,24 @@
+title: Logon Script Event Trigger Execution
+id: 1a4dc7e2-2097-4492-bc89-d8f4c152da7d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1037.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1037/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/logon_script_event_trigger_execution.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1037
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Registry'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

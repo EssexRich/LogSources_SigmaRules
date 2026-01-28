@@ -1,0 +1,32 @@
+title: O365 Advanced Audit Disabled
+id: b3cf4644-4079-4561-80a3-8ebf38f2f414
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.008.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1562/008/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_advanced_audit_disabled.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1562.008
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    Operation: '\'
+    property_name:
+      - 'mvindex'
+      - '\'
+    additionalDetails: 'mvindex('
+    split_value: 'split(additionalDetails,\'
+    possible_plan: 'mvindex(split_value,'
+    field: '\'
+    DisabledPlans: '\\[(?P<DisabledPlans>[^\\]]+)\\]\'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

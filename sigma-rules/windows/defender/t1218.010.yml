@@ -1,0 +1,42 @@
+title: HTML Help HH.EXE Suspicious Child Process
+id: e34c57b2-f7d2-4850-bcef-3f5704e82123
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1218.010.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1218/010/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hh_html_help_susp_child_process.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1218.010
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          ParentImage|endswith: '\hh.exe'
+          Image|endswith:
+              - '\CertReq.exe'
+              - '\CertUtil.exe'
+              - '\cmd.exe'
+              - '\cscript.exe'
+              - '\installutil.exe'
+              - '\MSbuild.exe'
+              - '\MSHTA.EXE'
+              - '\msiexec.exe'
+              - '\powershell.exe'
+              - '\pwsh.exe'
+              - '\regsvr32.exe'
+              - '\rundll32.exe'
+              - '\schtasks.exe'
+              - '\wmic.exe'
+              - '\wscript.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

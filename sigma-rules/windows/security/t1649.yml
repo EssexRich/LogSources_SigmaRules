@@ -1,0 +1,26 @@
+title: Certificate Private Key Acquired
+id: 2963042a-f453-45ca-a26d-ccfdf39b4d9d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1649.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1649/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/capi2/win_capi2_acquire_certificate_private_key.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1649
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 70 # Acquire Certificate Private Key
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

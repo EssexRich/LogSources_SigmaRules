@@ -1,0 +1,38 @@
+title: MMC Executing Files with Reversed Extensions Using RTLO Abuse
+id: 227c0489-fe9c-4e33-a08f-5925e9a4308a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1218.014.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1218/014/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mmc_rlo_abuse_pattern.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1218.014
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_image:
+          - Image|endswith: '\mmc.exe'
+          - OriginalFileName: 'MMC.exe'
+      selection_commandline:
+          CommandLine|contains: # While looking at these files the prefix of their name will look something like csm.pdf, but in reality it is msc file
+              - 'cod.msc'  # Reversed `.doc`
+              - 'fdp.msc'  # Reversed `.pdf`
+              - 'ftr.msc'  # Reversed `.rtf`
+              - 'lmth.msc'  # Reversed `.html`
+              - 'slx.msc'  # Reversed `.xls`
+              - 'tdo.msc'  # Reversed `.odt`
+              - 'xcod.msc'  # Reversed `.docx`
+              - 'xslx.msc'  # Reversed `.xlsx`
+              - 'xtpp.msc'  # Reversed `.pptx`
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

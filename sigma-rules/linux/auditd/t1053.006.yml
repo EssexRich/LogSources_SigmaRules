@@ -1,0 +1,29 @@
+title: Systemd Timer Created
+id: e37873c1-8a56-4e27-985b-c86375c4c70c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1053.006.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1053/006/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_systemd_scheduled_timer_created.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1053.006
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    file.path:
+      - '/etc/systemd/system/*'
+      - '/root/.local/share/systemd/user/*'
+    file.name:
+      - 'sed*'
+      - 'e2scrub_all.tmp*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

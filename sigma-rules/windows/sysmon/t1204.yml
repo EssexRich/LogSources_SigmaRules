@@ -1,0 +1,28 @@
+title: Arbitrary Shell Command Execution Via Settingcontent-Ms
+id: acea2162-482c-4283-bfd4-8fb1919d13ef
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1204.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1204/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_arbitrary_shell_execution_via_settingcontent.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1204
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          CommandLine|contains: '.SettingContent-ms'
+      filter:
+          CommandLine|contains: 'immersivecontrolpanel'
+      condition: selection and not filter
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

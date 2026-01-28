@@ -1,0 +1,46 @@
+title: Local System Accounts Discovery - MacOs
+id: bfa2d332-9f0e-4bf9-9214-28c3f3cead67
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1087.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1087/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_local_account.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1087.001
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection_1:
+          Image|endswith: '/dscl'
+          CommandLine|contains|all:
+              - 'list'
+              - '/users'
+      selection_2:
+          Image|endswith: '/dscacheutil'
+          CommandLine|contains|all:
+              - '-q'
+              - 'user'
+      selection_3:
+          CommandLine|contains: '''x:0:'''
+      selection_4:
+          Image|endswith: '/cat'
+          CommandLine|contains:
+              - '/etc/passwd'
+              - '/etc/sudoers'
+      selection_5:
+          Image|endswith: '/id'
+      selection_6:
+          Image|endswith: '/lsof'
+          CommandLine|contains: '-u'
+      condition: 1 of selection*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,26 @@
+title: Potential Persistence Via Logon Scripts - CommandLine
+id: fc9bc162-37c5-471a-8710-60e8d53d1a3c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1037.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1037/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_registry_logon_script.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1037.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          CommandLine|contains: 'UserInitMprLogonScript'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,33 @@
+title: ProxyLogon MSExchange OabVirtualDirectory
+id: 9737b2e0-d167-4cdc-a163-535efd4db85e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1587.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1587/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/msexchange/win_exchange_proxylogon_oabvirtualdir.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1587.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      keywords_cmdlet:
+          '|all':
+              - 'OabVirtualDirectory'
+              - ' -ExternalUrl '
+      keywords_params:
+          - 'eval(request'
+          - 'http://f/<script'
+          - '"unsafe"};'
+          - 'function Page_Load()'
+      condition: keywords_cmdlet and keywords_params
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

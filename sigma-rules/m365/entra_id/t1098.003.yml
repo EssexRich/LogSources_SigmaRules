@@ -1,0 +1,30 @@
+title: User Added to an Administrator
+id: 9c82dfe3-470b-48ff-b6e6-85ab8ae9ae7c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1098.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1098/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_ad_user_added_to_admin_role.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1098.003
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection:
+          Operation: 'Add member to role.'
+          Workload: 'AzureActiveDirectory'
+          ModifiedProperties{}.NewValue|endswith:
+              - 'Admins'
+              - 'Administrator'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

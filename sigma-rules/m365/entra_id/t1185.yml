@@ -1,0 +1,27 @@
+title: Azure AD Concurrent Sessions From Different Ips
+id: fbfd422c-58a2-41ab-8692-8de99d2c8d69
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1185.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1185/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_ad_concurrent_sessions_from_different_ips.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1185
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    succeeded: 'true'
+    category: 'NonInteractiveUserSignInLogs'
+    action: 'success'
+    span: '5m'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

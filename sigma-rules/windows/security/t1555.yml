@@ -1,0 +1,28 @@
+title: HackTool - SecurityXploded Execution
+id: b36ba774-b2ad-4656-8c8d-8d4917d2508e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1555.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1555/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_secutyxploded.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1555
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          - Company: SecurityXploded
+          - Image|endswith: 'PasswordDump.exe'
+          - OriginalFileName|endswith: 'PasswordDump.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

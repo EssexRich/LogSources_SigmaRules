@@ -1,0 +1,32 @@
+title: Google Full Network Traffic Packet Capture
+id: ee99e205-5e8d-40b6-8b47-6db630af31f6
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1074.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1074/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_full_network_traffic_packet_capture.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1074
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+      selection:
+          gcp.audit.method_name:
+              - v*.Compute.PacketMirrorings.Get
+              - v*.Compute.PacketMirrorings.Delete
+              - v*.Compute.PacketMirrorings.Insert
+              - v*.Compute.PacketMirrorings.Patch
+              - v*.Compute.PacketMirrorings.List
+              - v*.Compute.PacketMirrorings.aggregatedList
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

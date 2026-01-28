@@ -1,0 +1,28 @@
+title: Atera Agent Installation
+id: d92f7675-807a-42c3-b43c-0e51964814a8
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1219.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1219/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/application/msiinstaller/win_software_atera_rmm_agent_install.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1219.002
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          EventID: 1033
+          Provider_Name: MsiInstaller
+          Message|contains: AteraAgent
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

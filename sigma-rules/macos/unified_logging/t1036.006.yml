@@ -1,0 +1,28 @@
+title: Space After Filename - macOS
+id: 4215cd5b-3abb-47a8-9024-f650cf017859
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1036.006.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1036/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_space_after_filename.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1036.006
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection1:
+          CommandLine|endswith: ' '
+      selection2:
+          Image|endswith: ' '
+      condition: 1 of selection*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

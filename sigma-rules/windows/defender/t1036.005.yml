@@ -1,0 +1,32 @@
+title: Potential MsiExec Masquerading
+id: 7d03de71-1e88-449f-9200-1d6d0af5c6c5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1036.005.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1036/005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msiexec_masquerading.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1036.005
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          - Image|endswith: '\msiexec.exe'
+          - OriginalFileName: '\msiexec.exe'
+      filter:
+          Image|startswith:
+              - 'C:\Windows\System32\'
+              - 'C:\Windows\SysWOW64\'
+              - 'C:\Windows\WinSxS\'
+      condition: selection and not filter
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

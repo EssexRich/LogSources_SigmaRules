@@ -1,0 +1,27 @@
+title: Suspicious Inter-Process Communication via Outlook
+id: 7275c1e5-04e6-4b13-a1fe-9379769bf9be
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1559.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1559/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_email_outlook_mailbox_via_com.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1559
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name:
+      - 'rundll32.exe'
+      - 'wscript.exe'
+      - 'OUTLOOK.EXE'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,36 @@
+title: Windows Pcap Drivers
+id: 21759500-5abc-40c5-bb2f-42fea80024e5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1040.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1040/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_pcap_drivers.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1040
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 4697
+          ServiceFileName|contains:
+              - 'pcap'
+              - 'npcap'
+              - 'npf'
+              - 'nm3'
+              - 'ndiscap'
+              - 'nmnt'
+              - 'windivert'
+              - 'USBPcap'
+              - 'pktmon'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium
