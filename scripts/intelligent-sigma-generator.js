@@ -13,10 +13,19 @@ function fetchURL(url) {
         try {
           resolve(JSON.parse(data));
         } catch (e) {
-          reject(new Error(`Failed to parse JSON from ${url}`));
+          console.error(`[DEBUG] Failed to parse response from ${url}`);
+          console.error(`[DEBUG] Status: ${res.statusCode}`);
+          console.error(`[DEBUG] Content-Type: ${res.headers['content-type']}`);
+          console.error(`[DEBUG] Headers: ${JSON.stringify(res.headers)}`);
+          console.error(`[DEBUG] Response length: ${data.length} bytes`);
+          console.error(`[DEBUG] First 300 chars: ${data.substring(0, 300)}`);
+          reject(new Error(`Failed to parse JSON from ${url}: ${e.message}`));
         }
       });
-    }).on('error', reject);
+    }).on('error', (err) => {
+      console.error(`[DEBUG] Network error for ${url}: ${err.message}`);
+      reject(err);
+    });
     
     request.setTimeout(30000, () => {
       request.destroy();
