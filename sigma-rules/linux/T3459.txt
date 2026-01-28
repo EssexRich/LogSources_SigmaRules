@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T3459 Detection (linux)
+    id: b81c56ca-0f95-4fe5-95bc-eb2eb306e429
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T3459.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T3459/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T3459
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T3459
+    
