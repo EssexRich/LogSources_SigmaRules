@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1045 Detection
+    id: a53c9eb7-462b-4ff2-885c-5c317e043126
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1045.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1045/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1045
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1045
+    
