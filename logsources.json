@@ -1,0 +1,149 @@
+{
+  "generated": "2026-01-28T00:00:00Z",
+  "version": "1.0.0",
+  "logsources": [
+    {
+      "name": "Windows Event Log - Security",
+      "product": "windows",
+      "service": "security",
+      "category": "process_creation",
+      "description": "Windows Security Event Log - Process creation events (Event ID 4688)",
+      "lastUpdated": "2026-01-28",
+      "eventIds": {
+        "process_creation": 4688
+      },
+      "fieldMappings": {
+        "process_creation": {
+          "EventID": "4688",
+          "Image": "NewProcessName",
+          "CommandLine": "CommandLine",
+          "ParentImage": "ParentProcessName",
+          "ParentCommandLine": "ProcessCommandLine",
+          "User": "SubjectUserName",
+          "LogonId": "SubjectLogonId",
+          "TargetLogonId": "TargetLogonId",
+          "ProcessId": "NewProcessId",
+          "ParentProcessId": "ParentProcessId",
+          "CreationUtcTime": "CreationTime"
+        }
+      }
+    },
+    {
+      "name": "Sysmon - Event 1 (Process Creation)",
+      "product": "windows",
+      "service": "sysmon",
+      "category": "process_creation",
+      "description": "Sysmon Event 1 - Process creation events",
+      "lastUpdated": "2026-01-28",
+      "eventIds": {
+        "process_creation": 1
+      },
+      "fieldMappings": {
+        "process_creation": {
+          "EventID": "1",
+          "Image": "Image",
+          "CommandLine": "CommandLine",
+          "ParentImage": "ParentImage",
+          "ParentCommandLine": "ParentCommandLine",
+          "User": "User",
+          "LogonId": "LogonId",
+          "ProcessId": "ProcessId",
+          "ParentProcessId": "ParentProcessId",
+          "CreationUtcTime": "UtcTime"
+        }
+      }
+    },
+    {
+      "name": "Linux - auditd (execve)",
+      "product": "linux",
+      "service": "auditd",
+      "category": "process_creation",
+      "description": "Linux auditd - Process execution via execve syscall",
+      "lastUpdated": "2026-01-28",
+      "syscalls": {
+        "process_creation": "execve"
+      },
+      "fieldMappings": {
+        "process_creation": {
+          "Image": "exe",
+          "CommandLine": "a0,a1,a2,a3",
+          "ParentImage": "parent_exe",
+          "User": "uid",
+          "ProcessId": "pid",
+          "ParentProcessId": "ppid"
+        }
+      }
+    },
+    {
+      "name": "macOS - Unified Logging (execve)",
+      "product": "macos",
+      "service": "unified_logging",
+      "category": "process_creation",
+      "description": "macOS Unified Logging - Process execution events",
+      "lastUpdated": "2026-01-28",
+      "subsystem": "com.apple.CoreServices.coreservicesd",
+      "fieldMappings": {
+        "process_creation": {
+          "Image": "executable",
+          "CommandLine": "arguments",
+          "ParentImage": "parent_executable",
+          "User": "euid",
+          "ProcessId": "pid",
+          "ParentProcessId": "ppid"
+        }
+      }
+    },
+    {
+      "name": "Microsoft Defender - Device Timeline",
+      "product": "m365",
+      "service": "defender",
+      "category": "process_creation",
+      "description": "Microsoft Defender - Device Timeline process execution events",
+      "lastUpdated": "2026-01-28",
+      "fieldMappings": {
+        "process_creation": {
+          "Image": "FileName",
+          "CommandLine": "ProcessCommandLine",
+          "ParentImage": "InitiatingProcessFileName",
+          "ParentCommandLine": "InitiatingProcessCommandLine",
+          "User": "AccountName",
+          "ProcessId": "ProcessId",
+          "ParentProcessId": "InitiatingProcessId",
+          "CreationUtcTime": "Timestamp"
+        }
+      }
+    },
+    {
+      "name": "Microsoft Entra ID - Sign-in Logs",
+      "product": "m365",
+      "service": "entra_id",
+      "category": "authentication",
+      "description": "Microsoft Entra ID - User sign-in events",
+      "lastUpdated": "2026-01-28",
+      "fieldMappings": {
+        "authentication": {
+          "User": "userPrincipalName",
+          "LogonId": "correlationId",
+          "SourceIp": "clientIpAddress",
+          "Status": "status"
+        }
+      }
+    },
+    {
+      "name": "Google Workspace - Admin Activity",
+      "product": "google",
+      "service": "workspace",
+      "category": "user_activity",
+      "description": "Google Workspace - Admin and user activity events",
+      "lastUpdated": "2026-01-28",
+      "fieldMappings": {
+        "user_activity": {
+          "User": "actor.email",
+          "EventType": "events.name",
+          "SourceIp": "ipAddress",
+          "Resource": "events.parameters"
+        }
+      }
+    }
+  ]
+}
