@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1559.002 Detection
+    id: 94c10bd9-36d5-40b8-9456-e4063f6a7626
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1559.002.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1559.002/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1559.002
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1559.002
+    
