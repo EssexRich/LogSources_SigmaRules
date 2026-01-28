@@ -1,0 +1,18 @@
+[metadata]
+creation_date = "2020/02/18"
+deprecation_date = "2021/04/15"
+maturity = "deprecated"
+updated_date = "2021/04/15"
+
+[rule]
+author = ["Elastic"]
+description = """
+The whoami application was executed on a Linux host. This is often used by tools and persistence mechanisms to test for
+privileged access.
+"""
+false_positives = [
+    """
+    Security testing tools and frameworks may run this command. Some normal use of this command may originate from
+    automation tools and frameworks.
+    ""
+# Adapted for actor attribution
