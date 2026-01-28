@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T0449 Detection (m365)
+    id: e9398448-36af-4fde-919a-9cd0ed0f355e
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T0449.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T0449/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T0449
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T0449
+    
