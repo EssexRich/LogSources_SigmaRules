@@ -101,13 +101,24 @@ function main() {
  * Find the best matching rule for a logsource
  */
 function findBestMatch(rules, logsource) {
-  // Strict match: product + category must match
+  // Product aliases - what external products map to our logsources
+  const productAliases = {
+    'google': ['gcp', 'google', 'google_workspace', 'workspace'],
+    'm365': ['azure', 'm365', 'o365', 'office365', 'entra'],
+    'windows': ['windows'],
+    'linux': ['linux'],
+    'macos': ['macos', 'osx']
+  };
+  
+  const validProducts = productAliases[logsource.product] || [logsource.product];
+  
+  // Strict filtering - product MUST match explicitly
   const matches = rules.filter(rule => {
     // Must have explicit product
     if (!rule.product || rule.product === 'unknown') return false;
     
-    // Product must match
-    if (rule.product !== logsource.product) return false;
+    // Product must match (including aliases)
+    if (!validProducts.includes(rule.product)) return false;
     
     // Category must match if specified
     if (rule.category && rule.category !== logsource.category) return false;
@@ -116,9 +127,9 @@ function findBestMatch(rules, logsource) {
     if (rule.query) {
       const q = rule.query.toLowerCase();
       // Skip rules that are clearly for wrong product
-      if (logsource.product === 'linux' && (q.includes('google_workspace') || q.includes('windows'))) return false;
+      if (logsource.product === 'linux' && (q.includes('google_workspace') || q.includes('windows') || q.includes('eventcode'))) return false;
       if (logsource.product === 'windows' && q.includes('google_workspace')) return false;
-      if (logsource.product === 'macos' && (q.includes('google_workspace') || q.includes('windows'))) return false;
+      if (logsource.product === 'macos' && (q.includes('google_workspace') || q.includes('windows') || q.includes('eventcode'))) return false;
     }
     
     return true;
