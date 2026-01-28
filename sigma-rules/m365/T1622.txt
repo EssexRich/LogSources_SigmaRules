@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1622 Detection (m365)
+    id: b6c10432-35c3-4212-bef6-945da0d8b0d2
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1622.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1622/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1622
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1622
+    
