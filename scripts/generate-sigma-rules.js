@@ -113,7 +113,7 @@ function findBestMatch(rules, logsource) {
     'google': ['google', 'google_workspace', 'workspace'],
     'okta': ['okta'],
     'network': ['network', 'cisco', 'firewall', 'paloalto', 'fortinet'],
-    'web': ['web', 'proxy', 'webserver']
+    'web': ['web', 'proxy', 'webserver', 'application']
   };
   
   const validProducts = productAliases[logsource.product] || [logsource.product];
@@ -125,21 +125,6 @@ function findBestMatch(rules, logsource) {
     
     // Product must match (including aliases)
     if (!validProducts.includes(rule.product)) return false;
-    
-    // Category must match if specified and logsource has category
-    if (rule.category && logsource.category && rule.category !== logsource.category) {
-      // Allow some flexibility for related categories
-      const categoryAliases = {
-        'process_creation': ['process_creation'],
-        'authentication': ['authentication', 'application'],
-        'cloud_audit': ['cloud_audit', 'application'],
-        'admin_activity': ['admin_activity', 'application'],
-        'network_connection': ['network_connection', 'firewall'],
-        'proxy': ['proxy', 'webserver']
-      };
-      const validCategories = categoryAliases[logsource.category] || [logsource.category];
-      if (!validCategories.includes(rule.category)) return false;
-    }
     
     // Sanity check: rule query shouldn't reference wrong products
     if (rule.query) {
