@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1091 Detection (linux)
+    id: 71c8ebb3-cc3a-43e5-bf58-1b3253716d3f
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1091.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1091/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1091
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1091
+    
