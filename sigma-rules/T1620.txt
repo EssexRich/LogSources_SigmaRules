@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1620 Detection
+    id: c8b361c9-cc73-4db3-bbe9-bcf3dbc0a564
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1620.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1620/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1620
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1620
+    
