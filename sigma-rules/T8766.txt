@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T8766 Detection
+    id: 7280677f-d30e-476f-9d05-8008fd3af9a4
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T8766.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T8766/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T8766
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T8766
+    
