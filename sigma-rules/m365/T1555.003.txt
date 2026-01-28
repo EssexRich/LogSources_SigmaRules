@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1555.003 Detection (m365)
+    id: cfb9d48b-1617-489c-b75f-87b2ae736a05
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1555.003/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1555.003
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1555.003
+    
