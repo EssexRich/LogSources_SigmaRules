@@ -122,6 +122,34 @@ function buildDetectionFromSigmaPatterns(sigmaRules, logsource) {
   return detection;
 }
 
+function isTechniqueRelevantToLogsource(techniqueId, techName, logsource) {
+  // Map of technique categories to relevant logsource categories
+  const techniqueToLogsource = {
+    // Process/Command Execution (T1059.xxx, T1218.xxx, T1047, etc.)
+    'process_creation': /T1059|T1218|T1047|T1053|T1129|T1106|T1053|T1648|T1559|T1204|T1559/i,
+    
+    // Authentication/Credential Access (T1078, T1110, T1187, T1040, T1056, etc.)
+    'authentication': /T1078|T1110|T1187|T1040|T1056|T1187|T1598|T1598|T1192|T1598/i,
+    
+    // Admin Activity/Privilege Escalation (M365 specific - T1098, T1547, T1548, etc.)
+    'admin_activity': /T1098|T1547|T1548|T1134|T1548|T1547|T1484|T1098/i,
+    
+    // Network only (T1071, T1041, T1048, T1041, T1573, etc.)
+    'network_connection': /T1071|T1041|T1048|T1573|T1008|T1090|T1205/i,
+    'dns_query': /T1071\.004|T1071|T1041|T1568/i,
+  };
+
+  const logsourceCategory = logsource.category;
+  const relevantPattern = techniqueToLogsource[logsourceCategory];
+  
+  if (!relevantPattern) {
+    // Unknown logsource category
+    return false;
+  }
+
+  return relevantPattern.test(techniqueId);
+}
+
 function buildDetectionFromFieldMapping(logsource) {
   const detection = {};
   
@@ -291,6 +319,11 @@ async function main() {
     const sigmaRulesForTech = sigmaTechniqueMap[techniqueId] || [];
     
     logsources.forEach((logsource) => {
+      // Skip if technique isn't relevant to this logsource type
+      if (!isTechniqueRelevantToLogsource(techniqueId, techName, logsource)) {
+        return;
+      }
+
       const conditions = buildDetectionFromSigmaPatterns(sigmaRulesForTech, logsource);
 
       if (!conditions || Object.keys(conditions).length === 0) return;
