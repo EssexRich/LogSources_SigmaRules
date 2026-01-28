@@ -1,0 +1,29 @@
+title: T1558 (GOOGLE - workspace)
+id: d32283ea-8575-4e20-8f62-3fc201852f79
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1558/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558
+  - actor.blacksuit

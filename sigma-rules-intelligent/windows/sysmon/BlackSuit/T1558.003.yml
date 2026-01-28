@@ -1,0 +1,37 @@
+title: T1558.003 (WINDOWS - sysmon)
+id: 60811ba4-c9f6-4cdf-be73-0ec5334cedcb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.003.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1558.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558.003
+  - actor.blacksuit

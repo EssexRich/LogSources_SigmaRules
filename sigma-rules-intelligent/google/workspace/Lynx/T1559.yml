@@ -1,0 +1,29 @@
+title: T1559 (GOOGLE - workspace)
+id: eeebfaf1-fca1-4709-a160-fe6a776174b8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1559/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559
+  - actor.lynx

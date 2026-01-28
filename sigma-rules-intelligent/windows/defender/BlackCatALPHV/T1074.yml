@@ -1,0 +1,37 @@
+title: T1074 (WINDOWS - defender)
+id: 1cefc30a-42e3-4e73-831a-53b4d006e1ff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.
+  Threat Actor: BlackCatALPHV
+references:
+  - https://attack.mitre.org/techniques/T1074/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074
+  - actor.blackcatalphv

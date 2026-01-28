@@ -1,0 +1,37 @@
+title: T1608.006 (LINUX - auditd)
+id: 537f8be0-7b3c-4b30-b8f0-e222a30da173
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.006.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1608.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.006
+  - actor.blacksuit

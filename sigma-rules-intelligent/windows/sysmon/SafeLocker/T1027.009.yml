@@ -1,0 +1,37 @@
+title: T1027.009 (WINDOWS - sysmon)
+id: 70799d2a-2dc1-4f2c-bfde-48b79b91b9d2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.009.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1027.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.009
+  - actor.safelocker

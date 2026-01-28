@@ -1,0 +1,37 @@
+title: T1564.004 (WINDOWS - defender)
+id: cc0d591c-c551-423b-afe2-c8902692749e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.004.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1564.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.004
+  - actor.rhysida

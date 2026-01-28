@@ -1,0 +1,29 @@
+title: T1113 (GOOGLE - workspace)
+id: aaba7a81-6c75-4ca2-a5e9-f7862dd952bc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.vect_raas

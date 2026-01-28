@@ -1,0 +1,29 @@
+title: T1235 (GOOGLE - workspace)
+id: e2933daf-5d10-4082-85d3-e9419bd3578f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1235.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1235/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1235
+  - actor.kazu

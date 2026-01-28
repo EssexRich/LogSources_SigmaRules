@@ -1,0 +1,37 @@
+title: T1027.003 (WINDOWS - sysmon)
+id: b47e765b-9246-47e5-b855-5776ef99894a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.003.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1027.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.003
+  - actor.qilin

@@ -1,0 +1,29 @@
+title: T1222 (GOOGLE - workspace)
+id: bfa12a3f-00da-49f6-9039-d70bbfc91bd0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1222.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1222/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1222
+  - actor.coosea

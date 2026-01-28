@@ -1,0 +1,32 @@
+title: T4718 (M365 - entra_id)
+id: cf6809f1-a546-4e23-a882-e759a7d4e76e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4718.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T4718/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4718
+  - actor.ransomhub

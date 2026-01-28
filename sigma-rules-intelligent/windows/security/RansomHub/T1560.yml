@@ -1,0 +1,37 @@
+title: T1560 (WINDOWS - security)
+id: 1657edea-6b55-4e9d-86c8-ddbc60a2160d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560
+  - actor.ransomhub

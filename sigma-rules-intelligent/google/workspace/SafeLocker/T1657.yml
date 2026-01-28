@@ -1,0 +1,29 @@
+title: T1657 (GOOGLE - workspace)
+id: 3653c358-7dd8-4d21-a850-967b669c721d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1657.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1657/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1657
+  - actor.safelocker

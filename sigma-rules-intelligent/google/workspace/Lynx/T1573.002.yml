@@ -1,0 +1,29 @@
+title: T1573.002 (GOOGLE - workspace)
+id: 967ff084-5248-478c-a1b5-7056b84522e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.002.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1573.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.002
+  - actor.lynx

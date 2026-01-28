@@ -1,0 +1,34 @@
+title: T1569.002 (MACOS - unified_logging)
+id: b3db8873-e7aa-454b-ac25-946bf0123f04
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.002.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1569.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569.002
+  - actor.global

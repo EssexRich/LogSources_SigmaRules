@@ -1,0 +1,37 @@
+title: T1489 (WINDOWS - defender)
+id: b75d48d1-1698-40e2-9396-e5a468353102
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1489.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1489/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1489
+  - actor.sarcoma

@@ -1,0 +1,37 @@
+title: T1112 (WINDOWS - security)
+id: 4076fbd6-f9e3-4794-9fd5-e4590bd78505
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.lockbit

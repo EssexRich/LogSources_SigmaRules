@@ -1,0 +1,29 @@
+title: T1555 (GOOGLE - workspace)
+id: 94942b4d-a768-46d1-ba02-57c21501e94f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.coosea

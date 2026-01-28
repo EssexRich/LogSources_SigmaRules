@@ -1,0 +1,29 @@
+title: T1021.004 (GOOGLE - workspace)
+id: 93720d94-428f-4a24-a428-46cd1f8dc7f9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.004.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1021.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.004
+  - actor.rhysida

@@ -1,0 +1,37 @@
+title: T1046 (WINDOWS - sysmon)
+id: 800c32e2-ca19-4f4a-820d-26758c84b087
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.lockbit

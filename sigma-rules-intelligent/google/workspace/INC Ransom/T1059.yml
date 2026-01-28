@@ -1,0 +1,29 @@
+title: T1059 (GOOGLE - workspace)
+id: ac3ca4a0-528d-47ce-9128-1a3bba2f7039
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.inc_ransom

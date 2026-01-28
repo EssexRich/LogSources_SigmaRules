@@ -1,0 +1,32 @@
+title: T8550 (M365 - entra_id)
+id: ab3cf2db-f15c-4b29-a7b8-0331c694453f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8550.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T8550/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8550
+  - actor.cephalus

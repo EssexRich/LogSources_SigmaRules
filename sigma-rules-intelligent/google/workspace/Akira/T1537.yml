@@ -1,0 +1,29 @@
+title: T1537 (GOOGLE - workspace)
+id: 9320c427-8336-4a56-998d-76f4df73559f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1537.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1537/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1537
+  - actor.akira

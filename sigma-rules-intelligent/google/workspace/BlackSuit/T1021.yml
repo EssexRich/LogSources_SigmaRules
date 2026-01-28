@@ -1,0 +1,29 @@
+title: T1021 (GOOGLE - workspace)
+id: 01156d49-2fc1-4036-9aa7-50a54f427108
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021
+  - actor.blacksuit

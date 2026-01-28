@@ -1,0 +1,37 @@
+title: T1550.002 (WINDOWS - sysmon)
+id: e2c82ae3-bf60-45b9-ba69-d5e4454f8141
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1550.002.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1550.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1550.002
+  - actor.akira

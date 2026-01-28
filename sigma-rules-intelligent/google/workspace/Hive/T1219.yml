@@ -1,0 +1,29 @@
+title: T1219 (GOOGLE - workspace)
+id: 83e8fcac-1a13-46c7-84a4-2559f15793d0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.hive

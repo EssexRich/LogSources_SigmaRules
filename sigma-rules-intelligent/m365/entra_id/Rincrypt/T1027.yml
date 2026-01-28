@@ -1,0 +1,32 @@
+title: T1027 (M365 - entra_id)
+id: 44b1d4ef-a6bf-471e-ae03-434c457a91cd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: Rincrypt
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.rincrypt

@@ -1,0 +1,29 @@
+title: T1003.003 (GOOGLE - workspace)
+id: 49972246-f213-479b-a072-789b08ee2f56
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.003.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1003.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.003
+  - actor.blacksuit

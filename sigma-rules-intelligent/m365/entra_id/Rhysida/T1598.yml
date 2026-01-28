@@ -1,0 +1,32 @@
+title: T1598 (M365 - entra_id)
+id: ea8dd699-3bdc-42c4-9236-5f6a21bf26d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1598.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1598/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1598
+  - actor.rhysida

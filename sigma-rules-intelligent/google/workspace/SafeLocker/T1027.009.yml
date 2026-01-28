@@ -1,0 +1,29 @@
+title: T1027.009 (GOOGLE - workspace)
+id: c1f7f33a-2af5-4367-b650-47ef6fd708e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.009.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1027.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.009
+  - actor.safelocker

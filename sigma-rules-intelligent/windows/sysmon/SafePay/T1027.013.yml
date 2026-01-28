@@ -1,0 +1,37 @@
+title: T1027.013 (WINDOWS - sysmon)
+id: 8e709ecc-e8ee-4af0-b843-14e8b3881b9d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.013.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1027.013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.013
+  - actor.safepay

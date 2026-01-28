@@ -1,0 +1,37 @@
+title: T1608.001 (WINDOWS - sysmon)
+id: a5dcf9dc-43f2-42d5-8fef-36dd38c8fd19
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.001.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1608.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.001
+  - actor.safepay

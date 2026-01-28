@@ -1,0 +1,34 @@
+title: T6646 (MACOS - unified_logging)
+id: 8729bbf2-38e0-43a2-9a22-039e758da4f0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6646.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T6646/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6646
+  - actor.pear

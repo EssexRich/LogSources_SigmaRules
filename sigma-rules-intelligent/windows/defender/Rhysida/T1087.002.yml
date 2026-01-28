@@ -1,0 +1,37 @@
+title: T1087.002 (WINDOWS - defender)
+id: ad0e8904-c357-493b-ac4c-af888d0a8cd6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.002.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1087.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.002
+  - actor.rhysida

@@ -1,0 +1,29 @@
+title: T1059.001 (GOOGLE - workspace)
+id: 9f867b7a-7a02-4900-b08f-52de306f2a4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.001.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1059.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.001
+  - actor.inc_ransom

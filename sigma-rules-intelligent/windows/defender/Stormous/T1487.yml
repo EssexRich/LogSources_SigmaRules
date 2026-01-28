@@ -1,0 +1,37 @@
+title: T1487 (WINDOWS - defender)
+id: 11515e81-0cc2-4a16-9d59-3402ad60113c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1487.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1487/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1487
+  - actor.stormous

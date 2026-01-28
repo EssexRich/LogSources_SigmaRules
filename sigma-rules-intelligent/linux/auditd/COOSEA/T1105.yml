@@ -1,0 +1,37 @@
+title: T1105 (LINUX - auditd)
+id: 7d53ccce-7f84-4c75-b6f1-725a8ceb4a18
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105
+  - actor.coosea

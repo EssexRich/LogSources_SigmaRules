@@ -1,0 +1,29 @@
+title: T1098 (GOOGLE - workspace)
+id: 7db65d75-8484-46ac-b718-0631a7225f76
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.
+  Threat Actor: Arkana
+references:
+  - https://attack.mitre.org/techniques/T1098/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098
+  - actor.arkana

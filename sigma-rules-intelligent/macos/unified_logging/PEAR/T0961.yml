@@ -1,0 +1,34 @@
+title: T0961 (MACOS - unified_logging)
+id: 84e360e0-6353-4c97-b5f5-d7b43d14d7c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0961.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T0961/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0961
+  - actor.pear

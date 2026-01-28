@@ -1,0 +1,37 @@
+title: T1056 (WINDOWS - security)
+id: b901c933-b50b-40a0-90da-2e1109be5124
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1056/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056
+  - actor.donex

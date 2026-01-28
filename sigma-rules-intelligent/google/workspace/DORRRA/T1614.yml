@@ -1,0 +1,29 @@
+title: T1614 (GOOGLE - workspace)
+id: 1a37d94e-ec2b-4ff2-b21b-2cb0292e1cc3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.
+  Threat Actor: DORRRA
+references:
+  - https://attack.mitre.org/techniques/T1614/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614
+  - actor.dorrra

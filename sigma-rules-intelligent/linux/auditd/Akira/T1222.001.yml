@@ -1,0 +1,37 @@
+title: T1222.001 (LINUX - auditd)
+id: 1a7a5789-f043-4801-880d-107c5200c874
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1222.001.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1222.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1222.001
+  - actor.akira

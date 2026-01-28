@@ -1,0 +1,37 @@
+title: T1620 (WINDOWS - security)
+id: 0132c3a9-1c3c-4a84-a871-699fcd8ba5f2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1620.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1620/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1620
+  - actor.qilin

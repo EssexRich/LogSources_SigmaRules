@@ -1,0 +1,32 @@
+title: T1068 (M365 - entra_id)
+id: 0b4ffe4d-5f6b-46b1-b09f-c05178598e05
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.vice_society

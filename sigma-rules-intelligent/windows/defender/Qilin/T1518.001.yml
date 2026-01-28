@@ -1,0 +1,37 @@
+title: T1518.001 (WINDOWS - defender)
+id: f08b9a95-2820-4358-8035-1fc9b4f0e88b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.001.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1518.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518.001
+  - actor.qilin

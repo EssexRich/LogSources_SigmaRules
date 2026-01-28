@@ -1,0 +1,34 @@
+title: T1069 (MACOS - unified_logging)
+id: 7cf13b7c-d314-47f1-860c-56197d8d1bb6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.rhysida

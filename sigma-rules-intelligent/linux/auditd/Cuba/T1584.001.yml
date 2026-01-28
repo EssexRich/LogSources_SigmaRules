@@ -1,0 +1,37 @@
+title: T1584.001 (LINUX - auditd)
+id: a402ab6c-5294-4fdd-bbc1-79a77f3d8d19
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.001.
+  Threat Actor: Cuba
+references:
+  - https://attack.mitre.org/techniques/T1584.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.001
+  - actor.cuba

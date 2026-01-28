@@ -1,0 +1,29 @@
+title: T1566 (GOOGLE - workspace)
+id: 46f2b725-62c1-463e-8b04-c76c77871322
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566
+  - actor.ransomhub

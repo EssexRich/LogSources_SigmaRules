@@ -1,0 +1,37 @@
+title: T1046 (WINDOWS - defender)
+id: 910b5546-550f-47cf-95f7-a21b85e5287b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.stormous

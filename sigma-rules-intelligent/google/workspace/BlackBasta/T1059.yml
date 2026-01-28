@@ -1,0 +1,29 @@
+title: T1059 (GOOGLE - workspace)
+id: d144e019-2851-45bc-9154-59c506c2ef00
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.blackbasta

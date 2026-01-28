@@ -1,0 +1,37 @@
+title: T1119 (WINDOWS - sysmon)
+id: 442aab1d-2242-49e0-ba0f-a15021225e98
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.vect_raas

@@ -1,0 +1,29 @@
+title: T1129 (GOOGLE - workspace)
+id: 9280e6f1-4b39-4c9a-af09-121db4eff0d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1129.
+  Threat Actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1129/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1129
+  - actor.hunt-dharma-crysis

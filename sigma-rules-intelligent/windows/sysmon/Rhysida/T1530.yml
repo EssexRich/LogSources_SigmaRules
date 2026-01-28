@@ -1,0 +1,37 @@
+title: T1530 (WINDOWS - sysmon)
+id: 8d8c9a80-1a78-4c19-8c1c-e0da7dc3ccf4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1530.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1530/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1530
+  - actor.rhysida

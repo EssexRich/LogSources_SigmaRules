@@ -1,0 +1,37 @@
+title: T0295 (WINDOWS - security)
+id: 4e49ce78-c9f4-4d67-8ac2-609d80c092a4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0295.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T0295/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0295
+  - actor.stormous

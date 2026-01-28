@@ -1,0 +1,37 @@
+title: T1406 (LINUX - auditd)
+id: 26b99e53-bcd3-4284-bd31-cc9551655c35
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1406.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1406/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1406
+  - actor.qilin

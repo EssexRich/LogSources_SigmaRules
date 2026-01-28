@@ -1,0 +1,37 @@
+title: T1078.001 (WINDOWS - security)
+id: 6dcc1863-a48b-41fc-9d9e-bc9c2d271569
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.001.
+  Threat Actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1078.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.001
+  - actor.beast

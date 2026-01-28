@@ -1,0 +1,29 @@
+title: T1074 (GOOGLE - workspace)
+id: a3635778-0989-4b4c-8648-fd9b603c2064
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1074/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074
+  - actor.alphv-blackcat

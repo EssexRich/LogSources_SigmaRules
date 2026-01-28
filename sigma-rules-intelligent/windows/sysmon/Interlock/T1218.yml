@@ -1,0 +1,37 @@
+title: T1218 (WINDOWS - sysmon)
+id: 3e3b56e7-bc1c-4952-b42b-12fdb9266ed9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1218/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218
+  - actor.interlock

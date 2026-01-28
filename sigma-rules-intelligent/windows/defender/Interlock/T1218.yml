@@ -1,0 +1,37 @@
+title: T1218 (WINDOWS - defender)
+id: a5c23762-38e1-4ddb-84a2-c5daa9c3928a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1218/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218
+  - actor.interlock

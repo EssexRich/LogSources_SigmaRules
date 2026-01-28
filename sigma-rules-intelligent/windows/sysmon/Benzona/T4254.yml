@@ -1,0 +1,37 @@
+title: T4254 (WINDOWS - sysmon)
+id: c7437307-070b-4d86-9f4f-8f64e8ba8c0b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4254.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T4254/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4254
+  - actor.benzona

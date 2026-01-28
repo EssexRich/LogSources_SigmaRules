@@ -1,0 +1,29 @@
+title: T9929 (GOOGLE - workspace)
+id: 675d1c13-f933-40a0-b7bb-37163faac54f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T9929.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T9929/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T9929
+  - actor.cephalus

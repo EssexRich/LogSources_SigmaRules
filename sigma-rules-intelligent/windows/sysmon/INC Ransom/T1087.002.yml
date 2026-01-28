@@ -1,0 +1,37 @@
+title: T1087.002 (WINDOWS - sysmon)
+id: 0d2edadc-5fd1-4fdf-a8a8-3e2f8e713d5d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.002.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1087.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.002
+  - actor.inc_ransom

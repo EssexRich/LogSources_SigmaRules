@@ -1,0 +1,37 @@
+title: T1409 (WINDOWS - security)
+id: 73ae5a2a-d5eb-4c86-899d-5a4c5d52935d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1409.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1409/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1409
+  - actor.safepay

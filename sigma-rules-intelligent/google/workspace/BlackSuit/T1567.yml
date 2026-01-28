@@ -1,0 +1,29 @@
+title: T1567 (GOOGLE - workspace)
+id: e3d04de3-e3c6-49ac-b68f-db137f301467
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1567/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567
+  - actor.blacksuit

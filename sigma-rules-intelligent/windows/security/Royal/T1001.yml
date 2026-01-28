@@ -1,0 +1,37 @@
+title: T1001 (WINDOWS - security)
+id: 742176c9-5746-4120-8b22-aa7daaa8eac9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1001.
+  Threat Actor: Royal
+references:
+  - https://attack.mitre.org/techniques/T1001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1001
+  - actor.royal

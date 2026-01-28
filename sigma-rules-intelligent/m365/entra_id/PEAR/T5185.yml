@@ -1,0 +1,32 @@
+title: T5185 (M365 - entra_id)
+id: 9bb6f650-fef4-4354-9530-bf16e957499a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5185.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T5185/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5185
+  - actor.pear

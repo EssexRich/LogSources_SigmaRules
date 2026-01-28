@@ -1,0 +1,37 @@
+title: T1595.002 (WINDOWS - defender)
+id: b766a13a-6c06-4578-8358-2d7d05f89b83
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.002.
+  Threat Actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1595.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595.002
+  - actor.hunters_international

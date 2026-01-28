@@ -1,0 +1,29 @@
+title: T3796 (GOOGLE - workspace)
+id: 12753e24-1d1b-47c8-b57e-113b71331924
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3796.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T3796/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3796
+  - actor.cephalus

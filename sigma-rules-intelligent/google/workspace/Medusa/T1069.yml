@@ -1,0 +1,29 @@
+title: T1069 (GOOGLE - workspace)
+id: b4aaa05e-a46e-4db1-815f-3b6421fdcaa5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.medusa

@@ -1,0 +1,29 @@
+title: T1048 (GOOGLE - workspace)
+id: 7c07bb9b-1a7c-406d-884c-9e65f1606f87
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048
+  - actor.blacksuit

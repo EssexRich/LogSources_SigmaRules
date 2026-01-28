@@ -1,0 +1,37 @@
+title: T1614.001 (WINDOWS - defender)
+id: df3f7a24-c78f-4fbe-bf87-d7658df23944
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.001.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1614.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614.001
+  - actor.sarcoma

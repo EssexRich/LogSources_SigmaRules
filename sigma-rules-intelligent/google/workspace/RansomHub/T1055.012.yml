@@ -1,0 +1,29 @@
+title: T1055.012 (GOOGLE - workspace)
+id: 32173674-d32f-406f-8e84-5a594cc45fbc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.012.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1055.012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.012
+  - actor.ransomhub

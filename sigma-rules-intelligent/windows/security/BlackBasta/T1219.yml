@@ -1,0 +1,37 @@
+title: T1219 (WINDOWS - security)
+id: 0b3032df-b9ef-48f6-ba8f-ec5c8a75dba9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.blackbasta

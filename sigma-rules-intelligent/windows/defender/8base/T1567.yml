@@ -1,0 +1,37 @@
+title: T1567 (WINDOWS - defender)
+id: 204efbd5-d759-42ee-a3ee-5f86b0193c76
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1567/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567
+  - actor.8base

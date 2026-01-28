@@ -1,0 +1,37 @@
+title: T1202 (WINDOWS - sysmon)
+id: 4b135b84-7ba7-4937-9e43-647cc2f2ff60
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202
+  - actor.brain_cipher

@@ -1,0 +1,29 @@
+title: T1489 (GOOGLE - workspace)
+id: 738657e9-08c3-48f2-b27d-a0e907fe8769
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1489.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1489/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1489
+  - actor.ransomhub

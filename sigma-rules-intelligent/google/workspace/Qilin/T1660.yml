@@ -1,0 +1,29 @@
+title: T1660 (GOOGLE - workspace)
+id: cf40ff76-1967-4e3b-8229-d4aec7e7a606
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1660.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1660/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1660
+  - actor.qilin

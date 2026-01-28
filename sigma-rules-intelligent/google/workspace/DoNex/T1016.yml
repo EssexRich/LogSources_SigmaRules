@@ -1,0 +1,29 @@
+title: T1016 (GOOGLE - workspace)
+id: f7f10e31-0dcd-414d-b445-80d49040fc4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.donex

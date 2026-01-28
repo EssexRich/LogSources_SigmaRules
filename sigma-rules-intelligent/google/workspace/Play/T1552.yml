@@ -1,0 +1,29 @@
+title: T1552 (GOOGLE - workspace)
+id: 396bd014-772f-4169-bcef-f66e249e0ee5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1552/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552
+  - actor.play

@@ -1,0 +1,37 @@
+title: T1569.002 (WINDOWS - defender)
+id: f686e0f6-9cb1-4e4e-bce9-994b6c73d530
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.002.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1569.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569.002
+  - actor.medusa

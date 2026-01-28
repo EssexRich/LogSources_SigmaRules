@@ -1,0 +1,29 @@
+title: T1018 (GOOGLE - workspace)
+id: c4fe3770-9cd6-4941-a722-b77bf0f11a63
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1018.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1018/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1018
+  - actor.sarcoma

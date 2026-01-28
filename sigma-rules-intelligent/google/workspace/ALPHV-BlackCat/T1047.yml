@@ -1,0 +1,29 @@
+title: T1047 (GOOGLE - workspace)
+id: 7a8a75f5-2983-4dd8-b4bf-8a0210eaa660
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.alphv-blackcat

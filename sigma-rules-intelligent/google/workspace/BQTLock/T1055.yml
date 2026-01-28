@@ -1,0 +1,29 @@
+title: T1055 (GOOGLE - workspace)
+id: 2e69f600-4514-4a18-ab28-4814a1dde149
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.bqtlock

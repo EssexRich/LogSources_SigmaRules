@@ -1,0 +1,32 @@
+title: T1204 (M365 - entra_id)
+id: 7d0f8ba7-e5d6-44e6-8dba-6414aad3c52d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1204/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204
+  - actor.alphv-blackcat

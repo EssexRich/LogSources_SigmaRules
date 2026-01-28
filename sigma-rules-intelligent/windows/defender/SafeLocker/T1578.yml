@@ -1,0 +1,37 @@
+title: T1578 (WINDOWS - defender)
+id: bf6cf4f2-a2e3-4d72-8dcd-f3868da31a8b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1578.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1578/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1578
+  - actor.safelocker

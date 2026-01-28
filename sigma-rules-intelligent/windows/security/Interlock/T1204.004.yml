@@ -1,0 +1,37 @@
+title: T1204.004 (WINDOWS - security)
+id: b350635b-7884-4ab4-90a7-f22f637f6aa5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.004.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1204.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.004
+  - actor.interlock

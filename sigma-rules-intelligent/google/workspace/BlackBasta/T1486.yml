@@ -1,0 +1,29 @@
+title: T1486 (GOOGLE - workspace)
+id: 10c1de7f-9e63-44fc-bd85-7ee23d79c34b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486
+  - actor.blackbasta

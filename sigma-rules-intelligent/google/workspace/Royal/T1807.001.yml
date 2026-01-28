@@ -1,0 +1,29 @@
+title: T1807.001 (GOOGLE - workspace)
+id: ba323e69-3428-4760-a76c-cdb00ea23399
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1807.001.
+  Threat Actor: Royal
+references:
+  - https://attack.mitre.org/techniques/T1807.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1807.001
+  - actor.royal

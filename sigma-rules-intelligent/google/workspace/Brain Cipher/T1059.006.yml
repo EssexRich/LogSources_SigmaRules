@@ -1,0 +1,29 @@
+title: T1059.006 (GOOGLE - workspace)
+id: ce0cacf2-88e9-463b-aea8-de820472a88a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.006.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1059.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.006
+  - actor.brain_cipher

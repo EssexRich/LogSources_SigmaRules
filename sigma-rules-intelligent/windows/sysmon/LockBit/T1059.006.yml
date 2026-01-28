@@ -1,0 +1,37 @@
+title: T1059.006 (WINDOWS - sysmon)
+id: 16bde51a-433d-4f5c-a53b-93f7fae1ddc7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.006.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1059.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.006
+  - actor.lockbit

@@ -1,0 +1,37 @@
+title: T1542.003 (LINUX - auditd)
+id: 97fd7a0d-c143-4f1b-ada3-47512c6a8230
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1542.003.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1542.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1542.003
+  - actor.coosea

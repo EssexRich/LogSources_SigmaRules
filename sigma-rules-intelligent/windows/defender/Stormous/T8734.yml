@@ -1,0 +1,37 @@
+title: T8734 (WINDOWS - defender)
+id: 379f85e9-80f2-40fc-9a58-6f76346732f8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8734.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T8734/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8734
+  - actor.stormous

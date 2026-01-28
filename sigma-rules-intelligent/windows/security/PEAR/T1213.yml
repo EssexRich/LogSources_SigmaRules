@@ -1,0 +1,37 @@
+title: T1213 (WINDOWS - security)
+id: 18311e18-0bec-4512-a608-c0a030df898c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1213.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T1213/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1213
+  - actor.pear

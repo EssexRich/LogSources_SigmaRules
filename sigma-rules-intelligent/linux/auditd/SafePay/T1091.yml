@@ -1,0 +1,37 @@
+title: T1091 (LINUX - auditd)
+id: 8e71b5b8-78b6-46e8-b230-1e7ad9debc52
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091
+  - actor.safepay

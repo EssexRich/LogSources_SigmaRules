@@ -1,0 +1,37 @@
+title: T1583.006 (WINDOWS - defender)
+id: 5b2ce622-eb35-4fb1-a078-ab7c6a953b7c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.006.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1583.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.006
+  - actor.brain_cipher

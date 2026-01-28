@@ -1,0 +1,32 @@
+title: T1509 (M365 - entra_id)
+id: b4464556-4516-4227-9fe5-f8d11f7dbb23
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1509.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1509/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1509
+  - actor.blackbasta

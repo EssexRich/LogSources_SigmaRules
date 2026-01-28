@@ -1,0 +1,29 @@
+title: T1070.001 (GOOGLE - workspace)
+id: 07196e54-12d9-40de-abee-2d4e50b68668
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.001.
+  Threat Actor: Chaos
+references:
+  - https://attack.mitre.org/techniques/T1070.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.001
+  - actor.chaos

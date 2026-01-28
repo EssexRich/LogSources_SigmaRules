@@ -1,0 +1,29 @@
+title: T1136.002 (GOOGLE - workspace)
+id: 68d75397-d6d3-4dc6-87ca-5c140ff4dc93
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.002.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1136.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136.002
+  - actor.lockbit

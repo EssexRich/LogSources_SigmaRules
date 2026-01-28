@@ -1,0 +1,29 @@
+title: T1027.003 (GOOGLE - workspace)
+id: dc049d91-9143-4ef1-bc55-825b900a0a2d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.003.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1027.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.003
+  - actor.brain_cipher

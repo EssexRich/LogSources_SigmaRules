@@ -1,0 +1,32 @@
+title: T1573 (M365 - entra_id)
+id: c7ab9f8a-a66c-4f3b-852d-fcb0916d063e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573
+  - actor.akira

@@ -1,0 +1,37 @@
+title: T3459 (WINDOWS - sysmon)
+id: 0c737a9e-60eb-488c-ba8f-128ccbe40db6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3459.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T3459/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3459
+  - actor.cephalus

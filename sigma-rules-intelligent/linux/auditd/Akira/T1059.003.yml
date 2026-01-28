@@ -1,0 +1,37 @@
+title: T1059.003 (LINUX - auditd)
+id: e5d9cb53-513d-4d86-90dc-cc6f4ca035e1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.003.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1059.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.003
+  - actor.akira

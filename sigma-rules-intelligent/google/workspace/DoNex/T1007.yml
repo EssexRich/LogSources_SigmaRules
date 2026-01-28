@@ -1,0 +1,29 @@
+title: T1007 (GOOGLE - workspace)
+id: 55075ab8-5492-46cb-8611-841778ccaff1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1007.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1007
+  - actor.donex

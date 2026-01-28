@@ -1,0 +1,37 @@
+title: T1204.001 (WINDOWS - security)
+id: 697393b6-6996-42a5-97f5-7a5bedcf4d0f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.001.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1204.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.001
+  - actor.lynx

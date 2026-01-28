@@ -1,0 +1,29 @@
+title: T4975 (GOOGLE - workspace)
+id: 5b92e32a-cfd2-48ae-abaf-24d36f65bc6e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4975.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T4975/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4975
+  - actor.lockbit

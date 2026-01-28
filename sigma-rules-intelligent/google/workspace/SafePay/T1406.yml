@@ -1,0 +1,29 @@
+title: T1406 (GOOGLE - workspace)
+id: a9014316-0481-4fe2-ada2-d5dd521edc6c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1406.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1406/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1406
+  - actor.safepay

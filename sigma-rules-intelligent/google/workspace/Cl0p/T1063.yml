@@ -1,0 +1,29 @@
+title: T1063 (GOOGLE - workspace)
+id: c9041e33-1445-4603-b1d8-093b9a86448b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1063.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1063/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1063
+  - actor.cl0p

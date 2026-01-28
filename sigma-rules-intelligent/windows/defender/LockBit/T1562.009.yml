@@ -1,0 +1,37 @@
+title: T1562.009 (WINDOWS - defender)
+id: 3855c37d-c66a-497b-80a5-49f1168e0af7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.009.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1562.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.009
+  - actor.lockbit

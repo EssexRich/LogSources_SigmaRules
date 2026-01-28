@@ -1,0 +1,29 @@
+title: T1190 (GOOGLE - workspace)
+id: 2dee77ed-8ce5-4bd5-9882-1d2cd38a8284
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.inc_ransom

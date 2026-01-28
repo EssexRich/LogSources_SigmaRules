@@ -1,0 +1,29 @@
+title: T1039 (GOOGLE - workspace)
+id: 7b1cbe30-c7a6-41f6-b37d-26e746787acc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1039.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1039/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1039
+  - actor.vice_society

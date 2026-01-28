@@ -1,0 +1,37 @@
+title: T1003.004 (LINUX - auditd)
+id: 16f0d0b5-5e1b-4cc5-a604-1a3ce2fb83c2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.004.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1003.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.004
+  - actor.inc_ransom

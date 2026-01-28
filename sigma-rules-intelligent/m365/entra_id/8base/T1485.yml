@@ -1,0 +1,32 @@
+title: T1485 (M365 - entra_id)
+id: a721e8b6-794f-4435-98b4-6120d52a4b5f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1485.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1485
+  - actor.8base

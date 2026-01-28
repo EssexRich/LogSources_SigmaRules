@@ -1,0 +1,29 @@
+title: T1012 (GOOGLE - workspace)
+id: 9a9c6736-d583-4771-a861-609a19edf379
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: Magaskosh
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.magaskosh

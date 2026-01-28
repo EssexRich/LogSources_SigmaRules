@@ -1,0 +1,34 @@
+title: T4791 (MACOS - unified_logging)
+id: 63a50b42-7d56-4deb-9b04-c01fe8be227a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4791.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T4791/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4791
+  - actor.stormous

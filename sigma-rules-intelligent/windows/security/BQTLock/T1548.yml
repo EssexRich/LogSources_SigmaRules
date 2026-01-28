@@ -1,0 +1,37 @@
+title: T1548 (WINDOWS - security)
+id: 079463a6-5ed1-4dd7-9dd5-8d68d8e4da2e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1548/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548
+  - actor.bqtlock

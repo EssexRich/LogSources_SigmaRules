@@ -1,0 +1,37 @@
+title: T1055.012 (WINDOWS - security)
+id: b402af51-17f5-4927-b810-94117cc9a235
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.012.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1055.012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.012
+  - actor.lockbit

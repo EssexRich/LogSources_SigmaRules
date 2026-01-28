@@ -1,0 +1,37 @@
+title: T1046 (LINUX - auditd)
+id: 7d7b2c1b-3e95-4c22-8bb6-6b2e62e00bb8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.akira

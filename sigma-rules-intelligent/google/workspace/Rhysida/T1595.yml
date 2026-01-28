@@ -1,0 +1,29 @@
+title: T1595 (GOOGLE - workspace)
+id: b4c864a2-6a5f-4179-a4a5-fa1faa87d7b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1595/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595
+  - actor.rhysida
