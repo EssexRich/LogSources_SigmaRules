@@ -103,11 +103,17 @@ function main() {
 function findBestMatch(rules, logsource) {
   // Product aliases - what external products map to our logsources
   const productAliases = {
-    'google': ['gcp', 'google', 'google_workspace', 'workspace'],
-    'm365': ['azure', 'm365', 'o365', 'office365', 'entra'],
     'windows': ['windows'],
     'linux': ['linux'],
-    'macos': ['macos', 'osx']
+    'macos': ['macos', 'osx'],
+    'm365': ['m365', 'o365', 'office365', 'entra'],
+    'azure': ['azure', 'cloud'],
+    'aws': ['aws'],
+    'gcp': ['gcp'],
+    'google': ['google', 'google_workspace', 'workspace'],
+    'okta': ['okta'],
+    'network': ['network', 'cisco', 'firewall', 'paloalto', 'fortinet'],
+    'web': ['web', 'proxy', 'webserver']
   };
   
   const validProducts = productAliases[logsource.product] || [logsource.product];
@@ -120,16 +126,27 @@ function findBestMatch(rules, logsource) {
     // Product must match (including aliases)
     if (!validProducts.includes(rule.product)) return false;
     
-    // Category must match if specified
-    if (rule.category && rule.category !== logsource.category) return false;
+    // Category must match if specified and logsource has category
+    if (rule.category && logsource.category && rule.category !== logsource.category) {
+      // Allow some flexibility for related categories
+      const categoryAliases = {
+        'process_creation': ['process_creation'],
+        'authentication': ['authentication', 'application'],
+        'cloud_audit': ['cloud_audit', 'application'],
+        'admin_activity': ['admin_activity', 'application'],
+        'network_connection': ['network_connection', 'firewall'],
+        'proxy': ['proxy', 'webserver']
+      };
+      const validCategories = categoryAliases[logsource.category] || [logsource.category];
+      if (!validCategories.includes(rule.category)) return false;
+    }
     
     // Sanity check: rule query shouldn't reference wrong products
     if (rule.query) {
       const q = rule.query.toLowerCase();
-      // Skip rules that are clearly for wrong product
-      if (logsource.product === 'linux' && (q.includes('google_workspace') || q.includes('windows') || q.includes('eventcode'))) return false;
-      if (logsource.product === 'windows' && q.includes('google_workspace')) return false;
-      if (logsource.product === 'macos' && (q.includes('google_workspace') || q.includes('windows') || q.includes('eventcode'))) return false;
+      if (logsource.product === 'linux' && (q.includes('eventcode') || q.includes('wineventlog'))) return false;
+      if (logsource.product === 'windows' && q.includes('auditd')) return false;
+      if (logsource.product === 'macos' && (q.includes('eventcode') || q.includes('wineventlog'))) return false;
     }
     
     return true;
