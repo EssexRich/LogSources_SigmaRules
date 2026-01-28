@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T4590 Detection (linux)
+    id: f403d478-93e1-4414-ac29-d861be7b510e
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T4590.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T4590/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T4590
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T4590
+    
