@@ -1,72 +1,31 @@
 #!/usr/bin/env node
 
 /**
- * Fetch detection rules from external repos using GitHub Tree API
- * Maps technique IDs to actual detection logic from:
- * - Elastic detection-rules (TOML)
- * - Splunk security_content (YAML)
- * - SigmaHQ sigma (YAML)
- * 
- * Outputs: external-rules-index.json
+ * Parse detection rules from locally cloned repos
+ * Usage: node fetch-external-rules.js /path/to/cloned/repos
  */
 
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
-
-function fetchURL(url) {
-  return new Promise((resolve, reject) => {
-    const urlObj = new URL(url);
-    const headers = {
-      'User-Agent': 'GapMATRIX-SigmaGen/1.0'
-    };
-    
-    // Add auth for api.github.com requests if token available
-    if (urlObj.hostname === 'api.github.com' && GITHUB_TOKEN) {
-      headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
-    }
-    
-    const options = {
-      hostname: urlObj.hostname,
-      path: urlObj.pathname + urlObj.search,
-      headers
-    };
-
-    https.get(options, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        if (res.statusCode === 200) {
-          resolve(data);
-        } else {
-          reject(new Error(`HTTP ${res.statusCode}: ${url}`));
-        }
-      });
-    }).on('error', reject);
-  });
-}
-
-async function fetchJSON(url) {
-  const data = await fetchURL(url);
-  return JSON.parse(data);
-}
-
-// Rate limit helper
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+const reposDir = process.argv[2] || '/tmp/external-repos';
 
 /**
- * Get all files from a GitHub repo using the Tree API (single request)
+ * Recursively find files matching a pattern
  */
-async function getRepoTree(owner, repo, branch = 'main') {
-  const url = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
-  console.log(`[Tree] Fetching ${owner}/${repo}...`);
+function findFiles(dir, pattern, results = []) {
+  if (!fs.existsSync(dir)) return results;
   
-  const tree = await fetchJSON(url);
-  return tree.tree || [];
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      findFiles(fullPath, pattern, results);
+    } else if (pattern.test(entry.name)) {
+      results.push(fullPath);
+    }
+  }
+  return results;
 }
 
 /**
@@ -75,7 +34,7 @@ async function getRepoTree(owner, repo, branch = 'main') {
 function extractFromTOML(content, filePath) {
   const techniques = [];
   
-  // Match technique IDs: id = "T1190"
+  // Match technique IDs
   const techMatches = content.matchAll(/\[\[rule\.threat\.technique\]\][^[]*?id\s*=\s*"(T\d+(?:\.\d+)?)"/gs);
   for (const match of techMatches) {
     techniques.push(match[1]);
@@ -95,24 +54,14 @@ function extractFromTOML(content, filePath) {
   const nameMatch = content.match(/name\s*=\s*"([^"]+)"/);
   const name = nameMatch ? nameMatch[1] : path.basename(filePath);
   
-  // Extract logsource info from index patterns
-  const indexMatch = content.match(/index\s*=\s*\[([\s\S]*?)\]/);
+  // Determine product from path
   let product = 'unknown';
-  if (indexMatch) {
-    const indices = indexMatch[1].toLowerCase();
-    if (indices.includes('windows') || indices.includes('winlog')) product = 'windows';
-    else if (indices.includes('linux') || indices.includes('auditbeat')) product = 'linux';
-    else if (indices.includes('macos')) product = 'macos';
-    else if (indices.includes('cloud') || indices.includes('azure') || indices.includes('gcp') || indices.includes('aws')) product = 'cloud';
-  }
+  if (filePath.includes('/windows/')) product = 'windows';
+  else if (filePath.includes('/linux/')) product = 'linux';
+  else if (filePath.includes('/macos/')) product = 'macos';
+  else if (filePath.includes('/cloud/') || filePath.includes('/azure/') || filePath.includes('/gcp/') || filePath.includes('/aws/')) product = 'cloud';
   
-  return {
-    techniques: [...new Set(techniques)],
-    query,
-    name,
-    product,
-    path: filePath
-  };
+  return { techniques: [...new Set(techniques)], query, name, product };
 }
 
 /**
@@ -127,7 +76,7 @@ function extractFromYAML(content, filePath) {
     techniques.push(`T${match[1].toUpperCase()}`);
   }
   
-  // Direct T-number references
+  // Direct T-number references in tags section
   const directMatches = content.matchAll(/[^a-zA-Z](T\d{4}(?:\.\d{3})?)[^0-9]/g);
   for (const match of directMatches) {
     techniques.push(match[1]);
@@ -138,200 +87,139 @@ function extractFromYAML(content, filePath) {
   const query = detectionMatch ? detectionMatch[1] : null;
   
   // Extract title
-  const titleMatch = content.match(/title:\s*(.+)/i);
-  const name = titleMatch ? titleMatch[1].trim().replace(/^['"]|['"]$/g, '') : path.basename(filePath);
+  const titleMatch = content.match(/title:\s*['"]?([^'"\n]+)['"]?/i);
+  const name = titleMatch ? titleMatch[1].trim() : path.basename(filePath);
   
-  // Extract logsource product
+  // Extract logsource
   const productMatch = content.match(/product:\s*(\w+)/i);
   const product = productMatch ? productMatch[1].toLowerCase() : 'unknown';
   
-  // Extract logsource service
   const serviceMatch = content.match(/service:\s*(\w+)/i);
   const service = serviceMatch ? serviceMatch[1].toLowerCase() : null;
   
-  // Extract logsource category
   const categoryMatch = content.match(/category:\s*(\w+)/i);
   const category = categoryMatch ? categoryMatch[1].toLowerCase() : null;
   
-  return {
-    techniques: [...new Set(techniques)],
-    query,
-    name,
-    product,
-    service,
-    category,
-    path: filePath
-  };
+  return { techniques: [...new Set(techniques)], query, name, product, service, category };
 }
 
 /**
- * Fetch rules from Elastic detection-rules repo
+ * Process Elastic rules
  */
-async function fetchElasticRules() {
-  console.log('\n[Elastic] Fetching detection-rules...');
+function processElastic(reposDir) {
+  console.log('\n[Elastic] Processing detection-rules...');
   const rules = {};
   
-  try {
-    const tree = await getRepoTree('elastic', 'detection-rules', 'main');
-    const tomlFiles = tree.filter(f => 
-      f.path.startsWith('rules/') && 
-      f.path.endsWith('.toml') &&
-      f.type === 'blob'
-    );
-    
-    console.log(`[Elastic] Found ${tomlFiles.length} rule files`);
-    
-    let processed = 0;
-    for (const file of tomlFiles) {
-      try {
-        const url = `https://raw.githubusercontent.com/elastic/detection-rules/main/${file.path}`;
-        const content = await fetchURL(url);
-        const parsed = extractFromTOML(content, file.path);
-        
-        for (const tech of parsed.techniques) {
-          if (!rules[tech]) rules[tech] = [];
-          rules[tech].push({
-            source: 'elastic',
-            name: parsed.name,
-            product: parsed.product,
-            path: file.path,
-            url: `https://github.com/elastic/detection-rules/blob/main/${file.path}`,
-            query: parsed.query
-          });
-        }
-        
-        processed++;
-        if (processed % 50 === 0) {
-          console.log(`[Elastic] Processed ${processed}/${tomlFiles.length}`);
-          await delay(100); // Small delay to be nice
-        }
-      } catch (err) {
-        // Skip failed files silently
+  const rulesDir = path.join(reposDir, 'detection-rules', 'rules');
+  const files = findFiles(rulesDir, /\.toml$/);
+  console.log(`[Elastic] Found ${files.length} TOML files`);
+  
+  for (const file of files) {
+    try {
+      const content = fs.readFileSync(file, 'utf8');
+      const parsed = extractFromTOML(content, file);
+      const relativePath = file.replace(reposDir + '/detection-rules/', '');
+      
+      for (const tech of parsed.techniques) {
+        if (!rules[tech]) rules[tech] = [];
+        rules[tech].push({
+          source: 'elastic',
+          name: parsed.name,
+          product: parsed.product,
+          path: relativePath,
+          url: `https://github.com/elastic/detection-rules/blob/main/${relativePath}`,
+          query: parsed.query
+        });
       }
+    } catch (err) {
+      // Skip unreadable files
     }
-    
-    console.log(`[Elastic] ✓ ${Object.keys(rules).length} techniques, ${processed} rules`);
-  } catch (err) {
-    console.error(`[Elastic] Error: ${err.message}`);
   }
   
+  console.log(`[Elastic] ✓ ${Object.keys(rules).length} techniques`);
   return rules;
 }
 
 /**
- * Fetch rules from SigmaHQ repo
+ * Process SigmaHQ rules
  */
-async function fetchSigmaRules() {
-  console.log('\n[SigmaHQ] Fetching sigma rules...');
+function processSigma(reposDir) {
+  console.log('\n[SigmaHQ] Processing sigma rules...');
   const rules = {};
   
-  try {
-    const tree = await getRepoTree('SigmaHQ', 'sigma', 'master');
-    const yamlFiles = tree.filter(f => 
-      f.path.startsWith('rules/') && 
-      f.path.endsWith('.yml') &&
-      f.type === 'blob'
-    );
-    
-    console.log(`[SigmaHQ] Found ${yamlFiles.length} rule files`);
-    
-    let processed = 0;
-    for (const file of yamlFiles) {
-      try {
-        const url = `https://raw.githubusercontent.com/SigmaHQ/sigma/master/${file.path}`;
-        const content = await fetchURL(url);
-        const parsed = extractFromYAML(content, file.path);
-        
-        for (const tech of parsed.techniques) {
-          if (!rules[tech]) rules[tech] = [];
-          rules[tech].push({
-            source: 'sigma',
-            name: parsed.name,
-            product: parsed.product,
-            service: parsed.service,
-            category: parsed.category,
-            path: file.path,
-            url: `https://github.com/SigmaHQ/sigma/blob/master/${file.path}`,
-            query: parsed.query
-          });
-        }
-        
-        processed++;
-        if (processed % 100 === 0) {
-          console.log(`[SigmaHQ] Processed ${processed}/${yamlFiles.length}`);
-          await delay(50);
-        }
-      } catch (err) {
-        // Skip failed files
+  const rulesDir = path.join(reposDir, 'sigma', 'rules');
+  const files = findFiles(rulesDir, /\.yml$/);
+  console.log(`[SigmaHQ] Found ${files.length} YAML files`);
+  
+  for (const file of files) {
+    try {
+      const content = fs.readFileSync(file, 'utf8');
+      const parsed = extractFromYAML(content, file);
+      const relativePath = file.replace(reposDir + '/sigma/', '');
+      
+      for (const tech of parsed.techniques) {
+        if (!rules[tech]) rules[tech] = [];
+        rules[tech].push({
+          source: 'sigma',
+          name: parsed.name,
+          product: parsed.product,
+          service: parsed.service,
+          category: parsed.category,
+          path: relativePath,
+          url: `https://github.com/SigmaHQ/sigma/blob/master/${relativePath}`,
+          query: parsed.query
+        });
       }
+    } catch (err) {
+      // Skip
     }
-    
-    console.log(`[SigmaHQ] ✓ ${Object.keys(rules).length} techniques, ${processed} rules`);
-  } catch (err) {
-    console.error(`[SigmaHQ] Error: ${err.message}`);
   }
   
+  console.log(`[SigmaHQ] ✓ ${Object.keys(rules).length} techniques`);
   return rules;
 }
 
 /**
- * Fetch rules from Splunk security_content repo
+ * Process Splunk rules
  */
-async function fetchSplunkRules() {
-  console.log('\n[Splunk] Fetching security_content...');
+function processSplunk(reposDir) {
+  console.log('\n[Splunk] Processing security_content...');
   const rules = {};
   
-  try {
-    const tree = await getRepoTree('splunk', 'security_content', 'develop');
-    const yamlFiles = tree.filter(f => 
-      f.path.startsWith('detections/') && 
-      f.path.endsWith('.yml') &&
-      f.type === 'blob'
-    );
-    
-    console.log(`[Splunk] Found ${yamlFiles.length} rule files`);
-    
-    let processed = 0;
-    for (const file of yamlFiles) {
-      try {
-        const url = `https://raw.githubusercontent.com/splunk/security_content/develop/${file.path}`;
-        const content = await fetchURL(url);
-        const parsed = extractFromYAML(content, file.path);
-        
-        for (const tech of parsed.techniques) {
-          if (!rules[tech]) rules[tech] = [];
-          rules[tech].push({
-            source: 'splunk',
-            name: parsed.name,
-            product: parsed.product,
-            service: parsed.service,
-            category: parsed.category,
-            path: file.path,
-            url: `https://github.com/splunk/security_content/blob/develop/${file.path}`,
-            query: parsed.query
-          });
-        }
-        
-        processed++;
-        if (processed % 50 === 0) {
-          console.log(`[Splunk] Processed ${processed}/${yamlFiles.length}`);
-          await delay(100);
-        }
-      } catch (err) {
-        // Skip failed files
+  const detectionsDir = path.join(reposDir, 'security_content', 'detections');
+  const files = findFiles(detectionsDir, /\.yml$/);
+  console.log(`[Splunk] Found ${files.length} YAML files`);
+  
+  for (const file of files) {
+    try {
+      const content = fs.readFileSync(file, 'utf8');
+      const parsed = extractFromYAML(content, file);
+      const relativePath = file.replace(reposDir + '/security_content/', '');
+      
+      for (const tech of parsed.techniques) {
+        if (!rules[tech]) rules[tech] = [];
+        rules[tech].push({
+          source: 'splunk',
+          name: parsed.name,
+          product: parsed.product,
+          service: parsed.service,
+          category: parsed.category,
+          path: relativePath,
+          url: `https://github.com/splunk/security_content/blob/develop/${relativePath}`,
+          query: parsed.query
+        });
       }
+    } catch (err) {
+      // Skip
     }
-    
-    console.log(`[Splunk] ✓ ${Object.keys(rules).length} techniques, ${processed} rules`);
-  } catch (err) {
-    console.error(`[Splunk] Error: ${err.message}`);
   }
   
+  console.log(`[Splunk] ✓ ${Object.keys(rules).length} techniques`);
   return rules;
 }
 
 /**
- * Merge all rule sets
+ * Merge and sort rules
  */
 function mergeRules(...ruleSets) {
   const merged = {};
@@ -352,15 +240,15 @@ function mergeRules(...ruleSets) {
   return sorted;
 }
 
-async function main() {
+function main() {
   console.log('='.repeat(60));
-  console.log('External Detection Rules Fetcher');
+  console.log('External Detection Rules Parser');
   console.log('='.repeat(60));
-  console.log(`GitHub Token: ${GITHUB_TOKEN ? 'present' : 'not set (using unauthenticated)'}`);
+  console.log(`Repos directory: ${reposDir}`);
   
-  const elasticRules = await fetchElasticRules();
-  const sigmaRules = await fetchSigmaRules();
-  const splunkRules = await fetchSplunkRules();
+  const elasticRules = processElastic(reposDir);
+  const sigmaRules = processSigma(reposDir);
+  const splunkRules = processSplunk(reposDir);
   
   const allRules = mergeRules(elasticRules, sigmaRules, splunkRules);
   
@@ -370,38 +258,32 @@ async function main() {
     totalRules += ruleList.length;
   }
   
-  const stats = {
-    generated: new Date().toISOString(),
-    techniques: Object.keys(allRules).length,
-    totalRules,
-    sources: {
-      elastic: Object.keys(elasticRules).length,
-      sigma: Object.keys(sigmaRules).length,
-      splunk: Object.keys(splunkRules).length
-    }
+  const output = {
+    _meta: {
+      generated: new Date().toISOString(),
+      techniques: Object.keys(allRules).length,
+      totalRules,
+      sources: {
+        elastic: Object.keys(elasticRules).length,
+        sigma: Object.keys(sigmaRules).length,
+        splunk: Object.keys(splunkRules).length
+      }
+    },
+    rules: allRules
   };
   
   console.log('\n' + '='.repeat(60));
   console.log('Summary');
   console.log('='.repeat(60));
-  console.log(`Total techniques: ${stats.techniques}`);
-  console.log(`Total rules: ${stats.totalRules}`);
-  console.log(`  - Elastic: ${stats.sources.elastic} techniques`);
-  console.log(`  - SigmaHQ: ${stats.sources.sigma} techniques`);
-  console.log(`  - Splunk: ${stats.sources.splunk} techniques`);
-  
-  // Output
-  const output = {
-    _meta: stats,
-    rules: allRules
-  };
+  console.log(`Total techniques: ${output._meta.techniques}`);
+  console.log(`Total rules: ${output._meta.totalRules}`);
+  console.log(`  - Elastic: ${output._meta.sources.elastic} techniques`);
+  console.log(`  - SigmaHQ: ${output._meta.sources.sigma} techniques`);
+  console.log(`  - Splunk: ${output._meta.sources.splunk} techniques`);
   
   const outputPath = path.join(process.cwd(), 'external-rules-index.json');
   fs.writeFileSync(outputPath, JSON.stringify(output, null, 2));
   console.log(`\n✓ Saved to ${outputPath}`);
 }
 
-main().catch(err => {
-  console.error('FATAL:', err.message);
-  process.exit(1);
-});
+main();
