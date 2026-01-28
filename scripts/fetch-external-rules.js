@@ -140,8 +140,8 @@ function inferSplunkProduct(content, filePath) {
   // Check file path
   if (pathLower.includes('/endpoint/')) {
     // Endpoint detections - check content for OS hints
-    if (contentLower.includes('eventcode') || contentLower.includes('sysmon') || contentLower.includes('powershell') || contentLower.includes('windows')) return 'windows';
-    if (contentLower.includes('auditd') || contentLower.includes('/bin/') || contentLower.includes('linux')) return 'linux';
+    if (contentLower.includes('eventcode') || contentLower.includes('sysmon') || contentLower.includes('powershell') || contentLower.includes('wineventlog')) return 'windows';
+    if (contentLower.includes('auditd') || contentLower.includes('/bin/') || contentLower.includes('sourcetype=linux')) return 'linux';
     return 'windows'; // Default endpoint to windows
   }
   if (pathLower.includes('/cloud/')) return 'cloud';
@@ -150,7 +150,7 @@ function inferSplunkProduct(content, filePath) {
   if (pathLower.includes('/web/')) return 'web';
   
   // Check content for OS/platform hints
-  if (contentLower.includes('eventcode=') || contentLower.includes('sourcetype=wineventlog') || contentLower.includes('xmlwineventlog')) return 'windows';
+  if (contentLower.includes('eventcode=') || contentLower.includes('sourcetype=wineventlog') || contentLower.includes('sourcetype=xmlwineventlog')) return 'windows';
   if (contentLower.includes('sourcetype=linux') || contentLower.includes('sourcetype=syslog')) return 'linux';
   if (contentLower.includes('sourcetype=aws') || contentLower.includes('cloudtrail')) return 'aws';
   if (contentLower.includes('sourcetype=azure') || contentLower.includes('o365')) return 'azure';
@@ -210,7 +210,7 @@ function processSigma(reposDir) {
   for (const file of files) {
     try {
       const content = fs.readFileSync(file, 'utf8');
-      const parsed = extractFromYAML(content, file);
+      const parsed = extractFromYAML(content, file, false);
       const relativePath = file.replace(reposDir + '/sigma/', '');
       
       for (const tech of parsed.techniques) {
@@ -246,11 +246,17 @@ function processSplunk(reposDir) {
   const files = findFiles(detectionsDir, /\.yml$/);
   console.log(`[Splunk] Found ${files.length} YAML files`);
   
+  // Debug: track product distribution
+  const productCounts = {};
+  
   for (const file of files) {
     try {
       const content = fs.readFileSync(file, 'utf8');
       const parsed = extractFromYAML(content, file, true); // isSplunk = true
       const relativePath = file.replace(reposDir + '/security_content/', '');
+      
+      // Debug: count products
+      productCounts[parsed.product] = (productCounts[parsed.product] || 0) + 1;
       
       for (const tech of parsed.techniques) {
         if (!rules[tech]) rules[tech] = [];
@@ -269,6 +275,12 @@ function processSplunk(reposDir) {
       // Skip
     }
   }
+  
+  // Debug: print product distribution for Splunk
+  console.log(`[Splunk] Product distribution:`);
+  Object.entries(productCounts).sort((a, b) => b[1] - a[1]).forEach(([prod, count]) => {
+    console.log(`  - ${prod}: ${count}`);
+  });
   
   console.log(`[Splunk] ✓ ${Object.keys(rules).length} techniques`);
   return rules;
