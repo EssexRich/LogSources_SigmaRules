@@ -1,0 +1,28 @@
+title: SMB/Windows Admin Shares (GOOGLE)
+id: 38c76cc7-230c-4f48-b8bb-4ab8fc55b7c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.002.
+references:
+  - https://attack.mitre.org/techniques/T1021.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.002

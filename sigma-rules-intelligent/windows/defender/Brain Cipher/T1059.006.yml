@@ -1,0 +1,28 @@
+title: Python (WINDOWS)
+id: a980c2d7-e1a7-4246-8ba0-98e8fba22955
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.006.
+references:
+  - https://attack.mitre.org/techniques/T1059.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.006

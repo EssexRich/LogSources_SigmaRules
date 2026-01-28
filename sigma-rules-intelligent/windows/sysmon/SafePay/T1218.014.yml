@@ -1,0 +1,28 @@
+title: MMC (WINDOWS)
+id: 3e9f7c48-6ef7-455f-97e6-8bbdf77c7a68
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.014.
+references:
+  - https://attack.mitre.org/techniques/T1218.014/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.014

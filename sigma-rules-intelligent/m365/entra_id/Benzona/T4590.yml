@@ -1,0 +1,28 @@
+title: T4590 (M365)
+id: a7e079ba-359a-4915-a4df-344af43f5f09
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4590.
+references:
+  - https://attack.mitre.org/techniques/T4590/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4590

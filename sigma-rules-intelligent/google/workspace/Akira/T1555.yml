@@ -1,0 +1,28 @@
+title: Credentials from Password Stores (GOOGLE)
+id: 32356bc8-d43a-4e2c-9d1c-f49f17322ba7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555

@@ -1,0 +1,28 @@
+title: Application Window Discovery (M365)
+id: a0ede4bb-815c-4676-9d43-590ed1d8a0a0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1010.
+references:
+  - https://attack.mitre.org/techniques/T1010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1010

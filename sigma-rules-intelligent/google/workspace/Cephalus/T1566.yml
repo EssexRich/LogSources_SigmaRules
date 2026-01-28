@@ -1,0 +1,28 @@
+title: Phishing (GOOGLE)
+id: e4a6ed4a-98fe-4163-b851-e8990e55006f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566

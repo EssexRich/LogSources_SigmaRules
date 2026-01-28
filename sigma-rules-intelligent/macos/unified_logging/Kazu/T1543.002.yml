@@ -1,0 +1,28 @@
+title: Systemd Service (MACOS)
+id: b2f3da78-da36-4b45-bb37-d863dd02506d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.002.
+references:
+  - https://attack.mitre.org/techniques/T1543.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.002

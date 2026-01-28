@@ -1,0 +1,28 @@
+title: Software Packing (WINDOWS)
+id: e4a16a82-d7a4-4c29-a084-e6e4a5c39e5a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1045.
+references:
+  - https://attack.mitre.org/techniques/T1045/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1045

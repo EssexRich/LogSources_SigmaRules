@@ -1,0 +1,28 @@
+title: Exfiltration Over Asymmetric Encrypted Non-C2 Protocol (M365)
+id: 52ce653d-6517-4386-b70f-abf355338988
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.002.
+references:
+  - https://attack.mitre.org/techniques/T1048.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048.002

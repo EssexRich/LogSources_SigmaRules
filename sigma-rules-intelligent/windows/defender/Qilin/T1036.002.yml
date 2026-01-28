@@ -1,0 +1,28 @@
+title: Right-to-Left Override (WINDOWS)
+id: 45965961-eef9-4f84-aa4f-2bcd3212b83a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.002.
+references:
+  - https://attack.mitre.org/techniques/T1036.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.002

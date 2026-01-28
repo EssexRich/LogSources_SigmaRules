@@ -1,0 +1,28 @@
+title: Domain Accounts (GOOGLE)
+id: f9403e8c-b35d-41a6-87d1-76e24254fe5f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.002.
+references:
+  - https://attack.mitre.org/techniques/T1078.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.002

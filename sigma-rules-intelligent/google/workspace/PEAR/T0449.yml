@@ -1,0 +1,28 @@
+title: T0449 (GOOGLE)
+id: 7fafb868-a57d-48c0-a8de-9cef8ec5934d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0449.
+references:
+  - https://attack.mitre.org/techniques/T0449/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0449

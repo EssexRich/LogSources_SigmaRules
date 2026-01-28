@@ -1,0 +1,28 @@
+title: Network Share Discovery (M365)
+id: 5788f393-a31c-4dee-8cbe-1900da14281b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135

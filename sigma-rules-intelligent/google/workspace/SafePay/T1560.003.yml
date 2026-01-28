@@ -1,0 +1,28 @@
+title: Archive via Custom Method (GOOGLE)
+id: 6f3c6ffc-3be7-47ac-8674-4b5f3ad120ac
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.003.
+references:
+  - https://attack.mitre.org/techniques/T1560.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.003

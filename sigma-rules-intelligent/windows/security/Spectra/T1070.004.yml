@@ -1,0 +1,28 @@
+title: File Deletion (WINDOWS)
+id: ea3ecc0b-bb5b-4126-9fd6-4a4b9266a8db
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.004.
+references:
+  - https://attack.mitre.org/techniques/T1070.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.004

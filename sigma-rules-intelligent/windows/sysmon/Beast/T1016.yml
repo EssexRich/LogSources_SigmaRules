@@ -1,0 +1,28 @@
+title: System Network Configuration Discovery (WINDOWS)
+id: 8291994a-4e69-43eb-a31d-966c376ed450
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016

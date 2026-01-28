@@ -1,0 +1,28 @@
+title: T9929 (WINDOWS)
+id: 171f17da-d041-45c3-9da6-81f36304de48
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T9929.
+references:
+  - https://attack.mitre.org/techniques/T9929/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T9929

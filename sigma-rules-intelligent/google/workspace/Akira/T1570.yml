@@ -1,0 +1,28 @@
+title: Lateral Tool Transfer (GOOGLE)
+id: b43c065c-2edd-4861-8a74-6c5278c1252e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570

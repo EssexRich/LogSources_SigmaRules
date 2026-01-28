@@ -1,0 +1,28 @@
+title: Create or Modify System Process (WINDOWS)
+id: 30cf57b8-11a0-44ba-be47-d1abd0d57236
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.
+references:
+  - https://attack.mitre.org/techniques/T1543/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543

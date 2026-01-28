@@ -1,0 +1,30 @@
+title: User Execution (LINUX)
+id: 986d3dc8-bce6-4a11-94bd-6bee946e3614
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.
+references:
+  - https://attack.mitre.org/techniques/T1204/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204

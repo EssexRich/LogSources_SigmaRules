@@ -1,0 +1,28 @@
+title: Remote Services (WINDOWS)
+id: aebc29bf-fd3a-45e9-8e78-66673f2a4678
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021

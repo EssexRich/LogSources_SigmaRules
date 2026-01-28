@@ -1,0 +1,28 @@
+title: T1624 (WINDOWS)
+id: 9eff7f55-2cd6-492a-bccf-245fa1c1df89
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1624.
+references:
+  - https://attack.mitre.org/techniques/T1624/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1624

@@ -1,0 +1,28 @@
+title: Exfiltration Over Alternative Protocol (MACOS)
+id: 9a2d5208-4680-46da-bd48-36de650a3f69
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048

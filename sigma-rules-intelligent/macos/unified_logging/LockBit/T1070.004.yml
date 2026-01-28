@@ -1,0 +1,28 @@
+title: File Deletion (MACOS)
+id: 75e1a592-91da-4911-b703-80d2c7c1842a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.004.
+references:
+  - https://attack.mitre.org/techniques/T1070.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.004

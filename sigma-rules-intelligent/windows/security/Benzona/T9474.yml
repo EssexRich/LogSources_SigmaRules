@@ -1,0 +1,28 @@
+title: T9474 (WINDOWS)
+id: 69001848-a5bc-4c15-bd49-b5da9260fdc5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T9474.
+references:
+  - https://attack.mitre.org/techniques/T9474/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T9474

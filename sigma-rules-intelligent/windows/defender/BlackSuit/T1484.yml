@@ -1,0 +1,28 @@
+title: Domain or Tenant Policy Modification (WINDOWS)
+id: 55b87956-fb88-4a3f-8b7e-a22f328e610e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1484.
+references:
+  - https://attack.mitre.org/techniques/T1484/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1484

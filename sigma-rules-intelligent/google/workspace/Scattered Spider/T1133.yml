@@ -1,0 +1,28 @@
+title: External Remote Services (GOOGLE)
+id: 913e05b4-e3ef-45b0-96ec-6ae35afde360
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133

@@ -1,0 +1,28 @@
+title: Bidirectional Communication (M365)
+id: abb5dd3a-045b-4795-87f0-802ca5f8d0bb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.002.
+references:
+  - https://attack.mitre.org/techniques/T1102.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102.002

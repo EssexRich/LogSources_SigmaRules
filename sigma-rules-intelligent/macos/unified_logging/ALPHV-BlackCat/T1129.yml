@@ -1,0 +1,28 @@
+title: Shared Modules (MACOS)
+id: 56932f9d-7b1f-442f-9c9d-f32173770acd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1129.
+references:
+  - https://attack.mitre.org/techniques/T1129/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1129

@@ -1,0 +1,28 @@
+title: Indirect Command Execution (WINDOWS)
+id: 500d4d3f-9322-4300-b6a9-10f56104ed30
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202

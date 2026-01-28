@@ -1,0 +1,28 @@
+title: T8709 (WINDOWS)
+id: c558b9f8-70bc-42c2-9950-4ea3f8901180
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8709.
+references:
+  - https://attack.mitre.org/techniques/T8709/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8709

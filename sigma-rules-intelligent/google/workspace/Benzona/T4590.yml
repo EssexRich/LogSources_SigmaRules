@@ -1,0 +1,28 @@
+title: T4590 (GOOGLE)
+id: 25cb18d2-f9c6-4d23-ae47-fac09ed90254
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4590.
+references:
+  - https://attack.mitre.org/techniques/T4590/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4590

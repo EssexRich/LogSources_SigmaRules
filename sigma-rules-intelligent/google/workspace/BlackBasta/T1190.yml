@@ -1,0 +1,28 @@
+title: Exploit Public-Facing Application (GOOGLE)
+id: 6d6c7139-d1d1-40e6-a8f5-f610fb8d2f3f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190

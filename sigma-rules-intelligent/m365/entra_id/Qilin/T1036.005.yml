@@ -1,0 +1,28 @@
+title: Match Legitimate Resource Name or Location (M365)
+id: 4cdfdb24-fc75-4147-bd25-682f6737c6d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.005.
+references:
+  - https://attack.mitre.org/techniques/T1036.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.005

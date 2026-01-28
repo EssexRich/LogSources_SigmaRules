@@ -1,0 +1,28 @@
+title: Security Account Manager (M365)
+id: e43252ee-c68b-45ea-b22f-65b2d6fd1419
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.002.
+references:
+  - https://attack.mitre.org/techniques/T1003.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.002

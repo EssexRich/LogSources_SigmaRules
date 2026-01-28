@@ -1,0 +1,28 @@
+title: T1628.002 (M365)
+id: 51a8c184-1b5e-49c7-bec5-ecfd1a6e1e37
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1628.002.
+references:
+  - https://attack.mitre.org/techniques/T1628.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1628.002

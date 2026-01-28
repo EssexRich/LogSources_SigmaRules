@@ -1,0 +1,28 @@
+title: Protocol Tunneling (GOOGLE)
+id: f3bf3f2c-341b-4b3b-acb5-72c88863b7ec
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1572.
+references:
+  - https://attack.mitre.org/techniques/T1572/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1572

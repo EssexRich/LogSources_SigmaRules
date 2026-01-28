@@ -1,0 +1,28 @@
+title: Remote Desktop Protocol (WINDOWS)
+id: ebe300a6-2b0f-4dd4-8791-9525d6e88f4e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.001.
+references:
+  - https://attack.mitre.org/techniques/T1021.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.001

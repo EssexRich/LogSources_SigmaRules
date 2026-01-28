@@ -1,0 +1,28 @@
+title: Process Hollowing (M365)
+id: 4c8846d2-e31c-4a6d-828b-89bfce3b1080
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.012.
+references:
+  - https://attack.mitre.org/techniques/T1055.012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.012

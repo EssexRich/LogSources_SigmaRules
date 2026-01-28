@@ -1,0 +1,34 @@
+title: PowerShell (WINDOWS)
+id: f4d3ae94-d2d9-418b-a5ea-6bb6398ed1bc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.001.
+references:
+  - https://attack.mitre.org/techniques/T1059.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith:
+      - 'powershell.exe'
+      - 'pwsh.exe'
+      - 'cmd.exe'
+    CommandLine|contains:
+      - '-EncodedCommand'
+      - '-enc'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.001

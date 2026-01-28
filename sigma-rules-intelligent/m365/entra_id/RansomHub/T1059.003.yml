@@ -1,0 +1,28 @@
+title: Windows Command Shell (M365)
+id: ea1f4dc1-0c5a-4720-befb-ef262086aa9c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.003.
+references:
+  - https://attack.mitre.org/techniques/T1059.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.003

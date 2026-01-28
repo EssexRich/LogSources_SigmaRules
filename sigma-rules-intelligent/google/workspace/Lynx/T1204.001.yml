@@ -1,0 +1,28 @@
+title: Malicious Link (GOOGLE)
+id: 960d6cd5-90a6-4d88-8171-1a32d384db05
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.001.
+references:
+  - https://attack.mitre.org/techniques/T1204.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.001

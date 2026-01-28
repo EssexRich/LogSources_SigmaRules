@@ -1,0 +1,28 @@
+title: T1418 (GOOGLE)
+id: 8d64dbda-941c-493b-a5c5-e913f018beef
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1418.
+references:
+  - https://attack.mitre.org/techniques/T1418/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1418

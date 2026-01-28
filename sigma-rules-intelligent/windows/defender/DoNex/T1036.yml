@@ -1,0 +1,28 @@
+title: Masquerading (WINDOWS)
+id: 052bbd9e-e6e0-424c-a7a4-e4a5c8be028f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036

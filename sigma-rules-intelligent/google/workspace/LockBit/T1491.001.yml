@@ -1,0 +1,28 @@
+title: Internal Defacement (GOOGLE)
+id: 88604501-e561-4f1c-af5c-fac1bfd2de4e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1491.001.
+references:
+  - https://attack.mitre.org/techniques/T1491.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1491.001

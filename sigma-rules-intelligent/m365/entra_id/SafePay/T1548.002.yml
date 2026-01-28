@@ -1,0 +1,28 @@
+title: Bypass User Account Control (M365)
+id: 1277fd15-29c5-4120-96da-76cf15f50c21
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.002.
+references:
+  - https://attack.mitre.org/techniques/T1548.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548.002

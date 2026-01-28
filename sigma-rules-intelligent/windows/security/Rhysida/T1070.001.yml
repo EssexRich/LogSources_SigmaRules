@@ -1,0 +1,28 @@
+title: Clear Windows Event Logs (WINDOWS)
+id: dfc1b4de-5b58-48c8-b424-f00c8868fb4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.001.
+references:
+  - https://attack.mitre.org/techniques/T1070.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.001

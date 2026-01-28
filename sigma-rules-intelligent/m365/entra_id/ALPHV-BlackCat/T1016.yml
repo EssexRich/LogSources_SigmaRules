@@ -1,0 +1,28 @@
+title: System Network Configuration Discovery (M365)
+id: a9f509ca-6fdd-4cd8-b8be-13cc5790ebc9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016

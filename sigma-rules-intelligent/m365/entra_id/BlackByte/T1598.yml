@@ -1,0 +1,30 @@
+title: Phishing for Information (M365)
+id: 3eac6daf-6d88-4d26-a81a-e3056576ff1a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1598.
+references:
+  - https://attack.mitre.org/techniques/T1598/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1598

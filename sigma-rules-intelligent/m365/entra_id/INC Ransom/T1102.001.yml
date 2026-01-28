@@ -1,0 +1,28 @@
+title: Dead Drop Resolver (M365)
+id: 7c8263b6-f0c4-4763-9a6d-a747420be3e6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.001.
+references:
+  - https://attack.mitre.org/techniques/T1102.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102.001

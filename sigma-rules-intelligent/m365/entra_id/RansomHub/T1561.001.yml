@@ -1,0 +1,28 @@
+title: Disk Content Wipe (M365)
+id: f2cc78b0-c8ca-49bb-8b2e-13bd53942942
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1561.001.
+references:
+  - https://attack.mitre.org/techniques/T1561.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1561.001

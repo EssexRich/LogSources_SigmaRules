@@ -1,0 +1,28 @@
+title: Exploitation for Client Execution (WINDOWS)
+id: 16dba7a0-640f-4611-97f0-1de01bbe930e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203

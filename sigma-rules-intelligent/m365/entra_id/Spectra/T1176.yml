@@ -1,0 +1,28 @@
+title: Software Extensions (M365)
+id: fbe5db19-8b2f-4643-a184-09587bbc71b9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1176.
+references:
+  - https://attack.mitre.org/techniques/T1176/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1176

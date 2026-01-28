@@ -1,0 +1,30 @@
+title: Email Accounts (M365)
+id: 7ec4a9ca-7a71-4497-9af4-04262d442300
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1585.002.
+references:
+  - https://attack.mitre.org/techniques/T1585.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1585.002

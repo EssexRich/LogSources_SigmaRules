@@ -1,0 +1,28 @@
+title: Remote Services (MACOS)
+id: 2d75de99-2e11-4b4c-a05f-dea2fec4379b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021

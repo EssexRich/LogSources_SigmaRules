@@ -1,0 +1,28 @@
+title: Multi-Stage Channels (GOOGLE)
+id: fefec8ae-eb4f-4ce5-9355-1a8ddd886a36
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1104.
+references:
+  - https://attack.mitre.org/techniques/T1104/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1104

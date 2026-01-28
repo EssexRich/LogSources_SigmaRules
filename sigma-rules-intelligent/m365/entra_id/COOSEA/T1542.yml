@@ -1,0 +1,28 @@
+title: Pre-OS Boot (M365)
+id: 1979ab39-b0f7-4f7b-a429-c9be30daf294
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1542.
+references:
+  - https://attack.mitre.org/techniques/T1542/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1542

@@ -1,0 +1,28 @@
+title: Data from Local System (MACOS)
+id: 3ef3eb2b-95d6-4978-8c5b-f2ba253cdaf1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005

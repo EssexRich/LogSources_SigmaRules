@@ -1,0 +1,28 @@
+title: Process Injection (M365)
+id: 005f1837-0df9-4a15-b0d9-fa617807453c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055

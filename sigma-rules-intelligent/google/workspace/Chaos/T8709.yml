@@ -1,0 +1,28 @@
+title: T8709 (GOOGLE)
+id: b8778af5-a2f7-4f07-8011-4394009a5981
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8709.
+references:
+  - https://attack.mitre.org/techniques/T8709/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8709

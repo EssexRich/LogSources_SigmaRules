@@ -1,0 +1,28 @@
+title: LSASS Memory (M365)
+id: ca9d4d0a-3723-4abf-a2b7-cf616bdf4c0b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.001.
+references:
+  - https://attack.mitre.org/techniques/T1003.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.001

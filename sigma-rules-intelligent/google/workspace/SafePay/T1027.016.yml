@@ -1,0 +1,28 @@
+title: Junk Code Insertion (GOOGLE)
+id: c3f06f2d-7427-4fa7-83c4-17d6a735f5b9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.016.
+references:
+  - https://attack.mitre.org/techniques/T1027.016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.016

@@ -1,0 +1,28 @@
+title: Vulnerability Scanning (WINDOWS)
+id: 25565855-e21a-4fc3-b637-e883d90c4bbf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.002.
+references:
+  - https://attack.mitre.org/techniques/T1595.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595.002

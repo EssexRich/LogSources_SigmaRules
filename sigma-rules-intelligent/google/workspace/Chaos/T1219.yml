@@ -1,0 +1,28 @@
+title: Remote Access Tools (GOOGLE)
+id: f95c1c57-748b-4608-be82-b54bbde39f2c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219

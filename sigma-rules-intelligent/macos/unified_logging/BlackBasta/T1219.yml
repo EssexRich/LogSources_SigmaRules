@@ -1,0 +1,28 @@
+title: Remote Access Tools (MACOS)
+id: 9e40cf8a-d04c-4289-bb8a-a25550d37105
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219

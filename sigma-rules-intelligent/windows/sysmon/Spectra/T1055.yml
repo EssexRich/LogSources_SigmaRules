@@ -1,0 +1,28 @@
+title: Process Injection (WINDOWS)
+id: 5364849c-4d45-4b8b-a6a6-00a7cc7608bc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055

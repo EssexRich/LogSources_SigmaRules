@@ -1,0 +1,28 @@
+title: Exfiltration Over Alternative Protocol (GOOGLE)
+id: c27de7bf-25e6-4236-8929-c819f0d30726
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048

@@ -1,0 +1,28 @@
+title: Data Staged (M365)
+id: ec97b6a3-fdd8-489f-9f5f-4a3095dcd4b0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.
+references:
+  - https://attack.mitre.org/techniques/T1074/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074

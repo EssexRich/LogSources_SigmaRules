@@ -1,0 +1,28 @@
+title: Disabling Security Tools (WINDOWS)
+id: d9def288-93f6-4eb7-8382-aaa58fea05fa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1089.
+references:
+  - https://attack.mitre.org/techniques/T1089/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1089

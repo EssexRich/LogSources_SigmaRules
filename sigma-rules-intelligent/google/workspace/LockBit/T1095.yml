@@ -1,0 +1,28 @@
+title: Non-Application Layer Protocol (GOOGLE)
+id: 74da1097-3e61-49b0-9d6b-ef340577cd6e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1095.
+references:
+  - https://attack.mitre.org/techniques/T1095/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1095

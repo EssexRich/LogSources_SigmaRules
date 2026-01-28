@@ -1,0 +1,28 @@
+title: Domain Groups (MACOS)
+id: 5ae4e97b-b9d4-4398-8539-f2808362c6ac
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.002.
+references:
+  - https://attack.mitre.org/techniques/T1069.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.002

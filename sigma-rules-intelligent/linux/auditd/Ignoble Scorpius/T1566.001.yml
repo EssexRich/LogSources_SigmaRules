@@ -1,0 +1,28 @@
+title: Spearphishing Attachment (LINUX)
+id: fec931e9-bb59-46bd-af4d-e5efb1fde4ed
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.001.
+references:
+  - https://attack.mitre.org/techniques/T1566.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.001

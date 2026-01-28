@@ -1,0 +1,28 @@
+title: Windows Service (M365)
+id: 7f844c5d-b2e6-4017-beac-374a0b289b7a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.003.
+references:
+  - https://attack.mitre.org/techniques/T1543.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.003

@@ -1,0 +1,28 @@
+title: Create Cloud Instance (MACOS)
+id: 3a511eb0-e975-4c46-a038-e90c384aaa96
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1578.002.
+references:
+  - https://attack.mitre.org/techniques/T1578.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1578.002

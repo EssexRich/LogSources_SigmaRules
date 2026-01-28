@@ -1,0 +1,28 @@
+title: User Execution (GOOGLE)
+id: 97fc4983-f0e6-4141-ac0b-26489b592810
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.
+references:
+  - https://attack.mitre.org/techniques/T1204/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204

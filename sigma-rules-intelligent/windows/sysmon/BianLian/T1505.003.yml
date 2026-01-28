@@ -1,0 +1,28 @@
+title: Web Shell (WINDOWS)
+id: 0c8b4c25-848b-4930-b1d5-235f7561e37d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1505.003.
+references:
+  - https://attack.mitre.org/techniques/T1505.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1505.003

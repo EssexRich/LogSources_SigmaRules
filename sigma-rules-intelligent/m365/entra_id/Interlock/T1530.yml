@@ -1,0 +1,28 @@
+title: Data from Cloud Storage (M365)
+id: ef2b42cf-2373-4291-a789-b8d80783e9d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1530.
+references:
+  - https://attack.mitre.org/techniques/T1530/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1530

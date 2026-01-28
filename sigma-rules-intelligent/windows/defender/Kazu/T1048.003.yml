@@ -1,0 +1,28 @@
+title: Exfiltration Over Unencrypted Non-C2 Protocol (WINDOWS)
+id: 96e297f4-e10e-4319-9a52-782e5b63c94d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.003.
+references:
+  - https://attack.mitre.org/techniques/T1048.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048.003

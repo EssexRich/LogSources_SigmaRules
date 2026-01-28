@@ -1,0 +1,28 @@
+title: Service Stop (WINDOWS)
+id: 950f5a90-cd4d-4f90-8d3a-6d47825ee244
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1489.
+references:
+  - https://attack.mitre.org/techniques/T1489/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1489

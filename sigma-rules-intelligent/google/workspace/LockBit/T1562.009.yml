@@ -1,0 +1,28 @@
+title: Safe Mode Boot (GOOGLE)
+id: 8f781b3d-8d80-4a48-a125-05f7f88aacef
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.009.
+references:
+  - https://attack.mitre.org/techniques/T1562.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.009

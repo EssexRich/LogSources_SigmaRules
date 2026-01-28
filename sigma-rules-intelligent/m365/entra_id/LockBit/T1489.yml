@@ -1,0 +1,28 @@
+title: Service Stop (M365)
+id: 66249f3e-27ad-46b1-8fbd-58a8e386de21
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1489.
+references:
+  - https://attack.mitre.org/techniques/T1489/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1489

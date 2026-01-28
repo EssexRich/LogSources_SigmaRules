@@ -1,0 +1,28 @@
+title: T5466 (WINDOWS)
+id: f6d2d9e6-d663-48a8-99c2-0b38922aee0e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5466.
+references:
+  - https://attack.mitre.org/techniques/T5466/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5466

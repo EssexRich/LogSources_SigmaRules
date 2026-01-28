@@ -1,0 +1,30 @@
+title: Spearphishing Voice (M365)
+id: 4bf9b79a-054d-4f07-a088-ceec5f1c1eea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.004.
+references:
+  - https://attack.mitre.org/techniques/T1566.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.004

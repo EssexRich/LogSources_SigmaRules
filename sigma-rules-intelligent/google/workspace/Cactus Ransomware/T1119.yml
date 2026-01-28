@@ -1,0 +1,28 @@
+title: Automated Collection (GOOGLE)
+id: 2e22e5bc-3eb4-4794-af48-9fe15f1c697a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119

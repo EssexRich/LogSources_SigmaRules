@@ -1,0 +1,28 @@
+title: Web Protocols (M365)
+id: ba2c2210-68d3-4f4d-8ddf-1c2c9910bc0a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.001.
+references:
+  - https://attack.mitre.org/techniques/T1071.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.001

@@ -1,0 +1,28 @@
+title: Default Accounts (GOOGLE)
+id: 3d4d1b64-d80f-45d6-a851-f0b3b2b38005
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.001.
+references:
+  - https://attack.mitre.org/techniques/T1078.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.001

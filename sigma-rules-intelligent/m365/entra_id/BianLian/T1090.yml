@@ -1,0 +1,28 @@
+title: Proxy (M365)
+id: 0bd9869d-8fff-4bfa-b7a4-059598e38eaf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.
+references:
+  - https://attack.mitre.org/techniques/T1090/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090

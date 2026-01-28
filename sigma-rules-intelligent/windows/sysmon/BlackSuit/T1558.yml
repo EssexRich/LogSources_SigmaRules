@@ -1,0 +1,28 @@
+title: Steal or Forge Kerberos Tickets (WINDOWS)
+id: 45b8c280-d0a2-41b2-b7a7-331d65a12b4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.
+references:
+  - https://attack.mitre.org/techniques/T1558/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558

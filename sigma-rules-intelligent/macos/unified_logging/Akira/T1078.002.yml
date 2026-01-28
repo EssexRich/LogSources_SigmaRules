@@ -1,0 +1,28 @@
+title: Domain Accounts (MACOS)
+id: bf4b0eb9-097e-4f11-9af0-d190d17d58b5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.002.
+references:
+  - https://attack.mitre.org/techniques/T1078.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.002

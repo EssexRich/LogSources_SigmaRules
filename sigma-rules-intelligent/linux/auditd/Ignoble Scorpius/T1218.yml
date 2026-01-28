@@ -1,0 +1,30 @@
+title: System Binary Proxy Execution (LINUX)
+id: fb293258-8799-4d9e-a7c6-c241d4de7e8f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.
+references:
+  - https://attack.mitre.org/techniques/T1218/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218

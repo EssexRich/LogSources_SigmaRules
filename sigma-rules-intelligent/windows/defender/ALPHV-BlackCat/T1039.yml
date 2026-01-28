@@ -1,0 +1,28 @@
+title: Data from Network Shared Drive (WINDOWS)
+id: 5ff8df8b-e58b-4336-9f53-a25d7c1838ef
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1039.
+references:
+  - https://attack.mitre.org/techniques/T1039/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1039

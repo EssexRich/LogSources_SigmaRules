@@ -1,0 +1,28 @@
+title: Software Packing (M365)
+id: 5f06c440-3c3b-4707-9433-66d08453c85c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.002.
+references:
+  - https://attack.mitre.org/techniques/T1027.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.002

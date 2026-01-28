@@ -1,0 +1,28 @@
+title: Indicator Removal (GOOGLE)
+id: 0d1c0ce9-e842-4d16-bd10-18fc0b6e84e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070

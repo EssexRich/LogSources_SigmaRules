@@ -1,0 +1,28 @@
+title: Domain Groups (GOOGLE)
+id: e1205865-68ac-4eec-aa1e-83f34e5f0fc1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.002.
+references:
+  - https://attack.mitre.org/techniques/T1069.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.002

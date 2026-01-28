@@ -1,0 +1,28 @@
+title: LLMNR/NBT-NS Poisoning and SMB Relay (WINDOWS)
+id: 56527bda-e47b-4a76-9fa9-cbdf98b0b1e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1557.001.
+references:
+  - https://attack.mitre.org/techniques/T1557.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1557.001

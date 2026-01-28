@@ -1,0 +1,28 @@
+title: OS Credential Dumping (M365)
+id: e7115f5d-6ac4-4f28-8f13-9e8f55d6e491
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003

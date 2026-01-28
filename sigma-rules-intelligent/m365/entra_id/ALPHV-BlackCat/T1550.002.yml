@@ -1,0 +1,28 @@
+title: Pass the Hash (M365)
+id: e9cdf7ff-70c5-4458-9988-fddf56c366bf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1550.002.
+references:
+  - https://attack.mitre.org/techniques/T1550.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1550.002

@@ -1,0 +1,28 @@
+title: Inhibit System Recovery (GOOGLE)
+id: 73ab5fd9-bc17-4656-91a9-2ce1753d906b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490

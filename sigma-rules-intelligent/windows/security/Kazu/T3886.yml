@@ -1,0 +1,28 @@
+title: T3886 (WINDOWS)
+id: 2347f629-04c4-46c5-80dd-5f8714a77c31
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3886.
+references:
+  - https://attack.mitre.org/techniques/T3886/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3886

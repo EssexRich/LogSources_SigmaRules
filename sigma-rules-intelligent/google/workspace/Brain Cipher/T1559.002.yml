@@ -1,0 +1,28 @@
+title: Dynamic Data Exchange (GOOGLE)
+id: ec16e572-dd76-41ac-b0ac-052d10600ca5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.002.
+references:
+  - https://attack.mitre.org/techniques/T1559.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559.002

@@ -1,0 +1,28 @@
+title: T6133 (WINDOWS)
+id: ce440004-9c7d-4ef7-bade-133e6a05ebd5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6133.
+references:
+  - https://attack.mitre.org/techniques/T6133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6133

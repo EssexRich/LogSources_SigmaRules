@@ -1,0 +1,28 @@
+title: T0838 (M365)
+id: 817612a4-c935-4e46-8c47-ad7649252378
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0838.
+references:
+  - https://attack.mitre.org/techniques/T0838/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0838

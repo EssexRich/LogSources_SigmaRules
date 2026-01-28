@@ -1,0 +1,28 @@
+title: Exfiltration Over Web Service (M365)
+id: d7db0845-63da-4b2b-9261-97c0a709e787
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.
+references:
+  - https://attack.mitre.org/techniques/T1567/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567

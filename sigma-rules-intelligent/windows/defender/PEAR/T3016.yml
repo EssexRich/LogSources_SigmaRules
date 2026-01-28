@@ -1,0 +1,28 @@
+title: T3016 (WINDOWS)
+id: 95fc52b1-8cea-41e1-97f5-744a17ddcf6d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3016.
+references:
+  - https://attack.mitre.org/techniques/T3016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3016

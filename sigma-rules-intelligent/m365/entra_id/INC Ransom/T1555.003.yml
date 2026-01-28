@@ -1,0 +1,28 @@
+title: Credentials from Web Browsers (M365)
+id: fd921c2f-60ec-4ef0-9791-68a9f69c6249
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003

@@ -1,0 +1,28 @@
+title: Command Obfuscation (GOOGLE)
+id: 9bdeb483-f510-4e62-9453-7b1274173c47
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.010.
+references:
+  - https://attack.mitre.org/techniques/T1027.010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.010

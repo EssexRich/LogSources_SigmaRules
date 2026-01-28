@@ -1,0 +1,28 @@
+title: Create or Modify System Process (GOOGLE)
+id: 63fa1f5b-9bb5-43d7-bb94-bae4f656a47a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.
+references:
+  - https://attack.mitre.org/techniques/T1543/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543

@@ -1,0 +1,28 @@
+title: External Proxy (GOOGLE)
+id: 771521ab-24b1-4c4d-b280-cc4de4614573
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.002.
+references:
+  - https://attack.mitre.org/techniques/T1090.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.002

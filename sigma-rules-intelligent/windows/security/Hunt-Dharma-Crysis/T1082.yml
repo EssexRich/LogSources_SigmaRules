@@ -1,0 +1,28 @@
+title: System Information Discovery (WINDOWS)
+id: 6e2c268d-2880-4832-b88a-a7b773847c9d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082

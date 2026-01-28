@@ -1,0 +1,28 @@
+title: Data Staged (GOOGLE)
+id: f325b0d9-5aa1-4087-870c-0daadf15573f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.
+references:
+  - https://attack.mitre.org/techniques/T1074/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074

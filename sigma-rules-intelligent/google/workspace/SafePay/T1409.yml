@@ -1,0 +1,28 @@
+title: T1409 (GOOGLE)
+id: 92795c61-9c26-43fe-9940-f10ca1cd0299
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1409.
+references:
+  - https://attack.mitre.org/techniques/T1409/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1409

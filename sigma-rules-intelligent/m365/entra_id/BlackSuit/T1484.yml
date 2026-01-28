@@ -1,0 +1,28 @@
+title: Domain or Tenant Policy Modification (M365)
+id: c52a7a14-cddf-48fc-a870-f45104aeca2f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1484.
+references:
+  - https://attack.mitre.org/techniques/T1484/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1484

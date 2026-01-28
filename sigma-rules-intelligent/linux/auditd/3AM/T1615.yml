@@ -1,0 +1,28 @@
+title: Group Policy Discovery (LINUX)
+id: 092d845b-0a5b-497d-8b67-564cf6e15578
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1615.
+references:
+  - https://attack.mitre.org/techniques/T1615/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1615

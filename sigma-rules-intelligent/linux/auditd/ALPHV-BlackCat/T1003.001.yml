@@ -1,0 +1,28 @@
+title: LSASS Memory (LINUX)
+id: c5b17244-5aff-4640-989f-c0c2163a9599
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.001.
+references:
+  - https://attack.mitre.org/techniques/T1003.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.001

@@ -1,0 +1,34 @@
+title: Command and Scripting Interpreter (WINDOWS)
+id: 98a4f86c-5594-4948-bb28-7f9464f0f2c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith:
+      - 'powershell.exe'
+      - 'pwsh.exe'
+      - 'cmd.exe'
+    CommandLine|contains:
+      - '-EncodedCommand'
+      - '-enc'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
