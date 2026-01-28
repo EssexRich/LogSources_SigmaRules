@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1417 Detection
+    id: 88889f29-9da5-48d4-b7de-a7c5356a3210
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1417.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1417/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1417
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1417
+    
