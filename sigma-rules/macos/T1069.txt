@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1069 Detection (macos)
+    id: d688b88b-417b-4d03-abfa-19dc31c520db
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1069.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1069/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1069
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: macos
+    service: unified_logging
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1069
+    
