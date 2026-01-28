@@ -107,9 +107,9 @@ function findBestMatch(rules, logsource) {
     'linux': ['linux'],
     'macos': ['macos', 'osx'],
     'm365': ['m365', 'o365', 'office365', 'entra'],
-    'azure': ['azure', 'cloud'],
+    'azure': ['azure'],
     'aws': ['aws'],
-    'gcp': ['gcp'],
+    'gcp': ['gcp', 'cloud'],
     'google': ['google', 'google_workspace', 'workspace'],
     'okta': ['okta'],
     'network': ['network', 'cisco', 'firewall', 'paloalto', 'fortinet'],
@@ -118,10 +118,23 @@ function findBestMatch(rules, logsource) {
   
   const validProducts = productAliases[logsource.product] || [logsource.product];
   
+  // For google workspace, also match by rule name pattern
+  const isGoogleWorkspaceLogsource = logsource.product === 'google';
+  
   // Strict filtering - product MUST match explicitly
   const matches = rules.filter(rule => {
-    // Must have explicit product
-    if (!rule.product || rule.product === 'unknown') return false;
+    // Must have explicit product (unless we can match by name for google workspace)
+    if (!rule.product || rule.product === 'unknown') {
+      // Special case: match Google Workspace rules by name
+      if (isGoogleWorkspaceLogsource && rule.name) {
+        const nameLower = rule.name.toLowerCase();
+        if (nameLower.includes('google workspace') || nameLower.includes('gmail') || 
+            nameLower.includes('google drive') || nameLower.includes('google calendar')) {
+          return true;
+        }
+      }
+      return false;
+    }
     
     // Product must match (including aliases)
     if (!validProducts.includes(rule.product)) return false;
