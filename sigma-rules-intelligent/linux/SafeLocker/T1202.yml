@@ -1,5 +1,5 @@
-title: T1202 (LINUX)
-id: cb601a91-3ce8-46a1-8e81-534a9c09cd4c
+title: Indirect Command Execution (LINUX)
+id: fdd86a4b-7fd4-47d3-a443-e921193385e1
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1202.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

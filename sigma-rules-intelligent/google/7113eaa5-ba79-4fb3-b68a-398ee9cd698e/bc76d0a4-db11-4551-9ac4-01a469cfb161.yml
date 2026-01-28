@@ -1,0 +1,28 @@
+title: bc76d0a4-db11-4551-9ac4-01a469cfb161 (GOOGLE)
+id: 4153e0e9-c52d-470e-84d0-b920b8ccffa5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique bc76d0a4-db11-4551-9ac4-01a469cfb161.
+references:
+  - https://attack.mitre.org/techniques/bc76d0a4-db11-4551-9ac4-01a469cfb161/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.bc76d0a4-db11-4551-9ac4-01a469cfb161

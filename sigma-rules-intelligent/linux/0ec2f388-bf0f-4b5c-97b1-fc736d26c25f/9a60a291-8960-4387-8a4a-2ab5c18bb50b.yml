@@ -1,0 +1,28 @@
+title: 9a60a291-8960-4387-8a4a-2ab5c18bb50b (LINUX)
+id: 4857f626-ef53-4104-9993-c12de06a8c27
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 9a60a291-8960-4387-8a4a-2ab5c18bb50b.
+references:
+  - https://attack.mitre.org/techniques/9a60a291-8960-4387-8a4a-2ab5c18bb50b/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.9a60a291-8960-4387-8a4a-2ab5c18bb50b

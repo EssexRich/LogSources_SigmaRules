@@ -1,0 +1,28 @@
+title: dcaa092b-7de9-4a21-977f-7fcb77e89c48 (LINUX)
+id: b609e3c6-d015-4c98-a701-4cefdb9bc3d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique dcaa092b-7de9-4a21-977f-7fcb77e89c48.
+references:
+  - https://attack.mitre.org/techniques/dcaa092b-7de9-4a21-977f-7fcb77e89c48/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.dcaa092b-7de9-4a21-977f-7fcb77e89c48

@@ -1,0 +1,28 @@
+title: cabe189c-a0e3-4965-a473-dcff00f17213 (MACOS)
+id: 0de3d3d1-476f-4576-b7b8-c2b3e53b1e73
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cabe189c-a0e3-4965-a473-dcff00f17213.
+references:
+  - https://attack.mitre.org/techniques/cabe189c-a0e3-4965-a473-dcff00f17213/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cabe189c-a0e3-4965-a473-dcff00f17213

@@ -1,0 +1,28 @@
+title: d10cbd34-42e3-45c0-84d2-535a09849584 (M365)
+id: ff4f0650-9ecf-420a-bfb5-61e435a52362
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d10cbd34-42e3-45c0-84d2-535a09849584.
+references:
+  - https://attack.mitre.org/techniques/d10cbd34-42e3-45c0-84d2-535a09849584/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d10cbd34-42e3-45c0-84d2-535a09849584

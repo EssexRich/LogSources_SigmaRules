@@ -1,0 +1,28 @@
+title: d336b553-5da9-46ca-98a8-0b23f49fb447 (MACOS)
+id: 1c25f502-d870-4d9e-a492-dbaf6d4ec230
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d336b553-5da9-46ca-98a8-0b23f49fb447.
+references:
+  - https://attack.mitre.org/techniques/d336b553-5da9-46ca-98a8-0b23f49fb447/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d336b553-5da9-46ca-98a8-0b23f49fb447

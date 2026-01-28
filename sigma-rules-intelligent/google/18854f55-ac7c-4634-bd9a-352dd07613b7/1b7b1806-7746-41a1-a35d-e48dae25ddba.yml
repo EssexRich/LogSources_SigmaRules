@@ -1,0 +1,28 @@
+title: 1b7b1806-7746-41a1-a35d-e48dae25ddba (GOOGLE)
+id: 84ca4499-b69e-4590-ace7-447222834fdf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 1b7b1806-7746-41a1-a35d-e48dae25ddba.
+references:
+  - https://attack.mitre.org/techniques/1b7b1806-7746-41a1-a35d-e48dae25ddba/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.1b7b1806-7746-41a1-a35d-e48dae25ddba

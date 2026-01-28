@@ -1,0 +1,28 @@
+title: 2cd950a6-16c4-404a-aa01-044322395107 (GOOGLE)
+id: 4e9832a5-2bf9-4adb-9c54-ec41a9e44553
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 2cd950a6-16c4-404a-aa01-044322395107.
+references:
+  - https://attack.mitre.org/techniques/2cd950a6-16c4-404a-aa01-044322395107/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.2cd950a6-16c4-404a-aa01-044322395107

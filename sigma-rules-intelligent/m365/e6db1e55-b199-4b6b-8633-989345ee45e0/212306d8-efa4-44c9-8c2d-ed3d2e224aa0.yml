@@ -1,0 +1,28 @@
+title: 212306d8-efa4-44c9-8c2d-ed3d2e224aa0 (M365)
+id: 5432015c-f4a6-41b5-809d-b64e40d62817
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 212306d8-efa4-44c9-8c2d-ed3d2e224aa0.
+references:
+  - https://attack.mitre.org/techniques/212306d8-efa4-44c9-8c2d-ed3d2e224aa0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.212306d8-efa4-44c9-8c2d-ed3d2e224aa0

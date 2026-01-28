@@ -1,0 +1,28 @@
+title: b21c3b2d-02e6-45b1-980b-e69051040839 (WINDOWS)
+id: a0228a9d-58d3-42bf-9e75-ff443a492cb3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b21c3b2d-02e6-45b1-980b-e69051040839.
+references:
+  - https://attack.mitre.org/techniques/b21c3b2d-02e6-45b1-980b-e69051040839/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b21c3b2d-02e6-45b1-980b-e69051040839

@@ -1,5 +1,5 @@
-title: T1598 (M365)
-id: e45ba080-462d-4391-ad2d-30d630d5579f
+title: Phishing for Information (M365)
+id: 55232ef0-3f90-4b55-b821-f5d1415da6ff
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1598.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
   condition: selection
 
 falsepositives:

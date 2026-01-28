@@ -1,0 +1,28 @@
+title: d4bdbdea-eaec-4071-b4f9-5105e12ea4b6 (MACOS)
+id: 1aca5504-7d03-42ff-84b0-1a9b2f2777a7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d4bdbdea-eaec-4071-b4f9-5105e12ea4b6.
+references:
+  - https://attack.mitre.org/techniques/d4bdbdea-eaec-4071-b4f9-5105e12ea4b6/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d4bdbdea-eaec-4071-b4f9-5105e12ea4b6

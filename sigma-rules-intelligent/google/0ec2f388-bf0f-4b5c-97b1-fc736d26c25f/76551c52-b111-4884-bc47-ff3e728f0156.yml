@@ -1,0 +1,28 @@
+title: 76551c52-b111-4884-bc47-ff3e728f0156 (GOOGLE)
+id: 9bde132d-bf82-4a12-b761-3f31b968de5e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 76551c52-b111-4884-bc47-ff3e728f0156.
+references:
+  - https://attack.mitre.org/techniques/76551c52-b111-4884-bc47-ff3e728f0156/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.76551c52-b111-4884-bc47-ff3e728f0156

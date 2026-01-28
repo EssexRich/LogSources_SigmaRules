@@ -1,5 +1,5 @@
-title: T1566 (M365)
-id: 59ffb97e-500b-40be-a8a9-3eb3a232ca39
+title: Phishing (M365)
+id: f3751d65-ed19-4cdf-b5d2-20fb0026c711
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1566.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
   condition: selection
 
 falsepositives:

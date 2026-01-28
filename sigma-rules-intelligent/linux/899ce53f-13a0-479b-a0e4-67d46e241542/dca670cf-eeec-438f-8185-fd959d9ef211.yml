@@ -1,0 +1,28 @@
+title: dca670cf-eeec-438f-8185-fd959d9ef211 (LINUX)
+id: c731d72c-9065-4b4b-82fe-d88ced9fdb94
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique dca670cf-eeec-438f-8185-fd959d9ef211.
+references:
+  - https://attack.mitre.org/techniques/dca670cf-eeec-438f-8185-fd959d9ef211/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.dca670cf-eeec-438f-8185-fd959d9ef211

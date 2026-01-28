@@ -1,0 +1,28 @@
+title: 1644e709-12d2-41e5-a60f-3470991f5011 (M365)
+id: f7a2efc6-2aea-4d19-b3ca-e6bb191eb252
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 1644e709-12d2-41e5-a60f-3470991f5011.
+references:
+  - https://attack.mitre.org/techniques/1644e709-12d2-41e5-a60f-3470991f5011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.1644e709-12d2-41e5-a60f-3470991f5011

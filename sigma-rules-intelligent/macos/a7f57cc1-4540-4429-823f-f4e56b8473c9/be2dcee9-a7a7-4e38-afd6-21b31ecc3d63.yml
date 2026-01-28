@@ -1,0 +1,28 @@
+title: be2dcee9-a7a7-4e38-afd6-21b31ecc3d63 (MACOS)
+id: b1eec1a6-15c4-44bc-b4b5-99e1c939051c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique be2dcee9-a7a7-4e38-afd6-21b31ecc3d63.
+references:
+  - https://attack.mitre.org/techniques/be2dcee9-a7a7-4e38-afd6-21b31ecc3d63/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.be2dcee9-a7a7-4e38-afd6-21b31ecc3d63

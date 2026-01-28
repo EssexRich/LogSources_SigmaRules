@@ -1,0 +1,28 @@
+title: 0d91b3c0-5e50-47c3-949a-2a796f04d144 (MACOS)
+id: 2a6d6d5a-01ad-4649-b796-0b7cec5723fc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 0d91b3c0-5e50-47c3-949a-2a796f04d144.
+references:
+  - https://attack.mitre.org/techniques/0d91b3c0-5e50-47c3-949a-2a796f04d144/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.0d91b3c0-5e50-47c3-949a-2a796f04d144

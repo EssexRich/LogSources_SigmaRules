@@ -1,0 +1,28 @@
+title: e4dc8c01-417f-458d-9ee0-bb0617c1b391 (MACOS)
+id: e6a209b3-9e76-430a-9c75-a7f9f108e698
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e4dc8c01-417f-458d-9ee0-bb0617c1b391.
+references:
+  - https://attack.mitre.org/techniques/e4dc8c01-417f-458d-9ee0-bb0617c1b391/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e4dc8c01-417f-458d-9ee0-bb0617c1b391

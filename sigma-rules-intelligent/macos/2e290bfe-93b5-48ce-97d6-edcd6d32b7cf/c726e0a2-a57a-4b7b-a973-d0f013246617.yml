@@ -1,0 +1,28 @@
+title: c726e0a2-a57a-4b7b-a973-d0f013246617 (MACOS)
+id: 34f79f52-c71d-4b8d-96d5-7e1715b32f77
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique c726e0a2-a57a-4b7b-a973-d0f013246617.
+references:
+  - https://attack.mitre.org/techniques/c726e0a2-a57a-4b7b-a973-d0f013246617/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.c726e0a2-a57a-4b7b-a973-d0f013246617

@@ -1,0 +1,28 @@
+title: 970a3432-3237-47ad-bcca-7d8cbb217736 (WINDOWS)
+id: 533935e9-52ba-4d73-8d89-2137fafc8ddd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 970a3432-3237-47ad-bcca-7d8cbb217736.
+references:
+  - https://attack.mitre.org/techniques/970a3432-3237-47ad-bcca-7d8cbb217736/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.970a3432-3237-47ad-bcca-7d8cbb217736

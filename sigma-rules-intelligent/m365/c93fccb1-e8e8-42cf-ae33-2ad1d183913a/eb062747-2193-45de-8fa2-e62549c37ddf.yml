@@ -1,0 +1,28 @@
+title: eb062747-2193-45de-8fa2-e62549c37ddf (M365)
+id: 8c20a892-1059-4f3d-a80d-dd29423a2939
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique eb062747-2193-45de-8fa2-e62549c37ddf.
+references:
+  - https://attack.mitre.org/techniques/eb062747-2193-45de-8fa2-e62549c37ddf/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.eb062747-2193-45de-8fa2-e62549c37ddf

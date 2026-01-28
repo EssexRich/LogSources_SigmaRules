@@ -1,0 +1,28 @@
+title: bf176076-b789-408e-8cba-7275e81c0ada (GOOGLE)
+id: 2fe14d13-f955-4c6f-b8af-3cc42084bef8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique bf176076-b789-408e-8cba-7275e81c0ada.
+references:
+  - https://attack.mitre.org/techniques/bf176076-b789-408e-8cba-7275e81c0ada/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.bf176076-b789-408e-8cba-7275e81c0ada

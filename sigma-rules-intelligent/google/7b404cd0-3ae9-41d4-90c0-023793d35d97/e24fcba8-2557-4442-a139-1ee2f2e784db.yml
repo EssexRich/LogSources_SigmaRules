@@ -1,0 +1,28 @@
+title: e24fcba8-2557-4442-a139-1ee2f2e784db (GOOGLE)
+id: 6ad0e68c-f801-4ee6-9260-85b5bb516e06
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e24fcba8-2557-4442-a139-1ee2f2e784db.
+references:
+  - https://attack.mitre.org/techniques/e24fcba8-2557-4442-a139-1ee2f2e784db/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e24fcba8-2557-4442-a139-1ee2f2e784db

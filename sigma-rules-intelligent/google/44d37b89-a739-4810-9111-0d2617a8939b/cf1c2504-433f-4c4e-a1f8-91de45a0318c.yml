@@ -1,0 +1,28 @@
+title: cf1c2504-433f-4c4e-a1f8-91de45a0318c (GOOGLE)
+id: fbfe0ef9-a5a3-4621-8da2-93061fdb55ba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cf1c2504-433f-4c4e-a1f8-91de45a0318c.
+references:
+  - https://attack.mitre.org/techniques/cf1c2504-433f-4c4e-a1f8-91de45a0318c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cf1c2504-433f-4c4e-a1f8-91de45a0318c

@@ -1,0 +1,28 @@
+title: a4657bc9-d22f-47d2-a7b7-dd6ec33f3dde (WINDOWS)
+id: a69168f3-1a32-4b2e-bf91-c1c6aaf03dc5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a4657bc9-d22f-47d2-a7b7-dd6ec33f3dde.
+references:
+  - https://attack.mitre.org/techniques/a4657bc9-d22f-47d2-a7b7-dd6ec33f3dde/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a4657bc9-d22f-47d2-a7b7-dd6ec33f3dde

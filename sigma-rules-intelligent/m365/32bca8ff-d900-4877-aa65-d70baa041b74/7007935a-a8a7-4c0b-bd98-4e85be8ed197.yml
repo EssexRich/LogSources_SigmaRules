@@ -1,0 +1,28 @@
+title: 7007935a-a8a7-4c0b-bd98-4e85be8ed197 (M365)
+id: b7c06342-df53-411b-ba53-d2af7324c04b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 7007935a-a8a7-4c0b-bd98-4e85be8ed197.
+references:
+  - https://attack.mitre.org/techniques/7007935a-a8a7-4c0b-bd98-4e85be8ed197/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.7007935a-a8a7-4c0b-bd98-4e85be8ed197

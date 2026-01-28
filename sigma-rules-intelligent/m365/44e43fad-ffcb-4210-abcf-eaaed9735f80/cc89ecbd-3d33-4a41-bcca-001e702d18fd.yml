@@ -1,0 +1,28 @@
+title: cc89ecbd-3d33-4a41-bcca-001e702d18fd (M365)
+id: fe6e8ec7-054d-4918-b4ed-cb703f20eea3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cc89ecbd-3d33-4a41-bcca-001e702d18fd.
+references:
+  - https://attack.mitre.org/techniques/cc89ecbd-3d33-4a41-bcca-001e702d18fd/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cc89ecbd-3d33-4a41-bcca-001e702d18fd

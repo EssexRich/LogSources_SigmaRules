@@ -1,0 +1,28 @@
+title: 57a3d31a-d04f-4663-b2da-7df8ec3f8c9d (GOOGLE)
+id: 319cf83f-5685-46d9-8a93-d4e90ff768c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 57a3d31a-d04f-4663-b2da-7df8ec3f8c9d.
+references:
+  - https://attack.mitre.org/techniques/57a3d31a-d04f-4663-b2da-7df8ec3f8c9d/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.57a3d31a-d04f-4663-b2da-7df8ec3f8c9d

@@ -1,0 +1,28 @@
+title: bf176076-b789-408e-8cba-7275e81c0ada (M365)
+id: 0efdeb94-72fb-428c-b7b1-6ea78986ec4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique bf176076-b789-408e-8cba-7275e81c0ada.
+references:
+  - https://attack.mitre.org/techniques/bf176076-b789-408e-8cba-7275e81c0ada/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.bf176076-b789-408e-8cba-7275e81c0ada

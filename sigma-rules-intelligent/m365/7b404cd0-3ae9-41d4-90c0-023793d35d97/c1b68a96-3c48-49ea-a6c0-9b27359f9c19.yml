@@ -1,0 +1,28 @@
+title: c1b68a96-3c48-49ea-a6c0-9b27359f9c19 (M365)
+id: 74b5a3c4-1465-4071-93d9-d876650bb16b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique c1b68a96-3c48-49ea-a6c0-9b27359f9c19.
+references:
+  - https://attack.mitre.org/techniques/c1b68a96-3c48-49ea-a6c0-9b27359f9c19/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.c1b68a96-3c48-49ea-a6c0-9b27359f9c19

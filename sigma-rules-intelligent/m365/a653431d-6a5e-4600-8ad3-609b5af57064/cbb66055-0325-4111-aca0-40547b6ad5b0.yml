@@ -1,0 +1,28 @@
+title: cbb66055-0325-4111-aca0-40547b6ad5b0 (M365)
+id: c12ae0e7-e886-4825-9e39-52d1dd078e57
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cbb66055-0325-4111-aca0-40547b6ad5b0.
+references:
+  - https://attack.mitre.org/techniques/cbb66055-0325-4111-aca0-40547b6ad5b0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cbb66055-0325-4111-aca0-40547b6ad5b0

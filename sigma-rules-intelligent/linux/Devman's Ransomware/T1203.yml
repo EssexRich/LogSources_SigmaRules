@@ -1,5 +1,5 @@
-title: T1203 (LINUX)
-id: a57abea6-52b2-49a1-a38f-0dc3d79c1424
+title: Exploitation for Client Execution (LINUX)
+id: ab9f832a-994c-493d-a70e-05f392b34962
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1203.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

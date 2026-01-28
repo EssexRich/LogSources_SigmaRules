@@ -1,0 +1,28 @@
+title: ffbcfdb0-de22-4106-9ed3-fc23c8a01407 (M365)
+id: 11ed42d9-7dca-4065-b38c-5a02389f5d5a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ffbcfdb0-de22-4106-9ed3-fc23c8a01407.
+references:
+  - https://attack.mitre.org/techniques/ffbcfdb0-de22-4106-9ed3-fc23c8a01407/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ffbcfdb0-de22-4106-9ed3-fc23c8a01407

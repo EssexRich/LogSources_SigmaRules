@@ -1,0 +1,28 @@
+title: e3b168bd-fcd7-439e-9382-2e6c2f63514d (GOOGLE)
+id: eace9fc0-9b45-4f19-b89e-24f412b93041
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e3b168bd-fcd7-439e-9382-2e6c2f63514d.
+references:
+  - https://attack.mitre.org/techniques/e3b168bd-fcd7-439e-9382-2e6c2f63514d/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e3b168bd-fcd7-439e-9382-2e6c2f63514d

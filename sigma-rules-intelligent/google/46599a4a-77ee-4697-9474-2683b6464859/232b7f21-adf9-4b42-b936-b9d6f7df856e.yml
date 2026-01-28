@@ -1,0 +1,28 @@
+title: 232b7f21-adf9-4b42-b936-b9d6f7df856e (GOOGLE)
+id: b2251ee7-fdda-4ddf-8433-0a9ef6e927d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 232b7f21-adf9-4b42-b936-b9d6f7df856e.
+references:
+  - https://attack.mitre.org/techniques/232b7f21-adf9-4b42-b936-b9d6f7df856e/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.232b7f21-adf9-4b42-b936-b9d6f7df856e

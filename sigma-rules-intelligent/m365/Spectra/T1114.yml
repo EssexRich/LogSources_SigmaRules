@@ -1,5 +1,5 @@
-title: T1114 (M365)
-id: 525e7d06-cb4a-4990-bc96-ae4451a9060a
+title: Email Collection (M365)
+id: 9d410122-58d0-4406-97bb-35b62c99c282
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1114.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
   condition: selection
 
 falsepositives:

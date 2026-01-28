@@ -1,0 +1,28 @@
+title: fb640c43-aa6b-431e-a961-a279010424ac (GOOGLE)
+id: 59deeb37-7364-416e-a4f4-7314130d418b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique fb640c43-aa6b-431e-a961-a279010424ac.
+references:
+  - https://attack.mitre.org/techniques/fb640c43-aa6b-431e-a961-a279010424ac/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.fb640c43-aa6b-431e-a961-a279010424ac

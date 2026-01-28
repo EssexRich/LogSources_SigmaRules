@@ -1,0 +1,28 @@
+title: 47f2d673-ca62-47e9-929b-1b0be9657611 (WINDOWS)
+id: 02beef00-0951-48fd-be15-6c9cc8a10276
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 47f2d673-ca62-47e9-929b-1b0be9657611.
+references:
+  - https://attack.mitre.org/techniques/47f2d673-ca62-47e9-929b-1b0be9657611/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.47f2d673-ca62-47e9-929b-1b0be9657611

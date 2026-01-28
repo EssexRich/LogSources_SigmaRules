@@ -1,0 +1,28 @@
+title: ec4be82f-940c-4dcb-87fe-2bbdd17c692f (GOOGLE)
+id: 4e49bebf-d336-4e02-b7d5-d59395944cd3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ec4be82f-940c-4dcb-87fe-2bbdd17c692f.
+references:
+  - https://attack.mitre.org/techniques/ec4be82f-940c-4dcb-87fe-2bbdd17c692f/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ec4be82f-940c-4dcb-87fe-2bbdd17c692f

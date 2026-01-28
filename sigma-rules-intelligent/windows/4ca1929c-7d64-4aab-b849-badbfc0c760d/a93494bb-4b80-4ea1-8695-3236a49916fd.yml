@@ -1,0 +1,28 @@
+title: a93494bb-4b80-4ea1-8695-3236a49916fd (WINDOWS)
+id: e552770d-07ab-4c0e-9ad6-7afa757fec3b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a93494bb-4b80-4ea1-8695-3236a49916fd.
+references:
+  - https://attack.mitre.org/techniques/a93494bb-4b80-4ea1-8695-3236a49916fd/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a93494bb-4b80-4ea1-8695-3236a49916fd

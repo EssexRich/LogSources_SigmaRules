@@ -1,0 +1,28 @@
+title: 650c784b-7504-4df7-ab2c-4ea882384d1e (M365)
+id: fdb6b9d6-f4f9-4127-9f26-5407d768e616
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 650c784b-7504-4df7-ab2c-4ea882384d1e.
+references:
+  - https://attack.mitre.org/techniques/650c784b-7504-4df7-ab2c-4ea882384d1e/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.650c784b-7504-4df7-ab2c-4ea882384d1e

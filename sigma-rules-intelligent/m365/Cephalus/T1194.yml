@@ -1,5 +1,5 @@
-title: T1194 (M365)
-id: 20a195f5-1355-4737-8ef5-81d383e6cedb
+title: Spearphishing via Service (M365)
+id: f5cdb2a0-9065-416a-9dd4-153d601cc069
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1194.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
   condition: selection
 
 falsepositives:

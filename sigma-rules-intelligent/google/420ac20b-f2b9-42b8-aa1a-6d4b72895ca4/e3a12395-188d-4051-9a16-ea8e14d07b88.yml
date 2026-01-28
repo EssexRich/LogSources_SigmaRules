@@ -1,0 +1,28 @@
+title: e3a12395-188d-4051-9a16-ea8e14d07b88 (GOOGLE)
+id: ae52794f-08ee-4c14-ac6f-5d0b77e6cb28
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e3a12395-188d-4051-9a16-ea8e14d07b88.
+references:
+  - https://attack.mitre.org/techniques/e3a12395-188d-4051-9a16-ea8e14d07b88/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e3a12395-188d-4051-9a16-ea8e14d07b88

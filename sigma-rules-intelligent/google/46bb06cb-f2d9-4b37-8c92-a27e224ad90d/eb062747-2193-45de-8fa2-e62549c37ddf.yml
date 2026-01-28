@@ -1,0 +1,28 @@
+title: eb062747-2193-45de-8fa2-e62549c37ddf (GOOGLE)
+id: 9bef93e3-7a09-491b-b4aa-46a83fcae86d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique eb062747-2193-45de-8fa2-e62549c37ddf.
+references:
+  - https://attack.mitre.org/techniques/eb062747-2193-45de-8fa2-e62549c37ddf/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.eb062747-2193-45de-8fa2-e62549c37ddf

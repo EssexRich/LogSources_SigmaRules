@@ -1,0 +1,28 @@
+title: 10ffac09-e42d-4f56-ab20-db94c67d76ff (MACOS)
+id: 9605c00c-437c-4abb-8952-b8a07c7a8aff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 10ffac09-e42d-4f56-ab20-db94c67d76ff.
+references:
+  - https://attack.mitre.org/techniques/10ffac09-e42d-4f56-ab20-db94c67d76ff/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.10ffac09-e42d-4f56-ab20-db94c67d76ff

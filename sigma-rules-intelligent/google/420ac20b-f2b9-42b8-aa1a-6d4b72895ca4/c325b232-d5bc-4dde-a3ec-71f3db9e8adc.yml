@@ -1,0 +1,28 @@
+title: c325b232-d5bc-4dde-a3ec-71f3db9e8adc (GOOGLE)
+id: 85b61728-9bcf-4e62-a13b-719f6e782302
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique c325b232-d5bc-4dde-a3ec-71f3db9e8adc.
+references:
+  - https://attack.mitre.org/techniques/c325b232-d5bc-4dde-a3ec-71f3db9e8adc/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.c325b232-d5bc-4dde-a3ec-71f3db9e8adc

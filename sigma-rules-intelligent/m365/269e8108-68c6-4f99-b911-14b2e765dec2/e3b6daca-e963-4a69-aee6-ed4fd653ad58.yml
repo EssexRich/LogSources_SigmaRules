@@ -1,0 +1,28 @@
+title: e3b6daca-e963-4a69-aee6-ed4fd653ad58 (M365)
+id: f09d2f5a-7892-4f68-b21e-6b56d9e14ebd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e3b6daca-e963-4a69-aee6-ed4fd653ad58.
+references:
+  - https://attack.mitre.org/techniques/e3b6daca-e963-4a69-aee6-ed4fd653ad58/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e3b6daca-e963-4a69-aee6-ed4fd653ad58

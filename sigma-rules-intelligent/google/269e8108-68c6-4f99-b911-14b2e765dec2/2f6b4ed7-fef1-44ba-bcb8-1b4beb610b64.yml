@@ -1,0 +1,28 @@
+title: 2f6b4ed7-fef1-44ba-bcb8-1b4beb610b64 (GOOGLE)
+id: db370fb4-e5c8-4c04-9bda-501b5734dbc9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 2f6b4ed7-fef1-44ba-bcb8-1b4beb610b64.
+references:
+  - https://attack.mitre.org/techniques/2f6b4ed7-fef1-44ba-bcb8-1b4beb610b64/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.2f6b4ed7-fef1-44ba-bcb8-1b4beb610b64

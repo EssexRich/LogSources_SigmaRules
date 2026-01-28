@@ -1,0 +1,28 @@
+title: 31e5011f-090e-45be-9bb6-17a1c5e8219b (M365)
+id: b4ced857-2776-4b7d-8445-7736b73c532c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 31e5011f-090e-45be-9bb6-17a1c5e8219b.
+references:
+  - https://attack.mitre.org/techniques/31e5011f-090e-45be-9bb6-17a1c5e8219b/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.31e5011f-090e-45be-9bb6-17a1c5e8219b

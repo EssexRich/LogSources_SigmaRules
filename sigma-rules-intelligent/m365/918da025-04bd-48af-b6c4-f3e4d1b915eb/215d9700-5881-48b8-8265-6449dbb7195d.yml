@@ -1,0 +1,28 @@
+title: 215d9700-5881-48b8-8265-6449dbb7195d (M365)
+id: 325cffec-241a-44b3-8fd5-afd3787e6024
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 215d9700-5881-48b8-8265-6449dbb7195d.
+references:
+  - https://attack.mitre.org/techniques/215d9700-5881-48b8-8265-6449dbb7195d/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.215d9700-5881-48b8-8265-6449dbb7195d

@@ -1,0 +1,28 @@
+title: f3d95a1f-bba2-44ce-9af7-37866cd63fd0 (M365)
+id: 368dfdb9-35af-46d9-b22d-4ca25c2b5fe3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f3d95a1f-bba2-44ce-9af7-37866cd63fd0.
+references:
+  - https://attack.mitre.org/techniques/f3d95a1f-bba2-44ce-9af7-37866cd63fd0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f3d95a1f-bba2-44ce-9af7-37866cd63fd0

@@ -1,0 +1,28 @@
+title: ffbcfdb0-de22-4106-9ed3-fc23c8a01407 (WINDOWS)
+id: becc1889-5ae0-4884-9a3c-f7837ffb394f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ffbcfdb0-de22-4106-9ed3-fc23c8a01407.
+references:
+  - https://attack.mitre.org/techniques/ffbcfdb0-de22-4106-9ed3-fc23c8a01407/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ffbcfdb0-de22-4106-9ed3-fc23c8a01407

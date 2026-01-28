@@ -1,0 +1,28 @@
+title: 24bfaeba-cb0d-4525-b3dc-507c77ecec41 (M365)
+id: 842599b2-519b-4f30-93f3-851fad3572a6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 24bfaeba-cb0d-4525-b3dc-507c77ecec41.
+references:
+  - https://attack.mitre.org/techniques/24bfaeba-cb0d-4525-b3dc-507c77ecec41/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.24bfaeba-cb0d-4525-b3dc-507c77ecec41

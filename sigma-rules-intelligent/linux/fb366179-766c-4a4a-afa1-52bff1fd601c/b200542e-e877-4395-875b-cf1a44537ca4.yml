@@ -1,0 +1,28 @@
+title: b200542e-e877-4395-875b-cf1a44537ca4 (LINUX)
+id: 8321fc01-73cd-4e15-8dad-31e30e9f5c8d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b200542e-e877-4395-875b-cf1a44537ca4.
+references:
+  - https://attack.mitre.org/techniques/b200542e-e877-4395-875b-cf1a44537ca4/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b200542e-e877-4395-875b-cf1a44537ca4

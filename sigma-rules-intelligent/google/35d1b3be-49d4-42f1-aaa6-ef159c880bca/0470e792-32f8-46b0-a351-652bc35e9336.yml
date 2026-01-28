@@ -1,0 +1,28 @@
+title: 0470e792-32f8-46b0-a351-652bc35e9336 (GOOGLE)
+id: 8aa2a557-551b-4328-95e3-b9bb2be83654
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 0470e792-32f8-46b0-a351-652bc35e9336.
+references:
+  - https://attack.mitre.org/techniques/0470e792-32f8-46b0-a351-652bc35e9336/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.0470e792-32f8-46b0-a351-652bc35e9336

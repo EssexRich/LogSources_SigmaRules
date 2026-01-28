@@ -1,0 +1,28 @@
+title: c283d88f-8c23-4318-9da5-3d50cecad756 (GOOGLE)
+id: 77901f88-ab91-4cfd-9faf-f82b0b7bc6f6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique c283d88f-8c23-4318-9da5-3d50cecad756.
+references:
+  - https://attack.mitre.org/techniques/c283d88f-8c23-4318-9da5-3d50cecad756/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.c283d88f-8c23-4318-9da5-3d50cecad756

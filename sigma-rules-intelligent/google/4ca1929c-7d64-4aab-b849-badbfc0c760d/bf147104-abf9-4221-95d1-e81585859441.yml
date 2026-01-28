@@ -1,0 +1,28 @@
+title: bf147104-abf9-4221-95d1-e81585859441 (GOOGLE)
+id: 8f792c55-1aca-4b28-8732-357fe06e68a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique bf147104-abf9-4221-95d1-e81585859441.
+references:
+  - https://attack.mitre.org/techniques/bf147104-abf9-4221-95d1-e81585859441/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.bf147104-abf9-4221-95d1-e81585859441

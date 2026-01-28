@@ -1,0 +1,28 @@
+title: a19e86f8-1c0a-4fea-8407-23b73d615776 (LINUX)
+id: f1aada0a-da95-4521-a410-7cca9451da7e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a19e86f8-1c0a-4fea-8407-23b73d615776.
+references:
+  - https://attack.mitre.org/techniques/a19e86f8-1c0a-4fea-8407-23b73d615776/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a19e86f8-1c0a-4fea-8407-23b73d615776

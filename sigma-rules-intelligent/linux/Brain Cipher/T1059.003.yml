@@ -1,5 +1,5 @@
-title: T1059.003 (LINUX)
-id: e289d25d-a6d4-486a-aa1c-edbafa39ecde
+title: Windows Command Shell (LINUX)
+id: f4a125fa-343c-49a4-8d5a-3f2c067ae2fd
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1059.003.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

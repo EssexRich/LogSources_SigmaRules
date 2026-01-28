@@ -1,0 +1,28 @@
+title: db8f5003-3b20-48f0-9b76-123e44208120 (LINUX)
+id: 118592af-4fc2-4f65-ad37-e66ed280fc4a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique db8f5003-3b20-48f0-9b76-123e44208120.
+references:
+  - https://attack.mitre.org/techniques/db8f5003-3b20-48f0-9b76-123e44208120/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.db8f5003-3b20-48f0-9b76-123e44208120

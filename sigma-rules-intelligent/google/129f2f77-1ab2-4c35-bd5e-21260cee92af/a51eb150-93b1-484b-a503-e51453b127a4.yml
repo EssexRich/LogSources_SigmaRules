@@ -1,0 +1,28 @@
+title: a51eb150-93b1-484b-a503-e51453b127a4 (GOOGLE)
+id: 57aaff47-bb38-42f2-9af1-17fcb5ea74d1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a51eb150-93b1-484b-a503-e51453b127a4.
+references:
+  - https://attack.mitre.org/techniques/a51eb150-93b1-484b-a503-e51453b127a4/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a51eb150-93b1-484b-a503-e51453b127a4

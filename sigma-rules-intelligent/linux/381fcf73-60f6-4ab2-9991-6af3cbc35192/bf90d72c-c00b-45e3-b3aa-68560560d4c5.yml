@@ -1,0 +1,28 @@
+title: bf90d72c-c00b-45e3-b3aa-68560560d4c5 (LINUX)
+id: e5023aa2-c1c6-4cb3-9bd1-4bae7110c3e6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique bf90d72c-c00b-45e3-b3aa-68560560d4c5.
+references:
+  - https://attack.mitre.org/techniques/bf90d72c-c00b-45e3-b3aa-68560560d4c5/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.bf90d72c-c00b-45e3-b3aa-68560560d4c5

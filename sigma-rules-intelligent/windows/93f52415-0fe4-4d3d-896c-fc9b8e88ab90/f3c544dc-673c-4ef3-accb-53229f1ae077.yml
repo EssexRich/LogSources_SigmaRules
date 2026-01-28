@@ -1,0 +1,28 @@
+title: f3c544dc-673c-4ef3-accb-53229f1ae077 (WINDOWS)
+id: f02d01b0-7e2b-463d-9878-d4535187d5a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f3c544dc-673c-4ef3-accb-53229f1ae077.
+references:
+  - https://attack.mitre.org/techniques/f3c544dc-673c-4ef3-accb-53229f1ae077/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f3c544dc-673c-4ef3-accb-53229f1ae077

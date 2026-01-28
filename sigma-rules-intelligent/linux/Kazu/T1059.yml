@@ -1,5 +1,5 @@
-title: T1059 (LINUX)
-id: 959f6082-401a-48f4-ae67-bf8382708c28
+title: Command and Scripting Interpreter (LINUX)
+id: eb8904b7-f208-4c62-b5a4-eed8a5d3d501
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1059.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

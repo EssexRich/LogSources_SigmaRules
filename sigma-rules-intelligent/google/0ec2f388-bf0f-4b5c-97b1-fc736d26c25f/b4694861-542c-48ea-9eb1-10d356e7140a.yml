@@ -1,0 +1,28 @@
+title: b4694861-542c-48ea-9eb1-10d356e7140a (GOOGLE)
+id: c19fab13-e5d7-4398-a3b1-2bf1b122027f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b4694861-542c-48ea-9eb1-10d356e7140a.
+references:
+  - https://attack.mitre.org/techniques/b4694861-542c-48ea-9eb1-10d356e7140a/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b4694861-542c-48ea-9eb1-10d356e7140a

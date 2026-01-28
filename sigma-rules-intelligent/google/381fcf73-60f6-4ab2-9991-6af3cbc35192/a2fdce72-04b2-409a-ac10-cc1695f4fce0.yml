@@ -1,0 +1,28 @@
+title: a2fdce72-04b2-409a-ac10-cc1695f4fce0 (GOOGLE)
+id: fc164866-18bc-4586-ba65-9c1aa7d2f4c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a2fdce72-04b2-409a-ac10-cc1695f4fce0.
+references:
+  - https://attack.mitre.org/techniques/a2fdce72-04b2-409a-ac10-cc1695f4fce0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a2fdce72-04b2-409a-ac10-cc1695f4fce0

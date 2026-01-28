@@ -1,0 +1,28 @@
+title: 4bc31b94-045b-4752-8920-aebaebdb6470 (WINDOWS)
+id: 88faff78-ed73-4c0e-9bd4-38794865f304
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 4bc31b94-045b-4752-8920-aebaebdb6470.
+references:
+  - https://attack.mitre.org/techniques/4bc31b94-045b-4752-8920-aebaebdb6470/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.4bc31b94-045b-4752-8920-aebaebdb6470

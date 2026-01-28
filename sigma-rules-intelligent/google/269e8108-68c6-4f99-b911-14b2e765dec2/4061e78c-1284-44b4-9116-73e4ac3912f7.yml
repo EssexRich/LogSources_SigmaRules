@@ -1,0 +1,28 @@
+title: 4061e78c-1284-44b4-9116-73e4ac3912f7 (GOOGLE)
+id: 4ac1f0b5-4fa1-4bc8-8267-a26662d3f509
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 4061e78c-1284-44b4-9116-73e4ac3912f7.
+references:
+  - https://attack.mitre.org/techniques/4061e78c-1284-44b4-9116-73e4ac3912f7/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.4061e78c-1284-44b4-9116-73e4ac3912f7

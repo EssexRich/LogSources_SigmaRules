@@ -1,0 +1,28 @@
+title: 5282dd9a-d26d-4e16-88b7-7c0f4553daf4 (GOOGLE)
+id: 0b40b802-12d9-4721-8a35-3bddcc7eac9f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 5282dd9a-d26d-4e16-88b7-7c0f4553daf4.
+references:
+  - https://attack.mitre.org/techniques/5282dd9a-d26d-4e16-88b7-7c0f4553daf4/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.5282dd9a-d26d-4e16-88b7-7c0f4553daf4

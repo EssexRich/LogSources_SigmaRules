@@ -1,5 +1,5 @@
-title: T1480 (LINUX)
-id: 3b3c7441-9fb0-4886-9de9-269eeab8cda2
+title: Execution Guardrails (LINUX)
+id: ce8e7ac3-0e41-4d73-b760-f8f1daa7ad08
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1480.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

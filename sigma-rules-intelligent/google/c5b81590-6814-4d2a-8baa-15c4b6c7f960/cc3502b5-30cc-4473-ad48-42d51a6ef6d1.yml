@@ -1,0 +1,28 @@
+title: cc3502b5-30cc-4473-ad48-42d51a6ef6d1 (GOOGLE)
+id: d3521b42-d8bc-40da-b031-fde2cd5f3c5a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cc3502b5-30cc-4473-ad48-42d51a6ef6d1.
+references:
+  - https://attack.mitre.org/techniques/cc3502b5-30cc-4473-ad48-42d51a6ef6d1/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cc3502b5-30cc-4473-ad48-42d51a6ef6d1

@@ -1,0 +1,28 @@
+title: b17a1a56-e99c-403c-8948-561df0cffe81 (GOOGLE)
+id: 1fd5335b-a007-4d13-8c8f-7dede674f825
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b17a1a56-e99c-403c-8948-561df0cffe81.
+references:
+  - https://attack.mitre.org/techniques/b17a1a56-e99c-403c-8948-561df0cffe81/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b17a1a56-e99c-403c-8948-561df0cffe81

@@ -1,0 +1,28 @@
+title: d1fcf083-a721-4223-aedf-bf8960798d62 (WINDOWS)
+id: 310de5bf-a83c-4011-8ab1-ba347283100d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d1fcf083-a721-4223-aedf-bf8960798d62.
+references:
+  - https://attack.mitre.org/techniques/d1fcf083-a721-4223-aedf-bf8960798d62/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d1fcf083-a721-4223-aedf-bf8960798d62

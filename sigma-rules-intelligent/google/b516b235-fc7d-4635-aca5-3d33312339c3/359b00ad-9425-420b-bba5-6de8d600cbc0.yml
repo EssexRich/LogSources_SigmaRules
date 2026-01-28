@@ -1,0 +1,28 @@
+title: 359b00ad-9425-420b-bba5-6de8d600cbc0 (GOOGLE)
+id: f36b6b5a-e797-4a74-8948-4c41b293380a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 359b00ad-9425-420b-bba5-6de8d600cbc0.
+references:
+  - https://attack.mitre.org/techniques/359b00ad-9425-420b-bba5-6de8d600cbc0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.359b00ad-9425-420b-bba5-6de8d600cbc0

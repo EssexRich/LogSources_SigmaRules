@@ -1,0 +1,28 @@
+title: b24e2a20-3b3d-4bf0-823b-1ed765398fb0 (LINUX)
+id: e24824dc-824f-41b3-993d-6890cb23128d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b24e2a20-3b3d-4bf0-823b-1ed765398fb0.
+references:
+  - https://attack.mitre.org/techniques/b24e2a20-3b3d-4bf0-823b-1ed765398fb0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b24e2a20-3b3d-4bf0-823b-1ed765398fb0

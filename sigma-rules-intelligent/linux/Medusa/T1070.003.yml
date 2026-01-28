@@ -1,5 +1,5 @@
-title: T1070.003 (LINUX)
-id: f96c98c9-7c3b-4c7a-9bcc-684c07c63dc9
+title: Clear Command History (LINUX)
+id: 825e95a8-2d43-4b83-a5f2-141bcb5f293b
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1070.003.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

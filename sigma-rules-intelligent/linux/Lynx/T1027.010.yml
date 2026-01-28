@@ -1,5 +1,5 @@
-title: T1027.010 (LINUX)
-id: 26d73bd5-6cff-4afc-aebf-3da6efcbab43
+title: Command Obfuscation (LINUX)
+id: 1dafddcb-07ed-4fec-b74f-62bbd4fd8b92
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1027.010.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

@@ -1,0 +1,28 @@
+title: db8f5003-3b20-48f0-9b76-123e44208120 (GOOGLE)
+id: 8357ed86-cdee-4a43-be9f-039e6bfd4e0e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique db8f5003-3b20-48f0-9b76-123e44208120.
+references:
+  - https://attack.mitre.org/techniques/db8f5003-3b20-48f0-9b76-123e44208120/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.db8f5003-3b20-48f0-9b76-123e44208120

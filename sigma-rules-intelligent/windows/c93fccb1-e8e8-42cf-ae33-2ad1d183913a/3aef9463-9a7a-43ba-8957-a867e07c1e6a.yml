@@ -1,0 +1,28 @@
+title: 3aef9463-9a7a-43ba-8957-a867e07c1e6a (WINDOWS)
+id: 5a33b0ab-6d1b-426c-b2f5-c3c7fcc558e2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 3aef9463-9a7a-43ba-8957-a867e07c1e6a.
+references:
+  - https://attack.mitre.org/techniques/3aef9463-9a7a-43ba-8957-a867e07c1e6a/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.3aef9463-9a7a-43ba-8957-a867e07c1e6a

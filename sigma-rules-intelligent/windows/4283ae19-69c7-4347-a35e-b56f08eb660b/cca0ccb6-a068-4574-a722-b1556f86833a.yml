@@ -1,0 +1,28 @@
+title: cca0ccb6-a068-4574-a722-b1556f86833a (WINDOWS)
+id: 0f00c87e-e8d5-4458-8983-6b9c792a34c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cca0ccb6-a068-4574-a722-b1556f86833a.
+references:
+  - https://attack.mitre.org/techniques/cca0ccb6-a068-4574-a722-b1556f86833a/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cca0ccb6-a068-4574-a722-b1556f86833a

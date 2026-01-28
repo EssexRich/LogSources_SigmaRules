@@ -1,0 +1,28 @@
+title: cdfc5f0a-9bb9-4352-b896-553cfa2d8fd8 (M365)
+id: f05a89c5-a379-4369-aeab-52a6e8168145
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cdfc5f0a-9bb9-4352-b896-553cfa2d8fd8.
+references:
+  - https://attack.mitre.org/techniques/cdfc5f0a-9bb9-4352-b896-553cfa2d8fd8/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cdfc5f0a-9bb9-4352-b896-553cfa2d8fd8

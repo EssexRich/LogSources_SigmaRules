@@ -1,0 +1,28 @@
+title: b83e166d-13d7-4b52-8677-dff90c548fd7 (WINDOWS)
+id: fbe7fe2a-4e9a-46c1-99b9-29737a4dd868
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b83e166d-13d7-4b52-8677-dff90c548fd7.
+references:
+  - https://attack.mitre.org/techniques/b83e166d-13d7-4b52-8677-dff90c548fd7/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b83e166d-13d7-4b52-8677-dff90c548fd7

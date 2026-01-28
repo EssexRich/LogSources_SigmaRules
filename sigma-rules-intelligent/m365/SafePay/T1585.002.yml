@@ -1,5 +1,5 @@
-title: T1585.002 (M365)
-id: 1a8c1d8b-257d-4d39-927e-32c60861dea9
+title: Email Accounts (M365)
+id: 92a5ff40-e71c-4629-8564-ea22b33d5d6e
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1585.002.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
   condition: selection
 
 falsepositives:

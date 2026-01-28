@@ -1,5 +1,5 @@
-title: T1055.003 (LINUX)
-id: 67929d19-3283-47f3-8756-fbdc0fd5829a
+title: Thread Execution Hijacking (LINUX)
+id: 033f28d4-76d1-499b-878d-e74af4504ab7
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1055.003.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

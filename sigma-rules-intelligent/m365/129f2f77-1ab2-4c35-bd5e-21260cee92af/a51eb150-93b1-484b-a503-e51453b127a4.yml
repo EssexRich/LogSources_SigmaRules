@@ -1,0 +1,28 @@
+title: a51eb150-93b1-484b-a503-e51453b127a4 (M365)
+id: 2cc2ad99-3ed5-4a2d-aff1-41e686f4d95a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a51eb150-93b1-484b-a503-e51453b127a4.
+references:
+  - https://attack.mitre.org/techniques/a51eb150-93b1-484b-a503-e51453b127a4/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a51eb150-93b1-484b-a503-e51453b127a4

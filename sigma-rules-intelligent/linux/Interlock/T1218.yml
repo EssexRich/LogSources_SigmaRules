@@ -1,5 +1,5 @@
-title: T1218 (LINUX)
-id: cfff3424-b1da-4ff4-9547-d4f223e8ae3b
+title: System Binary Proxy Execution (LINUX)
+id: ad92777f-cf73-4292-91ec-b7575f557d1a
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1218.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

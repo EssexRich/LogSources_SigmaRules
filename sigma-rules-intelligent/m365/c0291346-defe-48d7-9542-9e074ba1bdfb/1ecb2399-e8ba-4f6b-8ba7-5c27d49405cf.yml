@@ -1,0 +1,28 @@
+title: 1ecb2399-e8ba-4f6b-8ba7-5c27d49405cf (M365)
+id: 505dc65e-e8e5-42a1-9bdb-279710031b6f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 1ecb2399-e8ba-4f6b-8ba7-5c27d49405cf.
+references:
+  - https://attack.mitre.org/techniques/1ecb2399-e8ba-4f6b-8ba7-5c27d49405cf/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.1ecb2399-e8ba-4f6b-8ba7-5c27d49405cf

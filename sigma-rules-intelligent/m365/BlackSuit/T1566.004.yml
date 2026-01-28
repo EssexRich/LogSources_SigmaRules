@@ -1,5 +1,5 @@
-title: T1566.004 (M365)
-id: b99f1368-da82-4ae6-8065-56ecae6577d8
+title: Spearphishing Voice (M365)
+id: 2b46708b-1c37-45a7-9005-4a036dd997bd
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1566.004.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
   condition: selection
 
 falsepositives:

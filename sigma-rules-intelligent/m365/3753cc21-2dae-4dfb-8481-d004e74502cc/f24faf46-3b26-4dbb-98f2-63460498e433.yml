@@ -1,0 +1,28 @@
+title: f24faf46-3b26-4dbb-98f2-63460498e433 (M365)
+id: ea151df6-a13e-4b9e-a06a-10cca717753f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f24faf46-3b26-4dbb-98f2-63460498e433.
+references:
+  - https://attack.mitre.org/techniques/f24faf46-3b26-4dbb-98f2-63460498e433/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f24faf46-3b26-4dbb-98f2-63460498e433

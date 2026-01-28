@@ -1,0 +1,28 @@
+title: d4287702-e2f7-4946-bdfa-2c7f5aaa5032 (MACOS)
+id: cb8bbeca-ad3e-4fb0-8b90-65c1153c354e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d4287702-e2f7-4946-bdfa-2c7f5aaa5032.
+references:
+  - https://attack.mitre.org/techniques/d4287702-e2f7-4946-bdfa-2c7f5aaa5032/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d4287702-e2f7-4946-bdfa-2c7f5aaa5032

@@ -1,0 +1,28 @@
+title: bed04f7d-e48a-4e76-bd0f-4c57fe31fc46 (WINDOWS)
+id: 37cd1181-b6b2-4779-8442-c8f05c1727d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique bed04f7d-e48a-4e76-bd0f-4c57fe31fc46.
+references:
+  - https://attack.mitre.org/techniques/bed04f7d-e48a-4e76-bd0f-4c57fe31fc46/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.bed04f7d-e48a-4e76-bd0f-4c57fe31fc46

@@ -1,5 +1,5 @@
-title: T1204 (LINUX)
-id: f90aca98-baa0-45c0-9797-9c0769c20f67
+title: User Execution (LINUX)
+id: c36aa600-e7f8-4646-ac15-b23346b04f62
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1204.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

@@ -1,0 +1,28 @@
+title: 30208d3e-0d6b-43c8-883e-44462a514619 (MACOS)
+id: dd4bf426-bbf6-4085-b903-5bc0d1cc430e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 30208d3e-0d6b-43c8-883e-44462a514619.
+references:
+  - https://attack.mitre.org/techniques/30208d3e-0d6b-43c8-883e-44462a514619/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.30208d3e-0d6b-43c8-883e-44462a514619

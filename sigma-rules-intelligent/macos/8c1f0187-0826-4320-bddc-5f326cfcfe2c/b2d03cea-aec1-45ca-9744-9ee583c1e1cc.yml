@@ -1,0 +1,28 @@
+title: b2d03cea-aec1-45ca-9744-9ee583c1e1cc (MACOS)
+id: fb256d99-4cc6-4adc-904e-352051480e06
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b2d03cea-aec1-45ca-9744-9ee583c1e1cc.
+references:
+  - https://attack.mitre.org/techniques/b2d03cea-aec1-45ca-9744-9ee583c1e1cc/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b2d03cea-aec1-45ca-9744-9ee583c1e1cc

@@ -1,0 +1,28 @@
+title: 768dce68-8d0d-477a-b01d-0eea98b963a1 (M365)
+id: 80783de4-5269-4da9-bccd-cb0c60739772
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 768dce68-8d0d-477a-b01d-0eea98b963a1.
+references:
+  - https://attack.mitre.org/techniques/768dce68-8d0d-477a-b01d-0eea98b963a1/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.768dce68-8d0d-477a-b01d-0eea98b963a1

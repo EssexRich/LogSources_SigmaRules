@@ -1,0 +1,28 @@
+title: 1644e709-12d2-41e5-a60f-3470991f5011 (MACOS)
+id: bc0997e3-0eab-4fcd-bd82-992918f772c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 1644e709-12d2-41e5-a60f-3470991f5011.
+references:
+  - https://attack.mitre.org/techniques/1644e709-12d2-41e5-a60f-3470991f5011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.1644e709-12d2-41e5-a60f-3470991f5011

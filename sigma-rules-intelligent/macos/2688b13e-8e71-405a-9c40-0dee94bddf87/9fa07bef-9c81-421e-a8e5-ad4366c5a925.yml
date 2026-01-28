@@ -1,0 +1,28 @@
+title: 9fa07bef-9c81-421e-a8e5-ad4366c5a925 (MACOS)
+id: 9e550e05-9e42-4d61-9a92-4f5563497506
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 9fa07bef-9c81-421e-a8e5-ad4366c5a925.
+references:
+  - https://attack.mitre.org/techniques/9fa07bef-9c81-421e-a8e5-ad4366c5a925/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.9fa07bef-9c81-421e-a8e5-ad4366c5a925

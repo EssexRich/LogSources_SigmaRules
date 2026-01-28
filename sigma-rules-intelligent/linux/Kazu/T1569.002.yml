@@ -1,5 +1,5 @@
-title: T1569.002 (LINUX)
-id: 2d32d486-7c74-4cf9-9253-220069874a8a
+title: Service Execution (LINUX)
+id: 60242ff9-e73e-40c3-ae27-799d8dac050b
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1569.002.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

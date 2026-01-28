@@ -1,0 +1,28 @@
+title: 8c41090b-aa47-4331-986b-8c9a51a91103 (M365)
+id: 1a355aa3-ce37-4a17-b34f-36305541e41d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 8c41090b-aa47-4331-986b-8c9a51a91103.
+references:
+  - https://attack.mitre.org/techniques/8c41090b-aa47-4331-986b-8c9a51a91103/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.8c41090b-aa47-4331-986b-8c9a51a91103

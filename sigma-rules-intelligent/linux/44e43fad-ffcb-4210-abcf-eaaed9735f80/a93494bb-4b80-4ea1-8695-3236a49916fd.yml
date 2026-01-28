@@ -1,0 +1,28 @@
+title: a93494bb-4b80-4ea1-8695-3236a49916fd (LINUX)
+id: 059f1276-f5c1-44b6-868c-d857fe2ac651
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a93494bb-4b80-4ea1-8695-3236a49916fd.
+references:
+  - https://attack.mitre.org/techniques/a93494bb-4b80-4ea1-8695-3236a49916fd/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a93494bb-4b80-4ea1-8695-3236a49916fd

@@ -1,0 +1,28 @@
+title: c877e33f-1df6-40d6-b1e7-ce70f16f4979 (LINUX)
+id: 683508fe-a899-4ef5-810b-4bfb72c64dfd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique c877e33f-1df6-40d6-b1e7-ce70f16f4979.
+references:
+  - https://attack.mitre.org/techniques/c877e33f-1df6-40d6-b1e7-ce70f16f4979/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.c877e33f-1df6-40d6-b1e7-ce70f16f4979

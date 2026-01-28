@@ -1,5 +1,5 @@
-title: T1547 (LINUX)
-id: 4430a629-295a-42ed-b3d2-bb2830424e6e
+title: Boot or Logon Autostart Execution (LINUX)
+id: 638d3443-d1e8-423e-97a1-f8dc0b5ae4da
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1547.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

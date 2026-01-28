@@ -1,0 +1,28 @@
+title: fb640c43-aa6b-431e-a961-a279010424ac (MACOS)
+id: 3c993960-1794-475c-b250-45a29f4ecb88
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique fb640c43-aa6b-431e-a961-a279010424ac.
+references:
+  - https://attack.mitre.org/techniques/fb640c43-aa6b-431e-a961-a279010424ac/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.fb640c43-aa6b-431e-a961-a279010424ac

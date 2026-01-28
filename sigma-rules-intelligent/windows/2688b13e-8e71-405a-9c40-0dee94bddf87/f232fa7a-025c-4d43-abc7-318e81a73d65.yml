@@ -1,0 +1,28 @@
+title: f232fa7a-025c-4d43-abc7-318e81a73d65 (WINDOWS)
+id: 3f1d94d5-28b9-412a-b308-15f251076434
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f232fa7a-025c-4d43-abc7-318e81a73d65.
+references:
+  - https://attack.mitre.org/techniques/f232fa7a-025c-4d43-abc7-318e81a73d65/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f232fa7a-025c-4d43-abc7-318e81a73d65

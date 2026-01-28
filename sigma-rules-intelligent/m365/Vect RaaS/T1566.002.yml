@@ -1,5 +1,5 @@
-title: T1566.002 (M365)
-id: f1d96a7b-68c1-4b9f-a0d4-398da3417cb0
+title: Spearphishing Link (M365)
+id: e006b0ae-474b-4ef2-a18c-2f37c2d96f91
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1566.002.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
   condition: selection
 
 falsepositives:

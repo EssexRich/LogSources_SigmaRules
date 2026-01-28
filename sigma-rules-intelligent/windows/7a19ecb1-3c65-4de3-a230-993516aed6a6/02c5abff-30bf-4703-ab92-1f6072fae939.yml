@@ -1,0 +1,28 @@
+title: 02c5abff-30bf-4703-ab92-1f6072fae939 (WINDOWS)
+id: 972e28b7-fda0-40bd-83ff-fc4e6fd478e6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 02c5abff-30bf-4703-ab92-1f6072fae939.
+references:
+  - https://attack.mitre.org/techniques/02c5abff-30bf-4703-ab92-1f6072fae939/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.02c5abff-30bf-4703-ab92-1f6072fae939

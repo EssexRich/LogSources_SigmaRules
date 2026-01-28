@@ -1,0 +1,28 @@
+title: 215d9700-5881-48b8-8265-6449dbb7195d (GOOGLE)
+id: bc75098e-c966-4c4a-865e-9bda32bf3a49
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 215d9700-5881-48b8-8265-6449dbb7195d.
+references:
+  - https://attack.mitre.org/techniques/215d9700-5881-48b8-8265-6449dbb7195d/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.215d9700-5881-48b8-8265-6449dbb7195d

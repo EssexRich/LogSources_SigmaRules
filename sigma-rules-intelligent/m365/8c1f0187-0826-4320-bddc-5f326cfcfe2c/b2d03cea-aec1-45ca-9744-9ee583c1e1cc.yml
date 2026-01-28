@@ -1,0 +1,28 @@
+title: b2d03cea-aec1-45ca-9744-9ee583c1e1cc (M365)
+id: 11298338-06e5-4db7-b467-512d8e8d2c22
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b2d03cea-aec1-45ca-9744-9ee583c1e1cc.
+references:
+  - https://attack.mitre.org/techniques/b2d03cea-aec1-45ca-9744-9ee583c1e1cc/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b2d03cea-aec1-45ca-9744-9ee583c1e1cc

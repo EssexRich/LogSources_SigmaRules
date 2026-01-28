@@ -1,0 +1,28 @@
+title: ffbcfdb0-de22-4106-9ed3-fc23c8a01407 (GOOGLE)
+id: a9930c02-fa07-499c-84db-1773f395a582
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ffbcfdb0-de22-4106-9ed3-fc23c8a01407.
+references:
+  - https://attack.mitre.org/techniques/ffbcfdb0-de22-4106-9ed3-fc23c8a01407/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ffbcfdb0-de22-4106-9ed3-fc23c8a01407

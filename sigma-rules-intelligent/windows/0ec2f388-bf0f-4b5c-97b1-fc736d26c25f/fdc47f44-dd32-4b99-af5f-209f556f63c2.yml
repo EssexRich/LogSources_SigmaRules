@@ -1,0 +1,28 @@
+title: fdc47f44-dd32-4b99-af5f-209f556f63c2 (WINDOWS)
+id: 1f67ff9f-bde3-4e15-91d6-8f52e85230d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique fdc47f44-dd32-4b99-af5f-209f556f63c2.
+references:
+  - https://attack.mitre.org/techniques/fdc47f44-dd32-4b99-af5f-209f556f63c2/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.fdc47f44-dd32-4b99-af5f-209f556f63c2

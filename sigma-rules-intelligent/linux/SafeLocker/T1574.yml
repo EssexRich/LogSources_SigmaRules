@@ -1,5 +1,5 @@
-title: T1574 (LINUX)
-id: 24e76b43-26e5-48c8-82c3-b2756fb2bd73
+title: Hijack Execution Flow (LINUX)
+id: 912a2900-681e-4291-ab86-8ef5de3e7083
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1574.
 references:
@@ -16,8 +16,10 @@ logsource:
 
 detection:
   selection:
-    Image|contains: process
-    CommandLine|contains: cmd
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
   condition: selection
 
 falsepositives:

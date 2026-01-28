@@ -1,0 +1,28 @@
+title: 10ffac09-e42d-4f56-ab20-db94c67d76ff (GOOGLE)
+id: e51960bc-9902-409f-b228-a91a978ec67f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 10ffac09-e42d-4f56-ab20-db94c67d76ff.
+references:
+  - https://attack.mitre.org/techniques/10ffac09-e42d-4f56-ab20-db94c67d76ff/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.10ffac09-e42d-4f56-ab20-db94c67d76ff

@@ -1,0 +1,28 @@
+title: e358d692-23c0-4a31-9eb6-ecc13a8d7735 (LINUX)
+id: 9aca1496-4c83-42ab-ae5d-a7f8496324e5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e358d692-23c0-4a31-9eb6-ecc13a8d7735.
+references:
+  - https://attack.mitre.org/techniques/e358d692-23c0-4a31-9eb6-ecc13a8d7735/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e358d692-23c0-4a31-9eb6-ecc13a8d7735

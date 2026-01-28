@@ -1,0 +1,28 @@
+title: 64196062-5210-42c3-9a02-563a0d1797ef (M365)
+id: 4a2db0cc-d50a-4913-a0cf-1ce87c775c21
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 64196062-5210-42c3-9a02-563a0d1797ef.
+references:
+  - https://attack.mitre.org/techniques/64196062-5210-42c3-9a02-563a0d1797ef/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.64196062-5210-42c3-9a02-563a0d1797ef

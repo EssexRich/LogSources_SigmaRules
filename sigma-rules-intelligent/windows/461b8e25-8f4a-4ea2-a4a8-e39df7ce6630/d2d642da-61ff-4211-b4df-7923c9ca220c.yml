@@ -1,0 +1,28 @@
+title: d2d642da-61ff-4211-b4df-7923c9ca220c (WINDOWS)
+id: 8d441d60-ef2f-400f-a61c-028a53b06ce8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d2d642da-61ff-4211-b4df-7923c9ca220c.
+references:
+  - https://attack.mitre.org/techniques/d2d642da-61ff-4211-b4df-7923c9ca220c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d2d642da-61ff-4211-b4df-7923c9ca220c

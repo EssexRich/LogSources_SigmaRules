@@ -1,0 +1,28 @@
+title: 438c967d-3996-4870-bfc2-3954752a1927 (M365)
+id: a93bc5fa-651d-4bf1-80aa-79c718c6af4e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 438c967d-3996-4870-bfc2-3954752a1927.
+references:
+  - https://attack.mitre.org/techniques/438c967d-3996-4870-bfc2-3954752a1927/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.438c967d-3996-4870-bfc2-3954752a1927
