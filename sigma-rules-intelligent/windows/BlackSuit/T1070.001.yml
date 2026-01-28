@@ -1,0 +1,37 @@
+title: Indicator Removal: Clear Windows Event Logs (WINDOWS)
+id: 1e1d266f-631b-454d-b2be-e7311747333c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.001.
+  Adversaries may use a variety of techniques throughout the attack lifecycle.
+  This rule provides baseline detection for security monitoring and threat hunting.
+references:
+  - https://attack.mitre.org/techniques/T1070.001/
+  - https://incidentbuddy.ai/gapmatrix/techniques/T1070.001
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image:
+      - 'wevtutil.exe'
+      - 'powershell.exe'
+    CommandLine:
+      - 'clear-log'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+  - Expected software deployments
+
+tags:
+  - attack.T1070.001
+  - attack_pattern
+  - detection_rule
