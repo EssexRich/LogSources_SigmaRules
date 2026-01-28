@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T4718 Detection (macos)
+    id: bde809be-9e02-4691-875d-3042cc449807
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T4718.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T4718/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T4718
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: macos
+    service: unified_logging
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T4718
+    
