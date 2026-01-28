@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-28T11:16:17.098Z",
-  "version": "1.0.0",
+  "generated": "2026-01-28T18:00:00.000Z",
+  "version": "2.0.0",
   "logsources": [
     {
       "product": "windows",
@@ -16,16 +16,7 @@
           "ParentImage": "ParentProcessName",
           "User": "TargetUserName",
           "ProcessId": "NewProcessId",
-          "ParentProcessId": "ProcessId",
-          "SubjectUserSid": "SubjectUserSid",
-          "SubjectUserName": "SubjectUserName",
-          "SubjectDomainName": "SubjectDomainName",
-          "SubjectLogonId": "SubjectLogonId",
-          "TargetUserSid": "TargetUserSid",
-          "TargetDomainName": "TargetDomainName",
-          "TargetLogonId": "TargetLogonId",
-          "TokenElevationType": "TokenElevationType",
-          "MandatoryLabel": "MandatoryLabel"
+          "ParentProcessId": "ProcessId"
         }
       }
     },
@@ -33,28 +24,35 @@
       "product": "windows",
       "service": "sysmon",
       "category": "process_creation",
-      "description": "Sysmon Event ID 1: Process creation provides extended information about a newly created process",
+      "description": "Sysmon Event ID 1: Process creation",
       "lastUpdated": "2026-01-28",
       "sourceUrl": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
       "fieldMappings": {
         "process_creation": {
-          "UtcTime": "UtcTime",
-          "ProcessGuid": "ProcessGuid",
-          "ProcessId": "ProcessId",
           "Image": "Image",
           "CommandLine": "CommandLine",
-          "CurrentDirectory": "CurrentDirectory",
-          "User": "User",
-          "LogonGuid": "LogonGuid",
-          "LogonId": "LogonId",
-          "TerminalSessionId": "TerminalSessionId",
-          "IntegrityLevel": "IntegrityLevel",
           "ParentImage": "ParentImage",
+          "User": "User",
+          "ProcessId": "ProcessId",
           "ParentProcessId": "ParentProcessId",
-          "ParentCommandLine": "ParentCommandLine",
-          "ParentUser": "ParentUser",
-          "HashType": "HashType",
           "Hashes": "Hashes"
+        }
+      }
+    },
+    {
+      "product": "windows",
+      "service": "defender",
+      "category": "process_creation",
+      "description": "Microsoft Defender for Endpoint DeviceProcessEvents",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table",
+      "fieldMappings": {
+        "process_creation": {
+          "Image": "InitiatingProcessFileName",
+          "CommandLine": "ProcessCommandLine",
+          "ParentImage": "InitiatingProcessParentFileName",
+          "User": "AccountName",
+          "ProcessId": "ProcessId"
         }
       }
     },
@@ -62,7 +60,7 @@
       "product": "linux",
       "service": "auditd",
       "category": "process_creation",
-      "description": "Linux auditd SYSCALL record field definitions",
+      "description": "Linux auditd SYSCALL records",
       "lastUpdated": "2026-01-28",
       "sourceUrl": "https://access.redhat.com/articles/4409591",
       "fieldMappings": {
@@ -71,23 +69,7 @@
           "CommandLine": "cmd",
           "ParentProcessId": "ppid",
           "ProcessId": "pid",
-          "User": "uid",
-          "AuditUser": "auid",
-          "EffectiveUser": "euid",
-          "FileSystemUser": "fsuid",
-          "GroupId": "gid",
-          "EffectiveGroup": "egid",
-          "FileSystemGroup": "fsgid",
-          "SetGroupId": "sgid",
-          "SetUserId": "suid",
-          "SessionId": "ses",
-          "TerminalType": "tty",
-          "ProcessName": "comm",
-          "Timestamp": "msg",
-          "Architecture": "arch",
-          "Syscall": "syscall",
-          "Success": "success",
-          "ExitCode": "exit"
+          "User": "uid"
         }
       }
     },
@@ -102,44 +84,7 @@
         "process_creation": {
           "ProcessName": "processImagePath",
           "ProcessId": "processIdentifier",
-          "ParentProcessId": "parentProcessIdentifier",
-          "Timestamp": "timestamp",
-          "EventMessage": "eventMessage",
-          "Subsystem": "subsystem",
-          "Category": "category",
-          "LogLevel": "logLevel",
-          "ActivityIdentifier": "activityIdentifier",
-          "ProcessImageUUID": "processImageUUID"
-        }
-      }
-    },
-    {
-      "product": "windows",
-      "service": "defender",
-      "category": "process_creation",
-      "description": "Microsoft Defender for Endpoint DeviceProcessEvents: Process creation and related events",
-      "lastUpdated": "2026-01-28",
-      "sourceUrl": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table",
-      "fieldMappings": {
-        "process_creation": {
-          "Image": "InitiatingProcessFileName",
-          "CommandLine": "ProcessCommandLine",
-          "ParentImage": "InitiatingProcessParentFileName",
-          "User": "AccountName",
-          "ProcessId": "ProcessId",
-          "ParentProcessId": "InitiatingProcessParentId",
-          "Timestamp": "Timestamp",
-          "DeviceName": "DeviceName",
-          "ProcessIntegrityLevel": "ProcessIntegrityLevel",
-          "ProcessTokenElevation": "ProcessTokenElevation",
-          "InitiatingProcessId": "InitiatingProcessId",
-          "InitiatingProcessCommandLine": "InitiatingProcessCommandLine",
-          "InitiatingProcessCreationTime": "InitiatingProcessCreationTime",
-          "InitiatingProcessAccountDomain": "InitiatingProcessAccountDomain",
-          "InitiatingProcessAccountName": "InitiatingProcessAccountName",
-          "SHA1": "SHA1",
-          "SHA256": "SHA256",
-          "MD5": "MD5"
+          "ParentProcessId": "parentProcessIdentifier"
         }
       }
     },
@@ -153,18 +98,58 @@
       "fieldMappings": {
         "authentication": {
           "User": "userPrincipalName",
-          "UserId": "userId",
           "IpAddress": "ipAddress",
-          "IpAddressFromResourceProvider": "ipAddressFromResourceProvider",
           "Status": "status",
-          "ErrorCode": "errorCode",
-          "DeviceId": "deviceId",
-          "DeviceDisplayName": "deviceDisplayName",
-          "ClientAppUsed": "clientAppUsed",
-          "ConditionalAccessStatus": "conditionalAccessStatus",
-          "RiskLevel": "riskLevel",
-          "ResourceDisplayName": "resourceDisplayName",
-          "CreatedDateTime": "createdDateTime"
+          "ClientAppUsed": "clientAppUsed"
+        }
+      }
+    },
+    {
+      "product": "azure",
+      "service": "activitylogs",
+      "category": "cloud_audit",
+      "description": "Azure Activity Logs for resource operations",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/activity-log",
+      "fieldMappings": {
+        "cloud_audit": {
+          "OperationName": "operationName",
+          "Caller": "caller",
+          "ResourceId": "resourceId",
+          "Status": "status"
+        }
+      }
+    },
+    {
+      "product": "aws",
+      "service": "cloudtrail",
+      "category": "cloud_audit",
+      "description": "AWS CloudTrail API activity logs",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference.html",
+      "fieldMappings": {
+        "cloud_audit": {
+          "EventName": "eventName",
+          "EventSource": "eventSource",
+          "UserIdentity": "userIdentity.arn",
+          "SourceIPAddress": "sourceIPAddress",
+          "AwsRegion": "awsRegion"
+        }
+      }
+    },
+    {
+      "product": "gcp",
+      "service": "audit",
+      "category": "cloud_audit",
+      "description": "Google Cloud Audit Logs",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://cloud.google.com/logging/docs/audit",
+      "fieldMappings": {
+        "cloud_audit": {
+          "MethodName": "protoPayload.methodName",
+          "ServiceName": "protoPayload.serviceName",
+          "PrincipalEmail": "protoPayload.authenticationInfo.principalEmail",
+          "CallerIp": "protoPayload.requestMetadata.callerIp"
         }
       }
     },
@@ -178,16 +163,59 @@
       "fieldMappings": {
         "admin_activity": {
           "Actor": "actor.email",
-          "ActorProfileId": "actor.profileId",
           "EventType": "events.type",
           "EventName": "events.name",
-          "IpAddress": "ipAddress",
-          "Timestamp": "id.time",
-          "UniqueId": "id.uniqueQualifier",
-          "ApplicationName": "id.applicationName",
-          "CustomerId": "id.customerId",
-          "OwnerDomain": "ownerDomain",
-          "Parameters": "events.parameters"
+          "IpAddress": "ipAddress"
+        }
+      }
+    },
+    {
+      "product": "okta",
+      "service": "system",
+      "category": "authentication",
+      "description": "Okta System Log events",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://developer.okta.com/docs/reference/api/system-log/",
+      "fieldMappings": {
+        "authentication": {
+          "Actor": "actor.displayName",
+          "EventType": "eventType",
+          "Outcome": "outcome.result",
+          "ClientIp": "client.ipAddress"
+        }
+      }
+    },
+    {
+      "product": "network",
+      "service": "firewall",
+      "category": "network_connection",
+      "description": "Network firewall logs",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "",
+      "fieldMappings": {
+        "network_connection": {
+          "SourceIp": "src_ip",
+          "DestinationIp": "dst_ip",
+          "SourcePort": "src_port",
+          "DestinationPort": "dst_port",
+          "Action": "action"
+        }
+      }
+    },
+    {
+      "product": "web",
+      "service": "proxy",
+      "category": "proxy",
+      "description": "Web proxy logs",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "",
+      "fieldMappings": {
+        "proxy": {
+          "Url": "url",
+          "Method": "method",
+          "UserAgent": "user_agent",
+          "Status": "status_code",
+          "ClientIp": "client_ip"
         }
       }
     }
