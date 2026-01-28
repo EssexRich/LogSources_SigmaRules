@@ -8,20 +8,17 @@ on:
       - 'scripts/intelligent-sigma-generator.js'
   workflow_dispatch:
   schedule:
-    - cron: '0 2 * * 0'  # Weekly on Sunday at 2 AM UTC
+    - cron: '0 2 * * 0'
 
 jobs:
   generate-rules:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -29,27 +26,14 @@ jobs:
           node-version: '20'
 
       - name: Run intelligent Sigma rule generator
-        run: |
-          node .github/scripts/intelligent-sigma-generator.js
-
-      - name: List generated rules
-        run: |
-          echo "Generated rules:"
-          find sigma-rules-intelligent -name "*.yml" | head -20
-          echo ""
-          echo "Total rules: $(find sigma-rules-intelligent -name "*.yml" | wc -l)"
+        run: node scripts/intelligent-sigma-generator.js
 
       - name: Commit and push rules
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Sigma Rule Generator"
-          
           git add sigma-rules-intelligent/ || true
-          
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "chore(sigma): regenerate intelligent Sigma rules from threat actor TTPs" -m "- Fetched latest threat actor data from EssexRich/ThreatActors-TTPs" -m "- Generated technique-specific rules for each actor" -m "- File structure: /sigma-rules-intelligent/[product]/[actor]/[technique].yml" -m "- Automated by GitHub Actions workflow"
-            git push origin HEAD:${{ github.ref }}
-            echo "✓ Rules committed and pushed"
-          else
-            echo "✓ No changes to commit"
+            git commit -m "chore(sigma): regenerate intelligent Sigma rules from threat actor TTPs"
+            git push
           fi
