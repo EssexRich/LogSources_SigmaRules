@@ -5,7 +5,10 @@ on:
     paths:
       - 'logsources.json'
       - '.github/workflows/sigma-rules-intelligent.yml'
+      - '.github/scripts/intelligent-sigma-generator.js'
   workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * 0'  # Weekly on Sunday at 2 AM UTC
 
 jobs:
   generate-rules:
@@ -25,329 +28,32 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Download MITRE ATT&CK data
-        run: |
-          echo "Fetching latest MITRE ATT&CK enterprise data..."
-          curl -s https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack.json \
-            -o mitre-attack.json
-          
-          # Extract just the techniques we care about for efficiency
-          node -e "
-            const data = require('./mitre-attack.json');
-            const techniques = data.objects
-              .filter(obj => obj.type === 'attack-pattern')
-              .map(t => ({
-                id: t.external_references?.find(r => r.source_name === 'mitre-attack')?.external_id,
-                name: t.name,
-                description: t.description,
-                kill_chain_phases: t.kill_chain_phases
-              }))
-              .filter(t => t.id);
-            
-            console.log('Extracted ' + techniques.length + ' techniques');
-            require('fs').writeFileSync('mitre-techniques.json', JSON.stringify(techniques, null, 2));
-          "
-
       - name: Run intelligent Sigma rule generator
         run: |
-          echo "Generating intelligent Sigma rules..."
-          node -e "
-            const fs = require('fs');
-            const path = require('path');
-            
-            // Load configuration
-            const TECHNIQUE_PATTERNS = {
-              'T1059.001': {
-                name: 'Command and Scripting Interpreter: PowerShell',
-                patterns: {
-                  'windows|security|process_creation': {
-                    description: 'Detects PowerShell process execution with suspicious flags',
-                    selection: [
-                      {
-                        filter: 'selection_powershell',
-                        Image: ['*powershell.exe', '*pwsh.exe'],
-                      },
-                      {
-                        filter: 'selection_obfuscation',
-                        CommandLine: ['*-EncodedCommand*', '*-enc*', '*bypass*', '*IEX*'],
-                      },
-                    ],
-                    condition: 'selection_powershell and selection_obfuscation',
-                  },
-                  'windows|sysmon|process_creation': {
-                    description: 'Detects encoded PowerShell commands via Sysmon',
-                    selection: [
-                      {
-                        filter: 'selection',
-                        Image: ['*powershell.exe', '*pwsh.exe'],
-                        CommandLine: ['*-EncodedCommand*', '*-enc*', '*bypass*'],
-                      },
-                    ],
-                    condition: 'selection',
-                  },
-                  'linux|auditd|process_creation': {
-                    description: 'Detects PowerShell on Linux systems',
-                    selection: [
-                      {
-                        filter: 'selection',
-                        Image: ['*/pwsh', '*/pwsh.exe'],
-                        CommandLine: ['*-EncodedCommand*', '*bypass*'],
-                      },
-                    ],
-                    condition: 'selection',
-                  },
-                },
-              },
-              'T1078.001': {
-                name: 'Valid Accounts: Default Accounts',
-                patterns: {
-                  'windows|security|process_creation': {
-                    description: 'Detects default account usage and privilege escalation',
-                    selection: [
-                      {
-                        filter: 'selection_defaults',
-                        SubjectUserName: ['*\$', '*SYSTEM', '*LOCAL SERVICE', '*NETWORK SERVICE'],
-                      },
-                      {
-                        filter: 'selection_elevation',
-                        TokenElevationType: ['%%1938'],
-                      },
-                    ],
-                    condition: 'selection_defaults and selection_elevation',
-                  },
-                  'm365|entra_id|authentication': {
-                    description: 'Detects risky sign-in activity patterns',
-                    selection: [
-                      {
-                        filter: 'selection',
-                        RiskLevel: 'high',
-                        AuthenticationDetails: '*MFA failed*',
-                      },
-                    ],
-                    condition: 'selection',
-                  },
-                },
-              },
-              'T1486': {
-                name: 'Data Encrypted for Impact',
-                patterns: {
-                  'windows|sysmon|process_creation': {
-                    description: 'Detects encryption tools with bulk operation flags',
-                    selection: [
-                      {
-                        filter: 'selection_tools',
-                        Image: ['*cipher.exe', '*certutil.exe', '*openssl.exe', '*gpg.exe'],
-                      },
-                      {
-                        filter: 'selection_flags',
-                        CommandLine: ['*/e*', '*-encrypt*', '*/s*', '*/r*'],
-                      },
-                    ],
-                    condition: 'selection_tools and selection_flags',
-                  },
-                  'linux|auditd|process_creation': {
-                    description: 'Detects encryption operations on Linux',
-                    selection: [
-                      {
-                        filter: 'selection',
-                        Image: ['*/openssl', '*/gpg', '*/cryptsetup'],
-                        CommandLine: ['*enc*', '*-e*', '*-encrypt*'],
-                      },
-                    ],
-                    condition: 'selection',
-                  },
-                },
-              },
-              'T1190': {
-                name: 'Exploit Public-Facing Application',
-                patterns: {
-                  'windows|sysmon|process_creation': {
-                    description: 'Detects web server spawning shell processes',
-                    selection: [
-                      {
-                        filter: 'selection_webserver',
-                        ParentImage: ['*w3wp.exe', '*apache.exe', '*nginx.exe', '*java.exe', '*node.exe'],
-                      },
-                      {
-                        filter: 'selection_shell',
-                        Image: ['*cmd.exe', '*powershell.exe', '*/bash', '*/sh'],
-                      },
-                    ],
-                    condition: 'selection_webserver and selection_shell',
-                  },
-                  'linux|auditd|process_creation': {
-                    description: 'Detects suspicious child processes from web services',
-                    selection: [
-                      {
-                        filter: 'selection',
-                        ParentProcessName: ['apache2', 'nginx', 'java', 'node'],
-                        Image: ['*/bash', '*/sh', '*/python'],
-                      },
-                    ],
-                    condition: 'selection',
-                  },
-                },
-              },
-              'T1566.001': {
-                name: 'Phishing: Spearphishing Attachment',
-                patterns: {
-                  'm365|entra_id|authentication': {
-                    description: 'Detects suspicious email attachments',
-                    selection: [
-                      {
-                        filter: 'selection',
-                        AttachmentExtension: ['exe', 'dll', 'scr', 'zip', 'rar', 'iso'],
-                      },
-                    ],
-                    condition: 'selection',
-                  },
-                },
-              },
-              'T1070.001': {
-                name: 'Indicator Removal: Clear Windows Event Logs',
-                patterns: {
-                  'windows|security|process_creation': {
-                    description: 'Detects event log clearing attempts',
-                    selection: [
-                      {
-                        filter: 'selection_wevtutil',
-                        Image: ['*wevtutil.exe'],
-                        CommandLine: ['*cl*', '*clear-log*', '*delete-log*'],
-                      },
-                      {
-                        filter: 'selection_powershell',
-                        Image: ['*powershell.exe'],
-                        CommandLine: ['*Clear-EventLog*', '*Remove-EventLog*'],
-                      },
-                    ],
-                    condition: 'selection_wevtutil or selection_powershell',
-                  },
-                  'windows|sysmon|process_creation': {
-                    description: 'Detects elevated event log clearing',
-                    selection: [
-                      {
-                        filter: 'selection',
-                        Image: ['*wevtutil.exe', '*powershell.exe'],
-                        CommandLine: ['*clear-log*', '*Clear-EventLog*'],
-                        IntegrityLevel: 'System',
-                      },
-                    ],
-                    condition: 'selection',
-                  },
-                },
-              },
-            };
+          node .github/scripts/intelligent-sigma-generator.js
 
-            const logsources = JSON.parse(fs.readFileSync('logsources.json')).logsources;
-            const baseDir = 'sigma-rules-intelligent';
-            
-            if (!fs.existsSync(baseDir)) {
-              fs.mkdirSync(baseDir, { recursive: true });
-            }
-
-            let count = 0;
-            const uuid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-              const r = Math.random() * 16 | 0, v = c === 'x' ? r : r & 0x3 | 0x8;
-              return v.toString(16);
-            });
-
-            Object.entries(TECHNIQUE_PATTERNS).forEach(([techId, techData]) => {
-              Object.entries(techData.patterns).forEach(([logsourceKey, patternDef]) => {
-                const [product, service, category] = logsourceKey.split('|');
-                const logsource = logsources.find(ls => 
-                  ls.product === product && ls.service === service && ls.category === category
-                );
-
-                if (!logsource) return;
-
-                const productDir = path.join(baseDir, product);
-                const serviceDir = path.join(productDir, service);
-                
-                if (!fs.existsSync(serviceDir)) {
-                  fs.mkdirSync(serviceDir, { recursive: true });
-                }
-
-                const now = new Date().toISOString().split('T')[0];
-                const selections = patternDef.selection.map(sel => {
-                  const lines = ['\`  ' + sel.filter + ':'];
-                  Object.entries(sel).forEach(([k, v]) => {
-                    if (k === 'filter') return;
-                    if (Array.isArray(v)) {
-                      lines.push('\`    ' + k + ':');
-                      v.forEach(val => lines.push('\`      - ' + val));
-                    } else {
-                      lines.push('\`    ' + k + ': ' + v);
-                    }
-                  });
-                  return lines.join('\\n');
-                }).join('\\n');
-
-                const rule = \`title: \${techData.name} (\${product.toUpperCase()})
-id: \${uuid()}
-description: >
-  \${patternDef.description}
-references:
-  - https://attack.mitre.org/techniques/\${techId}/
-  - https://incidentbuddy.ai/gapmatrix/techniques/\${techId}
-author: GapMATRIX Intelligent Generator
-date: \${now}
-status: experimental
-severity: medium
-
-logsource:
-  product: \${product}
-  service: \${service}
-  category: \${category}
-
-detection:
-\${selections}
-  condition: \${patternDef.condition}
-
-falsepositives:
-  - Legitimate system administration
-  - Authorized security testing
-
-tags:
-  - attack.\${techId}\`;
-
-                fs.writeFileSync(path.join(serviceDir, techId + '_' + category + '.yml'), rule);
-                count++;
-              });
-            });
-
-            console.log('Generated ' + count + ' intelligent Sigma rules');
-          "
-
-      - name: Validate generated rules
+      - name: List generated rules
         run: |
-          echo "Validating Sigma rules..."
-          
-          # Count rules by product
+          echo "Generated rules:"
+          find sigma-rules-intelligent -name "*.yml" | head -20
           echo ""
-          echo "Rules by product:"
-          for product in windows linux macos m365; do
-            if [ -d "sigma-rules-intelligent/\$product" ]; then
-              count=\$(find sigma-rules-intelligent/\$product -name '*.yml' | wc -l)
-              echo "  \$product: \$count rules"
-            fi
-          done
+          echo "Total rules: $(find sigma-rules-intelligent -name "*.yml" | wc -l)"
 
       - name: Commit and push rules
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Sigma Rule Generator"
           
-          # Add and commit the intelligent rules
           git add sigma-rules-intelligent/ || true
           
-          if [ -n "\$(git status --porcelain)" ]; then
-            git commit -m "chore(sigma): regenerate intelligent Sigma rules from logsources
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "chore(sigma): regenerate intelligent Sigma rules from threat actor TTPs
 
-- Generated technique-aware detection rules
-- Rules use field mappings from logsources.json
-- Product-specific rule variants for Windows, Linux, macOS, M365
+- Fetched latest threat actor data from EssexRich/ThreatActors-TTPs
+- Generated technique-specific rules for each actor
+- File structure: /sigma-rules-intelligent/[product]/[actor]/[technique].yml
 - Automated by GitHub Actions workflow"
-            git push origin HEAD:main
+            git push origin HEAD:${{ github.ref }}
             echo "✓ Rules committed and pushed"
           else
             echo "✓ No changes to commit"
