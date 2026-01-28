@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1557.004 Detection (linux)
+    id: 96e9bd60-5c14-4cc2-b05f-bf2eb281799a
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1557.004.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1557.004/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1557.004
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1557.004
+    
