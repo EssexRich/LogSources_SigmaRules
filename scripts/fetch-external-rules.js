@@ -67,7 +67,7 @@ function extractFromTOML(content, filePath) {
 /**
  * Extract technique IDs from Sigma/Splunk YAML content
  */
-function extractFromYAML(content, filePath) {
+function extractFromYAML(content, filePath, isSplunk = false) {
   const techniques = [];
   
   // Match attack.tXXXX tags
@@ -82,17 +82,24 @@ function extractFromYAML(content, filePath) {
     techniques.push(match[1]);
   }
   
-  // Extract detection block
-  const detectionMatch = content.match(/detection:\s*\n((?:[ \t]+[^\n]*\n?)*)/);
-  const query = detectionMatch ? detectionMatch[1] : null;
+  // Extract detection/search block
+  let query = null;
+  if (isSplunk) {
+    // Splunk uses 'search:' field
+    const searchMatch = content.match(/search:\s*[|>]?\s*['"]?([\s\S]*?)['"]?\s*(?:\nhow_to_implement:|$)/i);
+    query = searchMatch ? searchMatch[1].trim() : null;
+  } else {
+    const detectionMatch = content.match(/detection:\s*\n((?:[ \t]+[^\n]*\n?)*)/);
+    query = detectionMatch ? detectionMatch[1] : null;
+  }
   
-  // Extract title
-  const titleMatch = content.match(/title:\s*['"]?([^'"\n]+)['"]?/i);
+  // Extract title/name
+  const titleMatch = content.match(/(?:title|name):\s*['"]?([^'"\n]+)['"]?/i);
   const name = titleMatch ? titleMatch[1].trim() : path.basename(filePath);
   
-  // Extract logsource
+  // Extract logsource (Sigma style)
   const productMatch = content.match(/product:\s*(\w+)/i);
-  const product = productMatch ? productMatch[1].toLowerCase() : 'unknown';
+  let product = productMatch ? productMatch[1].toLowerCase() : null;
   
   const serviceMatch = content.match(/service:\s*(\w+)/i);
   const service = serviceMatch ? serviceMatch[1].toLowerCase() : null;
@@ -100,7 +107,56 @@ function extractFromYAML(content, filePath) {
   const categoryMatch = content.match(/category:\s*(\w+)/i);
   const category = categoryMatch ? categoryMatch[1].toLowerCase() : null;
   
+  // For Splunk, infer product from data_source or file path
+  if (isSplunk && !product) {
+    product = inferSplunkProduct(content, filePath);
+  }
+  
+  // Fall back to unknown
+  if (!product) product = 'unknown';
+  
   return { techniques: [...new Set(techniques)], query, name, product, service, category };
+}
+
+/**
+ * Infer product from Splunk detection file
+ */
+function inferSplunkProduct(content, filePath) {
+  const contentLower = content.toLowerCase();
+  const pathLower = filePath.toLowerCase();
+  
+  // Check data_source field
+  const dataSourceMatch = content.match(/data_source:\s*\n((?:\s*-\s*[^\n]+\n?)*)/i);
+  if (dataSourceMatch) {
+    const dataSources = dataSourceMatch[1].toLowerCase();
+    if (dataSources.includes('sysmon') || dataSources.includes('windows') || dataSources.includes('powershell')) return 'windows';
+    if (dataSources.includes('linux') || dataSources.includes('auditd')) return 'linux';
+    if (dataSources.includes('macos') || dataSources.includes('osquery')) return 'macos';
+    if (dataSources.includes('aws') || dataSources.includes('cloudtrail')) return 'aws';
+    if (dataSources.includes('azure') || dataSources.includes('o365')) return 'azure';
+    if (dataSources.includes('gcp') || dataSources.includes('google')) return 'gcp';
+  }
+  
+  // Check file path
+  if (pathLower.includes('/endpoint/')) {
+    // Endpoint detections - check content for OS hints
+    if (contentLower.includes('eventcode') || contentLower.includes('sysmon') || contentLower.includes('powershell') || contentLower.includes('windows')) return 'windows';
+    if (contentLower.includes('auditd') || contentLower.includes('/bin/') || contentLower.includes('linux')) return 'linux';
+    return 'windows'; // Default endpoint to windows
+  }
+  if (pathLower.includes('/cloud/')) return 'cloud';
+  if (pathLower.includes('/network/')) return 'network';
+  if (pathLower.includes('/application/')) return 'application';
+  if (pathLower.includes('/web/')) return 'web';
+  
+  // Check content for OS/platform hints
+  if (contentLower.includes('eventcode=') || contentLower.includes('sourcetype=wineventlog') || contentLower.includes('xmlwineventlog')) return 'windows';
+  if (contentLower.includes('sourcetype=linux') || contentLower.includes('sourcetype=syslog')) return 'linux';
+  if (contentLower.includes('sourcetype=aws') || contentLower.includes('cloudtrail')) return 'aws';
+  if (contentLower.includes('sourcetype=azure') || contentLower.includes('o365')) return 'azure';
+  if (contentLower.includes('sourcetype=gcp') || contentLower.includes('google')) return 'gcp';
+  
+  return null;
 }
 
 /**
@@ -193,7 +249,7 @@ function processSplunk(reposDir) {
   for (const file of files) {
     try {
       const content = fs.readFileSync(file, 'utf8');
-      const parsed = extractFromYAML(content, file);
+      const parsed = extractFromYAML(content, file, true); // isSplunk = true
       const relativePath = file.replace(reposDir + '/security_content/', '');
       
       for (const tech of parsed.techniques) {
