@@ -227,9 +227,22 @@ async function main() {
       techniqueMap[tech.id] = tech;
     });
     
+    console.log(`[SigmaGen]   - Built intrusion-set map with ${Object.keys(intrusionSetMap).length} IDs`);
+    console.log(`[SigmaGen]   - Built technique map with ${Object.keys(techniqueMap).length} IDs`);
+    console.log(`[SigmaGen]   - Sample intrusion-set IDs: ${Object.keys(intrusionSetMap).slice(0, 3).join(', ')}`);
+    console.log(`[SigmaGen]   - Sample technique IDs: ${Object.keys(techniqueMap).slice(0, 3).join(', ')}`);
+    
     if (Array.isArray(relationships)) {
       let relationshipCount = 0;
-      relationships.forEach(rel => {
+      let matchedCount = 0;
+      let sampleRelIds = [];
+      
+      relationships.forEach((rel, idx) => {
+        // Collect sample relationship IDs for debugging
+        if (idx < 5) {
+          sampleRelIds.push({ source: rel.source_ref, target: rel.target_ref });
+        }
+        
         // Look for intrusion-set -> attack-pattern relationships
         if (rel.relationship_type === 'uses') {
           const sourceType = rel.source_ref.split('--')[0];
@@ -239,6 +252,10 @@ async function main() {
             // Use exact ID matching with maps
             const actorName = intrusionSetMap[rel.source_ref];
             const techRef = techniqueMap[rel.target_ref];
+            
+            if (actorName && techRef) {
+              matchedCount++;
+            }
             
             if (techRef && techRef.external_references && actorName) {
               const mitreRef = techRef.external_references.find(ref => ref.external_id && ref.external_id.match(/^T\d+(\.\d+)?$/));
@@ -256,7 +273,9 @@ async function main() {
           }
         }
       });
-      console.log(`[SigmaGen]   ✓ Loaded ${relationshipCount} intrusion-set TTPs`);
+      
+      console.log(`[SigmaGen]   - Sample relationship IDs: ${sampleRelIds.map(r => `(${r.source.substring(0,20)}... -> ${r.target.substring(0,20)}...)`).join(', ')}`);
+      console.log(`[SigmaGen]   ✓ Loaded ${relationshipCount} intrusion-set TTPs (${matchedCount} actor-technique matches)`);
     }
   } catch (error) {
     console.warn('[SigmaGen]   ⚠ Warning: Could not fetch MITRE data:', error.message);
