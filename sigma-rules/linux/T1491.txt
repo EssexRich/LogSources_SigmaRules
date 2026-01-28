@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1491 Detection (linux)
+    id: b67a0048-d4a2-4d5c-9ab6-a9d7af610b2e
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1491.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1491/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1491
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1491
+    
