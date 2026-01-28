@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T5946 Detection (m365)
+    id: 752c6d23-533f-44c6-abc1-1dd3ce9f4b98
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T5946.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T5946/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T5946
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T5946
+    
