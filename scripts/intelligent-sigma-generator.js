@@ -205,12 +205,10 @@ async function main() {
       const techId = `T${i}`;
       try {
         const tech = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques/${techId}.json`);
-        if (tech && tech.name && tech.external_references) {
-          const mitreRef = tech.external_references.find(ref => ref.external_id === techId);
-          if (mitreRef) {
-            techniqueNames[techId] = tech.name;
-            techCount++;
-          }
+        if (tech && tech.name) {
+          // Just use the T-number as key, we already know what it is from the filename
+          techniqueNames[techId] = tech.name;
+          techCount++;
         }
       } catch (e) {
         // File doesn't exist, continue
