@@ -13,7 +13,7 @@ function fetchURL(url) {
         try {
           resolve(JSON.parse(data));
         } catch (e) {
-          reject(new Error(`Failed to parse JSON from ${url}`));
+          reject(new Error(`Failed to parse JSON`));
         }
       });
     }).on('error', reject);
@@ -88,101 +88,36 @@ function buildDetectionForTechnique(techniqueId, techName, logsource) {
   
   if (logsource.product === 'windows' && logsource.service === 'sysmon') {
     if (techLower.includes('powershell') || techLower.includes('command') || techLower.includes('script') || techLower.includes('interpreter')) {
-      return {
-        'Image|endswith': ['powershell.exe', 'pwsh.exe', 'cmd.exe'],
-        'CommandLine|contains': ['-EncodedCommand', '-enc', 'bypass', 'IEX']
-      };
+      return { 'Image|endswith': ['powershell.exe', 'pwsh.exe', 'cmd.exe'], 'CommandLine|contains': ['-EncodedCommand', '-enc', 'bypass'] };
     }
     if (techLower.includes('encryption') || techLower.includes('encrypt')) {
-      return {
-        'Image|endswith': ['cipher.exe', 'certutil.exe', 'openssl.exe'],
-        'CommandLine|contains': ['/e', '/s', '-encrypt', '-aes']
-      };
+      return { 'Image|endswith': ['cipher.exe', 'certutil.exe'], 'CommandLine|contains': ['/e', '/s'] };
     }
-    if (techLower.includes('credential') || techLower.includes('password') || techLower.includes('dump')) {
-      return {
-        'Image|endswith': ['lsass.exe', 'mimikatz.exe', 'procdump.exe'],
-        'CommandLine|contains': ['sekurlsa', 'logonpasswords', '/prot:off']
-      };
-    }
-    if (techLower.includes('lateral') || techLower.includes('remote')) {
-      return {
-        'Image|endswith': ['svchost.exe', 'wmiprvse.exe', 'rundll32.exe'],
-        'CommandLine|contains': ['\\\\', 'wmic', 'psexec']
-      };
+    if (techLower.includes('credential') || techLower.includes('dump')) {
+      return { 'Image|endswith': ['lsass.exe', 'mimikatz.exe'], 'CommandLine|contains': ['sekurlsa'] };
     }
   }
   
   if (logsource.product === 'windows' && logsource.service === 'security') {
-    if (techLower.includes('account') || techLower.includes('login') || techLower.includes('logon')) {
-      return {
-        'EventID': ['4624', '4625', '4648'],
-        'AccountName|endswith': ['$', 'SYSTEM', 'LOCAL SERVICE']
-      };
-    }
-  }
-  
-  if (logsource.product === 'windows' && logsource.service === 'defender') {
-    if (techLower.includes('malware') || techLower.includes('threat') || techLower.includes('detect')) {
-      return {
-        'ActionType': ['Detected', 'Blocked', 'Remediated'],
-        'ThreatName': ['Malware', 'PUA', 'Trojan']
-      };
+    if (techLower.includes('account') || techLower.includes('logon') || techLower.includes('credential')) {
+      return { 'EventID': ['4624', '4625', '4648'] };
     }
   }
   
   if (logsource.product === 'linux' && logsource.service === 'auditd') {
-    if (techLower.includes('command') || techLower.includes('execution') || techLower.includes('shell')) {
-      return {
-        'Image|endswith': ['/bash', '/sh', '/pwsh', '/python'],
-        'CommandLine|contains': ['bash', 'sh', 'python', 'perl']
-      };
-    }
-    if (techLower.includes('encryption') || techLower.includes('encrypt')) {
-      return {
-        'Image|endswith': ['/openssl', '/gpg', '/cryptsetup'],
-        'CommandLine|contains': ['enc', '-e', '-encrypt']
-      };
-    }
-  }
-  
-  if (logsource.product === 'macos' && logsource.service === 'unified_logging') {
-    if (techLower.includes('execution') || techLower.includes('command')) {
-      return {
-        'ProcessName|endswith': ['/bash', '/sh', '/zsh'],
-        'EventMessage|contains': ['executed', 'launch']
-      };
+    if (techLower.includes('command') || techLower.includes('execution')) {
+      return { 'Image|endswith': ['/bash', '/sh', '/python'] };
     }
   }
   
   if (logsource.product === 'm365' && logsource.service === 'entra_id') {
-    if (techLower.includes('phishing') || techLower.includes('attachment') || techLower.includes('email')) {
-      return {
-        'AttachmentExtension|in': ['exe', 'dll', 'zip', 'iso', 'scr']
-      };
-    }
-    if (techLower.includes('credential') || techLower.includes('sign') || techLower.includes('password')) {
-      return {
-        'RiskLevel': 'high',
-        'AuthenticationDetails|contains': ['failed', 'suspicious']
-      };
-    }
-  }
-  
-  if (logsource.product === 'google' && logsource.service === 'workspace') {
     if (techLower.includes('phishing') || techLower.includes('email')) {
-      return {
-        'email_subject|contains': ['invoice', 'urgent', 'confirm'],
-        'email_from|endswith': ['.ru', '.cn', '.tk']
-      };
+      return { 'AttachmentExtension|in': ['exe', 'dll', 'zip'] };
     }
   }
   
-  // Generic fallback
-  return {
-    'Image|contains': 'process',
-    'CommandLine|contains': 'cmd'
-  };
+  // Fallback
+  return { 'Image|contains': 'process', 'CommandLine|contains': 'cmd' };
 }
 
 async function main() {
@@ -204,53 +139,83 @@ async function main() {
     process.exit(1);
   }
 
-  // Fetch threat actor TTPs
-  console.log('\n[SigmaGen] Fetching threat actor TTPs from EssexRich/ThreatActors-TTPs...');
-  let threatActorIndex = {};
-  const techniqueToActors = {};
+  // Fetch ransomware gangs from ThreatActors-TTPs
+  console.log('\n[SigmaGen] Fetching ransomware gangs from EssexRich/ThreatActors-TTPs...');
+  let ransomwareActorMap = {};
   try {
-    threatActorIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/ThreatActors-TTPs/main/ttp-index.json');
-    if (threatActorIndex.actors) {
-      threatActorIndex.actors.forEach((actor) => {
-        actor.techniques.forEach((technique) => {
-          if (!techniqueToActors[technique]) {
-            techniqueToActors[technique] = [];
+    const ttpIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/ThreatActors-TTPs/main/ttp-index.json');
+    if (ttpIndex.actors) {
+      ttpIndex.actors.forEach(actor => {
+        actor.techniques.forEach(tech => {
+          if (!ransomwareActorMap[tech]) {
+            ransomwareActorMap[tech] = [];
           }
-          techniqueToActors[technique].push(actor.name);
+          ransomwareActorMap[tech].push(actor.name);
         });
       });
-      console.log(`[SigmaGen] Loaded ${threatActorIndex.actorCount} threat actors`);
+      console.log(`[SigmaGen] Loaded ${ttpIndex.actorCount} ransomware gangs`);
     }
   } catch (error) {
-    console.warn('[SigmaGen] Warning: Could not fetch threat actors:', error.message);
+    console.warn('[SigmaGen] Warning: Could not fetch ransomware gangs:', error.message);
   }
 
-  // Fetch MITRE techniques from vectorized repo
-  console.log('\n[SigmaGen] Fetching MITRE ATT&CK techniques...');
-  let techniqueMap = {};
+  // Fetch MITRE relationships to map intrusion-sets to techniques
+  console.log('\n[SigmaGen] Fetching MITRE relationships from EssexRich/mitre_attack...');
+  let mitreActorMap = {};
+  let techniqueNames = {};
   try {
-    const mitreIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/index.json');
-    if (mitreIndex.techniques) {
-      mitreIndex.techniques.forEach((tech) => {
-        techniqueMap[tech.id] = {
-          name: tech.name,
-          description: tech.description
-        };
+    const relationships = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/relationships/index.json');
+    if (Array.isArray(relationships)) {
+      relationships.forEach(rel => {
+        // source_ref is like "intrusion-set--123", target_ref is like "attack-pattern--456"
+        if (rel.relationship_type === 'uses' && rel.source_ref.includes('intrusion-set') && rel.target_ref.includes('attack-pattern')) {
+          const source_id = rel.source_ref.split('--')[1];
+          const target_id = rel.target_ref.split('--')[1];
+          
+          if (!mitreActorMap[target_id]) {
+            mitreActorMap[target_id] = [];
+          }
+          mitreActorMap[target_id].push(source_id);
+        }
       });
-      console.log(`[SigmaGen] Loaded ${Object.keys(techniqueMap).length} MITRE techniques`);
+      console.log(`[SigmaGen] Loaded ${Object.keys(mitreActorMap).length} MITRE techniques from relationships`);
     }
   } catch (error) {
-    console.warn('[SigmaGen] Warning: Could not fetch from mitre_attack repo, using threat actor data only');
-    // Fallback: use techniques from threat actors
-    Object.keys(techniqueToActors).forEach(techniqueId => {
-      techniqueMap[techniqueId] = {
-        name: techniqueId,
-        description: techniqueId
-      };
-    });
+    console.warn('[SigmaGen] Warning: Could not fetch MITRE relationships:', error.message);
   }
 
-  console.log(`[SigmaGen] Total techniques: ${Object.keys(techniqueMap).length}`);
+  // Fetch MITRE technique names
+  console.log('\n[SigmaGen] Fetching MITRE technique names...');
+  try {
+    const mitreIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/index.json');
+    if (mitreIndex.techniques) {
+      techniqueNames = mitreIndex.techniques;
+      console.log(`[SigmaGen] Loaded ${Object.keys(techniqueNames).length} technique names`);
+    }
+  } catch (error) {
+    console.warn('[SigmaGen] Warning: Could not fetch MITRE index');
+  }
+
+  // Combine all actor-technique mappings
+  const allActorTechMap = {};
+  
+  // Add ransomware gangs
+  Object.entries(ransomwareActorMap).forEach(([tech, actors]) => {
+    if (!allActorTechMap[tech]) {
+      allActorTechMap[tech] = [];
+    }
+    allActorTechMap[tech].push(...actors);
+  });
+  
+  // Add MITRE intrusion-sets
+  Object.entries(mitreActorMap).forEach(([tech, actors]) => {
+    if (!allActorTechMap[tech]) {
+      allActorTechMap[tech] = [];
+    }
+    allActorTechMap[tech].push(...actors);
+  });
+
+  console.log(`\n[SigmaGen] Total techniques with actors: ${Object.keys(allActorTechMap).length}`);
 
   // Create output directory
   const baseDir = path.join(process.cwd(), 'sigma-rules-intelligent');
@@ -262,26 +227,24 @@ async function main() {
   let totalRulesGenerated = 0;
   let techniquesProcessed = 0;
 
-  // Generate rules for ALL techniques
-  Object.entries(techniqueMap).forEach(([techniqueId, techData]) => {
-    const actors = techniqueToActors[techniqueId] || [];
+  // Generate rules for all techniques with actors
+  Object.entries(allActorTechMap).forEach(([techniqueId, actors]) => {
+    const techName = techniqueNames[techniqueId] || techniqueId;
     
-    if (actors.length === 0) {
-      return; // Skip techniques with no actors
-    }
-
     techniquesProcessed++;
     if (techniquesProcessed % 50 === 0) {
       console.log(`[SigmaGen] Processed ${techniquesProcessed} techniques...`);
     }
 
-    // For each logsource, generate a rule for each actor
+    // For each logsource, generate a rule for each unique actor
+    const uniqueActors = [...new Set(actors)];
+    
     logsources.forEach((logsource) => {
-      const conditions = buildDetectionForTechnique(techniqueId, techData.name, logsource);
+      const conditions = buildDetectionForTechnique(techniqueId, techName, logsource);
       if (!conditions) return;
 
-      actors.forEach((actor) => {
-        const rule = generateSigmaRule(techniqueId, techData.name, logsource, conditions);
+      uniqueActors.forEach((actor) => {
+        const rule = generateSigmaRule(techniqueId, techName, logsource, conditions);
 
         // Create actor-specific directory
         const actorDir = path.join(baseDir, logsource.product, actor);
@@ -299,7 +262,9 @@ async function main() {
   });
 
   console.log(`\n[SigmaGen] ✓ Generated ${totalRulesGenerated} intelligent Sigma rules`);
-  console.log(`[SigmaGen] From ${techniquesProcessed} techniques and ${Object.keys(techniqueToActors).length} unique threat actors`);
+  console.log(`[SigmaGen] From ${techniquesProcessed} techniques`);
+  console.log(`[SigmaGen] Ransomware gangs: ${Object.keys(ransomwareActorMap).length} techniques`);
+  console.log(`[SigmaGen] MITRE intrusion-sets: ${Object.keys(mitreActorMap).length} techniques`);
   console.log(`[SigmaGen] Rules saved to: ${baseDir}`);
 }
 
