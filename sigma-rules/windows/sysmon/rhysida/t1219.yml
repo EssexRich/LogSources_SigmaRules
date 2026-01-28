@@ -1,0 +1,26 @@
+title: Remote Access Tools - Rhysida (sysmon)
+id: bfa1e88e-2767-43d8-9ce5-830a93ea05c5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1219 (Remote Access Tools).
+  Associated threat actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_vnc_virtual_network_computing_from_the_internet.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1219
+  - actor.rhysida
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

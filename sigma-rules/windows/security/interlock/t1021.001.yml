@@ -1,0 +1,30 @@
+title: Remote Desktop Protocol - Interlock (security)
+id: 99e1f346-8b7b-40fd-83e0-fe7a3d737bb3
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1021.001 (Remote Desktop Protocol).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1021/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_rdp_localhost_login.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1021.001
+  - actor.interlock
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4624'
+    LogonType|contains:
+      - '10'
+      - '::1'
+      - '127.0.0.1'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

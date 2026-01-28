@@ -1,0 +1,26 @@
+title: Indicator Removal from Tools - DoNex (sysmon)
+id: fce84590-f428-417e-840f-0f4e64bfed37
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027.005 (Indicator Removal from Tools).
+  Associated threat actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1027/005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_sdelete_potential_secure_deletion.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027.005
+  - actor.donex
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

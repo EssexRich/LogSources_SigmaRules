@@ -1,0 +1,29 @@
+title: NTDS - Ignoble Scorpius (sysmon)
+id: 2da11cff-ad55-4493-86a9-375eef8cc54f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.003 (NTDS).
+  Associated threat actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1003/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_cmdline_dump_tool.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.003
+  - actor.ignoble_scorpius
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.pe.original_file_name|contains: 'diskshadow.exe'
+    process.name|contains: 'diskshadow.exe'
+    process.args|contains: '/s'
+    process.command_line|contains: '*comsvcs*#*24*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

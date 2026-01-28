@@ -1,0 +1,28 @@
+title: Process Discovery - Beast (auditd)
+id: 51b27679-dc20-488e-aa40-04ab2c192c88
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1057 (Process Discovery).
+  Associated threat actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1057/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_susp_discovery_sysinfo_syscall.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1057
+  - actor.beast
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains: 'SYSCALL'
+    SYSCALL|contains: 'sysinfo'
+    exe|contains: '/bin/splunkd'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

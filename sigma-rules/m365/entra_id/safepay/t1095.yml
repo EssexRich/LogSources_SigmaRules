@@ -1,0 +1,28 @@
+title: Non-Application Layer Protocol - SafePay (entra_id)
+id: 60c9d487-aaa5-402e-a4e0-bd8e8384d330
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1095 (Non-Application Layer Protocol).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1095/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_connection_attempt_by_non_ssh_root_session.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1095
+  - actor.safepay
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.executable|contains:
+      - '/bin/ssh'
+      - '/usr/bin/sshpass'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Replication Through Removable Media - BianLian (entra_id)
+id: 7154963c-8589-432f-95fa-a44912d603e9
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1091 (Replication Through Removable Media).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1091/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/initial_access_exfiltration_new_usb_device_mounted.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1091
+  - actor.bianlian
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

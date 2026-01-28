@@ -1,0 +1,32 @@
+title: Lateral Tool Transfer - Cl0p (security)
+id: 8aa99ce9-773e-491a-b73e-c173245e4cef
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1570 (Lateral Tool Transfer).
+  Associated threat actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1570/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_metasploit_or_impacket_smb_psexec_service_install.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1570
+  - actor.cl0p
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4697'
+    ServiceFileName|contains: '^%systemroot%\\[a-zA-Z]{8}\.exe$'
+    ServiceName|contains:
+      - '(^[a-zA-Z]{4}$)|(^[a-zA-Z]{8}$)|(^[a-zA-Z]{16}$)'
+      - 'PSEXESVC'
+    ServiceStartType|contains: '3  # on-demand start, see https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4697'
+    ServiceType|contains: '0x10'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

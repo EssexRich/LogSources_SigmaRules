@@ -1,0 +1,31 @@
+title: System Owner/User Discovery - LockBit (auditd)
+id: f6969de2-a573-4802-82e6-6480c2b1f9c1
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1033 (System Owner/User Discovery).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1033/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_user_discovery.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1033
+  - actor.lockbit
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'EXECVE'
+      - 'hostname'
+      - 'id'
+      - 'last'
+      - 'uname'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

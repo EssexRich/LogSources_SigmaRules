@@ -1,0 +1,26 @@
+title: Debugger Evasion - BlackBasta (security)
+id: 2e155be5-29a9-47d1-b3c9-d08b26bb79cc
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1622 (Debugger Evasion).
+  Associated threat actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1622/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_pua_process_hacker.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1622
+  - actor.blackbasta
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

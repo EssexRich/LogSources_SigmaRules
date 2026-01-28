@@ -1,0 +1,26 @@
+title: Obfuscated Files or Information - Shinra (entra_id)
+id: 1c3cb10c-8c03-4ea9-921b-6ef80b744b9e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027 (Obfuscated Files or Information).
+  Associated threat actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1027/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_base64_encoding_or_decoding_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027
+  - actor.shinra
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

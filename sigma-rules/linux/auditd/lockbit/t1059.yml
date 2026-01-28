@@ -1,0 +1,30 @@
+title: Command and Scripting Interpreter - LockBit (auditd)
+id: 88830dd6-fc24-4f69-a2f6-df094e2d30d6
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059 (Command and Scripting Interpreter).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1059/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/path/lnx_auditd_bpfdoor_file_accessed.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059
+  - actor.lockbit
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'PATH'
+      - '/var/run/haldrund.pid'
+      - '/var/run/xinetd.lock'
+      - '/var/run/kdevrund.pid'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

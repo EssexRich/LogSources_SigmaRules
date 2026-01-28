@@ -1,0 +1,35 @@
+title: Data Encrypted for Impact - Ignoble Scorpius (entra_id)
+id: b933df7c-741f-49df-a7a7-6361b2478d6f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1486 (Data Encrypted for Impact).
+  Associated threat actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1486/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/impact_potential_linux_ransomware_file_encryption.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1486
+  - actor.ignoble_scorpius
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    file.extension|contains: '?*'
+    process.executable|contains:
+      - './*'
+      - '/run/*'
+    file.path|contains:
+      - '/home/*/Downloads/*'
+      - '/var/www/*'
+    process.name|contains:
+      - 'dpkg'
+      - 'suldownloader'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

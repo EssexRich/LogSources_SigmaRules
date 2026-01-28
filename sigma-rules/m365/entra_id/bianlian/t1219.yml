@@ -1,0 +1,26 @@
+title: Remote Access Tools - BianLian (entra_id)
+id: a961be26-7660-4dd8-9165-dab90f64027e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1219 (Remote Access Tools).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_vnc_virtual_network_computing_from_the_internet.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1219
+  - actor.bianlian
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

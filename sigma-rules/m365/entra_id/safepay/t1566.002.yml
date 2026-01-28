@@ -1,0 +1,29 @@
+title: Spearphishing Link - SafePay (entra_id)
+id: f7302cdd-7288-4a0b-bb96-24d3adece03e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1566.002 (Spearphishing Link).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1566/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/initial_access_object_copied_to_external_drive_with_app_consent.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1566.002
+  - actor.safepay
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    google_workspace.drive.file.type|contains:
+      - 'script'
+      - 'document'
+    google_workspace.token.client.id|contains: '*apps.googleusercontent.com'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

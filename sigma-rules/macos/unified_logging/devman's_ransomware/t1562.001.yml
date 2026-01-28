@@ -1,0 +1,26 @@
+title: Disable or Modify Tools - Devman's Ransomware (unified_logging)
+id: fc89aadc-8f17-42a8-b8d3-f71c0e51a223
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562.001 (Disable or Modify Tools).
+  Associated threat actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1562/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_attempt_to_disable_iptables_or_firewall.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+  - actor.devman's_ransomware
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,36 @@
+title: Remote Desktop Protocol - Kazu (defender)
+id: c6cea54b-bdf1-4c8c-b39e-9b5f0ff72e87
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1021.001 (Remote Desktop Protocol).
+  Associated threat actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1021/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/lateral_movement_evasion_rdp_shadowing.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1021.001
+  - actor.kazu
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    registry.value|contains: 'Shadow'
+    registry.path|contains: '*\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services\\Shadow'
+    registry.data.strings|contains:
+      - '1'
+      - '0x00000004'
+    process.name|contains:
+      - 'RdpSaUacHelper.exe'
+      - 'RdpSaProxy.exe'
+    process.parent.name|contains: 'svchost.exe'
+    process.pe.original_file_name|contains: 'mstsc.exe'
+    process.args|contains: '/shadow:*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

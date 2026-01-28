@@ -1,0 +1,27 @@
+title: Bypass User Account Control - INC Ransom (entra_id)
+id: d9cad4ca-c40a-4e0f-a589-fbd9a1fa489a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1548.002 (Bypass User Account Control).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1548/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_krbrelayup_suspicious_logon.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1548.002
+  - actor.inc_ransom
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    winlog.event_data.AuthenticationPackageName|contains: 'Kerberos'
+    winlog.event_data.TargetUserSid|contains: 'S-1-5-21-*-500'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

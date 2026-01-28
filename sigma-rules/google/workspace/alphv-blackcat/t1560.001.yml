@@ -1,0 +1,26 @@
+title: Archive via Utility - ALPHV-BlackCat (workspace)
+id: 9ca76020-d2f3-4d90-8b94-05c9d950f56a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1560.001 (Archive via Utility).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1560/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/credential_access_collection_sensitive_files_compression_inside_a_container.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1560.001
+  - actor.alphv-blackcat
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

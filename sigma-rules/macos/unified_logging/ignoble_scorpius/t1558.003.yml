@@ -1,0 +1,26 @@
+title: Kerberoasting - Ignoble Scorpius (unified_logging)
+id: 78a67c34-2936-4681-85ca-b64445693abd
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1558.003 (Kerberoasting).
+  Associated threat actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1558/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_kerberosdump_kcc.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1558.003
+  - actor.ignoble_scorpius
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

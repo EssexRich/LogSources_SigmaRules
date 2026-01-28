@@ -1,0 +1,26 @@
+title: Native API - ALPHV-BlackCat (security)
+id: 55d15d8f-62ea-4c91-84af-99f686dd16ba
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1106 (Native API).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1106/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_posh_audio_capture.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1106
+  - actor.alphv-blackcat
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    powershell.file.script_block_text|contains: 'sentinelbreakpoints'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

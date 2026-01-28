@@ -1,0 +1,30 @@
+title: Video Capture - Brain Cipher (auditd)
+id: c950a457-5bc1-407d-84a3-4a83610f8241
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1125 (Video Capture).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1125/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/collection_potential_video_recording_or_screenshot_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1125
+  - actor.brain_cipher
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    host.os.type|contains: 'linux'
+    event.type|contains: 'start'
+    event.action|contains: 'exec'
+    process.name|contains: 'gnome-screenshot'
+    process.args|contains: '-h'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,27 @@
+title: Use Alternate Authentication Material - Hive (workspace)
+id: 70bcc937-a434-424c-b4c0-232245a540ff
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1550 (Use Alternate Authentication Material).
+  Associated threat actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1550/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/defense_evasion_google_workspace_new_oauth_login_from_third_party_application.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1550
+  - actor.hive
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    event.dataset|contains: 'google_workspace.token'
+    event.action|contains: 'authorize'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

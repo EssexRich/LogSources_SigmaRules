@@ -1,0 +1,26 @@
+title: System Network Configuration Discovery - Chaos (auditd)
+id: 3aafd934-bcc2-42dd-b769-0da6bb122acc
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1016 (System Network Configuration Discovery).
+  Associated threat actor: Chaos
+references:
+  - https://attack.mitre.org/techniques/T1016/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_dns_enumeration.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1016
+  - actor.chaos
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

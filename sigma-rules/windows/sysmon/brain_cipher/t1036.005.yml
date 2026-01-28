@@ -1,0 +1,35 @@
+title: Match Legitimate Resource Name or Location - Brain Cipher (sysmon)
+id: 1d7ed00d-eaa2-4139-9a35-024f5bea977a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1036.005 (Match Legitimate Resource Name or Location).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1036/005/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_communication_apps_suspicious_child_process.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1036.005
+  - actor.brain_cipher
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.parent.name|contains: 'thunderbird.exe'
+    process.executable|contains:
+      - '?:\\Windows\\splwow64.exe'
+      - '?:\\Windows\\System32\\spool\\drivers\\x64\\3\\*.EXE'
+    process.code_signature.subject_name|contains: 'Mozilla Corporation'
+    process.name|contains: 'cmd.exe'
+    process.command_line|contains: 'C:\\Windows\\system32\\cmd.exe /d /s /c \'
+    process.args|contains:
+      - 'C:\\WINDOWS/System32/nvidia-smi.exe'
+      - 'C:\\Windows\\System32\\DriverStore\\FileRepository/*/nvidia-smi.exe*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

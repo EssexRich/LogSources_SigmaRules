@@ -1,0 +1,26 @@
+title: Compile After Delivery - Brain Cipher (entra_id)
+id: 2e217880-b22b-4556-af10-71292b677cc4
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027.004 (Compile After Delivery).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1027/004/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_genai_process_compiling_executables.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027.004
+  - actor.brain_cipher
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

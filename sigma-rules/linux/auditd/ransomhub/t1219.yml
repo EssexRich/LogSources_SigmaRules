@@ -1,0 +1,26 @@
+title: Remote Access Tools - RansomHub (auditd)
+id: 08173a39-2b35-470f-837b-567dc171b3ba
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1219 (Remote Access Tools).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_vnc_virtual_network_computing_from_the_internet.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1219
+  - actor.ransomhub
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Multi-hop Proxy - Vice Society (entra_id)
+id: a29f0f63-4d0d-47e0-b142-c9c9f5b61863
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1090.003 (Multi-hop Proxy).
+  Associated threat actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1090/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_tor_activity_to_the_internet.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1090.003
+  - actor.vice_society
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

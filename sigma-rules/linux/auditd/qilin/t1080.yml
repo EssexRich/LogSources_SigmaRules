@@ -1,0 +1,26 @@
+title: Taint Shared Content - Qilin (auditd)
+id: 4029560b-58f6-4a32-835b-7e930dae9a92
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1080 (Taint Shared Content).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1080/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/lateral_movement_onedrive_malware_uploaded.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1080
+  - actor.qilin
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

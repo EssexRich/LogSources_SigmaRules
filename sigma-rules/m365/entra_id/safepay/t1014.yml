@@ -1,0 +1,28 @@
+title: Rootkit - SafePay (entra_id)
+id: 8a4e7596-b5e7-4801-8251-d7a681275e46
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1014 (Rootkit).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1014/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/fim/persistence_suspicious_file_modifications.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1014
+  - actor.safepay
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    file.path|contains:
+      - '/var/spool/cron/crontabs/tmp.*'
+      - '/root/.ssh/known_hosts.*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

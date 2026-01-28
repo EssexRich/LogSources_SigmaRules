@@ -1,0 +1,26 @@
+title: System Network Connections Discovery - SafePay (defender)
+id: 6ab7bb3d-b49c-4c2d-822a-1f93f6be4e8b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1049 (System Network Connections Discovery).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1049/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_dns_enumeration.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1049
+  - actor.safepay
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

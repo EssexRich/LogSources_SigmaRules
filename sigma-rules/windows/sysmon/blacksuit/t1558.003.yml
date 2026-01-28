@@ -1,0 +1,26 @@
+title: Kerberoasting - BlackSuit (sysmon)
+id: 26623a36-a722-4b0f-b9a5-2a309682fd02
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1558.003 (Kerberoasting).
+  Associated threat actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1558/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_posh_request_ticket.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1558.003
+  - actor.blacksuit
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    user.id|contains: 'S-1-5-18'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

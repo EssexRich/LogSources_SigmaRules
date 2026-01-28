@@ -1,0 +1,26 @@
+title: Application Layer Protocol - BlackByte (auditd)
+id: 63cb69f5-8fb3-4c49-97c9-372b27a5b0bb
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1071 (Application Layer Protocol).
+  Associated threat actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1071/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_susp_c2_commands.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1071
+  - actor.blackbyte
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    key|contains: 'susp_activity'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

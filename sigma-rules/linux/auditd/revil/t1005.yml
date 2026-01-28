@@ -1,0 +1,26 @@
+title: Data from Local System - REvil (auditd)
+id: 2921c30e-4b3f-484e-9ce4-78418b900e9e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1005 (Data from Local System).
+  Associated threat actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1005/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/exfiltration_ec2_vm_export_failure.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1005
+  - actor.revil
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

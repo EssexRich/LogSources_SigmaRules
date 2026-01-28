@@ -1,0 +1,26 @@
+title: Local Accounts - LockBit (auditd)
+id: fb2f8f98-2b6e-488b-8707-f8b168c0e6a5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1078.003 (Local Accounts).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1078/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_sda_disk_mount_non_root.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1078.003
+  - actor.lockbit
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    process.args|contains: '/dev/sd*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: System Service Discovery - Shinra (defender)
+id: cfc65cc7-ebda-4fa8-8a93-03e6f98d3ba2
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1007 (System Service Discovery).
+  Associated threat actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1007/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_pchunter.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1007
+  - actor.shinra
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

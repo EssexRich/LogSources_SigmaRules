@@ -1,0 +1,29 @@
+title: Credentials from Password Stores - Interlock (workspace)
+id: 3762303d-e481-4f31-9e3a-f7cfa7092250
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1555 (Credentials from Password Stores).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1555/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_genai_process_sensitive_file_access.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1555
+  - actor.interlock
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.name|contains:
+      - 'claude.exe'
+      - 'Claude'
+    file.path|contains: '?:\\Users\\*\\AppData\\Roaming\\Claude\\Local State'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Remote System Discovery - Lynx (unified_logging)
+id: 1b075089-69bb-4e65-9844-1197f45a6fba
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1018 (Remote System Discovery).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1018/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_dns_enumeration.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1018
+  - actor.lynx
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,27 @@
+title: Scheduled Task/Job - BlackByte (security)
+id: d542a9e0-8313-4c3a-bfe5-5f952abee055
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1053 (Scheduled Task/Job).
+  Associated threat actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1053/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_cron_jobs_creation_and_runtime.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1053
+  - actor.blackbyte
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    process.args|contains: '-l'
+    process.name|contains: 'running job'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

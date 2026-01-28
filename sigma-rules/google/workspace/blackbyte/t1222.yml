@@ -1,0 +1,26 @@
+title: File and Directory Permissions Modification - BlackByte (workspace)
+id: 6777e966-0d7f-48f5-9827-fd7d5039277a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1222 (File and Directory Permissions Modification).
+  Associated threat actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1222/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_suspicious_file_made_executable_via_chmod_inside_a_container.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1222
+  - actor.blackbyte
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,30 @@
+title: Obfuscated Files or Information - Cactus Ransomware (security)
+id: 93aee140-3309-4c62-90a3-5fbfca46fa54
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027 (Obfuscated Files or Information).
+  Associated threat actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1027/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_invoke_obfuscation_clip_services_security.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027
+  - actor.cactus_ransomware
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains:
+      - '4697'
+      - 'cmd'
+      - '&&'
+      - 'clipboard]::'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

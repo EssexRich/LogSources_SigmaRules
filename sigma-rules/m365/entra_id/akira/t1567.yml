@@ -1,0 +1,26 @@
+title: Exfiltration Over Web Service - Akira (entra_id)
+id: cf7b587e-ac3c-41e6-a712-d9721fbf37b6
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1567 (Exfiltration Over Web Service).
+  Associated threat actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1567/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/github/exfiltration_github_private_repository_turned_public.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1567
+  - actor.akira
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

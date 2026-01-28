@@ -1,0 +1,26 @@
+title: Valid Accounts - Cephalus (defender)
+id: 2dd4732c-4b00-42b5-91af-227b1a5fee8a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1078 (Valid Accounts).
+  Associated threat actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1078/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/initial_access_login_failures.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1078
+  - actor.cephalus
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    event.action|contains: 'failed-log-in-too-many-times-to'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

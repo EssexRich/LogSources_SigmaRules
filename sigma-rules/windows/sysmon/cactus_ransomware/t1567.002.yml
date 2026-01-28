@@ -1,0 +1,33 @@
+title: Exfiltration to Cloud Storage - Cactus Ransomware (sysmon)
+id: 56ce9ca9-368b-4e58-92e1-a1a2cbd31e3b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1567.002 (Exfiltration to Cloud Storage).
+  Associated threat actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1567/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_common_webservices.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1567.002
+  - actor.cactus_ransomware
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    dns.question.name|contains: 'graph.microsoft.com'
+    process.executable|contains:
+      - '?:\\Program Files\\*.exe'
+      - '?:\\Windows\\System32\\WWAHost.exe'
+    process.name|contains: 'terraform-provider*.exe'
+    process.code_signature.subject_name|contains:
+      - 'Johannes Schindelin'
+      - 'Mozilla Corporation'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

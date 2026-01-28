@@ -1,0 +1,26 @@
+title: Boot or Logon Autostart Execution - Spectra (auditd)
+id: b20bc4b4-1737-4b92-836c-e7de44435113
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1547 (Boot or Logon Autostart Execution).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1547/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_kernel_module_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1547
+  - actor.spectra
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

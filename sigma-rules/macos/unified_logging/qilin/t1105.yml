@@ -1,0 +1,29 @@
+title: Ingress Tool Transfer - Qilin (unified_logging)
+id: 1a917b87-1e40-4999-b9c7-846cd19fe7f9
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1105 (Ingress Tool Transfer).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1105/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_google_drive_malicious_file_download.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1105
+  - actor.qilin
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    process.name|contains:
+      - 'Microsoft Edge'
+      - 'wget.exe'
+    process.command_line|contains: '*confirm=no_antivirus*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

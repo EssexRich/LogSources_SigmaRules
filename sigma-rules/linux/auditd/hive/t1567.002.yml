@@ -1,0 +1,25 @@
+title: Exfiltration to Cloud Storage - Hive (auditd)
+id: a075b60c-9388-45ca-9035-08820a179888
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1567.002 (Exfiltration to Cloud Storage).
+  Associated threat actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1567/002/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1567.002
+  - actor.hive
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

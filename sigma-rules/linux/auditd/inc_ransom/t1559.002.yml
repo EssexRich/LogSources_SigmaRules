@@ -1,0 +1,25 @@
+title: Dynamic Data Exchange - INC Ransom (auditd)
+id: 434cab6a-ae87-485d-9ba0-9805ca1c9f60
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1559.002 (Dynamic Data Exchange).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1559/002/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1559.002
+  - actor.inc_ransom
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

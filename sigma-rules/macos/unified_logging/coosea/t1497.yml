@@ -1,0 +1,26 @@
+title: Virtualization/Sandbox Evasion - COOSEA (unified_logging)
+id: 2d53f294-e4a9-4208-b03a-ee0acfef415a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1497 (Virtualization/Sandbox Evasion).
+  Associated threat actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1497/
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_sandboxed_office_app_suspicious_zip_file.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1497
+  - actor.coosea
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

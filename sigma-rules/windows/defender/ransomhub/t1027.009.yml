@@ -1,0 +1,26 @@
+title: Embedded Payloads - RansomHub (defender)
+id: b86ab46a-6160-4c66-9c4f-a66adc11c641
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027.009 (Embedded Payloads).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1027/009/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_token_obfuscation.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027.009
+  - actor.ransomhub
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    ProcessCommandLine|contains: '${env:path}'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

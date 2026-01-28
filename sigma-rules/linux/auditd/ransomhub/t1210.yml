@@ -1,0 +1,28 @@
+title: Exploitation of Remote Services - RansomHub (auditd)
+id: e8725da2-1911-460c-a7a9-a0c0b36e1089
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1210 (Exploitation of Remote Services).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1210/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/lateral_movement_malicious_remote_file_creation.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1210
+  - actor.ransomhub
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    process.name|contains:
+      - 'System'
+      - 'sftp-server'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

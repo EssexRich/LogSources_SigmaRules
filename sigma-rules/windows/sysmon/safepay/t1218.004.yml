@@ -1,0 +1,29 @@
+title: InstallUtil - SafePay (sysmon)
+id: 0c1ba551-26e9-43ef-89cb-8ddc3eb74752
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1218.004 (InstallUtil).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1218/004/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_installutil_beacon.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1218.004
+  - actor.safepay
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'installutil.exe'
+    network.direction|contains:
+      - 'outgoing'
+      - 'egress'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

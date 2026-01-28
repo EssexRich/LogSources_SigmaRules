@@ -1,0 +1,30 @@
+title: Create Process with Token - ALPHV-BlackCat (sysmon)
+id: 89b60e70-167f-4f79-aba6-9baa5f8e0810
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1134.002 (Create Process with Token).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1134/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_create_process_as_different_user.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1134.002
+  - actor.alphv-blackcat
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    event.action|contains: 'logged-in'
+    user.id|contains:
+      - 'S-1-5-21-*'
+      - 'S-1-12-1-*'
+    winlog.event_data.LogonProcessName|contains: 'seclogo*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

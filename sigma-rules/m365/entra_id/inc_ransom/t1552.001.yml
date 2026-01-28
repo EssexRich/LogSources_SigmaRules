@@ -1,0 +1,26 @@
+title: Credentials In Files - INC Ransom (entra_id)
+id: 9ad5cd66-875c-4645-bb4f-1ffdda7a6766
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1552.001 (Credentials In Files).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1552/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_d4c_k8s_mda_service_account_token_access_followed_by_kubernetes_api_request.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1552.001
+  - actor.inc_ransom
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

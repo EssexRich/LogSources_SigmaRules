@@ -1,0 +1,26 @@
+title: Bidirectional Communication - INC Ransom (workspace)
+id: e09aa4b7-c06e-4b04-9e8c-2d678f10d877
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1102.002 (Bidirectional Communication).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1102/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/beaconing/command_and_control_beaconing.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1102.002
+  - actor.inc_ransom
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.name|contains: 'WaAppAgent.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

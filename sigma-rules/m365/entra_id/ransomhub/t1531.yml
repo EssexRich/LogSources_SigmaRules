@@ -1,0 +1,26 @@
+title: Account Access Removal - RansomHub (entra_id)
+id: 41fba4ed-4dd3-4fb6-a5b4-71f0a7605027
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1531 (Account Access Removal).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1531/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/impact_rds_group_deletion.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1531
+  - actor.ransomhub
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

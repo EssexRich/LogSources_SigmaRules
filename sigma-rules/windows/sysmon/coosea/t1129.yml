@@ -1,0 +1,27 @@
+title: Shared Modules - COOSEA (sysmon)
+id: 9e6d4434-aa7c-4811-bf18-f78c1e864b42
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1129 (Shared Modules).
+  Associated threat actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1129/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_shared_modules_local_sxs_dll.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1129
+  - actor.coosea
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    file.extension|contains: 'dll'
+    file.path|contains: 'C:\\*\\*.exe.local\\*.dll'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

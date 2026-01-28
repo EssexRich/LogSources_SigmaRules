@@ -1,0 +1,32 @@
+title: System Time Discovery - Qilin (security)
+id: d96718b0-e390-4c35-bd82-d81fa5acbc2a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1124 (System Time Discovery).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1124/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_discovery_via_reg_queries.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1124
+  - actor.qilin
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    NewProcessName|contains: '\reg.exe'
+    CommandLine|contains:
+      - 'query'
+      - '\powershell.exe'
+      - '\pwsh.exe'
+      - 'Get-ItemPropertyValue'
+      - 'gpv'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

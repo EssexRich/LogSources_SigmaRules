@@ -1,0 +1,26 @@
+title: System Shutdown/Reboot - Trigona (unified_logging)
+id: 44e984ac-0d66-47b6-8010-82aac1ed6bcf
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1529 (System Shutdown/Reboot).
+  Associated threat actor: Trigona
+references:
+  - https://attack.mitre.org/techniques/T1529/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_system_shutdown_reboot.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1529
+  - actor.trigona
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,29 @@
+title: Disable Windows Event Logging - LockBit (sysmon)
+id: 5241c80c-8e6f-4f14-a97f-c14d225e5612
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562.002 (Disable Windows Event Logging).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1562/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_audit_policy_disabled_winlog.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562.002
+  - actor.lockbit
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    event.code|contains: '4719'
+    host.os.type|contains: 'windows'
+    winlog.event_data.AuditPolicyChangesDescription|contains: 'Success removed'
+    winlog.event_data.SubCategory|contains: 'Logon'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

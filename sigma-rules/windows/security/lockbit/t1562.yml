@@ -1,0 +1,26 @@
+title: Impair Defenses - LockBit (security)
+id: b59a804b-70c9-48e4-bf41-418f0b536126
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562 (Impair Defenses).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1562/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/object_access/win_security_wfp_endpoint_agent_blocked.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562
+  - actor.lockbit
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '5157'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

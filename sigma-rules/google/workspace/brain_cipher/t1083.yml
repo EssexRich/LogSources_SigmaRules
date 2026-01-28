@@ -1,0 +1,27 @@
+title: File and Directory Discovery - Brain Cipher (workspace)
+id: 9c226a9c-4da3-4660-92ea-c368c9d5075b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1083 (File and Directory Discovery).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1083/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_file_dir_discovery.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1083
+  - actor.brain_cipher
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.name|contains: 'tree.com'
+    process.args|contains: 'dir'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

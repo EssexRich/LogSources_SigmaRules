@@ -1,0 +1,26 @@
+title: User Execution - Hive (entra_id)
+id: 6e18875a-d1f4-442e-ae1e-1b6faeea16d6
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1204 (User Execution).
+  Associated threat actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1204/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_nodejs_pre_or_post_install_script_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1204
+  - actor.hive
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: System Owner/User Discovery - BianLian (defender)
+id: 81635516-99a0-4943-ae36-ed3c48c232fb
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1033 (System Owner/User Discovery).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1033/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_whoami_commmand.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1033
+  - actor.bianlian
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

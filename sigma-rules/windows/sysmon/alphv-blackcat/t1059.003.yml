@@ -1,0 +1,29 @@
+title: Windows Command Shell - ALPHV-BlackCat (sysmon)
+id: 2e9f7990-f8a6-4c28-a4c4-c756315382e5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059.003 (Windows Command Shell).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1059/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_execution_msbuild_started_by_script.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059.003
+  - actor.alphv-blackcat
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name.caseless|contains: 'msbuild.exe'
+    process.pe.original_file_name|contains: 'MSBuild.exe'
+    process.parent.name|contains: 'cmd.exe'
+    process.executable|contains: 'C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\MSBuild\\Current\\Bin\\MSBuild.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

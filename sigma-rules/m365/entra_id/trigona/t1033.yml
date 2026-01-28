@@ -1,0 +1,26 @@
+title: System Owner/User Discovery - Trigona (entra_id)
+id: 8ba9bae5-0fe1-46fb-8dce-87b9a2f71abb
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1033 (System Owner/User Discovery).
+  Associated threat actor: Trigona
+references:
+  - https://attack.mitre.org/techniques/T1033/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_whoami_commmand.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1033
+  - actor.trigona
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,25 @@
+title: Browser Session Hijacking - INC Ransom (auditd)
+id: b5f842ee-21e3-4fbd-b338-9e5e2f32006f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1185 (Browser Session Hijacking).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1185/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1185
+  - actor.inc_ransom
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

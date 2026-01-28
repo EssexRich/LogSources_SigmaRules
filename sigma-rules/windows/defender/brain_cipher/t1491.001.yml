@@ -1,0 +1,31 @@
+title: Internal Defacement - Brain Cipher (defender)
+id: f1c6c4eb-75a1-4763-a505-080f59e28d50
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1491.001 (Internal Defacement).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1491/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_reg_desktop_background_change.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1491.001
+  - actor.brain_cipher
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    ProcessCommandLine|contains:
+      - 'add'
+      - 'Control Panel\Desktop'
+      - 'CurrentVersion\Policies\ActiveDesktop'
+      - 'CurrentVersion\Policies\System'
+      - '/v NoChangingWallpaper'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

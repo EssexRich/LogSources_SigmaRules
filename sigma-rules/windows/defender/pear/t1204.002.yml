@@ -1,0 +1,26 @@
+title: Malicious File - PEAR (defender)
+id: d126f9e9-75a2-4d49-9736-c405465a3bb5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1204.002 (Malicious File).
+  Associated threat actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T1204/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_potential_widespread_malware_infection.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1204.002
+  - actor.pear
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,27 @@
+title: Exfiltration Over Alternative Protocol - BianLian (security)
+id: 63a95d8d-ace8-485b-a076-bb25b11deeb2
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1048 (Exfiltration Over Alternative Protocol).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1048/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_tap_driver_installation.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1048
+  - actor.bianlian
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4697'
+    ServiceFileName|contains: 'tap0901'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

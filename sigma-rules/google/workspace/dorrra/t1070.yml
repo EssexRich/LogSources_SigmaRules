@@ -1,0 +1,28 @@
+title: Indicator Removal - DORRRA (workspace)
+id: 4819a85f-8a4b-41c7-8801-00575e22acfe
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1070 (Indicator Removal).
+  Associated threat actor: DORRRA
+references:
+  - https://attack.mitre.org/techniques/T1070/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_deleting_websvr_access_logs.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1070
+  - actor.dorrra
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    file.path|contains:
+      - 'C:\\inetpub\\logs\\LogFiles\\*.log'
+      - '/var/www/*/logs/access.log'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

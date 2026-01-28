@@ -1,0 +1,27 @@
+title: Keylogging - Interlock (sysmon)
+id: 26be5333-e7c3-49d9-b12b-8197b787113a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1056.001 (Keylogging).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1056/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_posh_keylogger.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1056.001
+  - actor.interlock
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    user.id|contains: 'S-1-5-18'
+    powershell.file.script_block_text|contains: 'sentinelbreakpoints'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

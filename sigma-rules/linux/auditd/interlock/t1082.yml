@@ -1,0 +1,38 @@
+title: System Information Discovery - Interlock (auditd)
+id: f6a1096c-871f-4e2e-9a76-c31159b6c959
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1082 (System Information Discovery).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1082/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_system_info_discovery.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1082
+  - actor.interlock
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'PATH'
+      - '/etc/lsb-release'
+      - '/etc/redhat-release'
+      - '/etc/issue'
+      - 'EXECVE'
+    a0|contains:
+      - 'grep'
+      - 'vbox'
+      - 'vm'
+      - 'xen'
+      - 'virtio'
+    a1|contains: 'list'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

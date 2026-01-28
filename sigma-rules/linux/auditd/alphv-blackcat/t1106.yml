@@ -1,0 +1,30 @@
+title: Native API - ALPHV-BlackCat (auditd)
+id: cc130efb-5a5e-434b-858f-586556c4b86f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1106 (Native API).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1106/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/path/lnx_auditd_bpfdoor_file_accessed.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1106
+  - actor.alphv-blackcat
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'PATH'
+      - '/var/run/haldrund.pid'
+      - '/var/run/xinetd.lock'
+      - '/var/run/kdevrund.pid'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Software Deployment Tools - Medusa (sysmon)
+id: b2464a8a-f654-4e25-b889-2d81845c4583
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1072 (Software Deployment Tools).
+  Associated threat actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1072/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_tool_installation.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1072
+  - actor.medusa
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,27 @@
+title: Scheduled Task/Job - GLOBAL (entra_id)
+id: d0c30747-4225-47fe-9a20-a9619163bf19
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1053 (Scheduled Task/Job).
+  Associated threat actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1053/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_cron_jobs_creation_and_runtime.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1053
+  - actor.global
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.args|contains: '-l'
+    process.name|contains: 'running job'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,27 @@
+title: Data from Network Shared Drive - Vice Society (defender)
+id: 8a57dd0a-fe0f-46fe-b296-b44f8af6c540
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1039 (Data from Network Shared Drive).
+  Associated threat actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1039/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_posh_invoke_sharefinder.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1039
+  - actor.vice_society
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    powershell.file.script_block_text|contains: 'Invoke-ShareFinder'
+    user.id|contains: 'S-1-5-18'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

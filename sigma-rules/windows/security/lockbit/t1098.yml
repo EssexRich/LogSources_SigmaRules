@@ -1,0 +1,26 @@
+title: Account Manipulation - LockBit (security)
+id: b20d9b84-2f7b-45bc-97f4-2ba634745cb4
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1098 (Account Manipulation).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_member_added_security_enabled_global_group.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1098
+  - actor.lockbit
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

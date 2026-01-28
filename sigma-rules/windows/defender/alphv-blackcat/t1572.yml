@@ -1,0 +1,26 @@
+title: Protocol Tunneling - ALPHV-BlackCat (defender)
+id: 94a47853-b6e8-4683-8c6a-a38f5b967369
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1572 (Protocol Tunneling).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1572/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_linux_iodine_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1572
+  - actor.alphv-blackcat
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,27 @@
+title: JavaScript - Brain Cipher (unified_logging)
+id: b3d86bd5-2f00-4c47-a7e1-1a9e9232d792
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059.007 (JavaScript).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1059/007/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/execution_suspicious_jar_child_process.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059.007
+  - actor.brain_cipher
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    event.type|contains: 'start'
+    process.parent.name|contains: 'java'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

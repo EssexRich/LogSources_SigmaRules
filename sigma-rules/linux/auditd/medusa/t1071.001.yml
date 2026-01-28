@@ -1,0 +1,26 @@
+title: Web Protocols - Medusa (auditd)
+id: 59470924-0cf3-4127-bf9e-4964f6753053
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1071.001 (Web Protocols).
+  Associated threat actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1071/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_curl_wget_spawn_via_nodejs_parent.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1071.001
+  - actor.medusa
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

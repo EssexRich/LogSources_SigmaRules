@@ -1,0 +1,26 @@
+title: Resource Hijacking - Spectra (sysmon)
+id: 9559bbdb-4273-4e88-a8b5-40c444ff54e3
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1496 (Resource Hijacking).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1496/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/impact_newly_observed_process_with_high_cpu.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1496
+  - actor.spectra
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

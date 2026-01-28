@@ -1,0 +1,25 @@
+title: Safe Mode Boot - Vect RaaS (auditd)
+id: 43c91197-2538-481b-be01-ab8ada8e5f42
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562.009 (Safe Mode Boot).
+  Associated threat actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1562/009/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562.009
+  - actor.vect_raas
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Web Protocols - BlackByte (unified_logging)
+id: 06ffab25-7fe5-4efc-9bb9-e274dc6242df
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1071.001 (Web Protocols).
+  Associated threat actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1071/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_curl_wget_spawn_via_nodejs_parent.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1071.001
+  - actor.blackbyte
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

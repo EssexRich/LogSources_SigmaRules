@@ -1,0 +1,26 @@
+title: System Network Configuration Discovery - DoNex (entra_id)
+id: 0dc5f247-91ac-4a10-ab66-7b456036f569
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1016 (System Network Configuration Discovery).
+  Associated threat actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1016/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_dns_enumeration.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1016
+  - actor.donex
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

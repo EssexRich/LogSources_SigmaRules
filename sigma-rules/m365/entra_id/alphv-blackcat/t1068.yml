@@ -1,0 +1,26 @@
+title: Exploitation for Privilege Escalation - ALPHV-BlackCat (entra_id)
+id: 73c78e0b-2652-47ec-9e2b-a1c7bbef6469
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1068 (Exploitation for Privilege Escalation).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1068/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_linux_strace_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1068
+  - actor.alphv-blackcat
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

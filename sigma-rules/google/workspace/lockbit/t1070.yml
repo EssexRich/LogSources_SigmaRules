@@ -1,0 +1,28 @@
+title: Indicator Removal - LockBit (workspace)
+id: de4f60f3-fe67-42a8-b18b-f62f1005cbbd
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1070 (Indicator Removal).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1070/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_deleting_websvr_access_logs.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1070
+  - actor.lockbit
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    file.path|contains:
+      - 'C:\\inetpub\\logs\\LogFiles\\*.log'
+      - '/var/www/*/logs/access.log'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

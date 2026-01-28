@@ -1,0 +1,26 @@
+title: PowerShell - Brain Cipher (entra_id)
+id: f67e772a-0877-43ee-a674-a4b9e267d665
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059.001 (PowerShell).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/execution_command_shell_started_by_powershell.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059.001
+  - actor.brain_cipher
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

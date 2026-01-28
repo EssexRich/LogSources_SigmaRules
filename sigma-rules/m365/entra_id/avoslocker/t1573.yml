@@ -1,0 +1,28 @@
+title: Encrypted Channel - AvosLocker (entra_id)
+id: e2de0bb3-55c2-4ec5-bbb3-5bff67ef0c21
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1573 (Encrypted Channel).
+  Associated threat actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1573/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/m365/threat_detection/microsoft365_from_susp_ip_addresses.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1573
+  - actor.avoslocker
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    eventSource|contains: 'SecurityComplianceCenter'
+    eventName|contains: 'Activity from suspicious IP addresses'
+    status|contains: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

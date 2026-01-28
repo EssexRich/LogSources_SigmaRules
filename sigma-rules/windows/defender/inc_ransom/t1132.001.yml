@@ -1,0 +1,26 @@
+title: Standard Encoding - INC Ransom (defender)
+id: 0399cb20-ac9f-46e2-ae49-80a4ec0b65e8
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1132.001 (Standard Encoding).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1132/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_dns_exfiltration_tools_execution.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1132.001
+  - actor.inc_ransom
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

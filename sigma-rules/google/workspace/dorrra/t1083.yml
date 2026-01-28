@@ -1,0 +1,27 @@
+title: File and Directory Discovery - DORRRA (workspace)
+id: c197cb08-e90b-4407-9ccc-d50f08e606b2
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1083 (File and Directory Discovery).
+  Associated threat actor: DORRRA
+references:
+  - https://attack.mitre.org/techniques/T1083/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_file_dir_discovery.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1083
+  - actor.dorrra
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.name|contains: 'tree.com'
+    process.args|contains: 'dir'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

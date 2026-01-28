@@ -1,0 +1,26 @@
+title: Network Service Discovery - LockBit (unified_logging)
+id: 3c075851-98cd-4a21-9d2e-abbd073d0fbb
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1046 (Network Service Discovery).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1046/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_suspicious_network_tool_launched_inside_a_container.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1046
+  - actor.lockbit
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

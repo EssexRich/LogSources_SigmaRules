@@ -1,0 +1,27 @@
+title: Bypass User Account Control - Hive (unified_logging)
+id: 43410d4f-1df5-4ff9-b7ca-f4226c8abd40
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1548.002 (Bypass User Account Control).
+  Associated threat actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1548/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_krbrelayup_suspicious_logon.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1548.002
+  - actor.hive
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    winlog.event_data.AuthenticationPackageName|contains: 'Kerberos'
+    winlog.event_data.TargetUserSid|contains: 'S-1-5-21-*-500'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

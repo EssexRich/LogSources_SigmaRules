@@ -1,0 +1,27 @@
+title: Account Discovery - Royal (unified_logging)
+id: 781eeb09-c369-4eeb-9dbb-6eb53eb7a2bd
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1087 (Account Discovery).
+  Associated threat actor: Royal
+references:
+  - https://attack.mitre.org/techniques/T1087/
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/discovery_users_domain_built_in_commands.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1087
+  - actor.royal
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    process.Ext.effective_parent.name|contains: '.*'
+    process.parent.name|contains: '.*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

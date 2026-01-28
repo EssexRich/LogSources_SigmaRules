@@ -1,0 +1,32 @@
+title: SMB/Windows Admin Shares - Ignoble Scorpius (sysmon)
+id: dff1d651-429c-4894-84c6-e37296f5968f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1021.002 (SMB/Windows Admin Shares).
+  Associated threat actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_moving_registry_hive_via_smb.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1021.002
+  - actor.ignoble_scorpius
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    file.Ext.header_bytes|contains: '72656766*'
+    user.id|contains:
+      - 'S-1-5-21*'
+      - 'S-1-12-1-*'
+    file.path|contains:
+      - '?:\\*\\UPM_Profile\\NTUSER.DAT'
+      - '?:\\*\\AppData\\Local\\Packages\\Microsoft.*\\Settings\\settings.dat*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

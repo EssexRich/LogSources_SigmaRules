@@ -1,0 +1,28 @@
+title: Hide Artifacts - COOSEA (workspace)
+id: 7a397adf-74bb-4280-bb9a-a645e36a1162
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1564 (Hide Artifacts).
+  Associated threat actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1564/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_exchange_new_inbox_rule_delete_or_move.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1564
+  - actor.coosea
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    event.dataset|contains: 'o365.audit'
+    event.action|contains: 'New-InboxRule'
+    event.outcome|contains: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

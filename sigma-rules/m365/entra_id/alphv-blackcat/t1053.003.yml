@@ -1,0 +1,27 @@
+title: Cron - ALPHV-BlackCat (entra_id)
+id: 8bcf6435-9f68-4305-ae7b-9d83c5fd4c3c
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1053.003 (Cron).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1053/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_cron_jobs_creation_and_runtime.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1053.003
+  - actor.alphv-blackcat
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.args|contains: '-l'
+    process.name|contains: 'running job'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

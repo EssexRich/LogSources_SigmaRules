@@ -1,0 +1,26 @@
+title: System Owner/User Discovery - Spectra (entra_id)
+id: 8265cf0c-a4ad-4521-a96f-c2c6c784ded8
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1033 (System Owner/User Discovery).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1033/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_whoami_commmand.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1033
+  - actor.spectra
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

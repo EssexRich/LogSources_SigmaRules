@@ -1,0 +1,26 @@
+title: Exploit Public-Facing Application - BianLian (sysmon)
+id: 40590311-446c-4239-a153-5a0152656544
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1190 (Exploit Public-Facing Application).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1190/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_ssh_secure_shell_from_the_internet.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1190
+  - actor.bianlian
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

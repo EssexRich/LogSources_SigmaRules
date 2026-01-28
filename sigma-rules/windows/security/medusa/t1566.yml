@@ -1,0 +1,29 @@
+title: Phishing - Medusa (security)
+id: 841b9b02-dea2-4c5d-8013-10b6644a3682
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1566 (Phishing).
+  Associated threat actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1566/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/initial_access_object_copied_to_external_drive_with_app_consent.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1566
+  - actor.medusa
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    google_workspace.drive.file.type|contains:
+      - 'script'
+      - 'document'
+    google_workspace.token.client.id|contains: '*apps.googleusercontent.com'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

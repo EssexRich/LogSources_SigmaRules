@@ -1,0 +1,31 @@
+title: Hidden Files and Directories - Lynx (sysmon)
+id: d13d6716-25c3-46cd-bde6-c9d5625cbb47
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1564.001 (Hidden Files and Directories).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1564/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_adding_the_hidden_file_attribute_with_via_attribexe.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1564.001
+  - actor.lynx
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'attrib.exe'
+    process.args|contains: '+h'
+    process.parent.name|contains: 'draw.io.exe'
+    process.command_line|contains:
+      - '*drawio.bkp*'
+      - '*drawio.dtmp*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

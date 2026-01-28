@@ -1,0 +1,26 @@
+title: Malware - 8base (defender)
+id: 6e453682-a3eb-4185-8521-c5965e1fbd37
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1587.001 (Malware).
+  Associated threat actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1587/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/msexchange/win_exchange_proxylogon_oabvirtualdir.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1587.001
+  - actor.8base
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

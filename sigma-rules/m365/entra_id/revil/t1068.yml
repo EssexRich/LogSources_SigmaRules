@@ -1,0 +1,26 @@
+title: Exploitation for Privilege Escalation - REvil (entra_id)
+id: 717c3234-62dc-4e83-af7d-7cc165e29f62
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1068 (Exploitation for Privilege Escalation).
+  Associated threat actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1068/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_linux_strace_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1068
+  - actor.revil
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

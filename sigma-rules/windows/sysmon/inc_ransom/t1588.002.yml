@@ -1,0 +1,31 @@
+title: Tool - INC Ransom (sysmon)
+id: 573a2eb1-35d9-414a-82b3-74ca9ad12dfe
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1588.002 (Tool).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1588/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_execution_via_imphashes.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1588.002
+  - actor.inc_ransom
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    Hashes|contains:
+      - '# Sysmon field hashes contains all types'
+      - 'IMPHASH=BCCA3C247B619DCD13C8CDFF5F123932 # PetitPotam'
+      - 'IMPHASH=3A19059BD7688CB88E70005F18EFC439 # PetitPotam'
+      - 'IMPHASH=bf6223a49e45d99094406777eb6004ba # PetitPotam'
+      - 'IMPHASH=23867A89C2B8FC733BE6CF5EF902F2D1 # JuicyPotato'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

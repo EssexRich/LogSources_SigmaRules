@@ -1,0 +1,26 @@
+title: Software Deployment Tools - ALPHV-BlackCat (unified_logging)
+id: c3264229-aec8-4fe4-87b1-d8869f88d9c8
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1072 (Software Deployment Tools).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1072/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_tool_installation.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1072
+  - actor.alphv-blackcat
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

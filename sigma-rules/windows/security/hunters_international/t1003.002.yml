@@ -1,0 +1,30 @@
+title: Security Account Manager - Hunters International (security)
+id: b43e48e0-9830-4e03-ba2a-9b7ffd26cb91
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.002 (Security Account Manager).
+  Associated threat actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1003/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_impacket_secretdump.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.002
+  - actor.hunters_international
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '5145'
+    ShareName|contains:
+      - '\\\\\*\\ADMIN$'  # looking for the string  \\*\ADMIN$'
+      - 'SYSTEM32\'
+      - '.tmp'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

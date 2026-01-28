@@ -1,0 +1,31 @@
+title: OS Credential Dumping - Ignoble Scorpius (auditd)
+id: ec711357-57f0-46ef-9ced-a5954bf9da3a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003 (OS Credential Dumping).
+  Associated threat actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_keylogging_with_pam_d.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003
+  - actor.ignoble_scorpius
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'PATH'
+      - '/etc/pam.d/system-auth'
+      - '/etc/pam.d/password-auth'
+      - 'TTY'
+      - 'USER_TTY'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium
