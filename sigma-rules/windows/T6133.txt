@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T6133 Detection (windows)
+    id: 1b26f6d4-2f22-4b98-a95e-5c826040a19d
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T6133.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T6133/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T6133
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T6133
+    
