@@ -1,0 +1,126 @@
+{
+  "generated": "2026-01-28T11:05:28.268Z",
+  "version": "1.0.0",
+  "logsources": [
+    {
+      "product": "windows",
+      "service": "security",
+      "category": "process_creation",
+      "description": "A new process has been created",
+      "fieldMappings": {
+        "process_creation": {
+          "Image": "NewProcessName",
+          "CommandLine": "CommandLine",
+          "ParentImage": "ParentProcessName",
+          "User": "TargetUserName",
+          "ProcessId": "NewProcessId",
+          "ParentProcessId": "ProcessId",
+          "CreatorUserSid": "SubjectUserSid",
+          "CreatorUserName": "SubjectUserName",
+          "CreatorDomainName": "SubjectDomainName",
+          "CreatorLogonId": "SubjectLogonId",
+          "TargetUserSid": "TargetUserSid",
+          "TargetDomainName": "TargetDomainName",
+          "TargetLogonId": "TargetLogonId",
+          "TokenElevationType": "TokenElevationType",
+          "MandatoryLabel": "MandatoryLabel",
+          "CreatorProcessName": "CreatorProcessName"
+        }
+      },
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4688"
+    },
+    {
+      "product": "windows",
+      "service": "sysmon",
+      "category": "process_creation",
+      "description": "Event ID 1: Process creation event provides extended information about a newly created process with full command line and ProcessGUID for correlation",
+      "fieldMappings": {
+        "process_creation": {
+          "UtcTime": "UtcTime",
+          "ProcessGuid": "ProcessGuid",
+          "ProcessId": "ProcessId",
+          "Image": "Image",
+          "CommandLine": "CommandLine",
+          "HashType": "HashType"
+        }
+      },
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon"
+    },
+    {
+      "product": "macos",
+      "service": "unified_logging",
+      "category": "process_creation",
+      "description": "macOS Unified Logging System process events",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://developer.apple.com/documentation/os/logging",
+      "fieldMappings": {
+        "process_creation": {
+          "ProcessName": "processImagePath",
+          "ProcessId": "processIdentifier"
+        }
+      }
+    },
+    {
+      "product": "windows",
+      "service": "defender",
+      "category": "process_creation",
+      "description": "Contains information about process creation and related events from Microsoft Defender for Endpoint",
+      "fieldMappings": {
+        "process_creation": {
+          "Image": "InitiatingProcessFileName",
+          "CommandLine": "ProcessCommandLine",
+          "ParentImage": "InitiatingProcessParentFileName",
+          "User": "AccountName",
+          "ProcessId": "ProcessId",
+          "ParentProcessId": "InitiatingProcessParentId",
+          "Timestamp": "Timestamp",
+          "DeviceName": "DeviceName",
+          "ProcessIntegrityLevel": "ProcessIntegrityLevel",
+          "ProcessTokenElevation": "ProcessTokenElevation",
+          "InitiatingProcessId": "InitiatingProcessId",
+          "InitiatingProcessCommandLine": "InitiatingProcessCommandLine",
+          "InitiatingProcessCreationTime": "InitiatingProcessCreationTime",
+          "InitiatingProcessAccountDomain": "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName": "InitiatingProcessAccountName",
+          "SHA1": "SHA1",
+          "SHA256": "SHA256",
+          "MD5": "MD5",
+          "FileName": "FileName"
+        }
+      },
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table"
+    },
+    {
+      "product": "m365",
+      "service": "entra_id",
+      "category": "authentication",
+      "description": "Microsoft Entra ID sign-in and audit events",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-activity-log-schemas",
+      "fieldMappings": {
+        "authentication": {
+          "User": "userPrincipalName",
+          "IpAddress": "ipAddress",
+          "Status": "status"
+        }
+      }
+    },
+    {
+      "product": "google",
+      "service": "workspace",
+      "category": "admin_activity",
+      "description": "Google Workspace Admin audit events",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://developers.google.com/workspace/admin/reports/v1/guides/manage-audit-admin",
+      "fieldMappings": {
+        "admin_activity": {
+          "Actor": "actor.email",
+          "EventType": "events.type"
+        }
+      }
+    }
+  ]
+}
