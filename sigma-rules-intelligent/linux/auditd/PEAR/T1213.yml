@@ -1,0 +1,28 @@
+title: Data from Information Repositories (LINUX)
+id: 69b4554e-3a88-414d-b75d-8c3580416f19
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1213.
+references:
+  - https://attack.mitre.org/techniques/T1213/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1213

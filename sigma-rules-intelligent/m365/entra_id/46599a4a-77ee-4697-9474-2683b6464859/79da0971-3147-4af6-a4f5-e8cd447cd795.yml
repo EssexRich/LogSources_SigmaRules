@@ -1,0 +1,28 @@
+title: 79da0971-3147-4af6-a4f5-e8cd447cd795 (M365)
+id: f1cbb978-9772-4f6d-9cd6-88a40f5ce52a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 79da0971-3147-4af6-a4f5-e8cd447cd795.
+references:
+  - https://attack.mitre.org/techniques/79da0971-3147-4af6-a4f5-e8cd447cd795/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.79da0971-3147-4af6-a4f5-e8cd447cd795

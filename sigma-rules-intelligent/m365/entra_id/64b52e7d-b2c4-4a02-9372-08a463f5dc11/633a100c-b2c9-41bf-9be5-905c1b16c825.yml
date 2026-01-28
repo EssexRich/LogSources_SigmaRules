@@ -1,0 +1,28 @@
+title: 633a100c-b2c9-41bf-9be5-905c1b16c825 (M365)
+id: b5fec85b-adb4-4be0-897c-677bb20c2e8f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 633a100c-b2c9-41bf-9be5-905c1b16c825.
+references:
+  - https://attack.mitre.org/techniques/633a100c-b2c9-41bf-9be5-905c1b16c825/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.633a100c-b2c9-41bf-9be5-905c1b16c825

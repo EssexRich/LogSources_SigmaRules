@@ -1,0 +1,28 @@
+title: System Binary Proxy Execution (GOOGLE)
+id: 15a67942-33a8-48f3-b1f9-484213879ab2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.
+references:
+  - https://attack.mitre.org/techniques/T1218/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218

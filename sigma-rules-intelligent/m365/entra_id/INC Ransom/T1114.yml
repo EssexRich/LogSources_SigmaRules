@@ -1,0 +1,30 @@
+title: Email Collection (M365)
+id: 4b49494f-1ae8-4e60-8990-1b371f0cfe0d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1114.
+references:
+  - https://attack.mitre.org/techniques/T1114/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1114

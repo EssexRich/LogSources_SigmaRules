@@ -1,0 +1,28 @@
+title: ef67e13e-5598-4adc-bdb2-998225874fa9 (M365)
+id: ee0344db-179e-43a7-92bb-64303618f351
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ef67e13e-5598-4adc-bdb2-998225874fa9.
+references:
+  - https://attack.mitre.org/techniques/ef67e13e-5598-4adc-bdb2-998225874fa9/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ef67e13e-5598-4adc-bdb2-998225874fa9

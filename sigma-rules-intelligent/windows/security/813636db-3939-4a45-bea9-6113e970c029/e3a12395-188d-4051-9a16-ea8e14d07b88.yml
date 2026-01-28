@@ -1,0 +1,28 @@
+title: e3a12395-188d-4051-9a16-ea8e14d07b88 (WINDOWS)
+id: f0dcb765-f9a4-4be2-8390-6ae74ae15923
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e3a12395-188d-4051-9a16-ea8e14d07b88.
+references:
+  - https://attack.mitre.org/techniques/e3a12395-188d-4051-9a16-ea8e14d07b88/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e3a12395-188d-4051-9a16-ea8e14d07b88

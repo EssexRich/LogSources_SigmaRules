@@ -1,0 +1,28 @@
+title: T7023 (WINDOWS)
+id: 0623b5ea-fdaa-4269-85d8-892559b859fb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7023.
+references:
+  - https://attack.mitre.org/techniques/T7023/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7023

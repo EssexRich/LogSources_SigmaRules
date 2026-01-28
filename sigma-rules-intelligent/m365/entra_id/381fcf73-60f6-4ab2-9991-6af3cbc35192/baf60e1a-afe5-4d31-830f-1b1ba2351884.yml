@@ -1,0 +1,28 @@
+title: baf60e1a-afe5-4d31-830f-1b1ba2351884 (M365)
+id: c7e4a073-db05-4c57-b7d8-8684d62b6c81
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique baf60e1a-afe5-4d31-830f-1b1ba2351884.
+references:
+  - https://attack.mitre.org/techniques/baf60e1a-afe5-4d31-830f-1b1ba2351884/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.baf60e1a-afe5-4d31-830f-1b1ba2351884

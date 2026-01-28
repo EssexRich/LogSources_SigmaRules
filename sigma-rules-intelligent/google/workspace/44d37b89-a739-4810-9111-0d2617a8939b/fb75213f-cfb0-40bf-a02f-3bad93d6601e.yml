@@ -1,0 +1,28 @@
+title: fb75213f-cfb0-40bf-a02f-3bad93d6601e (GOOGLE)
+id: 7ee57a54-8779-43bd-8e12-442ee28d9801
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique fb75213f-cfb0-40bf-a02f-3bad93d6601e.
+references:
+  - https://attack.mitre.org/techniques/fb75213f-cfb0-40bf-a02f-3bad93d6601e/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.fb75213f-cfb0-40bf-a02f-3bad93d6601e

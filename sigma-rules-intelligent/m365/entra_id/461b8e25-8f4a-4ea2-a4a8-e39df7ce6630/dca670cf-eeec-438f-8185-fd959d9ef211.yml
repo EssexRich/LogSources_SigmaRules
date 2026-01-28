@@ -1,0 +1,28 @@
+title: dca670cf-eeec-438f-8185-fd959d9ef211 (M365)
+id: 675fc8ed-aa52-498d-b994-6b94c236696e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique dca670cf-eeec-438f-8185-fd959d9ef211.
+references:
+  - https://attack.mitre.org/techniques/dca670cf-eeec-438f-8185-fd959d9ef211/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.dca670cf-eeec-438f-8185-fd959d9ef211

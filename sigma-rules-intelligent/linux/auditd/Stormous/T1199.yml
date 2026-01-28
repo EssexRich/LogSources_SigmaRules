@@ -1,0 +1,28 @@
+title: Trusted Relationship (LINUX)
+id: 4334ce08-de3c-42e7-868b-7c273eb49dfc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1199.
+references:
+  - https://attack.mitre.org/techniques/T1199/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1199

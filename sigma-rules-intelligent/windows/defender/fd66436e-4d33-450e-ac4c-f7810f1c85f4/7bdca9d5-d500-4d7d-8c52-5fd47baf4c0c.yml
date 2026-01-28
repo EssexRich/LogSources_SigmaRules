@@ -1,0 +1,28 @@
+title: 7bdca9d5-d500-4d7d-8c52-5fd47baf4c0c (WINDOWS)
+id: 1aa2605d-2c96-4c3b-81d4-ff83cb2580ab
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 7bdca9d5-d500-4d7d-8c52-5fd47baf4c0c.
+references:
+  - https://attack.mitre.org/techniques/7bdca9d5-d500-4d7d-8c52-5fd47baf4c0c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.7bdca9d5-d500-4d7d-8c52-5fd47baf4c0c

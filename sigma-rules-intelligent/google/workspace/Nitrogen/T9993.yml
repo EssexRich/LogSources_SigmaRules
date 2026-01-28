@@ -1,0 +1,28 @@
+title: T9993 (GOOGLE)
+id: 1f6383ad-3b08-4359-9065-8dc21e2416c1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T9993.
+references:
+  - https://attack.mitre.org/techniques/T9993/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T9993

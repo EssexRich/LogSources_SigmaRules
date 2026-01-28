@@ -1,0 +1,30 @@
+title: Credentials In Files (WINDOWS)
+id: c3ef9cd0-8cab-458e-8139-7cd15b58c0ba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.001.
+references:
+  - https://attack.mitre.org/techniques/T1552.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    EventID:
+      - '4624'
+      - '4625'
+      - '4648'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.001

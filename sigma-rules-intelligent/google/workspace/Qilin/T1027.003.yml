@@ -1,0 +1,28 @@
+title: Steganography (GOOGLE)
+id: ca04e8ef-e3c9-4a33-88f5-24b02e145cf2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.003.
+references:
+  - https://attack.mitre.org/techniques/T1027.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.003

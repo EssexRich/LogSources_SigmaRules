@@ -1,0 +1,28 @@
+title: 143c0cbb-a297-4142-9624-87ffc778980b (M365)
+id: 35c1a818-bacd-4ec4-b586-73fd8214f94a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 143c0cbb-a297-4142-9624-87ffc778980b.
+references:
+  - https://attack.mitre.org/techniques/143c0cbb-a297-4142-9624-87ffc778980b/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.143c0cbb-a297-4142-9624-87ffc778980b

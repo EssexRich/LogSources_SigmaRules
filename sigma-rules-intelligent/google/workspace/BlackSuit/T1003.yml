@@ -1,0 +1,28 @@
+title: OS Credential Dumping (GOOGLE)
+id: 643da6a5-c51f-42c9-8e0d-9f2887e60c55
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003

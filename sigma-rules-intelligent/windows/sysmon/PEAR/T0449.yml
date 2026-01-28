@@ -1,0 +1,28 @@
+title: T0449 (WINDOWS)
+id: cbd02666-b1cc-471b-93c4-96dd86d5f428
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0449.
+references:
+  - https://attack.mitre.org/techniques/T0449/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0449

@@ -1,0 +1,28 @@
+title: e5d550f3-2202-4634-85f2-4a200a1d49b3 (M365)
+id: 0149d435-3326-44bd-927b-3b8b211f05d2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e5d550f3-2202-4634-85f2-4a200a1d49b3.
+references:
+  - https://attack.mitre.org/techniques/e5d550f3-2202-4634-85f2-4a200a1d49b3/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e5d550f3-2202-4634-85f2-4a200a1d49b3

@@ -1,0 +1,28 @@
+title: T8734 (MACOS)
+id: bcb1a724-d8b3-4713-afbb-901fc6ea2c5b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8734.
+references:
+  - https://attack.mitre.org/techniques/T8734/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8734

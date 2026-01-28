@@ -1,0 +1,28 @@
+title: T0295 (WINDOWS)
+id: ce2794af-6873-42a6-b777-4c0a68c9d0da
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0295.
+references:
+  - https://attack.mitre.org/techniques/T0295/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0295

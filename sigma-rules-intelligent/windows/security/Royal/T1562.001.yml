@@ -1,0 +1,28 @@
+title: Disable or Modify Tools (WINDOWS)
+id: db63fa2b-1062-4097-ba48-1049c12d2040
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.001.
+references:
+  - https://attack.mitre.org/techniques/T1562.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.001

@@ -1,0 +1,28 @@
+title: Web Protocols (WINDOWS)
+id: 916c8fab-73b3-4d17-8725-67f1917379ef
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.001.
+references:
+  - https://attack.mitre.org/techniques/T1071.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.001

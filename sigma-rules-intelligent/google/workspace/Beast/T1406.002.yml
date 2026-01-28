@@ -1,0 +1,28 @@
+title: T1406.002 (GOOGLE)
+id: 74c7ba06-b341-4ccf-86b0-409f636586c4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1406.002.
+references:
+  - https://attack.mitre.org/techniques/T1406.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1406.002

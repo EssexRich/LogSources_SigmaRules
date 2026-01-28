@@ -1,0 +1,28 @@
+title: ceaeb6d8-95ee-4da2-9d42-dc6aa6ca43ae (WINDOWS)
+id: 0b3cb5ff-5a08-46ad-abf8-83a290da9be1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ceaeb6d8-95ee-4da2-9d42-dc6aa6ca43ae.
+references:
+  - https://attack.mitre.org/techniques/ceaeb6d8-95ee-4da2-9d42-dc6aa6ca43ae/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ceaeb6d8-95ee-4da2-9d42-dc6aa6ca43ae

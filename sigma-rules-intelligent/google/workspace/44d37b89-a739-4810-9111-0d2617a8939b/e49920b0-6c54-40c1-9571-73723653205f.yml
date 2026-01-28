@@ -1,0 +1,28 @@
+title: e49920b0-6c54-40c1-9571-73723653205f (GOOGLE)
+id: d673288e-3186-4c49-92f5-e7cc3a1772af
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e49920b0-6c54-40c1-9571-73723653205f.
+references:
+  - https://attack.mitre.org/techniques/e49920b0-6c54-40c1-9571-73723653205f/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e49920b0-6c54-40c1-9571-73723653205f

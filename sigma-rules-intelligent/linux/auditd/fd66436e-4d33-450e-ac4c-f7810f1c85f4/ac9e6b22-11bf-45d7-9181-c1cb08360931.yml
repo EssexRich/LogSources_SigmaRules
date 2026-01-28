@@ -1,0 +1,28 @@
+title: ac9e6b22-11bf-45d7-9181-c1cb08360931 (LINUX)
+id: 79b0de97-8285-4fd2-bb40-33520d7ce966
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ac9e6b22-11bf-45d7-9181-c1cb08360931.
+references:
+  - https://attack.mitre.org/techniques/ac9e6b22-11bf-45d7-9181-c1cb08360931/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ac9e6b22-11bf-45d7-9181-c1cb08360931

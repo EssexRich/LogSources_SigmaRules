@@ -1,0 +1,28 @@
+title: Reflective Code Loading (WINDOWS)
+id: 5406b169-9080-4070-8087-4bdc4d87e152
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1620.
+references:
+  - https://attack.mitre.org/techniques/T1620/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1620

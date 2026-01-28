@@ -1,0 +1,28 @@
+title: bbc3cba7-84ae-410d-b18b-16750731dfa2 (WINDOWS)
+id: c9adb684-0e31-4b2e-b90e-86bae4c06e00
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique bbc3cba7-84ae-410d-b18b-16750731dfa2.
+references:
+  - https://attack.mitre.org/techniques/bbc3cba7-84ae-410d-b18b-16750731dfa2/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.bbc3cba7-84ae-410d-b18b-16750731dfa2

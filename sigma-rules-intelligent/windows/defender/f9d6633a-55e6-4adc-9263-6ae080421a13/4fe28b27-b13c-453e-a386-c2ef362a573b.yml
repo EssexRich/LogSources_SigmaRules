@@ -1,0 +1,28 @@
+title: 4fe28b27-b13c-453e-a386-c2ef362a573b (WINDOWS)
+id: c63b20d2-f5ff-4504-ab17-ca1a51919cb5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 4fe28b27-b13c-453e-a386-c2ef362a573b.
+references:
+  - https://attack.mitre.org/techniques/4fe28b27-b13c-453e-a386-c2ef362a573b/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.4fe28b27-b13c-453e-a386-c2ef362a573b

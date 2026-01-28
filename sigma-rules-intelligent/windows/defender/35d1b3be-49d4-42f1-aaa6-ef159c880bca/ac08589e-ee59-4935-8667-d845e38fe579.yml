@@ -1,0 +1,28 @@
+title: ac08589e-ee59-4935-8667-d845e38fe579 (WINDOWS)
+id: adf50e69-b6b7-48b9-9785-a59ccd159c31
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ac08589e-ee59-4935-8667-d845e38fe579.
+references:
+  - https://attack.mitre.org/techniques/ac08589e-ee59-4935-8667-d845e38fe579/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ac08589e-ee59-4935-8667-d845e38fe579

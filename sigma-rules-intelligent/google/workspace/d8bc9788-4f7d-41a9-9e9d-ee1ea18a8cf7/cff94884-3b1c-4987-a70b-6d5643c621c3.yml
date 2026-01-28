@@ -1,0 +1,28 @@
+title: cff94884-3b1c-4987-a70b-6d5643c621c3 (GOOGLE)
+id: c3892e62-9e3a-4f8f-a440-3c5a95d149eb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cff94884-3b1c-4987-a70b-6d5643c621c3.
+references:
+  - https://attack.mitre.org/techniques/cff94884-3b1c-4987-a70b-6d5643c621c3/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cff94884-3b1c-4987-a70b-6d5643c621c3

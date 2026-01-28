@@ -1,0 +1,28 @@
+title: b0533c6e-8fea-4788-874f-b799cacc4b92 (LINUX)
+id: 03c02040-db22-41f4-b5bf-0b6852dce14d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b0533c6e-8fea-4788-874f-b799cacc4b92.
+references:
+  - https://attack.mitre.org/techniques/b0533c6e-8fea-4788-874f-b799cacc4b92/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b0533c6e-8fea-4788-874f-b799cacc4b92

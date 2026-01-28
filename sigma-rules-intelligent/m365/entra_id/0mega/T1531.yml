@@ -1,0 +1,28 @@
+title: Account Access Removal (M365)
+id: 668e5f0c-f89f-4f2b-84a5-a20b414a7b1f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1531.
+references:
+  - https://attack.mitre.org/techniques/T1531/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1531

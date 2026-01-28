@@ -1,0 +1,28 @@
+title: Account Access Removal (GOOGLE)
+id: 8c7fa586-4311-48fe-8ba1-ebf685c8a463
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1531.
+references:
+  - https://attack.mitre.org/techniques/T1531/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1531

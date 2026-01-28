@@ -1,0 +1,28 @@
+title: T3886 (GOOGLE)
+id: 65225275-fb42-4562-811b-5817b2344a88
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3886.
+references:
+  - https://attack.mitre.org/techniques/T3886/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3886

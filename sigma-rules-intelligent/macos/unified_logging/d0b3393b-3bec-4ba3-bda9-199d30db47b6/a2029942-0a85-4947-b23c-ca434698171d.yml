@@ -1,0 +1,28 @@
+title: a2029942-0a85-4947-b23c-ca434698171d (MACOS)
+id: b1ab03eb-a291-40a9-b1df-ba963387e9bb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a2029942-0a85-4947-b23c-ca434698171d.
+references:
+  - https://attack.mitre.org/techniques/a2029942-0a85-4947-b23c-ca434698171d/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a2029942-0a85-4947-b23c-ca434698171d

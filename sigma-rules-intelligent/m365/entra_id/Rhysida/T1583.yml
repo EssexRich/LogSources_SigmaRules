@@ -1,0 +1,28 @@
+title: Acquire Infrastructure (M365)
+id: a21960ab-0764-444d-b99c-352986f6cade
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.
+references:
+  - https://attack.mitre.org/techniques/T1583/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583

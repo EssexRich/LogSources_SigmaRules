@@ -1,0 +1,28 @@
+title: Security Software Discovery (GOOGLE)
+id: 9c426fa9-a3e5-4d64-820a-a7cca24342c9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.001.
+references:
+  - https://attack.mitre.org/techniques/T1518.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518.001

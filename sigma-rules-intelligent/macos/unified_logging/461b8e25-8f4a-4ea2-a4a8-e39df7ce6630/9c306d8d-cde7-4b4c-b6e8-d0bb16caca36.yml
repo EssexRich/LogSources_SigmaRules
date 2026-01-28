@@ -1,0 +1,28 @@
+title: 9c306d8d-cde7-4b4c-b6e8-d0bb16caca36 (MACOS)
+id: 288a226e-0848-4760-83f7-6f8cac1f780c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 9c306d8d-cde7-4b4c-b6e8-d0bb16caca36.
+references:
+  - https://attack.mitre.org/techniques/9c306d8d-cde7-4b4c-b6e8-d0bb16caca36/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.9c306d8d-cde7-4b4c-b6e8-d0bb16caca36

@@ -1,0 +1,28 @@
+title: cbb66055-0325-4111-aca0-40547b6ad5b0 (GOOGLE)
+id: e19dd7e3-307a-432c-9ff4-873c276a8472
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cbb66055-0325-4111-aca0-40547b6ad5b0.
+references:
+  - https://attack.mitre.org/techniques/cbb66055-0325-4111-aca0-40547b6ad5b0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cbb66055-0325-4111-aca0-40547b6ad5b0

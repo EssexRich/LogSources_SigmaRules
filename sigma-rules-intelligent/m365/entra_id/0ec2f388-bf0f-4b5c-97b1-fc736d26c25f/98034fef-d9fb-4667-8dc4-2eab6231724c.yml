@@ -1,0 +1,28 @@
+title: 98034fef-d9fb-4667-8dc4-2eab6231724c (M365)
+id: 419436b2-8b7f-4995-9ceb-2e9661908dd7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 98034fef-d9fb-4667-8dc4-2eab6231724c.
+references:
+  - https://attack.mitre.org/techniques/98034fef-d9fb-4667-8dc4-2eab6231724c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.98034fef-d9fb-4667-8dc4-2eab6231724c

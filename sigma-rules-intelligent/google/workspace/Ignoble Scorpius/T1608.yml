@@ -1,0 +1,28 @@
+title: Stage Capabilities (GOOGLE)
+id: 14a5e5e2-a045-45b2-904c-ae2444f1cc07
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.
+references:
+  - https://attack.mitre.org/techniques/T1608/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608

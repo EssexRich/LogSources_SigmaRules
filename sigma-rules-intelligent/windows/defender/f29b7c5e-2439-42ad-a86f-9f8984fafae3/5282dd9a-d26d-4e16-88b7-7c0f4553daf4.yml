@@ -1,0 +1,28 @@
+title: 5282dd9a-d26d-4e16-88b7-7c0f4553daf4 (WINDOWS)
+id: 2315b9f1-fb95-4229-ab61-51b8c6d23e09
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 5282dd9a-d26d-4e16-88b7-7c0f4553daf4.
+references:
+  - https://attack.mitre.org/techniques/5282dd9a-d26d-4e16-88b7-7c0f4553daf4/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.5282dd9a-d26d-4e16-88b7-7c0f4553daf4

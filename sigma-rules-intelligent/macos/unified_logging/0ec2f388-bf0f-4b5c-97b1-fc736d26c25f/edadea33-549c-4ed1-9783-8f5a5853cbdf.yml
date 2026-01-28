@@ -1,0 +1,28 @@
+title: edadea33-549c-4ed1-9783-8f5a5853cbdf (MACOS)
+id: 6bd39c30-00df-448c-8410-d8eb9aa06cf1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique edadea33-549c-4ed1-9783-8f5a5853cbdf.
+references:
+  - https://attack.mitre.org/techniques/edadea33-549c-4ed1-9783-8f5a5853cbdf/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.edadea33-549c-4ed1-9783-8f5a5853cbdf

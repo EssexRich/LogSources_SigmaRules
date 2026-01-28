@@ -1,0 +1,28 @@
+title: b17a1a56-e99c-403c-8948-561df0cffe81 (M365)
+id: fd16e7c8-300f-4e22-a0d9-4f622ea940c7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b17a1a56-e99c-403c-8948-561df0cffe81.
+references:
+  - https://attack.mitre.org/techniques/b17a1a56-e99c-403c-8948-561df0cffe81/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b17a1a56-e99c-403c-8948-561df0cffe81

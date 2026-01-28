@@ -1,0 +1,28 @@
+title: T3216 (MACOS)
+id: eae7305b-8432-402c-abe9-03525f255e4a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3216.
+references:
+  - https://attack.mitre.org/techniques/T3216/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3216

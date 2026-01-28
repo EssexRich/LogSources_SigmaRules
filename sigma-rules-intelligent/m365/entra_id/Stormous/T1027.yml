@@ -1,0 +1,28 @@
+title: Obfuscated Files or Information (M365)
+id: 81cf8c86-00a0-4b4c-845c-14a4a32ff2ad
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027

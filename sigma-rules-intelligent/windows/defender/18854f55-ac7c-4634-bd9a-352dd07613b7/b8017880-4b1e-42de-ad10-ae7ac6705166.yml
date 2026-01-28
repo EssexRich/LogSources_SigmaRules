@@ -1,0 +1,28 @@
+title: b8017880-4b1e-42de-ad10-ae7ac6705166 (WINDOWS)
+id: 5b7ee6cb-6a3d-4bb6-a903-6944b600a768
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b8017880-4b1e-42de-ad10-ae7ac6705166.
+references:
+  - https://attack.mitre.org/techniques/b8017880-4b1e-42de-ad10-ae7ac6705166/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b8017880-4b1e-42de-ad10-ae7ac6705166

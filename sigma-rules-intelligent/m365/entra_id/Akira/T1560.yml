@@ -1,0 +1,28 @@
+title: Archive Collected Data (M365)
+id: ab3d253a-cbbe-4a84-a7c8-778d7779365e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560

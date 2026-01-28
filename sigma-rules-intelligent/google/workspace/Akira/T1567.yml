@@ -1,0 +1,28 @@
+title: Exfiltration Over Web Service (GOOGLE)
+id: 5249220d-9cd5-43a7-a5e7-a4b1d2973d2b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.
+references:
+  - https://attack.mitre.org/techniques/T1567/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567

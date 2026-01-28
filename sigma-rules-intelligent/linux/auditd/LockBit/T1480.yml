@@ -1,0 +1,30 @@
+title: Execution Guardrails (LINUX)
+id: ec60e27f-1727-4412-b74a-3fb0892cd4d0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1480.
+references:
+  - https://attack.mitre.org/techniques/T1480/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1480

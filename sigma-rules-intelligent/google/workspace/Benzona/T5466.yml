@@ -1,0 +1,28 @@
+title: T5466 (GOOGLE)
+id: 8d32dca4-7112-4c84-8c9f-13e26f88ef78
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5466.
+references:
+  - https://attack.mitre.org/techniques/T5466/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5466

@@ -1,0 +1,28 @@
+title: 354a7f88-63fb-41b5-a801-ce3b377b36f1 (LINUX)
+id: a2a0b0cd-7722-4c78-bcdd-ec3bab19d0c4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 354a7f88-63fb-41b5-a801-ce3b377b36f1.
+references:
+  - https://attack.mitre.org/techniques/354a7f88-63fb-41b5-a801-ce3b377b36f1/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.354a7f88-63fb-41b5-a801-ce3b377b36f1

@@ -1,0 +1,28 @@
+title: 1b7ba276-eedc-4951-a762-0ceea2c030ec (WINDOWS)
+id: 6b1ae29b-8fd5-4ff3-9b00-6c9fbca53a35
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 1b7ba276-eedc-4951-a762-0ceea2c030ec.
+references:
+  - https://attack.mitre.org/techniques/1b7ba276-eedc-4951-a762-0ceea2c030ec/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.1b7ba276-eedc-4951-a762-0ceea2c030ec

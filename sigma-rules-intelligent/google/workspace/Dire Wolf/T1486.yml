@@ -1,0 +1,28 @@
+title: Data Encrypted for Impact (GOOGLE)
+id: acc7d289-35d0-4c72-b2e1-1be2ec11a72a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486

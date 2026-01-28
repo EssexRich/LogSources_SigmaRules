@@ -1,0 +1,28 @@
+title: 3d333250-30e4-4a82-9edc-756c68afc529 (M365)
+id: c59e1232-16b4-4d65-b3e6-ff35347a1526
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 3d333250-30e4-4a82-9edc-756c68afc529.
+references:
+  - https://attack.mitre.org/techniques/3d333250-30e4-4a82-9edc-756c68afc529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.3d333250-30e4-4a82-9edc-756c68afc529

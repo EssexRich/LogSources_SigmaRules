@@ -1,0 +1,28 @@
+title: Local Groups (M365)
+id: d3db51c7-40fa-4416-b08d-568b16a4b29d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.001.
+references:
+  - https://attack.mitre.org/techniques/T1069.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.001

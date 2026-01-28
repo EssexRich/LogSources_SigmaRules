@@ -1,0 +1,28 @@
+title: 3ccef7ae-cb5e-48f6-8302-897105fbf55c (MACOS)
+id: 7350764d-fbce-47a7-a836-c83f96911ee2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 3ccef7ae-cb5e-48f6-8302-897105fbf55c.
+references:
+  - https://attack.mitre.org/techniques/3ccef7ae-cb5e-48f6-8302-897105fbf55c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.3ccef7ae-cb5e-48f6-8302-897105fbf55c

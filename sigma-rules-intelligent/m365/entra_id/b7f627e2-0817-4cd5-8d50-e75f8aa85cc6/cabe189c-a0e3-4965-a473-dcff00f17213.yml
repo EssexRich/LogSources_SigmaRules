@@ -1,0 +1,28 @@
+title: cabe189c-a0e3-4965-a473-dcff00f17213 (M365)
+id: f8f43b3c-e448-4148-b9b1-b7b4cdc450cb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cabe189c-a0e3-4965-a473-dcff00f17213.
+references:
+  - https://attack.mitre.org/techniques/cabe189c-a0e3-4965-a473-dcff00f17213/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cabe189c-a0e3-4965-a473-dcff00f17213

@@ -1,0 +1,28 @@
+title: Drive-by Target (WINDOWS)
+id: fcf7da36-438a-4877-86dc-f0214c4a0219
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.004.
+references:
+  - https://attack.mitre.org/techniques/T1608.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.004

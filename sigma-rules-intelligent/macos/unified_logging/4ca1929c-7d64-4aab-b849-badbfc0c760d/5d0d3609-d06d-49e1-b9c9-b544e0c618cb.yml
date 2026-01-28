@@ -1,0 +1,28 @@
+title: 5d0d3609-d06d-49e1-b9c9-b544e0c618cb (MACOS)
+id: d2c3f567-e06f-4db5-98b2-79254b93ed2a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 5d0d3609-d06d-49e1-b9c9-b544e0c618cb.
+references:
+  - https://attack.mitre.org/techniques/5d0d3609-d06d-49e1-b9c9-b544e0c618cb/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.5d0d3609-d06d-49e1-b9c9-b544e0c618cb

@@ -1,0 +1,28 @@
+title: 365be77f-fc0e-42ee-bac8-4faf806d9336 (GOOGLE)
+id: 20eb4990-2658-4264-b964-f3069da5b889
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 365be77f-fc0e-42ee-bac8-4faf806d9336.
+references:
+  - https://attack.mitre.org/techniques/365be77f-fc0e-42ee-bac8-4faf806d9336/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.365be77f-fc0e-42ee-bac8-4faf806d9336

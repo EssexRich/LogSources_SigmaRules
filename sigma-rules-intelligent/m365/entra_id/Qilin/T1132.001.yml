@@ -1,0 +1,28 @@
+title: Standard Encoding (M365)
+id: ac74e96a-291e-4b18-972c-5ee8c729b25c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1132.001.
+references:
+  - https://attack.mitre.org/techniques/T1132.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1132.001

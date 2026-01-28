@@ -1,0 +1,28 @@
+title: cc723aff-ec88-40e3-a224-5af9fd983cc4 (M365)
+id: 793d9a6e-2361-4157-af15-a494aaa4fae4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cc723aff-ec88-40e3-a224-5af9fd983cc4.
+references:
+  - https://attack.mitre.org/techniques/cc723aff-ec88-40e3-a224-5af9fd983cc4/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cc723aff-ec88-40e3-a224-5af9fd983cc4

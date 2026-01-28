@@ -1,0 +1,28 @@
+title: Modify Registry (WINDOWS)
+id: 4b59d6fe-fadb-4c0c-9ef5-b1db075dc6b7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112

@@ -1,0 +1,28 @@
+title: 20fb2507-d71c-455d-9b6d-6104461cf26b (M365)
+id: da1e4df8-e4ac-432b-b3c1-b7a2fe944d1d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 20fb2507-d71c-455d-9b6d-6104461cf26b.
+references:
+  - https://attack.mitre.org/techniques/20fb2507-d71c-455d-9b6d-6104461cf26b/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.20fb2507-d71c-455d-9b6d-6104461cf26b

@@ -1,0 +1,28 @@
+title: Encrypted/Encoded File (M365)
+id: dc847317-6d6e-4f52-aa4f-2986f4c34885
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.013.
+references:
+  - https://attack.mitre.org/techniques/T1027.013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.013

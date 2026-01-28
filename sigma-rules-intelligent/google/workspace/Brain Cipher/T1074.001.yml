@@ -1,0 +1,28 @@
+title: Local Data Staging (GOOGLE)
+id: 0aa3f8ec-1eee-4626-b6f0-c49753c03b3b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.001.
+references:
+  - https://attack.mitre.org/techniques/T1074.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074.001

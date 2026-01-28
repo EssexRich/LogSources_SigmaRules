@@ -1,0 +1,28 @@
+title: Local Accounts (GOOGLE)
+id: d1010055-20d8-493a-917d-cd6df1970bce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.003.
+references:
+  - https://attack.mitre.org/techniques/T1078.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.003

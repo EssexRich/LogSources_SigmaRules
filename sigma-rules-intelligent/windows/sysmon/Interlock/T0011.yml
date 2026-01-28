@@ -1,0 +1,28 @@
+title: T0011 (WINDOWS)
+id: 01010a6a-7bcf-4c6a-b899-cb6d877e76ed
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0011.
+references:
+  - https://attack.mitre.org/techniques/T0011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0011

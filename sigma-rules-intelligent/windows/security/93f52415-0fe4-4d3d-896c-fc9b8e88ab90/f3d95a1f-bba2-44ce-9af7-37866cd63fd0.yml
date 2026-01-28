@@ -1,0 +1,28 @@
+title: f3d95a1f-bba2-44ce-9af7-37866cd63fd0 (WINDOWS)
+id: 2fe65861-d182-4f92-86b6-eb800f8e9161
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f3d95a1f-bba2-44ce-9af7-37866cd63fd0.
+references:
+  - https://attack.mitre.org/techniques/f3d95a1f-bba2-44ce-9af7-37866cd63fd0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f3d95a1f-bba2-44ce-9af7-37866cd63fd0

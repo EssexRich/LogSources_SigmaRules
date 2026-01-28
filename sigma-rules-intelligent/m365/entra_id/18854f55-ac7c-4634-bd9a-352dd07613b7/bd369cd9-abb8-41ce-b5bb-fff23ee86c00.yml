@@ -1,0 +1,28 @@
+title: bd369cd9-abb8-41ce-b5bb-fff23ee86c00 (M365)
+id: 4a357f6e-3a67-4386-af93-b377b44e0128
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique bd369cd9-abb8-41ce-b5bb-fff23ee86c00.
+references:
+  - https://attack.mitre.org/techniques/bd369cd9-abb8-41ce-b5bb-fff23ee86c00/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.bd369cd9-abb8-41ce-b5bb-fff23ee86c00

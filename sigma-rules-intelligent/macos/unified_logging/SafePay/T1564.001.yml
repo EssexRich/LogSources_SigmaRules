@@ -1,0 +1,28 @@
+title: Hidden Files and Directories (MACOS)
+id: dfd808a6-7c4a-4f2f-8a04-16fca148e625
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.001.
+references:
+  - https://attack.mitre.org/techniques/T1564.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.001

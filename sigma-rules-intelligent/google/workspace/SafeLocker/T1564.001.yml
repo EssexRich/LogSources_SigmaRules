@@ -1,0 +1,28 @@
+title: Hidden Files and Directories (GOOGLE)
+id: 440ff58b-a87f-4f74-b0bd-ba290a779a7b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.001.
+references:
+  - https://attack.mitre.org/techniques/T1564.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.001

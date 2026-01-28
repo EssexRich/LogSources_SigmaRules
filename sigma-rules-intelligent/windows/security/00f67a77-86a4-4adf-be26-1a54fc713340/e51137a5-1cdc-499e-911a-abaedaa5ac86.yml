@@ -1,0 +1,28 @@
+title: e51137a5-1cdc-499e-911a-abaedaa5ac86 (WINDOWS)
+id: c6efdcd0-6fe1-402a-aa87-f1b7fd1e98b0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e51137a5-1cdc-499e-911a-abaedaa5ac86.
+references:
+  - https://attack.mitre.org/techniques/e51137a5-1cdc-499e-911a-abaedaa5ac86/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e51137a5-1cdc-499e-911a-abaedaa5ac86

@@ -1,0 +1,28 @@
+title: cf1c2504-433f-4c4e-a1f8-91de45a0318c (M365)
+id: b1ec819d-3343-47ad-8e1e-78df56e28979
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cf1c2504-433f-4c4e-a1f8-91de45a0318c.
+references:
+  - https://attack.mitre.org/techniques/cf1c2504-433f-4c4e-a1f8-91de45a0318c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cf1c2504-433f-4c4e-a1f8-91de45a0318c

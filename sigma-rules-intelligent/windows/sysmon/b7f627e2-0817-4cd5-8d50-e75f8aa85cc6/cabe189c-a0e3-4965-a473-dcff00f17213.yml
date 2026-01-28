@@ -1,0 +1,28 @@
+title: cabe189c-a0e3-4965-a473-dcff00f17213 (WINDOWS)
+id: 64e194e4-4f3b-4cfa-90a2-4f40fcdc1b0b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cabe189c-a0e3-4965-a473-dcff00f17213.
+references:
+  - https://attack.mitre.org/techniques/cabe189c-a0e3-4965-a473-dcff00f17213/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cabe189c-a0e3-4965-a473-dcff00f17213

@@ -1,0 +1,28 @@
+title: Email Collection (GOOGLE)
+id: 15e5818e-9732-46f1-a139-a94dffc4242a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1114.
+references:
+  - https://attack.mitre.org/techniques/T1114/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1114

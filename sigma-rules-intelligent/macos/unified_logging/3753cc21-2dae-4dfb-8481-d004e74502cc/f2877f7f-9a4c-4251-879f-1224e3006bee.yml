@@ -1,0 +1,28 @@
+title: f2877f7f-9a4c-4251-879f-1224e3006bee (MACOS)
+id: aaff4fe7-5155-41ae-a54d-112862269d58
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f2877f7f-9a4c-4251-879f-1224e3006bee.
+references:
+  - https://attack.mitre.org/techniques/f2877f7f-9a4c-4251-879f-1224e3006bee/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f2877f7f-9a4c-4251-879f-1224e3006bee

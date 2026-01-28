@@ -1,0 +1,28 @@
+title: 3dc8c101-d4db-4f4d-8150-1b5a76ca5f1b (WINDOWS)
+id: a4fa7e42-4961-4641-a276-84876cfcd7a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 3dc8c101-d4db-4f4d-8150-1b5a76ca5f1b.
+references:
+  - https://attack.mitre.org/techniques/3dc8c101-d4db-4f4d-8150-1b5a76ca5f1b/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.3dc8c101-d4db-4f4d-8150-1b5a76ca5f1b

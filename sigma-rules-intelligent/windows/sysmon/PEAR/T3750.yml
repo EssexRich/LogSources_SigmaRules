@@ -1,0 +1,28 @@
+title: T3750 (WINDOWS)
+id: 95ce9b1c-be3d-4387-88c6-44498084475d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3750.
+references:
+  - https://attack.mitre.org/techniques/T3750/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3750

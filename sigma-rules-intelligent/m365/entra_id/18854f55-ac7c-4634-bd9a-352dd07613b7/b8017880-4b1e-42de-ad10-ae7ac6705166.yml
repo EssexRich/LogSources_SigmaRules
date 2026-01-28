@@ -1,0 +1,28 @@
+title: b8017880-4b1e-42de-ad10-ae7ac6705166 (M365)
+id: bf270e9a-b806-4956-bff6-d916ecf41ae7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b8017880-4b1e-42de-ad10-ae7ac6705166.
+references:
+  - https://attack.mitre.org/techniques/b8017880-4b1e-42de-ad10-ae7ac6705166/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b8017880-4b1e-42de-ad10-ae7ac6705166

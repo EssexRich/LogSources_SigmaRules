@@ -1,0 +1,28 @@
+title: cba37adb-d6fb-4610-b069-dd04c0643384 (LINUX)
+id: 54b9c1fe-6673-4a18-92e5-a8371afead6b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cba37adb-d6fb-4610-b069-dd04c0643384.
+references:
+  - https://attack.mitre.org/techniques/cba37adb-d6fb-4610-b069-dd04c0643384/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cba37adb-d6fb-4610-b069-dd04c0643384

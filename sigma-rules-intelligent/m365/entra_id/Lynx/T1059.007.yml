@@ -1,0 +1,28 @@
+title: JavaScript (M365)
+id: 501908ac-4f52-45e7-b0b8-c263b90abe2d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.007.
+references:
+  - https://attack.mitre.org/techniques/T1059.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.007

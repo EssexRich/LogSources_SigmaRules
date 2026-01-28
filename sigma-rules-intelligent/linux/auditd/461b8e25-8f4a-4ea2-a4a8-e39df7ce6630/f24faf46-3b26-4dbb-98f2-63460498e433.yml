@@ -1,0 +1,28 @@
+title: f24faf46-3b26-4dbb-98f2-63460498e433 (LINUX)
+id: 1f621998-9acf-471d-8c46-707f33aa61b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f24faf46-3b26-4dbb-98f2-63460498e433.
+references:
+  - https://attack.mitre.org/techniques/f24faf46-3b26-4dbb-98f2-63460498e433/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f24faf46-3b26-4dbb-98f2-63460498e433

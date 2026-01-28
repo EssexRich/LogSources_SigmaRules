@@ -1,0 +1,28 @@
+title: bd369cd9-abb8-41ce-b5bb-fff23ee86c00 (LINUX)
+id: a96f9a52-595c-412b-a5d9-ade3934e3f76
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique bd369cd9-abb8-41ce-b5bb-fff23ee86c00.
+references:
+  - https://attack.mitre.org/techniques/bd369cd9-abb8-41ce-b5bb-fff23ee86c00/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.bd369cd9-abb8-41ce-b5bb-fff23ee86c00

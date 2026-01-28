@@ -1,0 +1,28 @@
+title: Exploitation for Privilege Escalation (LINUX)
+id: 8d61fa57-d406-4f80-8912-310d536774a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068

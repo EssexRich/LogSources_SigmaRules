@@ -1,0 +1,28 @@
+title: Exfiltration to Cloud Storage (GOOGLE)
+id: 2870e8c5-756a-41e2-b41f-0bc1b3be2354
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.002.
+references:
+  - https://attack.mitre.org/techniques/T1567.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567.002

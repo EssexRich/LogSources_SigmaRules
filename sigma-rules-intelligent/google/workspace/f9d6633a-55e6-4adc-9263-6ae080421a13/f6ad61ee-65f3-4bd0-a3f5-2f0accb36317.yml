@@ -1,0 +1,28 @@
+title: f6ad61ee-65f3-4bd0-a3f5-2f0accb36317 (GOOGLE)
+id: 9b1fb5da-5537-4ff5-a44e-72ba60a3ddb6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f6ad61ee-65f3-4bd0-a3f5-2f0accb36317.
+references:
+  - https://attack.mitre.org/techniques/f6ad61ee-65f3-4bd0-a3f5-2f0accb36317/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f6ad61ee-65f3-4bd0-a3f5-2f0accb36317

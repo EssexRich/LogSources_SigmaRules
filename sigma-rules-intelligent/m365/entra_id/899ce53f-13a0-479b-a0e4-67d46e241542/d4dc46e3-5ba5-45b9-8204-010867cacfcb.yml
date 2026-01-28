@@ -1,0 +1,28 @@
+title: d4dc46e3-5ba5-45b9-8204-010867cacfcb (M365)
+id: dc0d757f-89ac-44d3-b803-981a0001990d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d4dc46e3-5ba5-45b9-8204-010867cacfcb.
+references:
+  - https://attack.mitre.org/techniques/d4dc46e3-5ba5-45b9-8204-010867cacfcb/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d4dc46e3-5ba5-45b9-8204-010867cacfcb

@@ -1,0 +1,28 @@
+title: Acquire Infrastructure (WINDOWS)
+id: 66979b5f-6111-4adb-8936-cc913ab5167b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.
+references:
+  - https://attack.mitre.org/techniques/T1583/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583

@@ -1,0 +1,28 @@
+title: deb98323-e13f-4b0c-8d94-175379069062 (M365)
+id: dfb72551-b1af-49ca-b56e-abca5e0da80d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique deb98323-e13f-4b0c-8d94-175379069062.
+references:
+  - https://attack.mitre.org/techniques/deb98323-e13f-4b0c-8d94-175379069062/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.deb98323-e13f-4b0c-8d94-175379069062

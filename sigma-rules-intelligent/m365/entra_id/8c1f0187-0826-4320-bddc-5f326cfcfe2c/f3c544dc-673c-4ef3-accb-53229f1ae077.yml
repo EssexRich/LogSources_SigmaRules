@@ -1,0 +1,28 @@
+title: f3c544dc-673c-4ef3-accb-53229f1ae077 (M365)
+id: 60ea6e4d-1a80-47ca-af05-a9096aba323e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f3c544dc-673c-4ef3-accb-53229f1ae077.
+references:
+  - https://attack.mitre.org/techniques/f3c544dc-673c-4ef3-accb-53229f1ae077/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f3c544dc-673c-4ef3-accb-53229f1ae077

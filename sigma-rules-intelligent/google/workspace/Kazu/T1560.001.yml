@@ -1,0 +1,28 @@
+title: Archive via Utility (GOOGLE)
+id: d912800f-95d2-4ea7-9793-4de4ee50621c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.001.
+references:
+  - https://attack.mitre.org/techniques/T1560.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.001

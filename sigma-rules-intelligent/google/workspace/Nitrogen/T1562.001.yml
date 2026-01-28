@@ -1,0 +1,28 @@
+title: Disable or Modify Tools (GOOGLE)
+id: 9ac25967-d9b7-45bd-9dea-2738fed35e8d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.001.
+references:
+  - https://attack.mitre.org/techniques/T1562.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.001

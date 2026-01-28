@@ -1,0 +1,28 @@
+title: f6ad61ee-65f3-4bd0-a3f5-2f0accb36317 (WINDOWS)
+id: d39814a1-91e8-43d8-bab5-bb8f570fa223
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f6ad61ee-65f3-4bd0-a3f5-2f0accb36317.
+references:
+  - https://attack.mitre.org/techniques/f6ad61ee-65f3-4bd0-a3f5-2f0accb36317/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f6ad61ee-65f3-4bd0-a3f5-2f0accb36317

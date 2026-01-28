@@ -1,0 +1,28 @@
+title: File and Directory Discovery (GOOGLE)
+id: 6556ddb4-cd1d-47a8-8831-b5fc1cdc7b73
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083

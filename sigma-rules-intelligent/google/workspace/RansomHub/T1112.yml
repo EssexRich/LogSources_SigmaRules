@@ -1,0 +1,28 @@
+title: Modify Registry (GOOGLE)
+id: 6991fa4f-ae50-4a92-9272-1109a80f14ac
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112

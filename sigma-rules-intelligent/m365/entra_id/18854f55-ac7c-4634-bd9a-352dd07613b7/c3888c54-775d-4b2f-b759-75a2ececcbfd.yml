@@ -1,0 +1,28 @@
+title: c3888c54-775d-4b2f-b759-75a2ececcbfd (M365)
+id: ca79b915-79a5-404e-8091-08bc82b1586c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique c3888c54-775d-4b2f-b759-75a2ececcbfd.
+references:
+  - https://attack.mitre.org/techniques/c3888c54-775d-4b2f-b759-75a2ececcbfd/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.c3888c54-775d-4b2f-b759-75a2ececcbfd

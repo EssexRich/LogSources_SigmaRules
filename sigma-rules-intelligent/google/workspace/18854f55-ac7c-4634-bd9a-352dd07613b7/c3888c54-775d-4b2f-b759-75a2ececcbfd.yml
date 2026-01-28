@@ -1,0 +1,28 @@
+title: c3888c54-775d-4b2f-b759-75a2ececcbfd (GOOGLE)
+id: 1d4aa92c-bbe1-4c48-9d8e-71683429caa3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique c3888c54-775d-4b2f-b759-75a2ececcbfd.
+references:
+  - https://attack.mitre.org/techniques/c3888c54-775d-4b2f-b759-75a2ececcbfd/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.c3888c54-775d-4b2f-b759-75a2ececcbfd

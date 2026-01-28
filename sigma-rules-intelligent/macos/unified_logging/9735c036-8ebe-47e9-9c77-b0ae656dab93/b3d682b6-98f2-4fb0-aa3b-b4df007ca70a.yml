@@ -1,0 +1,28 @@
+title: b3d682b6-98f2-4fb0-aa3b-b4df007ca70a (MACOS)
+id: a94beae4-0b06-47c8-a92d-ee7a33ebd021
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b3d682b6-98f2-4fb0-aa3b-b4df007ca70a.
+references:
+  - https://attack.mitre.org/techniques/b3d682b6-98f2-4fb0-aa3b-b4df007ca70a/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b3d682b6-98f2-4fb0-aa3b-b4df007ca70a

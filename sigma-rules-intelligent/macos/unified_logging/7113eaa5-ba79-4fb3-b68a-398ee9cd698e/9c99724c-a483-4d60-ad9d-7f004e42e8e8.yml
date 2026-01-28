@@ -1,0 +1,28 @@
+title: 9c99724c-a483-4d60-ad9d-7f004e42e8e8 (MACOS)
+id: d3305021-3707-4bcf-b62b-d38713d458f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 9c99724c-a483-4d60-ad9d-7f004e42e8e8.
+references:
+  - https://attack.mitre.org/techniques/9c99724c-a483-4d60-ad9d-7f004e42e8e8/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.9c99724c-a483-4d60-ad9d-7f004e42e8e8

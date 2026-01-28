@@ -1,0 +1,28 @@
+title: Web Service (M365)
+id: a88bb729-9ea2-4945-be55-a306bc8d7e73
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.
+references:
+  - https://attack.mitre.org/techniques/T1102/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102

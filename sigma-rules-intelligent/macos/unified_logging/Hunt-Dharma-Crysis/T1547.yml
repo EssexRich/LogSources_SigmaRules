@@ -1,0 +1,28 @@
+title: Boot or Logon Autostart Execution (MACOS)
+id: 9862523d-4aee-4c5b-88a3-baff5f36eda7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547

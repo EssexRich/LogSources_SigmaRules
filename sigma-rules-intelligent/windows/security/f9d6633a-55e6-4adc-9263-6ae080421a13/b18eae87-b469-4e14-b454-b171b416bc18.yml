@@ -1,0 +1,28 @@
+title: b18eae87-b469-4e14-b454-b171b416bc18 (WINDOWS)
+id: b6a166c7-7f9f-4e51-9270-807fd4d35136
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b18eae87-b469-4e14-b454-b171b416bc18.
+references:
+  - https://attack.mitre.org/techniques/b18eae87-b469-4e14-b454-b171b416bc18/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b18eae87-b469-4e14-b454-b171b416bc18

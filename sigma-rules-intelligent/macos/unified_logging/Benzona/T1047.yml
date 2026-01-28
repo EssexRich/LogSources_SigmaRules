@@ -1,0 +1,28 @@
+title: Windows Management Instrumentation (MACOS)
+id: d22e5854-1cc7-4946-9363-56115b4f9445
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047

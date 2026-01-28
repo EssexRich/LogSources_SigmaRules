@@ -1,0 +1,28 @@
+title: c21d5a77-d422-4a69-acd7-2c53c1faa34b (MACOS)
+id: 612286a0-cfa3-470f-9c56-2b702d6268cc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique c21d5a77-d422-4a69-acd7-2c53c1faa34b.
+references:
+  - https://attack.mitre.org/techniques/c21d5a77-d422-4a69-acd7-2c53c1faa34b/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.c21d5a77-d422-4a69-acd7-2c53c1faa34b

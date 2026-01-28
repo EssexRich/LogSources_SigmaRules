@@ -1,0 +1,28 @@
+title: T5480 (M365)
+id: 05bb8785-0dde-4e72-8cfb-210499cceca5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5480.
+references:
+  - https://attack.mitre.org/techniques/T5480/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5480

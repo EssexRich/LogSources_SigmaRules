@@ -1,0 +1,28 @@
+title: System Owner/User Discovery (M365)
+id: f2b88d3d-f622-49d8-97a0-93b34bb7e235
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033

@@ -1,0 +1,28 @@
+title: T1453 (M365)
+id: 16e73bad-a8e6-4a4f-a219-21a0d088b5de
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1453.
+references:
+  - https://attack.mitre.org/techniques/T1453/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1453

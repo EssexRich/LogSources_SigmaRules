@@ -1,0 +1,28 @@
+title: 25659dd6-ea12-45c4-97e6-381e3e4b593e (MACOS)
+id: 624109fa-a18e-4d5f-9348-2a7991c8678c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 25659dd6-ea12-45c4-97e6-381e3e4b593e.
+references:
+  - https://attack.mitre.org/techniques/25659dd6-ea12-45c4-97e6-381e3e4b593e/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.25659dd6-ea12-45c4-97e6-381e3e4b593e

@@ -1,0 +1,28 @@
+title: a9d4b653-6915-42af-98b2-5758c4ceee56 (WINDOWS)
+id: 51fd1519-7906-478d-86cf-645ca93ce58c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a9d4b653-6915-42af-98b2-5758c4ceee56.
+references:
+  - https://attack.mitre.org/techniques/a9d4b653-6915-42af-98b2-5758c4ceee56/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a9d4b653-6915-42af-98b2-5758c4ceee56

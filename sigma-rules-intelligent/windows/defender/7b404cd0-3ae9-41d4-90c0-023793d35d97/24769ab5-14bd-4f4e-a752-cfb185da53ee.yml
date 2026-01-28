@@ -1,0 +1,28 @@
+title: 24769ab5-14bd-4f4e-a752-cfb185da53ee (WINDOWS)
+id: 8e98b3db-3c47-4134-b0a3-b48349e7bd2b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 24769ab5-14bd-4f4e-a752-cfb185da53ee.
+references:
+  - https://attack.mitre.org/techniques/24769ab5-14bd-4f4e-a752-cfb185da53ee/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.24769ab5-14bd-4f4e-a752-cfb185da53ee

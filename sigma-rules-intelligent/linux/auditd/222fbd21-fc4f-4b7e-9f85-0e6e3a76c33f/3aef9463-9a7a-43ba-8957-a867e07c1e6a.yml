@@ -1,0 +1,28 @@
+title: 3aef9463-9a7a-43ba-8957-a867e07c1e6a (LINUX)
+id: 7ec8ca74-975c-47b2-af95-6d70f9949601
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 3aef9463-9a7a-43ba-8957-a867e07c1e6a.
+references:
+  - https://attack.mitre.org/techniques/3aef9463-9a7a-43ba-8957-a867e07c1e6a/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.3aef9463-9a7a-43ba-8957-a867e07c1e6a

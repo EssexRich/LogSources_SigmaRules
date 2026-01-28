@@ -1,0 +1,28 @@
+title: Data Destruction (M365)
+id: f8faeae3-f1c1-4851-8bc9-6dd953b2583f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1485.
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1485

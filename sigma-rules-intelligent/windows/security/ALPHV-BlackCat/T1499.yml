@@ -1,0 +1,28 @@
+title: Endpoint Denial of Service (WINDOWS)
+id: c86550e6-56eb-41c8-bca4-3e43de0ede0d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1499.
+references:
+  - https://attack.mitre.org/techniques/T1499/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1499

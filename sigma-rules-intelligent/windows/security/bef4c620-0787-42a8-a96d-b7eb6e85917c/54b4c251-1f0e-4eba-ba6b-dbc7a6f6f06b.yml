@@ -1,0 +1,28 @@
+title: 54b4c251-1f0e-4eba-ba6b-dbc7a6f6f06b (WINDOWS)
+id: 73965766-c719-4a72-8261-7be9ca8362c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 54b4c251-1f0e-4eba-ba6b-dbc7a6f6f06b.
+references:
+  - https://attack.mitre.org/techniques/54b4c251-1f0e-4eba-ba6b-dbc7a6f6f06b/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.54b4c251-1f0e-4eba-ba6b-dbc7a6f6f06b

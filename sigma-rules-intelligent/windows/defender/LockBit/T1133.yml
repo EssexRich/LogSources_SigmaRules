@@ -1,0 +1,28 @@
+title: External Remote Services (WINDOWS)
+id: a2415be1-1b1b-4f77-bacf-0d93e3aadfb0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133

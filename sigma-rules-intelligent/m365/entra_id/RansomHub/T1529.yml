@@ -1,0 +1,28 @@
+title: System Shutdown/Reboot (M365)
+id: eb2e1ec8-b55d-4437-b6e4-8da434ebf65e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1529.
+references:
+  - https://attack.mitre.org/techniques/T1529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1529

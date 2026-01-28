@@ -1,0 +1,28 @@
+title: Scripting (GOOGLE)
+id: a28a4766-1949-402a-9eb5-e3fc577f76db
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1064.
+references:
+  - https://attack.mitre.org/techniques/T1064/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1064

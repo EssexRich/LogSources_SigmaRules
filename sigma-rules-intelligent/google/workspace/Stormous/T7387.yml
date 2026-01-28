@@ -1,0 +1,28 @@
+title: T7387 (GOOGLE)
+id: e3fc03f0-e893-483e-90aa-34fae74b9a90
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7387.
+references:
+  - https://attack.mitre.org/techniques/T7387/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7387

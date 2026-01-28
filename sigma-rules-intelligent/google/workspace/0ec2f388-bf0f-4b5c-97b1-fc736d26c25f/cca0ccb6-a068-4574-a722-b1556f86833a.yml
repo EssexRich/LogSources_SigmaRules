@@ -1,0 +1,28 @@
+title: cca0ccb6-a068-4574-a722-b1556f86833a (GOOGLE)
+id: 38eb9b90-55a7-407f-876d-05d07366c668
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cca0ccb6-a068-4574-a722-b1556f86833a.
+references:
+  - https://attack.mitre.org/techniques/cca0ccb6-a068-4574-a722-b1556f86833a/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cca0ccb6-a068-4574-a722-b1556f86833a

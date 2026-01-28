@@ -1,0 +1,28 @@
+title: 7d77a07d-02fe-4e88-8bd9-e9c008c01bf0 (LINUX)
+id: 7cea8020-a26c-416d-b86b-64d0187d0983
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 7d77a07d-02fe-4e88-8bd9-e9c008c01bf0.
+references:
+  - https://attack.mitre.org/techniques/7d77a07d-02fe-4e88-8bd9-e9c008c01bf0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.7d77a07d-02fe-4e88-8bd9-e9c008c01bf0

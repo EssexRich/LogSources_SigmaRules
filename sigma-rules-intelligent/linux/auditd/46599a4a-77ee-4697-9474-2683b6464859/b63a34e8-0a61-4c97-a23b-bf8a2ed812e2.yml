@@ -1,0 +1,28 @@
+title: b63a34e8-0a61-4c97-a23b-bf8a2ed812e2 (LINUX)
+id: e7d85381-a64b-4357-8312-682db4f37568
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b63a34e8-0a61-4c97-a23b-bf8a2ed812e2.
+references:
+  - https://attack.mitre.org/techniques/b63a34e8-0a61-4c97-a23b-bf8a2ed812e2/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b63a34e8-0a61-4c97-a23b-bf8a2ed812e2

@@ -1,0 +1,28 @@
+title: 86850eff-2729-40c3-b85e-c4af26da4a2d (GOOGLE)
+id: f87c909c-23c2-4475-a935-2b6349f90bf0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 86850eff-2729-40c3-b85e-c4af26da4a2d.
+references:
+  - https://attack.mitre.org/techniques/86850eff-2729-40c3-b85e-c4af26da4a2d/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.86850eff-2729-40c3-b85e-c4af26da4a2d

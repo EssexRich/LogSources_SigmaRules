@@ -1,0 +1,28 @@
+title: Password Spraying (WINDOWS)
+id: 7e8a3afc-bd2a-44c1-a733-f1253e6c5ca7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.003.
+references:
+  - https://attack.mitre.org/techniques/T1110.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.003

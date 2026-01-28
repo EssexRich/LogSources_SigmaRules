@@ -1,0 +1,28 @@
+title: T1509 (M365)
+id: e53e093b-a8d3-4adf-b77e-463d5fc8aadb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1509.
+references:
+  - https://attack.mitre.org/techniques/T1509/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1509

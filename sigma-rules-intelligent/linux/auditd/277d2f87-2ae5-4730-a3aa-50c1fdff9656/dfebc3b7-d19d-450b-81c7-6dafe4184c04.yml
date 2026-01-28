@@ -1,0 +1,28 @@
+title: dfebc3b7-d19d-450b-81c7-6dafe4184c04 (LINUX)
+id: 16b1ef75-740e-49eb-80a8-2efc4b616a02
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique dfebc3b7-d19d-450b-81c7-6dafe4184c04.
+references:
+  - https://attack.mitre.org/techniques/dfebc3b7-d19d-450b-81c7-6dafe4184c04/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.dfebc3b7-d19d-450b-81c7-6dafe4184c04

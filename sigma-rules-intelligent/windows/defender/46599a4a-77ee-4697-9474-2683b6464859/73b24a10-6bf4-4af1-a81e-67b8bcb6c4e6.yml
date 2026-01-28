@@ -1,0 +1,28 @@
+title: 73b24a10-6bf4-4af1-a81e-67b8bcb6c4e6 (WINDOWS)
+id: a5da628d-1d34-4036-a45d-0560c23bb2c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 73b24a10-6bf4-4af1-a81e-67b8bcb6c4e6.
+references:
+  - https://attack.mitre.org/techniques/73b24a10-6bf4-4af1-a81e-67b8bcb6c4e6/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.73b24a10-6bf4-4af1-a81e-67b8bcb6c4e6

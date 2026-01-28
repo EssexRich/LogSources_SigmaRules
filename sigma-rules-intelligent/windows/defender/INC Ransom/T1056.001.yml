@@ -1,0 +1,28 @@
+title: Keylogging (WINDOWS)
+id: 8ae70c59-5d0a-4f63-a0e7-30e9dd4e25f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.001.
+references:
+  - https://attack.mitre.org/techniques/T1056.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056.001

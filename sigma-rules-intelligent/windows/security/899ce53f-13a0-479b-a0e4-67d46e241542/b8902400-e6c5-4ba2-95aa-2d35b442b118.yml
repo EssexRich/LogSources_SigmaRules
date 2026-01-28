@@ -1,0 +1,28 @@
+title: b8902400-e6c5-4ba2-95aa-2d35b442b118 (WINDOWS)
+id: 2f9281a7-9076-41dc-a82f-7784803d8a9a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b8902400-e6c5-4ba2-95aa-2d35b442b118.
+references:
+  - https://attack.mitre.org/techniques/b8902400-e6c5-4ba2-95aa-2d35b442b118/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b8902400-e6c5-4ba2-95aa-2d35b442b118

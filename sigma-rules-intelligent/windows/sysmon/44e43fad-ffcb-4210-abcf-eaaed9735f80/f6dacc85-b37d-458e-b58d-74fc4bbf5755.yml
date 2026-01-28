@@ -1,0 +1,28 @@
+title: f6dacc85-b37d-458e-b58d-74fc4bbf5755 (WINDOWS)
+id: eefc2456-5b77-4d1d-8837-7d3189eef7a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f6dacc85-b37d-458e-b58d-74fc4bbf5755.
+references:
+  - https://attack.mitre.org/techniques/f6dacc85-b37d-458e-b58d-74fc4bbf5755/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f6dacc85-b37d-458e-b58d-74fc4bbf5755

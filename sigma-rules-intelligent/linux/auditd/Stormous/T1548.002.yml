@@ -1,0 +1,28 @@
+title: Bypass User Account Control (LINUX)
+id: 1c84c8f6-b845-4960-b536-25921920af9a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.002.
+references:
+  - https://attack.mitre.org/techniques/T1548.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548.002

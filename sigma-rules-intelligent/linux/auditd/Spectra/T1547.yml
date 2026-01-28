@@ -1,0 +1,30 @@
+title: Boot or Logon Autostart Execution (LINUX)
+id: ada1770a-06bc-4b72-b213-0ea2cec19bc5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547

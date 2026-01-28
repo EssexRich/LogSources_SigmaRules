@@ -1,0 +1,28 @@
+title: baf60e1a-afe5-4d31-830f-1b1ba2351884 (GOOGLE)
+id: 5715bf78-7af7-4858-8ccc-7f094f00834b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique baf60e1a-afe5-4d31-830f-1b1ba2351884.
+references:
+  - https://attack.mitre.org/techniques/baf60e1a-afe5-4d31-830f-1b1ba2351884/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.baf60e1a-afe5-4d31-830f-1b1ba2351884

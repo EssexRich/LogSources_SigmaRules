@@ -1,0 +1,28 @@
+title: Archive via Utility (M365)
+id: 1b5171af-a420-4d95-b148-b9fc1d169958
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.001.
+references:
+  - https://attack.mitre.org/techniques/T1560.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.001

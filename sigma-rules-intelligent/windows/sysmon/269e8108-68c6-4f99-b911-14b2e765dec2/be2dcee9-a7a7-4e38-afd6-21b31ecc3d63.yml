@@ -1,0 +1,28 @@
+title: be2dcee9-a7a7-4e38-afd6-21b31ecc3d63 (WINDOWS)
+id: f61bfe61-bec2-41b8-840c-4beffcee492a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique be2dcee9-a7a7-4e38-afd6-21b31ecc3d63.
+references:
+  - https://attack.mitre.org/techniques/be2dcee9-a7a7-4e38-afd6-21b31ecc3d63/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.be2dcee9-a7a7-4e38-afd6-21b31ecc3d63

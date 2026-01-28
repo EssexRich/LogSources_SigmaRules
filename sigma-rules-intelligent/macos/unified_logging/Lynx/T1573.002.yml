@@ -1,0 +1,28 @@
+title: Asymmetric Cryptography (MACOS)
+id: 3b95ac41-495c-4f45-9e24-9cc208c98828
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.002.
+references:
+  - https://attack.mitre.org/techniques/T1573.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.002

@@ -1,0 +1,28 @@
+title: 1c34f7aa-9341-4a48-bfab-af22e51aca6c (WINDOWS)
+id: 4e1412ef-5733-431e-9af1-0549c95b17dd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 1c34f7aa-9341-4a48-bfab-af22e51aca6c.
+references:
+  - https://attack.mitre.org/techniques/1c34f7aa-9341-4a48-bfab-af22e51aca6c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.1c34f7aa-9341-4a48-bfab-af22e51aca6c

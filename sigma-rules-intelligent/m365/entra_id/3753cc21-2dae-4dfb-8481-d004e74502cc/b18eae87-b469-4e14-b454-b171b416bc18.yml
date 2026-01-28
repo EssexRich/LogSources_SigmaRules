@@ -1,0 +1,28 @@
+title: b18eae87-b469-4e14-b454-b171b416bc18 (M365)
+id: 62bfc7bf-ec34-449c-9d9b-587ea334c569
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b18eae87-b469-4e14-b454-b171b416bc18.
+references:
+  - https://attack.mitre.org/techniques/b18eae87-b469-4e14-b454-b171b416bc18/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b18eae87-b469-4e14-b454-b171b416bc18

@@ -1,0 +1,28 @@
+title: T3774 (WINDOWS)
+id: 40b54c77-ecb4-4d17-a438-d45c1c3cae8c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3774.
+references:
+  - https://attack.mitre.org/techniques/T3774/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3774

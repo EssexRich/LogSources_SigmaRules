@@ -1,0 +1,28 @@
+title: Disable or Modify Tools (M365)
+id: 12957ae5-3dca-4439-9a6e-67fd01d16e4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.001.
+references:
+  - https://attack.mitre.org/techniques/T1562.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.001

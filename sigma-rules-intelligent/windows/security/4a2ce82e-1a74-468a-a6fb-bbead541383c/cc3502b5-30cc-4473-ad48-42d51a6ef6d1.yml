@@ -1,0 +1,28 @@
+title: cc3502b5-30cc-4473-ad48-42d51a6ef6d1 (WINDOWS)
+id: fd7ab501-4dec-4aa2-a685-f1f060758f8c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cc3502b5-30cc-4473-ad48-42d51a6ef6d1.
+references:
+  - https://attack.mitre.org/techniques/cc3502b5-30cc-4473-ad48-42d51a6ef6d1/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cc3502b5-30cc-4473-ad48-42d51a6ef6d1

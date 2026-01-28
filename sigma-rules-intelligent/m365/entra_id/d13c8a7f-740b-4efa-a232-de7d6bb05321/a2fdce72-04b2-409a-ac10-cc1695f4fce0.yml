@@ -1,0 +1,28 @@
+title: a2fdce72-04b2-409a-ac10-cc1695f4fce0 (M365)
+id: 2d4da998-a63b-451f-9e5d-dc0486641f80
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a2fdce72-04b2-409a-ac10-cc1695f4fce0.
+references:
+  - https://attack.mitre.org/techniques/a2fdce72-04b2-409a-ac10-cc1695f4fce0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a2fdce72-04b2-409a-ac10-cc1695f4fce0

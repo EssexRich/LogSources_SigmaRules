@@ -1,0 +1,28 @@
+title: T3216 (GOOGLE)
+id: 4604c45a-2080-4061-b878-fe2c1db40e79
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3216.
+references:
+  - https://attack.mitre.org/techniques/T3216/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3216

@@ -1,0 +1,28 @@
+title: dcaa092b-7de9-4a21-977f-7fcb77e89c48 (M365)
+id: b400543f-8013-4322-8dee-0e305c1e16f0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique dcaa092b-7de9-4a21-977f-7fcb77e89c48.
+references:
+  - https://attack.mitre.org/techniques/dcaa092b-7de9-4a21-977f-7fcb77e89c48/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.dcaa092b-7de9-4a21-977f-7fcb77e89c48

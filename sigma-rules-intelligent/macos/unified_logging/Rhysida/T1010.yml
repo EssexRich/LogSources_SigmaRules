@@ -1,0 +1,28 @@
+title: Application Window Discovery (MACOS)
+id: ee780293-1e86-44b9-a5b0-a76d43e1f0d8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1010.
+references:
+  - https://attack.mitre.org/techniques/T1010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1010

@@ -1,0 +1,28 @@
+title: c9e0c59e-162e-40a4-b8b1-78fab4329ada (WINDOWS)
+id: c3043e60-dda6-4ac8-96fa-f65571ae9cd2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique c9e0c59e-162e-40a4-b8b1-78fab4329ada.
+references:
+  - https://attack.mitre.org/techniques/c9e0c59e-162e-40a4-b8b1-78fab4329ada/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.c9e0c59e-162e-40a4-b8b1-78fab4329ada

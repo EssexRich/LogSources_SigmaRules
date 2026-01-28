@@ -1,0 +1,28 @@
+title: Impair Defenses (GOOGLE)
+id: e34c1639-b16f-4eb1-b234-6ceeac183978
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562

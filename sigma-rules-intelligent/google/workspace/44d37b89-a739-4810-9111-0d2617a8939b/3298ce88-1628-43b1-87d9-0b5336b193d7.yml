@@ -1,0 +1,28 @@
+title: 3298ce88-1628-43b1-87d9-0b5336b193d7 (GOOGLE)
+id: 39634857-a650-4015-9d2c-f0ccb304b97c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 3298ce88-1628-43b1-87d9-0b5336b193d7.
+references:
+  - https://attack.mitre.org/techniques/3298ce88-1628-43b1-87d9-0b5336b193d7/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.3298ce88-1628-43b1-87d9-0b5336b193d7

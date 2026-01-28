@@ -1,0 +1,28 @@
+title: DNS Server (GOOGLE)
+id: 6a1f2695-eb8c-42f0-916a-9a6b4a0a4964
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.002.
+references:
+  - https://attack.mitre.org/techniques/T1583.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.002

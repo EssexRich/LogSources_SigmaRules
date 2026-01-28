@@ -1,0 +1,28 @@
+title: f4b843c1-7e92-4701-8fed-ce82f8be2636 (WINDOWS)
+id: a1158d89-adaa-4e2f-be38-fe232e38dba7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f4b843c1-7e92-4701-8fed-ce82f8be2636.
+references:
+  - https://attack.mitre.org/techniques/f4b843c1-7e92-4701-8fed-ce82f8be2636/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f4b843c1-7e92-4701-8fed-ce82f8be2636

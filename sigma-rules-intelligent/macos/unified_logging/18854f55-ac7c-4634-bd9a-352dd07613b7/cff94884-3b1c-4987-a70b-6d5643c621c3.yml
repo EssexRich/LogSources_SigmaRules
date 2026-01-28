@@ -1,0 +1,28 @@
+title: cff94884-3b1c-4987-a70b-6d5643c621c3 (MACOS)
+id: e8b0806f-9a1a-4d2a-a906-78112335cf38
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cff94884-3b1c-4987-a70b-6d5643c621c3.
+references:
+  - https://attack.mitre.org/techniques/cff94884-3b1c-4987-a70b-6d5643c621c3/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cff94884-3b1c-4987-a70b-6d5643c621c3

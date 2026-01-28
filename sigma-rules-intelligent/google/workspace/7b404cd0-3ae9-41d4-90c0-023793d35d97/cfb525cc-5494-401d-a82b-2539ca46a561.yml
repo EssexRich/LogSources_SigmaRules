@@ -1,0 +1,28 @@
+title: cfb525cc-5494-401d-a82b-2539ca46a561 (GOOGLE)
+id: f63b30df-bf4a-4cba-b54f-d188fb5c6378
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cfb525cc-5494-401d-a82b-2539ca46a561.
+references:
+  - https://attack.mitre.org/techniques/cfb525cc-5494-401d-a82b-2539ca46a561/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cfb525cc-5494-401d-a82b-2539ca46a561

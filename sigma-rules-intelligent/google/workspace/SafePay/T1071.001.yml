@@ -1,0 +1,28 @@
+title: Web Protocols (GOOGLE)
+id: af6d2a19-012f-4e92-8025-bf60733b3ee8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.001.
+references:
+  - https://attack.mitre.org/techniques/T1071.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.001

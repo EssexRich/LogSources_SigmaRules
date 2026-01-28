@@ -1,0 +1,28 @@
+title: fe926152-f431-4baf-956c-4ad3cb0bf23b (M365)
+id: dde41e00-868e-4ffa-adbd-9babc9f1b374
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique fe926152-f431-4baf-956c-4ad3cb0bf23b.
+references:
+  - https://attack.mitre.org/techniques/fe926152-f431-4baf-956c-4ad3cb0bf23b/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.fe926152-f431-4baf-956c-4ad3cb0bf23b

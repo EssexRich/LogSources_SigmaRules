@@ -1,0 +1,30 @@
+title: Indirect Command Execution (LINUX)
+id: 66c1e601-d734-4017-ba68-40922ae02109
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202

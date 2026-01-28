@@ -1,0 +1,28 @@
+title: T4718 (GOOGLE)
+id: b1a0cbea-43ea-4a61-a39a-e45a886a9db3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4718.
+references:
+  - https://attack.mitre.org/techniques/T4718/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4718

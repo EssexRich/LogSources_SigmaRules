@@ -1,0 +1,28 @@
+title: Password Managers (M365)
+id: c4ff6d4d-663e-4cb3-91b9-467532398c5f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.005.
+references:
+  - https://attack.mitre.org/techniques/T1555.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.005

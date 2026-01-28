@@ -1,0 +1,28 @@
+title: 82caa33e-d11a-433a-94ea-9b5a5fbef81d (LINUX)
+id: c0aa57ef-1192-4df2-a3ac-c638265249a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 82caa33e-d11a-433a-94ea-9b5a5fbef81d.
+references:
+  - https://attack.mitre.org/techniques/82caa33e-d11a-433a-94ea-9b5a5fbef81d/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.82caa33e-d11a-433a-94ea-9b5a5fbef81d

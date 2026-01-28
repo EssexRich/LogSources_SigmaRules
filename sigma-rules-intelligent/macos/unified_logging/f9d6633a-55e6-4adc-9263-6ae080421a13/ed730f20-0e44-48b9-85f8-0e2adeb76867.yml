@@ -1,0 +1,28 @@
+title: ed730f20-0e44-48b9-85f8-0e2adeb76867 (MACOS)
+id: 59d5b5bf-d4ce-462e-9dc0-a01af182a313
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ed730f20-0e44-48b9-85f8-0e2adeb76867.
+references:
+  - https://attack.mitre.org/techniques/ed730f20-0e44-48b9-85f8-0e2adeb76867/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ed730f20-0e44-48b9-85f8-0e2adeb76867

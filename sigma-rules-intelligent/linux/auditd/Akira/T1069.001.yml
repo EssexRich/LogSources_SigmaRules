@@ -1,0 +1,28 @@
+title: Local Groups (LINUX)
+id: 5e382cd7-dcc6-4d3a-84ab-3f1b8828ad45
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.001.
+references:
+  - https://attack.mitre.org/techniques/T1069.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.001

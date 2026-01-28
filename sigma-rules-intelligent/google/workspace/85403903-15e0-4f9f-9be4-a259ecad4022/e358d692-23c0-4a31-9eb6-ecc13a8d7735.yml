@@ -1,0 +1,28 @@
+title: e358d692-23c0-4a31-9eb6-ecc13a8d7735 (GOOGLE)
+id: 31665526-8050-4bba-8dd2-f3f744af5d3d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e358d692-23c0-4a31-9eb6-ecc13a8d7735.
+references:
+  - https://attack.mitre.org/techniques/e358d692-23c0-4a31-9eb6-ecc13a8d7735/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e358d692-23c0-4a31-9eb6-ecc13a8d7735

@@ -1,0 +1,28 @@
+title: CMSTP (WINDOWS)
+id: 31a80d46-5c3f-4639-9a9c-eb7312132e7e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.003.
+references:
+  - https://attack.mitre.org/techniques/T1218.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.003

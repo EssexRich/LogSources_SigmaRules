@@ -1,0 +1,28 @@
+title: T2972 (LINUX)
+id: 05a4f06a-edb2-4bd9-8195-d0f8f903bd06
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T2972.
+references:
+  - https://attack.mitre.org/techniques/T2972/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T2972

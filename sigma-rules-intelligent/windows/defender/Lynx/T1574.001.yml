@@ -1,0 +1,28 @@
+title: DLL (WINDOWS)
+id: 85e3eaf3-6cc3-4aaa-8806-751c0d9777df
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.001.
+references:
+  - https://attack.mitre.org/techniques/T1574.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.001

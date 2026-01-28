@@ -1,0 +1,28 @@
+title: ec4be82f-940c-4dcb-87fe-2bbdd17c692f (WINDOWS)
+id: f0d9491a-b7da-41af-9d57-3e423c3ea176
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ec4be82f-940c-4dcb-87fe-2bbdd17c692f.
+references:
+  - https://attack.mitre.org/techniques/ec4be82f-940c-4dcb-87fe-2bbdd17c692f/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ec4be82f-940c-4dcb-87fe-2bbdd17c692f

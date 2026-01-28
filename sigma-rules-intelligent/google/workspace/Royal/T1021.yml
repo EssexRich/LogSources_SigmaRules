@@ -1,0 +1,28 @@
+title: Remote Services (GOOGLE)
+id: bba18ce8-df64-4b15-b7ad-5c82acdb3e51
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021

@@ -1,0 +1,28 @@
+title: Service Execution (GOOGLE)
+id: 9c9be83a-d716-41aa-a628-b9919ecfa7e8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.002.
+references:
+  - https://attack.mitre.org/techniques/T1569.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569.002

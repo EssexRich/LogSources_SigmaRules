@@ -1,0 +1,28 @@
+title: 853c4192-4311-43e1-bfbb-b11b14911852 (GOOGLE)
+id: 406cd442-b0e9-4148-a6eb-128a3b88612d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 853c4192-4311-43e1-bfbb-b11b14911852.
+references:
+  - https://attack.mitre.org/techniques/853c4192-4311-43e1-bfbb-b11b14911852/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.853c4192-4311-43e1-bfbb-b11b14911852

@@ -1,0 +1,28 @@
+title: T2157 (GOOGLE)
+id: be881e88-e0fe-4e27-8698-b9ee8ffa3a77
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T2157.
+references:
+  - https://attack.mitre.org/techniques/T2157/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T2157

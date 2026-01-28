@@ -1,0 +1,28 @@
+title: dc31fe1e-d722-49da-8f5f-92c7b5aff534 (MACOS)
+id: 7427cd5b-d67c-4a61-b876-b08e15d531aa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique dc31fe1e-d722-49da-8f5f-92c7b5aff534.
+references:
+  - https://attack.mitre.org/techniques/dc31fe1e-d722-49da-8f5f-92c7b5aff534/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.dc31fe1e-d722-49da-8f5f-92c7b5aff534

@@ -1,0 +1,28 @@
+title: cc723aff-ec88-40e3-a224-5af9fd983cc4 (MACOS)
+id: cbe22ef0-dfee-4863-9301-dd7def150730
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cc723aff-ec88-40e3-a224-5af9fd983cc4.
+references:
+  - https://attack.mitre.org/techniques/cc723aff-ec88-40e3-a224-5af9fd983cc4/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cc723aff-ec88-40e3-a224-5af9fd983cc4

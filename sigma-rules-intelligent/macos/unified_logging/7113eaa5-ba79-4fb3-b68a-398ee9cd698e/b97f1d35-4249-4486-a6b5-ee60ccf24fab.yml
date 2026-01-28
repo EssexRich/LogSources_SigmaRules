@@ -1,0 +1,28 @@
+title: b97f1d35-4249-4486-a6b5-ee60ccf24fab (MACOS)
+id: bca6f25b-616a-415a-90b8-512eed0f184a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b97f1d35-4249-4486-a6b5-ee60ccf24fab.
+references:
+  - https://attack.mitre.org/techniques/b97f1d35-4249-4486-a6b5-ee60ccf24fab/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b97f1d35-4249-4486-a6b5-ee60ccf24fab

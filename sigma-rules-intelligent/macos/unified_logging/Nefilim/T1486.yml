@@ -1,0 +1,28 @@
+title: Data Encrypted for Impact (MACOS)
+id: 064fe46e-3bdb-4989-b64c-6deaf15eb7b8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486

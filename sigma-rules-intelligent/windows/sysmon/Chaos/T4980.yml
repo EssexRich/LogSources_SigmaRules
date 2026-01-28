@@ -1,0 +1,28 @@
+title: T4980 (WINDOWS)
+id: 202abd7f-f2ae-4744-8d2b-32b67d6da66a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4980.
+references:
+  - https://attack.mitre.org/techniques/T4980/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4980

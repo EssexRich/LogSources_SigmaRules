@@ -1,0 +1,28 @@
+title: d74c4a7e-ffbf-432f-9365-7ebf1f787cab (GOOGLE)
+id: 2b8ca562-dae5-4d1b-8d88-417ae833e4f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d74c4a7e-ffbf-432f-9365-7ebf1f787cab.
+references:
+  - https://attack.mitre.org/techniques/d74c4a7e-ffbf-432f-9365-7ebf1f787cab/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d74c4a7e-ffbf-432f-9365-7ebf1f787cab

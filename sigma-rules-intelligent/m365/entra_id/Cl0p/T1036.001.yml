@@ -1,0 +1,28 @@
+title: Invalid Code Signature (M365)
+id: e80c84ab-0171-473f-b1a9-2a1766f46468
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.001.
+references:
+  - https://attack.mitre.org/techniques/T1036.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.001

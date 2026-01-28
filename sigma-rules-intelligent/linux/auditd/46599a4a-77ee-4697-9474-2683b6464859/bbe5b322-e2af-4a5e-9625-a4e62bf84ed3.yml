@@ -1,0 +1,28 @@
+title: bbe5b322-e2af-4a5e-9625-a4e62bf84ed3 (LINUX)
+id: 06d8f985-b3d1-4911-ba01-f90466c51462
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique bbe5b322-e2af-4a5e-9625-a4e62bf84ed3.
+references:
+  - https://attack.mitre.org/techniques/bbe5b322-e2af-4a5e-9625-a4e62bf84ed3/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.bbe5b322-e2af-4a5e-9625-a4e62bf84ed3

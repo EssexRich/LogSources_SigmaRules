@@ -1,0 +1,30 @@
+title: Spearphishing Link (M365)
+id: e3c61061-4406-4b0b-b6af-ae0893ecbdd2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.002.
+references:
+  - https://attack.mitre.org/techniques/T1566.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    AttachmentExtension|in:
+      - 'exe'
+      - 'dll'
+      - 'zip'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.002

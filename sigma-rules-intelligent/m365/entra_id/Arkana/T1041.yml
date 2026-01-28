@@ -1,0 +1,28 @@
+title: Exfiltration Over C2 Channel (M365)
+id: 10c8c7d8-9ad5-408f-947c-3ab01d24b515
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041

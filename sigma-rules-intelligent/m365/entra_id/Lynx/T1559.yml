@@ -1,0 +1,28 @@
+title: Inter-Process Communication (M365)
+id: 4152ef76-3c34-4eee-97cd-1b8d48794809
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.
+references:
+  - https://attack.mitre.org/techniques/T1559/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559

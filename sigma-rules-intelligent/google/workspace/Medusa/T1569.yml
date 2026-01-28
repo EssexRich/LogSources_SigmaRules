@@ -1,0 +1,28 @@
+title: System Services (GOOGLE)
+id: 18bc1dc9-61e9-4377-9c60-d4544e7ef6f8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.
+references:
+  - https://attack.mitre.org/techniques/T1569/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569

@@ -1,0 +1,28 @@
+title: 6c2957f9-502a-478c-b1dd-d626c0659413 (GOOGLE)
+id: cc9aa1da-a7b6-4780-823e-63501ff966ba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 6c2957f9-502a-478c-b1dd-d626c0659413.
+references:
+  - https://attack.mitre.org/techniques/6c2957f9-502a-478c-b1dd-d626c0659413/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.6c2957f9-502a-478c-b1dd-d626c0659413

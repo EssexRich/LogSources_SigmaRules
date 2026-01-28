@@ -1,0 +1,28 @@
+title: be055942-6e63-49d7-9fa1-9cb7d8a8f3f4 (MACOS)
+id: e853ac58-e2a5-484f-b584-5defc952f095
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique be055942-6e63-49d7-9fa1-9cb7d8a8f3f4.
+references:
+  - https://attack.mitre.org/techniques/be055942-6e63-49d7-9fa1-9cb7d8a8f3f4/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.be055942-6e63-49d7-9fa1-9cb7d8a8f3f4

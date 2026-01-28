@@ -1,0 +1,28 @@
+title: Screen Capture (WINDOWS)
+id: 7f769f30-2845-4360-b235-cb944e897bf8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113

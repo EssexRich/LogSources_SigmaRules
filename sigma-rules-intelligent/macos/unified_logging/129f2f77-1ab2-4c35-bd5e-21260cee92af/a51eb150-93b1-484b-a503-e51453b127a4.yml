@@ -1,0 +1,28 @@
+title: a51eb150-93b1-484b-a503-e51453b127a4 (MACOS)
+id: 452808a2-84fc-4cb3-8b3b-a0db38d50638
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique a51eb150-93b1-484b-a503-e51453b127a4.
+references:
+  - https://attack.mitre.org/techniques/a51eb150-93b1-484b-a503-e51453b127a4/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.a51eb150-93b1-484b-a503-e51453b127a4

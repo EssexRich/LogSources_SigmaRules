@@ -1,0 +1,28 @@
+title: ebbe170d-aa74-4946-8511-9921243415a3 (M365)
+id: 200a26d8-3745-40e6-a1d7-4d6d9a99a93e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ebbe170d-aa74-4946-8511-9921243415a3.
+references:
+  - https://attack.mitre.org/techniques/ebbe170d-aa74-4946-8511-9921243415a3/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ebbe170d-aa74-4946-8511-9921243415a3

@@ -1,0 +1,28 @@
+title: Hide Artifacts (GOOGLE)
+id: 89f1b7fc-780e-4389-8a93-2e7f1d13703b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564

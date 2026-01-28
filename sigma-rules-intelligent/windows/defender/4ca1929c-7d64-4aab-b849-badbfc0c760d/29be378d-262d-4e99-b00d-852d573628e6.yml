@@ -1,0 +1,28 @@
+title: 29be378d-262d-4e99-b00d-852d573628e6 (WINDOWS)
+id: 5e0028af-5fb1-4bb6-9809-fe88247ee819
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 29be378d-262d-4e99-b00d-852d573628e6.
+references:
+  - https://attack.mitre.org/techniques/29be378d-262d-4e99-b00d-852d573628e6/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.29be378d-262d-4e99-b00d-852d573628e6

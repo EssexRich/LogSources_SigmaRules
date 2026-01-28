@@ -1,0 +1,28 @@
+title: d4bdbdea-eaec-4071-b4f9-5105e12ea4b6 (GOOGLE)
+id: 281f5a33-f7bf-4e28-9770-19c596b12be9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d4bdbdea-eaec-4071-b4f9-5105e12ea4b6.
+references:
+  - https://attack.mitre.org/techniques/d4bdbdea-eaec-4071-b4f9-5105e12ea4b6/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d4bdbdea-eaec-4071-b4f9-5105e12ea4b6

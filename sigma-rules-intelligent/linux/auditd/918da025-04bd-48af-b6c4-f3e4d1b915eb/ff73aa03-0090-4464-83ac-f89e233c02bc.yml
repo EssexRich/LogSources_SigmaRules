@@ -1,0 +1,28 @@
+title: ff73aa03-0090-4464-83ac-f89e233c02bc (LINUX)
+id: 9c4f19d7-2cc3-40ef-bb0e-f6dd8d71f366
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ff73aa03-0090-4464-83ac-f89e233c02bc.
+references:
+  - https://attack.mitre.org/techniques/ff73aa03-0090-4464-83ac-f89e233c02bc/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ff73aa03-0090-4464-83ac-f89e233c02bc

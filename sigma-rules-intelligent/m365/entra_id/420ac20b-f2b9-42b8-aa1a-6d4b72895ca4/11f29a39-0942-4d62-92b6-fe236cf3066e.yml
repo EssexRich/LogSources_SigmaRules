@@ -1,0 +1,28 @@
+title: 11f29a39-0942-4d62-92b6-fe236cf3066e (M365)
+id: b74233c0-619e-40cc-a8d9-ae57f2aab5ac
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 11f29a39-0942-4d62-92b6-fe236cf3066e.
+references:
+  - https://attack.mitre.org/techniques/11f29a39-0942-4d62-92b6-fe236cf3066e/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.11f29a39-0942-4d62-92b6-fe236cf3066e

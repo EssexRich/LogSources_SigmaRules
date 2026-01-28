@@ -1,0 +1,28 @@
+title: 54a649ff-439a-41a4-9856-8d144a2551ba (WINDOWS)
+id: 723e55d8-1223-4a77-8211-c73779d6492c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 54a649ff-439a-41a4-9856-8d144a2551ba.
+references:
+  - https://attack.mitre.org/techniques/54a649ff-439a-41a4-9856-8d144a2551ba/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.54a649ff-439a-41a4-9856-8d144a2551ba

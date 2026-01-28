@@ -1,0 +1,28 @@
+title: ae797531-3219-49a4-bccf-324ad7a4c7b2 (MACOS)
+id: fc8c9f9f-0a2f-4bbb-a0cb-99d8be50e3c8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ae797531-3219-49a4-bccf-324ad7a4c7b2.
+references:
+  - https://attack.mitre.org/techniques/ae797531-3219-49a4-bccf-324ad7a4c7b2/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ae797531-3219-49a4-bccf-324ad7a4c7b2

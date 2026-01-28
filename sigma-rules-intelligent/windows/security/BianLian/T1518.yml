@@ -1,0 +1,28 @@
+title: Software Discovery (WINDOWS)
+id: 33c44fb2-723c-4c35-a08b-f63de86da1e8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.
+references:
+  - https://attack.mitre.org/techniques/T1518/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518

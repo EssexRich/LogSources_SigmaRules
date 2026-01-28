@@ -1,0 +1,28 @@
+title: Abuse Elevation Control Mechanism (GOOGLE)
+id: 808c8c17-7b05-4ba9-98bf-0d895c84b914
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.
+references:
+  - https://attack.mitre.org/techniques/T1548/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548

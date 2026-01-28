@@ -1,0 +1,28 @@
+title: cbb66055-0325-4111-aca0-40547b6ad5b0 (WINDOWS)
+id: 6787ca51-f74a-4055-bd30-a8f8dd6f52de
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cbb66055-0325-4111-aca0-40547b6ad5b0.
+references:
+  - https://attack.mitre.org/techniques/cbb66055-0325-4111-aca0-40547b6ad5b0/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cbb66055-0325-4111-aca0-40547b6ad5b0

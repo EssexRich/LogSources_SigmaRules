@@ -1,0 +1,28 @@
+title: 970a3432-3237-47ad-bcca-7d8cbb217736 (GOOGLE)
+id: d617b8cf-f48a-4c47-9f74-63b1358835cf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 970a3432-3237-47ad-bcca-7d8cbb217736.
+references:
+  - https://attack.mitre.org/techniques/970a3432-3237-47ad-bcca-7d8cbb217736/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.970a3432-3237-47ad-bcca-7d8cbb217736

@@ -1,0 +1,28 @@
+title: 132d5b37-aac5-4378-a8dc-3127b18a73dc (MACOS)
+id: 11aa3f6f-29b0-4f5e-b59b-7e85a7cbd3e5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 132d5b37-aac5-4378-a8dc-3127b18a73dc.
+references:
+  - https://attack.mitre.org/techniques/132d5b37-aac5-4378-a8dc-3127b18a73dc/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.132d5b37-aac5-4378-a8dc-3127b18a73dc

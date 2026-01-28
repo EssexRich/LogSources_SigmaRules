@@ -1,0 +1,28 @@
+title: OS Credential Dumping (WINDOWS)
+id: 7ab1a084-aca4-4320-b714-610d7d63775b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003

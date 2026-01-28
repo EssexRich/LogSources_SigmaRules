@@ -1,0 +1,28 @@
+title: d63a3fb8-9452-4e9d-a60a-54be68d5998c (WINDOWS)
+id: ee57d500-6af5-441e-b2c1-f0965e6e20c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d63a3fb8-9452-4e9d-a60a-54be68d5998c.
+references:
+  - https://attack.mitre.org/techniques/d63a3fb8-9452-4e9d-a60a-54be68d5998c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d63a3fb8-9452-4e9d-a60a-54be68d5998c

@@ -1,0 +1,28 @@
+title: cc3502b5-30cc-4473-ad48-42d51a6ef6d1 (M365)
+id: 33bb0bfa-c374-4aa5-a843-751c6654357b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique cc3502b5-30cc-4473-ad48-42d51a6ef6d1.
+references:
+  - https://attack.mitre.org/techniques/cc3502b5-30cc-4473-ad48-42d51a6ef6d1/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.cc3502b5-30cc-4473-ad48-42d51a6ef6d1

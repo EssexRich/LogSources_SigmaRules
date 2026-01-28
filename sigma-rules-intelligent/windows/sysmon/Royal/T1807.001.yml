@@ -1,0 +1,28 @@
+title: T1807.001 (WINDOWS)
+id: d2cc0d35-9336-4c37-b2be-283a12816a52
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1807.001.
+references:
+  - https://attack.mitre.org/techniques/T1807.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1807.001

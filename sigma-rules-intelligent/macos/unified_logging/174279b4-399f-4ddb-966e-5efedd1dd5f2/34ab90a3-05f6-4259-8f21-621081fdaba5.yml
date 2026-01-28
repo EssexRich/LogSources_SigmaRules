@@ -1,0 +1,28 @@
+title: 34ab90a3-05f6-4259-8f21-621081fdaba5 (MACOS)
+id: 97a9cb35-7434-43e4-9d04-e00bad35d7b7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 34ab90a3-05f6-4259-8f21-621081fdaba5.
+references:
+  - https://attack.mitre.org/techniques/34ab90a3-05f6-4259-8f21-621081fdaba5/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.34ab90a3-05f6-4259-8f21-621081fdaba5

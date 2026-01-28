@@ -1,0 +1,28 @@
+title: d4b96d2c-1032-4b22-9235-2b5b649d0605 (WINDOWS)
+id: 04070aef-b5bc-4b2e-9bd4-ebfeb6ad5c2b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d4b96d2c-1032-4b22-9235-2b5b649d0605.
+references:
+  - https://attack.mitre.org/techniques/d4b96d2c-1032-4b22-9235-2b5b649d0605/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d4b96d2c-1032-4b22-9235-2b5b649d0605

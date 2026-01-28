@@ -1,0 +1,28 @@
+title: 98034fef-d9fb-4667-8dc4-2eab6231724c (GOOGLE)
+id: d9b3c428-7b20-4380-94d0-61b707313841
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 98034fef-d9fb-4667-8dc4-2eab6231724c.
+references:
+  - https://attack.mitre.org/techniques/98034fef-d9fb-4667-8dc4-2eab6231724c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.98034fef-d9fb-4667-8dc4-2eab6231724c

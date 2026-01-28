@@ -1,0 +1,28 @@
+title: T1538.008 (WINDOWS)
+id: f439063c-0198-4035-888d-16fe2999ffd5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1538.008.
+references:
+  - https://attack.mitre.org/techniques/T1538.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1538.008

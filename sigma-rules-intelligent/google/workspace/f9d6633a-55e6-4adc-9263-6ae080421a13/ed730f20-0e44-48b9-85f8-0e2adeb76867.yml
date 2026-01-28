@@ -1,0 +1,28 @@
+title: ed730f20-0e44-48b9-85f8-0e2adeb76867 (GOOGLE)
+id: fcf06217-a3cc-42a0-bbf7-8d1b014f01a4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique ed730f20-0e44-48b9-85f8-0e2adeb76867.
+references:
+  - https://attack.mitre.org/techniques/ed730f20-0e44-48b9-85f8-0e2adeb76867/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.ed730f20-0e44-48b9-85f8-0e2adeb76867

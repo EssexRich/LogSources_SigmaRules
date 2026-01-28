@@ -1,0 +1,28 @@
+title: be055942-6e63-49d7-9fa1-9cb7d8a8f3f4 (M365)
+id: 3b83973a-ebc6-4fb1-8d59-82d20c6be10e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique be055942-6e63-49d7-9fa1-9cb7d8a8f3f4.
+references:
+  - https://attack.mitre.org/techniques/be055942-6e63-49d7-9fa1-9cb7d8a8f3f4/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.be055942-6e63-49d7-9fa1-9cb7d8a8f3f4

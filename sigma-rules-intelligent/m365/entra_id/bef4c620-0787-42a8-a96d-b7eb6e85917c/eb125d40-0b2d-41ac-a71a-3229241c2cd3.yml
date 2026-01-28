@@ -1,0 +1,28 @@
+title: eb125d40-0b2d-41ac-a71a-3229241c2cd3 (M365)
+id: c60e8a82-e7a2-4bc4-b070-e52fce989052
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique eb125d40-0b2d-41ac-a71a-3229241c2cd3.
+references:
+  - https://attack.mitre.org/techniques/eb125d40-0b2d-41ac-a71a-3229241c2cd3/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.eb125d40-0b2d-41ac-a71a-3229241c2cd3

@@ -1,0 +1,28 @@
+title: Inhibit System Recovery (WINDOWS)
+id: 410df58d-ed3a-414a-8d91-d66e9c250a20
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490

@@ -1,0 +1,28 @@
+title: c32f7008-9fea-41f7-8366-5eb9b74bd896 (GOOGLE)
+id: e56acc0e-e519-46a9-829d-95dcc73e0bc3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique c32f7008-9fea-41f7-8366-5eb9b74bd896.
+references:
+  - https://attack.mitre.org/techniques/c32f7008-9fea-41f7-8366-5eb9b74bd896/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.c32f7008-9fea-41f7-8366-5eb9b74bd896

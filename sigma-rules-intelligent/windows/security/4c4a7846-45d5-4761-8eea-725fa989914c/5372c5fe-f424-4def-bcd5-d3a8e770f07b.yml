@@ -1,0 +1,28 @@
+title: 5372c5fe-f424-4def-bcd5-d3a8e770f07b (WINDOWS)
+id: 536c81b7-f77d-46b4-ba3f-846a4fc532a1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 5372c5fe-f424-4def-bcd5-d3a8e770f07b.
+references:
+  - https://attack.mitre.org/techniques/5372c5fe-f424-4def-bcd5-d3a8e770f07b/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.5372c5fe-f424-4def-bcd5-d3a8e770f07b

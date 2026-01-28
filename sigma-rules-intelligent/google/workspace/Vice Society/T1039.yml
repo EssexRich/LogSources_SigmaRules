@@ -1,0 +1,28 @@
+title: Data from Network Shared Drive (GOOGLE)
+id: 84e88172-1585-44e7-87cc-0a7b5e441004
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1039.
+references:
+  - https://attack.mitre.org/techniques/T1039/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1039

@@ -1,0 +1,28 @@
+title: System Shutdown/Reboot (LINUX)
+id: 0b0cda0f-71c6-44bc-b6f7-4022e160b352
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1529.
+references:
+  - https://attack.mitre.org/techniques/T1529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1529

@@ -1,0 +1,28 @@
+title: e6919abc-99f9-4c6c-95a5-14761e7b2add (GOOGLE)
+id: a6deff41-009c-4baf-b4a3-81c0726331a9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e6919abc-99f9-4c6c-95a5-14761e7b2add.
+references:
+  - https://attack.mitre.org/techniques/e6919abc-99f9-4c6c-95a5-14761e7b2add/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e6919abc-99f9-4c6c-95a5-14761e7b2add

@@ -1,0 +1,28 @@
+title: 53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a (GOOGLE)
+id: 245e8983-e396-4080-9ed0-3764a1f982a8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a.
+references:
+  - https://attack.mitre.org/techniques/53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a

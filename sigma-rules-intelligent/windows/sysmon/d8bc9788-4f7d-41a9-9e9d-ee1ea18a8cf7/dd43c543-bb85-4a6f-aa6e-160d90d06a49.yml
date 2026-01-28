@@ -1,0 +1,28 @@
+title: dd43c543-bb85-4a6f-aa6e-160d90d06a49 (WINDOWS)
+id: ec27b0f4-8a19-491f-846e-d54e04ff5f95
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique dd43c543-bb85-4a6f-aa6e-160d90d06a49.
+references:
+  - https://attack.mitre.org/techniques/dd43c543-bb85-4a6f-aa6e-160d90d06a49/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.dd43c543-bb85-4a6f-aa6e-160d90d06a49

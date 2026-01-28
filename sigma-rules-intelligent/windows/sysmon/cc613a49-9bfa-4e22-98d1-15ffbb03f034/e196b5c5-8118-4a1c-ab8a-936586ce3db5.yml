@@ -1,0 +1,28 @@
+title: e196b5c5-8118-4a1c-ab8a-936586ce3db5 (WINDOWS)
+id: 2ff289af-3c85-459d-952e-b1293f1f689c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e196b5c5-8118-4a1c-ab8a-936586ce3db5.
+references:
+  - https://attack.mitre.org/techniques/e196b5c5-8118-4a1c-ab8a-936586ce3db5/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e196b5c5-8118-4a1c-ab8a-936586ce3db5

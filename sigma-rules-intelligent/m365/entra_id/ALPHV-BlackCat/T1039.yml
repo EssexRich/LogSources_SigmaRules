@@ -1,0 +1,28 @@
+title: Data from Network Shared Drive (M365)
+id: a8b88921-11b1-4bcf-afd5-c584b7aa074c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1039.
+references:
+  - https://attack.mitre.org/techniques/T1039/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1039

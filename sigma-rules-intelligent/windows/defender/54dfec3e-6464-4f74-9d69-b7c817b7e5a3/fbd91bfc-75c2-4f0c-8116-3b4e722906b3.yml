@@ -1,0 +1,28 @@
+title: fbd91bfc-75c2-4f0c-8116-3b4e722906b3 (WINDOWS)
+id: 01ce0ee6-6f90-45bf-8efb-8f81b2460699
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique fbd91bfc-75c2-4f0c-8116-3b4e722906b3.
+references:
+  - https://attack.mitre.org/techniques/fbd91bfc-75c2-4f0c-8116-3b4e722906b3/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.fbd91bfc-75c2-4f0c-8116-3b4e722906b3

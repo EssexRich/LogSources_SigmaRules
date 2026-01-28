@@ -1,0 +1,28 @@
+title: 00f90846-cbd1-4fc5-9233-df5c2bf2a662 (WINDOWS)
+id: b547e8d3-15aa-4b97-b552-bb37b8c97f8a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 00f90846-cbd1-4fc5-9233-df5c2bf2a662.
+references:
+  - https://attack.mitre.org/techniques/00f90846-cbd1-4fc5-9233-df5c2bf2a662/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.00f90846-cbd1-4fc5-9233-df5c2bf2a662

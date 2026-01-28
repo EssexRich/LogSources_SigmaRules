@@ -1,0 +1,28 @@
+title: 830c9528-df21-472c-8c14-a036bf17d665 (GOOGLE)
+id: 3464b011-6c85-4bc8-9869-13dc57b65d74
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 830c9528-df21-472c-8c14-a036bf17d665.
+references:
+  - https://attack.mitre.org/techniques/830c9528-df21-472c-8c14-a036bf17d665/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.830c9528-df21-472c-8c14-a036bf17d665

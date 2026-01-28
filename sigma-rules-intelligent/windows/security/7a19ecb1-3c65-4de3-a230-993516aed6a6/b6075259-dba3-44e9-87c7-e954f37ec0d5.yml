@@ -1,0 +1,28 @@
+title: b6075259-dba3-44e9-87c7-e954f37ec0d5 (WINDOWS)
+id: f41f6cef-06b3-4055-be28-e591c260704c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique b6075259-dba3-44e9-87c7-e954f37ec0d5.
+references:
+  - https://attack.mitre.org/techniques/b6075259-dba3-44e9-87c7-e954f37ec0d5/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.b6075259-dba3-44e9-87c7-e954f37ec0d5

@@ -1,0 +1,28 @@
+title: e3b168bd-fcd7-439e-9382-2e6c2f63514d (M365)
+id: a1b2ef78-33ac-48d3-9d48-83101790fa6a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e3b168bd-fcd7-439e-9382-2e6c2f63514d.
+references:
+  - https://attack.mitre.org/techniques/e3b168bd-fcd7-439e-9382-2e6c2f63514d/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e3b168bd-fcd7-439e-9382-2e6c2f63514d

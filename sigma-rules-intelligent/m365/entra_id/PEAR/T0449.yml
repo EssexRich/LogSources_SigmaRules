@@ -1,0 +1,28 @@
+title: T0449 (M365)
+id: b13d2125-2667-495a-9d46-36aff5b45a5f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0449.
+references:
+  - https://attack.mitre.org/techniques/T0449/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0449

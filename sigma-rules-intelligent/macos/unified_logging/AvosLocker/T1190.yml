@@ -1,0 +1,28 @@
+title: Exploit Public-Facing Application (MACOS)
+id: a8f9c742-a7ea-4969-b1f0-0fc74ed84209
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190

@@ -1,0 +1,28 @@
+title: Systemd Service (WINDOWS)
+id: 432f1703-a977-48c2-a806-de7ee8b118d4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.002.
+references:
+  - https://attack.mitre.org/techniques/T1543.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.002

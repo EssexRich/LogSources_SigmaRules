@@ -1,0 +1,28 @@
+title: Execution Guardrails (WINDOWS)
+id: 990d1331-6cd5-46a0-824c-c562f0a983c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1480.
+references:
+  - https://attack.mitre.org/techniques/T1480/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1480

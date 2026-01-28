@@ -1,0 +1,28 @@
+title: SMB/Windows Admin Shares (WINDOWS)
+id: 79a6aa62-0ea0-4c45-86f6-9a5c5f6d86a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.002.
+references:
+  - https://attack.mitre.org/techniques/T1021.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.002

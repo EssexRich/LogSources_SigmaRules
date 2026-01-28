@@ -1,0 +1,32 @@
+title: Encrypted Channel (WINDOWS)
+id: eb078f6c-8a78-4013-a373-134f80feee4c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith:
+      - 'cipher.exe'
+      - 'certutil.exe'
+    CommandLine|contains:
+      - '/e'
+      - '/s'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573

@@ -1,0 +1,28 @@
+title: Phishing (LINUX)
+id: 6bb77d07-4b76-4b2a-acb1-6c7d28635a4b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566

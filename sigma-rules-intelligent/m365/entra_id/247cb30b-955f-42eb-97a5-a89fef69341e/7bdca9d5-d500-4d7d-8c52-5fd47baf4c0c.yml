@@ -1,0 +1,28 @@
+title: 7bdca9d5-d500-4d7d-8c52-5fd47baf4c0c (M365)
+id: afb94972-68b3-4120-a675-b468198c8338
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 7bdca9d5-d500-4d7d-8c52-5fd47baf4c0c.
+references:
+  - https://attack.mitre.org/techniques/7bdca9d5-d500-4d7d-8c52-5fd47baf4c0c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.7bdca9d5-d500-4d7d-8c52-5fd47baf4c0c

@@ -1,0 +1,28 @@
+title: 8982a661-d84c-48c0-b4ec-1db29c6cf3bc (M365)
+id: 97a873f5-7991-4988-ab3a-0bf4c6d3c1e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 8982a661-d84c-48c0-b4ec-1db29c6cf3bc.
+references:
+  - https://attack.mitre.org/techniques/8982a661-d84c-48c0-b4ec-1db29c6cf3bc/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.8982a661-d84c-48c0-b4ec-1db29c6cf3bc

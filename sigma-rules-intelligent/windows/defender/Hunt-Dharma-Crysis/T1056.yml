@@ -1,0 +1,28 @@
+title: Input Capture (WINDOWS)
+id: eb441a1f-aa39-4908-9c16-5542a4c14b81
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.
+references:
+  - https://attack.mitre.org/techniques/T1056/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056

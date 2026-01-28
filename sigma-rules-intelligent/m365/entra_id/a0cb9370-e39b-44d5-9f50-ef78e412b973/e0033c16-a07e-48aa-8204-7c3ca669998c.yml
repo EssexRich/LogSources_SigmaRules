@@ -1,0 +1,28 @@
+title: e0033c16-a07e-48aa-8204-7c3ca669998c (M365)
+id: 2c81d42e-a801-4c91-9f0f-e537f20627b2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique e0033c16-a07e-48aa-8204-7c3ca669998c.
+references:
+  - https://attack.mitre.org/techniques/e0033c16-a07e-48aa-8204-7c3ca669998c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.e0033c16-a07e-48aa-8204-7c3ca669998c

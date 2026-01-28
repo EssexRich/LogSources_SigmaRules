@@ -1,0 +1,28 @@
+title: Bypass User Account Control (WINDOWS)
+id: d3e08be9-b2b1-4418-82f3-cee8a17e97ec
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.002.
+references:
+  - https://attack.mitre.org/techniques/T1548.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548.002

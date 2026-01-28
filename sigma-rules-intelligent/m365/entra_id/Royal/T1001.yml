@@ -1,0 +1,28 @@
+title: Data Obfuscation (M365)
+id: ca6ce70c-386e-4b4e-a9e0-98646feb7b2f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1001.
+references:
+  - https://attack.mitre.org/techniques/T1001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1001

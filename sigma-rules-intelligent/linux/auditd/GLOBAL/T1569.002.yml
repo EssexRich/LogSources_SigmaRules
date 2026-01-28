@@ -1,0 +1,30 @@
+title: Service Execution (LINUX)
+id: 4f68f005-5164-4095-b514-e9392ebbfb11
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.002.
+references:
+  - https://attack.mitre.org/techniques/T1569.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith:
+      - '/bash'
+      - '/sh'
+      - '/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569.002

@@ -1,0 +1,28 @@
+title: d63a3fb8-9452-4e9d-a60a-54be68d5998c (MACOS)
+id: dee59c0e-8d9d-4fc0-ba49-d907f2cb3dd3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d63a3fb8-9452-4e9d-a60a-54be68d5998c.
+references:
+  - https://attack.mitre.org/techniques/d63a3fb8-9452-4e9d-a60a-54be68d5998c/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d63a3fb8-9452-4e9d-a60a-54be68d5998c

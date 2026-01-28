@@ -1,0 +1,28 @@
+title: Impair Defenses (MACOS)
+id: 1430e0b3-ac1d-4c67-b0ad-75b099908cab
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562

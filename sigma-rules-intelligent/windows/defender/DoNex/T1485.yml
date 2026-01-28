@@ -1,0 +1,28 @@
+title: Data Destruction (WINDOWS)
+id: 64b02ba6-36f6-4043-8dfe-4354e04af146
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1485.
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1485

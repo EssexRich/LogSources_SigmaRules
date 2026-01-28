@@ -1,0 +1,28 @@
+title: f232fa7a-025c-4d43-abc7-318e81a73d65 (GOOGLE)
+id: c95c59f2-4c1a-4914-8bd3-088d9857a780
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique f232fa7a-025c-4d43-abc7-318e81a73d65.
+references:
+  - https://attack.mitre.org/techniques/f232fa7a-025c-4d43-abc7-318e81a73d65/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.f232fa7a-025c-4d43-abc7-318e81a73d65

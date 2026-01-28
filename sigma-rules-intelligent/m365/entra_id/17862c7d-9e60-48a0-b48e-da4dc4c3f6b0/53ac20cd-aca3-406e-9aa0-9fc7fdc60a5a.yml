@@ -1,0 +1,28 @@
+title: 53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a (M365)
+id: 645573d4-0099-4ce6-88d8-c48b4818e724
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique 53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a.
+references:
+  - https://attack.mitre.org/techniques/53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a

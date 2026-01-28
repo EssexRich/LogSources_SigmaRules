@@ -1,0 +1,28 @@
+title: Process Discovery (WINDOWS)
+id: 8ab3698a-deb4-4ec1-a1cd-ecd3dbb22d4b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1057.
+references:
+  - https://attack.mitre.org/techniques/T1057/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1057

@@ -1,0 +1,28 @@
+title: d28ef391-8ed4-45dc-bc4a-2f43abf54416 (WINDOWS)
+id: 1162fd0e-e38e-402b-9e86-08bfbe0c38a9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique d28ef391-8ed4-45dc-bc4a-2f43abf54416.
+references:
+  - https://attack.mitre.org/techniques/d28ef391-8ed4-45dc-bc4a-2f43abf54416/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.d28ef391-8ed4-45dc-bc4a-2f43abf54416

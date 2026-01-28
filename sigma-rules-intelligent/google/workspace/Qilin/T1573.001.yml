@@ -1,0 +1,28 @@
+title: Symmetric Cryptography (GOOGLE)
+id: a391c061-5a7b-4fa0-96f3-9a1a576d09dc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.001.
+references:
+  - https://attack.mitre.org/techniques/T1573.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.001

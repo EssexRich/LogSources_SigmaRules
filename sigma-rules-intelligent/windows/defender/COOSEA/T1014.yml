@@ -1,0 +1,28 @@
+title: Rootkit (WINDOWS)
+id: 4b6c74a5-f48c-451c-87d3-eb4b1c95f2d0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1014.
+references:
+  - https://attack.mitre.org/techniques/T1014/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1014

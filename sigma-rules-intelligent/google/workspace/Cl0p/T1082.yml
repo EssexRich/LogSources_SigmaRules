@@ -1,0 +1,28 @@
+title: System Information Discovery (GOOGLE)
+id: 8892c396-c45a-49bc-a043-4e890eeeed3f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
