@@ -1,0 +1,27 @@
+title: New Outlook Macro Created
+id: e85428e6-8b47-4a2b-a274-6fe15f6206e7
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1137.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1137/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_office_outlook_macro_creation.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1137
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '\outlook.exe'
+          TargetFilename|endswith: '\Microsoft\Outlook\VbaProject.OTM'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

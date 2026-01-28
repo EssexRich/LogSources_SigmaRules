@@ -1,0 +1,29 @@
+title: Remote Task Creation via ATSVC Named Pipe
+id: 473ad836-22a1-4ccf-8789-ee7b309bcfb5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1053.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1053/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_atsvc_task.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1053.002
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 5145
+          ShareName: '\\\\\*\\IPC$' # looking for the string \\*\IPC$
+          RelativeTargetName: atsvc
+          AccessList|contains: 'WriteData'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

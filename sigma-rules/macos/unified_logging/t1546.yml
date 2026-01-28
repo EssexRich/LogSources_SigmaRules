@@ -1,0 +1,24 @@
+title: Emond Rules Creation or Modification
+id: 325316ce-b2ca-455a-9903-5e02b01e1f3e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1546.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1546/
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_emond_rules_file_creation.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1546
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

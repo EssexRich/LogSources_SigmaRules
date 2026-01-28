@@ -1,0 +1,30 @@
+title: New Federated Domain Added
+id: 543659be-d59f-4202-bedb-4790339cd59c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1484.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1484/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/m365/audit/microsoft365_new_federated_domain_added_audit.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1484.002
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection_domain:
+          Operation|contains: 'domain'
+      selection_operation:
+          Operation|contains:
+              - 'add'
+              - 'new'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

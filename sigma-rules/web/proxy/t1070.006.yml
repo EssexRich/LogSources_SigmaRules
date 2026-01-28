@@ -1,0 +1,36 @@
+title: ESXi System Clock Manipulation
+id: 17ae4478-98ad-4c93-8550-e07277a99a34
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.006.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1070/006/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_system_clock_manipulation.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1070.006
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    Message:
+      - '*NTPClock*'
+      - '*system'
+    field:
+      - '_raw'
+      - '_raw'
+    epoch_time: 'tonumber(epoch_time)'
+    delta: 'tonumber(delta)'
+    event_time: 'round(_time,'
+    direction: 'if(epoch_time'
+    original_time: 'if(direction=='
+    stepped_to_str: 'strftime(epoch_time,'
+    original_time_str: 'strftime(original_time,'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,28 @@
+title: New Custom Shim Database Created
+id: 88471dbf-b059-41cc-910c-0b500a86e6fa
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1546.011.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1546/011/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_creation_new_shim_database.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1546.011
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          TargetFilename|contains:
+              - ':\Windows\apppatch\Custom\'
+              - ':\Windows\apppatch\CustomSDB\'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

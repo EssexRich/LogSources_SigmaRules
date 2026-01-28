@@ -1,0 +1,35 @@
+title: SUNBURST Command and Control Activity
+id: c94d08f7-2a47-4a85-8ae3-d15fa6c936ed
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1195.002.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1195/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_sunburst_c2_activity_detected.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1195.002
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name:
+      - 'ConfigurationWizard.exe'
+      - 'SolarwindsDiagnostics.exe'
+    http.request.body.content:
+      - '*/swip/Upload.ashx*'
+      - 'POST*'
+      - 'PUT*'
+      - '*/swip/SystemDescription*'
+      - '*/swip/Events*'
+      - 'GET*'
+      - 'HEAD*'
+      - '*solarwinds.com*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

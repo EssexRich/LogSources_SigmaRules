@@ -1,0 +1,35 @@
+title: Uncommon Process Access Rights For Target Image
+id: 735f8d06-15e0-4106-8001-069edc0b3858
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1055.011.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1055/011/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_access/proc_access_win_susp_all_access_uncommon_target.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1055.011
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          TargetImage|endswith:
+              # Note: Add additional uncommon targets to increase coverage.
+              - '\calc.exe'
+              - '\calculator.exe'
+              - '\mspaint.exe'
+              - '\notepad.exe'
+              - '\ping.exe'
+              - '\wordpad.exe'
+              - '\write.exe'
+          GrantedAccess: '0x1FFFFF' # PROCESS_ALL_ACCESS - All possible access rights for a process object.
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

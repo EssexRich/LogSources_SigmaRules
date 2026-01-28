@@ -1,0 +1,31 @@
+title: Suspicious Teams Application Related ObjectAcess Event
+id: b57461ee-e62a-4139-a52d-d917411f6ef6
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1528.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1528/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_teams_suspicious_objectaccess.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1528
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 4663
+          ObjectName|contains:
+              - '\Microsoft\Teams\Cookies'
+              - '\Microsoft\Teams\Local Storage\leveldb'
+      filter:
+          ProcessName|contains: '\Microsoft\Teams\current\Teams.exe'
+      condition: selection and not filter
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

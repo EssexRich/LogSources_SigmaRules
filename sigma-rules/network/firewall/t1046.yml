@@ -1,0 +1,24 @@
+title: Cisco Secure Firewall - Blocked Connection
+id: 0d6adb05-479e-40b9-920c-93c2e01a6615
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1046.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1046/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___blocked_connection.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1046
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    EventType: 'ConnectionEvent'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

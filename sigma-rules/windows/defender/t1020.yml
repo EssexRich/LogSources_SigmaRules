@@ -1,0 +1,30 @@
+title: PowerShell Script With File Hostname Resolving Capabilities
+id: efe569e6-5e3f-4238-a118-a55b47175202
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1020.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1020/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_resolve_list_of_ip_from_file.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1020
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains|all:
+              - 'Get-content '
+              - 'foreach'
+              - '[System.Net.Dns]::GetHostEntry'
+              - 'Out-File'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

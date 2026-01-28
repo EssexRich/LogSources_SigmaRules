@@ -1,0 +1,27 @@
+title: Successful Account Login Via WMI
+id: b70729d7-56ae-4f45-9fef-24238eb39d18
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1047.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1047/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_susp_wmi_login.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1047
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 4624
+          ProcessName|endswith: '\WmiPrvSE.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

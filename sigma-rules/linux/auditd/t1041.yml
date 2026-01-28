@@ -1,0 +1,29 @@
+title: Network Activity Detected via Kworker
+id: 40deaa45-da13-486a-a0bd-2ac9c101f283
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1041.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1041/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_linux_kworker_netcon.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1041
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    destination.port: '2049'
+    host.os.type: 'linux'
+    event.category: 'network'
+    event.action: '(connection_attempted'
+    process.name: 'kworker*'
+    destination.ip: '('
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

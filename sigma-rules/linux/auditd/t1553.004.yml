@@ -1,0 +1,28 @@
+title: Install Root Certificate
+id: 94250253-8edd-48e0-bc41-4ae607c95c97
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1553.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1553/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_install_root_certificate.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1553.004
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          Image|endswith:
+              - '/update-ca-certificates'
+              - '/update-ca-trust'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

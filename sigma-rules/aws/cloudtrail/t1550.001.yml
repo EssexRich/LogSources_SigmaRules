@@ -1,0 +1,29 @@
+title: AWS Console GetSigninToken Potential Abuse
+id: 5531b144-0c7b-4491-9571-d224ff21f4f8
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1550.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1550/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_console_getsignintoken.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1550.001
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          eventSource: 'signin.amazonaws.com'
+          eventName: 'GetSigninToken'
+      filter_main_console_ua:
+          userAgent|contains: 'Jersey/${project.version}'
+      condition: selection and not 1 of filter_main_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

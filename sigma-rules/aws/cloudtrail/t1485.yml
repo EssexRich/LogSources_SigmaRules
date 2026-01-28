@@ -1,0 +1,27 @@
+title: AWS EFS Fileshare Mount Modified or Deleted
+id: 5d7bb8a4-f6f2-471b-8e7a-6b175d8d5d57
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1485.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1485/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_efs_fileshare_mount_modified_or_deleted.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          eventSource: elasticfilesystem.amazonaws.com
+          eventName: DeleteMountTarget
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

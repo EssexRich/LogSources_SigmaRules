@@ -1,0 +1,26 @@
+title: Cisco Secure Firewall - Rare Snort Rule Triggered
+id: eceebf27-10a2-4290-8507-b475737d8bfc
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1583.006.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1583/006/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___rare_snort_rule_triggered.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1583.006
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    EventType: 'IntrusionEvent'
+    earliest: '-7d'
+    TriggerCount: '1'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

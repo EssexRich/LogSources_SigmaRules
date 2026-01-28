@@ -1,0 +1,25 @@
+title: ESXi SSH Enabled
+id: c6e918e7-def5-486e-b513-cebdff19ced7
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1021.004.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1021/004/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_ssh_enabled.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1021.004
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    Message: '*SSH'
+    field: '_raw'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

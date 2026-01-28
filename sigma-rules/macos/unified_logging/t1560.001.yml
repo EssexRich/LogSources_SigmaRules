@@ -1,0 +1,29 @@
+title: Disk Image Mounting Via Hdiutil - MacOS
+id: 77516282-e129-4b98-a20d-e7298d71ad21
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1560.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1560/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_hdiutil_mount.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1560.001
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: /hdiutil
+          CommandLine|contains:
+              - 'attach '
+              - 'mount '
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,29 @@
+title: ASL AWS Defense Evasion PutBucketLifecycle
+id: b5444182-400e-4b9d-a109-8e227139b685
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1485.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1485/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/asl_aws_defense_evasion_putbucketlifecycle.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1485.001
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+  selection:
+    operation: 'PutBucketLifecycle'
+    input:
+      - 'api.request.data'
+      - 'api.request.data'
+    path: 'LifecycleConfiguration.Rule.NoncurrentVersionExpiration.NoncurrentDays'
+    output: 'NoncurrentDays'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

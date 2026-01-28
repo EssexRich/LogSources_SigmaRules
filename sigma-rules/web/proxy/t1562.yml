@@ -1,0 +1,30 @@
+title: Cisco ASA - Core Syslog Message Volume Drop
+id: c2e635f7-9b8c-4ea3-9b69-0cc7cf12de3d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1562/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/cisco_asa___core_syslog_message_volume_drop.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1562
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    msg_desc: 'case('
+    message_id:
+      - '302013'
+      - '302014'
+      - '609002'
+      - '710005'
+    span: '15m'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

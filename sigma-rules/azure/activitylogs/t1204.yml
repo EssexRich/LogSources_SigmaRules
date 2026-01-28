@@ -1,0 +1,36 @@
+title: Kubernetes Anomalous Inbound Network Activity from Process
+id: c24a14ca-a21f-4944-b554-c0e06954d54d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1204.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1204/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/kubernetes_anomalous_inbound_network_activity_from_process.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1204
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    earliest:
+      - '-1h'
+      - '-30d'
+    span: '10s'
+    key:
+      - 'dest.workload.name'
+      - 'dest.workload.name'
+    type: 'left'
+    latest: '-1h'
+    anomalies:
+      - '\'
+      - 'if('
+      - 'split(replace(anomalies,'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

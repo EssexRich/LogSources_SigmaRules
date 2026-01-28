@@ -1,0 +1,26 @@
+title: Ollama Possible API Endpoint Scan Reconnaissance
+id: c67c8ea3-4e85-4c5a-857f-1c6d75651041
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1595.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1595/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/ollama_possible_api_endpoint_scan_reconnaissance.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1595
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    span: '5m'
+    severity: 'medium'
+    attack_type: 'API'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

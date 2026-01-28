@@ -1,0 +1,25 @@
+title: Detect DNS Data Exfiltration using pretrained model in DSDL
+id: 09055815-7c4d-458f-84ba-385500d657f8
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1048.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1048/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1048
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Network_Resolution'
+    rank: '='
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

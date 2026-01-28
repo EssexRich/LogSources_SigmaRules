@@ -1,0 +1,25 @@
+title: Microsoft Intune Device Health Scripts
+id: 212c11de-fbe8-4fe1-941e-9657442b89c0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1202.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1202/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/microsoft_intune_device_health_scripts.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1202
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    operationName: '*DeviceHealthScript*'
+    field: 'operationName'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,30 @@
+title: Powershell Local Email Collection
+id: 5024d2dc-703f-403f-9cc7-0043e2ab94d7
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1114.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1114/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_mail_acces.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1114.001
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains:
+              - 'Get-Inbox.ps1'
+              - 'Microsoft.Office.Interop.Outlook'
+              - 'Microsoft.Office.Interop.Outlook.olDefaultFolders'
+              - '-comobject outlook.application'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

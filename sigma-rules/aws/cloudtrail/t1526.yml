@@ -1,0 +1,27 @@
+title: AWS Excessive Security Scanning
+id: 0528eb75-a6eb-4001-a7e0-84f1e2661baa
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1526.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1526/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_excessive_security_scanning.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1526
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+  selection:
+    eventName:
+      - 'Describe*'
+      - 'List*'
+      - 'Get*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

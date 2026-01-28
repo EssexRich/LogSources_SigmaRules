@@ -1,0 +1,36 @@
+title: Cisco Discovery
+id: 35a73548-20e7-4880-b1c8-69d8063179bd
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1033.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1033/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_discovery.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1033
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords:
+          - 'dir'
+          - 'show arp'
+          - 'show cdp'
+          - 'show clock'
+          - 'show ip interface'
+          - 'show ip route'
+          - 'show ip sockets'
+          - 'show processes'
+          - 'show ssh'
+          - 'show users'
+          - 'show version'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

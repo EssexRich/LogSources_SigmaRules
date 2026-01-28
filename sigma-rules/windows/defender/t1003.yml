@@ -1,0 +1,29 @@
+title: WCE wceaux.dll Access
+id: 899287a3-cce8-4f62-bea9-ad73dcbe8ba9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_mal_wceaux_dll.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1003
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID:
+              - 4656
+              - 4663
+          ObjectName|endswith: '\wceaux.dll'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

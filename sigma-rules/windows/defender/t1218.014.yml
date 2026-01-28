@@ -1,0 +1,30 @@
+title: MMC Loading Script Engines DLLs
+id: be3b9330-077f-490c-bf96-a26ff4f2b0a4
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1218.014.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1218/014/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_win_mmc_loads_script_engine_dll.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1218.014
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '\mmc.exe'
+          ImageLoaded|endswith:
+              - '\vbscript.dll'
+              - '\jscript.dll'
+              - '\jscript9.dll'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

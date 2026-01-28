@@ -1,0 +1,24 @@
+title: GCP Multi-Factor Authentication Disabled
+id: d4b1e589-6caf-4581-86c2-352236676237
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1556/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/gcp_multi_factor_authentication_disabled.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    command: 'UNENROLL_USER_FROM_STRONG_AUTH'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

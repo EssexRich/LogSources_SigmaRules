@@ -1,0 +1,30 @@
+title: Azure Network Firewall Policy Modified or Deleted
+id: 06bc834f-9db1-4b02-b01d-345b13375f35
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.007.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1562/007/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_network_firewall_policy_modified_or_deleted.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1562.007
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          operationName:
+              - MICROSOFT.NETWORK/FIREWALLPOLICIES/WRITE
+              - MICROSOFT.NETWORK/FIREWALLPOLICIES/JOIN/ACTION
+              - MICROSOFT.NETWORK/FIREWALLPOLICIES/CERTIFICATES/ACTION
+              - MICROSOFT.NETWORK/FIREWALLPOLICIES/DELETE
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

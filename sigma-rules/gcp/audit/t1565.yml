@@ -1,0 +1,26 @@
+title: Google Cloud Re-identifies Sensitive Information
+id: 24c6f698-0f76-4536-b0dd-9385ef0e1961
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1565.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1565/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_dlp_re_identifies_sensitive_information.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1565
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+      selection:
+          gcp.audit.method_name: projects.content.reidentify
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

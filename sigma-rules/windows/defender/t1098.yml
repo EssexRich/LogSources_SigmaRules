@@ -1,0 +1,28 @@
+title: A Member Was Added to a Security-Enabled Global Group
+id: 2e8abede-2fb7-49ea-aef5-8b3eb64b3700
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1098.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_member_added_security_enabled_global_group.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1098
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID:
+              - 4728 # A member was added to a security-enabled global group
+              - 632 # Security Enabled Global Group Member Added
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

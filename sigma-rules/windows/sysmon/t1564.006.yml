@@ -1,0 +1,29 @@
+title: Suspicious Hyper-V Cmdlets
+id: 0546289f-aaa7-42e3-a401-ebe966d9a52d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1564.006.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1564/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_hyper_v_condlet.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1564.006
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains:
+              - New-VM
+              - Set-VMFirmware
+              - Start-VM
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

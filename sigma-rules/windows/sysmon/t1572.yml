@@ -1,0 +1,30 @@
+title: Cloudflared Tunnels Related DNS Requests
+id: 67465f50-b8c1-4413-b10d-3bc5dd8a152b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1572.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1572/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/dns_query/dns_query_win_cloudflared_communication.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1572
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          QueryName|endswith:
+              - '.v2.argotunnel.com'
+              - 'protocol-v2.argotunnel.com'
+              - 'trycloudflare.com'
+              - 'update.argotunnel.com'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

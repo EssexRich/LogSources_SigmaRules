@@ -1,0 +1,41 @@
+title: Backup Files Deleted
+id: 4fadd8f1-f7d4-4ae1-b10c-476c8c87546a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1490.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1490/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_delete/file_delete_win_delete_backup_file.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1490
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          Image|endswith:
+              - '\cmd.exe'
+              - '\powershell.exe'
+              - '\pwsh.exe'
+              - '\wt.exe'
+              - '\rundll32.exe'
+              - '\regsvr32.exe'
+          TargetFilename|endswith:
+              - '.VHD'
+              - '.bac'
+              - '.bak'
+              - '.wbcat'
+              - '.bkf'
+              - '.set'
+              - '.win'
+              - '.dsk'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

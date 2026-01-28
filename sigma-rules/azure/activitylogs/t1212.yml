@@ -1,0 +1,29 @@
+title: Kubernetes Nginx Ingress LFI
+id: af791798-175c-4d8f-9cce-8bfab54d5fcb
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1212.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1212/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/kubernetes_nginx_ingress_lfi.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1212
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    field:
+      - '_raw'
+      - 'request'
+    phase: 'operate'
+    severity: 'high'
+    lfi_path: 'yes'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

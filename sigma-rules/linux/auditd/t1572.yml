@@ -1,0 +1,29 @@
+title: Communication To LocaltoNet Tunneling Service Initiated - Linux
+id: 0ef09d02-77b6-4202-9aae-cc8ebfd6a2e6
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1572.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1572/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/network_connection/net_connection_lnx_domain_localtonet_tunnel.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1572
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          DestinationHostname|endswith:
+              - '.localto.net'
+              - '.localtonet.com'
+          Initiated: 'true'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

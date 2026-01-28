@@ -1,0 +1,27 @@
+title: Azure AD Only Single Factor Authentication Required
+id: dcb7ab6f-b817-43f2-b71c-5308659871b8
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.006.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1556/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/signin_logs/azure_ad_only_single_factor_auth_required.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1556.006
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          Status: 'Success'
+          AuthenticationRequirement: 'singleFactorAuthentication'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

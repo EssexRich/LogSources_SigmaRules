@@ -1,0 +1,28 @@
+title: Okta Multi-Factor Authentication Disabled
+id: 6d848a8e-69bc-44f9-be35-9a8189f1e60d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.006.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1556/006/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/okta_multi_factor_authentication_disabled.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1556.006
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    datamodel: 'Change'
+    sourcetype: 'OktaIM2:log'
+    object_category: 'User'
+    action: 'modified'
+    command: 'user.mfa.factor.deactivate'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

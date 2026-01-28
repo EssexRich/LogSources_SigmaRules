@@ -1,0 +1,26 @@
+title: Azure New CloudShell Created
+id: a0989f89-55cc-4af2-b8aa-1ed1b347ce9c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1059.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1059/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_new_cloudshell_created.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1059
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          operationName: MICROSOFT.PORTAL/CONSOLES/WRITE
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

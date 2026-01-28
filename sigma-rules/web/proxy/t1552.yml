@@ -1,0 +1,26 @@
+title: Windows SharePoint Spinstall0 GET Request
+id: c4c8873c-2a9a-4610-aa54-08c49bf40701
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1552.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1552/
+  - https://github.com/splunk/security_content/blob/develop/detections/web/windows_sharepoint_spinstall0_get_request.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1552
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    datamodel: 'Web'
+    url: '*/_layouts/15/spinstall0.aspx*'
+    http_method: 'GET'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

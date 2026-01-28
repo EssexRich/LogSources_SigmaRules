@@ -1,0 +1,26 @@
+title: PowerShell Decompress Commands
+id: fe656194-ec60-4b7a-a0da-3e47028cfe84
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1140.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1140/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_module/posh_pm_decompress_commands.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1140
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_4103:
+          Payload|contains: 'Expand-Archive'
+      condition: selection_4103
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

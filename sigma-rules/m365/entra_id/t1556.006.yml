@@ -1,0 +1,26 @@
+title: Disabling Multi Factor Authentication
+id: 362d96e1-77eb-4a80-ab9d-143fce060427
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.006.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1556/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/m365/audit/microsoft365_disabling_mfa.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1556.006
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection:
+          Operation|contains: 'Disable Strong Authentication.'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

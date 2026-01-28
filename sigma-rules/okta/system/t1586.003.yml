@@ -1,0 +1,26 @@
+title: Okta Suspicious Activity Reported by End-user
+id: 71e4a76d-8fd4-4da5-b7cd-973de96897ad
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1586.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1586/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/identity/okta/okta_suspicious_activity_enduser_report.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1586.003
+logsource:
+  product: okta
+  service: system
+  category: authentication
+detection:
+      selection:
+          eventtype: 'user.account.report_suspicious_activity_by_enduser'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

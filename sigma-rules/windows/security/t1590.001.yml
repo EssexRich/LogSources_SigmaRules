@@ -1,0 +1,28 @@
+title: PUA - Crassus Execution
+id: ea445684-254b-40ab-8721-486ecc7b9c03
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1590.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1590/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_pua_crassus.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1590.001
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          - Image|endswith: '\Crassus.exe'
+          - OriginalFileName: 'Crassus.exe'
+          - Description|contains: 'Crassus'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

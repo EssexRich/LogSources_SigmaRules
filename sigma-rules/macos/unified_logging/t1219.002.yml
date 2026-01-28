@@ -1,0 +1,26 @@
+title: Remote Access Tool - Potential MeshAgent Execution - MacOS
+id: 24652ede-6c12-4113-b228-ae8dd41f8051
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1219.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1219/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_remote_access_tools_meshagent_arguments.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1219.002
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection:
+          CommandLine|contains: '--meshServiceName'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

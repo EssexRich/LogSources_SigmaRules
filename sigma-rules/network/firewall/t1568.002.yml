@@ -1,0 +1,24 @@
+title: Detect DGA domains using pretrained model in DSDL
+id: 8c174241-8ea5-44c7-8ad2-72ce67683137
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1568.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1568/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/detect_dga_domains_using_pretrained_model_in_dsdl.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1568.002
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Network_Resolution'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

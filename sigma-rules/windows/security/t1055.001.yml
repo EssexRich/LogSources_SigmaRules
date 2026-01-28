@@ -1,0 +1,29 @@
+title: HackTool - Potential CobaltStrike Process Injection
+id: 7b0f8e22-a56d-4406-ba5e-e7a29a008dd5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1055.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1055/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/create_remote_thread/create_remote_thread_win_hktl_cobaltstrike.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1055.001
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          StartAddress|endswith:
+              - '0B80'
+              - '0C7C'
+              - '0C88'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

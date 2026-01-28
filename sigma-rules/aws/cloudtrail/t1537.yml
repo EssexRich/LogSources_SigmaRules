@@ -1,0 +1,33 @@
+title: AWS EC2 VM Export Failure
+id: 4392f9f4-c4fb-4afe-9b01-bf5b7117c44d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1537.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1537/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_ec2_vm_export_failure.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1537
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          eventName: 'CreateInstanceExportTask'
+          eventSource: 'ec2.amazonaws.com'
+      filter1:
+          errorMessage|contains: '*'
+      filter2:
+          errorCode|contains: '*'
+      filter3:
+          responseElements|contains: 'Failure'
+      condition: selection and not 1 of filter*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

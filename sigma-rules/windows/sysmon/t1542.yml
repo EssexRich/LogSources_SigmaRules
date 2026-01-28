@@ -1,0 +1,25 @@
+title: Windows Registry BootExecute Modification
+id: 1226ad5a-dfe2-492c-9628-d548b37ae302
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1542.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1542/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_registry_bootexecute_modification.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1542
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Registry'
+    registry_path: '*\\System\\CurrentControlSet\\Control\\Session'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

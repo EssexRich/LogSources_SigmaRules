@@ -1,0 +1,40 @@
+title: Files With System DLL Name In Unsuspected Locations
+id: c9b339bb-f586-45d4-aa10-c56b4ff85899
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1036.005.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1036/005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_creation_system_dll_files.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1036.005
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          TargetFilename|endswith:
+              # Note: Add more System DLL that can be abused for DLL sideloading to increase coverage
+              - '\secur32.dll'
+              - '\tdh.dll'
+      filter_main_generic:
+          # Note: It is recommended to use a more robust filter instead of this generic one, to avoid false negatives.
+          TargetFilename|contains:
+              # - '\SystemRoot\System32\'
+              - 'C:\$WINDOWS.~BT\'
+              - 'C:\$WinREAgent\'
+              - 'C:\Windows\SoftwareDistribution\'
+              - 'C:\Windows\System32\'
+              - 'C:\Windows\SysWOW64\'
+              - 'C:\Windows\WinSxS\'
+              - 'C:\Windows\uus\'
+      condition: selection and not 1 of filter_main_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

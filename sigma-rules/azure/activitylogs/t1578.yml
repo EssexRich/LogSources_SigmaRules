@@ -1,0 +1,29 @@
+title: Azure Active Directory Hybrid Health AD FS New Server
+id: d7eae5b2-eb3b-4133-87c1-debbf7d8c130
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1578.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1578/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_aadhybridhealth_adfs_new_server.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1578
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          CategoryValue: 'Administrative'
+          ResourceProviderValue: 'Microsoft.ADHybridHealthService'
+          ResourceId|contains: 'AdFederationService'
+          OperationNameValue: 'Microsoft.ADHybridHealthService/services/servicemembers/action'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

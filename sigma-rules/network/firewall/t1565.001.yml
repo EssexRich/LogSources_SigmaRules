@@ -1,0 +1,28 @@
+title: Cisco Denial of Service
+id: 69cbc32f-5feb-4e34-99ff-11abfaae7fa7
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1565.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1565/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_dos.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1565.001
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords:
+          - 'shutdown'
+          - 'config-register 0x2100'
+          - 'config-register 0x2142'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

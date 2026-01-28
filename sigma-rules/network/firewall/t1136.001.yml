@@ -1,0 +1,27 @@
+title: Cisco Local Accounts
+id: 04e84451-0ab9-4856-8947-dd465e5744cd
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1136.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1136/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_local_accounts.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1136.001
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords:
+          - 'username'
+          - 'aaa'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

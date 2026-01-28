@@ -1,0 +1,26 @@
+title: AWS High Number Of Failed Authentications For User
+id: 2448f1ee-ba69-4899-9181-3d8fbc59d93b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1110.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_high_number_of_failed_authentications_for_user.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1110.003
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+  selection:
+    eventName: 'ConsoleLogin'
+    action: 'failure'
+    span: '10m'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

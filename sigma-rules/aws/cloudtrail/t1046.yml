@@ -1,0 +1,29 @@
+title: Internal Horizontal Port Scan
+id: 4ba27696-e662-4472-bdc3-39b41f1e0af5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1046.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1046/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/internal_horizontal_port_scan.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1046
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+  selection:
+    datamodel: 'Network_Traffic'
+    span:
+      - '1s'
+      - '1h'
+    gtime: '_time'
+    dest_port: 'transport'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

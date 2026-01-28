@@ -1,0 +1,26 @@
+title: Advanced IP Scanner - File Event
+id: 9488acf4-e698-4780-a572-9c43cf56f2a9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1046.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1046/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_advanced_ip_scanner.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1046
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          TargetFilename|contains: '\AppData\Local\Temp\Advanced IP Scanner 2'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

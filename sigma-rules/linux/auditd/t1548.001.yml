@@ -1,0 +1,30 @@
+title: Setuid and Setgid
+id: 58320b55-36e5-4503-aa09-b9e5d456d7dd
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1548.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1548/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_setgid_setuid.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1548.001
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection_root:
+          CommandLine|contains: 'chown root'
+      selection_perm:
+          CommandLine|contains:
+              - ' chmod u+s'
+              - ' chmod g+s'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

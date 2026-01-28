@@ -1,0 +1,26 @@
+title: Modifying Crontab
+id: 194ae5fb-ff20-463d-ae33-ea7fa6ce578e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1053.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1053/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/builtin/cron/lnx_cron_crontab_file_modification.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1053.003
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      keywords:
+          - 'REPLACE'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

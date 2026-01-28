@@ -1,0 +1,26 @@
+title: PUA - AWS TruffleHog Execution
+id: c585f1e1-c31a-4a1b-bb8e-f5e56aba518a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_pua_trufflehog.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1003
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          userAgent: 'TruffleHog'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

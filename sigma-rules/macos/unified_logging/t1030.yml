@@ -1,0 +1,26 @@
+title: Split A File Into Pieces
+id: 2a38d6f5-7be0-44c7-b914-07cff9f2b583
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1030.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1030/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_split_file_into_pieces.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1030
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '/split'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

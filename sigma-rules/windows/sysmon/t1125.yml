@@ -1,0 +1,40 @@
+title: Suspicious Camera and Microphone Access
+id: c730136f-908f-4b1a-a746-64da663528c3
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1125.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1125/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_event/registry_event_susp_mic_cam_access.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1125
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection_1:
+          TargetObject|contains|all:
+              - '\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\'
+              - '\NonPackaged'
+      selection_2:
+          TargetObject|contains:
+              - microphone
+              - webcam
+      selection_3:
+          TargetObject|contains:
+              - ':#Windows#Temp#'
+              - ':#$Recycle.bin#'
+              - ':#Temp#'
+              - ':#Users#Public#'
+              - ':#Users#Default#'
+              - ':#Users#Desktop#'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

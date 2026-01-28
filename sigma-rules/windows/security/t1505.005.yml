@@ -1,0 +1,29 @@
+title: PowerShell Script Change Permission Via Set-Acl - PsScript
+id: e227659d-bd42-4f0f-bd87-cee54cabb2c4
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1505.005.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1505/005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_set_acl.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1505.005
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains|all:
+              - 'Set-Acl '
+              - '-AclObject '
+              - '-Path '
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

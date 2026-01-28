@@ -1,0 +1,36 @@
+title: Possible Shadow Credentials Added
+id: 81aeb4ad-cede-4f65-8363-ff16ee05c266
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1556/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_susp_possible_shadow_credentials_added.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          EventID: 5136
+          AttributeLDAPDisplayName: 'msDS-KeyCredentialLink'
+          # If you experience a lot of FP you could uncomment the selection below
+          # There could be other cases for other tooling add them accordingly
+          # AttributeValue|contains: 'B:828'
+          # OperationType: '%%14674' # Value Added
+      # As stated in the FP sections it's better to filter out the expected accounts that perform this operation to tighten the logic
+      # Uncomment the filter below and add the account name (or any other specific field) accordingly
+      # Don't forget to add it to the condition section below
+      # filter:
+          # SubjectUserName: "%name%"
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

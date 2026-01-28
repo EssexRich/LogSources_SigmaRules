@@ -1,0 +1,27 @@
+title: DNS Query for Anonfiles.com Domain - DNS Client
+id: 85d78770-4557-4ec2-89ee-c253b82e4c57
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1567.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1567/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/dns_client/win_dns_client_anonymfiles_com.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1567.002
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 3008
+          QueryName|contains: '.anonfiles.com'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

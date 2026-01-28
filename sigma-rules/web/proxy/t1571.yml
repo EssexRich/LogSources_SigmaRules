@@ -1,0 +1,38 @@
+title: Ollama Abnormal Network Connectivity
+id: 6423ff1e-2e7c-49b6-874d-50f01581c3dd
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1571.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1571/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/ollama_abnormal_network_connectivity.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1571
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    level: 'WARN'
+    msg:
+      - '*failed*'
+      - '*dial'
+      - '*lookup*'
+      - '*no'
+      - '*connection*'
+      - '*network*'
+      - '*timeout*'
+      - '*unreachable*'
+      - '*refused*'
+    src: 'coalesce(src,'
+    last_incident: 'strftime(last_incident,'
+    severity: 'medium'
+    attack_type: 'Abnormal'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

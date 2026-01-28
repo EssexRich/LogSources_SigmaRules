@@ -1,0 +1,31 @@
+title: DirectorySearcher Powershell Exploitation
+id: e88a39a1-f546-42b7-bb1f-6db123d194d9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1018.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1018/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_directorysearcher.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1018
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains|all:
+              - 'New-Object '
+              - 'System.DirectoryServices.DirectorySearcher'
+              - '.PropertiesToLoad.Add'
+              - '.findall()'
+              - 'Properties.name'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

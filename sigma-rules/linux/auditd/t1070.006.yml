@@ -1,0 +1,33 @@
+title: File Time Attribute Change - Linux
+id: 23f89f18-e4fc-45f1-8618-35ad5d6e328b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.006.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1070/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_change_file_time_attr.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1070.006
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      execve:
+          type: 'EXECVE'
+      touch:
+          - 'touch'
+      selection2:
+          - '-t'
+          - '-acmr'
+          - '-d'
+          - '-r'
+      condition: execve and touch and selection2
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

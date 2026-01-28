@@ -1,0 +1,36 @@
+title: Powershell Sensitive File Discovery
+id: 4ede0bdc-472c-4608-b9c1-c2a7bb8bce23
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1083.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1083/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_sensitive_file_discovery.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1083
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_action:
+          ScriptBlockText|contains:
+              - ls
+              - get-childitem
+              - gci
+      selection_recurse:
+          ScriptBlockText|contains: '-recurse'
+      selection_file:
+          ScriptBlockText|contains:
+              - '.pass'
+              - '.kdbx'
+              - '.kdb'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

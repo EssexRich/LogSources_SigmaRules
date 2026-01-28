@@ -1,0 +1,26 @@
+title: Windows Screen Capture with CopyFromScreen
+id: b67fb3f1-8726-4ae0-9c0c-f9f51ab5a837
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1113.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1113/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_capture_screenshots.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1113
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains: '.CopyFromScreen'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

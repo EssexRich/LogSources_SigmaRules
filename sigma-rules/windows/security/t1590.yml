@@ -1,0 +1,109 @@
+title: Suspicious DNS Query for IP Lookup Service APIs
+id: 936831e0-5f9e-4fbc-a582-827829a19cc1
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1590.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1590/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/dns_query/dns_query_win_susp_external_ip_lookup.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1590
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          - QueryName:
+                - 'www.ip.cn'
+                - 'l2.io'
+          - QueryName|contains:
+                - 'api.2ip.ua'
+                - 'api.bigdatacloud.net'
+                - 'api.ipify.org'
+                - 'bot.whatismyipaddress.com'
+                - 'canireachthe.net'
+                - 'checkip.amazonaws.com'
+                - 'checkip.dyndns.org'
+                - 'curlmyip.com'
+                - 'db-ip.com'
+                - 'edns.ip-api.com'
+                - 'eth0.me'
+                - 'freegeoip.app'
+                - 'geoipy.com'
+                - 'getip.pro'
+                - 'icanhazip.com'
+                - 'ident.me'
+                - 'ifconfig.io'
+                - 'ifconfig.me'
+                - 'ip-api.com'
+                - 'ip.360.cn'
+                - 'ip.anysrc.net'
+                - 'ip.taobao.com'
+                - 'ip.tyk.nu'
+                - 'ipaddressworld.com'
+                - 'ipapi.co'
+                - 'ipconfig.io'
+                - 'ipecho.net'
+                - 'ipinfo.io'
+                - 'ipip.net'
+                - 'ipof.in'
+                - 'ipv4.icanhazip.com'
+                - 'ipv4bot.whatismyipaddress.com'
+                - 'ipv6-test.com'
+                - 'ipwho.is'
+                - 'jsonip.com'
+                - 'myexternalip.com'
+                - 'seeip.org'
+                - 'wgetip.com'
+                - 'whatismyip.akamai.com'
+                - 'whois.pconline.com.cn'
+                - 'wtfismyip.com'
+      filter_optional_brave:
+          Image|endswith: '\brave.exe'
+      filter_optional_chrome:
+          Image:
+              - 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+              - 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+      filter_optional_firefox:
+          Image:
+              - 'C:\Program Files\Mozilla Firefox\firefox.exe'
+              - 'C:\Program Files (x86)\Mozilla Firefox\firefox.exe'
+      filter_optional_ie:
+          Image:
+              - 'C:\Program Files (x86)\Internet Explorer\iexplore.exe'
+              - 'C:\Program Files\Internet Explorer\iexplore.exe'
+      filter_optional_maxthon:
+          Image|endswith: '\maxthon.exe'
+      filter_optional_edge_1:
+          - Image|startswith: 'C:\Program Files (x86)\Microsoft\EdgeWebView\Application\'
+          - Image|endswith: '\WindowsApps\MicrosoftEdge.exe'
+          - Image:
+                - 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+                - 'C:\Program Files\Microsoft\Edge\Application\msedge.exe'
+      filter_optional_edge_2:
+          Image|startswith:
+              - 'C:\Program Files (x86)\Microsoft\EdgeCore\'
+              - 'C:\Program Files\Microsoft\EdgeCore\'
+          Image|endswith:
+              - '\msedge.exe'
+              - '\msedgewebview2.exe'
+      filter_optional_opera:
+          Image|endswith: '\opera.exe'
+      filter_optional_safari:
+          Image|endswith: '\safari.exe'
+      filter_optional_seamonkey:
+          Image|endswith: '\seamonkey.exe'
+      filter_optional_vivaldi:
+          Image|endswith: '\vivaldi.exe'
+      filter_optional_whale:
+          Image|endswith: '\whale.exe'
+      condition: selection and not 1 of filter_optional_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

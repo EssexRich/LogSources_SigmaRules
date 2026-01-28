@@ -1,0 +1,32 @@
+title: Remote Thread Creation Via PowerShell In Uncommon Target
+id: 51c2b0e9-867b-4876-b7c0-1c9bcbe6aa6c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1218.011.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1218/011/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/create_remote_thread/create_remote_thread_win_powershell_susp_targets.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1218.011
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          SourceImage|endswith:
+              - '\powershell.exe'
+              - '\pwsh.exe'
+          TargetImage|endswith:
+              # Note: Please add additional potential interesting targets to increase coverage
+              - '\rundll32.exe'
+              - '\regsvr32.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

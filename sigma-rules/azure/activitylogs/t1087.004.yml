@@ -1,0 +1,27 @@
+title: Discovery Using AzureHound
+id: 613c2305-10f1-4634-9a7b-b403c48c97fb
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1087.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1087/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/signin_logs/azure_ad_azurehound_discovery.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1087.004
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          userAgent|contains: 'azurehound'
+          ResultType: 0
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

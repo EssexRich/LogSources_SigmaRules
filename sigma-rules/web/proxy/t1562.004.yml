@@ -1,0 +1,27 @@
+title: ESXi Firewall Disabled
+id: 25a46e4d-5bd3-411b-8b71-569af5e5f1b1
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.004.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1562/004/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_firewall_disabled.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1562.004
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    Message:
+      - '*network'
+      - '*enabled'
+    field: '_raw'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,28 @@
+title: AWS SSM Command Document Created by Rare User
+id: 3d8b92ef-2892-4a23-b573-3b3811854f94
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1651.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1651/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/execution_ssm_command_document_created_by_rare_user.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1651
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'ssm.amazonaws.com'
+    event.action: 'CreateDocument'
+    event.outcome: 'success'
+    aws.cloudtrail.flattened.response_elements.documentDescription.documentType: 'Command'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,24 @@
+title: ESXI Discovery via Find
+id: 3c560a0c-a4c9-43c2-b07a-fb5dc99bebba
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1518.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1518/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/discovery_esxi_software_via_find.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1518
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

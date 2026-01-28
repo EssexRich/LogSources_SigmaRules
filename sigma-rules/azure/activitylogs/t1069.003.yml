@@ -1,0 +1,26 @@
+title: Entra ID Sign-in BloodHound Suite User-Agent Detected
+id: 446036e6-fa8d-46a2-a6c9-c461a15a4797
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1069.003.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1069/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/discovery_bloodhound_user_agents_detected.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1069.003
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset:
+      - 'azure.activitylogs'
+      - 'o365.audit'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

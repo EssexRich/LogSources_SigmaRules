@@ -1,0 +1,27 @@
+title: Tap Driver Installation - Security
+id: 73544bb7-68c4-442a-89b7-cd74b2e9c3fb
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1048.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1048/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_tap_driver_installation.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1048
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 4697
+          ServiceFileName|contains: 'tap0901'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

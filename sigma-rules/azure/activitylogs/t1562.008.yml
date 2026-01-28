@@ -1,0 +1,28 @@
+title: AWS CloudTrail Log Evasion
+id: 23edff12-d508-4ade-8cf2-6bf03a2cc0a5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.008.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1562/008/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_cloudtrail_logging_evasion.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1562.008
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    aws.cloudtrail.flattened.request_parameters.reason: 'requestParameters too large'
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'iam.amazonaws.com'
+    aws.cloudtrail.flattened.request_parameters.omitted: 'true'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

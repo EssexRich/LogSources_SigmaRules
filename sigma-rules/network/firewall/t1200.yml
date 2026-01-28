@@ -1,0 +1,27 @@
+title: Detect ARP Poisoning
+id: 3c3a9576-deec-48fe-b1bf-77f408a82175
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1200.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1200/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/detect_arp_poisoning.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1200
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    facility: 'PM'
+    mnemonic: 'ERR_DISABLE'
+    disable_cause: 'arp-inspection'
+    src_interface: 'src_int_prefix_long+src_int_suffix'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

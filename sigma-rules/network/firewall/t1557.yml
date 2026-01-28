@@ -1,0 +1,28 @@
+title: Cisco BGP Authentication Failures
+id: 5ed7d19d-bb7a-40ee-9843-baa8d6781cf0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1557.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1557/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/bgp/cisco_bgp_md5_auth_failed.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1557
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords_bgp_cisco:
+          '|all':
+              - ':179' # Protocol
+              - 'IP-TCP-3-BADAUTH'
+      condition: keywords_bgp_cisco
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

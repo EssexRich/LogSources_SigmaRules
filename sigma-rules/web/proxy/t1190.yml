@@ -1,0 +1,25 @@
+title: CrushFTP Server Side Template Injection
+id: a3b664e1-9657-44b7-8d88-9a30b7972673
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1190.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1190/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/crushftp_server_side_template_injection.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1190
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    field: '_raw'
+    message: 'if(match(_raw,'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

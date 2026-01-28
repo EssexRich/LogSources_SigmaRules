@@ -1,0 +1,30 @@
+title: Invoke-Obfuscation CLIP+ Launcher - Security
+id: 4a16302d-3248-4c29-b54e-4cd82d8a1efe
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1027.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1027/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_invoke_obfuscation_clip_services_security.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1027
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 4697
+          ServiceFileName|contains|all:
+              - 'cmd'
+              - '&&'
+              - 'clipboard]::'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

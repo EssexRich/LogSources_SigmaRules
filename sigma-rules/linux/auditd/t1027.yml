@@ -1,0 +1,28 @@
+title: Suspicious Filename with Embedded Base64 Commands
+id: 0326b3c1-daf7-49eb-af3d-f7985d3b8c93
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1027.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1027/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/file_event/file_event_lnx_susp_filename_with_embedded_base64_command.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1027
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          TargetFilename|contains:
+              - '{echo'
+              - '{base64,-d}'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium
