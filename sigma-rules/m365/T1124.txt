@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1124 Detection (m365)
+    id: 403c629e-1644-4e88-bde5-50121b9dc813
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1124.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1124/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1124
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1124
+    
