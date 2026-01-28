@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1564 Detection
+    id: caf29182-2338-437b-82d5-855b436beba7
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1564.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1564/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1564
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1564
+    
