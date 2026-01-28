@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1559 Detection (m365)
+    id: 848ab90f-6510-44f4-9a36-5cfc09a1096a
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1559.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1559/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1559
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1559
+    
