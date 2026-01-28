@@ -346,6 +346,9 @@ async function main() {
 
   let totalRulesGenerated = 0;
   let techniquesProcessed = 0;
+  let skippedNoConditions = 0;
+  let skippedInvalidTech = 0;
+  let skippedWriteError = 0;
 
   Object.entries(allActorTechMap).forEach(([techniqueId, actors]) => {
     const techName = techniqueNames[techniqueId] || techniqueId;
@@ -359,11 +362,15 @@ async function main() {
     
     logsources.forEach((logsource) => {
       const conditions = buildDetectionForTechnique(techniqueId, techName, logsource);
-      if (!conditions) return;
+      if (!conditions) {
+        skippedNoConditions++;
+        return;
+      }
 
       uniqueActors.forEach((actor) => {
         // Validate technique ID
         if (!techniqueId || typeof techniqueId !== 'string' || !techniqueId.match(/^T\d+(\.\d+)?$/)) {
+          skippedInvalidTech++;
           return;
         }
 
@@ -382,6 +389,7 @@ async function main() {
           fs.writeFileSync(filepath, rule);
           totalRulesGenerated++;
         } catch (error) {
+          skippedWriteError++;
           console.warn(`[SigmaGen] Failed to write rule for ${techniqueId}/${actor}: ${error.message}`);
         }
       });
@@ -395,6 +403,11 @@ async function main() {
   console.log(`[SigmaGen] From ${techniquesProcessed} techniques`);
   console.log(`[SigmaGen] For ${allActors.size} threat actors`);
   console.log(`[SigmaGen] Across ${logsources.length} logsources`);
+  console.log(`[SigmaGen]`);
+  console.log(`[SigmaGen] Skip summary:`);
+  console.log(`[SigmaGen]   - Skipped (no conditions): ${skippedNoConditions}`);
+  console.log(`[SigmaGen]   - Skipped (invalid technique): ${skippedInvalidTech}`);
+  console.log(`[SigmaGen]   - Skipped (write error): ${skippedWriteError}`);
   console.log(`[SigmaGen]`);
   console.log(`[SigmaGen] Directory structure:`);
   console.log(`[SigmaGen]   sigma-rules-intelligent/`);
