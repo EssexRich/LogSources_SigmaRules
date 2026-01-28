@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-28T11:05:28.268Z",
+  "generated": "2026-01-28T11:10:11.711Z",
   "version": "1.0.0",
   "logsources": [
     {
@@ -12,19 +12,16 @@
           "Image": "NewProcessName",
           "CommandLine": "CommandLine",
           "ParentImage": "ParentProcessName",
-          "User": "TargetUserName",
+          "User": "SubjectUserName",
           "ProcessId": "NewProcessId",
           "ParentProcessId": "ProcessId",
-          "CreatorUserSid": "SubjectUserSid",
-          "CreatorUserName": "SubjectUserName",
-          "CreatorDomainName": "SubjectDomainName",
-          "CreatorLogonId": "SubjectLogonId",
+          "TargetUser": "TargetUserName",
+          "TargetDomain": "TargetDomainName",
+          "SubjectUserSid": "SubjectUserSid",
           "TargetUserSid": "TargetUserSid",
-          "TargetDomainName": "TargetDomainName",
-          "TargetLogonId": "TargetLogonId",
           "TokenElevationType": "TokenElevationType",
           "MandatoryLabel": "MandatoryLabel",
-          "CreatorProcessName": "CreatorProcessName"
+          "CreatorProcessName": "Creator Process Name"
         }
       },
       "lastUpdated": "2026-01-28",
@@ -34,7 +31,7 @@
       "product": "windows",
       "service": "sysmon",
       "category": "process_creation",
-      "description": "Event ID 1: Process creation event provides extended information about a newly created process with full command line and ProcessGUID for correlation",
+      "description": "Event ID 1 provides extended information about a newly created process including full command line, process GUID, and file hash",
       "fieldMappings": {
         "process_creation": {
           "UtcTime": "UtcTime",
@@ -42,11 +39,46 @@
           "ProcessId": "ProcessId",
           "Image": "Image",
           "CommandLine": "CommandLine",
+          "ParentProcessId": "ParentProcessId",
+          "ParentImage": "ParentImage",
           "HashType": "HashType"
         }
       },
       "lastUpdated": "2026-01-28",
       "sourceUrl": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon"
+    },
+    {
+      "product": "linux",
+      "service": "auditd",
+      "category": "process_creation",
+      "description": "Linux auditd SYSCALL record field definitions",
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://access.redhat.com/articles/4409591",
+      "fieldMappings": {
+        "process_creation": {
+          "Image": "exe",
+          "CommandLine": "cmd",
+          "ParentProcessId": "ppid",
+          "ProcessId": "pid",
+          "User": "uid",
+          "AuditUser": "auid",
+          "EffectiveUser": "euid",
+          "FileSystemUser": "fsuid",
+          "GroupId": "gid",
+          "EffectiveGroup": "egid",
+          "FileSystemGroup": "fsgid",
+          "SetGroupId": "sgid",
+          "SetUserId": "suid",
+          "SessionId": "ses",
+          "TerminalType": "tty",
+          "ProcessName": "comm",
+          "Timestamp": "msg",
+          "Architecture": "arch",
+          "Syscall": "syscall",
+          "Success": "success",
+          "ExitCode": "exit"
+        }
+      }
     },
     {
       "product": "macos",
@@ -58,7 +90,15 @@
       "fieldMappings": {
         "process_creation": {
           "ProcessName": "processImagePath",
-          "ProcessId": "processIdentifier"
+          "ProcessId": "processIdentifier",
+          "ParentProcessId": "parentProcessIdentifier",
+          "Timestamp": "timestamp",
+          "EventMessage": "eventMessage",
+          "Subsystem": "subsystem",
+          "Category": "category",
+          "LogLevel": "logLevel",
+          "ActivityIdentifier": "activityIdentifier",
+          "ProcessImageUUID": "processImageUUID"
         }
       }
     },
@@ -66,7 +106,7 @@
       "product": "windows",
       "service": "defender",
       "category": "process_creation",
-      "description": "Contains information about process creation and related events from Microsoft Defender for Endpoint",
+      "description": "Process creation and related events from Microsoft Defender for Endpoint",
       "fieldMappings": {
         "process_creation": {
           "Image": "InitiatingProcessFileName",
@@ -77,17 +117,20 @@
           "ParentProcessId": "InitiatingProcessParentId",
           "Timestamp": "Timestamp",
           "DeviceName": "DeviceName",
-          "ProcessIntegrityLevel": "ProcessIntegrityLevel",
-          "ProcessTokenElevation": "ProcessTokenElevation",
+          "SHA1": "InitiatingProcessSHA1",
+          "SHA256": "InitiatingProcessSHA256",
+          "MD5": "InitiatingProcessMD5",
+          "IntegrityLevel": "ProcessIntegrityLevel",
+          "TokenElevation": "ProcessTokenElevation",
+          "InitiatingProcessIntegrityLevel": "InitiatingProcessIntegrityLevel",
+          "InitiatingProcessTokenElevation": "InitiatingProcessTokenElevation",
+          "ProcessCreationTime": "ProcessCreationTime",
+          "InitiatingProcessCreationTime": "InitiatingProcessCreationTime",
           "InitiatingProcessId": "InitiatingProcessId",
           "InitiatingProcessCommandLine": "InitiatingProcessCommandLine",
-          "InitiatingProcessCreationTime": "InitiatingProcessCreationTime",
+          "AccountDomain": "AccountDomain",
           "InitiatingProcessAccountDomain": "InitiatingProcessAccountDomain",
-          "InitiatingProcessAccountName": "InitiatingProcessAccountName",
-          "SHA1": "SHA1",
-          "SHA256": "SHA256",
-          "MD5": "MD5",
-          "FileName": "FileName"
+          "InitiatingProcessAccountName": "InitiatingProcessAccountName"
         }
       },
       "lastUpdated": "2026-01-28",
@@ -103,8 +146,18 @@
       "fieldMappings": {
         "authentication": {
           "User": "userPrincipalName",
+          "UserId": "userId",
           "IpAddress": "ipAddress",
-          "Status": "status"
+          "IpAddressFromResourceProvider": "ipAddressFromResourceProvider",
+          "Status": "status",
+          "ErrorCode": "errorCode",
+          "DeviceId": "deviceId",
+          "DeviceDisplayName": "deviceDisplayName",
+          "ClientAppUsed": "clientAppUsed",
+          "ConditionalAccessStatus": "conditionalAccessStatus",
+          "RiskLevel": "riskLevel",
+          "ResourceDisplayName": "resourceDisplayName",
+          "CreatedDateTime": "createdDateTime"
         }
       }
     },
@@ -118,7 +171,16 @@
       "fieldMappings": {
         "admin_activity": {
           "Actor": "actor.email",
-          "EventType": "events.type"
+          "ActorProfileId": "actor.profileId",
+          "EventType": "events.type",
+          "EventName": "events.name",
+          "IpAddress": "ipAddress",
+          "Timestamp": "id.time",
+          "UniqueId": "id.uniqueQualifier",
+          "ApplicationName": "id.applicationName",
+          "CustomerId": "id.customerId",
+          "OwnerDomain": "ownerDomain",
+          "Parameters": "events.parameters"
         }
       }
     }
