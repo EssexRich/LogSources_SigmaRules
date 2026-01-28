@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T3016 Detection (m365)
+    id: f343a9c3-884c-4a33-84b2-a9d9f67b28bf
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T3016.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T3016/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T3016
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T3016
+    
