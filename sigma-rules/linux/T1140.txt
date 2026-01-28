@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1140 Detection (linux)
+    id: 578f5964-df27-4e4a-9ae2-6ae90d1a845a
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1140.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1140/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1140
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1140
+    
