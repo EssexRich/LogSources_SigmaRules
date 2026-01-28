@@ -1,0 +1,29 @@
+title: T1485 (GOOGLE - workspace)
+id: 78d7f496-163a-4f8b-a1c4-77b8e598a250
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1485.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1485
+  - actor.spectra

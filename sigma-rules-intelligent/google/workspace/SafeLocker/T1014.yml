@@ -1,0 +1,29 @@
+title: T1014 (GOOGLE - workspace)
+id: 6c40712c-3e4f-4caa-9704-2cd22cf3b42d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1014.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1014/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1014
+  - actor.safelocker

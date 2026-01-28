@@ -1,0 +1,29 @@
+title: T1190 (GOOGLE - workspace)
+id: e29ef9e0-f0d9-43eb-87c4-cd7c4791e2e5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.kazu

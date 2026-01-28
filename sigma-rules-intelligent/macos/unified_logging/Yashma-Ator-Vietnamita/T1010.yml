@@ -1,0 +1,34 @@
+title: T1010 (MACOS - unified_logging)
+id: 322d101d-13a6-4a87-bf95-80cc9dcceba2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1010.
+  Threat Actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1010
+  - actor.yashma-ator-vietnamita

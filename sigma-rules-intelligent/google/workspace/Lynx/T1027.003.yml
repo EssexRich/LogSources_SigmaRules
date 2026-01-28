@@ -1,0 +1,29 @@
+title: T1027.003 (GOOGLE - workspace)
+id: dceaf253-3cc0-4576-86dd-1cd928adb868
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.003.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1027.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.003
+  - actor.lynx

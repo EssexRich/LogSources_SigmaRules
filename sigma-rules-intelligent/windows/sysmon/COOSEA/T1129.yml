@@ -1,0 +1,37 @@
+title: T1129 (WINDOWS - sysmon)
+id: 23189f10-34ea-40fb-92b9-a2fd31c0cf94
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1129.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1129/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1129
+  - actor.coosea

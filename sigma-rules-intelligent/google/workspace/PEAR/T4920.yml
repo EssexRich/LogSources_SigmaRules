@@ -1,0 +1,29 @@
+title: T4920 (GOOGLE - workspace)
+id: 24c21d90-f31d-4a47-8792-3e62600d3ae2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4920.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T4920/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4920
+  - actor.pear

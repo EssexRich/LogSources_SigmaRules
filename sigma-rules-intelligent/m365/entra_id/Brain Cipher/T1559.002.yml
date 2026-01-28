@@ -1,0 +1,32 @@
+title: T1559.002 (M365 - entra_id)
+id: 7f2214f5-3e87-427d-bff1-dc0dc73e4c6c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.002.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1559.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559.002
+  - actor.brain_cipher

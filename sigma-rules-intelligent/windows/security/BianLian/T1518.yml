@@ -1,0 +1,37 @@
+title: T1518 (WINDOWS - security)
+id: 9f5bc2c2-6de9-4d52-b9e5-98dd4ebd8fbc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1518/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518
+  - actor.bianlian

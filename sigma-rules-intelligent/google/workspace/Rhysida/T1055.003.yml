@@ -1,0 +1,29 @@
+title: T1055.003 (GOOGLE - workspace)
+id: d5137c46-4ee7-460d-9810-5c27d0280662
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.003.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1055.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.003
+  - actor.rhysida

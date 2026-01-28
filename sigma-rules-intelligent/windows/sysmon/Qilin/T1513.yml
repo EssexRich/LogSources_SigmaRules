@@ -1,0 +1,37 @@
+title: T1513 (WINDOWS - sysmon)
+id: 7618d302-5ad1-4c31-907c-050a9ec7b870
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1513.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1513/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1513
+  - actor.qilin

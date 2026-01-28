@@ -1,0 +1,29 @@
+title: T1485 (GOOGLE - workspace)
+id: 91b22dfb-eb84-4e32-a9b5-de78dd40b1c4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1485.
+  Threat Actor: Trigona
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1485
+  - actor.trigona

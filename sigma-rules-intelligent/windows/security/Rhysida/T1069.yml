@@ -1,0 +1,37 @@
+title: T1069 (WINDOWS - security)
+id: 6cd3d4f8-8e03-4c4f-a70d-ecbefc062f7e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.rhysida

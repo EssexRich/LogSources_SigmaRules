@@ -1,0 +1,29 @@
+title: T1074.001 (GOOGLE - workspace)
+id: a3ecca7f-2a91-4550-8a60-9632a5bfd54f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.001.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1074.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074.001
+  - actor.brain_cipher

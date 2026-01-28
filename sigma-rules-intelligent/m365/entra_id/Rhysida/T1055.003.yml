@@ -1,0 +1,32 @@
+title: T1055.003 (M365 - entra_id)
+id: a6b4ac19-f5b4-4c25-b3c8-e22178da4fc7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.003.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1055.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.003
+  - actor.rhysida

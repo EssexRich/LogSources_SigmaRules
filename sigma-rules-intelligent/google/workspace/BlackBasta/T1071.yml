@@ -1,0 +1,29 @@
+title: T1071 (GOOGLE - workspace)
+id: 21513ca1-2748-44e6-8291-640148f5c5af
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.blackbasta

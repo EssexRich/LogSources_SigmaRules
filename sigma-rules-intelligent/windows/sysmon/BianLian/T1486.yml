@@ -1,0 +1,37 @@
+title: T1486 (WINDOWS - sysmon)
+id: 40d8a5a0-d22d-41eb-8d02-8c13bab62fa5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486
+  - actor.bianlian

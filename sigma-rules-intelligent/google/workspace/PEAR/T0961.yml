@@ -1,0 +1,29 @@
+title: T0961 (GOOGLE - workspace)
+id: 23c28a30-9dd1-4f98-a49f-d8a4f59969b0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0961.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T0961/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0961
+  - actor.pear

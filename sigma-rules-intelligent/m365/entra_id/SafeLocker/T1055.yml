@@ -1,0 +1,32 @@
+title: T1055 (M365 - entra_id)
+id: 3d15380d-72cb-47f5-a09e-144b9d903ecb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.safelocker

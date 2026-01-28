@@ -1,0 +1,29 @@
+title: T1098 (GOOGLE - workspace)
+id: 369bf697-5e9b-41cd-a84d-eb710b20f418
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1098/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098
+  - actor.bianlian

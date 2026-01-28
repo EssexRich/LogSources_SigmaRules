@@ -1,0 +1,37 @@
+title: T1048.002 (LINUX - auditd)
+id: 774b394a-09e5-44d8-910c-93c48703dc3d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.002.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1048.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048.002
+  - actor.ransomhub

@@ -1,0 +1,37 @@
+title: T1571 (WINDOWS - sysmon)
+id: ae2d6232-8342-48c8-930e-26c1ca706fa0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1571.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1571/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1571
+  - actor.coosea

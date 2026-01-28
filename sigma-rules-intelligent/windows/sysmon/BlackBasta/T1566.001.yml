@@ -1,0 +1,37 @@
+title: T1566.001 (WINDOWS - sysmon)
+id: a6810b3b-e813-4aab-8726-1f3504079687
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.001.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1566.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.001
+  - actor.blackbasta

@@ -1,0 +1,32 @@
+title: T6794 (M365 - entra_id)
+id: 0af6fa10-537d-4dbe-ac56-52350e48d06e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6794.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T6794/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6794
+  - actor.pear

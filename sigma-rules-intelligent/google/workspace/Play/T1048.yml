@@ -1,0 +1,29 @@
+title: T1048 (GOOGLE - workspace)
+id: 695fd649-c0bf-4f8e-914f-6ed8a8026e94
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048
+  - actor.play

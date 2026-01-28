@@ -1,0 +1,29 @@
+title: T5198 (GOOGLE - workspace)
+id: 7b4f940c-221b-4a70-acda-f528943be429
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5198.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T5198/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5198
+  - actor.cephalus

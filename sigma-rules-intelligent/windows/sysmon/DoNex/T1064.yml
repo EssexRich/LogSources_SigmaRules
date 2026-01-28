@@ -1,0 +1,37 @@
+title: T1064 (WINDOWS - sysmon)
+id: bfe496ce-f7cd-4ffc-94c8-8d813cfe1798
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1064.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1064/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1064
+  - actor.donex

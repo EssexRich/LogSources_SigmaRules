@@ -1,0 +1,29 @@
+title: T1083 (GOOGLE - workspace)
+id: a8a4a019-e50c-4e29-92e7-8ee71ae2fc99
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.inc_ransom

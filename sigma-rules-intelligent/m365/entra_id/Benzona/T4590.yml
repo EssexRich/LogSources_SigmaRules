@@ -1,0 +1,32 @@
+title: T4590 (M365 - entra_id)
+id: e88b5a82-9b92-4138-9dfb-0c869cee727c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4590.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T4590/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4590
+  - actor.benzona

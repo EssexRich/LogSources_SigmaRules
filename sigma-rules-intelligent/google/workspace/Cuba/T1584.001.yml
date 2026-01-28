@@ -1,0 +1,29 @@
+title: T1584.001 (GOOGLE - workspace)
+id: 2efea187-22a3-4f41-bca8-fedfba8f5400
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.001.
+  Threat Actor: Cuba
+references:
+  - https://attack.mitre.org/techniques/T1584.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.001
+  - actor.cuba

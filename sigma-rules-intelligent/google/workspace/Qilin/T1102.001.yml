@@ -1,0 +1,29 @@
+title: T1102.001 (GOOGLE - workspace)
+id: eef0fcf1-b61a-4455-9c20-faa8aeaaff0c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.001.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1102.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102.001
+  - actor.qilin

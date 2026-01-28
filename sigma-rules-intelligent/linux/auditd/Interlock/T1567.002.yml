@@ -1,0 +1,37 @@
+title: T1567.002 (LINUX - auditd)
+id: c5642e39-7140-49f9-9536-7b146365549c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.002.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1567.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567.002
+  - actor.interlock

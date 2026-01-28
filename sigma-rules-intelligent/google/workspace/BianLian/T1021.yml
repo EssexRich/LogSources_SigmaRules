@@ -1,0 +1,29 @@
+title: T1021 (GOOGLE - workspace)
+id: cdcf0a05-7475-4142-bf7d-2d3f6f27aa0f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021
+  - actor.bianlian

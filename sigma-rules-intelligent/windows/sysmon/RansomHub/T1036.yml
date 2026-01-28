@@ -1,0 +1,37 @@
+title: T1036 (WINDOWS - sysmon)
+id: dbc1bb39-1fd1-4a82-b1f6-428fb7fae3a8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.ransomhub

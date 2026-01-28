@@ -1,0 +1,37 @@
+title: T1218.003 (WINDOWS - security)
+id: c5867993-d05a-4c3c-9222-0588cb5857f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.003.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1218.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.003
+  - actor.inc_ransom

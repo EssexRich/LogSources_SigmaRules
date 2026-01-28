@@ -1,0 +1,37 @@
+title: T1068 (WINDOWS - defender)
+id: a0d1a32f-51c7-48b1-9c98-81d0ff0ffcfb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: BlackCatALPHV
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.blackcatalphv

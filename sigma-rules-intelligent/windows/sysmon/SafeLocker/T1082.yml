@@ -1,0 +1,37 @@
+title: T1082 (WINDOWS - sysmon)
+id: 2708b341-22c2-4c12-8ef6-4a1f677cf53c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.safelocker

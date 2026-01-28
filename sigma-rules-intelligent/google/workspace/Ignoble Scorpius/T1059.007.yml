@@ -1,0 +1,29 @@
+title: T1059.007 (GOOGLE - workspace)
+id: 498ce0f9-8408-4a65-b829-cd379905c7fe
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.007.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1059.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.007
+  - actor.ignoble_scorpius

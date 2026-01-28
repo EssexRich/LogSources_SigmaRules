@@ -1,0 +1,29 @@
+title: T7387 (GOOGLE - workspace)
+id: ef7d39b2-5384-4c96-89aa-c35cc4170861
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7387.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T7387/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7387
+  - actor.stormous

@@ -1,0 +1,37 @@
+title: T1518.001 (WINDOWS - sysmon)
+id: 782a6d54-0577-4f6b-9bf1-509239dce034
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.001.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1518.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518.001
+  - actor.spectra

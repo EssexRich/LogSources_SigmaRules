@@ -1,0 +1,37 @@
+title: T1598 (WINDOWS - sysmon)
+id: 1a5f7535-b9ba-4f71-9575-ee500c2932b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1598.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1598/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1598
+  - actor.blackbyte

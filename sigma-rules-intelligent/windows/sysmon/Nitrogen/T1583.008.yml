@@ -1,0 +1,37 @@
+title: T1583.008 (WINDOWS - sysmon)
+id: 4b5edf41-d869-464d-8f22-01ad3dfb79ce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.008.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1583.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.008
+  - actor.nitrogen

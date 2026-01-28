@@ -1,0 +1,32 @@
+title: T4975 (M365 - entra_id)
+id: 3ca3e569-dd98-4a44-90de-f2a5930a41e9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4975.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T4975/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4975
+  - actor.ransomhub

@@ -1,0 +1,37 @@
+title: T1053 (WINDOWS - sysmon)
+id: ac9984b4-ceee-41e8-95a3-4ce36b78a227
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.blackbyte

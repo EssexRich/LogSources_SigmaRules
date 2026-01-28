@@ -1,0 +1,29 @@
+title: T4975 (GOOGLE - workspace)
+id: b5f17122-b3a9-42a5-af5b-fee73cb5a7ee
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4975.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T4975/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4975
+  - actor.ransomhub

@@ -1,0 +1,29 @@
+title: T1199 (GOOGLE - workspace)
+id: 390c804c-b35a-49ee-bba2-11c8fdbb044c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1199.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1199/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1199
+  - actor.sarcoma

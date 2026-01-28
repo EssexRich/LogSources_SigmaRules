@@ -1,0 +1,37 @@
+title: T1120 (LINUX - auditd)
+id: 597c29df-b3a9-4614-8635-50bdd35b306c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1120.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1120/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1120
+  - actor.lockbit

@@ -1,0 +1,34 @@
+title: T1562.009 (MACOS - unified_logging)
+id: 8cf9cf9b-4cab-4789-872c-acd69ccd6488
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.009.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1562.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.009
+  - actor.vect_raas

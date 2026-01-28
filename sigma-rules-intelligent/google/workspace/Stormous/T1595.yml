@@ -1,0 +1,29 @@
+title: T1595 (GOOGLE - workspace)
+id: 3c3825e9-c572-4399-b51e-6c7d411b1c8c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1595/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595
+  - actor.stormous

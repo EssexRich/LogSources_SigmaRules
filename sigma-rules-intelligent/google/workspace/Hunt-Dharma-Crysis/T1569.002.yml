@@ -1,0 +1,29 @@
+title: T1569.002 (GOOGLE - workspace)
+id: e57c0e4d-1db9-4b54-8f7d-4922ec04e936
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.002.
+  Threat Actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1569.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569.002
+  - actor.hunt-dharma-crysis

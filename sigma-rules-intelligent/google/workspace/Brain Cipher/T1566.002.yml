@@ -1,0 +1,29 @@
+title: T1566.002 (GOOGLE - workspace)
+id: d39fe9f3-64ee-40c7-bceb-7703be4ad98c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.002.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1566.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.002
+  - actor.brain_cipher

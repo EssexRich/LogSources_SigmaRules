@@ -1,0 +1,29 @@
+title: T4791 (GOOGLE - workspace)
+id: bc65b2e1-cd80-4483-9364-e5ce0292ac93
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4791.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T4791/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4791
+  - actor.stormous

@@ -1,0 +1,29 @@
+title: T9999 (GOOGLE - workspace)
+id: a8a397a1-31ee-425a-a108-0f78e7dea3c4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T9999.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T9999/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T9999
+  - actor.pear

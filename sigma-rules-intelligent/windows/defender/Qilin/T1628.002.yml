@@ -1,0 +1,37 @@
+title: T1628.002 (WINDOWS - defender)
+id: a4b3a4d2-a948-4a66-84b0-b0a91638b0c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1628.002.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1628.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1628.002
+  - actor.qilin

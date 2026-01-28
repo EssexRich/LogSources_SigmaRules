@@ -1,0 +1,37 @@
+title: T1539 (WINDOWS - defender)
+id: 3f24c582-e897-42d3-a7d0-4e9d956d4076
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1539.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1539/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1539
+  - actor.coosea

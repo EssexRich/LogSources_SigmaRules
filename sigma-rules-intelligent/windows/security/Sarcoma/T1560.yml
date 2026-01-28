@@ -1,0 +1,37 @@
+title: T1560 (WINDOWS - security)
+id: 91c5bdbe-5089-4a3b-bdd6-5b56b8af8fee
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560
+  - actor.sarcoma

@@ -1,0 +1,37 @@
+title: T3796 (WINDOWS - security)
+id: 2cb99664-5a0f-4821-885e-0963f78d51ea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3796.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T3796/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3796
+  - actor.cephalus

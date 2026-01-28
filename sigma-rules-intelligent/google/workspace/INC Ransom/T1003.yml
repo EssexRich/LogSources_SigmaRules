@@ -1,0 +1,29 @@
+title: T1003 (GOOGLE - workspace)
+id: 4831fae7-8afb-4011-92f4-6ac6f7018aca
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.inc_ransom

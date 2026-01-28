@@ -1,0 +1,29 @@
+title: T4980 (GOOGLE - workspace)
+id: d395535b-ad57-4344-8c35-62e6e0ae1d3f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4980.
+  Threat Actor: Chaos
+references:
+  - https://attack.mitre.org/techniques/T4980/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4980
+  - actor.chaos

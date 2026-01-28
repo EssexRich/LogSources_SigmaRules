@@ -1,0 +1,32 @@
+title: T0961 (M365 - entra_id)
+id: b36b1b59-64ca-4e72-bf91-c62183ae0890
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0961.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T0961/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0961
+  - actor.pear

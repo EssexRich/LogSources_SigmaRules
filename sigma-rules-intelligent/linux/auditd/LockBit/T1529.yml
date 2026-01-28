@@ -1,0 +1,37 @@
+title: T1529 (LINUX - auditd)
+id: 9be3824a-ba8b-47dd-9451-7fc6bf85d748
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1529.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1529
+  - actor.lockbit

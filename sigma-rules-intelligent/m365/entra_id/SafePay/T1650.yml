@@ -1,0 +1,32 @@
+title: T1650 (M365 - entra_id)
+id: 909b2834-6bbf-4843-aa68-e6e402525c49
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1650.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1650/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1650
+  - actor.safepay

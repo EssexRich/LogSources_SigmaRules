@@ -1,0 +1,29 @@
+title: T1222 (GOOGLE - workspace)
+id: 8dc8ec1e-1169-40fb-a920-0b0965ae78e5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1222.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1222/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1222
+  - actor.spectra

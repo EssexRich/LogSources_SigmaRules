@@ -1,0 +1,29 @@
+title: T1016.001 (GOOGLE - workspace)
+id: d4f67b78-1639-4ba8-87d5-e971bbbc3525
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1016.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016.001
+  - actor.lockbit

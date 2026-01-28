@@ -1,0 +1,37 @@
+title: T1056 (WINDOWS - sysmon)
+id: 6fed4a66-2951-4486-b6ea-0bc273be65a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1056/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056
+  - actor.8base

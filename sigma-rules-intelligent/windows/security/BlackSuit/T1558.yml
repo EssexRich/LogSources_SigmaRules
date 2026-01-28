@@ -1,0 +1,37 @@
+title: T1558 (WINDOWS - security)
+id: 62d00a78-1514-4093-906c-1954cd37af60
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1558/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558
+  - actor.blacksuit

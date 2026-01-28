@@ -1,0 +1,37 @@
+title: T1078.003 (WINDOWS - sysmon)
+id: bb24561b-7e18-4e2c-b434-ae947f83819f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.003.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1078.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.003
+  - actor.lockbit

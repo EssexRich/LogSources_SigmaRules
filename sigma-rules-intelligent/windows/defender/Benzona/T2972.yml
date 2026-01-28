@@ -1,0 +1,37 @@
+title: T2972 (WINDOWS - defender)
+id: 2fb5eb53-d21d-44f9-9d1b-b37582c6cce2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T2972.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T2972/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T2972
+  - actor.benzona

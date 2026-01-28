@@ -1,0 +1,34 @@
+title: T1543 (MACOS - unified_logging)
+id: 8d1761fa-a0c3-4b0c-a435-ec2250e2530e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1543/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543
+  - actor.brain_cipher

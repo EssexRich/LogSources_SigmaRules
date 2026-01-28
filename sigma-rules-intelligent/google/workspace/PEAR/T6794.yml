@@ -1,0 +1,29 @@
+title: T6794 (GOOGLE - workspace)
+id: 69ad0160-0ec0-4b4a-ae09-f33acb4a3cb2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6794.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T6794/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6794
+  - actor.pear

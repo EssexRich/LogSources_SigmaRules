@@ -1,0 +1,37 @@
+title: T1112 (WINDOWS - sysmon)
+id: cdf1388c-f26d-4590-a214-6d290867e036
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.cephalus

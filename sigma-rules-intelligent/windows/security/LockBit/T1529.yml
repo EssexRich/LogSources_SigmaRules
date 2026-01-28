@@ -1,0 +1,37 @@
+title: T1529 (WINDOWS - security)
+id: e73e9921-aeb9-48be-959d-1241e2ec9ec1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1529.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1529
+  - actor.lockbit

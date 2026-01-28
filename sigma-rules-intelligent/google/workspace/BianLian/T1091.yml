@@ -1,0 +1,29 @@
+title: T1091 (GOOGLE - workspace)
+id: b7e78d84-4d2f-4087-b099-af99e23906c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091
+  - actor.bianlian

@@ -1,0 +1,29 @@
+title: T1195.002 (GOOGLE - workspace)
+id: 71bc6bea-cd3c-4ef5-91a6-cff5b9ef59d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1195.002.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1195.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1195.002
+  - actor.ignoble_scorpius

@@ -1,0 +1,29 @@
+title: T1491 (GOOGLE - workspace)
+id: 96467c62-108b-41c2-a5d2-954117a3d072
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1491.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1491/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1491
+  - actor.lockbit

@@ -1,0 +1,29 @@
+title: T1570 (GOOGLE - workspace)
+id: 6bf39b9b-4068-480c-b51a-bc76c3a21e36
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570
+  - actor.play

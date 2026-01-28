@@ -1,0 +1,37 @@
+title: T1078 (WINDOWS - security)
+id: 46abf7e9-3c9b-46d7-b26f-fc83e8ed04a0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.avoslocker

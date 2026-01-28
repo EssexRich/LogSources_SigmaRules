@@ -1,0 +1,29 @@
+title: T1016 (GOOGLE - workspace)
+id: d962ce49-bdfe-47d4-8476-7117212352fb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.inc_ransom

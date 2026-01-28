@@ -1,0 +1,29 @@
+title: T1574 (GOOGLE - workspace)
+id: e67c99ba-6522-4fcd-a805-ee6e4e1b5a63
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1574/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574
+  - actor.avoslocker

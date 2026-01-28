@@ -1,0 +1,37 @@
+title: T7169 (WINDOWS - security)
+id: 02e5bd3e-ed87-4f0f-b4ca-5f2426b7eed6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7169.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T7169/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7169
+  - actor.pear

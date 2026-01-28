@@ -1,0 +1,29 @@
+title: T1036 (GOOGLE - workspace)
+id: 820ec436-e2e0-49f8-ba01-5d78d1c84150
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.blackbasta

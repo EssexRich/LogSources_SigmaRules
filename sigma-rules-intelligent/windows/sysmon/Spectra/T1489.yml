@@ -1,0 +1,37 @@
+title: T1489 (WINDOWS - sysmon)
+id: 4b9990e6-e49f-411b-ad4e-9e8751f25fc5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1489.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1489/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1489
+  - actor.spectra

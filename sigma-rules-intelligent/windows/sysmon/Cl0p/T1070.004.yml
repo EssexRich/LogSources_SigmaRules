@@ -1,0 +1,37 @@
+title: T1070.004 (WINDOWS - sysmon)
+id: 503a6fd9-8290-4658-b29a-1acf01844e71
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.004.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1070.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.004
+  - actor.cl0p

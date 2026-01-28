@@ -1,0 +1,37 @@
+title: T1203 (WINDOWS - sysmon)
+id: 2baaa260-0acb-4c10-8601-f1fec259e9ef
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.lynx

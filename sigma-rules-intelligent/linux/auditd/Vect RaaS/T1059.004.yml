@@ -1,0 +1,37 @@
+title: T1059.004 (LINUX - auditd)
+id: 87cd4fd5-3325-4568-a0c1-7662ecfbc799
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.004.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1059.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.004
+  - actor.vect_raas

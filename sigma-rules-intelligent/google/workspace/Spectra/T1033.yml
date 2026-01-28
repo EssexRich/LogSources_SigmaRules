@@ -1,0 +1,29 @@
+title: T1033 (GOOGLE - workspace)
+id: c9c9a99f-fc14-4494-87f9-a53a50d9af5e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.spectra

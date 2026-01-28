@@ -1,0 +1,37 @@
+title: T1021.006 (WINDOWS - security)
+id: f267f861-afd3-477f-b4af-a1284ed14484
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.006.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1021.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.006
+  - actor.vect_raas

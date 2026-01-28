@@ -1,0 +1,29 @@
+title: T1218.003 (GOOGLE - workspace)
+id: 92e0a80f-0b90-420e-93e9-4c70b196ce6a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.003.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1218.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.003
+  - actor.alphv-blackcat

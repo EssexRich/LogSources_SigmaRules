@@ -1,0 +1,32 @@
+title: T1091 (M365 - entra_id)
+id: a64a2766-8999-42c2-9693-1609778974a6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091
+  - actor.bianlian

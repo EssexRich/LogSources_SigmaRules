@@ -1,0 +1,34 @@
+title: T1562.006 (MACOS - unified_logging)
+id: d62b68d0-51c4-478e-b312-6656fe6d1083
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.006.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1562.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.006
+  - actor.lockbit

@@ -1,0 +1,29 @@
+title: T1204.001 (GOOGLE - workspace)
+id: 563c1cf3-9936-4670-9772-d9173d79a5be
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.001.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1204.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.001
+  - actor.cephalus

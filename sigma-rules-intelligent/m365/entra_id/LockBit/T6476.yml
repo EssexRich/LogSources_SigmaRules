@@ -1,0 +1,32 @@
+title: T6476 (M365 - entra_id)
+id: ac4aa492-5b43-4b81-a469-83d560345e14
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6476.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T6476/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6476
+  - actor.lockbit

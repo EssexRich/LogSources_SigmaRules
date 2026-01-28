@@ -1,0 +1,32 @@
+title: T1133 (M365 - entra_id)
+id: f6021540-f51d-4700-a725-8dcc60effd0c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.play

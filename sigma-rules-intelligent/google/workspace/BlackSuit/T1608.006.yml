@@ -1,0 +1,29 @@
+title: T1608.006 (GOOGLE - workspace)
+id: afacae87-86b3-44c2-9e57-1c790b00dbff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.006.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1608.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.006
+  - actor.blacksuit

@@ -1,0 +1,29 @@
+title: T1059 (GOOGLE - workspace)
+id: 27bb258c-8114-4d19-af33-df96c9ed5965
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.hive

@@ -1,0 +1,29 @@
+title: T1190 (GOOGLE - workspace)
+id: 66359a23-127d-4217-a16a-61b773cc0ba1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: Cuba
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.cuba

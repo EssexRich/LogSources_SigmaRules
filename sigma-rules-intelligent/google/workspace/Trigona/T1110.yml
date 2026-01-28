@@ -1,0 +1,29 @@
+title: T1110 (GOOGLE - workspace)
+id: 6b2bb947-f9e5-4afb-bee0-502d6d0efe19
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.
+  Threat Actor: Trigona
+references:
+  - https://attack.mitre.org/techniques/T1110/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110
+  - actor.trigona

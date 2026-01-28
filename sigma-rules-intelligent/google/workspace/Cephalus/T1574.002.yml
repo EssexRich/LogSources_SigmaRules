@@ -1,0 +1,29 @@
+title: T1574.002 (GOOGLE - workspace)
+id: dfc11a1a-6a4b-4878-90e0-42388c620d76
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.002.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1574.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.002
+  - actor.cephalus

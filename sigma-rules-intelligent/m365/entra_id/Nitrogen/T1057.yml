@@ -1,0 +1,32 @@
+title: T1057 (M365 - entra_id)
+id: 4a300b56-5ed1-4726-b636-426fe9457d22
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1057.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1057/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1057
+  - actor.nitrogen

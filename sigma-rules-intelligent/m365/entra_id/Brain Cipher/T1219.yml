@@ -1,0 +1,32 @@
+title: T1219 (M365 - entra_id)
+id: fe56cac2-a581-4478-9df1-4030e412909f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.brain_cipher

@@ -1,0 +1,29 @@
+title: T1082 (GOOGLE - workspace)
+id: 736d1195-fe2b-4dc7-bc5e-8aee77373d09
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.donex

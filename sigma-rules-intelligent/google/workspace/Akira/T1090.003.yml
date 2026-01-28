@@ -1,0 +1,29 @@
+title: T1090.003 (GOOGLE - workspace)
+id: 14eb9fe6-fe94-42d5-a791-6acc26d378dc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.003.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1090.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.003
+  - actor.akira

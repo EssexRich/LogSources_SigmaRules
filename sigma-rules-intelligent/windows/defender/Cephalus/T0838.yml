@@ -1,0 +1,37 @@
+title: T0838 (WINDOWS - defender)
+id: 9f0eb786-dde9-43e1-b590-4de4c70d3bf6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0838.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T0838/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0838
+  - actor.cephalus

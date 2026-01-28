@@ -1,0 +1,29 @@
+title: T1560 (GOOGLE - workspace)
+id: b0560c5d-9794-46bd-9bba-a6fc08fd109b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560
+  - actor.bianlian

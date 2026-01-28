@@ -1,0 +1,37 @@
+title: T1203 (WINDOWS - security)
+id: b1aa0728-6ee1-4404-b8be-bfda928430b9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.global

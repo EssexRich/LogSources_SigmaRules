@@ -1,0 +1,37 @@
+title: T1482 (LINUX - auditd)
+id: 984db276-8f5a-496c-92e5-efd9f408b4a7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1482.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1482/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1482
+  - actor.bianlian

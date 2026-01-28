@@ -1,0 +1,29 @@
+title: T1573 (GOOGLE - workspace)
+id: 3739caab-c0ef-4577-a988-3576c6136ec5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573
+  - actor.blackbasta

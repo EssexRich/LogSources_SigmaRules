@@ -1,0 +1,37 @@
+title: T1125 (WINDOWS - sysmon)
+id: 0baf7e49-116a-4a15-a1fa-d8d855c8ee12
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1125.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1125/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1125
+  - actor.inc_ransom

@@ -1,0 +1,29 @@
+title: T1083 (GOOGLE - workspace)
+id: 00c42c71-9a4c-4f34-b7a6-4f28a461c9c7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: DORRRA
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.dorrra

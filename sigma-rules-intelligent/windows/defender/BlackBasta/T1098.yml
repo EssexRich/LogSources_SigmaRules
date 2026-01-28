@@ -1,0 +1,37 @@
+title: T1098 (WINDOWS - defender)
+id: d716ec2a-ad02-40cf-9836-2c9819489405
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1098/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098
+  - actor.blackbasta

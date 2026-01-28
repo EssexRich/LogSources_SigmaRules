@@ -1,0 +1,29 @@
+title: T1135 (GOOGLE - workspace)
+id: 2695c62a-3a45-4481-8392-8420e971e400
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.3am

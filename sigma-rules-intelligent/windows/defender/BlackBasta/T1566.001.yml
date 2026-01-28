@@ -1,0 +1,37 @@
+title: T1566.001 (WINDOWS - defender)
+id: 5566f4c6-b2a0-41e8-9239-fc17d15b1819
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.001.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1566.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.001
+  - actor.blackbasta

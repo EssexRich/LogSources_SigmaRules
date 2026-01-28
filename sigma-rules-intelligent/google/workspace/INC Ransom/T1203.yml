@@ -1,0 +1,29 @@
+title: T1203 (GOOGLE - workspace)
+id: c165993c-2a38-4d1e-8baf-310028c42bdf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.inc_ransom

@@ -1,0 +1,29 @@
+title: T1046 (GOOGLE - workspace)
+id: 11f984e0-8f9d-4101-a3da-637e3d2de769
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.vect_raas

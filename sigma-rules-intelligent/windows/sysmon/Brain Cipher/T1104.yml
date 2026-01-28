@@ -1,0 +1,37 @@
+title: T1104 (WINDOWS - sysmon)
+id: 81ed56b6-09a8-441e-a1fc-bba952c7400a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1104.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1104/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1104
+  - actor.brain_cipher

@@ -1,0 +1,29 @@
+title: T1556.006 (GOOGLE - workspace)
+id: 9a6d5bfd-d57f-446b-ac8e-59b99ae51de7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1556.006.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1556.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1556.006
+  - actor.safelocker

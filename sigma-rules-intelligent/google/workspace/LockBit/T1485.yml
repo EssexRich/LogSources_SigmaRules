@@ -1,0 +1,29 @@
+title: T1485 (GOOGLE - workspace)
+id: e07ed588-12dc-4af1-a6d2-a674a89e77a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1485.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1485
+  - actor.lockbit

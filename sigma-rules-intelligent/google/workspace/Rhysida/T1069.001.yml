@@ -1,0 +1,29 @@
+title: T1069.001 (GOOGLE - workspace)
+id: 1155da38-790f-45e6-b506-245493d3f515
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.001.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1069.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.001
+  - actor.rhysida

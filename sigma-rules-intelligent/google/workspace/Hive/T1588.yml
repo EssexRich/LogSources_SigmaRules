@@ -1,0 +1,29 @@
+title: T1588 (GOOGLE - workspace)
+id: 68e199bb-7b60-4fff-b9de-541b5937b4d5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1588/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588
+  - actor.hive
