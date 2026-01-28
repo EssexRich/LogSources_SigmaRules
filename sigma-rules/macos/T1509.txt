@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1509 Detection (macos)
+    id: 2ce2446f-69e4-4db5-8779-8a67e66a82fb
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1509.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1509/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1509
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: macos
+    service: unified_logging
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1509
+    
