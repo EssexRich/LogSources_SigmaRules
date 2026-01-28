@@ -3,11 +3,11 @@
 /**
  * Intelligent Sigma Rule Generator
  * 
- * Generates technique-aware Sigma rules by:
+ * Dynamically generates Sigma rules by:
  * 1. Fetching threat actor TTPs from EssexRich/ThreatActors-TTPs (ttp-index.json)
- * 2. Fetching MITRE ATT&CK technique data from EssexRich/mitre_attack
+ * 2. Fetching MITRE ATT&CK enterprise-attack.json directly from MITRE
  * 3. Consulting logsources.json for available fields
- * 4. Generating complete Sigma rules for each log source
+ * 4. Generating Sigma rules based on technique descriptions and platforms
  */
 
 const fs = require('fs');
@@ -45,7 +45,6 @@ function generateUUID() {
 
 function buildDetectionYAML(conditions) {
   const lines = [];
-  
   Object.entries(conditions).forEach(([field, values]) => {
     if (Array.isArray(values)) {
       lines.push(`    ${field}:`);
@@ -56,7 +55,6 @@ function buildDetectionYAML(conditions) {
       lines.push(`    ${field}: ${values}`);
     }
   });
-  
   return lines.join('\n');
 }
 
@@ -65,15 +63,12 @@ function generateSigmaRule(techniqueId, techName, logsource, conditions) {
   const now = new Date().toISOString().split('T')[0];
   const detection = buildDetectionYAML(conditions);
 
-  const rule = `title: ${techName} (${logsource.product.toUpperCase()})
+  return `title: ${techName} (${logsource.product.toUpperCase()})
 id: ${uuid}
 description: >
   Detects techniques consistent with MITRE ATT&CK technique ${techniqueId}.
-  Adversaries may use a variety of techniques throughout the attack lifecycle.
-  This rule provides baseline detection for security monitoring and threat hunting.
 references:
   - https://attack.mitre.org/techniques/${techniqueId}/
-  - https://incidentbuddy.ai/gapmatrix/techniques/${techniqueId}
 author: GapMATRIX Intelligent Sigma Generator
 date: ${now}
 status: experimental
@@ -92,26 +87,134 @@ ${detection}
 falsepositives:
   - Legitimate system administration activity
   - Authorized security testing
-  - Expected software deployments
 
 tags:
   - attack.${techniqueId}
-  - attack_pattern
-  - detection_rule
 `;
-
-  return rule;
 }
 
-// Generic detection patterns - will be enhanced with real data from repos
-const TECHNIQUE_DETECTION_PATTERNS = {
-  'T1059.001': { name: 'Command and Scripting Interpreter: PowerShell', patterns: { 'windows|sysmon|process_creation': { Image: ['powershell.exe', 'pwsh.exe'], CommandLine: ['-EncodedCommand', '-enc', 'bypass'] } } },
-  'T1078': { name: 'Valid Accounts', patterns: { 'windows|security|process_creation': { SubjectUserName: ['SYSTEM', 'LOCAL SERVICE'] } } },
-  'T1190': { name: 'Exploit Public-Facing Application', patterns: { 'windows|sysmon|process_creation': { ParentImage: ['w3wp.exe', 'apache.exe'], Image: ['cmd.exe', 'powershell.exe'] } } },
-  'T1486': { name: 'Data Encrypted for Impact', patterns: { 'windows|sysmon|process_creation': { Image: ['cipher.exe', 'certutil.exe'], CommandLine: ['/e', '/s'] } } },
-  'T1566': { name: 'Phishing', patterns: { 'm365|entra_id|authentication': { AttachmentExtension: ['exe', 'dll', 'zip'] } } },
-  'T1070.001': { name: 'Indicator Removal: Clear Windows Event Logs', patterns: { 'windows|sysmon|process_creation': { Image: ['wevtutil.exe', 'powershell.exe'], CommandLine: ['clear-log'] } } },
-};
+// Dynamic detection patterns based on technique keywords
+function buildDetectionForTechnique(techniqueId, techName, description, logsource) {
+  const techLower = techName.toLowerCase();
+  const descLower = description ? description.toLowerCase() : '';
+  
+  // Match patterns based on technique and logsource
+  if (logsource.product === 'windows' && logsource.service === 'sysmon') {
+    if (techLower.includes('powershell') || techLower.includes('command') || techLower.includes('script')) {
+      return {
+        'Image|endswith': ['powershell.exe', 'pwsh.exe', 'cmd.exe'],
+        'CommandLine|contains': ['-EncodedCommand', '-enc', 'bypass', 'IEX']
+      };
+    }
+    if (techLower.includes('encryption') || techLower.includes('encrypt')) {
+      return {
+        'Image|endswith': ['cipher.exe', 'certutil.exe', 'openssl.exe'],
+        'CommandLine|contains': ['/e', '/s', '-encrypt', '-aes']
+      };
+    }
+    if (techLower.includes('credential') || techLower.includes('password') || techLower.includes('dumping')) {
+      return {
+        'Image|endswith': ['lsass.exe', 'mimikatz.exe', 'procdump.exe'],
+        'CommandLine|contains': ['/prot:off', 'sekurlsa', 'logonpasswords']
+      };
+    }
+    if (techLower.includes('lateral') || techLower.includes('psexec') || techLower.includes('wmiexec')) {
+      return {
+        'Image|endswith': ['svchost.exe', 'wmiprvse.exe', 'rundll32.exe'],
+        'CommandLine|contains': ['\\\\', 'wmic', 'psexec']
+      };
+    }
+    if (techLower.includes('persistence') || techLower.includes('registry')) {
+      return {
+        'Image|endswith': ['reg.exe', 'regedit.exe', 'powershell.exe'],
+        'CommandLine|contains': ['add', 'run', 'startup']
+      };
+    }
+  }
+  
+  if (logsource.product === 'windows' && logsource.service === 'security') {
+    if (techLower.includes('account') || techLower.includes('login') || techLower.includes('credential')) {
+      return {
+        'EventID': ['4624', '4625', '4648'],
+        'AccountName|endswith': ['$', 'SYSTEM', 'LOCAL SERVICE']
+      };
+    }
+    if (techLower.includes('logon')) {
+      return {
+        'EventID': ['4624', '4768', '4769', '4771'],
+        'LogonType': ['2', '3', '10']
+      };
+    }
+  }
+  
+  if (logsource.product === 'windows' && logsource.service === 'defender') {
+    if (techLower.includes('malware') || techLower.includes('detect')) {
+      return {
+        'ActionType': ['Detected', 'Blocked', 'Remediated'],
+        'ThreatName|contains': ['Malware', 'PUA', 'Trojan']
+      };
+    }
+  }
+  
+  if (logsource.product === 'linux' && logsource.service === 'auditd') {
+    if (techLower.includes('powershell') || techLower.includes('command') || techLower.includes('execution')) {
+      return {
+        'Image|endswith': ['/bash', '/sh', '/pwsh', '/python'],
+        'CommandLine|contains': ['bash', 'sh', 'python', 'perl']
+      };
+    }
+    if (techLower.includes('encryption') || techLower.includes('encrypt')) {
+      return {
+        'Image|endswith': ['/openssl', '/gpg', '/cryptsetup'],
+        'CommandLine|contains': ['enc', '-e', '-encrypt']
+      };
+    }
+    if (techLower.includes('sudo') || techLower.includes('privilege')) {
+      return {
+        'Image|endswith': ['/sudo', '/su'],
+        'CommandLine|contains': ['sudo', 'su -']
+      };
+    }
+  }
+  
+  if (logsource.product === 'macos' && logsource.service === 'unified_logging') {
+    if (techLower.includes('command') || techLower.includes('execution')) {
+      return {
+        'ProcessName|endswith': ['/bash', '/sh', '/zsh'],
+        'EventMessage|contains': ['executed', 'launch']
+      };
+    }
+  }
+  
+  if (logsource.product === 'm365' && logsource.service === 'entra_id') {
+    if (techLower.includes('phishing') || techLower.includes('attachment')) {
+      return {
+        'AttachmentExtension|in': ['exe', 'dll', 'zip', 'iso', 'scr'],
+      };
+    }
+    if (techLower.includes('credential') || techLower.includes('password') || techLower.includes('sign')) {
+      return {
+        'RiskLevel': 'high',
+        'AuthenticationDetails|contains': ['failed', 'suspicious']
+      };
+    }
+  }
+  
+  if (logsource.product === 'google' && logsource.service === 'workspace') {
+    if (techLower.includes('phishing') || techLower.includes('email')) {
+      return {
+        'email_subject|contains': ['invoice', 'urgent', 'confirm'],
+        'email_from|endswith': ['.ru', '.cn', '.tk']
+      };
+    }
+  }
+  
+  // Generic fallback
+  return {
+    'EventID|contains': '4688',
+    'Image|contains': 'process'
+  };
+}
 
 async function main() {
   console.log('[SigmaGen] Starting intelligent Sigma rule generation...');
@@ -132,29 +235,50 @@ async function main() {
     process.exit(1);
   }
 
-  // Fetch threat actor data from EssexRich/ThreatActors-TTPs
+  // Fetch threat actor TTPs
   console.log('\n[SigmaGen] Fetching threat actor TTPs from EssexRich/ThreatActors-TTPs...');
   let threatActorIndex = {};
+  const techniqueToActors = {};
   try {
     threatActorIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/ThreatActors-TTPs/main/ttp-index.json');
-    console.log(`[SigmaGen] Loaded ${threatActorIndex.actorCount} threat actors with ${threatActorIndex.totalTechniques} total technique mappings`);
+    if (threatActorIndex.actors) {
+      threatActorIndex.actors.forEach((actor) => {
+        actor.techniques.forEach((technique) => {
+          if (!techniqueToActors[technique]) {
+            techniqueToActors[technique] = [];
+          }
+          techniqueToActors[technique].push(actor.name);
+        });
+      });
+      console.log(`[SigmaGen] Loaded ${threatActorIndex.actorCount} threat actors`);
+    }
   } catch (error) {
-    console.error('[SigmaGen] Failed to fetch threat actor data:', error.message);
-    console.log('[SigmaGen] Continuing with generic patterns...');
+    console.warn('[SigmaGen] Warning: Could not fetch threat actors:', error.message);
   }
 
-  // Build reverse mapping: technique -> [actors]
-  const techniqueToActors = {};
-  if (threatActorIndex.actors) {
-    threatActorIndex.actors.forEach((actor) => {
-      actor.techniques.forEach((technique) => {
-        if (!techniqueToActors[technique]) {
-          techniqueToActors[technique] = [];
-        }
-        techniqueToActors[technique].push(actor.name);
-      });
-    });
-    console.log(`[SigmaGen] Built mapping for ${Object.keys(techniqueToActors).length} techniques`);
+  // Fetch MITRE ATT&CK data
+  console.log('\n[SigmaGen] Fetching MITRE ATT&CK data...');
+  let mitreData = {};
+  const techniqueMap = {};
+  try {
+    mitreData = await fetchURL('https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack.json');
+    if (mitreData.objects) {
+      mitreData.objects
+        .filter(obj => obj.type === 'attack-pattern')
+        .forEach(pattern => {
+          const extRef = pattern.external_references?.find(r => r.source_name === 'mitre-attack');
+          if (extRef) {
+            techniqueMap[extRef.external_id] = {
+              name: pattern.name,
+              description: pattern.description
+            };
+          }
+        });
+      console.log(`[SigmaGen] Loaded ${Object.keys(techniqueMap).length} MITRE techniques`);
+    }
+  } catch (error) {
+    console.error('[SigmaGen] Failed to fetch MITRE data:', error.message);
+    process.exit(1);
   }
 
   // Create output directory
@@ -167,38 +291,19 @@ async function main() {
   let totalRulesGenerated = 0;
 
   // Generate rules for each technique that has actor data
-  const techniquesToProcess = Object.keys(techniqueToActors).length > 0 
-    ? Object.entries(techniqueToActors) 
-    : Object.entries(TECHNIQUE_DETECTION_PATTERNS).map(([tech, data]) => [tech, ['Unknown']]);
+  Object.entries(techniqueToActors).forEach(([techniqueId, actors]) => {
+    const techData = techniqueMap[techniqueId];
+    if (!techData) return;
 
-  console.log(`[SigmaGen] techniquesToProcess: ${techniquesToProcess.length} techniques`);
+    console.log(`\n[SigmaGen] ${techniqueId}: ${techData.name} (${actors.length} actors)`);
 
-  techniquesToProcess.forEach(([techniqueId, actors]) => {
-    const basePattern = TECHNIQUE_DETECTION_PATTERNS[techniqueId] || TECHNIQUE_DETECTION_PATTERNS[techniqueId.split('.')[0]];
-    if (!basePattern) {
-      console.log(`[SigmaGen] No pattern found for ${techniqueId}`);
-      return;
-    }
+    // For each logsource, generate a rule for each actor
+    logsources.forEach((logsource) => {
+      const conditions = buildDetectionForTechnique(techniqueId, techData.name, techData.description, logsource);
+      if (!conditions) return;
 
-    console.log(`\n[SigmaGen] Processing ${techniqueId}: ${basePattern.name} (${actors.length} actors)`);
-    console.log(`[SigmaGen]   Patterns available: ${Object.keys(basePattern.patterns).join(', ')}`);
-
-    // For each pattern in this technique
-    Object.entries(basePattern.patterns).forEach(([patternKey, conditions]) => {
-      const [product, service, category] = patternKey.split('|');
-
-      // Find matching logsource
-      const logsource = logsources.find(ls => ls.product === product && ls.service === service && ls.category === category);
-      if (!logsource) {
-        console.log(`[SigmaGen]   No logsource found for ${patternKey}`);
-        return;
-      }
-
-      console.log(`[SigmaGen]   Found logsource: ${patternKey}`);
-
-      // Generate rule for each actor
       actors.forEach((actor) => {
-        const rule = generateSigmaRule(techniqueId, basePattern.name, logsource, conditions);
+        const rule = generateSigmaRule(techniqueId, techData.name, logsource, conditions);
 
         // Create actor-specific directory
         const actorDir = path.join(baseDir, logsource.product, actor);
@@ -211,14 +316,12 @@ async function main() {
         fs.writeFileSync(filepath, rule);
 
         totalRulesGenerated++;
-        console.log(`[SigmaGen]     Generated ${logsource.product}/${actor}/${techniqueId}`);
       });
     });
   });
 
   console.log(`\n[SigmaGen] ✓ Generated ${totalRulesGenerated} intelligent Sigma rules`);
   console.log(`[SigmaGen] Rules saved to: ${baseDir}`);
-  console.log(`[SigmaGen] Structure: /sigma-rules-intelligent/[product]/[actor]/[technique].yml`);
 }
 
 main().catch(err => {
