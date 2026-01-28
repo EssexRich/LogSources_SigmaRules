@@ -16,7 +16,7 @@ const https = require('https');
 
 function fetchURL(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, (res) => {
+    const request = https.get(url, (res) => {
       let data = '';
       res.on('data', (chunk) => { data += chunk; });
       res.on('end', () => {
@@ -27,6 +27,11 @@ function fetchURL(url) {
         }
       });
     }).on('error', reject);
+    
+    request.setTimeout(30000, () => {
+      request.destroy();
+      reject(new Error(`Request timeout for ${url}`));
+    });
   });
 }
 
@@ -162,27 +167,34 @@ async function main() {
   let totalRulesGenerated = 0;
 
   // Generate rules for each technique that has actor data
-  Object.entries(techniqueToActors).forEach(([techniqueId, actors]) => {
-    // Skip if we don't have a detection pattern for this technique
-    let techName = techniqueId;
-    if (!TECHNIQUE_DETECTION_PATTERNS[techniqueId] && !TECHNIQUE_DETECTION_PATTERNS[techniqueId.split('.')[0]]) {
+  const techniquesToProcess = Object.keys(techniqueToActors).length > 0 
+    ? Object.entries(techniqueToActors) 
+    : Object.entries(TECHNIQUE_DETECTION_PATTERNS).map(([tech, data]) => [tech, ['Unknown']]);
+
+  console.log(`[SigmaGen] techniquesToProcess: ${techniquesToProcess.length} techniques`);
+
+  techniquesToProcess.forEach(([techniqueId, actors]) => {
+    const basePattern = TECHNIQUE_DETECTION_PATTERNS[techniqueId] || TECHNIQUE_DETECTION_PATTERNS[techniqueId.split('.')[0]];
+    if (!basePattern) {
+      console.log(`[SigmaGen] No pattern found for ${techniqueId}`);
       return;
     }
 
-    const basePattern = TECHNIQUE_DETECTION_PATTERNS[techniqueId] || TECHNIQUE_DETECTION_PATTERNS[techniqueId.split('.')[0]];
-    if (!basePattern) return;
-
     console.log(`\n[SigmaGen] Processing ${techniqueId}: ${basePattern.name} (${actors.length} actors)`);
+    console.log(`[SigmaGen]   Patterns available: ${Object.keys(basePattern.patterns).join(', ')}`);
 
-    // For each logsource, generate rules for each actor
-    logsources.forEach((logsource) => {
-      const logsourceKey = `${logsource.product}|${logsource.service}|${logsource.category}`;
+    // For each pattern in this technique
+    Object.entries(basePattern.patterns).forEach(([patternKey, conditions]) => {
+      const [product, service, category] = patternKey.split('|');
 
-      // Find matching pattern for this logsource
-      const patternKey = Object.keys(basePattern.patterns).find(key => key === logsourceKey || key.startsWith(logsource.product + '|'));
-      if (!patternKey) return;
+      // Find matching logsource
+      const logsource = logsources.find(ls => ls.product === product && ls.service === service && ls.category === category);
+      if (!logsource) {
+        console.log(`[SigmaGen]   No logsource found for ${patternKey}`);
+        return;
+      }
 
-      const conditions = basePattern.patterns[patternKey];
+      console.log(`[SigmaGen]   Found logsource: ${patternKey}`);
 
       // Generate rule for each actor
       actors.forEach((actor) => {
@@ -199,9 +211,8 @@ async function main() {
         fs.writeFileSync(filepath, rule);
 
         totalRulesGenerated++;
+        console.log(`[SigmaGen]     Generated ${logsource.product}/${actor}/${techniqueId}`);
       });
-
-      console.log(`  [+] Generated ${actors.length} rules for ${logsource.product}/${techniqueId}`);
     });
   });
 
