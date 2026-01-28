@@ -246,8 +246,8 @@ async function main() {
       uniqueActors.forEach((actor) => {
         const rule = generateSigmaRule(techniqueId, techName, logsource, conditions);
 
-        // Create actor-specific directory
-        const actorDir = path.join(baseDir, logsource.product, actor);
+        // Create product/service/actor-specific directory
+        const actorDir = path.join(baseDir, logsource.product, logsource.service, actor);
         if (!fs.existsSync(actorDir)) {
           fs.mkdirSync(actorDir, { recursive: true });
         }
