@@ -1,15 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Intelligent Sigma Rule Generator
- * 
- * Dynamically generates Sigma rules by:
- * 1. Fetching threat actor TTPs from EssexRich/ThreatActors-TTPs (ttp-index.json)
- * 2. Fetching MITRE ATT&CK enterprise-attack.json directly from MITRE
- * 3. Consulting logsources.json for available fields
- * 4. Generating Sigma rules based on technique descriptions and platforms
- */
-
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
@@ -30,7 +20,7 @@ function fetchURL(url) {
     
     request.setTimeout(30000, () => {
       request.destroy();
-      reject(new Error(`Request timeout for ${url}`));
+      reject(new Error(`Request timeout`));
     });
   });
 }
@@ -93,14 +83,11 @@ tags:
 `;
 }
 
-// Dynamic detection patterns based on technique keywords
-function buildDetectionForTechnique(techniqueId, techName, description, logsource) {
-  const techLower = techName.toLowerCase();
-  const descLower = description ? description.toLowerCase() : '';
+function buildDetectionForTechnique(techniqueId, techName, logsource) {
+  const techLower = (techName || '').toLowerCase();
   
-  // Match patterns based on technique and logsource
   if (logsource.product === 'windows' && logsource.service === 'sysmon') {
-    if (techLower.includes('powershell') || techLower.includes('command') || techLower.includes('script')) {
+    if (techLower.includes('powershell') || techLower.includes('command') || techLower.includes('script') || techLower.includes('interpreter')) {
       return {
         'Image|endswith': ['powershell.exe', 'pwsh.exe', 'cmd.exe'],
         'CommandLine|contains': ['-EncodedCommand', '-enc', 'bypass', 'IEX']
@@ -112,52 +99,40 @@ function buildDetectionForTechnique(techniqueId, techName, description, logsourc
         'CommandLine|contains': ['/e', '/s', '-encrypt', '-aes']
       };
     }
-    if (techLower.includes('credential') || techLower.includes('password') || techLower.includes('dumping')) {
+    if (techLower.includes('credential') || techLower.includes('password') || techLower.includes('dump')) {
       return {
         'Image|endswith': ['lsass.exe', 'mimikatz.exe', 'procdump.exe'],
-        'CommandLine|contains': ['/prot:off', 'sekurlsa', 'logonpasswords']
+        'CommandLine|contains': ['sekurlsa', 'logonpasswords', '/prot:off']
       };
     }
-    if (techLower.includes('lateral') || techLower.includes('psexec') || techLower.includes('wmiexec')) {
+    if (techLower.includes('lateral') || techLower.includes('remote')) {
       return {
         'Image|endswith': ['svchost.exe', 'wmiprvse.exe', 'rundll32.exe'],
         'CommandLine|contains': ['\\\\', 'wmic', 'psexec']
       };
     }
-    if (techLower.includes('persistence') || techLower.includes('registry')) {
-      return {
-        'Image|endswith': ['reg.exe', 'regedit.exe', 'powershell.exe'],
-        'CommandLine|contains': ['add', 'run', 'startup']
-      };
-    }
   }
   
   if (logsource.product === 'windows' && logsource.service === 'security') {
-    if (techLower.includes('account') || techLower.includes('login') || techLower.includes('credential')) {
+    if (techLower.includes('account') || techLower.includes('login') || techLower.includes('logon')) {
       return {
         'EventID': ['4624', '4625', '4648'],
         'AccountName|endswith': ['$', 'SYSTEM', 'LOCAL SERVICE']
       };
     }
-    if (techLower.includes('logon')) {
-      return {
-        'EventID': ['4624', '4768', '4769', '4771'],
-        'LogonType': ['2', '3', '10']
-      };
-    }
   }
   
   if (logsource.product === 'windows' && logsource.service === 'defender') {
-    if (techLower.includes('malware') || techLower.includes('detect')) {
+    if (techLower.includes('malware') || techLower.includes('threat') || techLower.includes('detect')) {
       return {
         'ActionType': ['Detected', 'Blocked', 'Remediated'],
-        'ThreatName|contains': ['Malware', 'PUA', 'Trojan']
+        'ThreatName': ['Malware', 'PUA', 'Trojan']
       };
     }
   }
   
   if (logsource.product === 'linux' && logsource.service === 'auditd') {
-    if (techLower.includes('powershell') || techLower.includes('command') || techLower.includes('execution')) {
+    if (techLower.includes('command') || techLower.includes('execution') || techLower.includes('shell')) {
       return {
         'Image|endswith': ['/bash', '/sh', '/pwsh', '/python'],
         'CommandLine|contains': ['bash', 'sh', 'python', 'perl']
@@ -169,16 +144,10 @@ function buildDetectionForTechnique(techniqueId, techName, description, logsourc
         'CommandLine|contains': ['enc', '-e', '-encrypt']
       };
     }
-    if (techLower.includes('sudo') || techLower.includes('privilege')) {
-      return {
-        'Image|endswith': ['/sudo', '/su'],
-        'CommandLine|contains': ['sudo', 'su -']
-      };
-    }
   }
   
   if (logsource.product === 'macos' && logsource.service === 'unified_logging') {
-    if (techLower.includes('command') || techLower.includes('execution')) {
+    if (techLower.includes('execution') || techLower.includes('command')) {
       return {
         'ProcessName|endswith': ['/bash', '/sh', '/zsh'],
         'EventMessage|contains': ['executed', 'launch']
@@ -187,12 +156,12 @@ function buildDetectionForTechnique(techniqueId, techName, description, logsourc
   }
   
   if (logsource.product === 'm365' && logsource.service === 'entra_id') {
-    if (techLower.includes('phishing') || techLower.includes('attachment')) {
+    if (techLower.includes('phishing') || techLower.includes('attachment') || techLower.includes('email')) {
       return {
-        'AttachmentExtension|in': ['exe', 'dll', 'zip', 'iso', 'scr'],
+        'AttachmentExtension|in': ['exe', 'dll', 'zip', 'iso', 'scr']
       };
     }
-    if (techLower.includes('credential') || techLower.includes('password') || techLower.includes('sign')) {
+    if (techLower.includes('credential') || techLower.includes('sign') || techLower.includes('password')) {
       return {
         'RiskLevel': 'high',
         'AuthenticationDetails|contains': ['failed', 'suspicious']
@@ -211,8 +180,8 @@ function buildDetectionForTechnique(techniqueId, techName, description, logsourc
   
   // Generic fallback
   return {
-    'EventID|contains': '4688',
-    'Image|contains': 'process'
+    'Image|contains': 'process',
+    'CommandLine|contains': 'cmd'
   };
 }
 
@@ -256,30 +225,32 @@ async function main() {
     console.warn('[SigmaGen] Warning: Could not fetch threat actors:', error.message);
   }
 
-  // Fetch MITRE ATT&CK data
-  console.log('\n[SigmaGen] Fetching MITRE ATT&CK data...');
-  let mitreData = {};
-  const techniqueMap = {};
+  // Fetch MITRE techniques from vectorized repo
+  console.log('\n[SigmaGen] Fetching MITRE ATT&CK techniques...');
+  let techniqueMap = {};
   try {
-    mitreData = await fetchURL('https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack.json');
-    if (mitreData.objects) {
-      mitreData.objects
-        .filter(obj => obj.type === 'attack-pattern')
-        .forEach(pattern => {
-          const extRef = pattern.external_references?.find(r => r.source_name === 'mitre-attack');
-          if (extRef) {
-            techniqueMap[extRef.external_id] = {
-              name: pattern.name,
-              description: pattern.description
-            };
-          }
-        });
+    const mitreIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/index.json');
+    if (mitreIndex.techniques) {
+      mitreIndex.techniques.forEach((tech) => {
+        techniqueMap[tech.id] = {
+          name: tech.name,
+          description: tech.description
+        };
+      });
       console.log(`[SigmaGen] Loaded ${Object.keys(techniqueMap).length} MITRE techniques`);
     }
   } catch (error) {
-    console.error('[SigmaGen] Failed to fetch MITRE data:', error.message);
-    process.exit(1);
+    console.warn('[SigmaGen] Warning: Could not fetch from mitre_attack repo, using threat actor data only');
+    // Fallback: use techniques from threat actors
+    Object.keys(techniqueToActors).forEach(techniqueId => {
+      techniqueMap[techniqueId] = {
+        name: techniqueId,
+        description: techniqueId
+      };
+    });
   }
+
+  console.log(`[SigmaGen] Total techniques: ${Object.keys(techniqueMap).length}`);
 
   // Create output directory
   const baseDir = path.join(process.cwd(), 'sigma-rules-intelligent');
@@ -289,17 +260,24 @@ async function main() {
   fs.mkdirSync(baseDir, { recursive: true });
 
   let totalRulesGenerated = 0;
+  let techniquesProcessed = 0;
 
-  // Generate rules for each technique that has actor data
-  Object.entries(techniqueToActors).forEach(([techniqueId, actors]) => {
-    const techData = techniqueMap[techniqueId];
-    if (!techData) return;
+  // Generate rules for ALL techniques
+  Object.entries(techniqueMap).forEach(([techniqueId, techData]) => {
+    const actors = techniqueToActors[techniqueId] || [];
+    
+    if (actors.length === 0) {
+      return; // Skip techniques with no actors
+    }
 
-    console.log(`\n[SigmaGen] ${techniqueId}: ${techData.name} (${actors.length} actors)`);
+    techniquesProcessed++;
+    if (techniquesProcessed % 50 === 0) {
+      console.log(`[SigmaGen] Processed ${techniquesProcessed} techniques...`);
+    }
 
     // For each logsource, generate a rule for each actor
     logsources.forEach((logsource) => {
-      const conditions = buildDetectionForTechnique(techniqueId, techData.name, techData.description, logsource);
+      const conditions = buildDetectionForTechnique(techniqueId, techData.name, logsource);
       if (!conditions) return;
 
       actors.forEach((actor) => {
@@ -321,10 +299,11 @@ async function main() {
   });
 
   console.log(`\n[SigmaGen] ✓ Generated ${totalRulesGenerated} intelligent Sigma rules`);
+  console.log(`[SigmaGen] From ${techniquesProcessed} techniques and ${Object.keys(techniqueToActors).length} unique threat actors`);
   console.log(`[SigmaGen] Rules saved to: ${baseDir}`);
 }
 
 main().catch(err => {
-  console.error('[SigmaGen] Fatal error:', err);
+  console.error('[SigmaGen] Fatal error:', err.message);
   process.exit(1);
 });
