@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1608.004 Detection
+    id: 9d71c414-8e59-4a5b-a50f-3ad09575ac0e
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1608.004.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1608.004/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1608.004
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1608.004
+    
