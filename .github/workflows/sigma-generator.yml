@@ -47,12 +47,7 @@ jobs:
           git add sigma-rules-intelligent/ || true
           
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "chore(sigma): regenerate intelligent Sigma rules from threat actor TTPs
-
-- Fetched latest threat actor data from EssexRich/ThreatActors-TTPs
-- Generated technique-specific rules for each actor
-- File structure: /sigma-rules-intelligent/[product]/[actor]/[technique].yml
-- Automated by GitHub Actions workflow"
+            git commit -m "chore(sigma): regenerate intelligent Sigma rules from threat actor TTPs" -m "- Fetched latest threat actor data from EssexRich/ThreatActors-TTPs" -m "- Generated technique-specific rules for each actor" -m "- File structure: /sigma-rules-intelligent/[product]/[actor]/[technique].yml" -m "- Automated by GitHub Actions workflow"
             git push origin HEAD:${{ github.ref }}
             echo "✓ Rules committed and pushed"
           else
