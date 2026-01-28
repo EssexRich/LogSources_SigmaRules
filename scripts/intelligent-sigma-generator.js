@@ -13,14 +13,14 @@ function fetchURL(url) {
         try {
           resolve(JSON.parse(data));
         } catch (e) {
-          reject(new Error(`Failed to parse JSON`));
+          reject(new Error(`Failed to parse JSON from ${url}`));
         }
       });
     }).on('error', reject);
     
     request.setTimeout(30000, () => {
       request.destroy();
-      reject(new Error(`Request timeout`));
+      reject(new Error(`Request timeout for ${url}`));
     });
   });
 }
@@ -48,15 +48,16 @@ function buildDetectionYAML(conditions) {
   return lines.join('\n');
 }
 
-function generateSigmaRule(techniqueId, techName, logsource, conditions) {
+function generateSigmaRule(techniqueId, techName, logsource, conditions, actor) {
   const uuid = generateUUID();
   const now = new Date().toISOString().split('T')[0];
   const detection = buildDetectionYAML(conditions);
 
-  return `title: ${techName} (${logsource.product.toUpperCase()})
+  return `title: ${techName} (${logsource.product.toUpperCase()} - ${logsource.service})
 id: ${uuid}
 description: >
   Detects techniques consistent with MITRE ATT&CK technique ${techniqueId}.
+  Threat Actor: ${actor}
 references:
   - https://attack.mitre.org/techniques/${techniqueId}/
 author: GapMATRIX Intelligent Sigma Generator
@@ -80,181 +81,249 @@ falsepositives:
 
 tags:
   - attack.${techniqueId}
+  - actor.${actor.toLowerCase().replace(/\s+/g, '_')}
 `;
 }
 
 function buildDetectionForTechnique(techniqueId, techName, logsource) {
-  const techLower = (techName || '').toLowerCase();
+  // Use fieldMappings from logsource to build detection dynamically
+  if (!logsource.fieldMappings || !logsource.fieldMappings[logsource.category]) {
+    return null;
+  }
   
-  if (logsource.product === 'windows' && logsource.service === 'sysmon') {
-    if (techLower.includes('powershell') || techLower.includes('command') || techLower.includes('script') || techLower.includes('interpreter')) {
-      return { 'Image|endswith': ['powershell.exe', 'pwsh.exe', 'cmd.exe'], 'CommandLine|contains': ['-EncodedCommand', '-enc', 'bypass'] };
+  const fieldMapping = logsource.fieldMappings[logsource.category];
+  const detection = {};
+  
+  // Build detection using available fields from the logsource's field mapping
+  // We use common field names as keys
+  const commonFields = {
+    'Image': ['Image', 'ProcessName', 'InitiatingProcessFileName', 'exe'],
+    'CommandLine': ['CommandLine', 'ProcessCommandLine', 'InitiatingProcessCommandLine', 'cmd'],
+    'User': ['User', 'UserName', 'AccountName', 'userPrincipalName', 'uid'],
+    'EventID': ['EventID']
+  };
+  
+  // For process_creation category, detect on Image/CommandLine if available
+  if (logsource.category === 'process_creation') {
+    if (fieldMapping['Image']) {
+      detection[`${fieldMapping['Image']}|contains`] = ['cmd.exe', 'powershell.exe', 'bash', 'sh'];
     }
-    if (techLower.includes('encryption') || techLower.includes('encrypt')) {
-      return { 'Image|endswith': ['cipher.exe', 'certutil.exe'], 'CommandLine|contains': ['/e', '/s'] };
+    if (fieldMapping['CommandLine']) {
+      detection[`${fieldMapping['CommandLine']}|contains`] = ['-enc', 'bypass', 'encoded'];
     }
-    if (techLower.includes('credential') || techLower.includes('dump')) {
-      return { 'Image|endswith': ['lsass.exe', 'mimikatz.exe'], 'CommandLine|contains': ['sekurlsa'] };
+    // Fallback if no specific fields
+    if (Object.keys(detection).length === 0) {
+      detection['Image|contains'] = ['cmd', 'powershell'];
+      detection['CommandLine|contains'] = ['encoded', 'bypass'];
     }
   }
   
-  if (logsource.product === 'windows' && logsource.service === 'security') {
-    if (techLower.includes('account') || techLower.includes('logon') || techLower.includes('credential')) {
-      return { 'EventID': ['4624', '4625', '4648'] };
+  // For authentication category, detect on User/IpAddress if available
+  if (logsource.category === 'authentication') {
+    if (fieldMapping['User']) {
+      detection[fieldMapping['User']] = 'user@domain.com';
+    }
+    if (fieldMapping['IpAddress']) {
+      detection[`${fieldMapping['IpAddress']}|startswith`] = ['192.168', '10.0'];
+    }
+    // Fallback if no specific fields
+    if (Object.keys(detection).length === 0) {
+      detection['User|contains'] = 'admin';
     }
   }
   
-  if (logsource.product === 'linux' && logsource.service === 'auditd') {
-    if (techLower.includes('command') || techLower.includes('execution')) {
-      return { 'Image|endswith': ['/bash', '/sh', '/python'] };
+  // For file_creation category, detect on filename/path if available
+  if (logsource.category === 'file_creation') {
+    if (fieldMapping['TargetFilename']) {
+      detection[`${fieldMapping['TargetFilename']}|endswith`] = ['.exe', '.dll', '.sys', '.bat'];
+    }
+    if (fieldMapping['FileName']) {
+      detection[`${fieldMapping['FileName']}|endswith`] = ['.exe', '.dll', '.sys'];
+    }
+    // Fallback if no specific fields
+    if (Object.keys(detection).length === 0) {
+      detection['TargetFilename|endswith'] = ['.exe', '.dll'];
     }
   }
   
-  if (logsource.product === 'm365' && logsource.service === 'entra_id') {
-    if (techLower.includes('phishing') || techLower.includes('email')) {
-      return { 'AttachmentExtension|in': ['exe', 'dll', 'zip'] };
-    }
+  // Fallback if nothing matched
+  if (Object.keys(detection).length === 0) {
+    detection['Image|contains'] = 'process';
   }
   
-  // Fallback
-  return { 'Image|contains': 'process', 'CommandLine|contains': 'cmd' };
+  return detection;
 }
 
 async function main() {
+  console.log('[SigmaGen] ====================================');
   console.log('[SigmaGen] Starting intelligent Sigma rule generation...');
+  console.log('[SigmaGen] ====================================\n');
 
-  // Load logsources
+  // Step 1: Load logsources
+  console.log('[SigmaGen] STEP 1: Loading logsources from logsources.json...');
   let logsources = [];
   try {
     const logsourcesPath = path.join(process.cwd(), 'logsources.json');
     if (!fs.existsSync(logsourcesPath)) {
-      console.error('[SigmaGen] logsources.json not found!');
+      console.error('[SigmaGen] ERROR: logsources.json not found!');
       process.exit(1);
     }
     const logsourcesData = JSON.parse(fs.readFileSync(logsourcesPath, 'utf8'));
     logsources = logsourcesData.logsources;
-    console.log(`[SigmaGen] Loaded ${logsources.length} logsources`);
+    console.log(`[SigmaGen] ✓ Loaded ${logsources.length} logsources`);
+    logsources.forEach(ls => {
+      console.log(`[SigmaGen]   - ${ls.product}/${ls.service} (${ls.category})`);
+    });
   } catch (error) {
-    console.error('[SigmaGen] Failed to load logsources:', error.message);
+    console.error('[SigmaGen] ERROR: Failed to load logsources:', error.message);
     process.exit(1);
   }
 
-  // Fetch ransomware gangs from ThreatActors-TTPs
-  console.log('\n[SigmaGen] Fetching ransomware gangs from EssexRich/ThreatActors-TTPs...');
-  let ransomwareActorMap = {};
+  // Step 2: Fetch MITRE intrusion-sets and their TTPs
+  console.log('\n[SigmaGen] STEP 2: Fetching MITRE intrusion-sets and TTPs...');
+  const mitreActorTechMap = {}; // { "T1486": ["Lazarus Group", "APT1", ...], ... }
+  const mitreActorNames = new Set();
+  const techniqueNames = {};
+  let intrustionSets = [];
+  let techniques = [];
+  
   try {
-    const ttpIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/ThreatActors-TTPs/main/ttp-index.json');
-    if (ttpIndex.actors) {
-      ttpIndex.actors.forEach(actor => {
-        actor.techniques.forEach(tech => {
-          if (!ransomwareActorMap[tech]) {
-            ransomwareActorMap[tech] = [];
+    console.log('[SigmaGen]   - Fetching intrusion-sets...');
+    intrustionSets = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/intrusion-sets.json');
+    if (Array.isArray(intrustionSets)) {
+      intrustionSets.forEach(actor => {
+        if (actor.external_references) {
+          const mitreRef = actor.external_references.find(ref => ref.external_id && ref.external_id.startsWith('G'));
+          if (mitreRef) {
+            mitreActorNames.add(actor.name);
           }
-          ransomwareActorMap[tech].push(actor.name);
-        });
-      });
-      console.log(`[SigmaGen] Loaded ${ttpIndex.actorCount} ransomware gangs`);
-    }
-  } catch (error) {
-    console.warn('[SigmaGen] Warning: Could not fetch ransomware gangs:', error.message);
-  }
-
-  // Fetch MITRE relationships to map intrusion-sets to techniques
-  console.log('\n[SigmaGen] Fetching MITRE relationships from EssexRich/mitre_attack...');
-  let mitreActorMap = {};
-  let techniqueNames = {};
-  try {
-    const relationships = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/relationships/index.json');
-    if (Array.isArray(relationships)) {
-      relationships.forEach(rel => {
-        // source_ref is like "intrusion-set--123", target_ref is like "attack-pattern--456"
-        if (rel.relationship_type === 'uses' && rel.source_ref.includes('intrusion-set') && rel.target_ref.includes('attack-pattern')) {
-          const source_id = rel.source_ref.split('--')[1];
-          const target_id = rel.target_ref.split('--')[1];
-          
-          if (!mitreActorMap[target_id]) {
-            mitreActorMap[target_id] = [];
-          }
-          mitreActorMap[target_id].push(source_id);
         }
       });
-      console.log(`[SigmaGen] Loaded ${Object.keys(mitreActorMap).length} MITRE techniques from relationships`);
+      console.log(`[SigmaGen]   ✓ Found ${mitreActorNames.size} MITRE intrusion-sets`);
     }
-  } catch (error) {
-    console.warn('[SigmaGen] Warning: Could not fetch MITRE relationships:', error.message);
-  }
 
-  // Fetch MITRE technique names and build UUID-to-TechID mapping
-  console.log('\n[SigmaGen] Fetching MITRE technique names...');
-  let uuidToTechId = {}; // Maps UUID to T-number like T1486
-  try {
-    const mitreIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/index.json');
-    if (mitreIndex.techniques) {
-      // Build mapping from UUID to technique ID
-      Object.entries(mitreIndex.techniques).forEach(([techId, techName]) => {
-        // techId should be like "T1486" or "T1486.001"
-        techniqueNames[techId] = techName;
-      });
-      console.log(`[SigmaGen] Loaded ${Object.keys(techniqueNames).length} technique names`);
-    }
-  } catch (error) {
-    console.warn('[SigmaGen] Warning: Could not fetch MITRE index');
-  }
-
-  // Fetch MITRE techniques to build UUID-to-TechID mapping
-  console.log('\n[SigmaGen] Building UUID-to-TechID mapping from MITRE data...');
-  try {
-    const techniques = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques.json');
+    console.log('[SigmaGen]   - Fetching attack-patterns (techniques)...');
+    techniques = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/attack-patterns.json');
     if (Array.isArray(techniques)) {
       techniques.forEach(tech => {
-        if (tech.id && tech.external_references) {
-          // Find the external reference with MITRE ATT&CK URL to get the T-number
-          const mitreRef = tech.external_references.find(ref => ref.url && ref.url.includes('attack.mitre.org'));
-          if (mitreRef && mitreRef.external_id) {
-            // external_id is like "T1486" or "T1486.001"
-            uuidToTechId[tech.id.split('--')[1]] = mitreRef.external_id;
+        if (tech.external_references) {
+          const mitreRef = tech.external_references.find(ref => ref.external_id && ref.external_id.match(/^T\d+(\.\d+)?$/));
+          if (mitreRef) {
+            techniqueNames[mitreRef.external_id] = tech.name;
           }
         }
       });
-      console.log(`[SigmaGen] Built UUID-to-TechID mapping for ${Object.keys(uuidToTechId).length} techniques`);
+      console.log(`[SigmaGen]   ✓ Found ${Object.keys(techniqueNames).length} technique names`);
+    }
+
+    console.log('[SigmaGen]   - Fetching relationships...');
+    const relationships = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/relationships.json');
+    if (Array.isArray(relationships)) {
+      let relationshipCount = 0;
+      relationships.forEach(rel => {
+        // Look for intrusion-set -> attack-pattern relationships
+        if (rel.relationship_type === 'uses') {
+          const sourceType = rel.source_ref.split('--')[0];
+          const targetType = rel.target_ref.split('--')[0];
+          
+          if (sourceType === 'intrusion-set' && targetType === 'attack-pattern') {
+            // Find the intrusion-set name and technique ID
+            const intrusionSetId = rel.source_ref.split('--')[1];
+            const attackPatternId = rel.target_ref.split('--')[1];
+            
+            // We need to find the actual names from our loaded data
+            const actorName = intrustionSets
+              .find(actor => actor.id && actor.id.includes(intrusionSetId))?.name;
+            const techRef = techniques.find(tech => tech.id && tech.id.includes(attackPatternId));
+            
+            if (techRef && techRef.external_references) {
+              const mitreRef = techRef.external_references.find(ref => ref.external_id && ref.external_id.match(/^T\d+(\.\d+)?$/));
+              if (mitreRef && actorName) {
+                const techniqueId = mitreRef.external_id;
+                if (!mitreActorTechMap[techniqueId]) {
+                  mitreActorTechMap[techniqueId] = [];
+                }
+                if (!mitreActorTechMap[techniqueId].includes(actorName)) {
+                  mitreActorTechMap[techniqueId].push(actorName);
+                  relationshipCount++;
+                }
+              }
+            }
+          }
+        }
+      });
+      console.log(`[SigmaGen]   ✓ Loaded ${relationshipCount} intrusion-set TTPs`);
     }
   } catch (error) {
-    console.warn('[SigmaGen] Warning: Could not build UUID mapping:', error.message);
+    console.warn('[SigmaGen]   ⚠ Warning: Could not fetch MITRE data:', error.message);
   }
 
-  // Convert MITRE actor map from UUID keys to T-number keys
-  const convertedMitreActorMap = {};
-  Object.entries(mitreActorMap).forEach(([uuidKey, actors]) => {
-    const techId = uuidToTechId[uuidKey] || uuidKey; // Fallback to UUID if mapping fails
-    if (!convertedMitreActorMap[techId]) {
-      convertedMitreActorMap[techId] = [];
-    }
-    convertedMitreActorMap[techId].push(...actors);
-  });
-  mitreActorMap = convertedMitreActorMap;
-
-  // Combine all actor-technique mappings
-  const allActorTechMap = {};
+  // Step 3: Fetch ransomware gangs and their TTPs
+  console.log('\n[SigmaGen] STEP 3: Fetching ransomware gangs and TTPs...');
+  const ransomwareActorTechMap = {}; // { "T1486": ["Akira", "Play", ...], ... }
+  const ransomwareActorNames = new Set();
   
-  // Add ransomware gangs
-  Object.entries(ransomwareActorMap).forEach(([tech, actors]) => {
+  try {
+    console.log('[SigmaGen]   - Fetching TTP index from EssexRich/ThreatActors-TTPs...');
+    const ttpIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/ThreatActors-TTPs/main/ttp-index.json');
+    if (ttpIndex.actors && Array.isArray(ttpIndex.actors)) {
+      let ttpCount = 0;
+      ttpIndex.actors.forEach(actor => {
+        if (actor.name && actor.techniques && Array.isArray(actor.techniques)) {
+          ransomwareActorNames.add(actor.name);
+          actor.techniques.forEach(tech => {
+            // Validate that tech is a proper T-number
+            if (tech.match(/^T\d+(\.\d+)?$/)) {
+              if (!ransomwareActorTechMap[tech]) {
+                ransomwareActorTechMap[tech] = [];
+              }
+              if (!ransomwareActorTechMap[tech].includes(actor.name)) {
+                ransomwareActorTechMap[tech].push(actor.name);
+                ttpCount++;
+              }
+            }
+          });
+        }
+      });
+      console.log(`[SigmaGen]   ✓ Loaded ${ransomwareActorNames.size} ransomware gangs with ${ttpCount} TTPs`);
+    }
+  } catch (error) {
+    console.warn('[SigmaGen]   ⚠ Warning: Could not fetch ransomware gangs:', error.message);
+  }
+
+  // Step 4: Combine all actors and TTPs into big master list
+  console.log('\n[SigmaGen] STEP 4: Combining all threat actors and TTPs...');
+  const allActorTechMap = {}; // Master map: { "T1486": ["Akira", "Play", "Lazarus Group", ...], ... }
+  const allActors = new Set([...mitreActorNames, ...ransomwareActorNames]);
+  
+  // Merge both maps
+  Object.entries(mitreActorTechMap).forEach(([tech, actors]) => {
     if (!allActorTechMap[tech]) {
       allActorTechMap[tech] = [];
     }
     allActorTechMap[tech].push(...actors);
   });
   
-  // Add MITRE intrusion-sets (now with proper T-numbers)
-  Object.entries(mitreActorMap).forEach(([tech, actors]) => {
+  Object.entries(ransomwareActorTechMap).forEach(([tech, actors]) => {
     if (!allActorTechMap[tech]) {
       allActorTechMap[tech] = [];
     }
     allActorTechMap[tech].push(...actors);
   });
+  
+  // Deduplicate
+  Object.keys(allActorTechMap).forEach(tech => {
+    allActorTechMap[tech] = [...new Set(allActorTechMap[tech])];
+  });
+  
+  console.log(`[SigmaGen] ✓ Combined ${allActors.size} unique threat actors`);
+  console.log(`[SigmaGen] ✓ ${Object.keys(allActorTechMap).length} techniques with TTPs`);
+  console.log(`[SigmaGen]   - MITRE intrusion-sets: ${mitreActorNames.size}`);
+  console.log(`[SigmaGen]   - Ransomware gangs: ${ransomwareActorNames.size}`);
 
-  console.log(`\n[SigmaGen] Total techniques with actors: ${Object.keys(allActorTechMap).length}`);
-
-  // Create output directory
+  // Step 5: Generate Sigma rules for all logsources
+  console.log('\n[SigmaGen] STEP 5: Generating Sigma rules for all logsources...');
+  
   const baseDir = path.join(process.cwd(), 'sigma-rules-intelligent');
   if (fs.existsSync(baseDir)) {
     fs.rmSync(baseDir, { recursive: true });
@@ -264,13 +333,12 @@ async function main() {
   let totalRulesGenerated = 0;
   let techniquesProcessed = 0;
 
-  // Generate rules for all techniques with actors
   Object.entries(allActorTechMap).forEach(([techniqueId, actors]) => {
     const techName = techniqueNames[techniqueId] || techniqueId;
     
     techniquesProcessed++;
     if (techniquesProcessed % 50 === 0) {
-      console.log(`[SigmaGen] Processed ${techniquesProcessed} techniques...`);
+      console.log(`[SigmaGen]   Processing technique ${techniquesProcessed}/${Object.keys(allActorTechMap).length}...`);
     }
 
     // For each logsource, generate a rule for each unique actor
@@ -281,13 +349,13 @@ async function main() {
       if (!conditions) return;
 
       uniqueActors.forEach((actor) => {
-        const rule = generateSigmaRule(techniqueId, techName, logsource, conditions);
-
-        // Validate technique ID to prevent empty/invalid filenames
+        // Validate technique ID
         if (!techniqueId || typeof techniqueId !== 'string' || !techniqueId.match(/^T\d+(\.\d+)?$/)) {
           console.warn(`[SigmaGen] Skipping invalid technique ID: "${techniqueId}"`);
           return;
         }
+
+        const rule = generateSigmaRule(techniqueId, techName, logsource, conditions, actor);
 
         // Create product/service/actor-specific directory
         const actorDir = path.join(baseDir, logsource.product, logsource.service, actor);
@@ -308,24 +376,48 @@ async function main() {
     });
   });
 
-  console.log(`\n[SigmaGen] ✓ Generated ${totalRulesGenerated} intelligent Sigma rules`);
+  console.log(`\n[SigmaGen] ====================================`);
+  console.log(`[SigmaGen] ✓ Generation complete!`);
+  console.log(`[SigmaGen] ====================================`);
+  console.log(`[SigmaGen] Generated ${totalRulesGenerated} intelligent Sigma rules`);
   console.log(`[SigmaGen] From ${techniquesProcessed} techniques`);
-  console.log(`[SigmaGen] Ransomware gangs: ${Object.keys(ransomwareActorMap).length} techniques`);
-  console.log(`[SigmaGen] MITRE intrusion-sets: ${Object.keys(mitreActorMap).length} techniques`);
-  console.log(`[SigmaGen] Rules saved to: ${baseDir}`);
-  console.log(`\n[SigmaGen] Directory structure:`);
+  console.log(`[SigmaGen] For ${allActors.size} threat actors`);
+  console.log(`[SigmaGen] Across ${logsources.length} logsources`);
+  console.log(`[SigmaGen]`);
+  console.log(`[SigmaGen] Directory structure:`);
   console.log(`[SigmaGen]   sigma-rules-intelligent/`);
-  console.log(`[SigmaGen]   ├─ windows/`);
-  console.log(`[SigmaGen]   │  ├─ security/[actors]/[techniques]`);
-  console.log(`[SigmaGen]   │  ├─ sysmon/[actors]/[techniques]`);
-  console.log(`[SigmaGen]   │  └─ defender/[actors]/[techniques]`);
-  console.log(`[SigmaGen]   ├─ linux/auditd/[actors]/[techniques]`);
-  console.log(`[SigmaGen]   ├─ macos/unified_logging/[actors]/[techniques]`);
-  console.log(`[SigmaGen]   ├─ m365/entra_id/[actors]/[techniques]`);
-  console.log(`[SigmaGen]   └─ google/workspace/[actors]/[techniques]`);
+  
+  // Dynamically show actual logsource structure
+  const productServices = {};
+  logsources.forEach(ls => {
+    if (!productServices[ls.product]) {
+      productServices[ls.product] = [];
+    }
+    if (!productServices[ls.product].includes(ls.service)) {
+      productServices[ls.product].push(ls.service);
+    }
+  });
+  
+  const products = Object.keys(productServices).sort();
+  products.forEach((product, idx) => {
+    const isLast = idx === products.length - 1;
+    const prefix = isLast ? '└─' : '├─';
+    console.log(`[SigmaGen]   ${prefix} ${product}/`);
+    
+    const services = productServices[product].sort();
+    services.forEach((service, sIdx) => {
+      const isLastService = sIdx === services.length - 1;
+      const servicePrefix = isLast ? '   ' : '│  ';
+      const serviceSymbol = isLastService ? '└─' : '├─';
+      console.log(`[SigmaGen]   ${servicePrefix}${serviceSymbol} ${service}/[actor]/[T####.yml]`);
+    });
+  });
+  
+  console.log(`[SigmaGen]`);
+  console.log(`[SigmaGen] Rules saved to: ${baseDir}`);
 }
 
 main().catch(err => {
-  console.error('[SigmaGen] Fatal error:', err.message);
+  console.error('[SigmaGen] FATAL ERROR:', err.message);
   process.exit(1);
 });
