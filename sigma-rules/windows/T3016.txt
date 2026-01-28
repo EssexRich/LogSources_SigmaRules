@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T3016 Detection (windows)
+    id: 4fa7133b-4433-471a-ad1e-76ba942871f2
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T3016.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T3016/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T3016
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T3016
+    
