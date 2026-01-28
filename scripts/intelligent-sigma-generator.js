@@ -95,14 +95,6 @@ function buildDetectionForTechnique(techniqueId, techName, logsource) {
   const detection = {};
   
   // Build detection using available fields from the logsource's field mapping
-  // We use common field names as keys
-  const commonFields = {
-    'Image': ['Image', 'ProcessName', 'InitiatingProcessFileName', 'exe'],
-    'CommandLine': ['CommandLine', 'ProcessCommandLine', 'InitiatingProcessCommandLine', 'cmd'],
-    'User': ['User', 'UserName', 'AccountName', 'userPrincipalName', 'uid'],
-    'EventID': ['EventID']
-  };
-  
   // For process_creation category, detect on Image/CommandLine if available
   if (logsource.category === 'process_creation') {
     if (fieldMapping['Image']) {
@@ -132,17 +124,17 @@ function buildDetectionForTechnique(techniqueId, techName, logsource) {
     }
   }
   
-  // For file_creation category, detect on filename/path if available
-  if (logsource.category === 'file_creation') {
-    if (fieldMapping['TargetFilename']) {
-      detection[`${fieldMapping['TargetFilename']}|endswith`] = ['.exe', '.dll', '.sys', '.bat'];
+  // For admin_activity category, detect on actor/eventname if available
+  if (logsource.category === 'admin_activity') {
+    if (fieldMapping['Actor']) {
+      detection[fieldMapping['Actor']] = 'admin@example.com';
     }
-    if (fieldMapping['FileName']) {
-      detection[`${fieldMapping['FileName']}|endswith`] = ['.exe', '.dll', '.sys'];
+    if (fieldMapping['EventType']) {
+      detection[fieldMapping['EventType']] = 'admin_role_assigned';
     }
-    // Fallback if no specific fields
+    // Fallback
     if (Object.keys(detection).length === 0) {
-      detection['TargetFilename|endswith'] = ['.exe', '.dll'];
+      detection['Actor|contains'] = 'admin';
     }
   }
   
@@ -181,101 +173,112 @@ async function main() {
 
   // Step 2: Fetch MITRE intrusion-sets and their TTPs
   console.log('\n[SigmaGen] STEP 2: Fetching MITRE intrusion-sets and TTPs...');
-  const mitreActorTechMap = {}; // { "T1486": ["Lazarus Group", "APT1", ...], ... }
+  const mitreActorTechMap = {}; // { "T1486": ["APT1", "Lazarus Group", ...], ... }
   const mitreActorNames = new Set();
   const techniqueNames = {};
-  let intrustionSets = [];
-  let techniques = [];
   
   try {
-    console.log('[SigmaGen]   - Fetching intrusion-sets...');
-    intrustionSets = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/intrusion-sets.json');
-    if (Array.isArray(intrustionSets)) {
-      intrustionSets.forEach(actor => {
-        // Add all intrusion-sets, don't filter by external_id
-        if (actor.name && actor.id) {
+    // Fetch all intrusion-set actors from individual files
+    console.log('[SigmaGen]   - Fetching intrusion-sets from /data/actors/...');
+    let actorCount = 0;
+    for (let i = 1; i <= 500; i++) {
+      const actorId = `G${String(i).padStart(4, '0')}`;
+      try {
+        const actor = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/actors/${actorId}.json`);
+        if (actor && actor.name) {
           mitreActorNames.add(actor.name);
+          actorCount++;
         }
-      });
-      console.log(`[SigmaGen]   ✓ Found ${mitreActorNames.size} MITRE intrusion-sets`);
+      } catch (e) {
+        // File doesn't exist, continue
+        if (i > 50 && actorCount === 0) {
+          throw new Error('Could not find any actor files');
+        }
+      }
     }
+    console.log(`[SigmaGen]   ✓ Found ${mitreActorNames.size} MITRE intrusion-sets`);
 
-    console.log('[SigmaGen]   - Fetching attack-patterns (techniques)...');
-    techniques = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/attack-patterns.json');
-    if (Array.isArray(techniques)) {
-      techniques.forEach(tech => {
-        if (tech.external_references) {
-          const mitreRef = tech.external_references.find(ref => ref.external_id && ref.external_id.match(/^T\d+(\.\d+)?$/));
+    // Fetch technique names from individual files
+    console.log('[SigmaGen]   - Fetching attack-pattern (technique) names...');
+    let techCount = 0;
+    for (let i = 1; i <= 400; i++) {
+      const techId = `T${i}`;
+      try {
+        const tech = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques/${techId}.json`);
+        if (tech && tech.external_references) {
+          const mitreRef = tech.external_references.find(ref => ref.external_id && ref.external_id.match(/^T\d+$/));
           if (mitreRef) {
             techniqueNames[mitreRef.external_id] = tech.name;
+            techCount++;
           }
         }
-      });
-      console.log(`[SigmaGen]   ✓ Found ${Object.keys(techniqueNames).length} technique names`);
+      } catch (e) {
+        // File doesn't exist, continue
+      }
     }
+    console.log(`[SigmaGen]   ✓ Found ${Object.keys(techniqueNames).length} technique names`);
 
+    // Fetch relationships and map actors to techniques
     console.log('[SigmaGen]   - Fetching relationships...');
-    const relationships = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/relationships.json');
-    
-    // Build quick lookup maps by ID
-    const intrusionSetMap = {};
-    const techniqueMap = {};
-    intrustionSets.forEach(actor => {
-      intrusionSetMap[actor.id] = actor.name;
-    });
-    techniques.forEach(tech => {
-      techniqueMap[tech.id] = tech;
-    });
-    
-    console.log(`[SigmaGen]   - Built intrusion-set map with ${Object.keys(intrusionSetMap).length} IDs`);
-    console.log(`[SigmaGen]   - Built technique map with ${Object.keys(techniqueMap).length} IDs`);
-    console.log(`[SigmaGen]   - Sample intrusion-set IDs: ${Object.keys(intrusionSetMap).slice(0, 3).join(', ')}`);
-    console.log(`[SigmaGen]   - Sample technique IDs: ${Object.keys(techniqueMap).slice(0, 3).join(', ')}`);
+    const relationships = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/relationships/index.json');
     
     if (Array.isArray(relationships)) {
       let relationshipCount = 0;
-      let matchedCount = 0;
-      let sampleRelIds = [];
       
-      relationships.forEach((rel, idx) => {
-        // Collect sample relationship IDs for debugging
-        if (idx < 5) {
-          sampleRelIds.push({ source: rel.source_ref, target: rel.target_ref });
+      // We need to fetch actor name mappings for the intrusion-set IDs in relationships
+      const actorIdToName = {};
+      for (const actorName of mitreActorNames) {
+        for (let i = 1; i <= 500; i++) {
+          const actorId = `G${String(i).padStart(4, '0')}`;
+          try {
+            const actor = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/actors/${actorId}.json`);
+            if (actor && actor.name === actorName && actor.id) {
+              actorIdToName[actor.id] = actor.name;
+            }
+          } catch (e) {
+            // ignore
+          }
         }
-        
-        // Look for intrusion-set -> attack-pattern relationships
+      }
+      
+      // Build technique ID to name mapping
+      const techniqueIdToName = {};
+      for (let i = 1; i <= 400; i++) {
+        const techId = `T${i}`;
+        try {
+          const tech = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques/${techId}.json`);
+          if (tech && tech.id) {
+            techniqueIdToName[tech.id] = techId;
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+      
+      // Process relationships
+      relationships.forEach(rel => {
+        // Only process intrusion-set -> attack-pattern relationships
         if (rel.relationship_type === 'uses') {
           const sourceType = rel.source_ref.split('--')[0];
           const targetType = rel.target_ref.split('--')[0];
           
           if (sourceType === 'intrusion-set' && targetType === 'attack-pattern') {
-            // Use exact ID matching with maps
-            const actorName = intrusionSetMap[rel.source_ref];
-            const techRef = techniqueMap[rel.target_ref];
+            const actorName = actorIdToName[rel.source_ref];
+            const techId = techniqueIdToName[rel.target_ref];
             
-            if (actorName && techRef) {
-              matchedCount++;
-            }
-            
-            if (techRef && techRef.external_references && actorName) {
-              const mitreRef = techRef.external_references.find(ref => ref.external_id && ref.external_id.match(/^T\d+(\.\d+)?$/));
-              if (mitreRef) {
-                const techniqueId = mitreRef.external_id;
-                if (!mitreActorTechMap[techniqueId]) {
-                  mitreActorTechMap[techniqueId] = [];
-                }
-                if (!mitreActorTechMap[techniqueId].includes(actorName)) {
-                  mitreActorTechMap[techniqueId].push(actorName);
-                  relationshipCount++;
-                }
+            if (actorName && techId) {
+              if (!mitreActorTechMap[techId]) {
+                mitreActorTechMap[techId] = [];
+              }
+              if (!mitreActorTechMap[techId].includes(actorName)) {
+                mitreActorTechMap[techId].push(actorName);
+                relationshipCount++;
               }
             }
           }
         }
       });
-      
-      console.log(`[SigmaGen]   - Sample relationship IDs: ${sampleRelIds.map(r => `(${r.source.substring(0,20)}... -> ${r.target.substring(0,20)}...)`).join(', ')}`);
-      console.log(`[SigmaGen]   ✓ Loaded ${relationshipCount} intrusion-set TTPs (${matchedCount} actor-technique matches)`);
+      console.log(`[SigmaGen]   ✓ Loaded ${relationshipCount} intrusion-set TTPs`);
     }
   } catch (error) {
     console.warn('[SigmaGen]   ⚠ Warning: Could not fetch MITRE data:', error.message);
@@ -283,7 +286,7 @@ async function main() {
 
   // Step 3: Fetch ransomware gangs and their TTPs
   console.log('\n[SigmaGen] STEP 3: Fetching ransomware gangs and TTPs...');
-  const ransomwareActorTechMap = {}; // { "T1486": ["Akira", "Play", ...], ... }
+  const ransomwareActorTechMap = {};
   const ransomwareActorNames = new Set();
   
   try {
@@ -316,7 +319,7 @@ async function main() {
 
   // Step 4: Combine all actors and TTPs into big master list
   console.log('\n[SigmaGen] STEP 4: Combining all threat actors and TTPs...');
-  const allActorTechMap = {}; // Master map: { "T1486": ["Akira", "Play", "Lazarus Group", ...], ... }
+  const allActorTechMap = {}; // Master map
   const allActors = new Set([...mitreActorNames, ...ransomwareActorNames]);
   
   // Merge both maps
@@ -364,7 +367,6 @@ async function main() {
       console.log(`[SigmaGen]   Processing technique ${techniquesProcessed}/${Object.keys(allActorTechMap).length}...`);
     }
 
-    // For each logsource, generate a rule for each unique actor
     const uniqueActors = [...new Set(actors)];
     
     logsources.forEach((logsource) => {
@@ -374,7 +376,6 @@ async function main() {
       uniqueActors.forEach((actor) => {
         // Validate technique ID
         if (!techniqueId || typeof techniqueId !== 'string' || !techniqueId.match(/^T\d+(\.\d+)?$/)) {
-          console.warn(`[SigmaGen] Skipping invalid technique ID: "${techniqueId}"`);
           return;
         }
 
