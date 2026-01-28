@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T0961 Detection
+    id: 537bcb0f-9bf0-4d30-800a-1ca83d0e74ff
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T0961.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T0961/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T0961
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T0961
+    
