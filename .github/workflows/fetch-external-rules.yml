@@ -2,9 +2,11 @@ name: Fetch External Detection Rules
 
 on:
   schedule:
-    # Weekly on Sunday at 2am UTC
     - cron: '0 2 * * 0'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   fetch-rules:
@@ -14,13 +16,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
+      - name: Clone external repos
+        run: |
+          mkdir -p /tmp/external-repos
+          cd /tmp/external-repos
+          
+          echo "Cloning Elastic detection-rules..."
+          git clone --depth 1 https://github.com/elastic/detection-rules.git
+          
+          echo "Cloning SigmaHQ sigma..."
+          git clone --depth 1 https://github.com/SigmaHQ/sigma.git
+          
+          echo "Cloning Splunk security_content..."
+          git clone --depth 1 -b develop https://github.com/splunk/security_content.git
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
       
-      - name: Fetch external rules
-        run: node scripts/fetch-external-rules.js
+      - name: Parse rules and build index
+        run: node scripts/fetch-external-rules.js /tmp/external-repos
       
       - name: Commit changes
         run: |
