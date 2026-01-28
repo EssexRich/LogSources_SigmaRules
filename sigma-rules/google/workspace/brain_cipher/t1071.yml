@@ -1,0 +1,32 @@
+title: Application Layer Protocol - Brain Cipher (workspace)
+id: 898344be-87d3-4887-83b4-07f20c6f5f66
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1071 (Application Layer Protocol).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1071/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/execution_shell_suspicious_parent_child_revshell_linux.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1071
+  - actor.brain_cipher
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.name|contains:
+      - 'python*'
+      - 'awk'
+    process.args|contains: '-connect'
+    process.parent.name|contains:
+      - 'python*'
+      - 'awk'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

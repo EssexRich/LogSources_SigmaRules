@@ -1,0 +1,25 @@
+title: Windows Management Instrumentation - SafePay (auditd)
+id: 4c314253-c281-42b0-81ce-1c47d21d7810
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1047 (Windows Management Instrumentation).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1047
+  - actor.safepay
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

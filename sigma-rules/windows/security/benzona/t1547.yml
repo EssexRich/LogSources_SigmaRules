@@ -1,0 +1,34 @@
+title: Boot or Logon Autostart Execution - Benzona (security)
+id: 771f9ef4-74bf-437a-aede-77fb9cb8e8b7
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1547 (Boot or Logon Autostart Execution).
+  Associated threat actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1547/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_susp_group_policy_startup_script_added_to_gpo.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1547
+  - actor.benzona
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    AttributeValue|contains:
+      - '42B5FAAE-6536-11D2-AE5A-0000F87571E3'
+      - '40B6664F-4972-11D1-A7CA-0000F87571E3'
+      - '40B66650-4972-11D1-A7CA-0000F87571E3'
+    ShareName|contains:
+      - '\SYSVOL'
+      - '\scripts.ini'
+      - '\psscripts.ini'
+    AccessList|contains: '%%4417'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

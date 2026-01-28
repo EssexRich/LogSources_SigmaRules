@@ -1,0 +1,26 @@
+title: Data Destruction - DoNex (defender)
+id: 39c4e5b4-15f9-4af9-bada-1b6775f09357
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1485 (Data Destruction).
+  Associated threat actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1485/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/github/impact_github_repository_deleted.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1485
+  - actor.donex
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

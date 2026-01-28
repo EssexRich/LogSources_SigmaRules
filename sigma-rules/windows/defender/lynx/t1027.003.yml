@@ -1,0 +1,26 @@
+title: Steganography - Lynx (defender)
+id: 506a1bd5-bfe5-44d0-b53b-1371f674935d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027.003 (Steganography).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1027/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_findstr_lnk.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027.003
+  - actor.lynx
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

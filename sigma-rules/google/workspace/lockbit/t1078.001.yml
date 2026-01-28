@@ -1,0 +1,26 @@
+title: Default Accounts - LockBit (workspace)
+id: 0704ce30-a774-4b92-b8ce-023460096e30
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1078.001 (Default Accounts).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1078/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/kubernetes/initial_access_anonymous_request_authorized.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1078.001
+  - actor.lockbit
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    kubernetes.audit.user.username|contains: 'system:anonymous'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,28 @@
+title: Encrypted Channel - Lynx (entra_id)
+id: 153ec8a6-2add-4f09-88ec-6c0831e3b3db
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1573 (Encrypted Channel).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1573/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/m365/threat_detection/microsoft365_from_susp_ip_addresses.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1573
+  - actor.lynx
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    eventSource|contains: 'SecurityComplianceCenter'
+    eventName|contains: 'Activity from suspicious IP addresses'
+    status|contains: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,27 @@
+title: Scheduled Task/Job - BQTLock (workspace)
+id: 986b2868-b960-4712-91b4-bf35d1b0f57b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1053 (Scheduled Task/Job).
+  Associated threat actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1053/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_cron_jobs_creation_and_runtime.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1053
+  - actor.bqtlock
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.args|contains: '-l'
+    process.name|contains: 'running job'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

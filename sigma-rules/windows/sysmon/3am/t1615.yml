@@ -1,0 +1,29 @@
+title: Group Policy Discovery - 3AM (sysmon)
+id: 03da389a-0785-48ac-ac2a-936fd342b240
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1615 (Group Policy Discovery).
+  Associated threat actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1615/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_group_policy_object_discovery.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1615
+  - actor.3am
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'gpresult.exe'
+    process.args|contains:
+      - '/z'
+      - '/x'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

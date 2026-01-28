@@ -1,0 +1,36 @@
+title: Masquerade Task or Service - SafePay (workspace)
+id: af3d6782-2959-409a-8233-248efab48587
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1036.004 (Masquerade Task or Service).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1036/004/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/problemchild/defense_evasion_ml_suspicious_windows_event_high_probability.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1036.004
+  - actor.safepay
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.args|contains:
+      - '*C:\\WINDOWS\\temp\\nessus_*.txt*'
+      - '*C:\\WINDOWS\\temp\\nessus_*.tmp*'
+    process.parent.name|contains:
+      - 'MsMpEng.exe'
+      - 'svchost.exe'
+    process.name|contains: 'MpCmdRun.exe'
+    process.parent.executable|contains: 'C:\\Windows\\System32\\svchost.exe'
+    process.executable|contains:
+      - 'C:\\Program Files\\*.exe'
+      - 'C:\\Program Files (x86)\\*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

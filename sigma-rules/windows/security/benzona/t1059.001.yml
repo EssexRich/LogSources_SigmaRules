@@ -1,0 +1,30 @@
+title: PowerShell - Benzona (security)
+id: 2c0bd495-8306-44af-b99a-3d2f6dd8f7e2
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059.001 (PowerShell).
+  Associated threat actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_invoke_obfuscation_clip_services_security.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059.001
+  - actor.benzona
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains:
+      - '4697'
+      - 'cmd'
+      - '&&'
+      - 'clipboard]::'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

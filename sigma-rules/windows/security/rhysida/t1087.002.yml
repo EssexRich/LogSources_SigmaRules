@@ -1,0 +1,32 @@
+title: Domain Account - Rhysida (security)
+id: 7319191a-e390-4e65-b9cc-7f59c2d29eb0
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1087.002 (Domain Account).
+  Associated threat actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1087/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_account_discovery.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1087.002
+  - actor.rhysida
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains:
+      - '4661'
+      - 'SAM_USER'
+      - 'SAM_GROUP'
+      - 'ObjectName|endswith:'
+      - '-512'
+    SubjectUserName|contains: '$'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

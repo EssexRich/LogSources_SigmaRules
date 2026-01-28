@@ -1,0 +1,28 @@
+title: Abuse Elevation Control Mechanism - Shinra (defender)
+id: 5b4716dd-7040-4f38-9316-dc6a0763d3d9
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1548 (Abuse Elevation Control Mechanism).
+  Associated threat actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1548/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_connection_attempt_by_non_ssh_root_session.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1548
+  - actor.shinra
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.executable|contains:
+      - '/bin/ssh'
+      - '/usr/bin/sshpass'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

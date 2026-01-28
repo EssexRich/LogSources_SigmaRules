@@ -1,0 +1,26 @@
+title: Timestomp - Spectra (entra_id)
+id: da9cf011-3fe9-432f-a4b2-098fee8e6ff9
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1070.006 (Timestomp).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1070/006/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_timestomp_touch.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1070.006
+  - actor.spectra
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

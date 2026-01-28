@@ -1,0 +1,26 @@
+title: Hidden Window - SafeLocker (defender)
+id: f6592bba-df82-431e-94ec-8cfcbae9ce3e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1564.003 (Hidden Window).
+  Associated threat actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1564/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_browsers_chromium_headless_debugging.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1564.003
+  - actor.safelocker
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

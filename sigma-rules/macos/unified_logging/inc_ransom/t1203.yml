@@ -1,0 +1,26 @@
+title: Exploitation for Client Execution - INC Ransom (unified_logging)
+id: d068da0c-9827-4bf2-987d-2b4ccbcbf5fd
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1203 (Exploitation for Client Execution).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1203/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_git_exploit_cve_2025_48384.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1203
+  - actor.inc_ransom
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

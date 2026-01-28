@@ -1,0 +1,26 @@
+title: Lateral Tool Transfer - Hive (auditd)
+id: 7e7ca777-8e01-435b-a3a3-26ff339fb408
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1570 (Lateral Tool Transfer).
+  Associated threat actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1570/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_python_webserver_spawned.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1570
+  - actor.hive
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

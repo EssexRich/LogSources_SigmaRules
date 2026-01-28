@@ -1,0 +1,27 @@
+title: JavaScript - Cephalus (entra_id)
+id: 73ed894b-a3e4-4857-acf9-46d4bb308f96
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059.007 (JavaScript).
+  Associated threat actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1059/007/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/execution_suspicious_jar_child_process.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059.007
+  - actor.cephalus
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    event.type|contains: 'start'
+    process.parent.name|contains: 'java'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

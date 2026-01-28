@@ -1,0 +1,26 @@
+title: OS Credential Dumping - Ignoble Scorpius (security)
+id: 9c85b232-8f2e-4070-854f-6492efbda7fd
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003 (OS Credential Dumping).
+  Associated threat actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_mal_wceaux_dll.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003
+  - actor.ignoble_scorpius
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    ObjectName|contains: '\wceaux.dll'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

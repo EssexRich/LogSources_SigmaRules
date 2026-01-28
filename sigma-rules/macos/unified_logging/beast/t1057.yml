@@ -1,0 +1,26 @@
+title: Process Discovery - Beast (unified_logging)
+id: f209bcad-dd64-4c3e-8ed6-242886f7e603
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1057 (Process Discovery).
+  Associated threat actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1057/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_process_discovery_via_tasklist_command.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1057
+  - actor.beast
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Software Deployment Tools - LockBit (security)
+id: 2c2adcae-46f2-4bdf-8333-0a16a2cd7b0b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1072 (Software Deployment Tools).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1072/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_tool_installation.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1072
+  - actor.lockbit
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

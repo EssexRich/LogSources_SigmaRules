@@ -1,0 +1,29 @@
+title: Phishing - Akira (auditd)
+id: 322ccbe5-ed14-4577-b563-a9dbc464abd5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1566 (Phishing).
+  Associated threat actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1566/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/initial_access_object_copied_to_external_drive_with_app_consent.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1566
+  - actor.akira
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    google_workspace.drive.file.type|contains:
+      - 'script'
+      - 'document'
+    google_workspace.token.client.id|contains: '*apps.googleusercontent.com'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

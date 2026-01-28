@@ -1,0 +1,28 @@
+title: OS Credential Dumping - Devman's Ransomware (defender)
+id: 63accb4c-de8a-4221-a5a3-bc020cc902df
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003 (OS Credential Dumping).
+  Associated threat actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_gitleaks_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003
+  - actor.devman's_ransomware
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.name|contains:
+      - 'gitleaks.exe'
+      - 'gitleaks'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

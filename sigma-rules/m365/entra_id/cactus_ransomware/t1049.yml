@@ -1,0 +1,26 @@
+title: System Network Connections Discovery - Cactus Ransomware (entra_id)
+id: fa2bebcf-c0c8-4269-b01e-3b21a767c2b1
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1049 (System Network Connections Discovery).
+  Associated threat actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1049/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_dns_enumeration.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1049
+  - actor.cactus_ransomware
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Inter-Process Communication - INC Ransom (security)
+id: faec6ded-c181-401c-a63f-19c013a011c4
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1559 (Inter-Process Communication).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1559/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_email_outlook_mailbox_via_com.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1559
+  - actor.inc_ransom
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'OUTLOOK.EXE'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

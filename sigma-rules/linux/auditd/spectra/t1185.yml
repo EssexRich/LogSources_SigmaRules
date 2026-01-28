@@ -1,0 +1,25 @@
+title: Browser Session Hijacking - Spectra (auditd)
+id: 9e91ac03-a8d7-4fb0-94a5-fa0083e7433b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1185 (Browser Session Hijacking).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1185/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1185
+  - actor.spectra
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

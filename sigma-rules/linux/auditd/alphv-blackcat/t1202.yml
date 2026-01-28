@@ -1,0 +1,26 @@
+title: Indirect Command Execution - ALPHV-BlackCat (auditd)
+id: 3a9d037f-f167-4c42-a48f-f22b6f96e071
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1202 (Indirect Command Execution).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1202/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_symlink_binary_to_writable_dir.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1202
+  - actor.alphv-blackcat
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

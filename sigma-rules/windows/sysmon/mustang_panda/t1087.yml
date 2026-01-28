@@ -1,0 +1,26 @@
+title: Account Discovery - MUSTANG PANDA (sysmon)
+id: fc15cbe7-66b8-4cdd-b286-84c028b7b5d9
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1087 (Account Discovery).
+  Associated threat actor: MUSTANG PANDA
+references:
+  - https://attack.mitre.org/techniques/T1087/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_ad_explorer_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1087
+  - actor.mustang_panda
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'ADExplorer*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

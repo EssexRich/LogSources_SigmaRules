@@ -1,0 +1,33 @@
+title: External Remote Services - Medusa (security)
+id: 376a5ad6-708b-4da3-90aa-02c50c761b02
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1133 (External Remote Services).
+  Associated threat actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1133/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_successful_external_remote_rdp_login.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1133
+  - actor.medusa
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4624'
+    LogonType|contains:
+      - '10'
+      - '10.0.0.0/8'
+      - '127.0.0.0/8'
+      - '172.16.0.0/12'
+      - '192.168.0.0/16'
+    IpAddress|contains: '-'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,31 @@
+title: Hidden Files and Directories - SafePay (auditd)
+id: 01e28f0a-9188-43ad-9cc3-3b2b4882f3ae
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1564.001 (Hidden Files and Directories).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1564/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_hidden_files_directories.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1564.001
+  - actor.safepay
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'EXECVE'
+      - 'mkdir'
+      - 'nano'
+      - 'touch'
+      - 'vi'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,25 @@
+title: CMSTP - INC Ransom (auditd)
+id: ffdde218-0617-45de-a163-501cf6cf25cd
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1218.003 (CMSTP).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1218/003/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1218.003
+  - actor.inc_ransom
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

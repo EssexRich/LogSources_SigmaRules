@@ -1,0 +1,26 @@
+title: Data Destruction - ALPHV-BlackCat (entra_id)
+id: 3ad1868b-22fa-40fb-b94f-7dbf9adc2e8c
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1485 (Data Destruction).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1485/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/github/impact_github_repository_deleted.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1485
+  - actor.alphv-blackcat
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

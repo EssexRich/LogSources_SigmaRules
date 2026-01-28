@@ -1,0 +1,27 @@
+title: JavaScript - Benzona (defender)
+id: c8642139-c9bf-4962-bfa7-68f6c8c29c4c
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059.007 (JavaScript).
+  Associated threat actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1059/007/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/execution_suspicious_jar_child_process.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059.007
+  - actor.benzona
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    event.type|contains: 'start'
+    process.parent.name|contains: 'java'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: System Network Configuration Discovery - Interlock (sysmon)
+id: 27c9b779-d3b9-4225-9cd5-92b6e9f2dd87
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1016 (System Network Configuration Discovery).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1016/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_dns_enumeration.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1016
+  - actor.interlock
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

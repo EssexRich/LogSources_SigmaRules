@@ -1,0 +1,32 @@
+title: SMB/Windows Admin Shares - Cl0p (sysmon)
+id: 1f810d24-31b0-44c6-b65a-ee5ab0284273
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1021.002 (SMB/Windows Admin Shares).
+  Associated threat actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_moving_registry_hive_via_smb.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1021.002
+  - actor.cl0p
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    file.Ext.header_bytes|contains: '72656766*'
+    user.id|contains:
+      - 'S-1-5-21*'
+      - 'S-1-12-1-*'
+    file.path|contains:
+      - '?:\\*\\UPM_Profile\\NTUSER.DAT'
+      - '?:\\*\\AppData\\Local\\Packages\\Microsoft.*\\Settings\\settings.dat*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

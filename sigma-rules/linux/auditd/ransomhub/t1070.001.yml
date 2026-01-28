@@ -1,0 +1,25 @@
+title: Clear Windows Event Logs - RansomHub (auditd)
+id: 5fca3e1a-23dc-4fae-a793-3be62cce417a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1070.001 (Clear Windows Event Logs).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1070/001/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1070.001
+  - actor.ransomhub
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

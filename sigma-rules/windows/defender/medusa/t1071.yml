@@ -1,0 +1,32 @@
+title: Application Layer Protocol - Medusa (defender)
+id: 1c004b7b-c1e8-43c3-88be-92a57a409760
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1071 (Application Layer Protocol).
+  Associated threat actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1071/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/execution_shell_suspicious_parent_child_revshell_linux.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1071
+  - actor.medusa
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.name|contains:
+      - 'python*'
+      - 'awk'
+    process.args|contains: '-connect'
+    process.parent.name|contains:
+      - 'python*'
+      - 'awk'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

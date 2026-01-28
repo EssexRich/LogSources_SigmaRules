@@ -1,0 +1,26 @@
+title: Exploit Public-Facing Application - SafePay (auditd)
+id: 1ce9a0ec-7ce0-4986-ba04-5a882424db10
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1190 (Exploit Public-Facing Application).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1190/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_ssh_secure_shell_from_the_internet.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1190
+  - actor.safepay
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

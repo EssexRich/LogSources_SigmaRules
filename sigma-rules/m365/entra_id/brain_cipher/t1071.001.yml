@@ -1,0 +1,26 @@
+title: Web Protocols - Brain Cipher (entra_id)
+id: 55fe3857-4ff3-4641-9520-e2ca1f297741
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1071.001 (Web Protocols).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1071/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_curl_wget_spawn_via_nodejs_parent.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1071.001
+  - actor.brain_cipher
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

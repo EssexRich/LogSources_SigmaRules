@@ -1,0 +1,26 @@
+title: Protocol Tunneling - BlackSuit (sysmon)
+id: 2caa5ac4-d270-4906-b6b0-2b6ec000d31d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1572 (Protocol Tunneling).
+  Associated threat actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1572/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_linux_iodine_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1572
+  - actor.blacksuit
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

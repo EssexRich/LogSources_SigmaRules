@@ -1,0 +1,32 @@
+title: Application Layer Protocol - BQTLock (security)
+id: 041d439a-ae48-446d-a8d5-936e922582b0
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1071 (Application Layer Protocol).
+  Associated threat actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1071/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/execution_shell_suspicious_parent_child_revshell_linux.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1071
+  - actor.bqtlock
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    process.name|contains:
+      - 'python*'
+      - 'awk'
+    process.args|contains: '-connect'
+    process.parent.name|contains:
+      - 'python*'
+      - 'awk'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Bootkit - SafePay (security)
+id: 2ad9ced6-acdf-4428-a093-a04d0bcfd3df
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1542.003 (Bootkit).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1542/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_bcdedit_susp_execution.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1542.003
+  - actor.safepay
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

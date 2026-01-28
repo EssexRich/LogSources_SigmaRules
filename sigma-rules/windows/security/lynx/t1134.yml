@@ -1,0 +1,30 @@
+title: Access Token Manipulation - Lynx (security)
+id: 0eaea0a7-f95e-424f-b7f9-75fd1ce4dc72
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1134 (Access Token Manipulation).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1134/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_hktl_nofilter.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1134
+  - actor.lynx
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains:
+      - '5447'
+      - '5449'
+    FilterName|contains: 'RonPolicy'
+    ProviderContextName|contains: 'RonPolicy'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

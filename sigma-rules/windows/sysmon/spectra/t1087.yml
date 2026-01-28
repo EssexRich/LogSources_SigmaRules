@@ -1,0 +1,26 @@
+title: Account Discovery - Spectra (sysmon)
+id: 15e1fbb2-1b45-44e7-9c71-ef5d4128bb81
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1087 (Account Discovery).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1087/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_ad_explorer_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1087
+  - actor.spectra
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'ADExplorer*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

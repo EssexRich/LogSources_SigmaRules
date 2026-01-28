@@ -1,0 +1,26 @@
+title: Inter-Process Communication - Lynx (sysmon)
+id: c74d1660-9aa5-4e43-9311-a4d2ec1ac557
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1559 (Inter-Process Communication).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1559/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_email_outlook_mailbox_via_com.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1559
+  - actor.lynx
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'OUTLOOK.EXE'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

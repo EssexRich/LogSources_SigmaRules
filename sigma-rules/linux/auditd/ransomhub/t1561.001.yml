@@ -1,0 +1,25 @@
+title: Disk Content Wipe - RansomHub (auditd)
+id: f1c7ad0f-a62d-4e50-84cb-091a766d7fdc
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1561.001 (Disk Content Wipe).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1561/001/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1561.001
+  - actor.ransomhub
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

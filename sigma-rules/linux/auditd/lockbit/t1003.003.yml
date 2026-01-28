@@ -1,0 +1,25 @@
+title: NTDS - LockBit (auditd)
+id: a8823f51-4c12-47a9-a419-062528e6524d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.003 (NTDS).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1003/003/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.003
+  - actor.lockbit
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,25 @@
+title: Windows Management Instrumentation - Brain Cipher (auditd)
+id: 731545c0-d986-4f82-9f82-6fe4f48e2f95
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1047 (Windows Management Instrumentation).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1047
+  - actor.brain_cipher
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

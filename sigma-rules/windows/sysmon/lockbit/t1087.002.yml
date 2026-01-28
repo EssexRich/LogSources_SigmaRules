@@ -1,0 +1,26 @@
+title: Domain Account - LockBit (sysmon)
+id: 2f1adf41-aa31-4a11-8a8a-3b7159382e5a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1087.002 (Domain Account).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1087/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_ad_explorer_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1087.002
+  - actor.lockbit
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'ADExplorer*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

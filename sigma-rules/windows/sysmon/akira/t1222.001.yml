@@ -1,0 +1,31 @@
+title: Windows File and Directory Permissions Modification - Akira (sysmon)
+id: a929d940-c161-4c78-ba95-eba08fec9a43
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1222.001 (Windows File and Directory Permissions Modification).
+  Associated threat actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1222/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_adding_the_hidden_file_attribute_with_via_attribexe.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1222.001
+  - actor.akira
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'attrib.exe'
+    process.args|contains: '+h'
+    process.parent.name|contains: 'draw.io.exe'
+    process.command_line|contains:
+      - '*drawio.bkp*'
+      - '*drawio.dtmp*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

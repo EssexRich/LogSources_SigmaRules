@@ -1,0 +1,26 @@
+title: Mshta - SafePay (unified_logging)
+id: 7942e06c-e3d0-4fa9-a7fc-3234d85c36e2
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1218.005 (Mshta).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1218/005/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_mshta_making_network_connections.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1218.005
+  - actor.safepay
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'mshta.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

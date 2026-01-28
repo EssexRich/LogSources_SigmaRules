@@ -1,0 +1,26 @@
+title: Multi-Factor Authentication - SafeLocker (auditd)
+id: 6997791c-bd86-49e1-a5f7-fc341e2c6b6f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1556.006 (Multi-Factor Authentication).
+  Associated threat actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1556/006/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/persistence_mfa_deactivation_with_no_reactivation.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1556.006
+  - actor.safelocker
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,28 @@
+title: Rootkit - Spectra (entra_id)
+id: 47c6bf3d-0eef-40f7-aa95-7de98343a86e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1014 (Rootkit).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1014/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/fim/persistence_suspicious_file_modifications.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1014
+  - actor.spectra
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    file.path|contains:
+      - '/var/spool/cron/crontabs/tmp.*'
+      - '/root/.ssh/known_hosts.*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

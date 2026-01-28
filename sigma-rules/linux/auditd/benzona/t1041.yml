@@ -1,0 +1,25 @@
+title: Exfiltration Over C2 Channel - Benzona (auditd)
+id: 5ebf1647-d97f-4ce6-935d-8b99753bec27
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1041 (Exfiltration Over C2 Channel).
+  Associated threat actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1041
+  - actor.benzona
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,30 @@
+title: Indirect Command Execution - SafePay (security)
+id: 8de34b41-7824-4515-b3bb-36fe035cbcba
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1202 (Indirect Command Execution).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1202/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_indirect_exec_conhost.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1202
+  - actor.safepay
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'conhost.exe'
+    process.args|contains: '--headless'
+    process.command_line|contains:
+      - '*powershell*'
+      - '*mhsta*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

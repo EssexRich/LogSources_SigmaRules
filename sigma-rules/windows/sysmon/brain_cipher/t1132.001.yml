@@ -1,0 +1,26 @@
+title: Standard Encoding - Brain Cipher (sysmon)
+id: ca032c07-dd1b-4a56-aba7-6bd119f764a8
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1132.001 (Standard Encoding).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1132/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_dns_exfiltration_tools_execution.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1132.001
+  - actor.brain_cipher
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Default Accounts - GLOBAL (entra_id)
+id: f5c38af6-0404-4816-b6d1-4526991f8778
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1078.001 (Default Accounts).
+  Associated threat actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1078/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/kubernetes/initial_access_anonymous_request_authorized.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1078.001
+  - actor.global
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    kubernetes.audit.user.username|contains: 'system:anonymous'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

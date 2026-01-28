@@ -1,0 +1,30 @@
+title: Command and Scripting Interpreter - Cl0p (auditd)
+id: 28f0df96-2d54-43d5-9cc0-2549b368d86e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059 (Command and Scripting Interpreter).
+  Associated threat actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1059/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/path/lnx_auditd_bpfdoor_file_accessed.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059
+  - actor.cl0p
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'PATH'
+      - '/var/run/haldrund.pid'
+      - '/var/run/xinetd.lock'
+      - '/var/run/kdevrund.pid'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

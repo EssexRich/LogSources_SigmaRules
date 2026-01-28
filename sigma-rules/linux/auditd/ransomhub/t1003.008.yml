@@ -1,0 +1,26 @@
+title: /etc/passwd and /etc/shadow - RansomHub (auditd)
+id: 7f54522b-e097-4650-93ed-08aa01336a14
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.008 (/etc/passwd and /etc/shadow).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1003/008/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_credential_dumping.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.008
+  - actor.ransomhub
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

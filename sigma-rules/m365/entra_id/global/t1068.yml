@@ -1,0 +1,26 @@
+title: Exploitation for Privilege Escalation - GLOBAL (entra_id)
+id: 2242ee31-be01-4f10-b5cc-3b90bfc766a7
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1068 (Exploitation for Privilege Escalation).
+  Associated threat actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1068/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_linux_strace_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1068
+  - actor.global
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

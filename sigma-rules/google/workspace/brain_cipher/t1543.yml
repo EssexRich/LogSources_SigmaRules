@@ -1,0 +1,31 @@
+title: Create or Modify System Process - Brain Cipher (workspace)
+id: 5ed0672e-79cf-4192-a5f5-4b9c4cf55701
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1543 (Create or Modify System Process).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1543/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_etc_file_creation.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1543
+  - actor.brain_cipher
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    file.path|contains:
+      - '/etc/ld.so.conf.d/*'
+      - '/usr/lib/systemd/system/*'
+    process.name|contains:
+      - 'chef-client'
+      - 'rhn_check'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

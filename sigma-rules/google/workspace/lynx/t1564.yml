@@ -1,0 +1,28 @@
+title: Hide Artifacts - Lynx (workspace)
+id: 8dd4e540-6204-40ce-81b2-c1e3c40f1387
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1564 (Hide Artifacts).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1564/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_exchange_new_inbox_rule_delete_or_move.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1564
+  - actor.lynx
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    event.dataset|contains: 'o365.audit'
+    event.action|contains: 'New-InboxRule'
+    event.outcome|contains: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

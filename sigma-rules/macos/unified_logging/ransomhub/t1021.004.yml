@@ -1,0 +1,28 @@
+title: SSH - RansomHub (unified_logging)
+id: e0ad30ad-2610-4334-ad78-38470ece2e81
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1021.004 (SSH).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1021/004/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/credential_access_potential_linux_ssh_bruteforce_root.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1021.004
+  - actor.ransomhub
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    user.name|contains:
+      - '*root*'
+      - '*admin*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

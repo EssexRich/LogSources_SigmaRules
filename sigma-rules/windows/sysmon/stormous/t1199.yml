@@ -1,0 +1,29 @@
+title: Trusted Relationship - Stormous (sysmon)
+id: 7fba2bf4-ced0-4b87-be36-f7c4d0bfe597
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1199 (Trusted Relationship).
+  Associated threat actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1199/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/initial_access_sign_in_events_via_third_party_idp.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1199
+  - actor.stormous
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    event.dataset|contains: 'okta.system'
+    event.action|contains: 'user.authentication.auth_via_IDP'
+    okta.outcome.result|contains: 'FAILURE'
+    okta.outcome.reason|contains: 'A SAML assert with the same ID has already been processed by Okta for a previous request'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

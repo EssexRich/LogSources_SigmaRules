@@ -1,0 +1,25 @@
+title: Service Execution - LockBit (auditd)
+id: 5243f17c-29db-4b6e-beed-d29c13c3952d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1569.002 (Service Execution).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1569/002/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1569.002
+  - actor.lockbit
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

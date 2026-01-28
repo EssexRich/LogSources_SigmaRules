@@ -1,0 +1,35 @@
+title: System Language Discovery - LockBit (sysmon)
+id: 597e6d3a-a95b-4f90-9f4c-3dce09f814ea
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1614.001 (System Language Discovery).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1614/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_chcp_codepage_lookup.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1614.001
+  - actor.lockbit
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    ParentImage|contains:
+      - '\cmd.exe'
+      - ' -c '
+      - ' -r '
+      - ' -k '
+    Image|contains:
+      - '\chcp.com'
+      - 'chcp'
+      - 'chcp '
+      - 'chcp  '
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

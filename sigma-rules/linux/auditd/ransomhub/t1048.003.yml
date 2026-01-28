@@ -1,0 +1,28 @@
+title: Exfiltration Over Unencrypted Non-C2 Protocol - RansomHub (auditd)
+id: ad0df3d0-69a3-44c1-8d55-51bee8a4fcb3
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1048.003 (Exfiltration Over Unencrypted Non-C2 Protocol).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1048/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_data_exfil_wget.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1048.003
+  - actor.ransomhub
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains: 'EXECVE'
+    a0|contains: 'wget'
+    a1|contains: '--post-file='
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

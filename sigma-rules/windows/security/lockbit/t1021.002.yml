@@ -1,0 +1,28 @@
+title: SMB/Windows Admin Shares - LockBit (security)
+id: 17772ffd-d24b-4a2e-93b7-1997f48958e8
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1021.002 (SMB/Windows Admin Shares).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_admin_share_access.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1021.002
+  - actor.lockbit
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '5140'
+    ShareName|contains: 'Admin$'
+    SubjectUserName|contains: '$'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

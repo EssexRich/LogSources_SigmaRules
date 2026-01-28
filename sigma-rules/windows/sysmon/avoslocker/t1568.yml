@@ -1,0 +1,26 @@
+title: Dynamic Resolution - AvosLocker (sysmon)
+id: b2beda58-52b1-4efc-b2a3-cb624a75e1bf
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1568 (Dynamic Resolution).
+  Associated threat actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1568/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/dga/command_and_control_ml_dga_activity_using_sunburst_domain.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1568
+  - actor.avoslocker
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

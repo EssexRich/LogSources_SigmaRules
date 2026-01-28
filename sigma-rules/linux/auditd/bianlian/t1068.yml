@@ -1,0 +1,32 @@
+title: Exploitation for Privilege Escalation - BianLian (auditd)
+id: 2db2cb17-93aa-46c6-9ce8-c0eeb9415d8e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1068 (Exploitation for Privilege Escalation).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1068/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_coinminer.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1068
+  - actor.bianlian
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    a1|contains: '--cpu-priority'
+    a2|contains: '--cpu-priority'
+    a3|contains: '--cpu-priority'
+    a4|contains: '--cpu-priority'
+    a5|contains: '--cpu-priority'
+    a6|contains: '--cpu-priority'
+    a7|contains: '--cpu-priority'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Boot or Logon Autostart Execution - Cl0p (entra_id)
+id: 82cf8214-23d8-40e5-bca1-2f8477a3a034
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1547 (Boot or Logon Autostart Execution).
+  Associated threat actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1547/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_kernel_module_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1547
+  - actor.cl0p
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

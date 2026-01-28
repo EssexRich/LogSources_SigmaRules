@@ -1,0 +1,36 @@
+title: Archive via Utility - Lynx (auditd)
+id: 13832636-a18c-4a30-ad5a-5d6b88fa69fd
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1560.001 (Archive via Utility).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1560/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_data_compressed.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1560.001
+  - actor.lynx
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'execve'
+      - 'execve'
+      - 'execve'
+    a0|contains:
+      - 'zip'
+      - 'gzip'
+      - 'tar'
+    a1|contains:
+      - '-k'
+      - '-c'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

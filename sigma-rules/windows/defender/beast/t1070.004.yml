@@ -1,0 +1,26 @@
+title: File Deletion - Beast (defender)
+id: 27222c0c-aaf4-408d-931d-775c3f6e86c7
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1070.004 (File Deletion).
+  Associated threat actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1070/004/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/kubernetes/defense_evasion_events_deleted.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1070.004
+  - actor.beast
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

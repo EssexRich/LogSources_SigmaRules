@@ -1,0 +1,26 @@
+title: Exploitation for Privilege Escalation - Lynx (defender)
+id: 485d125d-786a-4566-96b4-41aaf8c82c9f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1068 (Exploitation for Privilege Escalation).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1068/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_linux_strace_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1068
+  - actor.lynx
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Stage Capabilities - SafePay (security)
+id: 770a3a78-8241-4c2d-92da-68e191f9cba5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1608 (Stage Capabilities).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1608/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/lateral_movement_onedrive_malware_uploaded.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1608
+  - actor.safepay
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

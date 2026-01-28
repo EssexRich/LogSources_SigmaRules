@@ -1,0 +1,25 @@
+title: Inhibit System Recovery - 0mega (auditd)
+id: abe2c650-07ff-46df-bec7-fce8a0adc74e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1490 (Inhibit System Recovery).
+  Associated threat actor: 0mega
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1490
+  - actor.0mega
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

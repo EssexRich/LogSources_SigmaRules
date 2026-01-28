@@ -1,0 +1,31 @@
+title: Command and Scripting Interpreter - ALPHV-BlackCat (security)
+id: b5c77a9f-bf88-4cbd-9415-c9a8517ae44f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059 (Command and Scripting Interpreter).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1059/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_alert_ruler.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059
+  - actor.alphv-blackcat
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4776'
+    Workstation|contains:
+      - 'RULER'
+      - '4624'
+      - '4625'
+    WorkstationName|contains: 'RULER'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

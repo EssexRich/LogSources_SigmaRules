@@ -1,0 +1,26 @@
+title: Stage Capabilities - Ignoble Scorpius (defender)
+id: eb55f306-789f-475e-9930-ce03635fbc91
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1608 (Stage Capabilities).
+  Associated threat actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1608/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/lateral_movement_onedrive_malware_uploaded.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1608
+  - actor.ignoble_scorpius
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

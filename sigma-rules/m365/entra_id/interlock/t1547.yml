@@ -1,0 +1,26 @@
+title: Boot or Logon Autostart Execution - Interlock (entra_id)
+id: 5032d6c1-00bf-438a-a716-74dac9d27c7c
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1547 (Boot or Logon Autostart Execution).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1547/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_kernel_module_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1547
+  - actor.interlock
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

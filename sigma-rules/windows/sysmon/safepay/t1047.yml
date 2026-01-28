@@ -1,0 +1,40 @@
+title: Windows Management Instrumentation - SafePay (sysmon)
+id: 8b93ec5d-7232-4ed2-ae60-2caf9c87e2e6
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1047 (Windows Management Instrumentation).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1047/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_suspicious_wmi_script.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1047
+  - actor.safepay
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'WMIC.exe'
+    process.pe.original_file_name|contains: 'wmic.exe'
+    process.args|contains:
+      - 'format*:*'
+      - '*-format*:*'
+    process.command_line|contains:
+      - '* /format:table *'
+      - '* /format:table'
+    event.action|contains: 'Image loaded*'
+    dll.name|contains:
+      - 'jscript.dll'
+      - 'vbscript.dll'
+    file.name|contains:
+      - 'jscript.dll'
+      - 'vbscript.dll'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

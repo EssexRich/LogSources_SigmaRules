@@ -1,0 +1,26 @@
+title: Embedded Payloads - Shinra (security)
+id: 39d354de-5406-41f6-b181-a3079bbc4dae
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027.009 (Embedded Payloads).
+  Associated threat actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1027/009/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_token_obfuscation.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027.009
+  - actor.shinra
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains: '${env:path}'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

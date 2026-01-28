@@ -1,0 +1,25 @@
+title: Inhibit System Recovery - Akira (auditd)
+id: 565e59b0-2a56-471d-a9ca-fac3f1249855
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1490 (Inhibit System Recovery).
+  Associated threat actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1490
+  - actor.akira
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

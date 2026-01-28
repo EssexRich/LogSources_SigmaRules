@@ -1,0 +1,29 @@
+title: System Shutdown/Reboot - Trigona (defender)
+id: d13f7e49-f756-400d-bfcc-7f48face7f82
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1529 (System Shutdown/Reboot).
+  Associated threat actor: Trigona
+references:
+  - https://attack.mitre.org/techniques/T1529/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_shutdown_execution.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1529
+  - actor.trigona
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - '\shutdown.exe'
+      - '/r '
+      - '/s '
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

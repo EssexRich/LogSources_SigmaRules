@@ -1,0 +1,26 @@
+title: Process Discovery - Cl0p (entra_id)
+id: f357249a-a776-42c0-b429-f4b7487024c8
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1057 (Process Discovery).
+  Associated threat actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1057/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_process_discovery_via_tasklist_command.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1057
+  - actor.cl0p
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

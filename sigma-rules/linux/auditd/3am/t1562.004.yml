@@ -1,0 +1,32 @@
+title: Disable or Modify System Firewall - 3AM (auditd)
+id: b753c8df-1104-4cd8-8c01-fc697fd348da
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562.004 (Disable or Modify System Firewall).
+  Associated threat actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1562/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_bpfdoor_port_redirect.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562.004
+  - actor.3am
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains: 'EXECVE'
+    a0|contains: 'iptables'
+    a1|contains: '-t'
+    a2|contains:
+      - 'nat'
+      - '--to-ports 42'
+      - '--to-ports 43'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

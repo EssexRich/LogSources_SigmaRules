@@ -1,0 +1,32 @@
+title: Application Layer Protocol - Hunters International (sysmon)
+id: 09d04088-854e-4099-b582-3710dc3b1c85
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1071 (Application Layer Protocol).
+  Associated threat actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1071/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/execution_shell_suspicious_parent_child_revshell_linux.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1071
+  - actor.hunters_international
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains:
+      - 'python*'
+      - 'awk'
+    process.args|contains: '-connect'
+    process.parent.name|contains:
+      - 'python*'
+      - 'awk'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

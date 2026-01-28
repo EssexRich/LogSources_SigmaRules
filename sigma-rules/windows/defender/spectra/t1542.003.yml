@@ -1,0 +1,26 @@
+title: Bootkit - Spectra (defender)
+id: af4fcc66-9d21-4c4f-9584-7a5201bed582
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1542.003 (Bootkit).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1542/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_bcdedit_susp_execution.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1542.003
+  - actor.spectra
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

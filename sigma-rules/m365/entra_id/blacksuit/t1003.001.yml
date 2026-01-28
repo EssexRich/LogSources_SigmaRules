@@ -1,0 +1,26 @@
+title: LSASS Memory - BlackSuit (entra_id)
+id: 2cf96c30-391d-4e44-9a01-38d45c768715
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.001 (LSASS Memory).
+  Associated threat actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/promotions/credential_access_endgame_cred_dumping_detected.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.001
+  - actor.blacksuit
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

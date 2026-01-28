@@ -1,0 +1,26 @@
+title: Inhibit System Recovery - LockBit (unified_logging)
+id: 4e1d7d7d-d0e4-4582-8928-c80e0436a3a5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1490 (Inhibit System Recovery).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1490/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_tmutil_delete_backup.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1490
+  - actor.lockbit
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains: 'delete'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

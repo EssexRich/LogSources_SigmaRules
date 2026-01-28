@@ -1,0 +1,26 @@
+title: Hidden Window - Shinra (defender)
+id: 3e18e2a2-12f8-4242-b5f4-533184a03566
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1564.003 (Hidden Window).
+  Associated threat actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1564/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_browsers_chromium_headless_debugging.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1564.003
+  - actor.shinra
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

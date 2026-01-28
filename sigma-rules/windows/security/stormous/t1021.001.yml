@@ -1,0 +1,30 @@
+title: Remote Desktop Protocol - Stormous (security)
+id: a6d24e63-42c3-4776-84f9-9a6f433c8d43
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1021.001 (Remote Desktop Protocol).
+  Associated threat actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1021/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_rdp_localhost_login.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1021.001
+  - actor.stormous
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4624'
+    LogonType|contains:
+      - '10'
+      - '::1'
+      - '127.0.0.1'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,43 @@
+title: Token Impersonation/Theft - 8base (sysmon)
+id: a8f413ba-5503-4f52-b6a4-eeec5dcacbb0
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1134.001 (Token Impersonation/Theft).
+  Associated threat actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1134/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_create_process_with_token_unpriv.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1134.001
+  - actor.8base
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    user.id|contains:
+      - 'S-1-5-21-*'
+      - 'S-1-12-1-*'
+    process.Ext.effective_parent.executable|contains: '?:\\Windows\\explorer.exe'
+    process.name|contains: 'powershell.exe'
+    process.code_signature.status|contains:
+      - 'trusted'
+      - 'errorCode_endpoint*'
+    process.executable|contains:
+      - '?:\\Program Files\\*'
+      - '?:\\Program Files (x86)\\*'
+    process.command_line|contains:
+      - '*davclnt.dll,DavSetCookie*'
+      - '*shell32.dll,SHCreateLocalServerRunDll*'
+    process.parent.name|contains: 'wmiprvse.exe'
+    process.parent.executable|contains:
+      - '?:\\Windows\\System32\\svchost.exe'
+      - '?:\\Windows\\twain_32\\*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

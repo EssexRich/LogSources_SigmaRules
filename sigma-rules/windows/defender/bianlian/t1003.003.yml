@@ -1,0 +1,29 @@
+title: NTDS - BianLian (defender)
+id: 5cf0861d-469a-4b17-a706-5aa5409c901f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.003 (NTDS).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1003/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_cmdline_dump_tool.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.003
+  - actor.bianlian
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.pe.original_file_name|contains: 'diskshadow.exe'
+    process.name|contains: 'diskshadow.exe'
+    process.args|contains: '/s'
+    process.command_line|contains: '*comsvcs*#*24*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

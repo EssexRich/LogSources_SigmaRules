@@ -1,0 +1,30 @@
+title: Application Window Discovery - Shinra (security)
+id: 560f5009-4bc1-439e-9173-718c5603419d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1010 (Application Window Discovery).
+  Associated threat actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1010/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_scm_database_handle_failure.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1010
+  - actor.shinra
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4656'
+    ObjectType|contains: 'SC_MANAGER OBJECT'
+    ObjectName|contains: 'ServicesActive'
+    AccessMask|contains: '0xf003f'  # is used in the reference; otherwise too many FPs'
+    SubjectLogonId|contains: '0x3e4'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,29 @@
+title: Credentials from Password Stores - COOSEA (sysmon)
+id: 90f74e79-f4e9-4d1e-b472-0b49742c2bfb
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1555 (Credentials from Password Stores).
+  Associated threat actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1555/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_genai_process_sensitive_file_access.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1555
+  - actor.coosea
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains:
+      - 'claude.exe'
+      - 'Claude'
+    file.path|contains: '?:\\Users\\*\\AppData\\Roaming\\Claude\\Local State'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

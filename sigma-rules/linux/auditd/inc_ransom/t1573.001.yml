@@ -1,0 +1,25 @@
+title: Symmetric Cryptography - INC Ransom (auditd)
+id: 4c988113-27bb-4f98-8181-acef4610615f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1573.001 (Symmetric Cryptography).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1573/001/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1573.001
+  - actor.inc_ransom
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,27 @@
+title: Windows Management Instrumentation - DoNex (security)
+id: b885a3fe-f679-44e6-8540-9001d7b6c225
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1047 (Windows Management Instrumentation).
+  Associated threat actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1047/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_susp_wmi_login.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1047
+  - actor.donex
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4624'
+    ProcessName|contains: '\WmiPrvSE.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

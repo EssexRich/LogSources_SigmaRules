@@ -1,0 +1,25 @@
+title: System Language Discovery - LockBit (auditd)
+id: c477cb23-98ab-49a9-b252-9eb7117a3310
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1614.001 (System Language Discovery).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1614/001/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1614.001
+  - actor.lockbit
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

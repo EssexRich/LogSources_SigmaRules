@@ -1,0 +1,27 @@
+title: File and Directory Discovery - Vect RaaS (defender)
+id: 043df1a7-a1df-4f58-9847-c1f9cbd490af
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1083 (File and Directory Discovery).
+  Associated threat actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1083/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_file_dir_discovery.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1083
+  - actor.vect_raas
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'tree.com'
+    process.args|contains: 'dir'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

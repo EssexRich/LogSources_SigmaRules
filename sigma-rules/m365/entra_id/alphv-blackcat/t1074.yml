@@ -1,0 +1,28 @@
+title: Data Staged - ALPHV-BlackCat (entra_id)
+id: 43831c7f-4183-4a4f-81c5-104c6cc61e75
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1074 (Data Staged).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1074/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/collection_google_drive_ownership_transferred_via_google_workspace.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1074
+  - actor.alphv-blackcat
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    event.dataset|contains: 'google_workspace.admin'
+    event.action|contains: 'CREATE_DATA_TRANSFER_REQUEST'
+    event.category|contains: 'iam'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,31 @@
+title: DLL - Qilin (defender)
+id: 76b9976c-813e-46d3-96cc-da0b2483356a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1574.001 (DLL).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1574/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_amsi_bypass_dllhijack.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1574.001
+  - actor.qilin
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    file.name|contains:
+      - 'amsi.dll'
+      - 'amsi'
+    file.path|contains:
+      - '?:\\$SysReset\\CloudImage\\Package_for_RollupFix*\\amsi.dll'
+      - '\\\\?\\Volume{*}\\Windows\\syswow64\\amsi.dll'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

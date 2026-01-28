@@ -1,0 +1,29 @@
+title: Credentials from Password Stores - INC Ransom (workspace)
+id: 0be1ad7e-0ed6-4579-ab02-55fd95f14dad
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1555 (Credentials from Password Stores).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1555/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_genai_process_sensitive_file_access.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1555
+  - actor.inc_ransom
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.name|contains:
+      - 'claude.exe'
+      - 'Claude'
+    file.path|contains: '?:\\Users\\*\\AppData\\Roaming\\Claude\\Local State'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

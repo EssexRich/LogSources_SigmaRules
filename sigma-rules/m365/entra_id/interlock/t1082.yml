@@ -1,0 +1,26 @@
+title: System Information Discovery - Interlock (entra_id)
+id: 4c2ee84b-b061-48d6-946d-11e6c3b1aa07
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1082 (System Information Discovery).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1082/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/discovery_virtual_machine_fingerprinting_grep.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1082
+  - actor.interlock
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.args|contains: 'Manufacturer*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

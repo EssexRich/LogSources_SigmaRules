@@ -1,0 +1,26 @@
+title: Automated Exfiltration - SafeLocker (entra_id)
+id: c19bb3d7-5851-4bcd-9e04-14231dd08ad4
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1020 (Automated Exfiltration).
+  Associated threat actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1020/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/github/exfiltration_github_private_repository_turned_public.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1020
+  - actor.safelocker
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

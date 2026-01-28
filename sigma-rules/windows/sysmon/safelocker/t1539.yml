@@ -1,0 +1,26 @@
+title: Steal Web Session Cookie - SafeLocker (sysmon)
+id: 81271e2c-1e67-45d3-9f27-eeeb6ece76de
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1539 (Steal Web Session Cookie).
+  Associated threat actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1539/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_cookies_chromium_browsers_debugging.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1539
+  - actor.safelocker
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.args|contains: '--remote-debugging-port=0'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,28 @@
+title: Internet Connection Discovery - RansomHub (sysmon)
+id: 710004da-1f07-40bf-b1c2-f27dfcc7e87f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1016.001 (Internet Connection Discovery).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1016/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_enumeration_via_wmiprvse.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1016.001
+  - actor.ransomhub
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'sc.exe'
+    process.parent.name|contains: 'wmiprvse.exe'
+    process.args|contains: 'tenable_mw_scan'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

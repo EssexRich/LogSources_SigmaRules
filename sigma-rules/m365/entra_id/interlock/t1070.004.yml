@@ -1,0 +1,26 @@
+title: File Deletion - Interlock (entra_id)
+id: 79c5aeef-80a0-4064-bcf0-bf7e81f09101
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1070.004 (File Deletion).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1070/004/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/kubernetes/defense_evasion_events_deleted.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1070.004
+  - actor.interlock
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

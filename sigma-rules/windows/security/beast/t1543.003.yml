@@ -1,0 +1,32 @@
+title: Windows Service - Beast (security)
+id: be737871-feb1-4790-af16-3448c52d2f0c
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1543.003 (Windows Service).
+  Associated threat actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1543/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_cobaltstrike_service_installs.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1543.003
+  - actor.beast
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains:
+      - '4697'
+      - 'ADMIN$'
+      - '.exe'
+      - '%COMSPEC%'
+      - 'start'
+    ServiceFileName|contains: 'powershell -nop -w hidden -encodedcommand'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

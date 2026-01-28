@@ -1,0 +1,30 @@
+title: Indirect Command Execution - DoNex (sysmon)
+id: f79d6c62-e250-4bbe-9286-809e46e8b851
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1202 (Indirect Command Execution).
+  Associated threat actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1202/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_indirect_exec_conhost.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1202
+  - actor.donex
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'conhost.exe'
+    process.args|contains: '--headless'
+    process.command_line|contains:
+      - '*powershell*'
+      - '*mhsta*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium
