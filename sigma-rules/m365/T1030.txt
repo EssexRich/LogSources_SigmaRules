@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1030 Detection (m365)
+    id: 5d319551-59ee-49f1-bfcb-d3420ab2c8e7
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1030.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1030/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1030
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1030
+    
