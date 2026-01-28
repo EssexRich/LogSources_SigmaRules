@@ -201,14 +201,14 @@ async function main() {
     // Fetch technique names from individual files
     console.log('[SigmaGen]   - Fetching attack-pattern (technique) names...');
     let techCount = 0;
-    for (let i = 1; i <= 400; i++) {
+    for (let i = 1; i <= 1000; i++) {
       const techId = `T${i}`;
       try {
         const tech = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques/${techId}.json`);
-        if (tech && tech.external_references) {
-          const mitreRef = tech.external_references.find(ref => ref.external_id && ref.external_id.match(/^T\d+$/));
+        if (tech && tech.name && tech.external_references) {
+          const mitreRef = tech.external_references.find(ref => ref.external_id === techId);
           if (mitreRef) {
-            techniqueNames[mitreRef.external_id] = tech.name;
+            techniqueNames[techId] = tech.name;
             techCount++;
           }
         }
@@ -243,7 +243,7 @@ async function main() {
       
       // Build technique ID to name mapping
       const techniqueIdToName = {};
-      for (let i = 1; i <= 400; i++) {
+      for (let i = 1; i <= 1000; i++) {
         const techId = `T${i}`;
         try {
           const tech = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques/${techId}.json`);
