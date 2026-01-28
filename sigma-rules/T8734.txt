@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T8734 Detection
+    id: 6cc8c357-3a77-4132-9be8-1a4c27de0a8b
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T8734.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T8734/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T8734
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T8734
+    
