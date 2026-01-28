@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T3750 Detection (macos)
+    id: b65cd8f7-f191-479b-9a8d-df674d8aa8b4
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T3750.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T3750/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T3750
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: macos
+    service: unified_logging
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T3750
+    
