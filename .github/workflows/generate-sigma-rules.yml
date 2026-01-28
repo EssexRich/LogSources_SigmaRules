@@ -1,0 +1,48 @@
+name: Generate Sigma Rules
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # Weekly, 1 hour after external rules fetch
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Fetch External Detection Rules"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  generate-rules:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Get full history for proper git operations
+      
+      - name: Pull latest changes
+        run: git pull origin main
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Generate Sigma rules
+        run: node scripts/generate-sigma-rules.js
+      
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          if [ -n "$(git status --porcelain)" ]; then
+            git add sigma-rules/
+            git commit -m "chore: regenerate Sigma rules [$(date -u +%Y-%m-%d)]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
