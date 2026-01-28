@@ -124,92 +124,153 @@ async function fetchExternalRules() {
 
   // Fetch Elastic rules tree
   try {
-    console.log('[SigmaGen]   - Indexing Elastic detection-rules...');
-    const elasticTree = await fetchURL('https://api.github.com/repos/elastic/detection-rules/git/trees/main?recursive=1');
-    if (elasticTree.tree) {
-      const ruleFiles = elasticTree.tree.filter(f => f.path.endsWith('.toml') && f.path.includes('rules/'));
-      console.log(`[SigmaGen]     ✓ Found ${ruleFiles.length} Elastic rules`);
+    console.log('[SigmaGen]   - Querying Elastic Tree API...');
+    const elasticUrl = 'https://api.github.com/repos/elastic/detection-rules/git/trees/main?recursive=1';
+    console.log(`[SigmaGen]     URL: ${elasticUrl}`);
+    
+    const elasticTree = await fetchURL(elasticUrl);
+    console.log(`[SigmaGen]     Response keys: ${Object.keys(elasticTree).join(', ')}`);
+    
+    if (!elasticTree.tree) {
+      console.warn('[SigmaGen]     ⚠ No tree array in response');
+      if (elasticTree.message) {
+        console.warn(`[SigmaGen]     Message: ${elasticTree.message}`);
+      }
+    } else {
+      console.log(`[SigmaGen]     Total files in tree: ${elasticTree.tree.length}`);
       
-      // Index a sample of them (to avoid rate limits)
-      for (let i = 0; i < Math.min(ruleFiles.length, 50); i++) {
-        try {
-          const file = ruleFiles[i];
-          const content = await fetchText(`https://raw.githubusercontent.com/elastic/detection-rules/main/${file.path}`);
-          const tNum = extractTNumberFromTOML(content);
-          if (tNum) {
-            if (!rules.elastic[tNum]) rules.elastic[tNum] = [];
-            rules.elastic[tNum].push({
-              path: file.path,
-              content: content.substring(0, 500) // Store just snippet
-            });
+      const ruleFiles = elasticTree.tree.filter(f => f.path.endsWith('.toml') && f.path.includes('rules/'));
+      console.log(`[SigmaGen]     Rule files (.toml): ${ruleFiles.length}`);
+      
+      if (ruleFiles.length > 0) {
+        console.log(`[SigmaGen]     ✓ Found ${ruleFiles.length} Elastic rules`);
+        
+        // Index a sample of them (to avoid rate limits)
+        let indexed = 0;
+        for (let i = 0; i < Math.min(ruleFiles.length, 50); i++) {
+          try {
+            const file = ruleFiles[i];
+            const content = await fetchText(`https://raw.githubusercontent.com/elastic/detection-rules/main/${file.path}`);
+            const tNum = extractTNumberFromTOML(content);
+            if (tNum) {
+              if (!rules.elastic[tNum]) rules.elastic[tNum] = [];
+              rules.elastic[tNum].push({
+                path: file.path,
+                content: content.substring(0, 500)
+              });
+              indexed++;
+            }
+          } catch (e) {
+            console.warn(`[SigmaGen]       Failed to fetch ${file.path}: ${e.message}`);
           }
-        } catch (e) {
-          // Continue on error
         }
+        console.log(`[SigmaGen]     ✓ Indexed ${indexed} Elastic rules`);
       }
     }
   } catch (error) {
     console.warn('[SigmaGen]   ⚠ Could not fetch Elastic rules:', error.message);
+    console.warn('[SigmaGen]     Stack:', error.stack.split('\n')[0]);
   }
 
   // Fetch Splunk rules tree
   try {
-    console.log('[SigmaGen]   - Indexing Splunk security_content...');
-    const splunkTree = await fetchURL('https://api.github.com/repos/splunk/security_content/git/trees/develop?recursive=1');
-    if (splunkTree.tree) {
-      const ruleFiles = splunkTree.tree.filter(f => (f.path.endsWith('.yml') || f.path.endsWith('.yaml')) && f.path.includes('detections/'));
-      console.log(`[SigmaGen]     ✓ Found ${ruleFiles.length} Splunk rules`);
+    console.log('[SigmaGen]   - Querying Splunk Tree API...');
+    const splunkUrl = 'https://api.github.com/repos/splunk/security_content/git/trees/develop?recursive=1';
+    console.log(`[SigmaGen]     URL: ${splunkUrl}`);
+    
+    const splunkTree = await fetchURL(splunkUrl);
+    console.log(`[SigmaGen]     Response keys: ${Object.keys(splunkTree).join(', ')}`);
+    
+    if (!splunkTree.tree) {
+      console.warn('[SigmaGen]     ⚠ No tree array in response');
+      if (splunkTree.message) {
+        console.warn(`[SigmaGen]     Message: ${splunkTree.message}`);
+      }
+    } else {
+      console.log(`[SigmaGen]     Total files in tree: ${splunkTree.tree.length}`);
       
-      for (let i = 0; i < Math.min(ruleFiles.length, 50); i++) {
-        try {
-          const file = ruleFiles[i];
-          const content = await fetchText(`https://raw.githubusercontent.com/splunk/security_content/develop/${file.path}`);
-          const tNum = extractTNumberFromYAML(content);
-          if (tNum) {
-            if (!rules.splunk[tNum]) rules.splunk[tNum] = [];
-            rules.splunk[tNum].push({
-              path: file.path,
-              content: content.substring(0, 500)
-            });
+      const ruleFiles = splunkTree.tree.filter(f => (f.path.endsWith('.yml') || f.path.endsWith('.yaml')) && f.path.includes('detections/'));
+      console.log(`[SigmaGen]     Rule files (.yml/.yaml): ${ruleFiles.length}`);
+      
+      if (ruleFiles.length > 0) {
+        console.log(`[SigmaGen]     ✓ Found ${ruleFiles.length} Splunk rules`);
+        
+        let indexed = 0;
+        for (let i = 0; i < Math.min(ruleFiles.length, 50); i++) {
+          try {
+            const file = ruleFiles[i];
+            const content = await fetchText(`https://raw.githubusercontent.com/splunk/security_content/develop/${file.path}`);
+            const tNum = extractTNumberFromYAML(content);
+            if (tNum) {
+              if (!rules.splunk[tNum]) rules.splunk[tNum] = [];
+              rules.splunk[tNum].push({
+                path: file.path,
+                content: content.substring(0, 500)
+              });
+              indexed++;
+            }
+          } catch (e) {
+            console.warn(`[SigmaGen]       Failed to fetch ${file.path}: ${e.message}`);
           }
-        } catch (e) {
-          // Continue on error
         }
+        console.log(`[SigmaGen]     ✓ Indexed ${indexed} Splunk rules`);
       }
     }
   } catch (error) {
     console.warn('[SigmaGen]   ⚠ Could not fetch Splunk rules:', error.message);
+    console.warn('[SigmaGen]     Stack:', error.stack.split('\n')[0]);
   }
 
   // Fetch Microsoft Sentinel rules tree
   try {
-    console.log('[SigmaGen]   - Indexing Microsoft Sentinel rules...');
-    const msTree = await fetchURL('https://api.github.com/repos/microsoft/Microsoft-Sentinel2Go/git/trees/master?recursive=1');
-    if (msTree.tree) {
-      const ruleFiles = msTree.tree.filter(f => f.path.endsWith('.json') && f.path.includes('analytics'));
-      console.log(`[SigmaGen]     ✓ Found ${ruleFiles.length} Microsoft rules`);
+    console.log('[SigmaGen]   - Querying Microsoft Tree API...');
+    const msUrl = 'https://api.github.com/repos/microsoft/Microsoft-Sentinel2Go/git/trees/master?recursive=1';
+    console.log(`[SigmaGen]     URL: ${msUrl}`);
+    
+    const msTree = await fetchURL(msUrl);
+    console.log(`[SigmaGen]     Response keys: ${Object.keys(msTree).join(', ')}`);
+    
+    if (!msTree.tree) {
+      console.warn('[SigmaGen]     ⚠ No tree array in response');
+      if (msTree.message) {
+        console.warn(`[SigmaGen]     Message: ${msTree.message}`);
+      }
+    } else {
+      console.log(`[SigmaGen]     Total files in tree: ${msTree.tree.length}`);
       
-      for (let i = 0; i < Math.min(ruleFiles.length, 50); i++) {
-        try {
-          const file = ruleFiles[i];
-          const content = await fetchText(`https://raw.githubusercontent.com/microsoft/Microsoft-Sentinel2Go/master/${file.path}`);
-          const tNum = extractTNumberFromYAML(content);
-          if (tNum) {
-            if (!rules.microsoft[tNum]) rules.microsoft[tNum] = [];
-            rules.microsoft[tNum].push({
-              path: file.path,
-              content: content.substring(0, 500)
-            });
+      const ruleFiles = msTree.tree.filter(f => f.path.endsWith('.json') && f.path.includes('analytics'));
+      console.log(`[SigmaGen]     Rule files (.json in analytics): ${ruleFiles.length}`);
+      
+      if (ruleFiles.length > 0) {
+        console.log(`[SigmaGen]     ✓ Found ${ruleFiles.length} Microsoft rules`);
+        
+        let indexed = 0;
+        for (let i = 0; i < Math.min(ruleFiles.length, 50); i++) {
+          try {
+            const file = ruleFiles[i];
+            const content = await fetchText(`https://raw.githubusercontent.com/microsoft/Microsoft-Sentinel2Go/master/${file.path}`);
+            const tNum = extractTNumberFromYAML(content);
+            if (tNum) {
+              if (!rules.microsoft[tNum]) rules.microsoft[tNum] = [];
+              rules.microsoft[tNum].push({
+                path: file.path,
+                content: content.substring(0, 500)
+              });
+              indexed++;
+            }
+          } catch (e) {
+            console.warn(`[SigmaGen]       Failed to fetch ${file.path}: ${e.message}`);
           }
-        } catch (e) {
-          // Continue on error
         }
+        console.log(`[SigmaGen]     ✓ Indexed ${indexed} Microsoft rules`);
       }
     }
   } catch (error) {
     console.warn('[SigmaGen]   ⚠ Could not fetch Microsoft rules:', error.message);
+    console.warn('[SigmaGen]     Stack:', error.stack.split('\n')[0]);
   }
 
+  console.log(`[SigmaGen]   Summary: Elastic=${Object.keys(rules.elastic).length}, Splunk=${Object.keys(rules.splunk).length}, Microsoft=${Object.keys(rules.microsoft).length}\n`);
   return rules;
 }
 
