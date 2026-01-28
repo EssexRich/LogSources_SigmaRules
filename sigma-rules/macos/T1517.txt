@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1517 Detection (macos)
+    id: c3176fa5-207d-4f92-956b-76238224bcb1
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1517.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1517/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1517
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: macos
+    service: unified_logging
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1517
+    
