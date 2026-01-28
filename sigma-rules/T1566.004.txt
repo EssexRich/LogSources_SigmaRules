@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1566.004 Detection
+    id: 01e418e2-1d41-42b3-adb1-438a090c470f
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1566.004.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1566.004/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1566.004
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1566.004
+    
