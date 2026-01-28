@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1807.001 Detection (windows)
+    id: e6bb957e-7771-4e5b-b4a8-10fca649920b
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1807.001.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1807.001/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1807.001
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1807.001
+    
