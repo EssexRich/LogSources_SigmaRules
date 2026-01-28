@@ -1,0 +1,29 @@
+title: O365 Elevated Mailbox Permission Assigned
+id: 20f2231d-60f9-460b-88a6-fed70fa58293
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1114.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1114/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_elevated_mailbox_permission_assigned.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1114.002
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    Workload: 'Exchange'
+    Operation: 'Add-MailboxPermission'
+    AccessRights:
+      - 'FullAccess'
+      - 'ChangePermission'
+      - 'ChangeOwner)'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

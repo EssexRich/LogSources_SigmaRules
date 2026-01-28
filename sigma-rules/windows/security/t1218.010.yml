@@ -1,0 +1,26 @@
+title: DNS Query Request By Regsvr32.EXE
+id: f5dbfebc-b4f9-4b3c-9f1e-ff7dbf18cc30
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1218.010.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1218/010/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/dns_query/dns_query_win_regsvr32_dns_query.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1218.010
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '\regsvr32.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

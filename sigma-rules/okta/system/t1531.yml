@@ -1,0 +1,26 @@
+title: Okta User Account Locked Out
+id: 23d03678-b95e-4a5d-acfa-2590e13a566b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1531.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1531/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/identity/okta/okta_user_account_locked_out.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1531
+logsource:
+  product: okta
+  service: system
+  category: authentication
+detection:
+      selection:
+          displaymessage: Max sign in attempts exceeded
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

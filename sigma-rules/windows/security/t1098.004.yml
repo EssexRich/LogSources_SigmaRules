@@ -1,0 +1,24 @@
+title: Linux Possible Access Or Modification Of sshd Config File
+id: b0083356-6d29-4ea4-b92c-7be1dfe1189a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1098.004.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1098/004/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_possible_access_or_modification_of_sshd_config_file.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1098.004
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Processes'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

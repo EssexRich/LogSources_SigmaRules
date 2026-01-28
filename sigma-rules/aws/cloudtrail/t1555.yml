@@ -1,0 +1,26 @@
+title: PUA - AWS TruffleHog Execution
+id: 39025fd4-def5-4645-ab92-45b3538c958b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1555.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1555/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_pua_trufflehog.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1555
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          userAgent: 'TruffleHog'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

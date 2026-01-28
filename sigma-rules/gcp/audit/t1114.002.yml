@@ -1,0 +1,25 @@
+title: O365 Compliance Content Search Exported
+id: 8f92b79e-6554-484d-8ffc-290be61d099e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1114.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1114/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_compliance_content_search_exported.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1114.002
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    Workload: 'SecurityComplianceCenter'
+    Operation: 'SearchExported'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

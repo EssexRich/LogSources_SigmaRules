@@ -1,0 +1,28 @@
+title: Okta MFA Reset or Deactivated
+id: c6582590-9bba-413a-bf70-d07ea4df305d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.006.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1556/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/identity/okta/okta_mfa_reset_or_deactivated.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1556.006
+logsource:
+  product: okta
+  service: system
+  category: authentication
+detection:
+      selection:
+          eventtype:
+              - user.mfa.factor.deactivate
+              - user.mfa.factor.reset_all
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

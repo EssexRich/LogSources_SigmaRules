@@ -1,0 +1,35 @@
+title: Unsigned .node File Loaded
+id: 0adfccdd-fa28-412b-b7fc-a1d759e5a434
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1129.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1129/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_dll_unsigned_node_load.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1129
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection_node_extension:
+          ImageLoaded|endswith: '.node'
+      selection_status:
+          - Signed: 'false'
+          - SignatureStatus: 'Unavailable'
+      filter_optional_vscode_jupyter:
+          Image|endswith: '\Code.exe'
+          ImageLoaded|contains: '.vscode\extensions\ms-toolsai.jupyter-'
+          ImageLoaded|endswith:
+              - '\electron.napi.node'
+              - '\node.napi.glibc.node'
+      condition: all of selection_* and not 1 of filter_optional_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,27 @@
+title: AWS SNS Topic Message Publish by Rare User
+id: 5e74f6af-420e-4cbd-9b80-03443092b34d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1534.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1534/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/lateral_movement_sns_topic_message_publish_by_rare_user.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1534
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'sns.amazonaws.com'
+    event.action: 'Publish'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

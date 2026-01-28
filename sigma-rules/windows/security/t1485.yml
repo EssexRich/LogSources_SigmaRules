@@ -1,0 +1,32 @@
+title: Potential Secure Deletion with SDelete
+id: 64516fa2-6d78-439d-92aa-0853021ccf26
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1485.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1485/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_sdelete_potential_secure_deletion.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID:
+              - 4656
+              - 4663
+              - 4658
+          ObjectName|endswith:
+              - '.AAA'
+              - '.ZZZ'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,27 @@
+title: AWS Lambda Layer Added to Existing Function
+id: 3ddb655e-163f-47db-af60-2365a853a36a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1648.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1648/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/execution_lambda_external_layer_added_to_function.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1648
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'lambda.amazonaws.com'
+    event.outcome: 'success'
+    event.action: '(PublishLayerVersion*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

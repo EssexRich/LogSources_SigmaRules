@@ -1,0 +1,24 @@
+title: Unusual AWS Command for a User
+id: 48c6488f-62dd-47c0-972d-79c26615edc2
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1041.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1041/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/ml_cloudtrail_rare_method_by_user.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1041
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

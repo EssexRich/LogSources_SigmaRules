@@ -1,0 +1,24 @@
+title: TCC Bypass via Mounted APFS Snapshot Access
+id: b3538916-248c-4d42-913b-86a9aa5c5c05
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1006.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1006/
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_tcc_bypass_mounted_apfs_access.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1006
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

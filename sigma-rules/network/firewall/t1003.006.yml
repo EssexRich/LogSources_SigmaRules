@@ -1,0 +1,24 @@
+title: Windows AD Replication Service Traffic
+id: 84ce04ff-5cd3-40c9-8cb3-1f5f28b26c85
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1003.006.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1003/006/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/windows_ad_replication_service_traffic.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1003.006
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Network_Traffic'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

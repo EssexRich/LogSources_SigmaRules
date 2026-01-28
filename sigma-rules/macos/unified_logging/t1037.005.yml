@@ -1,0 +1,29 @@
+title: Startup Item File Created - MacOS
+id: 3f1d6bbc-2432-4518-a3c5-3363e08b1cfd
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1037.005.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1037/005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/file_event/file_event_macos_susp_startup_item_created.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1037.005
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection:
+          TargetFilename|startswith:
+              - '/Library/StartupItems/'
+              - '/System/Library/StartupItems'
+          TargetFilename|endswith: '.plist'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

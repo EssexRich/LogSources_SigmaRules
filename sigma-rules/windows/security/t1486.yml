@@ -1,0 +1,30 @@
+title: Suspicious Creation TXT File in User Desktop
+id: 175c6080-0d0a-47d9-a3e6-1b018110b333
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1486.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1486/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_desktop_txt.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1486
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '\cmd.exe'
+          TargetFilename|contains|all:
+              - '\Users\'
+              - '\Desktop\'
+          TargetFilename|endswith: '.txt'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

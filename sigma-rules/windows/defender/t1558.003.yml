@@ -1,0 +1,34 @@
+title: Kerberoasting Activity - Initial Query
+id: 6045281e-982a-4ec5-8bbc-301ec75e966c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1558.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1558/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_kerberoasting_activity.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1558.003
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 4769
+          Status: '0x0' # Translated as status from failure code field. Query only for successes
+          TicketEncryptionType: '0x17' # RC4 ticket encryption type
+      filter_main_krbtgt:
+          ServiceName|endswith:
+              - 'krbtgt' # Ignore requests for the krbtgt service
+              - '$' # Ignore requests from service names that end with $ which are associated with genuine kerberos traffic
+      filter_main_machine_accounts:
+          TargetUserName|contains: '$@' # Ignore requests from machines
+      condition: selection and not 1 of filter_main_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

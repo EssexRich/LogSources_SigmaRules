@@ -1,0 +1,30 @@
+title: Security Eventlog Cleared
+id: a340c505-ad82-44e2-a2dd-b8cdabbc03f5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1070/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_audit_log_cleared.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1070.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection_517:
+          EventID: 517
+          Provider_Name: Security
+      selection_1102:
+          EventID: 1102
+          Provider_Name: Microsoft-Windows-Eventlog
+      condition: 1 of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

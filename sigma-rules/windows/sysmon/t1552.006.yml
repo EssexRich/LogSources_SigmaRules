@@ -1,0 +1,47 @@
+title: Access To Potentially Sensitive Sysvol Files By Uncommon Applications
+id: f1511338-f60d-43c6-85e4-152636a6734d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1552.006.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1552/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_access/file_access_win_susp_gpo_files.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1552.006
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          FileName|startswith: '\\'
+          FileName|contains|all:
+              - '\sysvol\'
+              - '\Policies\'
+          FileName|endswith:
+              - 'audit.csv'
+              - 'Files.xml'
+              - 'GptTmpl.inf'
+              - 'groups.xml'
+              - 'Registry.pol'
+              - 'Registry.xml'
+              - 'scheduledtasks.xml'
+              - 'scripts.ini'
+              - 'services.xml'
+      filter_main_generic:
+          Image|startswith:
+              - 'C:\Program Files (x86)\'
+              - 'C:\Program Files\'
+              - 'C:\Windows\system32\'
+              - 'C:\Windows\SysWOW64\'
+      filter_main_explorer:
+          Image: 'C:\Windows\explorer.exe'
+      condition: selection and not 1 of filter_main_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

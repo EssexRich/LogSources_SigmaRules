@@ -1,0 +1,30 @@
+title: Possible PetitPotam Coerce Authentication Attempt
+id: 73056103-1451-48c7-a7ef-d075e1907573
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1187.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1187/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_petitpotam_network_share.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1187
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 5145
+          ShareName|startswith: '\\\\' # looking for the string \\somethink\IPC$
+          ShareName|endswith: '\IPC$'
+          RelativeTargetName: lsarpc
+          SubjectUserName: ANONYMOUS LOGON
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

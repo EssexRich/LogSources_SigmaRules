@@ -1,0 +1,29 @@
+title: AWS EC2 AMI Shared with Another Account
+id: 59fdbb30-a105-40cb-855d-336438e8a115
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1537.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1537/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/exfiltration_ec2_ami_shared_with_separate_account.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1537
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'ec2.amazonaws.com'
+    aws.cloudtrail.user_identity.invoked_by: 'assets.marketplace.amazonaws.com'
+    event.action: 'ModifyImageAttribute'
+    event.outcome: 'success'
+    aws.cloudtrail.request_parameters: 'add=*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

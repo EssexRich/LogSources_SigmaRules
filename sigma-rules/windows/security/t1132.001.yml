@@ -1,0 +1,29 @@
+title: Suspicious FromBase64String Usage On Gzip Archive - Ps Script
+id: 2c882208-18c3-4363-a310-cb2a6e286113
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1132.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1132/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_frombase64string_archive.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1132.001
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains|all:
+              - 'FromBase64String'
+              - 'MemoryStream'
+              - 'H4sI'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

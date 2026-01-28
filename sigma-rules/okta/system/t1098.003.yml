@@ -1,0 +1,28 @@
+title: Okta Admin Role Assigned to an User or Group
+id: 4c332486-7e47-44b9-b9c6-554cb4eebb93
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1098.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1098/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/identity/okta/okta_admin_role_assigned_to_user_or_group.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1098.003
+logsource:
+  product: okta
+  service: system
+  category: authentication
+detection:
+      selection:
+          eventtype:
+              - group.privilege.grant
+              - user.account.privilege.grant
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

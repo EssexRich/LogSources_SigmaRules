@@ -1,0 +1,32 @@
+title: Potential Abuse of Linux Magic System Request Key
+id: 5b5a7f64-2ff8-4a9b-af69-09d59d0ac5e2
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1499.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1499/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/path/lnx_auditd_magic_system_request_key.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1499
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          type: 'PATH'
+          name|endswith:
+              # Enable
+              - '/sysrq'
+              - '/sysctl.conf'
+              # Execute
+              - '/sysrq-trigger'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,26 @@
+title: CrushFTP Authentication Bypass Exploitation
+id: 1246861f-3863-4d96-954d-2d3132d94810
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1059.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1059/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/web/crushftp_authentication_bypass_exploitation.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1059.003
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    field:
+      - '_raw'
+      - '_raw'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

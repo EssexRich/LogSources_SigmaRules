@@ -1,0 +1,58 @@
+title: Suspicious Double Extension Files
+id: 366539e3-93c6-4f87-ab52-2894b035082d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1036.007.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1036/007/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_double_extension.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1036.007
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection_gen:
+          TargetFilename|endswith:
+              - '.exe'
+              - '.iso'
+              - '.rar'
+              - '.svg'
+              - '.zip'
+              # - '.lnk'  # legitimate links can happen just anywhere
+          TargetFilename|contains:
+              - '.doc.'
+              - '.docx.'
+              - '.gif.'
+              - '.jpeg.'
+              - '.jpg.'
+              - '.mp3.'
+              - '.mp4.'
+              - '.pdf.'
+              - '.png.'
+              - '.ppt.'
+              - '.pptx.'
+              - '.rtf.'
+              - '.svg.'
+              - '.txt.'
+              - '.xls.'
+              - '.xlsx.'
+      selection_exe:
+          TargetFilename|endswith:
+              - '.rar.exe'
+              - '.zip.exe'
+      # Note: If you wanna keep using the ".lnk" extension. You might uncomment this filter and add additional locations
+      # filter_main_lnk:
+      #     TargetFilename|contains:
+      #         - '\AppData\Roaming\Microsoft\Office\Recent\'
+      #         - '\AppData\Roaming\Microsoft\Windows\Recent\'
+      condition: 1 of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

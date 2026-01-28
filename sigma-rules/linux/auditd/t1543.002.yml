@@ -1,0 +1,32 @@
+title: Service Reload or Start - Linux
+id: 39b1abfe-1500-487d-b10c-7ca048ca93ff
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1543.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1543/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_susp_service_reload_or_restart.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1543.002
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          type: 'EXECVE'
+          a0|contains:
+              - 'systemctl'
+              - 'service'
+          a1|contains:
+              - 'reload'
+              - 'start'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

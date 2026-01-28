@@ -1,0 +1,30 @@
+title: Malicious Usage Of IMDS Credentials Outside Of AWS Infrastructure
+id: 7263245b-dbe8-40c8-8523-5bb2e3164073
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1078.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1078/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_imds_malicious_usage.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1078
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          userIdentity.arn|re: '.+:assumed-role/aws:.+'
+      filter_main_generic:
+          - eventSource: 'ssm.amazonaws.com'
+          - eventName: 'RegisterManagedInstance'
+          - sourceIPAddress: 'AWS Internal'
+      condition: selection and not 1 of filter_main_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

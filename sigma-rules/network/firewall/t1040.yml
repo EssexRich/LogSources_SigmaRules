@@ -1,0 +1,28 @@
+title: Cisco Sniffing
+id: 8578ab6f-2808-4c34-b15c-49fc823c5e3c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1040.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1040/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_net_sniff.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1040
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords:
+          - 'monitor capture point'
+          - 'set span'
+          - 'set rspan'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

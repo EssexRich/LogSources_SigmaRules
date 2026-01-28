@@ -1,0 +1,27 @@
+title: Diagnostic Library Sdiageng.DLL Loaded By Msdt.EXE
+id: 154def30-7929-46e9-be16-791017f2f4a2
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1202.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1202/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_dll_sdiageng_load_by_msdt.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1202
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '\msdt.exe'
+          ImageLoaded|endswith: '\sdiageng.dll'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

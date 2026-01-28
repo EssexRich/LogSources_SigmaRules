@@ -1,0 +1,26 @@
+title: HTTP Duplicated Header
+id: 5eb2f077-2bea-4bf6-af13-53174aaa99cb
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1071.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1071/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/web/http_duplicated_header.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1071.001
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    name: '*'
+    path: 'http.request_headers{}.name'
+    output: 'header_names'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

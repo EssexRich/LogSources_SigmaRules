@@ -1,0 +1,29 @@
+title: Cisco Collect Data
+id: 2aa45142-4116-4d98-a86d-49a9ddc1912f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1552.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1552/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_collect_data.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1552.001
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords:
+          - 'show running-config'
+          - 'show startup-config'
+          - 'show archive config'
+          - 'more'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

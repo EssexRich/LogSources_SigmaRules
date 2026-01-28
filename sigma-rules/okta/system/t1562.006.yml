@@ -1,0 +1,27 @@
+title: Okta User Session Start Via An Anonymising Proxy Service
+id: fc06b9c2-0b5b-43d7-896d-e2975afd0eec
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.006.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1562/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/identity/okta/okta_user_session_start_via_anonymised_proxy.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1562.006
+logsource:
+  product: okta
+  service: system
+  category: authentication
+detection:
+      selection:
+          eventtype: 'user.session.start'
+          securitycontext.isproxy: 'true'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

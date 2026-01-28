@@ -1,0 +1,26 @@
+title: Suspicious Inbox Forwarding Identity Protection
+id: 91bacd05-786a-4c23-9f82-81585f78bc08
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1114.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1114/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/identity_protection/azure_identity_protection_inbox_forwarding_rule.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1114.003
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          riskEventType: 'suspiciousInboxForwarding'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

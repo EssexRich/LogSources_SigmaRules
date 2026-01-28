@@ -1,0 +1,25 @@
+title: AWS Lambda Function Policy Updated to Allow Public Invocation
+id: 44c76121-c5e4-4147-9435-74a9b5e1e5fb
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1546.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1546/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_lambda_backdoor_invoke_function_for_any_principal.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1546
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.action: 'AddPermission*'
+    lambda: 'InvokeFunction'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

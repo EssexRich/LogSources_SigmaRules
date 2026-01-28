@@ -1,0 +1,30 @@
+title: Suspicious Scheduled Task Write to System32 Tasks
+id: 5eb1bb51-f0fc-464a-ac1f-124aba5ae798
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1053.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1053/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_task_write.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1053
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          TargetFilename|contains: '\Windows\System32\Tasks'
+          Image|contains:
+              - '\AppData\'
+              - 'C:\PerfLogs'
+              - '\Windows\System32\config\systemprofile'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

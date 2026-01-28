@@ -1,0 +1,25 @@
+title: GitHub Enterprise Delete Branch Ruleset
+id: a5a41112-ea5b-406b-bb0a-0d851dadde21
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1195.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1195/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/github_enterprise_delete_branch_ruleset.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1195
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    action: 'repository_ruleset.destroy'
+    user: 'actor'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,34 @@
+title: Entra ID OAuth user_impersonation Scope for Unusual User and Client
+id: 1e267b9e-ed61-444a-a83e-0af7a2e46603
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1656.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1656/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_oauth_user_impersonation_scope.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1656
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    azure.signinlogs.properties.authentication_requirement: 'singleFactorAuthentication'
+    azure.signinlogs.properties.token_issuer_type: 'AzureAD'
+    azure.signinlogs.properties.token_protection_status_details.sign_in_session_status: 'unbound'
+    azure.signinlogs.properties.user_type: 'Member'
+    azure.signinlogs.properties.conditional_access_status: 'notApplied'
+    event.outcome: 'success'
+    azure.signinlogs.properties.app_id: 'a5f63c0-b750-4f38-a71c-4fc0d58b89e2'
+    event.dataset: 'azure.signinlogs'
+    azure.signinlogs.properties.authentication_processing_details: 'user_impersonation*'
+    user_agent.original: '(Mozilla*PKeyAuth/1.0'
+    azure.signinlogs.properties.device_detail.operating_system: '(Ios*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

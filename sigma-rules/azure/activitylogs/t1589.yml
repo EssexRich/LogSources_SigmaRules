@@ -1,0 +1,26 @@
+title: Azure AD Account Credential Leaked
+id: f51f704e-381c-4b69-adc0-061fbfcc8fd5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1589.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1589/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/identity_protection/azure_identity_protection_leaked_credentials.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1589
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          riskEventType: 'leakedCredentials'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

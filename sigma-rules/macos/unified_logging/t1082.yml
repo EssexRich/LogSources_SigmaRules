@@ -1,0 +1,45 @@
+title: System Information Discovery Using Ioreg
+id: 0041a16f-2cf2-4c42-99aa-94cafe2fdde3
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1082.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1082/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_ioreg_discovery.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1082
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      # Examples:
+      #   /bin/bash /bin/sh -c ioreg -l | grep -e 'VirtualBox' -e 'Oracle' -e 'VMware' -e 'Parallels' | wc -l
+      #   /usr/sbin/ioreg ioreg -rd1 -w0 -c AppleAHCIDiskDriver
+      #   /bin/bash /bin/sh -c ioreg -l | grep -e 'USB Vendor Name'
+      #   ioreg -rd1 -c IOPlatformExpertDevice | awk '/IOPlatformSerialNumber/ { split($0, line, \"\\\"\"); printf(\"%s\", line[4]); }
+      selection_img:
+          - Image|endswith: '/ioreg'
+          - CommandLine|contains: 'ioreg'
+      selection_cmd1:
+          CommandLine|contains:
+              - '-l'
+              - '-c'
+      selection_cmd2:
+          CommandLine|contains:
+              - 'AppleAHCIDiskDriver'
+              - 'IOPlatformExpertDevice'
+              - 'Oracle'
+              - 'Parallels'
+              - 'USB Vendor Name'
+              - 'VirtualBox'
+              - 'VMware'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

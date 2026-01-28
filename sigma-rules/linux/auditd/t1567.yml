@@ -1,0 +1,33 @@
+title: Communication To Ngrok Tunneling Service - Linux
+id: 0ddfb5f8-6730-4008-8c7d-dbc4084029ca
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1567.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1567/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/network_connection/net_connection_lnx_ngrok_tunnel.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1567
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          DestinationHostname|contains:
+              - 'tunnel.us.ngrok.com'
+              - 'tunnel.eu.ngrok.com'
+              - 'tunnel.ap.ngrok.com'
+              - 'tunnel.au.ngrok.com'
+              - 'tunnel.sa.ngrok.com'
+              - 'tunnel.jp.ngrok.com'
+              - 'tunnel.in.ngrok.com'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

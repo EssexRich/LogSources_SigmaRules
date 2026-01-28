@@ -1,0 +1,26 @@
+title: Delegated Permissions Granted For All Users
+id: 41d591ef-f9cc-4917-8148-e0a89dfe86d4
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1528.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1528/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_app_delegated_permissions_all_users.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1528
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          properties.message: Add delegated permission grant
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

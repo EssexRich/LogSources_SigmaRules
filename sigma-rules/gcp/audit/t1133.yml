@@ -1,0 +1,27 @@
+title: AWS EC2 Network Access Control List Creation
+id: 15a129f1-c1b1-4fe1-a1f4-bf29b0c1ea76
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1133.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1133/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_ec2_network_acl_creation.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1133
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'ec2.amazonaws.com'
+    event.action: '(CreateNetworkAcl'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

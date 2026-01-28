@@ -1,0 +1,27 @@
+title: AWS EC2 Full Network Packet Capture Detected
+id: 3f3c19d3-a1e0-45db-beb8-eca320408c15
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1020.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1020/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/exfiltration_ec2_full_network_packet_capture_detected.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1020
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'ec2.amazonaws.com'
+    event.action: 'CreateTrafficMirrorSession'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

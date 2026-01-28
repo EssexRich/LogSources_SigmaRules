@@ -1,0 +1,28 @@
+title: Microsoft 365 - Unusual Volume of File Deletion
+id: b4e9e2cc-5d68-4cf0-a6d7-721a975710f9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1485.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1485/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/m365/threat_management/microsoft365_unusual_volume_of_file_deletion.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection:
+          eventSource: SecurityComplianceCenter
+          eventName: 'Unusual volume of file deletion'
+          status: success
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

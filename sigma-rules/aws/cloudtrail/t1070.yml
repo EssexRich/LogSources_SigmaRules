@@ -1,0 +1,27 @@
+title: SES Identity Has Been Deleted
+id: cf30d6bc-658a-4c48-94ad-c9ac116e1df1
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1070/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_delete_identity.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1070
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          eventSource: 'ses.amazonaws.com'
+          eventName: 'DeleteIdentity'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,31 @@
+title: Ingress/Egress Security Group Modification
+id: 7582c5d6-b7b1-460b-97f6-12b539c6af16
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1190.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1190/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_security_group_change_ingress_egress.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1190
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          eventSource: 'ec2.amazonaws.com'
+          eventName:
+              - 'AuthorizeSecurityGroupEgress'
+              - 'AuthorizeSecurityGroupIngress'
+              - 'RevokeSecurityGroupEgress'
+              - 'RevokeSecurityGroupIngress'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

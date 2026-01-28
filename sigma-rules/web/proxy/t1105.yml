@@ -1,0 +1,26 @@
+title: Juniper Networks Remote Code Execution Exploit Detection
+id: 1f7b8747-3dc7-4468-8337-82b10e3ab85d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1105.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1105/
+  - https://github.com/splunk/security_content/blob/develop/detections/web/juniper_networks_remote_code_execution_exploit_detection.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1105
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    datamodel: 'Web'
+    PHPRC: '*'
+    status: '200'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,27 @@
+title: AWS EventBridge Rule Disabled or Deleted
+id: 079f283b-587b-4fc0-8090-5d7608c80ae0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1489.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1489/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_aws_eventbridge_rule_disabled_or_deleted.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1489
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'events.amazonaws.com'
+    event.action: '(DeleteRule'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

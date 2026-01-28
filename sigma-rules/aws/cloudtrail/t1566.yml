@@ -1,0 +1,31 @@
+title: Potential Malicious Usage of CloudTrail System Manager
+id: 42663ec7-43cd-42b1-ac9e-b30650e44037
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1566.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1566/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_ssm_malicious_usage.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1566
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection_event:
+          eventName: 'SendCommand'
+          eventSource: 'ssm.amazonaws.com'
+      selection_status_success:
+          errorCode: 'Success'
+      selection_status_null:
+          errorCode: null
+      condition: selection_event and 1 of selection_status_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

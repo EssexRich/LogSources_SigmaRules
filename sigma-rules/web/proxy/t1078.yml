@@ -1,0 +1,27 @@
+title: ESXi Account Modified
+id: 6c50f0cf-e49a-4f5f-85cb-9553b513efdc
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1078.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1078/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_account_modified.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1078
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    Message:
+      - '*esxcli'
+      - '*[shell*'
+    field: '_raw'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

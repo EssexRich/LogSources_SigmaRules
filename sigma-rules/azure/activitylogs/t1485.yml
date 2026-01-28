@@ -1,0 +1,28 @@
+title: Azure Container Registry Created or Deleted
+id: b0ad74c5-9643-4809-8e93-e0418d57a126
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1485.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1485/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_container_registry_created_or_deleted.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1485
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+      selection:
+          operationName:
+              - MICROSOFT.CONTAINERREGISTRY/REGISTRIES/WRITE
+              - MICROSOFT.CONTAINERREGISTRY/REGISTRIES/DELETE
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

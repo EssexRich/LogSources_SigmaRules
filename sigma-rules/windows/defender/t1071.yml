@@ -1,0 +1,26 @@
+title: HackTool - SILENTTRINITY Stager DLL Load
+id: 35c91c16-a086-493f-9f7e-6325f05f1aa8
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1071.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1071/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_hktl_silenttrinity_stager.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1071
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          Description|contains: 'st2stager'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

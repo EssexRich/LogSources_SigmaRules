@@ -1,0 +1,27 @@
+title: AWS S3 Bucket Configuration Deletion
+id: 1292ca91-cdee-4a03-8b9c-db84be7dc7d0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1070/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_s3_bucket_configuration_deletion.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1070
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 's3.amazonaws.com'
+    event.action: '(DeleteBucketPolicy'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

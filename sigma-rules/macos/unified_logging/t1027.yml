@@ -1,0 +1,27 @@
+title: Decode Base64 Encoded Text -MacOs
+id: f3d87dff-76b4-4cbc-9829-6546fc4f2df7
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1027.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1027/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_base64_decode.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1027
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection:
+          Image: '/usr/bin/base64'
+          CommandLine|contains: '-d'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

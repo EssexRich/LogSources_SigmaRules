@@ -1,0 +1,31 @@
+title: Verclsid CLSID Execution
+id: 10c0379b-0c7a-4ab3-a4fe-90a79eeedfce
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1218.012.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1218/012/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/verclsid_clsid_execution.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1218.012
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Processes'
+    process_name: 'verclsid.exe'
+    original_file_name: 'verclsid.exe'
+    process:
+      - '*/S*'
+      - '*/C*'
+      - '*{*'
+      - '*}*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

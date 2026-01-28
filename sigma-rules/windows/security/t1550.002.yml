@@ -1,0 +1,29 @@
+title: Successful Overpass the Hash Attempt
+id: 45fccffb-a8b7-485b-a893-da4498090bcb
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1550.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1550/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_overpass_the_hash.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1550.002
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 4624
+          LogonType: 9
+          LogonProcessName: seclogo
+          AuthenticationPackageName: Negotiate
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

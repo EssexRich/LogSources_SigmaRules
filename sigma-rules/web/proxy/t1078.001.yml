@@ -1,0 +1,27 @@
+title: Okta New API Token Created
+id: 2844394b-8307-4326-a417-a824cf1e0b7a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1078.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1078/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/okta_new_api_token_created.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1078.001
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    datamodel: 'Change'
+    action: 'created'
+    command: 'system.api_token.create'
+    span: '5m'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

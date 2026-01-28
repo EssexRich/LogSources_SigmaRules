@@ -1,0 +1,29 @@
+title: Recon AVProduct Through Pwh or WMI
+id: 1c6e37bb-75c3-4edf-aa9d-903a212a7bf4
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1592.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1592/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/recon_avproduct_through_pwh_or_wmi.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1592
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    EventCode: '4104'
+    ScriptBlockText:
+      - '*SELECT*'
+      - '*WMIC*'
+      - '*AntiVirusProduct*'
+      - '*AntiSpywareProduct*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,27 @@
+title: Network Connection Initiated To DevTunnels Domain
+id: b661e74f-9f0b-441a-9966-074ac1271de7
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1567.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1567/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_domain_devtunnels.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1567.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          Initiated: 'true'
+          DestinationHostname|endswith: '.devtunnels.ms'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

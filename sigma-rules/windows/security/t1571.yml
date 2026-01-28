@@ -1,0 +1,93 @@
+title: Potentially Suspicious Malware Callback Communication
+id: 27cd4112-74ef-4ee6-900c-fedda30e0496
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1571.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1571/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_susp_malware_callback_port.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1571
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          Initiated: 'true'
+          DestinationPort:
+              - 100
+              - 198
+              - 200
+              - 243
+              - 473
+              - 666
+              - 700
+              - 743
+              - 777
+              - 1443
+              - 1515
+              - 1777
+              - 1817
+              - 1904
+              - 1960
+              - 2443
+              - 2448
+              - 3360
+              - 3675
+              - 3939
+              - 4040
+              - 4433
+              - 4438
+              - 4443
+              - 4444
+              - 4455
+              - 5445
+              - 5552
+              - 5649
+              - 6625
+              - 7210
+              - 7777
+              - 8143
+              - 8843
+              - 9631
+              - 9943
+              - 10101
+              - 12102
+              - 12103
+              - 12322
+              - 13145
+              - 13394
+              - 13504
+              - 13505
+              - 13506
+              - 13507
+              - 14102
+              - 14103
+              - 14154
+              - 49180
+              - 65520
+              - 65535
+      filter_main_local_ranges:
+          DestinationIp|cidr:
+              - '127.0.0.0/8'
+              - '10.0.0.0/8'
+              - '172.16.0.0/12'
+              - '192.168.0.0/16'
+              - '169.254.0.0/16'
+              - '::1/128'  # IPv6 loopback
+              - 'fe80::/10'  # IPv6 link-local addresses
+              - 'fc00::/7'  # IPv6 private addresses
+      filter_optional_sys_directories:
+          Image|startswith:
+              - 'C:\Program Files\'
+              - 'C:\Program Files (x86)\'
+      condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

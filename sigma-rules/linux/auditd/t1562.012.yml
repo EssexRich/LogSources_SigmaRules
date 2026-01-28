@@ -1,0 +1,27 @@
+title: Audit Rules Deleted Via Auditctl
+id: 54e49b46-f148-495a-8181-ac42d8291220
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.012.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1562/012/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_auditctl_clear_rules.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1562.012
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '/auditctl'
+          CommandLine|re: '-D'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

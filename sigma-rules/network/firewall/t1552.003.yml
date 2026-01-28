@@ -1,0 +1,28 @@
+title: Cisco Show Commands Input
+id: d99667b0-95bb-41f2-8198-82518cdc802a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1552.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1552/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_input_capture.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1552.003
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords:
+          - 'show history'
+          - 'show history all'
+          - 'show logging'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

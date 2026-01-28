@@ -1,0 +1,28 @@
+title: Cisco SNMP Community String Configuration Changes
+id: afd39a63-a935-4017-9b99-686bd225b569
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1552.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1552/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_snmp_community_string_configuration_changes.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1552
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    datamodel: 'Change.All_Changes'
+    command:
+      - '*snmp-server'
+      - '*snmp-server'
+      - '*snmp-server'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

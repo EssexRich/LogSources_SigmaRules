@@ -1,0 +1,26 @@
+title: Azure Blob Storage Permissions Modified
+id: 6a7de81b-e7c5-440d-8b73-7c69c04b396b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1222.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1222/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/defense_evasion_storage_blob_permissions_modified.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1222
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    azure.activitylogs.operation_name: 'MICROSOFT.STORAGE/STORAGEACCOUNTS/BLOBSERVICES/CONTAINERS/BLOBS/MANAGEOWNERSHIP/ACTION'
+    event.dataset: 'azure.activitylogs'
+    event.outcome: '(Success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

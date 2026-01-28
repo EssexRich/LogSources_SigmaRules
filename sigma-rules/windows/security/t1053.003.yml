@@ -1,0 +1,24 @@
+title: Cisco Isovalent - Cron Job Creation
+id: 626ae599-86e5-4cf3-bfe7-93598db47a6b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1053.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1053/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cisco_isovalent___cron_job_creation.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1053.003
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

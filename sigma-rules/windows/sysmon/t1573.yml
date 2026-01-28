@@ -1,0 +1,29 @@
+title: Suspicious SSL Connection
+id: 7d9432f5-2a8a-4ab2-bd81-403ec9997210
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1573.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1573/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_ssl_keyword.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1573
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains|all:
+              - System.Net.Security.SslStream
+              - Net.Security.RemoteCertificateValidationCallback
+              - '.AuthenticateAsClient'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

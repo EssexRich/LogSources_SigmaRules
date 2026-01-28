@@ -1,0 +1,40 @@
+title: Automated Collection Command PowerShell
+id: f112c2a9-9e42-4d3f-a4ba-6a16f3d44166
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1119.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1119/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_automated_collection.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1119
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_ext:
+          ScriptBlockText|contains:
+              - '.doc'
+              - '.docx'
+              - '.xls'
+              - '.xlsx'
+              - '.ppt'
+              - '.pptx'
+              - '.rtf'
+              - '.pdf'
+              - '.txt'
+      selection_cmd:
+          ScriptBlockText|contains|all:
+              - 'Get-ChildItem'
+              - ' -Recurse '
+              - ' -Include '
+      condition: all of selection*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

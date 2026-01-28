@@ -1,0 +1,29 @@
+title: AWS S3 Unauthenticated Bucket Access by Rare Source
+id: 3397e81d-5775-4146-b952-6861168bfb54
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1619.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1619/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/collection_s3_unauthenticated_bucket_access_by_rare_source.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1619
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 's3.amazonaws.com'
+    event.action: 'GetObject'
+    event.outcome: 'success'
+    aws.cloudtrail.user_identity.type: 'AWSAccount'
+    cloud.account.id: 'anonymous'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

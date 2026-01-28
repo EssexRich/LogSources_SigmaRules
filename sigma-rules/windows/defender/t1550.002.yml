@@ -1,0 +1,26 @@
+title: NTLM Logon
+id: 26c79e8c-96ca-4319-aefc-2548c88a2c37
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1550.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1550/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/ntlm/win_susp_ntlm_auth.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1550.002
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 8002
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

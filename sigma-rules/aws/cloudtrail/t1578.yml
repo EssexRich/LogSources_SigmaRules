@@ -1,0 +1,34 @@
+title: Cloud Security Groups Modifications by User
+id: a7cfaf2a-6a2b-44bc-9519-0b2357e2708f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1578.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1578/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/cloud_security_groups_modifications_by_user.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1578
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+  selection:
+    datamodel: 'Change'
+    object_category: 'security_group'
+    action:
+      - 'modified'
+      - 'deleted'
+      - 'created)'
+    span: '30m'
+    upperBound: '(avg_changes+std_changes*3)'
+    isOutlier:
+      - 'if(unique_security_groups'
+      - '1'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,24 @@
+title: Potential Process Name Stomping with Prctl
+id: 5eb7c680-1938-4150-a7e9-1b0e1298e884
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1036.005.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1036/005/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_prctl_process_name_tampering.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1036.005
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

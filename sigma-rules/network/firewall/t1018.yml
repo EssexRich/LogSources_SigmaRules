@@ -1,0 +1,36 @@
+title: Cisco Discovery
+id: 6133c7e6-8a0f-4487-b005-3f143c4c6fb9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1018.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1018/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_discovery.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1018
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords:
+          - 'dir'
+          - 'show arp'
+          - 'show cdp'
+          - 'show clock'
+          - 'show ip interface'
+          - 'show ip route'
+          - 'show ip sockets'
+          - 'show processes'
+          - 'show ssh'
+          - 'show users'
+          - 'show version'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

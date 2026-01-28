@@ -1,0 +1,32 @@
+title: Suspicious .NET Reflection via PowerShell
+id: 567d6ef2-54b7-480f-ba6c-9269efc8cb11
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1055.002.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1055/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_posh_assembly_load.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1055.002
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    powershell.file.script_block_text:
+      - '[System.Reflection.Assembly]::Load'
+      - 'Get-SolutionFiles'
+      - 'Microsoft.PowerShell.Workflow.ServiceCore'
+      - 'reflection.assembly]::Load('
+    file.name: 'PathFunctions.ps1'
+    user.id: 'S-1-5-18'
+    event.category: 'process'
+    host.os.type: 'windows'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

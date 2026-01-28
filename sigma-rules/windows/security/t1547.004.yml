@@ -1,0 +1,30 @@
+title: Winlogon Helper DLL
+id: 17456e25-422e-40fc-b0bf-a46d0895af21
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1547.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1547/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_winlogon_helper_dll.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1547.004
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains: 'CurrentVersion\Winlogon'
+      selection2:
+          ScriptBlockText|contains:
+              - 'Set-ItemProperty'
+              - 'New-Item'
+      condition: all of selection*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

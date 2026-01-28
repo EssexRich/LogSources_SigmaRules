@@ -1,0 +1,34 @@
+title: O365 Email New Inbox Rule Created
+id: 79cf508a-dea8-42b8-b819-1b0fc5c6f18c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1114.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1114/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_email_new_inbox_rule_created.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1114.003
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    Workload: 'Exchange'
+    Operation:
+      - 'New-InboxRule'
+      - 'Set-InboxRule)'
+    file_path: 'mvappend(MoveToFolder,CopyToFolder),'
+    recipient: 'mvappend(ForwardTo,'
+    user: 'lower(UserId),'
+    signature: 'Operation,'
+    src: 'if(match(ClientIP,'
+    desc: 'Name,'
+    action: 'Parameters{}.Name'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

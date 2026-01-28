@@ -1,0 +1,25 @@
+title: Cisco Secure Firewall - Binary File Type Download
+id: f3be1952-f52a-421e-8e98-b57ad8a6bbc4
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1203.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1203/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___binary_file_type_download.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1203
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    EventType: 'FileEvent'
+    FileDirection: 'Download'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

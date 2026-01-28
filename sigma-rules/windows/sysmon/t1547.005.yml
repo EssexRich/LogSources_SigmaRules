@@ -1,0 +1,32 @@
+title: Security Support Provider (SSP) Added to LSA Configuration
+id: 2ff095fc-5e9a-4db2-a0fc-5c14ad0735de
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1547.005.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1547/005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_event/registry_event_ssp_added_lsa_config.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1547.005
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          TargetObject|endswith:
+              - '\Control\Lsa\Security Packages'
+              - '\Control\Lsa\OSConfig\Security Packages'
+      filter_main_msiexec:
+          Image:
+              - 'C:\Windows\system32\msiexec.exe'
+              - 'C:\Windows\syswow64\MsiExec.exe'
+      condition: selection and not 1 of filter_main_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,30 @@
+title: AWS IAM S3Browser LoginProfile Creation
+id: 9e129701-e2ee-44a2-b50f-c02fa23d1c4c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1059.009.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1059/009/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_iam_s3browser_loginprofile_creation.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1059.009
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          eventSource: 'iam.amazonaws.com'
+          eventName:
+              - 'GetLoginProfile'
+              - 'CreateLoginProfile'
+          userAgent|contains: 'S3 Browser'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

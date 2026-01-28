@@ -1,0 +1,29 @@
+title: Circle CI Disable Security Job
+id: c853bd18-7f5d-4be9-9e07-869801e12237
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1554.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1554/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/circle_ci_disable_security_job.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1554
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    mandatory_job: '*'
+    mandatory_job_executed:
+      - 'if(like(job_names,'
+      - '0'
+    phase: 'build'
+    field: 'url'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,29 @@
+title: Access To ADMIN$ Network Share
+id: 0937fb2d-b401-4d6f-9ccc-7187bd1c8c36
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1021.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_admin_share_access.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1021.002
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 5140
+          ShareName: 'Admin$'
+      filter_main_computer_account:
+          SubjectUserName|endswith: '$'
+      condition: selection and not 1 of filter_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

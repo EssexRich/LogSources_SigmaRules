@@ -1,0 +1,27 @@
+title: Entra ID PowerShell Sign-in
+id: 62fc496a-8a02-4c3c-ad02-080dc8d906e2
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1059.001.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_powershell_signin.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1059.001
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    azure.signinlogs.properties.app_display_name: 'Azure Active Directory PowerShell'
+    event.dataset: 'azure.signinlogs'
+    azure.signinlogs.properties.token_issuer_type: 'AzureAD'
+    event.outcome: '(success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,24 @@
+title: Cisco Secure Firewall - Blocked Connection
+id: 40d955e1-256b-4f6e-9366-4e04faa58fa0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1595.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1595/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___blocked_connection.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1595.002
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    EventType: 'ConnectionEvent'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

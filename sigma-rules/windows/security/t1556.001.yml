@@ -1,0 +1,24 @@
+title: Windows ISO LNK File Creation
+id: 59af5a48-3ac3-4e98-9b4c-61e95df9e549
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1556/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_iso_lnk_file_creation.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1556.001
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Filesystem'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,29 @@
+title: Potential Data Stealing Via Chromium Headless Debugging
+id: 6dc89985-92e2-47c9-a688-5a1ff9a18a0c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1185.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1185/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_browsers_chromium_headless_debugging.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1185
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          CommandLine|contains|all:
+              - '--remote-debugging-' # Covers: --remote-debugging-address, --remote-debugging-port, --remote-debugging-socket-name, --remote-debugging-pipe....etc
+              - '--user-data-dir'
+              - '--headless'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

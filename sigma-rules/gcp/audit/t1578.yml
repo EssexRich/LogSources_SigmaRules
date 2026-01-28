@@ -1,0 +1,27 @@
+title: AWS RDS DB Instance Restored
+id: 7f57300f-a379-4dd5-9123-0fd080f9126f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1578.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1578/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_rds_instance_restored.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1578
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'rds.amazonaws.com'
+    event.action: 'RestoreDBInstanceFromDBSnapshot'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

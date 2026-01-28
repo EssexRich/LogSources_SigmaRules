@@ -1,0 +1,27 @@
+title: DNS Query Request To OneLaunch Update Service
+id: 46dcdeb6-add0-4c16-b61f-e1f0e224c478
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1056.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1056/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/dns_query/dns_query_win_onelaunch_update_service.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1056
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          QueryName: 'update.onelaunch.com'
+          Image|endswith: '\OneLaunch.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

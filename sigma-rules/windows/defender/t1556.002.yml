@@ -1,0 +1,26 @@
+title: Powershell Install a DLL in System Directory
+id: c942ee95-2a51-4dc4-9790-6edcb49c1625
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1556/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_copy_item_system_directory.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1556.002
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|re: '(Copy-Item|cpi) .{2,128} -Destination .{1,32}\\Windows\\(System32|SysWOW64)'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

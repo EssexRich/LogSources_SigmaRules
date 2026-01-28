@@ -1,0 +1,28 @@
+title: AWS Management Console Root Login
+id: 7f21c3e0-8054-4a6d-8a23-76bc0f9914f9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1078.004.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1078/004/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/initial_access_console_login_root.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1078.004
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'signin.amazonaws.com'
+    event.action: 'ConsoleLogin'
+    aws.cloudtrail.user_identity.type: 'Root'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

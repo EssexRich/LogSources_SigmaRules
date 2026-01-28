@@ -1,0 +1,29 @@
+title: Powershell Add Name Resolution Policy Table Rule
+id: 99c3035f-4deb-4401-a041-af15f74f3ab9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1565.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1565/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_add_dnsclient_rule.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1565
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains|all:
+              - 'Add-DnsClientNrptRule'
+              - '-Namesp'
+              - '-NameSe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

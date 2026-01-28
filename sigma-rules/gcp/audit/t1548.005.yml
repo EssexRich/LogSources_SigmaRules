@@ -1,0 +1,27 @@
+title: AWS IAM Customer-Managed Policy Attached to Role by Rare User
+id: 8c27712b-2997-4b6e-ac10-8f20e91cc754
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1548.005.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1548/005/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/privilege_escalation_iam_customer_managed_policy_attached_to_role.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1548.005
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    event.dataset: 'aws.cloudtrail'
+    event.provider: 'iam.amazonaws.com'
+    event.action: 'AttachRolePolicy'
+    event.outcome: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

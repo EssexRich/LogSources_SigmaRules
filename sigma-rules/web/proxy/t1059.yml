@@ -1,0 +1,27 @@
+title: ESXi Reverse Shell Patterns
+id: 866048b5-6c87-4e78-bf94-15874345e252
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1059.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1059/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_reverse_shell_patterns.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1059
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    Message:
+      - '*python'
+      - '*import'
+    field: '_raw'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

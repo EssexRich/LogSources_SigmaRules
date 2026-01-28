@@ -1,0 +1,30 @@
+title: Windows WBAdmin File Recovery From Backup
+id: 27340fde-7163-4633-86eb-b5fc4a508ded
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1565.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1565/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_wbadmin_file_recovery_from_backup.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1565.001
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Processes'
+    process_name: 'wbadmin.exe'
+    original_file_name: 'WBADMIN.EXE)'
+    process:
+      - '*start*'
+      - '*recovery*'
+      - '*itemtype:file*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

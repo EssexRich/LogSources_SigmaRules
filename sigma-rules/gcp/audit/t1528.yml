@@ -1,0 +1,24 @@
+title: Entra ID OAuth Device Code Flow with Concurrent Sign-ins
+id: 7c4c980e-8e07-4344-a1ec-aa6c27202101
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1528.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1528/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_azure_entra_susp_device_code_signin.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1528
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    Require: '2+'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

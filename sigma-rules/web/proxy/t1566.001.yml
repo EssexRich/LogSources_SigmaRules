@@ -1,0 +1,27 @@
+title: Suspicious Email Attachment Extensions
+id: fbf1f204-de8b-4457-b090-bea571472d3e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1566.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1566/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/suspicious_email_attachment_extensions.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1566.001
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    datamodel: 'Email.All_Email'
+    file_name: '*'
+    update: 'true'
+    suspicious: 'true'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

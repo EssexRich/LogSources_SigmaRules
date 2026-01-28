@@ -1,0 +1,30 @@
+title: ESXi Audit Tampering
+id: b73b923c-a502-4b96-9552-469ca7fe4041
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1562/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_audit_tampering.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1562.003
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    Message:
+      - '*esxcli'
+      - '*[shell*'
+    field:
+      - '_raw'
+      - '_raw'
+      - 'full_command'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

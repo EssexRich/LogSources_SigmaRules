@@ -1,0 +1,28 @@
+title: Azure AD Multi-Source Failed Authentications Spike
+id: a0ff0682-1e5e-4bce-84c7-e1455bee4469
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1110.004.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1110/004/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_ad_multi_source_failed_authentications_spike.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1110.004
+logsource:
+  product: azure
+  service: activitylogs
+  category: cloud_audit
+detection:
+  selection:
+    category: '*SignInLogs'
+    errorCode: '50126'
+    succeeded: 'false'
+    span: '5m'
+    uniqueIPUserCombo: 'src_ip'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

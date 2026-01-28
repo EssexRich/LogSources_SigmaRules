@@ -1,0 +1,29 @@
+title: Registry-Free Process Scope COR_PROFILER
+id: 4d97b98f-336d-4c97-8a45-5fa202223d33
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1574.012.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1574/012/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_cor_profiler.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1574.012
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          ScriptBlockText|contains|all:
+              - '$env:COR_ENABLE_PROFILING'
+              - '$env:COR_PROFILER'
+              - '$env:COR_PROFILER_PATH'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

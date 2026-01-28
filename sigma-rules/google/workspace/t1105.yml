@@ -1,0 +1,30 @@
+title: Suspicious File Downloaded from Google Drive
+id: e963c512-dd91-4504-8be7-8f630d9f6bb1
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1105.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1105/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_google_drive_malicious_file_download.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1105
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.name:
+      - 'Microsoft Edge'
+      - 'wget.exe'
+    process.command_line:
+      - '*drive.google.com*'
+      - '*export=download*'
+      - '*confirm=no_antivirus*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,36 @@
+title: Failed Code Integrity Checks
+id: 8756435f-07ce-4d71-a40f-24936762657b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1027.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1027/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_codeintegrity_check_failure.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1027.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID:
+              - 5038
+              - 6281
+      filter_optional_crowdstrike:
+          param1|contains:
+              - '\CSFalconServiceUninstallTool_'
+              - '\Program Files\CrowdStrike\'
+              - '\System32\drivers\CrowdStrike\'
+              - '\Windows\System32\ScriptControl64_'
+      filter_optional_sophos:
+          param1|contains: '\Program Files\Sophos\'
+      condition: selection and not 1 of filter_optional_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

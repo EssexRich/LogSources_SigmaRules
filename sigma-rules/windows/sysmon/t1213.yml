@@ -1,0 +1,103 @@
+title: Windows SQLCMD Execution
+id: 6a4ac98e-f46c-46de-95d2-d2f032809584
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1213.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1213/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_sqlcmd_execution.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1213
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Processes'
+    process_name: 'sqlcmd.exe'
+    original_file_name: 'sqlcmd.exe)'
+    process_lower: 'lower(process)'
+    is_help_check:
+      - 'case('
+      - '1,'
+      - '0'
+      - '0'
+      - '0'
+    has_parameters:
+      - 'if(match(process,'
+      - '0,'
+      - '0),'
+      - '0),'
+      - '1'
+    has_query:
+      - 'case('
+      - '1'
+      - '1'
+      - '1,'
+      - '1'
+    has_output:
+      - 'case('
+      - '1,'
+      - '1,'
+      - '1,'
+      - '1,'
+    has_input: 'case('
+    has_url_input:
+      - 'case('
+      - '1'
+      - '1'
+    has_admin_conn:
+      - 'case('
+      - '1,'
+      - '1,'
+    has_suspicious_auth:
+      - 'case('
+      - '1,'
+      - '1,'
+    has_local_server:
+      - 'case('
+      - '1'
+      - '1'
+      - '1,'
+    has_suspicious_output:
+      - 'case('
+      - '1,'
+    has_cert_bypass:
+      - 'case('
+      - '1,'
+      - '1,'
+    has_suspicious_query:
+      - 'case('
+      - '1,'
+      - '1,'
+      - '1,'
+      - '1))'
+    has_suspicious_path:
+      - 'case('
+      - '1,'
+      - '1,'
+    has_suspicious_combo:
+      - 'case('
+      - '1,'
+      - '1,'
+    has_obfuscation:
+      - 'case('
+      - '1,'
+      - '1,'
+    has_data_exfil:
+      - 'case('
+      - '1,'
+      - '1,'
+    risk_score:
+      - '0'
+      - 'case('
+    risk_factors: 'mvappend('
+    risk_message: 'SQLCMD'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

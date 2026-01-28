@@ -1,0 +1,27 @@
+title: AWS Exfiltration via Anomalous GetObject API Activity
+id: 33d29fe1-1f08-4e03-8d90-f630e7331dd9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1119.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1119/
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_exfiltration_via_anomalous_getobject_api_activity.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1119
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+  selection:
+    eventName: 'GetObject'
+    span: '10m'
+    action: 'annotate'
+    probable_cause: '*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

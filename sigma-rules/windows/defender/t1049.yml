@@ -1,0 +1,26 @@
+title: Use Get-NetTCPConnection
+id: a8dca72e-ab08-4219-82ba-be07d06bc79d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1049.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1049/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_classic/posh_pc_susp_get_nettcpconnection.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1049
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          Data|contains: 'Get-NetTCPConnection'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,26 @@
+title: Detect Remote Access Software Usage URL
+id: 90f9e484-1c5b-4430-a810-7e05f0b03f77
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1219.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1219/
+  - https://github.com/splunk/security_content/blob/develop/detections/web/detect_remote_access_software_usage_url.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1219
+logsource:
+  product: web
+  service: proxy
+  category: proxy
+detection:
+  selection:
+    datamodel: 'Web'
+    url_domain: '*'
+    isutility: 'True'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

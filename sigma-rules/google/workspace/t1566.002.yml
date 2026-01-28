@@ -1,0 +1,27 @@
+title: Google Workspace Object Copied to External Drive with App Consent
+id: 1cfded76-2c3b-40f2-ab6a-6dd77bbf602a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1566.002.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1566/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/initial_access_object_copied_to_external_drive_with_app_consent.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1566.002
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    google_workspace.drive.file.type:
+      - 'script'
+      - 'document'
+    google_workspace.token.client.id: '*apps.googleusercontent.com'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

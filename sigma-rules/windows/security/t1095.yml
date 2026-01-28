@@ -1,0 +1,28 @@
+title: Netcat The Powershell Version
+id: 5711fd88-91f6-4781-87cb-90df08dd5eaf
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1095.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1095/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_classic/posh_pc_powercat.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1095
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          Data|contains:
+              - 'powercat '
+              - 'powercat.ps1'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

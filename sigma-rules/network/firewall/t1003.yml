@@ -1,0 +1,24 @@
+title: Cisco Secure Firewall - High Priority Intrusion Classification
+id: 2a9ca39f-4bd8-4bd2-b062-dcb6eff08663
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1003/
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___high_priority_intrusion_classification.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1003
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+  selection:
+    EventType: 'IntrusionEvent'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

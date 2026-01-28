@@ -1,0 +1,28 @@
+title: Octopus Scanner Malware
+id: 2bddfafe-1cdc-406e-ba36-724d577458b2
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1195.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1195/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_mal_octopus_scanner.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1195
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          TargetFilename|endswith:
+              - '\AppData\Local\Microsoft\Cache134.dat'
+              - '\AppData\Local\Microsoft\ExplorerSync.db'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

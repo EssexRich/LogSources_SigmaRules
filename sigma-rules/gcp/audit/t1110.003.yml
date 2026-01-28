@@ -1,0 +1,24 @@
+title: Entra ID User Sign-in Brute Force Attempted
+id: 746921a2-e5e5-461e-a7a5-9d08e3e89d32
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1110.003.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_entra_id_brute_force_activity.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1110.003
+logsource:
+  product: gcp
+  service: audit
+  category: cloud_audit
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

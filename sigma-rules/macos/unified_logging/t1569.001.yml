@@ -1,0 +1,30 @@
+title: Launch Agent/Daemon Execution Via Launchctl
+id: c4dd7c92-99c6-434a-8959-17f5c3bd22f2
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1569.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1569/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_launchctl_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1569.001
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '/launchctl'
+          CommandLine|contains:
+              - 'submit'
+              - 'load'
+              - 'start'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

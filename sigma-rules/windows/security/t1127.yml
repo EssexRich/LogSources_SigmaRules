@@ -1,0 +1,26 @@
+title: Remote Thread Creation Ttdinject.exe Proxy
+id: 3f47491b-a972-47c6-b982-385ada86278c
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1127.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1127/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/create_remote_thread/create_remote_thread_win_ttdinjec.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1127
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          SourceImage|endswith: '\ttdinject.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

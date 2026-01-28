@@ -1,0 +1,24 @@
+title: Potential Suspicious DebugFS Root Device Access
+id: f6cd8410-4da4-489c-85d3-fde9711112b4
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1078.003.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1078/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_sda_disk_mount_non_root.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1078.003
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    process.args: '/dev/sd*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

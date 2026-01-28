@@ -1,0 +1,24 @@
+title: Cisco Isovalent - Non Allowlisted Image Use
+id: b165919a-e4d1-453f-a139-a2defb17b06e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1204.003.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1204/003/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cisco_isovalent___non_allowlisted_image_use.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1204.003
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

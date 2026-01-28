@@ -1,0 +1,31 @@
+title: Cisco Stage Data
+id: 371fe64a-9bed-4ffe-a01f-358d938ff598
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1560.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1560/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_moving_data.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1560.001
+logsource:
+  product: network
+  service: firewall
+  category: network_connection
+detection:
+      keywords:
+          - 'tftp'
+          - 'rcp'
+          - 'puts'
+          - 'copy'
+          - 'configure replace'
+          - 'archive tar'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

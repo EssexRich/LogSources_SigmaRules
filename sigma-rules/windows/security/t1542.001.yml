@@ -1,0 +1,26 @@
+title: UEFI Persistence Via Wpbbin - FileCreation
+id: 1f4b3533-837b-481a-9c5f-a591ebe68022
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1542.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1542/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_wpbbin_persistence.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1542.001
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          TargetFilename: 'C:\Windows\System32\wpbbin.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

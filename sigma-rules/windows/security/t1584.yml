@@ -1,0 +1,32 @@
+title: Windows Update Error
+id: 9aa16e11-9d54-4141-9e26-fe27fcd6349e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1584.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1584/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/microsoft_windows_windows_update_client/win_system_susp_system_update_error.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1584
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          Provider_Name: Microsoft-Windows-WindowsUpdateClient
+          EventID:
+              - 16 # Unable to Connect: Windows is unable to connect to the automatic updates service and therefore cannot download and install updates according to the set schedule
+              - 20 # Installation Failure: Windows failed to install the following update with error
+              - 24 # Uninstallation Failure: Windows failed to uninstall the following update with error
+              - 213 # Revert Failure: Windows failed to revert the following update with error
+              - 217 # Commit Failure: Windows failed to commit the following update with error
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,31 @@
+title: AD Object WriteDAC Access
+id: f191efc0-e664-4636-b2c2-f572c31828a5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1222.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1222/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_ad_object_writedac_access.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1222.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 4662
+          ObjectServer: 'DS'
+          AccessMask: '0x40000'
+          ObjectType:
+              - '19195a5b-6da0-11d0-afd3-00c04fd930c9'
+              - 'domainDNS'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

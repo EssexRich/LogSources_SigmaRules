@@ -1,0 +1,41 @@
+title: Clear PowerShell History - PowerShell Module
+id: b3295182-1674-4860-8ff9-37899375745a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1070/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_module/posh_pm_clear_powershell_history.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1070.003
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection_1a_payload:
+          Payload|contains:
+              - 'del'
+              - 'Remove-Item'
+              - 'rm'
+      selection_1b_payload:
+          Payload|contains: '(Get-PSReadlineOption).HistorySavePath'
+      selection_payload_2:
+          Payload|contains|all:
+              - 'Set-PSReadlineOption'
+              - '–HistorySaveStyle'  # not sure if the homoglyph –/- is intended, just checking for both
+              - 'SaveNothing'
+      selection_payload_3:
+          Payload|contains|all:
+              - 'Set-PSReadlineOption'
+              - '-HistorySaveStyle'
+              - 'SaveNothing'
+      condition: 1 of selection_payload_* or all of selection_1*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,27 @@
+title: AWS ConsoleLogin Failed Authentication
+id: 476deadd-2976-4a2e-86c4-1d056a40c736
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1110.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1110/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_console_login_failed_authentication.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1110
+logsource:
+  product: aws
+  service: cloudtrail
+  category: cloud_audit
+detection:
+      selection:
+          eventName: 'ConsoleLogin'
+          errorMessage: 'Failed authentication'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium
