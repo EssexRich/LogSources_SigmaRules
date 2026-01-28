@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1041 Detection
+    id: 8487cd97-57f9-4ff8-9710-f7d5dd9b27e5
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1041.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1041/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1041
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1041
+    
