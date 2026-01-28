@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1136 Detection (m365)
+    id: 3a6c30b6-7b41-4b36-982d-0519deb7e957
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1136.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1136/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1136
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1136
+    
