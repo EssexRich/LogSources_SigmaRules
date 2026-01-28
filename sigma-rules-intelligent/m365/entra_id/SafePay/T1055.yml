@@ -1,0 +1,29 @@
+title: Process Injection (M365 - entra_id)
+id: 4e0cb881-fe5a-4eb4-9026-3fc859b3b1f2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.safepay

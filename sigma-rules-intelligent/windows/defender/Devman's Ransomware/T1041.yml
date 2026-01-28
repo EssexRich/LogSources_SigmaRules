@@ -1,0 +1,29 @@
+title: Exfiltration Over C2 Channel (WINDOWS - defender)
+id: 59aa06a1-28ff-48e6-acab-053fac4e1748
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.devman's_ransomware

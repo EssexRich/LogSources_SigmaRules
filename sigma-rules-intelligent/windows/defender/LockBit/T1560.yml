@@ -1,0 +1,29 @@
+title: Archive Collected Data (WINDOWS - defender)
+id: 46b5c6b5-2cf1-47f8-a987-9adfbfb39de3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560
+  - actor.lockbit

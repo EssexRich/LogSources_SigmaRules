@@ -1,0 +1,29 @@
+title: Stage Capabilities (WINDOWS - defender)
+id: d4a14c97-fa99-4489-8cea-921bfb8e505c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1608/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608
+  - actor.blacksuit

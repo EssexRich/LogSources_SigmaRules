@@ -1,0 +1,29 @@
+title: Masquerading (M365 - entra_id)
+id: 02688daa-44e8-4e75-9e93-c64805ab0b82
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.global

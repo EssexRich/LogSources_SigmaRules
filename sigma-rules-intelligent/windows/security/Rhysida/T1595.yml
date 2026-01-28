@@ -1,0 +1,29 @@
+title: Active Scanning (WINDOWS - security)
+id: fc001f75-fd5b-4e3d-a7cc-118743f211b0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1595/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595
+  - actor.rhysida

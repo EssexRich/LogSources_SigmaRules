@@ -1,0 +1,29 @@
+title: Inhibit System Recovery (WINDOWS - defender)
+id: dabf6c24-fbbf-42f1-8aeb-a6832499cc29
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.bqtlock

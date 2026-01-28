@@ -1,0 +1,29 @@
+title: Permission Groups Discovery (GOOGLE - workspace)
+id: 0ae76786-7b8a-47a9-ac74-36ed9afa3000
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.rhysida

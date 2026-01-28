@@ -1,0 +1,29 @@
+title: Upload Malware (WINDOWS - defender)
+id: 60ef7687-cac1-48e1-a7c4-78f5e58be052
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.001.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1608.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.001
+  - actor.safepay

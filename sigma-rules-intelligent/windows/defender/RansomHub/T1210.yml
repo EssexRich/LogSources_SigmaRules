@@ -1,0 +1,29 @@
+title: Exploitation of Remote Services (WINDOWS - defender)
+id: 0365ce16-d807-4e16-9625-07f74858e86a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1210.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1210/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1210
+  - actor.ransomhub

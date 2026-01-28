@@ -1,0 +1,29 @@
+title: Compile After Delivery (MACOS - unified_logging)
+id: f019813e-31f2-4c77-b6cd-8fe6fb945574
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.004.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1027.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.004
+  - actor.inc_ransom

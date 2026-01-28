@@ -1,0 +1,29 @@
+title: Hide Artifacts (M365 - entra_id)
+id: ce095848-6aab-4f7e-88a3-c13a94fabbc5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.ignoble_scorpius

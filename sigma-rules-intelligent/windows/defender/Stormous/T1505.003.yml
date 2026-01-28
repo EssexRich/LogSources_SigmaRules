@@ -1,0 +1,29 @@
+title: Web Shell (WINDOWS - defender)
+id: 26091a44-ba53-4c85-8591-ba2e92c1759f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1505.003.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1505.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1505.003
+  - actor.stormous

@@ -1,0 +1,29 @@
+title: Masquerading (M365 - entra_id)
+id: 7219c7b2-fac0-4e41-a51e-af2e136968a7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.coosea

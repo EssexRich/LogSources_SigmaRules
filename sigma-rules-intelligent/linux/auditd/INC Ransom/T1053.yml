@@ -1,0 +1,29 @@
+title: Scheduled Task/Job (LINUX - auditd)
+id: 293a9d21-537e-4d6c-9977-c2875ffd46ef
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.inc_ransom

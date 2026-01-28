@@ -1,0 +1,29 @@
+title: Exfiltration Over Unencrypted Non-C2 Protocol (M365 - entra_id)
+id: 5c0cd98a-f9e6-4613-afc1-d3d80e099bcb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.003.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1048.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048.003
+  - actor.ransomhub

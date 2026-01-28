@@ -1,0 +1,29 @@
+title: Obtain Capabilities (M365 - entra_id)
+id: 7ead8e55-5cc9-43e7-8dff-dd44f465c135
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1588/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588
+  - actor.ransomhub

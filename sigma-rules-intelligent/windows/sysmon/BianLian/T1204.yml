@@ -1,0 +1,29 @@
+title: User Execution (WINDOWS - sysmon)
+id: 665624e9-e24e-40ca-ab1e-3711d9b3ab2d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1204/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204
+  - actor.bianlian

@@ -1,0 +1,29 @@
+title: System Location Discovery (GOOGLE - workspace)
+id: 5c189a18-f3ba-4d45-a6ae-b93d3f0f0c4d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1614/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614
+  - actor.safepay

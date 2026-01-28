@@ -1,0 +1,29 @@
+title: T3750 (LINUX - auditd)
+id: a5436ab6-65fc-43cc-a0c6-8302bbc7bfb0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3750.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T3750/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3750
+  - actor.pear

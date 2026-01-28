@@ -1,0 +1,29 @@
+title: System Network Configuration Discovery (WINDOWS - defender)
+id: f3d4046f-3885-431c-8714-bbc1c4e708d4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.alphv-blackcat

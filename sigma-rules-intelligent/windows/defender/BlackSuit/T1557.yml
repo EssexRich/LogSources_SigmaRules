@@ -1,0 +1,29 @@
+title: Adversary-in-the-Middle (WINDOWS - defender)
+id: f02a8762-4274-42fd-bc48-b739092b9ff0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1557.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1557/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1557
+  - actor.blacksuit

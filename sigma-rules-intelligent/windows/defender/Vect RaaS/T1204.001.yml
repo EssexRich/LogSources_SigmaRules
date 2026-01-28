@@ -1,0 +1,29 @@
+title: Malicious Link (WINDOWS - defender)
+id: c619b289-1271-4e2c-9ca2-5fab5f817508
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.001.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1204.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.001
+  - actor.vect_raas

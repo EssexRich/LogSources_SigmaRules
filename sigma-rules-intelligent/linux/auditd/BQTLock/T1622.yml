@@ -1,0 +1,29 @@
+title: Debugger Evasion (LINUX - auditd)
+id: fd0ff69f-60b7-40d2-aaf2-41c6770cef7b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1622.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1622/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1622
+  - actor.bqtlock

@@ -1,0 +1,29 @@
+title: Security Software Discovery (M365 - entra_id)
+id: df72ea6b-449c-40b2-a0ca-6dde731536c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.001.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1518.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518.001
+  - actor.donex

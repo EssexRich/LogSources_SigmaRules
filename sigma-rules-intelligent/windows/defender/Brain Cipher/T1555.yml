@@ -1,0 +1,29 @@
+title: Credentials from Password Stores (WINDOWS - defender)
+id: cc88d5ee-f1c4-458d-96c4-621ad597e7f4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.brain_cipher

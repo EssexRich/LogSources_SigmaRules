@@ -1,0 +1,29 @@
+title: Browser Session Hijacking (GOOGLE - workspace)
+id: a4477218-9143-4a0f-9214-d15b74707928
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1185.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1185/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1185
+  - actor.brain_cipher

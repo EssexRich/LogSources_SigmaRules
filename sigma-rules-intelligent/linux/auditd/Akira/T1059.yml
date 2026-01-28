@@ -1,0 +1,29 @@
+title: Command and Scripting Interpreter (LINUX - auditd)
+id: d793e1bf-ef07-46b1-8756-742f4d2083d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.akira

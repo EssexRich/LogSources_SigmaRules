@@ -1,0 +1,29 @@
+title: Financial Theft (WINDOWS - defender)
+id: e690b8da-49a3-45c6-bc02-c7fd704d41e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1657.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1657/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1657
+  - actor.rhysida

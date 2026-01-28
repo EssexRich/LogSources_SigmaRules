@@ -1,0 +1,29 @@
+title: Remote System Discovery (WINDOWS - security)
+id: cc25dc13-c61d-47e2-98b9-12892def838d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1018.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1018/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1018
+  - actor.shinra

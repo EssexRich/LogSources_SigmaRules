@@ -1,0 +1,29 @@
+title: T1406 (LINUX - auditd)
+id: 1a7ac7c2-6b85-4c67-8077-94fcf66ef782
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1406.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1406/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1406
+  - actor.safepay

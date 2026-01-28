@@ -1,0 +1,29 @@
+title: Bootkit (GOOGLE - workspace)
+id: 9f21a9fd-0793-496f-900a-250043d793f6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1542.003.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1542.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1542.003
+  - actor.safepay

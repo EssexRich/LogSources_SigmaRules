@@ -1,0 +1,29 @@
+title: T3216 (LINUX - auditd)
+id: 85976d90-71a6-4aa0-a4e8-a619c58378f3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3216.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T3216/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3216
+  - actor.ransomhub

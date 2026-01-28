@@ -1,0 +1,29 @@
+title: Indirect Command Execution (MACOS - unified_logging)
+id: ca33c916-56e4-438a-bbc0-64bf7d55d520
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202
+  - actor.shinra

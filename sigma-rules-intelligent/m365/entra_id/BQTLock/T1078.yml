@@ -1,0 +1,29 @@
+title: Valid Accounts (M365 - entra_id)
+id: 202fb7a1-6d74-4bd5-9769-1020a3e504ce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.bqtlock

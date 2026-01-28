@@ -1,0 +1,29 @@
+title: Windows Command Shell (WINDOWS - sysmon)
+id: f652efba-516d-420c-9d8a-90dfa7e6b447
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.003.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1059.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.003
+  - actor.safepay

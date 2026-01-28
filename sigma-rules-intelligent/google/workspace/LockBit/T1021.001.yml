@@ -1,0 +1,29 @@
+title: Remote Desktop Protocol (GOOGLE - workspace)
+id: e7a290f3-e64c-4b86-929f-bae22c30ce2d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1021.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.001
+  - actor.lockbit

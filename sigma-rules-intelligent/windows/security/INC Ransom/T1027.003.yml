@@ -1,0 +1,29 @@
+title: Steganography (WINDOWS - security)
+id: eeb92739-f5b4-4c4b-972c-213ebdab3f87
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.003.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1027.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.003
+  - actor.inc_ransom

@@ -1,0 +1,29 @@
+title: Proxy (WINDOWS - security)
+id: 3e76b0e0-4b25-4460-8faf-47ae2d285ae2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1090/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090
+  - actor.safelocker

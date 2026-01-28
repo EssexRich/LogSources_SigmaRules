@@ -1,0 +1,29 @@
+title: Visual Basic (LINUX - auditd)
+id: 67bf5e4f-47e5-44a4-bff4-ee6fe02b2300
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.005.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1059.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.005
+  - actor.qilin

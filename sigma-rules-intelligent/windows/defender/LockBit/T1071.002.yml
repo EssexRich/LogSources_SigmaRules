@@ -1,0 +1,29 @@
+title: File Transfer Protocols (WINDOWS - defender)
+id: 2793d851-4915-451e-aeb1-0e1aa1a9d0ad
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.002.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1071.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.002
+  - actor.lockbit

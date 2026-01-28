@@ -1,0 +1,29 @@
+title: System Service Discovery (WINDOWS - security)
+id: a939a9a0-847b-43bb-b697-f68bba6ecf11
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1007.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1007
+  - actor.alphv-blackcat

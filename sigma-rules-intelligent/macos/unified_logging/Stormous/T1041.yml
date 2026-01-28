@@ -1,0 +1,29 @@
+title: Exfiltration Over C2 Channel (MACOS - unified_logging)
+id: 83308c81-5b06-4f3e-972d-8129fd9e1d1c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.stormous

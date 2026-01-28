@@ -1,0 +1,29 @@
+title: Remote Access Tools (M365 - entra_id)
+id: d273ada5-0100-4e0e-94d3-72f63fb62afa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.avoslocker

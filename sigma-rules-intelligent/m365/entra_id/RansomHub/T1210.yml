@@ -1,0 +1,29 @@
+title: Exploitation of Remote Services (M365 - entra_id)
+id: 91648acd-fd25-4e9a-973d-88290ac830ee
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1210.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1210/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1210
+  - actor.ransomhub

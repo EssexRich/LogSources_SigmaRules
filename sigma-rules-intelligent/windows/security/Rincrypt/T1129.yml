@@ -1,0 +1,29 @@
+title: Shared Modules (WINDOWS - security)
+id: 964e89fd-34a0-4b54-bf06-68b8369af417
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1129.
+  Threat Actor: Rincrypt
+references:
+  - https://attack.mitre.org/techniques/T1129/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1129
+  - actor.rincrypt

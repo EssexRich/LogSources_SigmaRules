@@ -1,0 +1,29 @@
+title: Phishing (GOOGLE - workspace)
+id: 087c2ef6-8e38-43d1-b313-0df542f13a2f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566
+  - actor.medusa

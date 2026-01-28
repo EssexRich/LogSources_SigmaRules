@@ -1,0 +1,29 @@
+title: Abuse Elevation Control Mechanism (MACOS - unified_logging)
+id: 45fa9225-0fc5-4ad2-ac65-7b2ca5298675
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1548/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548
+  - actor.bqtlock

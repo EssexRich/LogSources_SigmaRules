@@ -1,0 +1,29 @@
+title: Disable or Modify System Firewall (M365 - entra_id)
+id: f3494e7c-b262-4baa-910f-27d2bc63963a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.004.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1562.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.004
+  - actor.blackbasta

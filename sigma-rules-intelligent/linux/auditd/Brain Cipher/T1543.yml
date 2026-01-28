@@ -1,0 +1,29 @@
+title: Create or Modify System Process (LINUX - auditd)
+id: 8178e764-eb2e-4a01-9a90-41559affc754
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1543/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543
+  - actor.brain_cipher

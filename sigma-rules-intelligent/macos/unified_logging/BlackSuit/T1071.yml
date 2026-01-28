@@ -1,0 +1,29 @@
+title: Application Layer Protocol (MACOS - unified_logging)
+id: fa231938-1efd-42a6-a8cd-8ef1addba1fe
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.blacksuit

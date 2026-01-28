@@ -1,0 +1,29 @@
+title: Obfuscated Files or Information (WINDOWS - defender)
+id: 647c41bf-18cf-4e87-aa1f-23a0ebd85155
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.play

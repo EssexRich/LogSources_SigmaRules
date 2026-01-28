@@ -1,0 +1,29 @@
+title: Hidden Window (WINDOWS - security)
+id: 7400f61c-c053-41c7-a98f-748ef4d8b991
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.003.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1564.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.003
+  - actor.coosea

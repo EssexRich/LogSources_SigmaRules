@@ -1,0 +1,29 @@
+title: Hidden Window (M365 - entra_id)
+id: e30d2c86-984d-4ce3-b38a-57dc9c58ba3f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.003.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1564.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.003
+  - actor.donex

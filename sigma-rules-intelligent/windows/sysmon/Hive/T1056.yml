@@ -1,0 +1,29 @@
+title: Input Capture (WINDOWS - sysmon)
+id: 76730cbf-14aa-4f99-b291-acb3cddd0e52
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1056/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056
+  - actor.hive

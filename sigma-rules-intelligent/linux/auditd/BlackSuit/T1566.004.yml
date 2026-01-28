@@ -1,0 +1,29 @@
+title: Spearphishing Voice (LINUX - auditd)
+id: 27a6f358-28c4-48eb-b66f-476c90e8b788
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.004.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1566.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.004
+  - actor.blacksuit

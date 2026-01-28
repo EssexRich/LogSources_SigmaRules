@@ -1,0 +1,29 @@
+title: Resource Hijacking (GOOGLE - workspace)
+id: 89e6f437-d748-49d3-ad05-bc0d00ec3bc2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1496.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1496/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1496
+  - actor.spectra

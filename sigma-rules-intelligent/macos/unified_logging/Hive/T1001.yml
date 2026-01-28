@@ -1,0 +1,29 @@
+title: Data Obfuscation (MACOS - unified_logging)
+id: 320e0af2-6566-4893-a796-b677fc467bd2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1001.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1001
+  - actor.hive

@@ -1,0 +1,29 @@
+title: Ingress Tool Transfer (MACOS - unified_logging)
+id: 3036559d-ec86-42d0-bc8f-7a6f9ee24cb8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105
+  - actor.bianlian

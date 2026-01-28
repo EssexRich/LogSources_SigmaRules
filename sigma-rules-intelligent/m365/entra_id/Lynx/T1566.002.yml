@@ -1,0 +1,29 @@
+title: Spearphishing Link (M365 - entra_id)
+id: 3f20de9f-d74b-45c7-be06-13a66cc83201
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.002.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1566.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.002
+  - actor.lynx

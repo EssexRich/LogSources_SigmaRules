@@ -1,0 +1,29 @@
+title: Compromise Accounts (GOOGLE - workspace)
+id: 17999c67-131d-40f6-9d5c-6a6244ae27e6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1586.
+  Threat Actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1586/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1586
+  - actor.revil

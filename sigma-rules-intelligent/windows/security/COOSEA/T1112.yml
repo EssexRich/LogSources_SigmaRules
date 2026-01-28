@@ -1,0 +1,29 @@
+title: Modify Registry (WINDOWS - security)
+id: 9e701c10-21f7-484f-98cf-c041b9d7a36c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.coosea

@@ -1,0 +1,29 @@
+title: Software Discovery (WINDOWS - sysmon)
+id: 6fa5169e-6a2f-4021-9245-89187f99d4f7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1518/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518
+  - actor.play

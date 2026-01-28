@@ -1,0 +1,29 @@
+title: Encrypted Channel (WINDOWS - sysmon)
+id: 2cc2ded1-7276-4fa2-beb3-d049fa1c4ad0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573
+  - actor.alphv-blackcat

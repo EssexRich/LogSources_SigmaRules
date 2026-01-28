@@ -1,0 +1,29 @@
+title: Compromise Software Supply Chain (WINDOWS - sysmon)
+id: 9c8323e6-b552-4689-a287-ef2275600541
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1195.002.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1195.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1195.002
+  - actor.blacksuit

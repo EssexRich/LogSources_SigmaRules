@@ -1,0 +1,29 @@
+title: Valid Accounts (M365 - entra_id)
+id: 6120e459-e53b-495d-8ba6-83d71737b696
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.safepay

@@ -1,0 +1,29 @@
+title: Inter-Process Communication (WINDOWS - sysmon)
+id: a7ca6194-a6d2-4fef-8182-c5af77ef9eb0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1559/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559
+  - actor.inc_ransom

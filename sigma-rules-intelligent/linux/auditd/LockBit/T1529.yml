@@ -1,0 +1,29 @@
+title: System Shutdown/Reboot (LINUX - auditd)
+id: 753c1853-28e3-4672-bc6a-3a49ec4c6083
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1529.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1529
+  - actor.lockbit

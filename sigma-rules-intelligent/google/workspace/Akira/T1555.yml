@@ -1,0 +1,29 @@
+title: Credentials from Password Stores (GOOGLE - workspace)
+id: 8550fa46-feec-418e-83c5-ac0d341d3448
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.akira

@@ -1,0 +1,29 @@
+title: Junk Code Insertion (MACOS - unified_logging)
+id: ffdea254-6d98-4b71-bf9f-de61464a87b7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.016.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1027.016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.016
+  - actor.safepay

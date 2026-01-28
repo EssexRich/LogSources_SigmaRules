@@ -1,0 +1,29 @@
+title: Automated Exfiltration (LINUX - auditd)
+id: 27f1fb50-b6cb-42e1-868b-b4ac631cfa64
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1020.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1020/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1020
+  - actor.safelocker

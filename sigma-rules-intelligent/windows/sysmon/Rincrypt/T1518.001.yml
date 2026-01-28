@@ -1,0 +1,29 @@
+title: Security Software Discovery (WINDOWS - sysmon)
+id: d462cea5-c202-4bb3-8a17-8ba7ecf9fa19
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.001.
+  Threat Actor: Rincrypt
+references:
+  - https://attack.mitre.org/techniques/T1518.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518.001
+  - actor.rincrypt

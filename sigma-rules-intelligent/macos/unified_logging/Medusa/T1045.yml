@@ -1,0 +1,29 @@
+title: Software Packing (MACOS - unified_logging)
+id: 71d0a080-d382-4f7a-9ba8-383bbd6eb687
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1045.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1045/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1045
+  - actor.medusa

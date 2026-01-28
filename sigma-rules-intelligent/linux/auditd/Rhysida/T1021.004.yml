@@ -1,0 +1,29 @@
+title: SSH (LINUX - auditd)
+id: b963642c-55f2-462d-b4fe-55a5039259a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.004.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1021.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.004
+  - actor.rhysida

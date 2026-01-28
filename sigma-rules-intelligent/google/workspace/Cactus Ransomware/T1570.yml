@@ -1,0 +1,29 @@
+title: Lateral Tool Transfer (GOOGLE - workspace)
+id: b3b995da-3b54-4879-9249-d23bc40d60db
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+  Threat Actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570
+  - actor.cactus_ransomware

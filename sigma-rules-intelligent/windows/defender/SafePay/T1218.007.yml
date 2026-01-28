@@ -1,0 +1,29 @@
+title: Msiexec (WINDOWS - defender)
+id: 98899206-dfb6-4f50-bfc8-a5641f0926bc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.007.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1218.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.007
+  - actor.safepay

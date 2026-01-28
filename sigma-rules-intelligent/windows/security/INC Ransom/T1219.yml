@@ -1,0 +1,29 @@
+title: Remote Access Tools (WINDOWS - security)
+id: c36836c0-7765-4c5c-a517-3eb73730a782
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.inc_ransom

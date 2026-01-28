@@ -1,0 +1,29 @@
+title: Phishing (WINDOWS - sysmon)
+id: 99616724-4df8-4fa1-b18a-a992f7335f53
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566
+  - actor.sarcoma

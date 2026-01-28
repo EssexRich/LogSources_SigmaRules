@@ -1,0 +1,29 @@
+title: Masquerading (LINUX - auditd)
+id: 5bfd2c27-349d-4aaf-967e-53bfc4cf8431
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.inc_ransom

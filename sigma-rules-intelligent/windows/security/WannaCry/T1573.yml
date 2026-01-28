@@ -1,0 +1,29 @@
+title: Encrypted Channel (WINDOWS - security)
+id: 7ace54b9-22d0-464e-8876-8eaba8b298db
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+  Threat Actor: WannaCry
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573
+  - actor.wannacry

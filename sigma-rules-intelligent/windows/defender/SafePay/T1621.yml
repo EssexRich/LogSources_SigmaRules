@@ -1,0 +1,29 @@
+title: Multi-Factor Authentication Request Generation (WINDOWS - defender)
+id: d60404e2-07c4-45dc-b22c-b4ae1027beb5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1621.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1621/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1621
+  - actor.safepay

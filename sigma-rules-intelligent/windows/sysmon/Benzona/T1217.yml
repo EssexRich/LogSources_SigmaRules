@@ -1,0 +1,29 @@
+title: Browser Information Discovery (WINDOWS - sysmon)
+id: 1c63d4a0-baf7-4a4a-a1d9-065f98c886c1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1217.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1217/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1217
+  - actor.benzona

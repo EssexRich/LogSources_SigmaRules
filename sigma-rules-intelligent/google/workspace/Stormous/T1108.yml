@@ -1,0 +1,29 @@
+title: Redundant Access (GOOGLE - workspace)
+id: 15188b34-8c66-4539-8c3e-38d621f28f0a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1108.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1108/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1108
+  - actor.stormous

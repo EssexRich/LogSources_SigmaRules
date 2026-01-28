@@ -1,0 +1,29 @@
+title: Boot or Logon Autostart Execution (LINUX - auditd)
+id: a7271d19-e142-48b1-a515-5fd785f3a04d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+  Threat Actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547
+  - actor.hunters_international

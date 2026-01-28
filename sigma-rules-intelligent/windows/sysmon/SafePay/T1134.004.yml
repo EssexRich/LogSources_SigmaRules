@@ -1,0 +1,29 @@
+title: Parent PID Spoofing (WINDOWS - sysmon)
+id: fa9a0d13-f45d-461c-9cc9-44b6e9e3a2d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.004.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1134.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.004
+  - actor.safepay

@@ -1,0 +1,29 @@
+title: Archive Collected Data (GOOGLE - workspace)
+id: 3cd97022-4d7a-4d0f-9ef5-2c3a18b0c339
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560
+  - actor.ransomhub

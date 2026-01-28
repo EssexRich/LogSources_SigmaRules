@@ -1,0 +1,29 @@
+title: Hide Artifacts (MACOS - unified_logging)
+id: 33aeba68-d292-4cc6-b683-2d320729d84d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.ignoble_scorpius

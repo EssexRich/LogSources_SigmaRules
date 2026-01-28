@@ -1,0 +1,29 @@
+title: System Owner/User Discovery (GOOGLE - workspace)
+id: ec695dac-2515-4a69-bffb-42a8bceeb2f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.rhysida

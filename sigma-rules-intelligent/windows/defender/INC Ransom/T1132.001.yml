@@ -1,0 +1,29 @@
+title: Standard Encoding (WINDOWS - defender)
+id: 83b5fdcb-b6ff-4ae3-af2a-348299329206
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1132.001.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1132.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1132.001
+  - actor.inc_ransom

@@ -1,0 +1,29 @@
+title: Local Data Staging (MACOS - unified_logging)
+id: a00fb8b8-4492-4914-9440-4fe9070757e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.001.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1074.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074.001
+  - actor.lynx

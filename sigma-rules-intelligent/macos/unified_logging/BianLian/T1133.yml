@@ -1,0 +1,29 @@
+title: External Remote Services (MACOS - unified_logging)
+id: a5ca4e21-f002-450b-ab35-16e5ea680059
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.bianlian

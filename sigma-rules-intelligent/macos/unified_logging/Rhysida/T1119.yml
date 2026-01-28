@@ -1,0 +1,29 @@
+title: Automated Collection (MACOS - unified_logging)
+id: 0837025a-001d-465f-ab93-16c8e46bfb86
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.rhysida

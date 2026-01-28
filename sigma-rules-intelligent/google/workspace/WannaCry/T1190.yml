@@ -1,0 +1,29 @@
+title: Exploit Public-Facing Application (GOOGLE - workspace)
+id: d8a5d589-7234-401f-90fc-da1748d01f5e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: WannaCry
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.wannacry

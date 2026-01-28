@@ -1,0 +1,29 @@
+title: Pass the Ticket (MACOS - unified_logging)
+id: eff15d25-c293-4b3b-ae1e-13559690461d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1550.003.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1550.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1550.003
+  - actor.qilin

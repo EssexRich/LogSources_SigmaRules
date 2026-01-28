@@ -1,0 +1,29 @@
+title: Browser Session Hijacking (MACOS - unified_logging)
+id: ae3e4032-b640-4db1-9567-5f1560fdfebb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1185.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1185/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1185
+  - actor.spectra

@@ -1,0 +1,29 @@
+title: Multi-hop Proxy (GOOGLE - workspace)
+id: 6fb639f4-f861-4f25-b064-d0d562e52e7a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.003.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T1090.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.003
+  - actor.pear

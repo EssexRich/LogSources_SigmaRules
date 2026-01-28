@@ -1,0 +1,29 @@
+title: System Location Discovery (GOOGLE - workspace)
+id: 6b0d065e-2595-4bcc-822d-e3767888b568
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1614/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614
+  - actor.lynx

@@ -1,0 +1,29 @@
+title: Virtualization/Sandbox Evasion (M365 - entra_id)
+id: 118ca8bd-7c61-4c65-8c40-8505c45d0935
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1497.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1497/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1497
+  - actor.coosea

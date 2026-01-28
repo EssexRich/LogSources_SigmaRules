@@ -1,0 +1,29 @@
+title: System Information Discovery (LINUX - auditd)
+id: a3cdd0c6-559b-4d10-9c59-67e6f097feeb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.safelocker

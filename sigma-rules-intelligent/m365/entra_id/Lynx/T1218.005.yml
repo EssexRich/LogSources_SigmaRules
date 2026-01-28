@@ -1,0 +1,29 @@
+title: Mshta (M365 - entra_id)
+id: 93ddc16c-17d8-4ecc-966d-ce7ef75b7183
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.005.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1218.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.005
+  - actor.lynx

@@ -1,0 +1,29 @@
+title: Resource Hijacking (M365 - entra_id)
+id: e0d71da9-4a5c-4386-b9c5-8a7a3a10d88e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1496.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1496/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1496
+  - actor.safelocker

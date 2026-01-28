@@ -1,0 +1,29 @@
+title: Network Share Discovery (GOOGLE - workspace)
+id: 494e50ca-62bd-4b75-9c8f-c85d4618e51d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.alphv-blackcat

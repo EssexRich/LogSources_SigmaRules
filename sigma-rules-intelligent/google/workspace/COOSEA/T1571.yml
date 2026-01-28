@@ -1,0 +1,29 @@
+title: Non-Standard Port (GOOGLE - workspace)
+id: b6aa4155-b8db-49d3-952e-1fd423b7e373
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1571.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1571/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1571
+  - actor.coosea

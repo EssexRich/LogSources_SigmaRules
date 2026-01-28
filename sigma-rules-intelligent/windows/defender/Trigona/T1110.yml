@@ -1,0 +1,29 @@
+title: Brute Force (WINDOWS - defender)
+id: 92e0a41f-164b-4128-9e65-b469f64001ec
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.
+  Threat Actor: Trigona
+references:
+  - https://attack.mitre.org/techniques/T1110/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110
+  - actor.trigona

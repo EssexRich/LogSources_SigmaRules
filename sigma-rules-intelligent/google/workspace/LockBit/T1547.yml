@@ -1,0 +1,29 @@
+title: Boot or Logon Autostart Execution (GOOGLE - workspace)
+id: 0365bfd0-b0f7-4a0a-9552-bbe987190c70
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547
+  - actor.lockbit

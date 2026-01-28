@@ -1,0 +1,29 @@
+title: Domain Account (LINUX - auditd)
+id: 25f03bbb-af3b-4344-96b0-ba60af604f4a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.002.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1136.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136.002
+  - actor.akira

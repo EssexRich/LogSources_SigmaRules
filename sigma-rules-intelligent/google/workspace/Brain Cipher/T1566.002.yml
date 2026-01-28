@@ -1,0 +1,29 @@
+title: Spearphishing Link (GOOGLE - workspace)
+id: 31c19e7d-c8b9-4f36-b3ca-552dfed5fac0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.002.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1566.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.002
+  - actor.brain_cipher

@@ -1,0 +1,29 @@
+title: Exfiltration Over C2 Channel (MACOS - unified_logging)
+id: 1932c446-cc01-4209-a257-36425e9ded14
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.vice_society

@@ -1,0 +1,29 @@
+title: Software Packing (LINUX - auditd)
+id: 15d6baa4-fce7-4c6b-9cf5-91dc5edd0853
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.002.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1027.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.002
+  - actor.lockbit

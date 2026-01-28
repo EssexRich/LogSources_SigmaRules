@@ -1,0 +1,29 @@
+title: Modify Registry (WINDOWS - security)
+id: fb09bcb9-2e12-4603-bb93-852d23706c05
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.inc_ransom

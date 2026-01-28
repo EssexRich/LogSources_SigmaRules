@@ -1,0 +1,29 @@
+title: Group Policy Modification (WINDOWS - security)
+id: 3315ed1f-72fe-47f7-b12f-41dd044d7c81
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1484.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1484.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1484.001
+  - actor.lockbit

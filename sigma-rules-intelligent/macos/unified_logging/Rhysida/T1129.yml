@@ -1,0 +1,29 @@
+title: Shared Modules (MACOS - unified_logging)
+id: 389a68d1-adbc-4e08-8f8f-9de4942428b4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1129.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1129/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1129
+  - actor.rhysida

@@ -1,0 +1,29 @@
+title: Timestomp (GOOGLE - workspace)
+id: 82125781-faf8-40b1-ae5d-e80f6b8fa038
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.006.
+  Threat Actor: Magaskosh
+references:
+  - https://attack.mitre.org/techniques/T1070.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.006
+  - actor.magaskosh

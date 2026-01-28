@@ -1,0 +1,29 @@
+title: Bootkit (WINDOWS - sysmon)
+id: 8cbb49ee-8223-4eac-8a50-16fff51b19ae
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1542.003.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1542.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1542.003
+  - actor.safepay

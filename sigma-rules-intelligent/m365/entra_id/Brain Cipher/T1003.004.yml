@@ -1,0 +1,29 @@
+title: LSA Secrets (M365 - entra_id)
+id: 959babf7-8e67-4d88-9221-7970728dace7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.004.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1003.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.004
+  - actor.brain_cipher

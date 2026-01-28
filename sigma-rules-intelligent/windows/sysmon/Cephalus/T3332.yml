@@ -1,0 +1,29 @@
+title: T3332 (WINDOWS - sysmon)
+id: be86d610-c067-42fb-855d-5c3ffa19e076
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3332.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T3332/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3332
+  - actor.cephalus

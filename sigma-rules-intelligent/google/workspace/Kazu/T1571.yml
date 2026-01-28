@@ -1,0 +1,29 @@
+title: Non-Standard Port (GOOGLE - workspace)
+id: 3872986a-c995-443a-8af9-36af8c975db9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1571.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1571/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1571
+  - actor.kazu

@@ -1,0 +1,29 @@
+title: Exploit Public-Facing Application (GOOGLE - workspace)
+id: 46d21bc2-8c14-47a8-84e8-9482cd69ec36
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.cl0p

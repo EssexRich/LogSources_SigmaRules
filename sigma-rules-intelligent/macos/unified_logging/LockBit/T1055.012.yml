@@ -1,0 +1,29 @@
+title: Process Hollowing (MACOS - unified_logging)
+id: 96b53152-a611-4aa6-bd2d-e133696e93c2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.012.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1055.012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.012
+  - actor.lockbit

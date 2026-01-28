@@ -1,0 +1,29 @@
+title: OS Credential Dumping (LINUX - auditd)
+id: 5a98a672-9b30-48a9-9ee9-a13ac16e1418
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: BlackCatALPHV
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.blackcatalphv

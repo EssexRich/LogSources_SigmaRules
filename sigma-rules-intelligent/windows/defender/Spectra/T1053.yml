@@ -1,0 +1,29 @@
+title: Scheduled Task/Job (WINDOWS - defender)
+id: ab64e267-da46-4787-9288-1263c88e740b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.spectra

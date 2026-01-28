@@ -1,0 +1,29 @@
+title: Remote Access Tools (WINDOWS - defender)
+id: 90836456-4987-408f-9f75-9815de1a72f2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.akira

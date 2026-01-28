@@ -1,0 +1,29 @@
+title: Process Injection (MACOS - unified_logging)
+id: f36ab06f-849f-40ac-845f-bd11ed811fb7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.rhysida

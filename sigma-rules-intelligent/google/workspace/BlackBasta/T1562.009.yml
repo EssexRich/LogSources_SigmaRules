@@ -1,0 +1,29 @@
+title: Safe Mode Boot (GOOGLE - workspace)
+id: 1b96361c-ac09-45b9-a76d-881eaabe1d74
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.009.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1562.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.009
+  - actor.blackbasta

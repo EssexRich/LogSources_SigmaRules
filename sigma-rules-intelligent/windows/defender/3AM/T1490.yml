@@ -1,0 +1,29 @@
+title: Inhibit System Recovery (WINDOWS - defender)
+id: 50c20488-eeec-439f-82c6-4ad869ca2226
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.3am

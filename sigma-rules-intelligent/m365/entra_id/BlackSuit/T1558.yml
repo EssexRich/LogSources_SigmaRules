@@ -1,0 +1,29 @@
+title: Steal or Forge Kerberos Tickets (M365 - entra_id)
+id: 7cd8afc5-52a7-427d-91bd-6b343aab8337
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1558/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558
+  - actor.blacksuit

@@ -1,0 +1,29 @@
+title: System Network Configuration Discovery (LINUX - auditd)
+id: a228129d-0a3d-46ad-9f4f-4291a6543ae5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.lynx

@@ -1,0 +1,29 @@
+title: Unsecured Credentials (GOOGLE - workspace)
+id: 054c3910-dd82-4ecb-b9b3-8fce3bf3082f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1552/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552
+  - actor.spectra

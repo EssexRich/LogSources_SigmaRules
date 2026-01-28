@@ -1,0 +1,29 @@
+title: Remote Access Tools (WINDOWS - sysmon)
+id: ddf4ce5f-9a50-4225-9fe0-3aaafca3c2d4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.blackbasta

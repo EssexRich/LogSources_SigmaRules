@@ -1,0 +1,29 @@
+title: Obfuscated Files or Information (LINUX - auditd)
+id: bc5d45f6-f817-44b0-bd73-8eb1e92163f8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.blacksuit

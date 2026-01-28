@@ -1,0 +1,29 @@
+title: Valid Accounts (WINDOWS - sysmon)
+id: b2a9d916-d55d-42b8-a5c0-8082f38ef61c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.revil

@@ -1,0 +1,29 @@
+title: Process Discovery (LINUX - auditd)
+id: 399add5b-f78b-40a8-b751-b1cc5e3d9943
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1057.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1057/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1057
+  - actor.blacksuit

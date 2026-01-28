@@ -1,0 +1,29 @@
+title: T3216 (WINDOWS - sysmon)
+id: 0afecc9b-3ec5-4d66-9017-1c9e1089f445
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3216.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T3216/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3216
+  - actor.lockbit

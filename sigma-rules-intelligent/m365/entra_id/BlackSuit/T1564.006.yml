@@ -1,0 +1,29 @@
+title: Run Virtual Instance (M365 - entra_id)
+id: e8aa0d10-af99-4f28-b80b-01094d435cfe
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.006.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1564.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.006
+  - actor.blacksuit

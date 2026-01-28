@@ -1,0 +1,29 @@
+title: Exploitation for Privilege Escalation (GOOGLE - workspace)
+id: e2e26467-6ce2-4ed7-9d7e-2feebb41dc5a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.akira

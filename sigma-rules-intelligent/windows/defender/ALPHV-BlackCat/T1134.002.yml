@@ -1,0 +1,29 @@
+title: Create Process with Token (WINDOWS - defender)
+id: c9d4974d-fc89-45e9-ae94-f13f2b6285d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.002.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1134.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.002
+  - actor.alphv-blackcat

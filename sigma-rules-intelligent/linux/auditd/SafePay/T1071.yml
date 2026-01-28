@@ -1,0 +1,29 @@
+title: Application Layer Protocol (LINUX - auditd)
+id: 0f1d935c-3e8d-43d1-b072-27a61c44cf32
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.safepay

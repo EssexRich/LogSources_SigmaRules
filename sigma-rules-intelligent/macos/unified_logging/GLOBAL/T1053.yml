@@ -1,0 +1,29 @@
+title: Scheduled Task/Job (MACOS - unified_logging)
+id: f76140bd-cb95-496b-9098-b65ac9ae7d60
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.global

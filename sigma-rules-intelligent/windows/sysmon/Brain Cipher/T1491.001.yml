@@ -1,0 +1,29 @@
+title: Internal Defacement (WINDOWS - sysmon)
+id: 56dd9044-1451-4fa0-9816-1c0b0d1accfa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1491.001.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1491.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1491.001
+  - actor.brain_cipher

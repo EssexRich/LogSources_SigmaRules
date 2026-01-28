@@ -1,0 +1,29 @@
+title: Phishing for Information (MACOS - unified_logging)
+id: ea61f13c-0102-4d31-a3ff-4c185a5ec264
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1598.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1598/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1598
+  - actor.rhysida

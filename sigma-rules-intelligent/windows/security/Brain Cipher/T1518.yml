@@ -1,0 +1,29 @@
+title: Software Discovery (WINDOWS - security)
+id: b9e82aba-e907-4b60-b54a-f77b61bf8ec3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1518/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518
+  - actor.brain_cipher

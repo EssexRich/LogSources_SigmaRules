@@ -1,0 +1,29 @@
+title: Automated Collection (WINDOWS - sysmon)
+id: 79a36032-cf88-4fa6-a56a-6ddf2d1d4197
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.blacksuit

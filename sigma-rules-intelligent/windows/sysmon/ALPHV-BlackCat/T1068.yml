@@ -1,0 +1,29 @@
+title: Exploitation for Privilege Escalation (WINDOWS - sysmon)
+id: fc1ffe9d-17c4-4e74-8db9-7c4e5f39fe4e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.alphv-blackcat

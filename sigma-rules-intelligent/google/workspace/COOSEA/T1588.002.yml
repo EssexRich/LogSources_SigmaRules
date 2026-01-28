@@ -1,0 +1,29 @@
+title: Tool (GOOGLE - workspace)
+id: 806279a8-348f-4a80-a0dd-236fabede86f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.002.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1588.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.002
+  - actor.coosea

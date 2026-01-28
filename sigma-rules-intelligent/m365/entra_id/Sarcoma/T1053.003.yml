@@ -1,0 +1,29 @@
+title: Cron (M365 - entra_id)
+id: 0092ad7c-4d3e-47f3-9d42-41765f3b0ec5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.003.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1053.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.003
+  - actor.sarcoma

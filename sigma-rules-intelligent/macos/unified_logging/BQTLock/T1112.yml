@@ -1,0 +1,29 @@
+title: Modify Registry (MACOS - unified_logging)
+id: ef9bc269-3027-4a15-b0af-420036800b77
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.bqtlock

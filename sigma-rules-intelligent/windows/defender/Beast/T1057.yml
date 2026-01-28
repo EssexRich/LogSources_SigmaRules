@@ -1,0 +1,29 @@
+title: Process Discovery (WINDOWS - defender)
+id: a2c221f4-e41a-4292-8861-3b910201a120
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1057.
+  Threat Actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1057/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1057
+  - actor.beast

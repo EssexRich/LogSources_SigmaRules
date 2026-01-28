@@ -1,0 +1,29 @@
+title: Modify Registry (GOOGLE - workspace)
+id: 933a830f-b4c6-4526-8a4f-9bbe0ac0eadc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.safepay

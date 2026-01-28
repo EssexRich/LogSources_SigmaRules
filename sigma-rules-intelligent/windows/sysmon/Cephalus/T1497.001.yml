@@ -1,0 +1,29 @@
+title: System Checks (WINDOWS - sysmon)
+id: 62721183-14c4-42ad-93e6-57341c6f5a22
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1497.001.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1497.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1497.001
+  - actor.cephalus

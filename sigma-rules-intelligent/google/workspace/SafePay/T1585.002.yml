@@ -1,0 +1,29 @@
+title: Email Accounts (GOOGLE - workspace)
+id: abdace33-9722-4501-9185-7fec08d98412
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1585.002.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1585.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1585.002
+  - actor.safepay

@@ -1,0 +1,29 @@
+title: Network Share Discovery (GOOGLE - workspace)
+id: 91741d26-1aed-4fa2-9ba1-4b467a9c3aa6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.avoslocker

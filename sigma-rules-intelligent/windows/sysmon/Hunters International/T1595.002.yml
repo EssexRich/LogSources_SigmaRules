@@ -1,0 +1,29 @@
+title: Vulnerability Scanning (WINDOWS - sysmon)
+id: 4254cba6-9c25-459c-9726-fe53d59f8d34
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.002.
+  Threat Actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1595.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595.002
+  - actor.hunters_international

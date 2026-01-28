@@ -1,0 +1,29 @@
+title: Software Deployment Tools (WINDOWS - defender)
+id: ef70c720-ad6f-403c-9d6f-a58f0fcfda19
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+  Threat Actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072
+  - actor.cactus_ransomware

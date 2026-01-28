@@ -1,0 +1,29 @@
+title: T6646 (WINDOWS - sysmon)
+id: 37d39d04-2ed4-4cad-9801-7c7f542f79e4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6646.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T6646/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6646
+  - actor.pear

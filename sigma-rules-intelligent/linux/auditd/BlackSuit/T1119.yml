@@ -1,0 +1,29 @@
+title: Automated Collection (LINUX - auditd)
+id: e0c2b869-ac60-4314-9cf2-8d777a44dc73
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.blacksuit

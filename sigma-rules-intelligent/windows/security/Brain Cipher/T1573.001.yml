@@ -1,0 +1,29 @@
+title: Symmetric Cryptography (WINDOWS - security)
+id: 54881705-4015-4998-8e86-927a1e7f02ce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.001.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1573.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.001
+  - actor.brain_cipher

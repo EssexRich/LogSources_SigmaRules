@@ -1,0 +1,29 @@
+title: Exfiltration to Cloud Storage (WINDOWS - sysmon)
+id: d6d398bf-e045-484c-8c39-78b8ddc94d43
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.002.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1567.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567.002
+  - actor.coosea

@@ -1,0 +1,29 @@
+title: Account Manipulation (MACOS - unified_logging)
+id: 1a1ae2db-a6d0-4ab7-9351-e90a8bd079bf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1098/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098
+  - actor.lockbit

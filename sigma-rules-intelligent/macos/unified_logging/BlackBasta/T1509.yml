@@ -1,0 +1,29 @@
+title: T1509 (MACOS - unified_logging)
+id: 20f292cf-f6a9-4cb5-99e9-c0dd52f13a7c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1509.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1509/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1509
+  - actor.blackbasta

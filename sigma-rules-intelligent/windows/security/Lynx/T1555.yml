@@ -1,0 +1,29 @@
+title: Credentials from Password Stores (WINDOWS - security)
+id: 8fb81d1b-6ad5-4dda-b058-c7a78cc03eb6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.lynx

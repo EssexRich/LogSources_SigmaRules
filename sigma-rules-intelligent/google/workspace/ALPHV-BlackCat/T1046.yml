@@ -1,0 +1,29 @@
+title: Network Service Discovery (GOOGLE - workspace)
+id: 075e61f9-5d64-497a-833b-bd8973ddc83a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.alphv-blackcat

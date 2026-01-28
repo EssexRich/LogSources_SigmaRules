@@ -1,0 +1,29 @@
+title: Abuse Elevation Control Mechanism (M365 - entra_id)
+id: d067d3c4-b98f-46ce-a91d-90f807c7c812
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1548/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548
+  - actor.lockbit

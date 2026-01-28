@@ -1,0 +1,29 @@
+title: Modify Registry (WINDOWS - security)
+id: fb903d81-33b0-43b9-8e43-4baa25b21b7a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.akira

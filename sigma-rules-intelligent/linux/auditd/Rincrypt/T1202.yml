@@ -1,0 +1,29 @@
+title: Indirect Command Execution (LINUX - auditd)
+id: bacca3e5-40a0-47c0-9b06-71e83ead49d3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+  Threat Actor: Rincrypt
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202
+  - actor.rincrypt

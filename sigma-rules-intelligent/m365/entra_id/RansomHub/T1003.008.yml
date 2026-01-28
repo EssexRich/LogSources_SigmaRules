@@ -1,0 +1,29 @@
+title: /etc/passwd and /etc/shadow (M365 - entra_id)
+id: f06fb332-6700-410e-aab0-1ddb654fee70
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.008.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1003.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.008
+  - actor.ransomhub

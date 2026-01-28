@@ -1,0 +1,29 @@
+title: Exfiltration Over Alternative Protocol (M365 - entra_id)
+id: 2f9fbb7b-f62d-4a83-805c-3c5ecccaf6d5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048
+  - actor.medusa

@@ -1,0 +1,29 @@
+title: Active Scanning (WINDOWS - sysmon)
+id: 712ded5b-fa81-4b09-84be-b215379f3330
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.
+  Threat Actor: WannaCry
+references:
+  - https://attack.mitre.org/techniques/T1595/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595
+  - actor.wannacry

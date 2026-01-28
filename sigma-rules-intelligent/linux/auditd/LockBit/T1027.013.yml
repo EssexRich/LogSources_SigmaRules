@@ -1,0 +1,29 @@
+title: Encrypted/Encoded File (LINUX - auditd)
+id: c2c81b52-0ed2-4b5d-875c-72f8d867e6a0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.013.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1027.013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.013
+  - actor.lockbit

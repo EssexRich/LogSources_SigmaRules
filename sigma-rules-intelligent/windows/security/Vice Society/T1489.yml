@@ -1,0 +1,29 @@
+title: Service Stop (WINDOWS - security)
+id: f7bf812b-80db-4c08-b9e1-f3db1750ad31
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1489.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1489/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1489
+  - actor.vice_society

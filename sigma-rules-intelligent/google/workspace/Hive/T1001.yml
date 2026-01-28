@@ -1,0 +1,29 @@
+title: Data Obfuscation (GOOGLE - workspace)
+id: eb3aee7b-3f35-45df-88ba-5ad24beaada3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1001.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1001
+  - actor.hive

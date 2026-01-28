@@ -1,0 +1,29 @@
+title: Dead Drop Resolver (MACOS - unified_logging)
+id: a16c1f99-ca48-4173-96db-173e0b7fdf17
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.001.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1102.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102.001
+  - actor.inc_ransom

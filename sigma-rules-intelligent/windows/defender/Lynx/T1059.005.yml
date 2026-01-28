@@ -1,0 +1,29 @@
+title: Visual Basic (WINDOWS - defender)
+id: dcf01b92-3c2b-4164-ab07-154a7226290c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.005.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1059.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.005
+  - actor.lynx

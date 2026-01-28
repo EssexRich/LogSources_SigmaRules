@@ -1,0 +1,29 @@
+title: Ingress Tool Transfer (MACOS - unified_logging)
+id: 2444ca5b-1829-4e28-a36c-7269c566a377
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105
+  - actor.inc_ransom

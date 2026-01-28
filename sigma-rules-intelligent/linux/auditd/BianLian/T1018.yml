@@ -1,0 +1,29 @@
+title: Remote System Discovery (LINUX - auditd)
+id: 94d1ec1a-e7e5-4523-97fb-45ed451e3866
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1018.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1018/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1018
+  - actor.bianlian

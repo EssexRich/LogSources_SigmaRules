@@ -1,0 +1,29 @@
+title: Local Account (WINDOWS - security)
+id: b5c87f7d-de18-4cf9-b96f-2f63e1b62356
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.001.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1136.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136.001
+  - actor.akira

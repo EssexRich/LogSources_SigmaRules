@@ -1,0 +1,29 @@
+title: Account Discovery (M365 - entra_id)
+id: 22842925-a990-45df-9b79-8b389b16255e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1087/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087
+  - actor.safelocker

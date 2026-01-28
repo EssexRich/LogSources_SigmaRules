@@ -1,0 +1,29 @@
+title: Masquerading (M365 - entra_id)
+id: 3865d218-00c1-42ca-a7f4-331c3d98fd8a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.blacksuit

@@ -1,0 +1,29 @@
+title: Boot or Logon Autostart Execution (GOOGLE - workspace)
+id: 0b220c03-0eb5-4255-9642-ed754e2d0095
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547
+  - actor.alphv-blackcat

@@ -1,0 +1,29 @@
+title: Disable or Modify System Firewall (M365 - entra_id)
+id: c11d1cb7-6749-4593-9d2e-5c7df6c05627
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.004.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1562.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.004
+  - actor.bianlian

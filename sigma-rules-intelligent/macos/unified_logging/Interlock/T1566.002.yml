@@ -1,0 +1,29 @@
+title: Spearphishing Link (MACOS - unified_logging)
+id: 3013bd80-7221-45ee-aeb6-c52691005c55
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.002.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1566.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.002
+  - actor.interlock

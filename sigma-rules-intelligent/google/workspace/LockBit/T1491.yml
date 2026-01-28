@@ -1,0 +1,29 @@
+title: Defacement (GOOGLE - workspace)
+id: ca2831e6-74b4-4fa2-947c-4319cba18c9c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1491.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1491/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1491
+  - actor.lockbit

@@ -1,0 +1,29 @@
+title: Exfiltration Over Alternative Protocol (WINDOWS - defender)
+id: 9c26f136-a18d-41c2-b449-2a31eb1c3e2c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048
+  - actor.play

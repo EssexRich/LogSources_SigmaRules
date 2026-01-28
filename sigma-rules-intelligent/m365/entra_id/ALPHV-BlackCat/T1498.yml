@@ -1,0 +1,29 @@
+title: Network Denial of Service (M365 - entra_id)
+id: be0de773-3242-4831-b6ab-f140ea99489a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1498.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1498/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1498
+  - actor.alphv-blackcat

@@ -1,0 +1,29 @@
+title: DLL Side-Loading (M365 - entra_id)
+id: 3578fa97-a6a2-4ebb-a37b-ec91d71cffbe
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.002.
+  Threat Actor: Rincrypt
+references:
+  - https://attack.mitre.org/techniques/T1574.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.002
+  - actor.rincrypt

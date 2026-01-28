@@ -1,0 +1,29 @@
+title: Indicator Removal (MACOS - unified_logging)
+id: f2b435aa-f99d-4c68-8008-a0e09bef9108
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070
+  - actor.inc_ransom

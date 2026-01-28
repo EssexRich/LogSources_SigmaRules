@@ -1,0 +1,29 @@
+title: Exploit Public-Facing Application (WINDOWS - defender)
+id: 056f6748-38fa-448a-a871-92f88ccf89ee
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.revil

@@ -1,0 +1,29 @@
+title: Indirect Command Execution (M365 - entra_id)
+id: 0dc4b0e3-6f46-44a1-9aec-8131f1a7f08d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202
+  - actor.safelocker

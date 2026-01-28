@@ -1,0 +1,29 @@
+title: Hide Artifacts (MACOS - unified_logging)
+id: 20e0cb02-72f5-4395-9ca9-5b70dc915499
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.lockbit

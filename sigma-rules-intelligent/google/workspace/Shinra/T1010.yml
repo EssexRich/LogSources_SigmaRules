@@ -1,0 +1,29 @@
+title: Application Window Discovery (GOOGLE - workspace)
+id: 25dc7d69-4011-43d3-abf7-68ac66320e07
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1010.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1010
+  - actor.shinra

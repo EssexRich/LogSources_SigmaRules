@@ -1,0 +1,29 @@
+title: Redundant Access (LINUX - auditd)
+id: 0cf3e313-9aec-4427-9325-9d410d75c898
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1108.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1108/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1108
+  - actor.stormous

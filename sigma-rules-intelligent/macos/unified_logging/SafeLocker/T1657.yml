@@ -1,0 +1,29 @@
+title: Financial Theft (MACOS - unified_logging)
+id: 286cbba1-2fc7-463a-abab-06a0a4132a13
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1657.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1657/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1657
+  - actor.safelocker

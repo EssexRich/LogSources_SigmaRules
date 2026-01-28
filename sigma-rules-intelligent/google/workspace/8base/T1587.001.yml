@@ -1,0 +1,29 @@
+title: Malware (GOOGLE - workspace)
+id: 08abd277-bac9-4ede-bd88-a12a57e47092
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.001.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1587.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587.001
+  - actor.8base

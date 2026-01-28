@@ -1,0 +1,29 @@
+title: User Execution (WINDOWS - defender)
+id: 5a526b9a-c295-4bdd-9cf9-5afd812c4479
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1204/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204
+  - actor.blackbasta

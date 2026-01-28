@@ -1,0 +1,29 @@
+title: Remote Services (GOOGLE - workspace)
+id: e3c16333-1ead-4f17-b361-79b9d2bccafd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021
+  - actor.blackbasta

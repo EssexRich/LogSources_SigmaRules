@@ -1,0 +1,29 @@
+title: Archive via Custom Method (M365 - entra_id)
+id: 815fd7d0-8a91-4be0-97bd-b52662733585
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.003.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1560.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.003
+  - actor.safepay

@@ -1,0 +1,29 @@
+title: Data Encrypted for Impact (WINDOWS - defender)
+id: 43ef5efa-bbd9-4c7c-bb44-bba2b6e734b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+  Threat Actor: DragonForce
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486
+  - actor.dragonforce

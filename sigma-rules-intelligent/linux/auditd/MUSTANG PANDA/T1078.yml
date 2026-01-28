@@ -1,0 +1,29 @@
+title: Valid Accounts (LINUX - auditd)
+id: 345b86cb-a496-45c7-b76b-bcf4704c0dd6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: MUSTANG PANDA
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.mustang_panda

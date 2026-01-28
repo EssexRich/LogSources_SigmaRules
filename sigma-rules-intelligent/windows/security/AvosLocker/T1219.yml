@@ -1,0 +1,29 @@
+title: Remote Access Tools (WINDOWS - security)
+id: 8378b3eb-0732-4bf8-9d5c-37ffc138e3c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.avoslocker

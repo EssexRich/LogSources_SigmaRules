@@ -1,0 +1,29 @@
+title: External Remote Services (WINDOWS - security)
+id: e6506bbc-05e3-4d6f-a1a5-d15ee045c078
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.alphv-blackcat

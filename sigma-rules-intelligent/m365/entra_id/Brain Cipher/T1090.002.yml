@@ -1,0 +1,29 @@
+title: External Proxy (M365 - entra_id)
+id: 94bdca3a-378e-42e3-a42c-118bb95bf61e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.002.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1090.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.002
+  - actor.brain_cipher

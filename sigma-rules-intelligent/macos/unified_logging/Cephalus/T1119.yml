@@ -1,0 +1,29 @@
+title: Automated Collection (MACOS - unified_logging)
+id: cae1e8f4-dbaf-4054-8ac8-514f1d822a42
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.cephalus

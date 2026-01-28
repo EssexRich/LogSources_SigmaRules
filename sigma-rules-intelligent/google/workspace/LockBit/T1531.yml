@@ -1,0 +1,29 @@
+title: Account Access Removal (GOOGLE - workspace)
+id: 3dfbe72a-6462-4413-aa41-c37a60c1a96d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1531.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1531/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1531
+  - actor.lockbit

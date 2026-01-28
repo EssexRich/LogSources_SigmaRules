@@ -1,0 +1,29 @@
+title: Data Encrypted for Impact (WINDOWS - sysmon)
+id: c1b86afe-f64f-48ae-bca1-3fa8558e6fc6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+  Threat Actor: DFIR Report
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486
+  - actor.dfir_report

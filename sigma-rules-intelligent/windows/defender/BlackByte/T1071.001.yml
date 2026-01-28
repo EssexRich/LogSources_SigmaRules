@@ -1,0 +1,29 @@
+title: Web Protocols (WINDOWS - defender)
+id: 6d1aa7e9-d229-4e78-965a-eea7b0a1497d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.001.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1071.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.001
+  - actor.blackbyte

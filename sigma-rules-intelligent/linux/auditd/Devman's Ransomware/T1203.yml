@@ -1,0 +1,29 @@
+title: Exploitation for Client Execution (LINUX - auditd)
+id: f3cd0251-f38f-4f4a-99bc-7ce784ee52f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.devman's_ransomware

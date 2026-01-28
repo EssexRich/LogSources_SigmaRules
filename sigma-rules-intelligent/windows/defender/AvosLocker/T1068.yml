@@ -1,0 +1,29 @@
+title: Exploitation for Privilege Escalation (WINDOWS - defender)
+id: 30b7dbe9-0822-4523-bb29-d0593d482f9c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.avoslocker

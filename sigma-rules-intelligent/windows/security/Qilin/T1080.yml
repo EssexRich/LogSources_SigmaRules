@@ -1,0 +1,29 @@
+title: Taint Shared Content (WINDOWS - security)
+id: a213f7b1-c933-49fb-955d-33b9e521296a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1080.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1080/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1080
+  - actor.qilin

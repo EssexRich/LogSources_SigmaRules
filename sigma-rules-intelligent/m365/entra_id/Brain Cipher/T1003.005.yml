@@ -1,0 +1,29 @@
+title: Cached Domain Credentials (M365 - entra_id)
+id: 0eb6e8c9-43a0-4726-bd7d-4d9a5fdec69a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.005.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1003.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.005
+  - actor.brain_cipher

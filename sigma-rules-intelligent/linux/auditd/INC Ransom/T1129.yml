@@ -1,0 +1,29 @@
+title: Shared Modules (LINUX - auditd)
+id: 21d2ae29-b08a-495e-83b5-a6956e389b5e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1129.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1129/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1129
+  - actor.inc_ransom

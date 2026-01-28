@@ -1,0 +1,29 @@
+title: Virtualization/Sandbox Evasion (GOOGLE - workspace)
+id: b94a264e-f6d7-43ab-a2d3-161e21b45b52
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1497.
+  Threat Actor: KageNoHitobito
+references:
+  - https://attack.mitre.org/techniques/T1497/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1497
+  - actor.kagenohitobito

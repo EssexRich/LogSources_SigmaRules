@@ -1,0 +1,29 @@
+title: Exploitation for Client Execution (MACOS - unified_logging)
+id: 02533969-1ae8-470a-9c1e-f6085b2fed66
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.revil

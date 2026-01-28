@@ -1,0 +1,29 @@
+title: Systemd Service (M365 - entra_id)
+id: 87c7898f-1457-4825-9abb-0629d0057a6c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.002.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1543.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.002
+  - actor.kazu

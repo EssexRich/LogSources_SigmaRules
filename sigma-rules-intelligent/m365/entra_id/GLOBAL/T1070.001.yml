@@ -1,0 +1,29 @@
+title: Clear Windows Event Logs (M365 - entra_id)
+id: 1489d7ae-662c-40e1-ba5d-ad66b3e52966
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.001.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1070.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.001
+  - actor.global

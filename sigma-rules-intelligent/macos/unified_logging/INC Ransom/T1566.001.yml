@@ -1,0 +1,29 @@
+title: Spearphishing Attachment (MACOS - unified_logging)
+id: e85376d2-2963-49e5-b0e0-53b645ed9d1c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.001.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1566.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.001
+  - actor.inc_ransom

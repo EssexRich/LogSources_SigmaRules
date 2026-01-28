@@ -1,0 +1,29 @@
+title: Query Registry (WINDOWS - defender)
+id: 463da7b2-492d-4f0c-86ef-a7fe83f4b8a8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: Magaskosh
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.magaskosh

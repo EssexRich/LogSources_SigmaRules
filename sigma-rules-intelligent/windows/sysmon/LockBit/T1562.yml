@@ -1,0 +1,29 @@
+title: Impair Defenses (WINDOWS - sysmon)
+id: 336416b0-62d5-44c9-8928-af6978006efe
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562
+  - actor.lockbit

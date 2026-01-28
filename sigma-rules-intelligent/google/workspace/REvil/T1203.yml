@@ -1,0 +1,29 @@
+title: Exploitation for Client Execution (GOOGLE - workspace)
+id: 095ca20a-4010-4bbe-beca-9d40b4504f01
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.revil

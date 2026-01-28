@@ -1,0 +1,29 @@
+title: Inhibit System Recovery (WINDOWS - security)
+id: e85f3b80-9a11-412f-bdc0-85ddfa80c514
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.ransomhub

@@ -1,0 +1,29 @@
+title: Exfiltration Over C2 Channel (GOOGLE - workspace)
+id: 8eecd139-e2b7-4df6-ba60-6de454a9d5c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: 0mega
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.0mega

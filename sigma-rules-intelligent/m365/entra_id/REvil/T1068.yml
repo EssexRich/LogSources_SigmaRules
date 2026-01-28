@@ -1,0 +1,29 @@
+title: Exploitation for Privilege Escalation (M365 - entra_id)
+id: 4d7f7c5e-9d35-42ff-b8b0-ce0693b9afcc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.revil

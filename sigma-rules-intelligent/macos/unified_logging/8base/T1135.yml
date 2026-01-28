@@ -1,0 +1,29 @@
+title: Network Share Discovery (MACOS - unified_logging)
+id: ef41840d-c05e-49e7-bd0f-9f14e37ad3d1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.8base

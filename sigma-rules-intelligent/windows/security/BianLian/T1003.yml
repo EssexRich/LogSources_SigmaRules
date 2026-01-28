@@ -1,0 +1,29 @@
+title: OS Credential Dumping (WINDOWS - security)
+id: 7e0e6fe6-f18d-4910-a24b-433667994bb5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.bianlian

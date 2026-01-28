@@ -1,0 +1,29 @@
+title: Application Window Discovery (M365 - entra_id)
+id: ecc6e325-3cbc-4a52-b8b4-3bf20787e357
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1010.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1010
+  - actor.shinra

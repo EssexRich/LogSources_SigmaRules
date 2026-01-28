@@ -1,0 +1,29 @@
+title: External Remote Services (GOOGLE - workspace)
+id: a9e05ff2-d415-42af-9bbb-a6225862b96d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.alphv-blackcat

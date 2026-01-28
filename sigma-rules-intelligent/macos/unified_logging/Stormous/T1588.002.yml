@@ -1,0 +1,29 @@
+title: Tool (MACOS - unified_logging)
+id: b22d2882-55d5-4629-969a-9b3195be8e9b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.002.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1588.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.002
+  - actor.stormous

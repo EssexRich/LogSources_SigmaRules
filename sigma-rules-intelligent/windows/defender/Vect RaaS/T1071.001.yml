@@ -1,0 +1,29 @@
+title: Web Protocols (WINDOWS - defender)
+id: 516e69e7-94ef-405e-9b8e-d86a1f86d2f4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.001.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1071.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.001
+  - actor.vect_raas

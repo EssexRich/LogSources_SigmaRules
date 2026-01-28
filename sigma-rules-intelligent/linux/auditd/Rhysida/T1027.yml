@@ -1,0 +1,29 @@
+title: Obfuscated Files or Information (LINUX - auditd)
+id: 06ec09eb-a803-4298-ad6f-2578ab77a1c2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.rhysida

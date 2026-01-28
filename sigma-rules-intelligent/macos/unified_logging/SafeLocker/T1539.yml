@@ -1,0 +1,29 @@
+title: Steal Web Session Cookie (MACOS - unified_logging)
+id: c8226119-0ca3-4bcf-b97a-36663d9c9ea8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1539.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1539/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1539
+  - actor.safelocker

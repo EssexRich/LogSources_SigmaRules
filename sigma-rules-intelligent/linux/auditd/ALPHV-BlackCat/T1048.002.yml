@@ -1,0 +1,29 @@
+title: Exfiltration Over Asymmetric Encrypted Non-C2 Protocol (LINUX - auditd)
+id: 2f970670-3b38-4379-9201-9305c773406b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.002.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1048.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048.002
+  - actor.alphv-blackcat

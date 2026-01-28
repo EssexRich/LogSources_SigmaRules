@@ -1,0 +1,29 @@
+title: Account Discovery (MACOS - unified_logging)
+id: 0abfbc5e-3cd2-4c71-bf8c-e03ae9a294de
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1087/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087
+  - actor.bianlian

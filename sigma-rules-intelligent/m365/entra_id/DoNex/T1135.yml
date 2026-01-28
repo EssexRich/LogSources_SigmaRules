@@ -1,0 +1,29 @@
+title: Network Share Discovery (M365 - entra_id)
+id: 152a5988-84a8-4b62-a642-61a3530323e2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.donex

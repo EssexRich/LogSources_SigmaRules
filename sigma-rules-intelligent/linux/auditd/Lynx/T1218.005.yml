@@ -1,0 +1,29 @@
+title: Mshta (LINUX - auditd)
+id: 47d0c0c1-cab7-4177-ba5e-90954d8270d4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.005.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1218.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.005
+  - actor.lynx

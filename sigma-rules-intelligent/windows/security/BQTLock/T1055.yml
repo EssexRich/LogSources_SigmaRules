@@ -1,0 +1,29 @@
+title: Process Injection (WINDOWS - security)
+id: ce88b8f5-7a44-4c38-b268-14b962c4a29a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.bqtlock

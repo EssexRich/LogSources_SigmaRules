@@ -1,0 +1,29 @@
+title: Archive Collected Data (M365 - entra_id)
+id: 07317262-734a-460b-9955-3db762ee6747
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560
+  - actor.lockbit

@@ -1,0 +1,29 @@
+title: Dead Drop Resolver (M365 - entra_id)
+id: aa7132d9-3877-4903-a4d9-0a5b458a3535
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.001.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1102.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102.001
+  - actor.lynx

@@ -1,0 +1,29 @@
+title: Exfiltration to Cloud Storage (WINDOWS - sysmon)
+id: 61712d61-9a9a-4be7-9a16-5c554b03ea3b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.002.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1567.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567.002
+  - actor.alphv-blackcat

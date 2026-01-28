@@ -1,0 +1,29 @@
+title: Disk Structure Wipe (MACOS - unified_logging)
+id: 43be5cee-3216-4ed9-85f9-18aa6ec557ca
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1487.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1487/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1487
+  - actor.stormous

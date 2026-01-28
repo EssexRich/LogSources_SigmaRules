@@ -1,0 +1,29 @@
+title: Inhibit System Recovery (M365 - entra_id)
+id: 572e50d1-5871-45ad-9287-d6c4fbb38d0c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.safepay

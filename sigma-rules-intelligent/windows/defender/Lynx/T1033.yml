@@ -1,0 +1,29 @@
+title: System Owner/User Discovery (WINDOWS - defender)
+id: b22fb2ce-f561-4e9c-a296-979b1b72cb22
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.lynx

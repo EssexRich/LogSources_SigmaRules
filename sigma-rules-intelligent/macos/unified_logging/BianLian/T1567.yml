@@ -1,0 +1,29 @@
+title: Exfiltration Over Web Service (MACOS - unified_logging)
+id: c24a0ec9-4310-4c25-b3cc-091de274e3db
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1567/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567
+  - actor.bianlian

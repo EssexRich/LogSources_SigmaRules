@@ -1,0 +1,29 @@
+title: Data Transfer Size Limits (LINUX - auditd)
+id: 61b4c75d-f29a-4f57-8c2b-55670d211513
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1030.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1030/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1030
+  - actor.safelocker

@@ -1,0 +1,29 @@
+title: Acquire Infrastructure (MACOS - unified_logging)
+id: e0176150-4ab7-46d9-8c74-6dadee02192a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1583/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583
+  - actor.rhysida

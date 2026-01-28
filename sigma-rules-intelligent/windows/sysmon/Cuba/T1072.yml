@@ -1,0 +1,29 @@
+title: Software Deployment Tools (WINDOWS - sysmon)
+id: 45fb578c-2e4c-45e3-a3bd-3524333cb0ed
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+  Threat Actor: Cuba
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072
+  - actor.cuba

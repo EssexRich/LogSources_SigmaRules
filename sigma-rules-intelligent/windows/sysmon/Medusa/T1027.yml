@@ -1,0 +1,29 @@
+title: Obfuscated Files or Information (WINDOWS - sysmon)
+id: 35b8212b-32d0-4319-b953-e017ab1834d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.medusa

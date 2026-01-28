@@ -1,0 +1,29 @@
+title: Software Packing (LINUX - auditd)
+id: b2e2c147-d0c8-410f-9a78-7f8eec1c280e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.002.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1027.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.002
+  - actor.safelocker

@@ -1,0 +1,29 @@
+title: Indirect Command Execution (GOOGLE - workspace)
+id: 9992c6a6-c357-4d03-a383-7201fc02ff89
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202
+  - actor.inc_ransom

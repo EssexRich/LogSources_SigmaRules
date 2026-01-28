@@ -1,0 +1,29 @@
+title: Application Layer Protocol (LINUX - auditd)
+id: 75794f0b-0139-49e9-8d7a-e2a6ebf8888c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.lockbit

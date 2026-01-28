@@ -1,0 +1,29 @@
+title: Data from Information Repositories (WINDOWS - defender)
+id: a98160ca-50fe-44cc-8a0a-bdfe36abeba6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1213.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T1213/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1213
+  - actor.pear

@@ -1,0 +1,29 @@
+title: Clear Windows Event Logs (M365 - entra_id)
+id: fc67c7d8-f76c-4204-ade2-0333d4638b8a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.001.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1070.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.001
+  - actor.rhysida

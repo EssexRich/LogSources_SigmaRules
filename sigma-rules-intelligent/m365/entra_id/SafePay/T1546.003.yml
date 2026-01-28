@@ -1,0 +1,29 @@
+title: Windows Management Instrumentation Event Subscription (M365 - entra_id)
+id: 01433023-dcab-40fb-8f80-700f5704f5cd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1546.003.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1546.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1546.003
+  - actor.safepay

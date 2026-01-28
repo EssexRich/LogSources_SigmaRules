@@ -1,0 +1,29 @@
+title: Account Discovery (LINUX - auditd)
+id: af65fe21-8445-4d75-90e7-459bf8dac8f7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1087/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087
+  - actor.vice_society

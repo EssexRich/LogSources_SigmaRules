@@ -1,0 +1,29 @@
+title: Process Discovery (M365 - entra_id)
+id: 03a09c16-3261-465a-9a1d-ba019db7d3b2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1057.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1057/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1057
+  - actor.rhysida

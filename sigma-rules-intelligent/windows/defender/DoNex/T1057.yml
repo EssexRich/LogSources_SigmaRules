@@ -1,0 +1,29 @@
+title: Process Discovery (WINDOWS - defender)
+id: 0fe7248c-6b56-4aff-81fb-c8a20779121b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1057.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1057/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1057
+  - actor.donex

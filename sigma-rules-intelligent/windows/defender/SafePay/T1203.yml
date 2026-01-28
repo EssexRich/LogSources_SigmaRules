@@ -1,0 +1,29 @@
+title: Exploitation for Client Execution (WINDOWS - defender)
+id: 42687b4a-3dac-4ed5-a7ba-4ef532c09994
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.safepay

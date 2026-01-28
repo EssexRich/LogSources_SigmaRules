@@ -1,0 +1,29 @@
+title: Defacement (GOOGLE - workspace)
+id: 4181fd11-97bb-45f1-9d11-c50357605e91
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1491.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1491/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1491
+  - actor.devman's_ransomware

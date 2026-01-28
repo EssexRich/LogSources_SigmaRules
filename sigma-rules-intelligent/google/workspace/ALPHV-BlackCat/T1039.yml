@@ -1,0 +1,29 @@
+title: Data from Network Shared Drive (GOOGLE - workspace)
+id: 3dc3226f-21a2-4c0c-a085-935efda7f6ec
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1039.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1039/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1039
+  - actor.alphv-blackcat

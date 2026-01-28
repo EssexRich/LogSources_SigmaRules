@@ -1,0 +1,29 @@
+title: Valid Accounts (WINDOWS - defender)
+id: 1d0d49d8-adf9-4350-ae2a-d23b13dfd508
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.avoslocker

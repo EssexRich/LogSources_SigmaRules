@@ -1,0 +1,29 @@
+title: Multi-Stage Channels (M365 - entra_id)
+id: 405043b5-1a76-4058-a695-c44d4e94ca2b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1104.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1104/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1104
+  - actor.inc_ransom

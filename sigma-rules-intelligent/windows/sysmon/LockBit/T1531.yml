@@ -1,0 +1,29 @@
+title: Account Access Removal (WINDOWS - sysmon)
+id: c563e74a-920d-4ea3-bcd1-97a6357827e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1531.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1531/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1531
+  - actor.lockbit

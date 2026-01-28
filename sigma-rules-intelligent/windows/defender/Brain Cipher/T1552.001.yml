@@ -1,0 +1,29 @@
+title: Credentials In Files (WINDOWS - defender)
+id: caf6dd2e-1089-4c3e-9646-5f96703b85eb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.001.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1552.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.001
+  - actor.brain_cipher

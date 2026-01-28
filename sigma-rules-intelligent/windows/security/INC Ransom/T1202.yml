@@ -1,0 +1,29 @@
+title: Indirect Command Execution (WINDOWS - security)
+id: 41725fd5-aa36-4d31-9816-8b7b06f7c4bf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202
+  - actor.inc_ransom

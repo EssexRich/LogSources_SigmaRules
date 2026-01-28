@@ -1,0 +1,29 @@
+title: Winlogon Helper DLL (GOOGLE - workspace)
+id: 0235c421-0e17-450d-85d3-26d6d73c9ae5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.004.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1547.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547.004
+  - actor.lockbit

@@ -1,0 +1,29 @@
+title: Domain Account (WINDOWS - defender)
+id: caeffbc2-72e0-44c2-b963-2367fb72840b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.002.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1136.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136.002
+  - actor.medusa

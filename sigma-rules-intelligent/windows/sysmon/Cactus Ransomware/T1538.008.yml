@@ -1,0 +1,29 @@
+title: T1538.008 (WINDOWS - sysmon)
+id: 273d2b3f-6f09-46e4-8d8a-ad11b9a0a873
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1538.008.
+  Threat Actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1538.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1538.008
+  - actor.cactus_ransomware

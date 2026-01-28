@@ -1,0 +1,29 @@
+title: System Location Discovery (WINDOWS - security)
+id: b7f923aa-6303-4f85-846d-d4cf2660d8df
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1614/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614
+  - actor.lockbit

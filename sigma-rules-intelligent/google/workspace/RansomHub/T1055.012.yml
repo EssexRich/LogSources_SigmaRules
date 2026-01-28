@@ -1,0 +1,29 @@
+title: Process Hollowing (GOOGLE - workspace)
+id: e71a539b-77e1-4330-b1e7-ca7376e8f326
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.012.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1055.012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.012
+  - actor.ransomhub

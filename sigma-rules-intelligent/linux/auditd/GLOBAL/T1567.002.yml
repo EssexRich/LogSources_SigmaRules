@@ -1,0 +1,29 @@
+title: Exfiltration to Cloud Storage (LINUX - auditd)
+id: 6c8bfcf2-326c-4be3-95c7-c6d2200578e7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.002.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1567.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567.002
+  - actor.global

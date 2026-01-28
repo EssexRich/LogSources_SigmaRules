@@ -1,0 +1,29 @@
+title: Exfiltration Over Web Service (GOOGLE - workspace)
+id: a0b37700-4516-4f55-8f7c-60ab463e3546
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1567/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567
+  - actor.medusa

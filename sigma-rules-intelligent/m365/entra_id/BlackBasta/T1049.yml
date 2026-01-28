@@ -1,0 +1,29 @@
+title: System Network Connections Discovery (M365 - entra_id)
+id: 9b981ed1-89f4-4396-8d32-25014649877f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.blackbasta

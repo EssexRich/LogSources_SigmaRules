@@ -1,0 +1,29 @@
+title: OS Credential Dumping (MACOS - unified_logging)
+id: 7bac4b00-b2c2-40b8-afde-41414b8cbb0c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.ransomhub

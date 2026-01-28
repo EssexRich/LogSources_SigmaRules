@@ -1,0 +1,29 @@
+title: Steal Web Session Cookie (WINDOWS - sysmon)
+id: 04618daf-f637-4f4a-ab0f-9471d3ec9fee
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1539.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1539/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1539
+  - actor.safelocker

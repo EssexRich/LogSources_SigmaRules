@@ -1,0 +1,29 @@
+title: Domain Accounts (M365 - entra_id)
+id: 0a1d9f67-6d26-44f3-b6ec-42f92b964fde
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.002.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1078.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.002
+  - actor.blacksuit

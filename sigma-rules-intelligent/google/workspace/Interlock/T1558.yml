@@ -1,0 +1,29 @@
+title: Steal or Forge Kerberos Tickets (GOOGLE - workspace)
+id: 08c7e835-da05-4669-8ea4-278b195b5f38
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1558/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558
+  - actor.interlock

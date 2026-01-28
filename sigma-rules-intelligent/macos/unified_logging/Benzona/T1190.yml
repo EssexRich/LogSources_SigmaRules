@@ -1,0 +1,29 @@
+title: Exploit Public-Facing Application (MACOS - unified_logging)
+id: f8bc160b-e412-41a9-b71c-d3962ab999d8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.benzona

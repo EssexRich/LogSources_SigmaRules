@@ -1,0 +1,29 @@
+title: Clipboard Data (MACOS - unified_logging)
+id: 45ba7f42-b451-4ee6-89ae-79274b86a1c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1115.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1115/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1115
+  - actor.inc_ransom

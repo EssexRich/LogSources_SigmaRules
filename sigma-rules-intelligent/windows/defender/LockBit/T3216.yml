@@ -1,0 +1,29 @@
+title: T3216 (WINDOWS - defender)
+id: e25ec262-b909-4639-b383-8e76aa4c3028
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3216.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T3216/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3216
+  - actor.lockbit

@@ -1,0 +1,29 @@
+title: Indicator Removal (WINDOWS - security)
+id: 5a1262d5-bd1d-4a49-b1ca-77c72fff8390
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070
+  - actor.inc_ransom

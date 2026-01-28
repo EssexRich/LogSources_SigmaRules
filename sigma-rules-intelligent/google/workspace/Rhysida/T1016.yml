@@ -1,0 +1,29 @@
+title: System Network Configuration Discovery (GOOGLE - workspace)
+id: 317e30a8-f3d8-4ef9-8902-b47dc59ebafe
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.rhysida

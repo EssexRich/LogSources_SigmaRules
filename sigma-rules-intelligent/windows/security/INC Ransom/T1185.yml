@@ -1,0 +1,29 @@
+title: Browser Session Hijacking (WINDOWS - security)
+id: 8669e382-af9a-4324-af39-1b89f9383f6a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1185.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1185/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1185
+  - actor.inc_ransom

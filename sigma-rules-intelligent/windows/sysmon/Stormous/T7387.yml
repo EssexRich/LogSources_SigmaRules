@@ -1,0 +1,29 @@
+title: T7387 (WINDOWS - sysmon)
+id: ee9d3743-e470-47aa-8bd4-55594335ffd4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7387.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T7387/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7387
+  - actor.stormous

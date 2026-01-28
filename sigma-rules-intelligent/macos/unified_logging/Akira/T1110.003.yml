@@ -1,0 +1,29 @@
+title: Password Spraying (MACOS - unified_logging)
+id: c7c4c9f8-52a6-44dc-a5e2-1b13df60c492
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.003.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1110.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.003
+  - actor.akira

@@ -1,0 +1,29 @@
+title: Proxy (GOOGLE - workspace)
+id: 5c0d7803-e9b1-4067-a9b7-254ab0d1aa07
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.
+  Threat Actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1090/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090
+  - actor.cactus_ransomware

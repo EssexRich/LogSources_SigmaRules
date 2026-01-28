@@ -1,0 +1,29 @@
+title: Obfuscated Files or Information (MACOS - unified_logging)
+id: 5e9b1ce9-b1a4-4fd4-bbe9-ec1ae984df83
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: KageNoHitobito
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.kagenohitobito

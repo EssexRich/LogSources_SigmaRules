@@ -1,0 +1,29 @@
+title: System Network Connections Discovery (WINDOWS - defender)
+id: c0b7cc3a-afe2-4a6e-a745-95b413521978
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.alphv-blackcat

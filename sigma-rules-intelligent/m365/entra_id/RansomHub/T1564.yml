@@ -1,0 +1,29 @@
+title: Hide Artifacts (M365 - entra_id)
+id: 0b8d9a8e-0364-4a1b-b11d-bde800a14138
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.ransomhub

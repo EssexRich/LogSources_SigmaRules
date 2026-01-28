@@ -1,0 +1,29 @@
+title: Dynamic Resolution (GOOGLE - workspace)
+id: f458061b-3b44-4577-99c2-359e65c09b89
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1568/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568
+  - actor.avoslocker

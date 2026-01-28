@@ -1,0 +1,29 @@
+title: Steal or Forge Kerberos Tickets (LINUX - auditd)
+id: b54ad969-d5df-42e7-af4b-f52affcfe1c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1558/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558
+  - actor.interlock

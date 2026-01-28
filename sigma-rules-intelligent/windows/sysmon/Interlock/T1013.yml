@@ -1,0 +1,29 @@
+title: Port Monitors (WINDOWS - sysmon)
+id: cb4b3e47-dcf6-41f1-a3f7-5b454c04d295
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1013.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1013
+  - actor.interlock

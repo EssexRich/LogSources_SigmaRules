@@ -1,0 +1,29 @@
+title: Scheduled Task/Job (GOOGLE - workspace)
+id: b33e42e1-5649-4c4a-9ad8-c2931d6e5ec0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.inc_ransom

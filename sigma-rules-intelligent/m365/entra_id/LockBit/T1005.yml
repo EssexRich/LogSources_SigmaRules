@@ -1,0 +1,29 @@
+title: Data from Local System (M365 - entra_id)
+id: a16a4e64-2e9e-44eb-a885-f6df9da67289
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.lockbit

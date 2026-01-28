@@ -1,0 +1,29 @@
+title: Boot or Logon Autostart Execution (WINDOWS - sysmon)
+id: 5790175b-3572-4fcb-ae3f-48c5c9df8eae
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547
+  - actor.lockbit

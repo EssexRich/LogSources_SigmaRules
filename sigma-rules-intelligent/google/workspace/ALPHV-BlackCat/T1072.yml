@@ -1,0 +1,29 @@
+title: Software Deployment Tools (GOOGLE - workspace)
+id: bc456a75-a9c1-46b1-8f9c-d6e35948dd6d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072
+  - actor.alphv-blackcat

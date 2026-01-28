@@ -1,0 +1,29 @@
+title: Abuse Elevation Control Mechanism (WINDOWS - security)
+id: 6cab71a3-0fea-4b3a-92c4-5c6539f1955e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1548/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548
+  - actor.donex

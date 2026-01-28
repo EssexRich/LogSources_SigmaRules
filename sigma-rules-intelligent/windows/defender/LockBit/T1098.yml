@@ -1,0 +1,29 @@
+title: Account Manipulation (WINDOWS - defender)
+id: f55de216-cff2-414c-9ad3-829c88e9f1f9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1098/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098
+  - actor.lockbit

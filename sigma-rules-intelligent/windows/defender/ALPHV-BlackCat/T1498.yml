@@ -1,0 +1,29 @@
+title: Network Denial of Service (WINDOWS - defender)
+id: 4af69db4-2955-4b47-8d6d-6c0dc7147eaf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1498.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1498/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1498
+  - actor.alphv-blackcat

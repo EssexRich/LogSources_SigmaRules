@@ -1,0 +1,29 @@
+title: Encrypted Channel (WINDOWS - sysmon)
+id: 5cc1d291-094a-4707-b0fc-54cb9b490467
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573
+  - actor.coosea

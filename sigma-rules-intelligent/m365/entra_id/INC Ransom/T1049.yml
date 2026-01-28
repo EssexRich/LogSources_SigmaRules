@@ -1,0 +1,29 @@
+title: System Network Connections Discovery (M365 - entra_id)
+id: 6891447d-9c36-482b-bef8-0683171256bb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.inc_ransom

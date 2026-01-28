@@ -1,0 +1,29 @@
+title: Query Registry (M365 - entra_id)
+id: 65877f21-f484-42c5-8b89-6e641bce86f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.coosea

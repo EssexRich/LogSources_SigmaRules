@@ -1,0 +1,29 @@
+title: Pass the Hash (LINUX - auditd)
+id: 43330dd6-df35-43aa-b6a0-e3c49eb770e6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1550.002.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1550.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1550.002
+  - actor.akira

@@ -1,0 +1,29 @@
+title: Spearphishing Voice (WINDOWS - security)
+id: f457fcd5-d8dc-4262-a009-6935d4a617a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.004.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1566.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.004
+  - actor.safelocker
