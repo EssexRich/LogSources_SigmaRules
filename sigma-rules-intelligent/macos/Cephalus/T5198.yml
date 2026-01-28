@@ -1,0 +1,28 @@
+title: T5198 (MACOS)
+id: 3d849f3b-3cb6-4ce7-970e-4ded8a5a95e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5198.
+references:
+  - https://attack.mitre.org/techniques/T5198/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5198

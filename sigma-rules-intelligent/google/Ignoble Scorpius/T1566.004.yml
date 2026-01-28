@@ -1,0 +1,28 @@
+title: T1566.004 (GOOGLE)
+id: b946fbec-7a67-4d69-b45d-41f168b5984c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.004.
+references:
+  - https://attack.mitre.org/techniques/T1566.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.004

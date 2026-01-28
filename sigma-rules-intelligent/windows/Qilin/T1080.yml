@@ -1,0 +1,28 @@
+title: T1080 (WINDOWS)
+id: 1944d7bb-f17c-49d8-8513-3c138ace43ae
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1080.
+references:
+  - https://attack.mitre.org/techniques/T1080/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1080

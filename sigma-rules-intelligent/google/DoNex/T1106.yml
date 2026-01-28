@@ -1,0 +1,28 @@
+title: T1106 (GOOGLE)
+id: 532810c9-dbb8-4704-8758-876de14c3f46
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106

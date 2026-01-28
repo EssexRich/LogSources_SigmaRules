@@ -1,0 +1,28 @@
+title: T8550 (M365)
+id: 5dfa928b-3783-47b5-be9c-c6e47a81a7af
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8550.
+references:
+  - https://attack.mitre.org/techniques/T8550/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8550

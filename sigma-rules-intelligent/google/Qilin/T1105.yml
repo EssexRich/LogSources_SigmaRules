@@ -1,0 +1,28 @@
+title: T1105 (GOOGLE)
+id: 1e1add4f-75f2-4585-bbe4-d8a21ab4cef7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105

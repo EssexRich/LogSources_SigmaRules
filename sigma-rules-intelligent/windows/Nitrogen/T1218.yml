@@ -1,0 +1,28 @@
+title: T1218 (WINDOWS)
+id: 192b789c-8d3a-4efa-808f-2cc1fdc08c52
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.
+references:
+  - https://attack.mitre.org/techniques/T1218/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218

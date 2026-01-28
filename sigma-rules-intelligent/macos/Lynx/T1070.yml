@@ -1,0 +1,28 @@
+title: T1070 (MACOS)
+id: f8d8939e-1b4e-4969-8b11-4a2cc3160e50
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070

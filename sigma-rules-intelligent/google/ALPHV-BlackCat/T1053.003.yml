@@ -1,0 +1,28 @@
+title: T1053.003 (GOOGLE)
+id: 863afacb-fea2-4542-9154-e44ad437d52e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.003.
+references:
+  - https://attack.mitre.org/techniques/T1053.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.003

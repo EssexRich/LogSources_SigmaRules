@@ -1,0 +1,28 @@
+title: T3459 (M365)
+id: d95da554-fae3-4958-93fe-9445821ebcce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3459.
+references:
+  - https://attack.mitre.org/techniques/T3459/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3459

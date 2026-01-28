@@ -1,0 +1,28 @@
+title: T8293 (M365)
+id: 2c726f77-ce53-401e-bda8-2c5925428205
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8293.
+references:
+  - https://attack.mitre.org/techniques/T8293/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8293

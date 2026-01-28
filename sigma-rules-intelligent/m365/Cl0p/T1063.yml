@@ -1,0 +1,28 @@
+title: T1063 (M365)
+id: ecc46ea1-010a-4549-836e-de2391728155
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1063.
+references:
+  - https://attack.mitre.org/techniques/T1063/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1063

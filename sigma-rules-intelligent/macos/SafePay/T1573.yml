@@ -1,0 +1,28 @@
+title: T1573 (MACOS)
+id: 544d1a92-49ac-4536-b32f-99494fc85b3f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573

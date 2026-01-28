@@ -1,0 +1,28 @@
+title: T1014 (GOOGLE)
+id: ed6b11c7-63be-4f32-abb8-a5701c103db2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1014.
+references:
+  - https://attack.mitre.org/techniques/T1014/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1014

@@ -1,0 +1,28 @@
+title: T1202 (MACOS)
+id: d36579e3-50bb-4ad9-b2d6-373d86a3d0d4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202

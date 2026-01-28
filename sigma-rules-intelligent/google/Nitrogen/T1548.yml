@@ -1,0 +1,28 @@
+title: T1548 (GOOGLE)
+id: 5f1f0fcc-1c08-4d63-b376-87516d1ad418
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.
+references:
+  - https://attack.mitre.org/techniques/T1548/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548

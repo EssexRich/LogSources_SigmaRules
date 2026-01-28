@@ -1,0 +1,28 @@
+title: T1046 (GOOGLE)
+id: ebc6a91b-c38d-464c-890c-29f864a3a85d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046

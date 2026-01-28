@@ -1,0 +1,28 @@
+title: T1078 (GOOGLE)
+id: 18c4f5d8-6e29-4dcf-ad65-55e437d5f3b4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078

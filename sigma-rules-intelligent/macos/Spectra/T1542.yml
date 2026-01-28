@@ -1,0 +1,28 @@
+title: T1542 (MACOS)
+id: df5ca5f1-fc87-4948-8a98-5860230620c2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1542.
+references:
+  - https://attack.mitre.org/techniques/T1542/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1542

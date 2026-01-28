@@ -1,0 +1,28 @@
+title: T1498 (GOOGLE)
+id: ee7e01f9-1d29-44a4-806d-5f5ba6f2b7b0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1498.
+references:
+  - https://attack.mitre.org/techniques/T1498/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1498

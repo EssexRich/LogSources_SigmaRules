@@ -1,0 +1,28 @@
+title: T1098 (LINUX)
+id: 243f63f0-4013-4044-be9d-a179fa20c88e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.
+references:
+  - https://attack.mitre.org/techniques/T1098/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098

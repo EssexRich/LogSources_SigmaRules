@@ -1,0 +1,28 @@
+title: T4975 (GOOGLE)
+id: 99edec1c-acce-492d-90a7-50e09f70456f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4975.
+references:
+  - https://attack.mitre.org/techniques/T4975/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4975

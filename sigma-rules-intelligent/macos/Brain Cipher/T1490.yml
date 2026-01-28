@@ -1,0 +1,28 @@
+title: T1490 (MACOS)
+id: 5235bdc9-0c66-4be4-912e-61da7cb260c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490

@@ -1,0 +1,28 @@
+title: T1070.006 (MACOS)
+id: 0aa87650-6a4f-4037-8ba4-2e85c5ad2193
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.006.
+references:
+  - https://attack.mitre.org/techniques/T1070.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.006

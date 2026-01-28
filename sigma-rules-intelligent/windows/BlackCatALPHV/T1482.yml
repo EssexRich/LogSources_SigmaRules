@@ -1,0 +1,28 @@
+title: T1482 (WINDOWS)
+id: 0b0df818-6590-422b-9f85-c42431546b27
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1482.
+references:
+  - https://attack.mitre.org/techniques/T1482/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1482

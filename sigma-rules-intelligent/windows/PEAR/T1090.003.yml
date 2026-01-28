@@ -1,0 +1,28 @@
+title: T1090.003 (WINDOWS)
+id: 7983696b-9efc-4a5c-9b45-512d4c2ca4a7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.003.
+references:
+  - https://attack.mitre.org/techniques/T1090.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.003

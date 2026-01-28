@@ -1,0 +1,28 @@
+title: T1486 (M365)
+id: f70c2e13-6c3d-4693-be3b-e7531e65f26e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486

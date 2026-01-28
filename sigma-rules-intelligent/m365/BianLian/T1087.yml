@@ -1,0 +1,28 @@
+title: T1087 (M365)
+id: d655153f-30f9-4050-b5ff-ffd60e60c896
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.
+references:
+  - https://attack.mitre.org/techniques/T1087/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087

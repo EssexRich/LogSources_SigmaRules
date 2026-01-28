@@ -1,0 +1,28 @@
+title: T1204.002 (LINUX)
+id: a8e6f137-ee42-47b9-be05-ba6dc1ed4ad6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002

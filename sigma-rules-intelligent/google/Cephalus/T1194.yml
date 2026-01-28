@@ -1,0 +1,28 @@
+title: T1194 (GOOGLE)
+id: b160ff10-1f56-4296-8e27-1d2b1556df4d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1194.
+references:
+  - https://attack.mitre.org/techniques/T1194/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1194

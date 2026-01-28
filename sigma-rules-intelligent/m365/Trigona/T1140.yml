@@ -1,0 +1,28 @@
+title: T1140 (M365)
+id: b8c6912f-145b-4d4f-8f7d-ef1b4248c18f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140

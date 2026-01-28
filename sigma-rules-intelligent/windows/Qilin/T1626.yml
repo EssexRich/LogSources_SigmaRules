@@ -1,0 +1,28 @@
+title: T1626 (WINDOWS)
+id: e64b480e-600d-48b1-a97c-06c5a2d6063f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1626.
+references:
+  - https://attack.mitre.org/techniques/T1626/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1626

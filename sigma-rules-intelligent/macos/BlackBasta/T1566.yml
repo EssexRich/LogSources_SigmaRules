@@ -1,0 +1,28 @@
+title: T1566 (MACOS)
+id: 55d71b18-f55d-43eb-802e-132c783b46c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566

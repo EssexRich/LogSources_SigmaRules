@@ -1,0 +1,28 @@
+title: T1137.001 (GOOGLE)
+id: cff11cd9-85a5-470a-bdcc-8a5e65e5b4db
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1137.001.
+references:
+  - https://attack.mitre.org/techniques/T1137.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1137.001

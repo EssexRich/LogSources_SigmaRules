@@ -1,0 +1,28 @@
+title: T1807.001 (LINUX)
+id: 0f2ed9d0-caa9-4a8f-b908-127ed82c7308
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1807.001.
+references:
+  - https://attack.mitre.org/techniques/T1807.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1807.001

@@ -1,0 +1,28 @@
+title: T1078 (M365)
+id: d0a7f930-9482-4734-9aa5-b24a2ddc34b9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078

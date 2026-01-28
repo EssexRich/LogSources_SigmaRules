@@ -1,0 +1,28 @@
+title: T0370 (M365)
+id: fac861d2-843f-469c-8f9c-eb951c74a2a7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0370.
+references:
+  - https://attack.mitre.org/techniques/T0370/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0370

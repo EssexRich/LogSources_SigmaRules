@@ -1,0 +1,28 @@
+title: T1404 (WINDOWS)
+id: 5a136dee-225d-4f04-8f89-59c0af3366e1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1404.
+references:
+  - https://attack.mitre.org/techniques/T1404/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1404

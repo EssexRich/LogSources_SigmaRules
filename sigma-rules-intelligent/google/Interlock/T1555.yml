@@ -1,0 +1,28 @@
+title: T1555 (GOOGLE)
+id: 8c35c094-f2c9-44e6-8493-75dd526cfbae
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555

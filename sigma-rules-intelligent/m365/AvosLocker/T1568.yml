@@ -1,0 +1,28 @@
+title: T1568 (M365)
+id: 3f2c7de6-29a4-4f8d-9ab9-2ab9457900a1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.
+references:
+  - https://attack.mitre.org/techniques/T1568/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568

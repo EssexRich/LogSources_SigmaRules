@@ -1,0 +1,28 @@
+title: T1104 (LINUX)
+id: 8b5c5220-0a78-482e-9f09-98a748060468
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1104.
+references:
+  - https://attack.mitre.org/techniques/T1104/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1104

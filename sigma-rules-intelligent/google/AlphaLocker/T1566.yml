@@ -1,0 +1,28 @@
+title: T1566 (GOOGLE)
+id: 99e35181-a955-4c70-8128-b390e75e2f08
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566

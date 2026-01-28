@@ -1,0 +1,28 @@
+title: T1614 (GOOGLE)
+id: 60ed9ecf-a80c-4035-a94f-3f2e3b30d939
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.
+references:
+  - https://attack.mitre.org/techniques/T1614/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614

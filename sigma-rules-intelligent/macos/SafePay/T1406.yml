@@ -1,0 +1,28 @@
+title: T1406 (MACOS)
+id: 8d2b3c59-d075-4b2f-b365-8d89cc4e89f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1406.
+references:
+  - https://attack.mitre.org/techniques/T1406/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1406

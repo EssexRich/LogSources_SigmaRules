@@ -1,0 +1,28 @@
+title: T1558 (WINDOWS)
+id: 9a1234ca-b57e-434e-973e-74a18db0b193
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.
+references:
+  - https://attack.mitre.org/techniques/T1558/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558

@@ -1,0 +1,28 @@
+title: T1565 (M365)
+id: 81a7f533-0ed9-4f03-8348-ed26681f4fc6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1565.
+references:
+  - https://attack.mitre.org/techniques/T1565/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1565

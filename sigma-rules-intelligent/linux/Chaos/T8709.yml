@@ -1,0 +1,28 @@
+title: T8709 (LINUX)
+id: 8f1be9ba-93fe-40c4-93c2-12abc9bfa231
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8709.
+references:
+  - https://attack.mitre.org/techniques/T8709/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8709

@@ -1,12 +1,9 @@
-title: Valid Accounts (WINDOWS)
-id: 0e9b3652-1d61-4cf8-988a-3e3c2ddc4e06
+title: T1078.002 (WINDOWS)
+id: 6a4b8ed7-643c-40ec-b2dc-667b58630d41
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1078.002.
-  Adversaries may use a variety of techniques throughout the attack lifecycle.
-  This rule provides baseline detection for security monitoring and threat hunting.
 references:
   - https://attack.mitre.org/techniques/T1078.002/
-  - https://incidentbuddy.ai/gapmatrix/techniques/T1078.002
 author: GapMATRIX Intelligent Sigma Generator
 date: 2026-01-28
 status: experimental
@@ -14,22 +11,18 @@ severity: medium
 
 logsource:
   product: windows
-  service: security
+  service: defender
   category: process_creation
 
 detection:
   selection:
-    SubjectUserName:
-      - 'SYSTEM'
-      - 'LOCAL SERVICE'
+    Image|contains: process
+    CommandLine|contains: cmd
   condition: selection
 
 falsepositives:
   - Legitimate system administration activity
   - Authorized security testing
-  - Expected software deployments
 
 tags:
   - attack.T1078.002
-  - attack_pattern
-  - detection_rule

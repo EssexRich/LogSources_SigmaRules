@@ -1,0 +1,28 @@
+title: T4980 (M365)
+id: 15a38567-1ebb-4fa2-baa9-eb601a13c10e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4980.
+references:
+  - https://attack.mitre.org/techniques/T4980/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4980

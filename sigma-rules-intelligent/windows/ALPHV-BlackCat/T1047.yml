@@ -1,0 +1,28 @@
+title: T1047 (WINDOWS)
+id: 3ad01207-8878-43f6-b0e1-87ca76c4bc6b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047

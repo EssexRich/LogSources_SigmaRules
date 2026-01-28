@@ -1,0 +1,28 @@
+title: T1102.001 (MACOS)
+id: 40b9e44f-f5d4-41e1-9843-d1bf712bfdb9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.001.
+references:
+  - https://attack.mitre.org/techniques/T1102.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102.001

@@ -1,0 +1,28 @@
+title: T1574.001 (LINUX)
+id: 5628c7e1-97e2-489d-8f93-e1170cbd874f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.001.
+references:
+  - https://attack.mitre.org/techniques/T1574.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.001

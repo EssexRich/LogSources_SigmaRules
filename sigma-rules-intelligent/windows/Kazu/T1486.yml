@@ -1,12 +1,9 @@
-title: Data Encrypted for Impact (WINDOWS)
-id: 1e996c50-0350-43e3-8c59-b9eac598b49b
+title: T1486 (WINDOWS)
+id: 7c46f955-2e6e-43d3-ae64-0cf7f292c367
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1486.
-  Adversaries may use a variety of techniques throughout the attack lifecycle.
-  This rule provides baseline detection for security monitoring and threat hunting.
 references:
   - https://attack.mitre.org/techniques/T1486/
-  - https://incidentbuddy.ai/gapmatrix/techniques/T1486
 author: GapMATRIX Intelligent Sigma Generator
 date: 2026-01-28
 status: experimental
@@ -14,25 +11,18 @@ severity: medium
 
 logsource:
   product: windows
-  service: sysmon
+  service: defender
   category: process_creation
 
 detection:
   selection:
-    Image:
-      - 'cipher.exe'
-      - 'certutil.exe'
-    CommandLine:
-      - '/e'
-      - '/s'
+    Image|contains: process
+    CommandLine|contains: cmd
   condition: selection
 
 falsepositives:
   - Legitimate system administration activity
   - Authorized security testing
-  - Expected software deployments
 
 tags:
   - attack.T1486
-  - attack_pattern
-  - detection_rule

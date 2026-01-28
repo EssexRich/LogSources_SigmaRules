@@ -1,0 +1,28 @@
+title: T7610 (GOOGLE)
+id: ca70d907-97f8-4669-8428-6e279a85f88d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7610.
+references:
+  - https://attack.mitre.org/techniques/T7610/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7610

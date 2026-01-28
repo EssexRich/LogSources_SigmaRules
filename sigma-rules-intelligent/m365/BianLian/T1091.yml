@@ -1,0 +1,28 @@
+title: T1091 (M365)
+id: ae0bf921-62a8-4fc1-a4d3-70795ae97f0d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091

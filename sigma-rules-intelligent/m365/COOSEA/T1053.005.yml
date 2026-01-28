@@ -1,0 +1,28 @@
+title: T1053.005 (M365)
+id: 35c96977-7188-438f-95d0-d6c63b0e0737
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.005.
+references:
+  - https://attack.mitre.org/techniques/T1053.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.005

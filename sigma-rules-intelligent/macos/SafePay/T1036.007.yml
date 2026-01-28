@@ -1,0 +1,28 @@
+title: T1036.007 (MACOS)
+id: 8a82c7b3-bc41-4ccd-8eeb-b704512ec6c2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.007.
+references:
+  - https://attack.mitre.org/techniques/T1036.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.007

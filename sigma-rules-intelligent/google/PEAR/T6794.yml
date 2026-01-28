@@ -1,0 +1,28 @@
+title: T6794 (GOOGLE)
+id: 32d23b3b-8a06-4e8d-ac30-6398a8e917a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6794.
+references:
+  - https://attack.mitre.org/techniques/T6794/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6794

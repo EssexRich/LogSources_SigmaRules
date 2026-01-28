@@ -1,0 +1,28 @@
+title: T6646 (LINUX)
+id: c36535d6-be96-4ee4-b5b7-4b7d287444f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6646.
+references:
+  - https://attack.mitre.org/techniques/T6646/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6646

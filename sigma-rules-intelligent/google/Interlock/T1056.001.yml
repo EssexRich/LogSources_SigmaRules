@@ -1,0 +1,28 @@
+title: T1056.001 (GOOGLE)
+id: 21c3990f-be2c-4263-8bb6-08f3498d8832
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.001.
+references:
+  - https://attack.mitre.org/techniques/T1056.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056.001

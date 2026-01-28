@@ -1,0 +1,28 @@
+title: T4980 (GOOGLE)
+id: a7b56de4-aa61-4599-8a2a-9ce8636d776a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4980.
+references:
+  - https://attack.mitre.org/techniques/T4980/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4980

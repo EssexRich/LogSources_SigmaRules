@@ -1,0 +1,28 @@
+title: T7767 (MACOS)
+id: 2ba99814-4933-4ac5-bc0a-445024c18743
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7767.
+references:
+  - https://attack.mitre.org/techniques/T7767/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7767

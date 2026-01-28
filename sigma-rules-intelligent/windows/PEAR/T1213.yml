@@ -1,0 +1,28 @@
+title: T1213 (WINDOWS)
+id: 30556649-19fb-4248-8bc5-cb198f757afa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1213.
+references:
+  - https://attack.mitre.org/techniques/T1213/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1213

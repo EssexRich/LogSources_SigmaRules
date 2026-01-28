@@ -1,0 +1,28 @@
+title: T7869 (GOOGLE)
+id: 89e23494-640e-4e79-a6d2-69a12d9b2c94
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7869.
+references:
+  - https://attack.mitre.org/techniques/T7869/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7869

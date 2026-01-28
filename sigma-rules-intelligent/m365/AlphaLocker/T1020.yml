@@ -1,0 +1,28 @@
+title: T1020 (M365)
+id: a3890bb1-de5f-42da-906e-edf32ddba2a0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1020.
+references:
+  - https://attack.mitre.org/techniques/T1020/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1020

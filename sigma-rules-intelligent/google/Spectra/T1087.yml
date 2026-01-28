@@ -1,0 +1,28 @@
+title: T1087 (GOOGLE)
+id: 8073f371-e36a-4c28-aac2-c87db3128cce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.
+references:
+  - https://attack.mitre.org/techniques/T1087/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087

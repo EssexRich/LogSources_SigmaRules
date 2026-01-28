@@ -1,0 +1,28 @@
+title: T1562 (GOOGLE)
+id: f05c7d53-1adb-4e05-baac-11b191829b6f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562

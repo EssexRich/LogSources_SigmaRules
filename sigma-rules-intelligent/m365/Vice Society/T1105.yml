@@ -1,0 +1,28 @@
+title: T1105 (M365)
+id: edf7154a-a25d-47b5-a3eb-89b2b41a02ef
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105

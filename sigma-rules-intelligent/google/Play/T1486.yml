@@ -1,0 +1,28 @@
+title: T1486 (GOOGLE)
+id: 3f7df95c-9702-49f3-bcb3-3463178e8e41
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486

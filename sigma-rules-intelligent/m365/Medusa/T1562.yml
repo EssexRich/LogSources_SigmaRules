@@ -1,0 +1,28 @@
+title: T1562 (M365)
+id: b19f412b-6d6c-4e80-a7cd-60d6c4baa982
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562

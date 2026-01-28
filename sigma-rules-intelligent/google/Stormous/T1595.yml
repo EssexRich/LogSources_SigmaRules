@@ -1,0 +1,28 @@
+title: T1595 (GOOGLE)
+id: 222f268d-d526-4c3b-a23f-7f42f7873c0e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.
+references:
+  - https://attack.mitre.org/techniques/T1595/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595

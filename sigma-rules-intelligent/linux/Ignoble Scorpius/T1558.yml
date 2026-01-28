@@ -1,0 +1,28 @@
+title: T1558 (LINUX)
+id: 9b561dc4-ea45-4c17-9ae2-7d5505ee454b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.
+references:
+  - https://attack.mitre.org/techniques/T1558/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558

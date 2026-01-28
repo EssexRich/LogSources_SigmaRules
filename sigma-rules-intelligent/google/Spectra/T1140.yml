@@ -1,0 +1,28 @@
+title: T1140 (GOOGLE)
+id: 319c5d8a-40b9-48d1-9de4-7e9d9798b225
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140

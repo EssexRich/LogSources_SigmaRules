@@ -1,0 +1,28 @@
+title: T1480 (GOOGLE)
+id: 712500db-604f-4bce-8bc1-c8b5937d898a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1480.
+references:
+  - https://attack.mitre.org/techniques/T1480/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1480

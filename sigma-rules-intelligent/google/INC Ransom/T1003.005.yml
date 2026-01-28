@@ -1,0 +1,28 @@
+title: T1003.005 (GOOGLE)
+id: 5dbcbd58-db5b-4374-93c0-8d93ae48b558
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.005.
+references:
+  - https://attack.mitre.org/techniques/T1003.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.005

@@ -1,0 +1,28 @@
+title: T1517 (WINDOWS)
+id: 2c37d69f-aa43-461d-8bf5-9f662270267b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1517.
+references:
+  - https://attack.mitre.org/techniques/T1517/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1517

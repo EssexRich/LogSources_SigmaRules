@@ -1,0 +1,28 @@
+title: T1547 (M365)
+id: be7619d7-6126-4102-97d0-08e400f09b4e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547

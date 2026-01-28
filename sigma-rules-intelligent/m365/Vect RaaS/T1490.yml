@@ -1,0 +1,28 @@
+title: T1490 (M365)
+id: 5dfe75b8-64f7-4c75-be69-c6b74dc92981
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490

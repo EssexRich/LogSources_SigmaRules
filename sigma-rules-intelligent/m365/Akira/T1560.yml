@@ -1,0 +1,28 @@
+title: T1560 (M365)
+id: 3e24ddda-c598-4adf-b51b-11f73527379a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560

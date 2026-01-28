@@ -1,12 +1,9 @@
-title: Command and Scripting Interpreter: PowerShell (WINDOWS)
-id: 7da405f5-6198-43a3-ac9c-48b825566fec
+title: T1059.001 (WINDOWS)
+id: 0cc24451-496d-44b6-a3d1-bf7aefaa97c0
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1059.001.
-  Adversaries may use a variety of techniques throughout the attack lifecycle.
-  This rule provides baseline detection for security monitoring and threat hunting.
 references:
   - https://attack.mitre.org/techniques/T1059.001/
-  - https://incidentbuddy.ai/gapmatrix/techniques/T1059.001
 author: GapMATRIX Intelligent Sigma Generator
 date: 2026-01-28
 status: experimental
@@ -14,26 +11,18 @@ severity: medium
 
 logsource:
   product: windows
-  service: sysmon
+  service: defender
   category: process_creation
 
 detection:
   selection:
-    Image:
-      - 'powershell.exe'
-      - 'pwsh.exe'
-    CommandLine:
-      - '-EncodedCommand'
-      - '-enc'
-      - 'bypass'
+    Image|contains: process
+    CommandLine|contains: cmd
   condition: selection
 
 falsepositives:
   - Legitimate system administration activity
   - Authorized security testing
-  - Expected software deployments
 
 tags:
   - attack.T1059.001
-  - attack_pattern
-  - detection_rule

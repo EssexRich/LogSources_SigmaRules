@@ -1,0 +1,28 @@
+title: T1074 (GOOGLE)
+id: 616a5e69-b028-4c8b-8a2b-172aaaa31d88
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.
+references:
+  - https://attack.mitre.org/techniques/T1074/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074

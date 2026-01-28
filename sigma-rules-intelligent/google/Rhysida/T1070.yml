@@ -1,0 +1,28 @@
+title: T1070 (GOOGLE)
+id: 995e52d4-6753-418c-a27c-c8ca9617b3e5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070

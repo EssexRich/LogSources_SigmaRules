@@ -1,0 +1,28 @@
+title: T1027.009 (M365)
+id: cec1421d-7441-44dd-9e7a-e8b2a814e88f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.009.
+references:
+  - https://attack.mitre.org/techniques/T1027.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.009

@@ -1,0 +1,28 @@
+title: T5946 (MACOS)
+id: 730dbc59-7bef-4983-991c-f7c1c59a4173
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5946.
+references:
+  - https://attack.mitre.org/techniques/T5946/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5946

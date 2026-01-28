@@ -1,0 +1,28 @@
+title: T1583.002 (WINDOWS)
+id: e353ead9-21b7-4701-a9e9-05aa30504d55
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.002.
+references:
+  - https://attack.mitre.org/techniques/T1583.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.002

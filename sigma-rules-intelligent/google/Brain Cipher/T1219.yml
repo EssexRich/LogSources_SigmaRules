@@ -1,0 +1,28 @@
+title: T1219 (GOOGLE)
+id: d9e3b5ec-1267-40b1-b567-2a95f3ad66e4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219

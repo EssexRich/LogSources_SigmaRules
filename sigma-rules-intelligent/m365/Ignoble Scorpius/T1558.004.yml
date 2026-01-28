@@ -1,0 +1,28 @@
+title: T1558.004 (M365)
+id: a060070f-0f6b-429d-ba30-d0c14fe4184c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.004.
+references:
+  - https://attack.mitre.org/techniques/T1558.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558.004

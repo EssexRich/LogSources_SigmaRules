@@ -1,0 +1,28 @@
+title: T1083 (LINUX)
+id: 9104c998-0e52-4e3b-9a7c-f9a2c9b74dda
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083

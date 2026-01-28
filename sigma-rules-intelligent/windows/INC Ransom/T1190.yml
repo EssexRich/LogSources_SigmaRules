@@ -1,12 +1,9 @@
-title: Exploit Public-Facing Application (WINDOWS)
-id: f73bddf2-d179-413b-a000-63fd97bd70e5
+title: T1190 (WINDOWS)
+id: 04a94eb0-e5d0-445b-b93e-730973f5392a
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1190.
-  Adversaries may use a variety of techniques throughout the attack lifecycle.
-  This rule provides baseline detection for security monitoring and threat hunting.
 references:
   - https://attack.mitre.org/techniques/T1190/
-  - https://incidentbuddy.ai/gapmatrix/techniques/T1190
 author: GapMATRIX Intelligent Sigma Generator
 date: 2026-01-28
 status: experimental
@@ -14,25 +11,18 @@ severity: medium
 
 logsource:
   product: windows
-  service: sysmon
+  service: defender
   category: process_creation
 
 detection:
   selection:
-    ParentImage:
-      - 'w3wp.exe'
-      - 'apache.exe'
-    Image:
-      - 'cmd.exe'
-      - 'powershell.exe'
+    Image|contains: process
+    CommandLine|contains: cmd
   condition: selection
 
 falsepositives:
   - Legitimate system administration activity
   - Authorized security testing
-  - Expected software deployments
 
 tags:
   - attack.T1190
-  - attack_pattern
-  - detection_rule

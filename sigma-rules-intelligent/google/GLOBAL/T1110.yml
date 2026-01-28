@@ -1,0 +1,28 @@
+title: T1110 (GOOGLE)
+id: cb6f9f5a-a7d0-4662-8b02-0fd0254f57a4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.
+references:
+  - https://attack.mitre.org/techniques/T1110/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110

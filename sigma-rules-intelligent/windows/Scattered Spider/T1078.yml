@@ -1,12 +1,9 @@
-title: Valid Accounts (WINDOWS)
-id: 2e0c3174-d81e-4e39-99c6-49d1d2d02f18
+title: T1078 (WINDOWS)
+id: 41cfc62d-b171-469f-95cb-e21549037157
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1078.
-  Adversaries may use a variety of techniques throughout the attack lifecycle.
-  This rule provides baseline detection for security monitoring and threat hunting.
 references:
   - https://attack.mitre.org/techniques/T1078/
-  - https://incidentbuddy.ai/gapmatrix/techniques/T1078
 author: GapMATRIX Intelligent Sigma Generator
 date: 2026-01-28
 status: experimental
@@ -14,22 +11,18 @@ severity: medium
 
 logsource:
   product: windows
-  service: security
+  service: defender
   category: process_creation
 
 detection:
   selection:
-    SubjectUserName:
-      - 'SYSTEM'
-      - 'LOCAL SERVICE'
+    Image|contains: process
+    CommandLine|contains: cmd
   condition: selection
 
 falsepositives:
   - Legitimate system administration activity
   - Authorized security testing
-  - Expected software deployments
 
 tags:
   - attack.T1078
-  - attack_pattern
-  - detection_rule

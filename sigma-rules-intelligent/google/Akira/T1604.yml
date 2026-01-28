@@ -1,0 +1,28 @@
+title: T1604 (GOOGLE)
+id: d6e74bc9-49b9-4526-90bf-70bf213cc8c8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1604.
+references:
+  - https://attack.mitre.org/techniques/T1604/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1604

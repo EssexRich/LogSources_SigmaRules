@@ -1,0 +1,28 @@
+title: T1559 (M365)
+id: 5261d40e-ca5b-4876-ba32-4ce0a0e94fd9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.
+references:
+  - https://attack.mitre.org/techniques/T1559/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559

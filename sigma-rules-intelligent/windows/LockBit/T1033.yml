@@ -1,0 +1,28 @@
+title: T1033 (WINDOWS)
+id: 4a06d531-7fae-4402-a5c3-de01cac0e07e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033

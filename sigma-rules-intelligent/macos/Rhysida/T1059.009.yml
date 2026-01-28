@@ -1,0 +1,28 @@
+title: T1059.009 (MACOS)
+id: a25502c4-388c-4fb2-9ffe-391bf5985f65
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.009.
+references:
+  - https://attack.mitre.org/techniques/T1059.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.009

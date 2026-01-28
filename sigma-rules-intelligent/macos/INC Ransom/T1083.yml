@@ -1,0 +1,28 @@
+title: T1083 (MACOS)
+id: 0567afd0-d8b4-4610-8311-17d185ae4915
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083

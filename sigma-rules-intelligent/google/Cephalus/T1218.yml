@@ -1,0 +1,28 @@
+title: T1218 (GOOGLE)
+id: 509b5c4a-c0d3-45ea-9937-c8fec2135524
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.
+references:
+  - https://attack.mitre.org/techniques/T1218/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218

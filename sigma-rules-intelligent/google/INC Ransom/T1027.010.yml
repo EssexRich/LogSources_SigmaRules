@@ -1,0 +1,28 @@
+title: T1027.010 (GOOGLE)
+id: a8eee2c9-17f4-40ed-a781-c0f2558b7630
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.010.
+references:
+  - https://attack.mitre.org/techniques/T1027.010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.010

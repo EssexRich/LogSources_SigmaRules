@@ -1,0 +1,28 @@
+title: T1072 (GOOGLE)
+id: 66d47ba5-da97-4244-b13d-ba7c3c6c7351
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072

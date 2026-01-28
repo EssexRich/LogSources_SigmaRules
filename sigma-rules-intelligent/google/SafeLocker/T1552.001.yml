@@ -1,0 +1,28 @@
+title: T1552.001 (GOOGLE)
+id: d0af8565-3a13-4120-92fc-c43b19f29687
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.001.
+references:
+  - https://attack.mitre.org/techniques/T1552.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.001

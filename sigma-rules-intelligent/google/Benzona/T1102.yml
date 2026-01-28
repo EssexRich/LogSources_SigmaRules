@@ -1,0 +1,28 @@
+title: T1102 (GOOGLE)
+id: 910b5f85-423e-4a77-a8b1-492f06dbe1da
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.
+references:
+  - https://attack.mitre.org/techniques/T1102/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102

@@ -1,0 +1,28 @@
+title: T1587 (LINUX)
+id: 52f9f26f-35f4-4df0-8a40-bfa1a3328df2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.
+references:
+  - https://attack.mitre.org/techniques/T1587/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587

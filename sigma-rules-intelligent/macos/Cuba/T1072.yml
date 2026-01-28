@@ -1,0 +1,28 @@
+title: T1072 (MACOS)
+id: ba101e19-e227-4617-a7c7-3fddff17f0a0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072

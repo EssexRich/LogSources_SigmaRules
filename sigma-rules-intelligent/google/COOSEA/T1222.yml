@@ -1,0 +1,28 @@
+title: T1222 (GOOGLE)
+id: 88951aa0-a231-4d0e-8599-8cb2c3c5c316
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1222.
+references:
+  - https://attack.mitre.org/techniques/T1222/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1222

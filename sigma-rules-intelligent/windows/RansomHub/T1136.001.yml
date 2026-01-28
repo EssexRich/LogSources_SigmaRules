@@ -1,0 +1,28 @@
+title: T1136.001 (WINDOWS)
+id: 1556be47-9a6c-4223-8ed7-a6f3a0854ac5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.001.
+references:
+  - https://attack.mitre.org/techniques/T1136.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136.001

@@ -1,0 +1,28 @@
+title: T7767 (M365)
+id: 57785216-c521-4dad-87bd-22b9d668c785
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7767.
+references:
+  - https://attack.mitre.org/techniques/T7767/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7767

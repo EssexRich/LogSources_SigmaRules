@@ -1,0 +1,28 @@
+title: T1210 (WINDOWS)
+id: d82e3388-694c-4f1e-b6b0-173d1bb2ed4e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1210.
+references:
+  - https://attack.mitre.org/techniques/T1210/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1210

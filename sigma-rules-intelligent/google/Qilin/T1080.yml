@@ -1,0 +1,28 @@
+title: T1080 (GOOGLE)
+id: dafd8d02-3319-409f-b06f-9375ce9f56dd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1080.
+references:
+  - https://attack.mitre.org/techniques/T1080/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1080

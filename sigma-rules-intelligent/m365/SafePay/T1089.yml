@@ -1,0 +1,28 @@
+title: T1089 (M365)
+id: 978cf36b-991a-40e0-866f-abd4640e8a3b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1089.
+references:
+  - https://attack.mitre.org/techniques/T1089/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1089

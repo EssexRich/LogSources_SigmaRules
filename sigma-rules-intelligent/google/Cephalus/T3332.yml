@@ -1,0 +1,28 @@
+title: T3332 (GOOGLE)
+id: d9e809f9-a5d8-4064-a5ed-36b6e2a6ee0f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3332.
+references:
+  - https://attack.mitre.org/techniques/T3332/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3332

@@ -1,12 +1,9 @@
-title: Phishing (M365)
-id: 787757a2-4691-485d-a090-c2e26cdf622f
+title: T1566 (M365)
+id: 09bb0e3e-20ac-4691-a5af-b8a9a31af549
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1566.
-  Adversaries may use a variety of techniques throughout the attack lifecycle.
-  This rule provides baseline detection for security monitoring and threat hunting.
 references:
   - https://attack.mitre.org/techniques/T1566/
-  - https://incidentbuddy.ai/gapmatrix/techniques/T1566
 author: GapMATRIX Intelligent Sigma Generator
 date: 2026-01-28
 status: experimental
@@ -19,18 +16,13 @@ logsource:
 
 detection:
   selection:
-    AttachmentExtension:
-      - 'exe'
-      - 'dll'
-      - 'zip'
+    Image|contains: process
+    CommandLine|contains: cmd
   condition: selection
 
 falsepositives:
   - Legitimate system administration activity
   - Authorized security testing
-  - Expected software deployments
 
 tags:
   - attack.T1566
-  - attack_pattern
-  - detection_rule

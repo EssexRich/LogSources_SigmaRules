@@ -1,0 +1,28 @@
+title: T4414 (GOOGLE)
+id: 0b7326f3-05d8-4e36-b085-ce69938ff5ae
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4414.
+references:
+  - https://attack.mitre.org/techniques/T4414/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4414

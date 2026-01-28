@@ -1,0 +1,28 @@
+title: T1064 (LINUX)
+id: af106c19-d73b-48a2-bd81-575786d90db4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1064.
+references:
+  - https://attack.mitre.org/techniques/T1064/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1064

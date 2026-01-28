@@ -1,0 +1,28 @@
+title: T1555.004 (WINDOWS)
+id: 8780784a-2401-46f1-9401-c46e57e7e89e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.004.
+references:
+  - https://attack.mitre.org/techniques/T1555.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.004

@@ -1,0 +1,28 @@
+title: T1204.004 (GOOGLE)
+id: 2c1037fe-46d6-421c-902a-a39d00896569
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.004.
+references:
+  - https://attack.mitre.org/techniques/T1204.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.004

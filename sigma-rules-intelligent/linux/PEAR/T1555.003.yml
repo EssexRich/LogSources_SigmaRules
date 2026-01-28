@@ -1,0 +1,28 @@
+title: T1555.003 (LINUX)
+id: a6c69e7b-6d51-4c2b-9ba4-9608230e0b2a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003

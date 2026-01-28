@@ -1,0 +1,28 @@
+title: T6467 (GOOGLE)
+id: 590066da-4187-45db-8b75-08cb6b419666
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6467.
+references:
+  - https://attack.mitre.org/techniques/T6467/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6467

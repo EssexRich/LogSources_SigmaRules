@@ -1,0 +1,28 @@
+title: T1486 (LINUX)
+id: a9c7d385-531f-414c-bc65-7530b6b574ce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486

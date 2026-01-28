@@ -1,0 +1,28 @@
+title: T1076 (MACOS)
+id: 9d5700c7-95a5-47ed-880f-ae2231997730
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1076.
+references:
+  - https://attack.mitre.org/techniques/T1076/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1076

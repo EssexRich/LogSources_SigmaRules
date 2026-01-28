@@ -1,0 +1,28 @@
+title: T1529 (GOOGLE)
+id: 23f85d30-1052-4019-841d-d77bfd95273e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1529.
+references:
+  - https://attack.mitre.org/techniques/T1529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1529

@@ -1,12 +1,9 @@
-title: Phishing (M365)
-id: a6033e9d-9352-47a1-b061-ce2f1f2260b1
+title: T1566.001 (M365)
+id: 054201f0-5e17-4a12-a1dc-69ead726e1b7
 description: >
   Detects techniques consistent with MITRE ATT&CK technique T1566.001.
-  Adversaries may use a variety of techniques throughout the attack lifecycle.
-  This rule provides baseline detection for security monitoring and threat hunting.
 references:
   - https://attack.mitre.org/techniques/T1566.001/
-  - https://incidentbuddy.ai/gapmatrix/techniques/T1566.001
 author: GapMATRIX Intelligent Sigma Generator
 date: 2026-01-28
 status: experimental
@@ -19,18 +16,13 @@ logsource:
 
 detection:
   selection:
-    AttachmentExtension:
-      - 'exe'
-      - 'dll'
-      - 'zip'
+    Image|contains: process
+    CommandLine|contains: cmd
   condition: selection
 
 falsepositives:
   - Legitimate system administration activity
   - Authorized security testing
-  - Expected software deployments
 
 tags:
   - attack.T1566.001
-  - attack_pattern
-  - detection_rule

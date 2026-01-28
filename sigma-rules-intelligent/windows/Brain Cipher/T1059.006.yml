@@ -1,0 +1,28 @@
+title: T1059.006 (WINDOWS)
+id: aca80080-293f-4a12-be9b-f9cfa2505eb2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.006.
+references:
+  - https://attack.mitre.org/techniques/T1059.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.006

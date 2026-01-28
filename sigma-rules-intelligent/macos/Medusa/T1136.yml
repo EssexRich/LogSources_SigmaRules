@@ -1,0 +1,28 @@
+title: T1136 (MACOS)
+id: a3644abf-1d7f-4d22-a128-382c032e7b4c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.
+references:
+  - https://attack.mitre.org/techniques/T1136/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136

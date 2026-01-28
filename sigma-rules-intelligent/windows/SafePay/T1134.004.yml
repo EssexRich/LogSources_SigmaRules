@@ -1,0 +1,28 @@
+title: T1134.004 (WINDOWS)
+id: 813897b8-1c76-447a-ba6c-229d3fceed36
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.004.
+references:
+  - https://attack.mitre.org/techniques/T1134.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.004

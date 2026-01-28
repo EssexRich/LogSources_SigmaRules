@@ -1,0 +1,28 @@
+title: T1005.002 (M365)
+id: 4cfe8344-7caf-415a-ac74-4c23696530e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.002.
+references:
+  - https://attack.mitre.org/techniques/T1005.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005.002

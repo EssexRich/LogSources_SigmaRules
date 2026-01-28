@@ -1,0 +1,28 @@
+title: T1007 (GOOGLE)
+id: d1166337-399e-47fe-8590-570e8d0ec206
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1007.
+references:
+  - https://attack.mitre.org/techniques/T1007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1007

@@ -1,0 +1,28 @@
+title: T1650 (M365)
+id: 9884dd47-55dd-4a40-89a6-8617a6883291
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1650.
+references:
+  - https://attack.mitre.org/techniques/T1650/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1650

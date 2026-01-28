@@ -1,0 +1,28 @@
+title: T1565 (WINDOWS)
+id: 349d3483-ea80-41a3-a53c-cab359c7caaa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1565.
+references:
+  - https://attack.mitre.org/techniques/T1565/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1565

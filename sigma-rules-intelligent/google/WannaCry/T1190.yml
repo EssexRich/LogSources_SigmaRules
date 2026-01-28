@@ -1,0 +1,28 @@
+title: T1190 (GOOGLE)
+id: 3895f1bb-40bd-4c84-8155-79590a61ebd2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190

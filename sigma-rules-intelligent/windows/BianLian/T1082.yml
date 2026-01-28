@@ -1,0 +1,28 @@
+title: T1082 (WINDOWS)
+id: 7fcc6c93-41d5-4f5f-8a1b-d0fda7a7b2cf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082

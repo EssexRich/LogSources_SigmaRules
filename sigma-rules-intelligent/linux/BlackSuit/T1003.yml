@@ -1,0 +1,28 @@
+title: T1003 (LINUX)
+id: 4686de88-c332-47bc-a548-415aa5c27eba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003

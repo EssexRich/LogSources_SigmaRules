@@ -1,0 +1,28 @@
+title: T1030 (M365)
+id: 9a9e2d1e-8103-4d85-a0d5-8e8b23e06b0e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1030.
+references:
+  - https://attack.mitre.org/techniques/T1030/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1030

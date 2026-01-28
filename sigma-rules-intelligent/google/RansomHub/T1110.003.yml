@@ -1,0 +1,28 @@
+title: T1110.003 (GOOGLE)
+id: adef11e6-84e8-4d57-bd25-b10f2b4208ea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.003.
+references:
+  - https://attack.mitre.org/techniques/T1110.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.003

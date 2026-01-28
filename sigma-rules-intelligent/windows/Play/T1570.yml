@@ -1,0 +1,28 @@
+title: T1570 (WINDOWS)
+id: d96cd9de-e9f1-4f99-95c9-4361376d01f3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570

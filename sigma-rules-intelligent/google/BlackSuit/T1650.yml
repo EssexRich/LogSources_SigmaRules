@@ -1,0 +1,28 @@
+title: T1650 (GOOGLE)
+id: e2cbb6ce-d897-4581-9b55-eb8352b2f4b5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1650.
+references:
+  - https://attack.mitre.org/techniques/T1650/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1650

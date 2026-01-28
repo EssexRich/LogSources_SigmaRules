@@ -1,0 +1,28 @@
+title: T1548.002 (GOOGLE)
+id: 35e01733-87e8-4b2f-9b40-7cb61a60c1a7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.002.
+references:
+  - https://attack.mitre.org/techniques/T1548.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548.002

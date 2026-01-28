@@ -1,0 +1,28 @@
+title: T1078.002 (M365)
+id: ede34ff7-f956-40e2-96ee-fa93ad345116
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.002.
+references:
+  - https://attack.mitre.org/techniques/T1078.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.002

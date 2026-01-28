@@ -1,0 +1,28 @@
+title: T1190 (M365)
+id: aa810e25-4800-42d2-8d72-993bbc780bc5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190

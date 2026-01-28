@@ -1,0 +1,28 @@
+title: T1027 (WINDOWS)
+id: 81b38246-3c04-41a5-9214-69b9e418bd28
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027

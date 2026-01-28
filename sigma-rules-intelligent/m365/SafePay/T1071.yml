@@ -1,0 +1,28 @@
+title: T1071 (M365)
+id: d3f58e8d-fb82-492f-8a91-1d7f13dc14f0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071

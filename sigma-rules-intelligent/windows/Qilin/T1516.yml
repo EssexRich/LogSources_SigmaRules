@@ -1,0 +1,28 @@
+title: T1516 (WINDOWS)
+id: 6589e3c3-d8cb-4c48-9d96-87fad43b4ed0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1516.
+references:
+  - https://attack.mitre.org/techniques/T1516/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains: process
+    CommandLine|contains: cmd
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1516
