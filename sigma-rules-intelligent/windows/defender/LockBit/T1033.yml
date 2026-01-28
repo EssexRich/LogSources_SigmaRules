@@ -1,0 +1,37 @@
+title: System Owner/User Discovery (WINDOWS - defender)
+id: 8fc93f2d-e9d7-42ad-ab03-4fb6b055a13f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.lockbit

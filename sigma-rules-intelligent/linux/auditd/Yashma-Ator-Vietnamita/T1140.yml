@@ -1,0 +1,37 @@
+title: Deobfuscate/Decode Files or Information (LINUX - auditd)
+id: 0aa8a48a-710f-495c-ada2-f0851e4fe2f4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+  Threat Actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140
+  - actor.yashma-ator-vietnamita

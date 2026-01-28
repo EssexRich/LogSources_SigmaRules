@@ -1,0 +1,32 @@
+title: OS Credential Dumping (M365 - entra_id)
+id: 84c47b1e-f6db-4c5c-ad10-6deff5d63962
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.devman's_ransomware

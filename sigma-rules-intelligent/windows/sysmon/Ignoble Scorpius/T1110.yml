@@ -1,0 +1,37 @@
+title: Brute Force (WINDOWS - sysmon)
+id: ee26ea76-9443-4dd0-a899-2c4ef1c9f222
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1110/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110
+  - actor.ignoble_scorpius

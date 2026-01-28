@@ -1,0 +1,37 @@
+title: Command and Scripting Interpreter (WINDOWS - sysmon)
+id: ce2ac290-b1c4-442f-9dca-c38b9dab9bdf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.inc_ransom

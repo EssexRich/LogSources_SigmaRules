@@ -1,0 +1,37 @@
+title: Financial Theft (WINDOWS - defender)
+id: a1764b00-1f04-4b04-93e0-368484be85d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1657.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1657/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1657
+  - actor.play

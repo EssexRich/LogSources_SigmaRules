@@ -1,0 +1,30 @@
+title: Scheduled Task/Job (GOOGLE - workspace)
+id: bea0dd35-fad8-403f-a3b6-4de66bbf9c8e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: Generic
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.generic

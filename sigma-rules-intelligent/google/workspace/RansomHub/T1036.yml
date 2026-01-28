@@ -1,0 +1,30 @@
+title: Masquerading (GOOGLE - workspace)
+id: c64bee2b-4383-49b2-93a9-438f45a98127
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.ransomhub

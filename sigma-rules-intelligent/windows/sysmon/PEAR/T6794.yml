@@ -1,0 +1,37 @@
+title: T6794 (WINDOWS - sysmon)
+id: f6f4c900-cdea-4498-9196-c91123793334
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6794.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T6794/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6794
+  - actor.pear

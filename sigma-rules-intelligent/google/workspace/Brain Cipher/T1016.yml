@@ -1,0 +1,30 @@
+title: System Network Configuration Discovery (GOOGLE - workspace)
+id: 2275aee0-f65f-46f2-a188-fa7931feb630
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.brain_cipher

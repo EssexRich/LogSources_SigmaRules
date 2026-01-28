@@ -1,0 +1,37 @@
+title: Valid Accounts (WINDOWS - sysmon)
+id: 8144e444-2040-46f7-a3f3-23a9e22c0521
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.pear

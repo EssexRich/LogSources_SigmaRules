@@ -1,0 +1,37 @@
+title: Shared Modules (WINDOWS - defender)
+id: 1a8b73d1-69f7-4da8-91e2-197a250f5fff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1129.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1129/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1129
+  - actor.donex

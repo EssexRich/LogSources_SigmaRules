@@ -1,0 +1,30 @@
+title: T1628.002 (GOOGLE - workspace)
+id: c75470b3-c000-41cb-9672-d84af036f082
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1628.002.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1628.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1628.002
+  - actor.qilin

@@ -1,0 +1,30 @@
+title: Masquerading (GOOGLE - workspace)
+id: 91e46761-cad8-4a02-a46e-3f6656102004
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.blacksuit

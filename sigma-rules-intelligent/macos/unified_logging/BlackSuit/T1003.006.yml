@@ -1,0 +1,34 @@
+title: DCSync (MACOS - unified_logging)
+id: 6960bd7e-0f9f-4019-8370-61d19bf1861e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.006.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1003.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.006
+  - actor.blacksuit

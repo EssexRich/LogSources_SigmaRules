@@ -1,0 +1,30 @@
+title: Account Discovery (GOOGLE - workspace)
+id: a56a1466-dd45-46a7-ba3a-2dbc0dd207bf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1087/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087
+  - actor.spectra

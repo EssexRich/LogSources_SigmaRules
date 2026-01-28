@@ -1,0 +1,37 @@
+title: Phishing (WINDOWS - security)
+id: be1d53fa-5048-4ca4-92b6-3282714cac25
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566
+  - actor.bianlian

@@ -1,0 +1,37 @@
+title: System Network Connections Discovery (LINUX - auditd)
+id: 68737699-b435-4c88-b9d8-7dbe2d07211d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.avoslocker

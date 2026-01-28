@@ -1,0 +1,37 @@
+title: Domain Groups (LINUX - auditd)
+id: e379055b-f79f-4d09-a898-5a0fab9c8925
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.002.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1069.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.002
+  - actor.bianlian

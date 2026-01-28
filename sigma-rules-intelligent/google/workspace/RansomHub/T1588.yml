@@ -1,0 +1,30 @@
+title: Obtain Capabilities (GOOGLE - workspace)
+id: 656b3b8a-8a78-4002-94bc-d06e2cdd040d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1588/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588
+  - actor.ransomhub

@@ -1,0 +1,37 @@
+title: Remote Services (WINDOWS - security)
+id: 3b34a375-5455-41d4-9386-c55a822673fb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021
+  - actor.avoslocker

@@ -1,0 +1,30 @@
+title: T8734 (GOOGLE - workspace)
+id: be03faaf-f30a-4e9e-80ad-10c6a9e0feb7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8734.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T8734/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8734
+  - actor.stormous

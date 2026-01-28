@@ -1,0 +1,37 @@
+title: Software Packing (WINDOWS - defender)
+id: f4856651-04ee-42be-b151-d0438282028f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1045.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1045/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1045
+  - actor.medusa

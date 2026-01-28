@@ -1,0 +1,30 @@
+title: File and Directory Discovery (GOOGLE - workspace)
+id: 893f820a-e999-4ea6-ac43-b8ad8335ac4c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.qilin

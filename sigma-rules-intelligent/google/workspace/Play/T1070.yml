@@ -1,0 +1,30 @@
+title: Indicator Removal (GOOGLE - workspace)
+id: 56dc9a93-7d6b-401c-a85c-54547b23c7dc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070
+  - actor.play

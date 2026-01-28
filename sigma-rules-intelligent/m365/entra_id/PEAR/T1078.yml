@@ -1,0 +1,32 @@
+title: Valid Accounts (M365 - entra_id)
+id: 483fac55-91f4-4f53-904f-e56dc6e214e7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.pear

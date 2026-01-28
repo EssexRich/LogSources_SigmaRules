@@ -1,0 +1,37 @@
+title: Exploitation for Privilege Escalation (WINDOWS - sysmon)
+id: 9b40dc16-b360-41ce-88f4-268f10b863f9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.vice_society

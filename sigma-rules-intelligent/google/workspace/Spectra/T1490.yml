@@ -1,0 +1,30 @@
+title: Inhibit System Recovery (GOOGLE - workspace)
+id: 3f74704a-aab7-4f97-9134-2b3a437194aa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.spectra

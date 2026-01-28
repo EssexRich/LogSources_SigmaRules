@@ -1,0 +1,37 @@
+title: Ingress Tool Transfer (WINDOWS - defender)
+id: 74d8572c-30d5-4657-ac7a-d564a4f4df94
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+  Threat Actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105
+  - actor.yashma-ator-vietnamita

@@ -1,0 +1,30 @@
+title: Multi-Stage Channels (GOOGLE - workspace)
+id: 4b1bba05-6894-4e58-9a1e-89846726dba2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1104.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1104/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1104
+  - actor.lynx

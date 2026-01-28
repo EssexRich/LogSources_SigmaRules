@@ -1,0 +1,37 @@
+title: Exploit Public-Facing Application (WINDOWS - defender)
+id: 347c3dd8-730b-4a1f-aea6-82e9077b79db
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.blacksuit

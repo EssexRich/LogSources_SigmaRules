@@ -1,0 +1,30 @@
+title: Parent PID Spoofing (GOOGLE - workspace)
+id: 37478518-1aa7-4b09-83b5-2dc18c157153
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.004.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1134.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.004
+  - actor.safepay

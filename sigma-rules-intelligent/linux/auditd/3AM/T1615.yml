@@ -1,0 +1,37 @@
+title: Group Policy Discovery (LINUX - auditd)
+id: 8e634237-bdcf-4dbc-875d-3a60f09ac3ec
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1615.
+  Threat Actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1615/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1615
+  - actor.3am

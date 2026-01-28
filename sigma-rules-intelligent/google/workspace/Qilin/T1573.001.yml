@@ -1,0 +1,30 @@
+title: Symmetric Cryptography (GOOGLE - workspace)
+id: 3a83cea5-e710-47f5-b50f-80923f007e12
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.001.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1573.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.001
+  - actor.qilin

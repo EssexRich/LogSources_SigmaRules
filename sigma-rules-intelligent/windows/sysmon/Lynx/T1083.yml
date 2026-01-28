@@ -1,0 +1,37 @@
+title: File and Directory Discovery (WINDOWS - sysmon)
+id: d5677117-e025-4c8c-92b3-fc9b9cce647e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.lynx

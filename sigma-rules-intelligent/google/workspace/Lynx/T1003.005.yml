@@ -1,0 +1,30 @@
+title: Cached Domain Credentials (GOOGLE - workspace)
+id: 8723c104-35f1-41c0-8dfd-2a5ceb9f8fd8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.005.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1003.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.005
+  - actor.lynx

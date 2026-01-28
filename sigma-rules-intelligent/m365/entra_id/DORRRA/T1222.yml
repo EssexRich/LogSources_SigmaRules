@@ -1,0 +1,32 @@
+title: File and Directory Permissions Modification (M365 - entra_id)
+id: de238d6a-5c11-486b-a552-8302a0f62e65
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1222.
+  Threat Actor: DORRRA
+references:
+  - https://attack.mitre.org/techniques/T1222/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1222
+  - actor.dorrra

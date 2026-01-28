@@ -1,0 +1,37 @@
+title: Email Collection (WINDOWS - defender)
+id: e016f517-afb2-4450-b14c-f1027197ada7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1114.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1114/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1114
+  - actor.inc_ransom

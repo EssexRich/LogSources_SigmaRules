@@ -1,0 +1,30 @@
+title: Standard Encoding (GOOGLE - workspace)
+id: 0c9aad9b-b15b-414c-b11d-b0f2ea017b7a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1132.001.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1132.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1132.001
+  - actor.brain_cipher

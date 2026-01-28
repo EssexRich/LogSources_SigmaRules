@@ -1,0 +1,30 @@
+title: Application Window Discovery (GOOGLE - workspace)
+id: 6a1f2f61-3f62-43ce-9085-29a567a55760
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1010.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1010
+  - actor.safepay

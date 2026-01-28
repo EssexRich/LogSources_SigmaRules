@@ -1,0 +1,37 @@
+title: System Service Discovery (WINDOWS - sysmon)
+id: 877f6c63-b517-48a0-9bb2-772aab3e470d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1007.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1007
+  - actor.interlock

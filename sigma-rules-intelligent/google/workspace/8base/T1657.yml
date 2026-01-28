@@ -1,0 +1,30 @@
+title: Financial Theft (GOOGLE - workspace)
+id: a654ba3c-fb3c-482c-b4b8-c06f358d4727
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1657.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1657/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1657
+  - actor.8base

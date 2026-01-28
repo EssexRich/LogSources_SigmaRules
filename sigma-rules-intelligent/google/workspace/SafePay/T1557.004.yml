@@ -1,0 +1,30 @@
+title: Evil Twin (GOOGLE - workspace)
+id: 0e878007-1fbb-472b-a67f-aff0234b1c61
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1557.004.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1557.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1557.004
+  - actor.safepay

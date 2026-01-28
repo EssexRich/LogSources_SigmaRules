@@ -1,0 +1,37 @@
+title: SMB/Windows Admin Shares (LINUX - auditd)
+id: 4823510e-8823-44f0-80a2-0ada3f0b2083
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.002.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1021.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.002
+  - actor.kazu

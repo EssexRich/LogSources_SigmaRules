@@ -1,0 +1,37 @@
+title: Command and Scripting Interpreter (WINDOWS - sysmon)
+id: a009870a-4d2b-4b0a-898e-3ac4cb8be77d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.nitrogen

@@ -1,0 +1,37 @@
+title: Web Protocols (WINDOWS - security)
+id: f1f5c94b-54e3-475c-b1be-61b2e60d81ad
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.001.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1071.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.001
+  - actor.cephalus

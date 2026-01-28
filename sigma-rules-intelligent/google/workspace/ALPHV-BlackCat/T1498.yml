@@ -1,0 +1,30 @@
+title: Network Denial of Service (GOOGLE - workspace)
+id: cc5f586c-953f-49b4-acfa-8a690daa967e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1498.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1498/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1498
+  - actor.alphv-blackcat

@@ -1,0 +1,37 @@
+title: Encrypted/Encoded File (WINDOWS - defender)
+id: 018cabb7-d98d-448a-a29d-fb2155195d2f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.013.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1027.013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.013
+  - actor.stormous

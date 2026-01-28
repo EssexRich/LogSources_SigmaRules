@@ -1,0 +1,34 @@
+title: Impair Defenses (MACOS - unified_logging)
+id: d1c25fca-7a9a-4c5a-87ad-cf22f1508d2b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+  Threat Actor: Royal
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562
+  - actor.royal

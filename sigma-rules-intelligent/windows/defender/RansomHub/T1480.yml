@@ -1,0 +1,37 @@
+title: Execution Guardrails (WINDOWS - defender)
+id: 746f5db7-e21a-4f55-9f46-b4f6caaf507a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1480.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1480/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1480
+  - actor.ransomhub

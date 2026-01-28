@@ -1,0 +1,30 @@
+title: Drive-by Compromise (GOOGLE - workspace)
+id: 95eca0c1-1ae2-434f-986f-9d3c97f386d5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1189.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1189/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1189
+  - actor.hive

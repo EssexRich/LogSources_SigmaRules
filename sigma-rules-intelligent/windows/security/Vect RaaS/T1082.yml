@@ -1,0 +1,37 @@
+title: System Information Discovery (WINDOWS - security)
+id: b0854bd8-736e-4cd4-83e2-86f5da375e6b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.vect_raas

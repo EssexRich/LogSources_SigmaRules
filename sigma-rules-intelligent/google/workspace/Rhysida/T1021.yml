@@ -1,0 +1,30 @@
+title: Remote Services (GOOGLE - workspace)
+id: 7c92b4e3-42fa-4950-a3fb-cc856ff21f4a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021
+  - actor.rhysida

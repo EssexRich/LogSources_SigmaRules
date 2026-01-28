@@ -1,0 +1,37 @@
+title: File and Directory Discovery (WINDOWS - sysmon)
+id: ae014cab-b4e0-4af0-a7ea-7fec47d218f4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.yashma-ator-vietnamita

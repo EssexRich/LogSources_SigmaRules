@@ -1,0 +1,30 @@
+title: Obfuscated Files or Information (GOOGLE - workspace)
+id: 76000877-88c8-4564-a6ea-85019f5c3a18
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.8base

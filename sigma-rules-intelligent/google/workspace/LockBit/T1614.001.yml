@@ -1,0 +1,30 @@
+title: System Language Discovery (GOOGLE - workspace)
+id: e4fdf933-7ec0-4004-86e6-5b2a5b0b3967
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1614.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614.001
+  - actor.lockbit

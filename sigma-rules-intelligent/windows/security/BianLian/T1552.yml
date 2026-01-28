@@ -1,0 +1,37 @@
+title: Unsecured Credentials (WINDOWS - security)
+id: 42a63df3-16fd-4da9-9486-e7934d2bde77
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1552/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552
+  - actor.bianlian

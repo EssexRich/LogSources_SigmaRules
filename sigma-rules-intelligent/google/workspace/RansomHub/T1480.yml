@@ -1,0 +1,30 @@
+title: Execution Guardrails (GOOGLE - workspace)
+id: 4b4a36e0-6175-4be6-98e5-aaf2e24739c1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1480.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1480/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1480
+  - actor.ransomhub

@@ -1,0 +1,30 @@
+title: Exploit Public-Facing Application (GOOGLE - workspace)
+id: 0e1a4e37-f1b7-4cca-bd71-38e5b7d5abb3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.avoslocker

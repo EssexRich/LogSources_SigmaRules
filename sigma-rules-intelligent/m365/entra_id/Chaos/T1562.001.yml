@@ -1,0 +1,32 @@
+title: Disable or Modify Tools (M365 - entra_id)
+id: e5bb233e-4c33-453c-ba74-bc5ca240374b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.001.
+  Threat Actor: Chaos
+references:
+  - https://attack.mitre.org/techniques/T1562.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.001
+  - actor.chaos

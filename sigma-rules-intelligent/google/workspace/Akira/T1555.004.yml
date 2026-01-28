@@ -1,0 +1,30 @@
+title: Windows Credential Manager (GOOGLE - workspace)
+id: 04110c27-9d1b-4aef-b413-31e94adf437f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.004.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1555.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.004
+  - actor.akira

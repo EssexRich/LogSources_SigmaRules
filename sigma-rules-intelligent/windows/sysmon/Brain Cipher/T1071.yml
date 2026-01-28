@@ -1,0 +1,37 @@
+title: Application Layer Protocol (WINDOWS - sysmon)
+id: 307e0a67-5dd2-4eb5-a6b6-b86c6b7d854a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.brain_cipher

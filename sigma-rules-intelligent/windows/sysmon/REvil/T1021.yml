@@ -1,0 +1,37 @@
+title: Remote Services (WINDOWS - sysmon)
+id: d65d1929-5f41-4434-99f2-4ab7a589cb68
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+  Threat Actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021
+  - actor.revil

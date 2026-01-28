@@ -1,0 +1,32 @@
+title: System Location Discovery (M365 - entra_id)
+id: d31f5549-52a0-4dac-80d1-7ed1d6542c8f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1614/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614
+  - actor.lynx

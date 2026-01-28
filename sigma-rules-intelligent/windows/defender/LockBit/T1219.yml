@@ -1,0 +1,37 @@
+title: Remote Access Tools (WINDOWS - defender)
+id: 852e78b2-73b3-4231-830d-eccadf27aa48
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.lockbit

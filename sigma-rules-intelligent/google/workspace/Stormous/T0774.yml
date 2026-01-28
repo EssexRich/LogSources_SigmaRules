@@ -1,0 +1,30 @@
+title: T0774 (GOOGLE - workspace)
+id: 1905a1f5-a902-42bf-b4c9-74ac14581dc6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0774.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T0774/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0774
+  - actor.stormous

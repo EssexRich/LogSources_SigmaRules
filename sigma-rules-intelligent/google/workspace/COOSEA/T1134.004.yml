@@ -1,0 +1,30 @@
+title: Parent PID Spoofing (GOOGLE - workspace)
+id: fb6d770b-c146-414a-b38f-e5b6218f7fc5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.004.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1134.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.004
+  - actor.coosea

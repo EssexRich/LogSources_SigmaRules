@@ -1,0 +1,30 @@
+title: Data Destruction (GOOGLE - workspace)
+id: d4cbde81-b5c2-4afa-a592-1e439d0f9b15
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1485.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1485
+  - actor.safepay

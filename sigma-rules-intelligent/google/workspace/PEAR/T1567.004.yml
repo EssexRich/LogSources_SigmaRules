@@ -1,0 +1,30 @@
+title: Exfiltration Over Webhook (GOOGLE - workspace)
+id: ac59b894-3d58-44a0-b4e5-0fd53a4dcec5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.004.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T1567.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567.004
+  - actor.pear

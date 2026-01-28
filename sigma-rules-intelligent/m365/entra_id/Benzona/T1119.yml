@@ -1,0 +1,32 @@
+title: Automated Collection (M365 - entra_id)
+id: 069bd053-9d75-4d87-9086-c99cd50f5cc6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.benzona

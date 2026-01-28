@@ -1,0 +1,30 @@
+title: Deobfuscate/Decode Files or Information (GOOGLE - workspace)
+id: 37776f0c-b487-415c-9717-d65cc0456e59
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140
+  - actor.lynx

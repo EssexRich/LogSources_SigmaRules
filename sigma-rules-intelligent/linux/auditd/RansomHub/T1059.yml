@@ -1,0 +1,37 @@
+title: Command and Scripting Interpreter (LINUX - auditd)
+id: de044c9d-5874-48d8-869c-b3d97f8249bb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.ransomhub

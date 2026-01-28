@@ -1,0 +1,30 @@
+title: Python (GOOGLE - workspace)
+id: ba38ce32-7a02-4eb4-9b91-e8e0def5d67e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.006.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1059.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.006
+  - actor.lynx

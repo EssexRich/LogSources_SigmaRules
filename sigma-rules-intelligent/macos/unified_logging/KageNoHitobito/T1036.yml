@@ -1,0 +1,34 @@
+title: Masquerading (MACOS - unified_logging)
+id: a089b201-2598-492e-9472-b535522282c9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: KageNoHitobito
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.kagenohitobito

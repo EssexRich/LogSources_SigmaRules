@@ -1,0 +1,30 @@
+title: Impair Defenses (GOOGLE - workspace)
+id: 1122af20-fd72-4ec9-a7d5-e5e816a5f829
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562
+  - actor.medusa

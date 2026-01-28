@@ -1,0 +1,32 @@
+title: T0009 (M365 - entra_id)
+id: 59d630ae-3cc5-46dd-afb7-a756758cb3f2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0009.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T0009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0009
+  - actor.benzona

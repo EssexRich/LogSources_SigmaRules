@@ -1,0 +1,37 @@
+title: Malicious File (WINDOWS - security)
+id: 8ce102d4-dbc6-4552-bed2-057ee9bb3784
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002
+  - actor.inc_ransom

@@ -1,0 +1,30 @@
+title: Indirect Command Execution (GOOGLE - workspace)
+id: b8375b45-ea5d-4316-9965-e2aaee6e3d4b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202
+  - actor.safelocker

@@ -1,0 +1,30 @@
+title: PowerShell (GOOGLE - workspace)
+id: 067b92c9-39e5-496c-8977-18168b61ee72
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.001.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1059.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.001
+  - actor.bianlian

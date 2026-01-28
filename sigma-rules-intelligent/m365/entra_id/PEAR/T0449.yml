@@ -1,0 +1,32 @@
+title: T0449 (M365 - entra_id)
+id: 8e989d6e-2da8-48ce-89cd-939c639893d5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0449.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T0449/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0449
+  - actor.pear

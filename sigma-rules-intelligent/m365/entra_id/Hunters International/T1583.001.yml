@@ -1,0 +1,32 @@
+title: Domains (M365 - entra_id)
+id: ef34833b-bb0c-4e35-b7df-324a0560178e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.001.
+  Threat Actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1583.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.001
+  - actor.hunters_international

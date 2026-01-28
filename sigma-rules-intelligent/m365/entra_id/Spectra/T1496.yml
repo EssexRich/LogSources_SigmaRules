@@ -1,0 +1,32 @@
+title: Resource Hijacking (M365 - entra_id)
+id: 4cb79d89-4684-4f24-a862-d6c006368be9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1496.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1496/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1496
+  - actor.spectra

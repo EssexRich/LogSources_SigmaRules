@@ -1,0 +1,37 @@
+title: Default Accounts (WINDOWS - defender)
+id: 0444f52a-590f-4b4b-97bd-a071d5b6d8c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1078.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.001
+  - actor.lockbit

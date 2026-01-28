@@ -1,0 +1,37 @@
+title: Kerberoasting (WINDOWS - sysmon)
+id: 67ede68d-dc82-4f85-98e6-7e011d0f2f67
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.003.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1558.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558.003
+  - actor.interlock

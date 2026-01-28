@@ -1,0 +1,37 @@
+title: Portable Executable Injection (WINDOWS - defender)
+id: acdefe89-ffaa-4177-84d7-61634a89c334
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.002.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1055.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.002
+  - actor.rhysida

@@ -1,0 +1,37 @@
+title: Exfiltration Over Alternative Protocol (WINDOWS - sysmon)
+id: b8cfa375-784c-4a34-b9b4-d05a5e7052b3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048
+  - actor.play

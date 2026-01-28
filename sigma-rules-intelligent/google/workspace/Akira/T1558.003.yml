@@ -1,0 +1,30 @@
+title: Kerberoasting (GOOGLE - workspace)
+id: 0927fa20-9a7c-4ebf-b293-34bcb5f4a191
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.003.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1558.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558.003
+  - actor.akira

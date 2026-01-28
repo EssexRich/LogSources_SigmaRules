@@ -1,0 +1,37 @@
+title: Hide Artifacts (WINDOWS - security)
+id: b86e7e00-b8bd-4f2d-a910-fd973f19b462
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.ransomhub

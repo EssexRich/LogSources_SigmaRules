@@ -1,0 +1,30 @@
+title: Exfiltration Over Alternative Protocol (GOOGLE - workspace)
+id: cee1ab51-4ec2-45f0-8d75-80be14ace963
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1048/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048
+  - actor.avoslocker

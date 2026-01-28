@@ -1,0 +1,30 @@
+title: Email Collection (GOOGLE - workspace)
+id: 0a7ba816-f2c5-4ea1-8e94-2d00d2966e95
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1114.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1114/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1114
+  - actor.brain_cipher

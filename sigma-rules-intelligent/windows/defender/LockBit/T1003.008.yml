@@ -1,0 +1,37 @@
+title: /etc/passwd and /etc/shadow (WINDOWS - defender)
+id: 427efc78-fab0-45a2-87a1-4b1848af0762
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.008.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1003.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.008
+  - actor.lockbit

@@ -1,0 +1,30 @@
+title: Exfiltration Over C2 Channel (GOOGLE - workspace)
+id: 0d97cc12-7be1-4a62-a12e-9b3423674064
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.bqtlock

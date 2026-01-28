@@ -1,0 +1,37 @@
+title: Valid Accounts (WINDOWS - defender)
+id: f3743228-b34b-482e-8ba5-a0d73e6907b2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: Scattered Spider
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.scattered_spider

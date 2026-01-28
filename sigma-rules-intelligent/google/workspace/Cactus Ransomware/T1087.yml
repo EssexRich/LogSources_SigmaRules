@@ -1,0 +1,30 @@
+title: Account Discovery (GOOGLE - workspace)
+id: def3f710-aae2-404c-b26c-00e509f2b3d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.
+  Threat Actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1087/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087
+  - actor.cactus_ransomware

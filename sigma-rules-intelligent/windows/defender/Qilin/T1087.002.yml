@@ -1,0 +1,37 @@
+title: Domain Account (WINDOWS - defender)
+id: c6ed4d6f-a9c0-4cd5-9bbe-7a2f1077aaba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.002.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1087.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.002
+  - actor.qilin

@@ -1,0 +1,37 @@
+title: Clipboard Data (WINDOWS - sysmon)
+id: 70d7087e-5571-4c09-94b8-a54bc7dc3dd0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1115.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1115/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1115
+  - actor.brain_cipher

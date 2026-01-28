@@ -1,0 +1,30 @@
+title: Data Encrypted for Impact (GOOGLE - workspace)
+id: 3d5df557-a98a-4fac-a8b1-87cb36fa9b2a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486
+  - actor.inc_ransom

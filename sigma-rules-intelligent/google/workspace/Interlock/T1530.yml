@@ -1,0 +1,30 @@
+title: Data from Cloud Storage (GOOGLE - workspace)
+id: 6f64ed80-5818-4187-ab00-7f60c03f41ec
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1530.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1530/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1530
+  - actor.interlock

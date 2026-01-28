@@ -1,0 +1,37 @@
+title: Embedded Payloads (WINDOWS - defender)
+id: 2418b5f1-ab15-4a8f-b469-e45be1e4a8c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.009.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1027.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.009
+  - actor.donex

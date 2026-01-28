@@ -1,0 +1,30 @@
+title: Financial Theft (GOOGLE - workspace)
+id: 118c00b3-55a2-4f16-b492-ba002c0f3d98
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1657.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1657/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1657
+  - actor.rhysida

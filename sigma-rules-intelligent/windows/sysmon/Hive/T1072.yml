@@ -1,0 +1,37 @@
+title: Software Deployment Tools (WINDOWS - sysmon)
+id: 380a2d3b-da95-4ed7-9b66-19985781fb90
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072
+  - actor.hive

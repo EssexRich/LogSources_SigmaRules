@@ -1,0 +1,37 @@
+title: Scheduled Task/Job (LINUX - auditd)
+id: 5fa2c179-cae4-4372-b9dc-840390b49836
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.nitrogen

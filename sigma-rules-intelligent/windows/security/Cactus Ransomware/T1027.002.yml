@@ -1,0 +1,37 @@
+title: Software Packing (WINDOWS - security)
+id: 7ad60bb6-fc5c-4353-8e6e-2affd97d8f8a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.002.
+  Threat Actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1027.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.002
+  - actor.cactus_ransomware

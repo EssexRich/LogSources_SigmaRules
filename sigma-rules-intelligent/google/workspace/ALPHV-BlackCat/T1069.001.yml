@@ -1,0 +1,30 @@
+title: Local Groups (GOOGLE - workspace)
+id: 2d094af1-2c2c-4f03-be09-5c2d6613b838
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.001.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1069.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.001
+  - actor.alphv-blackcat

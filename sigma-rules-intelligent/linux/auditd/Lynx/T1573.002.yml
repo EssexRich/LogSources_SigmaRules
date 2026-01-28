@@ -1,0 +1,37 @@
+title: Asymmetric Cryptography (LINUX - auditd)
+id: b431e66c-ade4-42dc-ba9c-626496db6084
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.002.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1573.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.002
+  - actor.lynx

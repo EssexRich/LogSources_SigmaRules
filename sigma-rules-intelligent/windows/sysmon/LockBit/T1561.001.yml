@@ -1,0 +1,37 @@
+title: Disk Content Wipe (WINDOWS - sysmon)
+id: 8ac4c49d-453a-46a9-ba1b-5ee334322ac7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1561.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1561.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1561.001
+  - actor.lockbit

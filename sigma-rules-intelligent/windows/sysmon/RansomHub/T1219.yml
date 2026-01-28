@@ -1,0 +1,37 @@
+title: Remote Access Tools (WINDOWS - sysmon)
+id: 1c02dd0a-b615-4802-b028-84b21df3f3b4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.ransomhub

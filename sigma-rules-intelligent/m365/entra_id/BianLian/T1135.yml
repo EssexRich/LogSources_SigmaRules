@@ -1,0 +1,32 @@
+title: Network Share Discovery (M365 - entra_id)
+id: cd67bdfe-c2c5-406e-94e2-20cf7313cb40
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.bianlian

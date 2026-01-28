@@ -1,0 +1,30 @@
+title: T8766 (GOOGLE - workspace)
+id: 9487ca37-eed3-44ac-925b-cb8b0a9cbaf6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8766.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T8766/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8766
+  - actor.benzona

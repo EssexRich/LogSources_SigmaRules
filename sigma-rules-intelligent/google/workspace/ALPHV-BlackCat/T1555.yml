@@ -1,0 +1,30 @@
+title: Credentials from Password Stores (GOOGLE - workspace)
+id: 73efaa67-d88e-47b8-ad4c-320f4cf11110
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.alphv-blackcat

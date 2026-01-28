@@ -1,0 +1,30 @@
+title: Domain Account (GOOGLE - workspace)
+id: 8fcfcab4-8f6b-409f-8997-ab39df46813e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.002.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1136.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136.002
+  - actor.akira

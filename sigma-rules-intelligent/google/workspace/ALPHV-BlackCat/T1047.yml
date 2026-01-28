@@ -1,0 +1,30 @@
+title: Windows Management Instrumentation (GOOGLE - workspace)
+id: a8f881f7-c8ce-4556-9def-8f3ea7c7e7f8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.alphv-blackcat

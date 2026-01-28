@@ -1,0 +1,37 @@
+title: Permission Groups Discovery (WINDOWS - sysmon)
+id: 4d516150-d40c-4084-80d9-f8d33311af76
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.rhysida

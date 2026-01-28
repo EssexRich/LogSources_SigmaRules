@@ -1,0 +1,37 @@
+title: Develop Capabilities (WINDOWS - sysmon)
+id: a3f7cfbb-fc60-474e-8591-f3950311d627
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1587/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587
+  - actor.bianlian

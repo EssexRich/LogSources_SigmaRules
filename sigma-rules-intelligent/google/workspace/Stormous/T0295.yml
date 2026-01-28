@@ -1,0 +1,30 @@
+title: T0295 (GOOGLE - workspace)
+id: c8037f2a-d3e6-4119-a4fe-80cec78aff4c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0295.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T0295/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0295
+  - actor.stormous

@@ -1,0 +1,30 @@
+title: Credentials from Password Stores (GOOGLE - workspace)
+id: 8d6445fe-16ad-4c39-bc78-72c8d9bd9757
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.lynx

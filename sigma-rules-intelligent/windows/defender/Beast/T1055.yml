@@ -1,0 +1,37 @@
+title: Process Injection (WINDOWS - defender)
+id: 22f01566-4759-4da2-9de9-daeb5f7cccdb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.beast

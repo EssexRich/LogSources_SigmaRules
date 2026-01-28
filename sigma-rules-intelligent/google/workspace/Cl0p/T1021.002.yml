@@ -1,0 +1,30 @@
+title: SMB/Windows Admin Shares (GOOGLE - workspace)
+id: 7d566e65-9f87-46a2-9117-4ae793ae781c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.002.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1021.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.002
+  - actor.cl0p

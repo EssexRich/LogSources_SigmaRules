@@ -1,0 +1,30 @@
+title: Kerberoasting (GOOGLE - workspace)
+id: 66e5b464-b0e8-4c74-9e04-3f7c3f879e24
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.003.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1558.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558.003
+  - actor.interlock

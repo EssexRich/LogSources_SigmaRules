@@ -1,0 +1,30 @@
+title: Obfuscated Files or Information (GOOGLE - workspace)
+id: 36b4898b-1830-4208-afad-e9b6aafff780
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.bianlian

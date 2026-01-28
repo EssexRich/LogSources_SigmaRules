@@ -1,0 +1,37 @@
+title: Clear Windows Event Logs (LINUX - auditd)
+id: 073a7912-5a40-478f-a36e-6f509fe6ab56
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1070.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.001
+  - actor.lockbit

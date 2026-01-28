@@ -1,0 +1,30 @@
+title: Security Software Discovery (GOOGLE - workspace)
+id: 6000caf6-44f1-42f1-95ae-476f68675ceb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.001.
+  Threat Actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1518.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518.001
+  - actor.yashma-ator-vietnamita

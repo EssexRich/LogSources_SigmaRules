@@ -1,0 +1,30 @@
+title: Msiexec (GOOGLE - workspace)
+id: 8816ea5d-76d2-430d-aca6-ab052476d9c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.007.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1218.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.007
+  - actor.safepay

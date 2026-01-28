@@ -1,0 +1,30 @@
+title: Command and Scripting Interpreter (GOOGLE - workspace)
+id: 2ed9a376-1d66-44f4-a98f-449e22d0be64
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.interlock

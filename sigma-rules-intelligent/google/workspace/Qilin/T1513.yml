@@ -1,0 +1,30 @@
+title: T1513 (GOOGLE - workspace)
+id: a3b6fda3-12cc-448a-980e-0e62f305db12
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1513.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1513/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1513
+  - actor.qilin

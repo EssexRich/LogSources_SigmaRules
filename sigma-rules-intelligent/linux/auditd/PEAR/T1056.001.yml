@@ -1,0 +1,37 @@
+title: Keylogging (LINUX - auditd)
+id: 1477be4d-b1db-4a67-b261-40ef3326c41f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.001.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T1056.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056.001
+  - actor.pear

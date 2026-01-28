@@ -1,0 +1,30 @@
+title: Deobfuscate/Decode Files or Information (GOOGLE - workspace)
+id: 6c9b2062-3d07-4743-8063-3c88c15d7e47
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140
+  - actor.qilin

@@ -1,0 +1,30 @@
+title: Exfiltration Over C2 Channel (GOOGLE - workspace)
+id: b1e902d6-0c76-4844-9372-4ee035613282
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.alphv-blackcat

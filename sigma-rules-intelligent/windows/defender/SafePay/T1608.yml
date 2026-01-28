@@ -1,0 +1,37 @@
+title: Stage Capabilities (WINDOWS - defender)
+id: 3af4899d-500d-4e40-9b8b-1ca5504d08eb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1608/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608
+  - actor.safepay

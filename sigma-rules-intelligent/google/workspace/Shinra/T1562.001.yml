@@ -1,0 +1,30 @@
+title: Disable or Modify Tools (GOOGLE - workspace)
+id: e01e06cb-1b7e-46a3-8aff-8cc0cfb5f874
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.001.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1562.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.001
+  - actor.shinra

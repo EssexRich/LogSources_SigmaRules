@@ -1,0 +1,37 @@
+title: Indicator Removal (WINDOWS - sysmon)
+id: 182950c2-5c67-4136-a706-3401d04618d5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070
+  - actor.lynx

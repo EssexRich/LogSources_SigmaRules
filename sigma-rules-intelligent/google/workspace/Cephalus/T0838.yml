@@ -1,0 +1,30 @@
+title: T0838 (GOOGLE - workspace)
+id: b4f7c036-45c4-4dd3-ac8b-0fe18d07c8a4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0838.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T0838/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0838
+  - actor.cephalus

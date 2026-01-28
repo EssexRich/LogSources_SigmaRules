@@ -1,0 +1,30 @@
+title: Inter-Process Communication (GOOGLE - workspace)
+id: 57791b8e-2402-4daf-a955-288c57283069
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1559/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559
+  - actor.lynx

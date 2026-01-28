@@ -1,0 +1,30 @@
+title: Data Manipulation (GOOGLE - workspace)
+id: 8a7d338a-d741-4590-94f8-b2241cf76a3d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1565.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1565/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1565
+  - actor.interlock

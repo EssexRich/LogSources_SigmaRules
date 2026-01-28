@@ -1,0 +1,34 @@
+title: Digital Certificates (MACOS - unified_logging)
+id: cc92d6c4-2008-468d-a9ed-7318455b10e5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.004.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1588.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.004
+  - actor.safepay

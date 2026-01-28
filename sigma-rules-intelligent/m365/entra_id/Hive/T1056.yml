@@ -1,0 +1,32 @@
+title: Input Capture (M365 - entra_id)
+id: 437d9d1d-9efa-41b3-b60d-4c5ed0ed4b4b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1056/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056
+  - actor.hive

@@ -1,0 +1,37 @@
+title: Data Encrypted for Impact (LINUX - auditd)
+id: 720fddf1-9eac-45e8-82c7-e4684d8f5f3b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486
+  - actor.vect_raas

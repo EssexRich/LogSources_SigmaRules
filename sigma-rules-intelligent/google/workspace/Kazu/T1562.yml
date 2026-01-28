@@ -1,0 +1,30 @@
+title: Impair Defenses (GOOGLE - workspace)
+id: 16eda48a-194d-45af-89cc-f4c701e5e5bb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562
+  - actor.kazu

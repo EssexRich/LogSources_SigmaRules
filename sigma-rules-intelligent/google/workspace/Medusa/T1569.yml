@@ -1,0 +1,30 @@
+title: System Services (GOOGLE - workspace)
+id: 2f4b7624-2312-4539-9909-812667ba1ef7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1569/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569
+  - actor.medusa

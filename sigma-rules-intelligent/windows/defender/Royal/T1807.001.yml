@@ -1,0 +1,37 @@
+title: T1807.001 (WINDOWS - defender)
+id: e98e917d-c1f3-4578-b27a-c4f2572d5b28
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1807.001.
+  Threat Actor: Royal
+references:
+  - https://attack.mitre.org/techniques/T1807.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1807.001
+  - actor.royal

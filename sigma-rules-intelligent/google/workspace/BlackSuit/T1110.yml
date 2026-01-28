@@ -1,0 +1,30 @@
+title: Brute Force (GOOGLE - workspace)
+id: d630d58a-703c-4da1-95bf-1950aebc6f1a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1110/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110
+  - actor.blacksuit

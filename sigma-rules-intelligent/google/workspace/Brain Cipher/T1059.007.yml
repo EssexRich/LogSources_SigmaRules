@@ -1,0 +1,30 @@
+title: JavaScript (GOOGLE - workspace)
+id: 7326c807-34f9-482c-ac67-f07a88d127c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.007.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1059.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.007
+  - actor.brain_cipher

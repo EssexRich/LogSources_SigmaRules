@@ -1,0 +1,37 @@
+title: Disable or Modify Tools (WINDOWS - defender)
+id: 2dd67314-4c86-46b2-b0bb-e57c83fe4d16
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.001.
+  Threat Actor: DragonForce
+references:
+  - https://attack.mitre.org/techniques/T1562.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.001
+  - actor.dragonforce

@@ -1,0 +1,37 @@
+title: Tool (WINDOWS - defender)
+id: b40125c1-a091-46e9-9612-4d3fd73331b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.002.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1588.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.002
+  - actor.stormous

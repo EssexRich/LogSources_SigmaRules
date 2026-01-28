@@ -1,0 +1,30 @@
+title: Access Token Manipulation (GOOGLE - workspace)
+id: a2bab664-5ee8-485f-b361-068d3be9c716
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1134/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134
+  - actor.hive

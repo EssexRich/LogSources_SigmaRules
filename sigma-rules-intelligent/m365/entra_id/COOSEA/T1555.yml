@@ -1,0 +1,32 @@
+title: Credentials from Password Stores (M365 - entra_id)
+id: 560e9143-e820-4e2f-84ac-e4fb0a9d8f1f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.coosea

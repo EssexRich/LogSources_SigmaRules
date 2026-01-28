@@ -1,0 +1,30 @@
+title: MMC (GOOGLE - workspace)
+id: afc89324-95cd-4538-97b3-e77ebdd36abf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.014.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1218.014/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.014
+  - actor.safepay

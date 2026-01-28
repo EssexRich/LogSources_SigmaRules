@@ -1,0 +1,30 @@
+title: System Binary Proxy Execution (GOOGLE - workspace)
+id: 0d4f6cf6-b8ad-453c-9970-98a36d8487c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1218/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218
+  - actor.akira

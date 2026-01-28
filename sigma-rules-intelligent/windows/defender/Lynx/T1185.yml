@@ -1,0 +1,37 @@
+title: Browser Session Hijacking (WINDOWS - defender)
+id: 6878f988-5f43-46b0-8f50-e2ded42259de
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1185.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1185/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1185
+  - actor.lynx

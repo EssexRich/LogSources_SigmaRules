@@ -1,0 +1,30 @@
+title: Transfer Data to Cloud Account (GOOGLE - workspace)
+id: 55ca7d19-6b3c-421f-9f97-b28537f76fea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1537.
+  Threat Actor: Royal
+references:
+  - https://attack.mitre.org/techniques/T1537/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1537
+  - actor.royal

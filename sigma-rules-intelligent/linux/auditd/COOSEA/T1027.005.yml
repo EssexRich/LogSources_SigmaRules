@@ -1,0 +1,37 @@
+title: Indicator Removal from Tools (LINUX - auditd)
+id: 9ad1a5c1-f51e-4c85-a13e-cb8add329b9e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.005.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1027.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.005
+  - actor.coosea

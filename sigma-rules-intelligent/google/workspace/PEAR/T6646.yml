@@ -1,0 +1,30 @@
+title: T6646 (GOOGLE - workspace)
+id: 36a05918-3be4-4fac-a54f-1bf19f907e91
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6646.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T6646/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6646
+  - actor.pear

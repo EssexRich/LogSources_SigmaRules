@@ -1,0 +1,30 @@
+title: T1636.004 (GOOGLE - workspace)
+id: ecc9fce2-9b17-46c2-ad16-69cf302d19c1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1636.004.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1636.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1636.004
+  - actor.qilin

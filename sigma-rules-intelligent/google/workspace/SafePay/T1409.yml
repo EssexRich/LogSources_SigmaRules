@@ -1,0 +1,30 @@
+title: T1409 (GOOGLE - workspace)
+id: e616dd20-80ea-4af9-bf45-89b9872b4045
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1409.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1409/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1409
+  - actor.safepay

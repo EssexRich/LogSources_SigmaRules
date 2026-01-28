@@ -1,0 +1,37 @@
+title: T7767 (WINDOWS - security)
+id: 0fffa7ad-b777-4a92-ad6e-b8dd0a2cecb7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7767.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T7767/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7767
+  - actor.benzona

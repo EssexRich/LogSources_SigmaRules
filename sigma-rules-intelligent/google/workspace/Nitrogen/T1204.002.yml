@@ -1,0 +1,30 @@
+title: Malicious File (GOOGLE - workspace)
+id: 86132188-ff6a-4e76-bc62-518b3c5e05e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002
+  - actor.nitrogen

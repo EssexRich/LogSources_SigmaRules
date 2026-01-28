@@ -1,0 +1,37 @@
+title: Security Account Manager (WINDOWS - security)
+id: 839d8327-fd0f-4375-9e57-cb4291fde7a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.002.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1003.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.002
+  - actor.akira

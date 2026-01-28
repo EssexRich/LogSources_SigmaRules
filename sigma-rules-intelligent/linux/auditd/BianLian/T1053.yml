@@ -1,0 +1,37 @@
+title: Scheduled Task/Job (LINUX - auditd)
+id: 2c329748-91f1-44f0-b339-83838244da8e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.bianlian

@@ -1,0 +1,30 @@
+title: Lateral Tool Transfer (GOOGLE - workspace)
+id: e2e45c8a-71fe-492e-8fba-b0c778ccd569
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570
+  - actor.ignoble_scorpius

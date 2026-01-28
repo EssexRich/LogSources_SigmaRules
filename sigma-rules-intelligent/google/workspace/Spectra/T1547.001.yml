@@ -1,0 +1,30 @@
+title: Registry Run Keys / Startup Folder (GOOGLE - workspace)
+id: c859be08-101f-4e98-85a3-e430f5a856dc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.001.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1547.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547.001
+  - actor.spectra

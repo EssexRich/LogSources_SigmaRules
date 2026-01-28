@@ -1,0 +1,30 @@
+title: Spearphishing via Service (GOOGLE - workspace)
+id: 323bfa1a-af0e-4797-abe9-d1a8907b6c5a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1194.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1194/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1194
+  - actor.cephalus

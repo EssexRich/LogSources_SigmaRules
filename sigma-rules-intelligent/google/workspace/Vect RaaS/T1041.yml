@@ -1,0 +1,30 @@
+title: Exfiltration Over C2 Channel (GOOGLE - workspace)
+id: eb1f4956-36ae-47c5-8428-435669a8e651
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.vect_raas

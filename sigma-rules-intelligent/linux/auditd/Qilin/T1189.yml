@@ -1,0 +1,37 @@
+title: Drive-by Compromise (LINUX - auditd)
+id: 144a4fa0-d0d1-4e12-8080-da877d9aff30
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1189.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1189/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1189
+  - actor.qilin

@@ -1,0 +1,30 @@
+title: Windows Management Instrumentation (GOOGLE - workspace)
+id: 7ef46490-0daf-41e3-9382-815c9899d7bd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.blacksuit

@@ -1,0 +1,37 @@
+title: User Execution (WINDOWS - defender)
+id: fabc9f67-3357-4b8b-83e9-89ead0fed863
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.
+  Threat Actor: Generic
+references:
+  - https://attack.mitre.org/techniques/T1204/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204
+  - actor.generic

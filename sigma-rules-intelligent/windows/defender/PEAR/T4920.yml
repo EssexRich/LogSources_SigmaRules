@@ -1,0 +1,37 @@
+title: T4920 (WINDOWS - defender)
+id: 345bd09b-6e5b-4346-8edc-d516f5824bc2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4920.
+  Threat Actor: PEAR
+references:
+  - https://attack.mitre.org/techniques/T4920/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4920
+  - actor.pear

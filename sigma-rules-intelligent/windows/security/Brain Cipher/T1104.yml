@@ -1,0 +1,37 @@
+title: Multi-Stage Channels (WINDOWS - security)
+id: c56f1bb9-ab6b-4b64-8121-67426c110f81
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1104.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1104/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1104
+  - actor.brain_cipher

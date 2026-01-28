@@ -1,0 +1,30 @@
+title: Access Token Manipulation (GOOGLE - workspace)
+id: af54a8d1-3886-4496-8086-31753ae89639
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1134/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134
+  - actor.brain_cipher

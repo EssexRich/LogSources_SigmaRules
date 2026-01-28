@@ -1,0 +1,37 @@
+title: External Proxy (WINDOWS - sysmon)
+id: b27e9f71-5a64-494d-8ca7-b6eacb6ba8c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.002.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1090.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.002
+  - actor.avoslocker

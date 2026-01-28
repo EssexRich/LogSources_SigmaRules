@@ -1,0 +1,30 @@
+title: File Deletion (GOOGLE - workspace)
+id: e971c381-e821-4ea3-be09-9048d793a447
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.004.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1070.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.004
+  - actor.safepay

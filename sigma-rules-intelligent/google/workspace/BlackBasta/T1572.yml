@@ -1,0 +1,30 @@
+title: Protocol Tunneling (GOOGLE - workspace)
+id: 8db31463-e7b4-4a9e-b8f3-4ed7a94488c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1572.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1572/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1572
+  - actor.blackbasta

@@ -1,0 +1,32 @@
+title: Timestomp (M365 - entra_id)
+id: 08c3a668-775f-4dd5-a2d7-9dbbae84fe80
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.006.
+  Threat Actor: KageNoHitobito
+references:
+  - https://attack.mitre.org/techniques/T1070.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.006
+  - actor.kagenohitobito

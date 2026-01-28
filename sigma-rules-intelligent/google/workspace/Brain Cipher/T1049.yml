@@ -1,0 +1,30 @@
+title: System Network Connections Discovery (GOOGLE - workspace)
+id: 499353cd-8dd0-4550-bd5f-22ffaaa7c812
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.brain_cipher

@@ -1,0 +1,32 @@
+title: Transfer Data to Cloud Account (M365 - entra_id)
+id: 2329f0c6-ff2d-4acf-ac56-f79e674d35b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1537.
+  Threat Actor: Royal
+references:
+  - https://attack.mitre.org/techniques/T1537/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1537
+  - actor.royal

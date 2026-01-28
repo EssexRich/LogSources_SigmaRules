@@ -1,0 +1,30 @@
+title: Create Account (GOOGLE - workspace)
+id: 3da80fa2-9c87-4d11-bfb4-1d82535366bb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1136/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136
+  - actor.ransomhub

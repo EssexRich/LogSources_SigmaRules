@@ -1,0 +1,37 @@
+title: T4590 (WINDOWS - sysmon)
+id: 5c9462f7-3a47-403b-9154-36917a8fa3c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4590.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T4590/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4590
+  - actor.benzona

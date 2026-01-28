@@ -1,0 +1,30 @@
+title: Resource Hijacking (GOOGLE - workspace)
+id: 02c1cdf3-e162-497e-9e32-929599c31099
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1496.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1496/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1496
+  - actor.safelocker

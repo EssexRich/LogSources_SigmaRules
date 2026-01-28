@@ -1,0 +1,30 @@
+title: Component Object Model (GOOGLE - workspace)
+id: 1a70aed3-1287-4fa8-8675-0ca4fba88b98
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1559.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559.001
+  - actor.lockbit

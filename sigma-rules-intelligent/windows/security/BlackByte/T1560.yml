@@ -1,0 +1,37 @@
+title: Archive Collected Data (WINDOWS - security)
+id: 435d4e6b-38a1-49b7-929f-56149a5a7749
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560
+  - actor.blackbyte

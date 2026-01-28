@@ -1,0 +1,37 @@
+title: Network Share Discovery (WINDOWS - sysmon)
+id: e88e544b-943f-4f3e-86ce-07bc73046c3a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.8base

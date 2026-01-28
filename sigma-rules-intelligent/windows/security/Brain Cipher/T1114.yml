@@ -1,0 +1,37 @@
+title: Email Collection (WINDOWS - security)
+id: 688b4f7c-be0b-4d9c-91e4-e35e7096a1de
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1114.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1114/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1114
+  - actor.brain_cipher

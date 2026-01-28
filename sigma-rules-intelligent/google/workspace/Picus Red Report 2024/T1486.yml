@@ -1,0 +1,30 @@
+title: Data Encrypted for Impact (GOOGLE - workspace)
+id: cd0824fe-eaa2-4c85-9048-e442a79ee9d2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+  Threat Actor: Picus Red Report 2024
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486
+  - actor.picus_red_report_2024

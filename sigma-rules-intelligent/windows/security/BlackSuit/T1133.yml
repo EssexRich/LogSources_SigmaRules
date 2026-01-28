@@ -1,0 +1,37 @@
+title: External Remote Services (WINDOWS - security)
+id: 6c5a3f30-70dc-46d3-a139-ebaaf9e7d45c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.blacksuit

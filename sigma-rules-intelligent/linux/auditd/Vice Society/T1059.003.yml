@@ -1,0 +1,37 @@
+title: Windows Command Shell (LINUX - auditd)
+id: 18d1a9a1-2518-426a-b8d5-59ad4c2ae3c1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.003.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1059.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.003
+  - actor.vice_society

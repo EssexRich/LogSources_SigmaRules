@@ -1,0 +1,32 @@
+title: Automated Collection (M365 - entra_id)
+id: b041b69e-0935-48c1-a08e-3c5c3372c7c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.safepay

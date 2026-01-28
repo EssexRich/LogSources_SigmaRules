@@ -1,0 +1,32 @@
+title: Asymmetric Cryptography (M365 - entra_id)
+id: 7659daf4-91d1-4b18-a270-a29209b515cb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.002.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1573.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.002
+  - actor.lynx

@@ -1,0 +1,37 @@
+title: File Deletion (WINDOWS - security)
+id: 9a860a9e-3932-46c7-8dca-f4357c06c49b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.004.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1070.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.004
+  - actor.cl0p

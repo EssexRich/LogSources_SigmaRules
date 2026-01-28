@@ -1,0 +1,30 @@
+title: SSH (GOOGLE - workspace)
+id: 9a98aff7-ff5e-43d2-9536-df52fe824fca
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.004.
+  Threat Actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1021.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.004
+  - actor.cactus_ransomware

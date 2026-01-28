@@ -1,0 +1,30 @@
+title: Remote Desktop Software (GOOGLE - workspace)
+id: 34e9f41e-b1f5-48f8-ba31-5984c6f2db10
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.002.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1219.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219.002
+  - actor.safepay

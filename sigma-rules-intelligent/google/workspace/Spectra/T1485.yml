@@ -1,0 +1,30 @@
+title: Data Destruction (GOOGLE - workspace)
+id: 28e748ce-2625-403e-b1e4-9b3e72f298fd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1485.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1485
+  - actor.spectra

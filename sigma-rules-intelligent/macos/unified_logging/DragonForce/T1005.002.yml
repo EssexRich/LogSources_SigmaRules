@@ -1,0 +1,34 @@
+title: T1005.002 (MACOS - unified_logging)
+id: e3827ce3-8995-48af-a33c-e2ea4ad2666a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.002.
+  Threat Actor: DragonForce
+references:
+  - https://attack.mitre.org/techniques/T1005.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005.002
+  - actor.dragonforce

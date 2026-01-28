@@ -1,0 +1,37 @@
+title: Data Encrypted for Impact (WINDOWS - security)
+id: c747728f-fa24-4acd-991e-17707e8d58f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486
+  - actor.avoslocker

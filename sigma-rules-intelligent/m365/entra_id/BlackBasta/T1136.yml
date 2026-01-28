@@ -1,0 +1,32 @@
+title: Create Account (M365 - entra_id)
+id: a5b2a39b-08c7-4ed6-af7b-274d2a14f850
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1136/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136
+  - actor.blackbasta

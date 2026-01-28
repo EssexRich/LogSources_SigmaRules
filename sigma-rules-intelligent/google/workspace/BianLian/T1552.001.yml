@@ -1,0 +1,30 @@
+title: Credentials In Files (GOOGLE - workspace)
+id: c054e00d-c93f-4747-8a17-87c886fa4072
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.001.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1552.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.001
+  - actor.bianlian

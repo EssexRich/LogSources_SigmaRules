@@ -1,0 +1,30 @@
+title: Exploit Public-Facing Application (GOOGLE - workspace)
+id: 5760ea65-b075-4d4b-a7ea-245b4462dadc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.bianlian

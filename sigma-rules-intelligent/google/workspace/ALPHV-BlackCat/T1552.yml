@@ -1,0 +1,30 @@
+title: Unsecured Credentials (GOOGLE - workspace)
+id: ddc5d05d-ace4-4911-ab5f-16727f8eb2c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1552/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552
+  - actor.alphv-blackcat

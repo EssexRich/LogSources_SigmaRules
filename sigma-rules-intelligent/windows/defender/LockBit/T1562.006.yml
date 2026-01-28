@@ -1,0 +1,37 @@
+title: Indicator Blocking (WINDOWS - defender)
+id: 758d6f94-b5b3-4a94-9724-4e1d04e3fe83
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.006.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1562.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.006
+  - actor.lockbit

@@ -1,0 +1,32 @@
+title: Windows File and Directory Permissions Modification (M365 - entra_id)
+id: 3708a78d-9a11-48f5-84b3-7783ebc45e3c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1222.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1222.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1222.001
+  - actor.lockbit

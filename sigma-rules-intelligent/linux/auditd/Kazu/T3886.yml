@@ -1,0 +1,37 @@
+title: T3886 (LINUX - auditd)
+id: c738343a-8ed4-4dcf-ba12-e67ecff1bdd7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3886.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T3886/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3886
+  - actor.kazu

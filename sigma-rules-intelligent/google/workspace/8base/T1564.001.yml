@@ -1,0 +1,30 @@
+title: Hidden Files and Directories (GOOGLE - workspace)
+id: 08109669-c641-4b47-ae64-32248d6a5b3d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.001.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1564.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.001
+  - actor.8base

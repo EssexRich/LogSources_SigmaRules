@@ -1,0 +1,30 @@
+title: Phishing (GOOGLE - workspace)
+id: 2df64e89-6e71-4dee-8fd3-ec7d8b537c5e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566
+  - actor.stormous

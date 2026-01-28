@@ -1,0 +1,30 @@
+title: NTFS File Attributes (GOOGLE - workspace)
+id: e88bf2d8-c42d-4aac-802e-65c58e1f7900
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.004.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1564.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.004
+  - actor.rhysida

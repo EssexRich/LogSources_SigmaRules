@@ -1,0 +1,30 @@
+title: System Binary Proxy Execution (GOOGLE - workspace)
+id: b6f07854-8448-48bc-81e1-af72188b80ed
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1218/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218
+  - actor.cephalus

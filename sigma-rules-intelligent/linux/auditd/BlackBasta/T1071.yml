@@ -1,0 +1,37 @@
+title: Application Layer Protocol (LINUX - auditd)
+id: edb72676-1d6d-495e-bb3f-b82067dbafc4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.blackbasta

@@ -1,0 +1,30 @@
+title: Portable Executable Injection (GOOGLE - workspace)
+id: 114e02af-7f70-4eec-81bc-36f11a77c226
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.002.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1055.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.002
+  - actor.rhysida

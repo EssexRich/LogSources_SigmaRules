@@ -1,0 +1,30 @@
+title: Compression (GOOGLE - workspace)
+id: 36f8a7d2-5db7-4c76-9548-8696b24da15a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.015.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1027.015/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.015
+  - actor.akira

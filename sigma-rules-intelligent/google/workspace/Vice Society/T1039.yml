@@ -1,0 +1,30 @@
+title: Data from Network Shared Drive (GOOGLE - workspace)
+id: efe23d4f-073c-44d4-b98e-31740b6c29f4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1039.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1039/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1039
+  - actor.vice_society

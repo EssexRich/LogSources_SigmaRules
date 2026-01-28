@@ -1,0 +1,30 @@
+title: SEO Poisoning (GOOGLE - workspace)
+id: fd5cc52a-64d5-4e35-8cc4-c9e7b13fe34f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.006.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1608.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.006
+  - actor.ignoble_scorpius

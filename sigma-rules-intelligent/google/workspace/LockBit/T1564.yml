@@ -1,0 +1,30 @@
+title: Hide Artifacts (GOOGLE - workspace)
+id: 5d8f617f-0ced-41dc-b88f-1664f15cc7d3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.lockbit

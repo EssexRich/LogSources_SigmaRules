@@ -1,0 +1,37 @@
+title: Remote Desktop Protocol (WINDOWS - sysmon)
+id: 96e7e8f5-b745-4695-8c20-5f3d139ae19a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.001.
+  Threat Actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1021.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.001
+  - actor.cactus_ransomware

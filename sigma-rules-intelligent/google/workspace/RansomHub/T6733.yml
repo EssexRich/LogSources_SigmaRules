@@ -1,0 +1,30 @@
+title: T6733 (GOOGLE - workspace)
+id: 686ab3a2-85b1-4d7e-bbbd-7deb8867eaef
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T6733.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T6733/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T6733
+  - actor.ransomhub

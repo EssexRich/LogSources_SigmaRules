@@ -1,0 +1,30 @@
+title: Remote System Discovery (GOOGLE - workspace)
+id: 13c924f5-4b5a-4f68-b124-a78244b138fd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1018.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1018/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1018
+  - actor.alphv-blackcat

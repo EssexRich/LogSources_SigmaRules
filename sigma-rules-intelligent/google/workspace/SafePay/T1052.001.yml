@@ -1,0 +1,30 @@
+title: Exfiltration over USB (GOOGLE - workspace)
+id: e644e25f-b3ec-479a-9c6f-a7b64f0076a2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1052.001.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1052.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1052.001
+  - actor.safepay

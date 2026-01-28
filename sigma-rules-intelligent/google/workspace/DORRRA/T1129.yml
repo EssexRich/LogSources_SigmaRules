@@ -1,0 +1,30 @@
+title: Shared Modules (GOOGLE - workspace)
+id: 60959a7f-4ee2-4510-9d08-d4a1a6f61411
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1129.
+  Threat Actor: DORRRA
+references:
+  - https://attack.mitre.org/techniques/T1129/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1129
+  - actor.dorrra

@@ -1,0 +1,30 @@
+title: Credentials In Files (GOOGLE - workspace)
+id: 20e2e61b-fe2b-40da-9e47-d09c6c8120ca
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.001.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1552.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.001
+  - actor.brain_cipher

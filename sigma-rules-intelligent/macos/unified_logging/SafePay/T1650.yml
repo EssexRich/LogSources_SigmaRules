@@ -1,0 +1,34 @@
+title: Acquire Access (MACOS - unified_logging)
+id: 029c3b39-0731-4b87-84c9-cf7b16cbafcd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1650.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1650/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1650
+  - actor.safepay

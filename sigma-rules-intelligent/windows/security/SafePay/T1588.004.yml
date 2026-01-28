@@ -1,0 +1,37 @@
+title: Digital Certificates (WINDOWS - security)
+id: 0f73597a-dcb1-4287-b7f4-9b7deb16d4a1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.004.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1588.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.004
+  - actor.safepay

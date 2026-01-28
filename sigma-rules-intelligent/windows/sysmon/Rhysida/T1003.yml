@@ -1,0 +1,37 @@
+title: OS Credential Dumping (WINDOWS - sysmon)
+id: aca664d2-75d5-495f-a2c5-f8fe9b9dd0f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.rhysida

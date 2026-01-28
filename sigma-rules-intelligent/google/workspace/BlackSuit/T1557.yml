@@ -1,0 +1,30 @@
+title: Adversary-in-the-Middle (GOOGLE - workspace)
+id: 5813a5cd-cf9c-4677-97de-09ac119252c1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1557.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1557/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1557
+  - actor.blacksuit

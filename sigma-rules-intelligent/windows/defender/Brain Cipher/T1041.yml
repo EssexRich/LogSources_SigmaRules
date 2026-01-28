@@ -1,0 +1,37 @@
+title: Exfiltration Over C2 Channel (WINDOWS - defender)
+id: c6152826-7fa7-4acb-a965-e38608a80d3f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.brain_cipher

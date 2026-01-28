@@ -1,0 +1,37 @@
+title: Application Layer Protocol (WINDOWS - sysmon)
+id: e3a2d732-e3f2-4073-8735-fc881f5401c1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.spectra

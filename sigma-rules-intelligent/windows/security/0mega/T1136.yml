@@ -1,0 +1,37 @@
+title: Create Account (WINDOWS - security)
+id: 136a635b-60a7-431e-afd7-6aa47e26dff7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.
+  Threat Actor: 0mega
+references:
+  - https://attack.mitre.org/techniques/T1136/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136
+  - actor.0mega

@@ -1,0 +1,37 @@
+title: Resource Hijacking (WINDOWS - security)
+id: 94c37caf-5840-4eca-992d-5e0e43ac1fe2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1496.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1496/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1496
+  - actor.safelocker

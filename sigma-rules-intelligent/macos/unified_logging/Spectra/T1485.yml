@@ -1,0 +1,34 @@
+title: Data Destruction (MACOS - unified_logging)
+id: d9f05bc4-1cef-40b2-b787-31fe515ec4e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1485.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1485
+  - actor.spectra

@@ -1,0 +1,30 @@
+title: T1430 (GOOGLE - workspace)
+id: e30ad763-f7f4-40a7-afcb-abc9d6ba77de
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1430.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1430/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1430
+  - actor.qilin

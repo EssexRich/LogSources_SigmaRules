@@ -1,0 +1,37 @@
+title: Indirect Command Execution (WINDOWS - defender)
+id: 53f3aa9c-116f-45f5-8943-6004faefbd97
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202
+  - actor.cl0p

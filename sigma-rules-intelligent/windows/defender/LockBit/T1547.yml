@@ -1,0 +1,37 @@
+title: Boot or Logon Autostart Execution (WINDOWS - defender)
+id: 79ea40c6-e672-46c5-ad39-bc4977069539
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547
+  - actor.lockbit

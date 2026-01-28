@@ -1,0 +1,37 @@
+title: T1837 (WINDOWS - defender)
+id: 4adeaac8-7d92-402b-b874-1c6a756f4a3c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1837.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1837/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1837
+  - actor.cephalus

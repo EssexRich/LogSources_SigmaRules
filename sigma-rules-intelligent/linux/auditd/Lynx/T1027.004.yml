@@ -1,0 +1,37 @@
+title: Compile After Delivery (LINUX - auditd)
+id: a6e47e25-6b89-4a2b-af50-ce9b49343aac
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.004.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1027.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.004
+  - actor.lynx

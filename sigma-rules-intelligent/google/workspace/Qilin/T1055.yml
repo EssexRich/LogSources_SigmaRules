@@ -1,0 +1,30 @@
+title: Process Injection (GOOGLE - workspace)
+id: c10f9fca-7614-4d6a-912c-3dad2beb0d0d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.qilin

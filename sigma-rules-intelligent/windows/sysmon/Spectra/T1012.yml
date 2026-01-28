@@ -1,0 +1,37 @@
+title: Query Registry (WINDOWS - sysmon)
+id: a32e8094-d879-4d2a-a9d8-f8a6a0d8a4e2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.spectra

@@ -1,0 +1,30 @@
+title: Keylogging (GOOGLE - workspace)
+id: c737c6a5-fd40-419a-9d0e-b553b8a8dd26
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.001.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1056.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056.001
+  - actor.coosea

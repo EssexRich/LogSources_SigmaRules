@@ -1,0 +1,30 @@
+title: Data from Local System (GOOGLE - workspace)
+id: bc6b6fa6-6558-44d7-b0cb-82f85c541878
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.qilin

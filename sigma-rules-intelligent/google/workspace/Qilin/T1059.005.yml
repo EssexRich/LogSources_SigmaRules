@@ -1,0 +1,30 @@
+title: Visual Basic (GOOGLE - workspace)
+id: 07bc2a1f-43ef-46be-aaad-a20d842aab38
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.005.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1059.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.005
+  - actor.qilin

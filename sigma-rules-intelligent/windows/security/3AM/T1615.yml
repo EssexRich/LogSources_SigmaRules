@@ -1,0 +1,37 @@
+title: Group Policy Discovery (WINDOWS - security)
+id: da5fa583-5ac2-40d8-a83f-3bf23c4e2aaf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1615.
+  Threat Actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1615/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1615
+  - actor.3am

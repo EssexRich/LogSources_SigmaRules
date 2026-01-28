@@ -1,0 +1,34 @@
+title: External Remote Services (MACOS - unified_logging)
+id: 795e3e9f-bd92-41a2-b778-6007223e344d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.play

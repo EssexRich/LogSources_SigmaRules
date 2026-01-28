@@ -1,0 +1,37 @@
+title: Credentials from Web Browsers (WINDOWS - sysmon)
+id: 1741c862-d1d7-4f1a-ae2b-d4dd5d7aec90
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003
+  - actor.bqtlock

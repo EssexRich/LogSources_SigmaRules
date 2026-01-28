@@ -1,0 +1,32 @@
+title: Input Capture (M365 - entra_id)
+id: 7940a141-5f8c-45fb-a9d7-113909e1e760
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.
+  Threat Actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1056/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056
+  - actor.hunt-dharma-crysis

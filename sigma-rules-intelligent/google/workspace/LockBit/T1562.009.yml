@@ -1,0 +1,30 @@
+title: Safe Mode Boot (GOOGLE - workspace)
+id: def4e6d5-be1c-485c-9403-cf024021d857
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.009.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1562.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.009
+  - actor.lockbit

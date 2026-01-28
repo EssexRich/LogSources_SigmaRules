@@ -1,0 +1,37 @@
+title: Software Deployment Tools (WINDOWS - sysmon)
+id: 91c6b4d8-c368-4637-9fcf-95a9b1a92d7a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072
+  - actor.alphv-blackcat

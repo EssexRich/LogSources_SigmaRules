@@ -1,0 +1,30 @@
+title: Inhibit System Recovery (GOOGLE - workspace)
+id: 85a6f0d2-8ac3-40b5-bc07-7cbbebe84e63
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.alphv-blackcat

@@ -1,0 +1,30 @@
+title: System Owner/User Discovery (GOOGLE - workspace)
+id: adcf8062-85dd-4e10-a0f6-636d1c86645f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.inc_ransom

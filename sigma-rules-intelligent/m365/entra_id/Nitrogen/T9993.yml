@@ -1,0 +1,32 @@
+title: T9993 (M365 - entra_id)
+id: 4dd43f29-60bc-43e2-b1c3-7f3d8d01e43f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T9993.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T9993/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T9993
+  - actor.nitrogen

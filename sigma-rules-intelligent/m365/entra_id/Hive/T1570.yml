@@ -1,0 +1,32 @@
+title: Lateral Tool Transfer (M365 - entra_id)
+id: 52287b9a-aa8b-4285-8601-e9223a63d9bf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570
+  - actor.hive

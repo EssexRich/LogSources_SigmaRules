@@ -1,0 +1,37 @@
+title: Encrypted Channel (WINDOWS - security)
+id: 71650bf4-0ef1-4207-884f-709ca1abbbfd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573
+  - actor.akira

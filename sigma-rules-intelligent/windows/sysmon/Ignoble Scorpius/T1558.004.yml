@@ -1,0 +1,37 @@
+title: AS-REP Roasting (WINDOWS - sysmon)
+id: 4e3f258c-7bc3-4f9e-a327-740d1ae99fba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.004.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1558.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558.004
+  - actor.ignoble_scorpius

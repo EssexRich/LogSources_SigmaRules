@@ -1,0 +1,30 @@
+title: Local Account (GOOGLE - workspace)
+id: 471e039c-2c04-456d-9a94-94f013afe4a8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.001.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1136.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136.001
+  - actor.bqtlock

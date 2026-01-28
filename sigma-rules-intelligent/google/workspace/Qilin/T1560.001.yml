@@ -1,0 +1,30 @@
+title: Archive via Utility (GOOGLE - workspace)
+id: 6735e077-0311-4712-9ae4-c51d07d51ba2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.001.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1560.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.001
+  - actor.qilin

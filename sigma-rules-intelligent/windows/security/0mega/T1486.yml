@@ -1,0 +1,37 @@
+title: Data Encrypted for Impact (WINDOWS - security)
+id: 22b9204d-95df-47db-92a6-9ad64f1fac2f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+  Threat Actor: 0mega
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486
+  - actor.0mega

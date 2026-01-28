@@ -1,0 +1,32 @@
+title: Domain Trust Discovery (M365 - entra_id)
+id: 146c828c-b75b-402b-8935-649bfc7c73bc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1482.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1482/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1482
+  - actor.rhysida

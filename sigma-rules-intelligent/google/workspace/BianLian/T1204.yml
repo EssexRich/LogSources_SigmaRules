@@ -1,0 +1,30 @@
+title: User Execution (GOOGLE - workspace)
+id: a3de2a70-f6df-4d51-ad54-cc6396df462a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1204/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204
+  - actor.bianlian

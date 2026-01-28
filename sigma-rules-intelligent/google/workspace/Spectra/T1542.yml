@@ -1,0 +1,30 @@
+title: Pre-OS Boot (GOOGLE - workspace)
+id: 25843db5-c5d9-4a25-8874-e7c8504b94a6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1542.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1542/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1542
+  - actor.spectra

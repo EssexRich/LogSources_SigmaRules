@@ -1,0 +1,37 @@
+title: System Network Connections Discovery (LINUX - auditd)
+id: 8d1e2f7b-c5e4-44d4-a7b4-269b5c100645
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.lynx

@@ -1,0 +1,30 @@
+title: Encrypted Channel (GOOGLE - workspace)
+id: f6ea7426-ada5-4f8c-8f2d-55f216134fb8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1573/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573
+  - actor.lockbit

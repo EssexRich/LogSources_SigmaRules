@@ -1,0 +1,30 @@
+title: Compromise Software Supply Chain (GOOGLE - workspace)
+id: 3cbb90d9-60e4-451f-99cc-aaac1facc4c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1195.002.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1195.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1195.002
+  - actor.blacksuit

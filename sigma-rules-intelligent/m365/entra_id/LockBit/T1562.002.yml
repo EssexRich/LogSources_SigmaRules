@@ -1,0 +1,32 @@
+title: Disable Windows Event Logging (M365 - entra_id)
+id: 84bf6c37-670f-4cfe-a710-68171a0f0be0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.002.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1562.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.002
+  - actor.lockbit

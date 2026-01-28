@@ -1,0 +1,37 @@
+title: Phishing (WINDOWS - defender)
+id: d53e40c8-147c-4c31-959e-6fec5dd2d55b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+  Threat Actor: AlphaLocker
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566
+  - actor.alphalocker

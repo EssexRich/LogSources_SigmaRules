@@ -1,0 +1,30 @@
+title: Spearphishing Link (GOOGLE - workspace)
+id: 9b47c237-b0c4-4152-b366-11198c4a2c69
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.002.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1566.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.002
+  - actor.blacksuit

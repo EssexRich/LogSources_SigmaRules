@@ -1,0 +1,30 @@
+title: Peripheral Device Discovery (GOOGLE - workspace)
+id: 69b36ebd-24ee-4885-aa23-efa5e724053a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1120.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1120/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1120
+  - actor.safepay
