@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T3459 Detection (m365)
+    id: f52abcac-46f1-40f6-aecc-6b3317c18f0f
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T3459.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T3459/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T3459
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T3459
+    
