@@ -216,28 +216,36 @@ async function main() {
     console.log('[SigmaGen]   - Fetching relationships...');
     const relationships = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/relationships/index.json');
     
-    if (Array.isArray(relationships)) {
-      console.log('[SigmaGen]   - Building STIX UUID to T-number mapping...');
-      
-      // Build STIX ID to T-number mapping by fetching all technique files
-      const stixIdToTech = {};
-      for (let i = 1; i <= 1000; i++) {
-        const techId = `T${i}`;
+    // Fetch relationships and build actor-technique mapping
+    console.log('[SigmaGen]   - Fetching relationships and building STIX UUID mapping...');
+    const stixIdToTech = {};
+    
+    // Build STIX ID to T-number mapping from index.json entries
+    // The index.json has all T-numbers, we just need to fetch each one to get its STIX ID
+    try {
+      // First, try to build the map by fetching techniques  
+      // This is needed to convert relationship STIX IDs to T-numbers
+      let mappedCount = 0;
+      for (const techId of Object.keys(techniqueNames)) {
         try {
           const tech = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques/${techId}.json`);
           if (tech && tech.id) {
             stixIdToTech[tech.id] = techId;
+            mappedCount++;
           }
         } catch (e) {
-          // ignore
+          // File might not exist (e.g., subtechniques stored differently)
         }
       }
-      console.log(`[SigmaGen]   ✓ Built mapping for ${Object.keys(stixIdToTech).length} techniques`);
-      
-      // Process relationships
+      console.log(`[SigmaGen]   ✓ Built STIX mapping for ${mappedCount} techniques`);
+    } catch (e) {
+      console.warn('[SigmaGen]   ⚠ Could not build STIX mapping:', e.message);
+    }
+
+    // Now process relationships
+    if (Array.isArray(relationships)) {
       let relationshipCount = 0;
       relationships.forEach(rel => {
-        // Only process intrusion-set -> attack-pattern relationships
         if (rel.relationship_type === 'uses') {
           const sourceType = rel.source_ref.split('--')[0];
           const targetType = rel.target_ref.split('--')[0];
