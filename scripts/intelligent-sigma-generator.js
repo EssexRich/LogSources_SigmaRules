@@ -25,12 +25,37 @@ function fetchURL(url) {
   });
 }
 
+function fetchText(url) {
+  return new Promise((resolve, reject) => {
+    const request = https.get(url, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => resolve(data));
+    }).on('error', reject);
+    
+    request.setTimeout(30000, () => {
+      request.destroy();
+      reject(new Error(`Request timeout for ${url}`));
+    });
+  });
+}
+
 function generateUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0;
     const v = c === 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
+}
+
+function extractTNumberFromYAML(content) {
+  const match = content.match(/attack\.t\d+(\.\d+)?/gi);
+  return match ? match[0].replace('attack.', '').toUpperCase() : null;
+}
+
+function extractTNumberFromTOML(content) {
+  const match = content.match(/T\d+(\.\d+)?/);
+  return match ? match[0] : null;
 }
 
 function buildDetectionYAML(conditions) {
@@ -48,16 +73,19 @@ function buildDetectionYAML(conditions) {
   return lines.join('\n');
 }
 
-function generateSigmaRule(techniqueId, techName, logsource, conditions, actor) {
+function generatePlaceholderRule(techniqueId, techName, logsource, actor) {
   const uuid = generateUUID();
   const now = new Date().toISOString().split('T')[0];
-  const detection = buildDetectionYAML(conditions);
+  const detection = buildDetectionYAML({
+    'placeholder|contains': ['PLACEHOLDER - Analyst to populate indicators']
+  });
 
   return `title: ${techName} (${logsource.product.toUpperCase()} - ${logsource.service})
 id: ${uuid}
 description: >
   Detects techniques consistent with MITRE ATT&CK technique ${techniqueId}.
   Threat Actor: ${actor}
+  STATUS: Placeholder - waiting for detection indicators to be populated
 references:
   - https://attack.mitre.org/techniques/${techniqueId}/
 author: GapMATRIX Intelligent Sigma Generator
@@ -85,39 +113,104 @@ tags:
 `;
 }
 
-function buildDetection(techniqueId, intentMatrix, logsource) {
-  const intent = intentMatrix[techniqueId];
-  if (!intent) return null;
+async function fetchExternalRules() {
+  console.log('[SigmaGen] Fetching external detection rules...');
+  
+  const rules = {
+    elastic: {},
+    splunk: {},
+    microsoft: {}
+  };
 
-  const logsourceKey = `${logsource.product}/${logsource.service}`;
-  const detectionConfig = intent.detections[logsourceKey];
-
-  if (!detectionConfig || !detectionConfig.relevant) {
-    return null;
-  }
-
-  const detection = {};
-
-  // If analyst has provided indicators, use them
-  if (detectionConfig.indicators && detectionConfig.indicators.length > 0) {
-    // Use first available field from the logsource
-    const firstField = detectionConfig.fields[0];
-    if (firstField) {
-      detection[`${firstField}|contains`] = detectionConfig.indicators.slice(0, 5);
+  // Fetch Elastic rules tree
+  try {
+    console.log('[SigmaGen]   - Indexing Elastic detection-rules...');
+    const elasticTree = await fetchURL('https://api.github.com/repos/elastic/detection-rules/git/trees/main?recursive=1');
+    if (elasticTree.tree) {
+      const ruleFiles = elasticTree.tree.filter(f => f.path.endsWith('.toml') && f.path.includes('rules/'));
+      console.log(`[SigmaGen]     ✓ Found ${ruleFiles.length} Elastic rules`);
+      
+      // Index a sample of them (to avoid rate limits)
+      for (let i = 0; i < Math.min(ruleFiles.length, 50); i++) {
+        try {
+          const file = ruleFiles[i];
+          const content = await fetchText(`https://raw.githubusercontent.com/elastic/detection-rules/main/${file.path}`);
+          const tNum = extractTNumberFromTOML(content);
+          if (tNum) {
+            if (!rules.elastic[tNum]) rules.elastic[tNum] = [];
+            rules.elastic[tNum].push({
+              path: file.path,
+              content: content.substring(0, 500) // Store just snippet
+            });
+          }
+        } catch (e) {
+          // Continue on error
+        }
+      }
     }
-  } else {
-    // Fallback: create generic detection for this logsource
-    const firstField = detectionConfig.fields[0];
-    if (firstField) {
-      detection[`${firstField}|contains`] = ['suspicious', 'malicious', 'attack'];
+  } catch (error) {
+    console.warn('[SigmaGen]   ⚠ Could not fetch Elastic rules:', error.message);
+  }
+
+  // Fetch Splunk rules tree
+  try {
+    console.log('[SigmaGen]   - Indexing Splunk security_content...');
+    const splunkTree = await fetchURL('https://api.github.com/repos/splunk/security_content/git/trees/develop?recursive=1');
+    if (splunkTree.tree) {
+      const ruleFiles = splunkTree.tree.filter(f => (f.path.endsWith('.yml') || f.path.endsWith('.yaml')) && f.path.includes('detections/'));
+      console.log(`[SigmaGen]     ✓ Found ${ruleFiles.length} Splunk rules`);
+      
+      for (let i = 0; i < Math.min(ruleFiles.length, 50); i++) {
+        try {
+          const file = ruleFiles[i];
+          const content = await fetchText(`https://raw.githubusercontent.com/splunk/security_content/develop/${file.path}`);
+          const tNum = extractTNumberFromYAML(content);
+          if (tNum) {
+            if (!rules.splunk[tNum]) rules.splunk[tNum] = [];
+            rules.splunk[tNum].push({
+              path: file.path,
+              content: content.substring(0, 500)
+            });
+          }
+        } catch (e) {
+          // Continue on error
+        }
+      }
     }
+  } catch (error) {
+    console.warn('[SigmaGen]   ⚠ Could not fetch Splunk rules:', error.message);
   }
 
-  if (Object.keys(detection).length === 0) {
-    return null;
+  // Fetch Microsoft Sentinel rules tree
+  try {
+    console.log('[SigmaGen]   - Indexing Microsoft Sentinel rules...');
+    const msTree = await fetchURL('https://api.github.com/repos/microsoft/Microsoft-Sentinel2Go/git/trees/master?recursive=1');
+    if (msTree.tree) {
+      const ruleFiles = msTree.tree.filter(f => f.path.endsWith('.json') && f.path.includes('analytics'));
+      console.log(`[SigmaGen]     ✓ Found ${ruleFiles.length} Microsoft rules`);
+      
+      for (let i = 0; i < Math.min(ruleFiles.length, 50); i++) {
+        try {
+          const file = ruleFiles[i];
+          const content = await fetchText(`https://raw.githubusercontent.com/microsoft/Microsoft-Sentinel2Go/master/${file.path}`);
+          const tNum = extractTNumberFromYAML(content);
+          if (tNum) {
+            if (!rules.microsoft[tNum]) rules.microsoft[tNum] = [];
+            rules.microsoft[tNum].push({
+              path: file.path,
+              content: content.substring(0, 500)
+            });
+          }
+        } catch (e) {
+          // Continue on error
+        }
+      }
+    }
+  } catch (error) {
+    console.warn('[SigmaGen]   ⚠ Could not fetch Microsoft rules:', error.message);
   }
 
-  return detection;
+  return rules;
 }
 
 async function main() {
@@ -133,25 +226,15 @@ async function main() {
     }
     const logsourcesData = JSON.parse(fs.readFileSync(logsourcesPath, 'utf8'));
     logsources = logsourcesData.logsources;
-    console.log(`[SigmaGen] ✓ Loaded ${logsources.length} logsources`);
+    console.log(`[SigmaGen] ✓ Loaded ${logsources.length} logsources\n`);
   } catch (error) {
     console.error('[SigmaGen] ERROR: Failed to load logsources:', error.message);
     process.exit(1);
   }
 
-  // Load detection intent matrix
-  let intentMatrix = {};
-  try {
-    const intentPath = path.join(process.cwd(), 'data/detection-intent-matrix.json');
-    if (fs.existsSync(intentPath)) {
-      intentMatrix = JSON.parse(fs.readFileSync(intentPath, 'utf8'));
-      console.log(`[SigmaGen] ✓ Loaded detection intent matrix with ${Object.keys(intentMatrix).length} techniques`);
-    } else {
-      console.warn('[SigmaGen] ⚠ detection-intent-matrix.json not found');
-    }
-  } catch (error) {
-    console.warn('[SigmaGen] ⚠ Failed to load intent matrix:', error.message);
-  }
+  // Fetch external rules
+  const externalRules = await fetchExternalRules();
+  console.log(`[SigmaGen] ✓ Indexed external rules\n`);
 
   // Fetch MITRE data
   console.log('[SigmaGen] Fetching MITRE intrusion-sets and TTPs...');
@@ -236,7 +319,7 @@ async function main() {
           });
         }
       });
-      console.log(`[SigmaGen] ✓ Loaded ${ransomwareActorNames.size} ransomware gangs`);
+      console.log(`[SigmaGen] ✓ Loaded ${ransomwareActorNames.size} ransomware gangs\n`);
     }
   } catch (error) {
     console.warn('[SigmaGen] ⚠ Could not fetch ransomware gangs:', error.message);
@@ -263,14 +346,15 @@ async function main() {
   console.log(`[SigmaGen] ✓ ${allActors.size} threat actors, ${Object.keys(allActorTechMap).length} techniques\n`);
 
   // Generate rules
-  console.log('[SigmaGen] Generating rules using detection intent matrix...');
+  console.log('[SigmaGen] Generating rules...');
   const baseDir = path.join(process.cwd(), 'sigma-rules-intelligent');
   if (fs.existsSync(baseDir)) fs.rmSync(baseDir, { recursive: true });
   fs.mkdirSync(baseDir, { recursive: true });
 
   let totalRulesGenerated = 0;
+  let fromExternal = 0;
+  let fromPlaceholder = 0;
   let techniquesProcessed = 0;
-  let skipped = 0;
 
   Object.entries(allActorTechMap).forEach(([techniqueId, actors]) => {
     const techName = techniqueNames[techniqueId] || techniqueId;
@@ -283,24 +367,32 @@ async function main() {
     const uniqueActors = [...new Set(actors)];
 
     logsources.forEach((logsource) => {
-      const conditions = buildDetection(techniqueId, intentMatrix, logsource);
+      let rule = null;
 
-      if (!conditions) {
-        skipped++;
-        return;
+      // Check if external rule exists for this technique
+      const externalRule = externalRules.elastic[techniqueId] || externalRules.splunk[techniqueId] || externalRules.microsoft[techniqueId];
+
+      if (externalRule) {
+        // Use external rule (with minimal adaptation)
+        rule = externalRule[0].content + `\n# Adapted for actor attribution\n`;
+        fromExternal++;
+      } else {
+        // Generate placeholder
+        rule = null; // Will generate per-actor below
       }
 
       uniqueActors.forEach((actor) => {
         if (!techniqueId || !techniqueId.match(/^T\d+(\.\d+)?$/)) return;
 
-        const rule = generateSigmaRule(techniqueId, techName, logsource, conditions, actor);
+        const finalRule = rule || generatePlaceholderRule(techniqueId, techName, logsource, actor);
         const actorDir = path.join(baseDir, logsource.product, logsource.service, actor);
 
         if (!fs.existsSync(actorDir)) fs.mkdirSync(actorDir, { recursive: true });
 
         try {
-          fs.writeFileSync(path.join(actorDir, `${techniqueId}.yml`), rule);
+          fs.writeFileSync(path.join(actorDir, `${techniqueId}.yml`), finalRule);
           totalRulesGenerated++;
+          if (!rule) fromPlaceholder++;
         } catch (error) {
           console.warn(`[SigmaGen] Failed to write ${techniqueId}/${actor}: ${error.message}`);
         }
@@ -309,8 +401,9 @@ async function main() {
   });
 
   console.log(`\n[SigmaGen] ✓ Generated ${totalRulesGenerated} Sigma rules`);
+  console.log(`[SigmaGen]   - From external repos: ${fromExternal}`);
+  console.log(`[SigmaGen]   - Placeholders: ${fromPlaceholder}`);
   console.log(`[SigmaGen] From ${techniquesProcessed} techniques, ${allActors.size} actors, ${logsources.length} logsources`);
-  console.log(`[SigmaGen] Skipped ${skipped} incompatible combinations`);
 }
 
 main().catch(err => {
