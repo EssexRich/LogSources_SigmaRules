@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1053.005 Detection (m365)
+    id: 699604c2-fdd4-49fe-9c9d-4ec30192ff75
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1053.005.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1053.005/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1053.005
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1053.005
+    
