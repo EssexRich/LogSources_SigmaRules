@@ -1,0 +1,31 @@
+title: Timestomp - Spectra (auditd)
+id: 748d9ce1-fa2a-425e-825e-cdfd5a5f5e2d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1070.006 (Timestomp).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1070/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_change_file_time_attr.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1070.006
+  - actor.spectra
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'EXECVE'
+      - 'touch'
+      - '-t'
+      - '-acmr'
+      - '-d'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

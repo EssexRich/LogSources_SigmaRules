@@ -1,0 +1,29 @@
+title: Windows Command Shell - LockBit (sysmon)
+id: 1152f35c-5eb2-4b1e-88d4-effa16e508c7
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059.003 (Windows Command Shell).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1059/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_execution_msbuild_started_by_script.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059.003
+  - actor.lockbit
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name.caseless|contains: 'msbuild.exe'
+    process.pe.original_file_name|contains: 'MSBuild.exe'
+    process.parent.name|contains: 'cmd.exe'
+    process.executable|contains: 'C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\MSBuild\\Current\\Bin\\MSBuild.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

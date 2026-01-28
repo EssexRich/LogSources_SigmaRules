@@ -1,0 +1,28 @@
+title: OS Credential Dumping - 8base (entra_id)
+id: c15cec83-8c30-4eb2-92de-6bc19bb8d65e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003 (OS Credential Dumping).
+  Associated threat actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_gitleaks_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003
+  - actor.8base
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.name|contains:
+      - 'gitleaks.exe'
+      - 'gitleaks'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

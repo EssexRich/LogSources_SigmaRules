@@ -1,0 +1,27 @@
+title: Input Capture - 8base (sysmon)
+id: e8051e86-bd2c-4445-9258-9dec140dab66
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1056 (Input Capture).
+  Associated threat actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1056/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_posh_keylogger.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1056
+  - actor.8base
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    user.id|contains: 'S-1-5-18'
+    powershell.file.script_block_text|contains: 'sentinelbreakpoints'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

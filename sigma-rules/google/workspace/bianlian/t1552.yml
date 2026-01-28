@@ -1,0 +1,26 @@
+title: Unsecured Credentials - BianLian (workspace)
+id: 1a433034-6f34-439b-9da2-506713f3a308
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1552 (Unsecured Credentials).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1552/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_d4c_k8s_mda_service_account_token_access_followed_by_kubernetes_api_request.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1552
+  - actor.bianlian
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

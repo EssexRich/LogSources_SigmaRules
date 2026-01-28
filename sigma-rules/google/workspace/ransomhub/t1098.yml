@@ -1,0 +1,30 @@
+title: Account Manipulation - RansomHub (workspace)
+id: 7c99a074-018e-4dd1-a52c-7c7204ff27d4
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1098 (Account Manipulation).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_google_workspace_user_group_access_modified_to_allow_external_access.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1098
+  - actor.ransomhub
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    event.dataset|contains: 'google_workspace.admin'
+    event.action|contains: 'CHANGE_GROUP_SETTING'
+    event.category|contains: 'iam'
+    google_workspace.admin.setting.name|contains: 'WHO_CAN_JOIN'
+    google_workspace.admin.new_value|contains: 'CAN_REQUEST_TO_JOIN'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

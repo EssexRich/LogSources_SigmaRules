@@ -1,0 +1,28 @@
+title: SSH - ALPHV-BlackCat (entra_id)
+id: b095709e-cd19-40b6-91e4-5c2d089195a4
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1021.004 (SSH).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1021/004/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/credential_access_potential_linux_ssh_bruteforce_root.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1021.004
+  - actor.alphv-blackcat
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    user.name|contains:
+      - '*root*'
+      - '*admin*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

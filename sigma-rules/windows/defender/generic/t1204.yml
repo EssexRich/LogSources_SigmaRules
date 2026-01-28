@@ -1,0 +1,26 @@
+title: User Execution - Generic (defender)
+id: bb0f6226-2c25-4399-8759-4406b56bdbf5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1204 (User Execution).
+  Associated threat actor: Generic
+references:
+  - https://attack.mitre.org/techniques/T1204/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_nodejs_pre_or_post_install_script_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1204
+  - actor.generic
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

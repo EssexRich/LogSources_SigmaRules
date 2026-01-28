@@ -1,0 +1,26 @@
+title: Embedded Payloads - LockBit (defender)
+id: e2c1dbd8-1309-4e97-8efb-7f24a9af9f7d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027.009 (Embedded Payloads).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1027/009/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_token_obfuscation.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027.009
+  - actor.lockbit
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    ProcessCommandLine|contains: '${env:path}'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

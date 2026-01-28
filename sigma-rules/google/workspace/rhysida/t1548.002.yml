@@ -1,0 +1,27 @@
+title: Bypass User Account Control - Rhysida (workspace)
+id: 80886b1d-a668-4b9b-8d23-ccf3bf0dd37f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1548.002 (Bypass User Account Control).
+  Associated threat actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1548/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_krbrelayup_suspicious_logon.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1548.002
+  - actor.rhysida
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    winlog.event_data.AuthenticationPackageName|contains: 'Kerberos'
+    winlog.event_data.TargetUserSid|contains: 'S-1-5-21-*-500'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

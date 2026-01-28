@@ -1,0 +1,26 @@
+title: Domain Account - Cactus Ransomware (sysmon)
+id: d2a3e0f6-294a-4ee6-aebd-409c774bf588
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1087.002 (Domain Account).
+  Associated threat actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1087/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_ad_explorer_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1087.002
+  - actor.cactus_ransomware
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'ADExplorer*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

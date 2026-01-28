@@ -1,0 +1,31 @@
+title: Exploitation for Defense Evasion - AvosLocker (security)
+id: 434a1a11-776a-445a-8519-51e9e8b747fd
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1211 (Exploitation for Defense Evasion).
+  Associated threat actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1211/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_system_critical_proc_abnormal_file_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1211
+  - actor.avoslocker
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    file.extension|contains:
+      - 'exe'
+      - 'dll'
+    process.name|contains:
+      - 'smss.exe'
+      - 'LogonUI.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

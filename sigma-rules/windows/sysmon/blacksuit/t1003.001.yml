@@ -1,0 +1,26 @@
+title: LSASS Memory - BlackSuit (sysmon)
+id: a761a8ea-0ae1-48ea-829f-1384d4c7089b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.001 (LSASS Memory).
+  Associated threat actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/promotions/credential_access_endgame_cred_dumping_detected.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.001
+  - actor.blacksuit
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

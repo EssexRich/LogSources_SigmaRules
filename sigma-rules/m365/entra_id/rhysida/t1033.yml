@@ -1,0 +1,26 @@
+title: System Owner/User Discovery - Rhysida (entra_id)
+id: 925c39c0-67df-4b93-9f8b-5cbb89c1abaf
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1033 (System Owner/User Discovery).
+  Associated threat actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1033/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_whoami_commmand.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1033
+  - actor.rhysida
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Service Stop - Qilin (entra_id)
+id: b8dceeef-8f35-4c66-af96-a8dbf0177921
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1489 (Service Stop).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1489/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/impact_rds_instance_cluster_stoppage.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1489
+  - actor.qilin
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

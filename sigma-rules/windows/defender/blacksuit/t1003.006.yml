@@ -1,0 +1,27 @@
+title: DCSync - BlackSuit (defender)
+id: 436fa8a7-d047-4d4c-8e8c-6b8caa72b9ba
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.006 (DCSync).
+  Associated threat actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1003/006/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_dcsync_newterm_subjectuser.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.006
+  - actor.blacksuit
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    event.code|contains: '4662'
+    host.os.type|contains: 'windows'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

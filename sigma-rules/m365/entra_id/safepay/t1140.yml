@@ -1,0 +1,26 @@
+title: Deobfuscate/Decode Files or Information - SafePay (entra_id)
+id: 41d7e11f-6a42-44f1-bc33-886c970d04ee
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1140 (Deobfuscate/Decode Files or Information).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1140/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_base64_encoding_or_decoding_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1140
+  - actor.safepay
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

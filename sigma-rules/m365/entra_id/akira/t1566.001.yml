@@ -1,0 +1,26 @@
+title: Spearphishing Attachment - Akira (entra_id)
+id: 1ea85ca6-49fb-4e2f-b0ae-5a20c0bf968e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1566.001 (Spearphishing Attachment).
+  Associated threat actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1566/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/initial_access_security_compliance_user_reported_phish_malware.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1566.001
+  - actor.akira
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    rule.name|contains: 'Email reported by user as malware or phish'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

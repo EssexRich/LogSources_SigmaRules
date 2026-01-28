@@ -1,0 +1,26 @@
+title: User Execution - Cl0p (auditd)
+id: 80700bee-d4d4-4c10-aaea-74daa92eb08c
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1204 (User Execution).
+  Associated threat actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1204/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_nodejs_pre_or_post_install_script_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1204
+  - actor.cl0p
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

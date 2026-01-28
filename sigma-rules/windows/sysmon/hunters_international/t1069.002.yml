@@ -1,0 +1,26 @@
+title: Domain Groups - Hunters International (sysmon)
+id: c18595c4-e5f1-41c3-aebf-d8b643716ff6
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1069.002 (Domain Groups).
+  Associated threat actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1069/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_ad_explorer_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1069.002
+  - actor.hunters_international
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'ADExplorer*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

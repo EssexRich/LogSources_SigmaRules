@@ -1,0 +1,36 @@
+title: Software Discovery - Lynx (workspace)
+id: de303df7-aae3-4f4f-951e-72261bc6cc23
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1518 (Software Discovery).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1518/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/discovery_security_software_grep.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1518
+  - actor.lynx
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.name|contains: 'grep'
+    process.parent.executable|contains:
+      - '/Library/Application Support/*'
+      - '/opt/McAfee/agent/scripts/ma'
+    process.args|contains: 'Passwords'
+    process.parent.args|contains: 'checkhealth'
+    process.command_line|contains:
+      - 'grep ESET Command-line scanner, version %s -A2'
+      - 'grep --color=auto ESET Command-line scanner, version %s -A2'
+    version|contains: ',
+       '
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

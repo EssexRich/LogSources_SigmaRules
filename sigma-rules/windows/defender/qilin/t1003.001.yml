@@ -1,0 +1,26 @@
+title: LSASS Memory - Qilin (defender)
+id: bb6941d4-1f4c-4cb6-94d5-b1bbf7e00c03
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.001 (LSASS Memory).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/promotions/credential_access_endgame_cred_dumping_detected.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.001
+  - actor.qilin
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

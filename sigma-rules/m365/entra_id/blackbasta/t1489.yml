@@ -1,0 +1,26 @@
+title: Service Stop - BlackBasta (entra_id)
+id: 79ce4efe-29d8-4b62-9bc6-bb56b8900115
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1489 (Service Stop).
+  Associated threat actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1489/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/impact_rds_instance_cluster_stoppage.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1489
+  - actor.blackbasta
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

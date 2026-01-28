@@ -1,0 +1,26 @@
+title: Steganography - Brain Cipher (sysmon)
+id: 524c5623-cea9-4c3c-a533-602a21907046
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027.003 (Steganography).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1027/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_findstr_lnk.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027.003
+  - actor.brain_cipher
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

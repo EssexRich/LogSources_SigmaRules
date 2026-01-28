@@ -1,0 +1,26 @@
+title: System Owner/User Discovery - Spectra (sysmon)
+id: 14639bbe-2581-4ce3-b29f-2e5df7f23b54
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1033 (System Owner/User Discovery).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1033/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_whoami_commmand.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1033
+  - actor.spectra
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

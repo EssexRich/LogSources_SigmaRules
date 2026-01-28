@@ -1,0 +1,26 @@
+title: Automated Exfiltration - Cephalus (workspace)
+id: f7d3b857-c844-4e79-85cb-8e68fdcb7ba5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1020 (Automated Exfiltration).
+  Associated threat actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1020/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/github/exfiltration_github_private_repository_turned_public.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1020
+  - actor.cephalus
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

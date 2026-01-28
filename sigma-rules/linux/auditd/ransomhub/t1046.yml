@@ -1,0 +1,32 @@
+title: Network Service Discovery - RansomHub (auditd)
+id: 9fbf9455-a2e8-4ce8-b995-c23968e74c9d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1046 (Network Service Discovery).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1046/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_network_service_scanning.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1046
+  - actor.ransomhub
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'SYSCALL'
+      - '/telnet'
+      - '/nmap'
+      - '/netcat'
+      - '/nc'
+    key|contains: 'network_connect_4'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

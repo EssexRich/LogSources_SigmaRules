@@ -1,0 +1,27 @@
+title: Data Transfer Size Limits - ALPHV-BlackCat (auditd)
+id: b2e602cd-14ac-4485-95b7-6af3ae9c1d52
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1030 (Data Transfer Size Limits).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1030/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_split_file_into_pieces.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1030
+  - actor.alphv-blackcat
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains: 'SYSCALL'
+    comm|contains: 'split'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,32 @@
+title: Double File Extension - SafePay (sysmon)
+id: 25b12e1e-6cf9-44af-a850-6bf35871e2a1
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1036.007 (Double File Extension).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1036/007/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_file_creation_mult_extension.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1036.007
+  - actor.safepay
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    file.extension|contains: 'exe'
+    process.executable|contains:
+      - 'C:\\Program Files\\dotnet\\dotnet.exe'
+      - '\\Device\\HarddiskVolume*\\Program Files\\Microsoft Visual Studio\\*.exe'
+    file.path|contains:
+      - '?:\\Program Files\\QGIS *\\apps\\grass\\*.exe'
+      - '\\Device\\HarddiskVolume*\\Program Files\\QGIS *\\apps\\grass\\*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

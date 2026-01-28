@@ -1,0 +1,26 @@
+title: Data from Cloud Storage - Interlock (entra_id)
+id: c96a8968-d742-459f-9d5c-bab9d130b9d8
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1530 (Data from Cloud Storage).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1530/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/collection_onedrive_excessive_file_downloads.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1530
+  - actor.interlock
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Disable Windows Event Logging - LockBit (security)
+id: 4d7e48f5-8439-4824-8aca-164ce7a65318
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562.002 (Disable Windows Event Logging).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1562/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_disable_event_auditing.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562.002
+  - actor.lockbit
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4719'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: User Execution - BlackBasta (defender)
+id: c359c122-0a59-45c5-970e-3009ff2b5dde
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1204 (User Execution).
+  Associated threat actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1204/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_nodejs_pre_or_post_install_script_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1204
+  - actor.blackbasta
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

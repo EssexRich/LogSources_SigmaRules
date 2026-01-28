@@ -1,0 +1,25 @@
+title: Execution Guardrails - RansomHub (sysmon)
+id: 20d3f060-8ced-4c47-9445-54e2730e49d7
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1480 (Execution Guardrails).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1480/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1480
+  - actor.ransomhub
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

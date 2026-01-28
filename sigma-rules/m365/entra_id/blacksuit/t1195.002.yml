@@ -1,0 +1,26 @@
+title: Compromise Software Supply Chain - BlackSuit (entra_id)
+id: db2d7e81-52f5-401a-b66b-f1d15e4c5637
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1195.002 (Compromise Software Supply Chain).
+  Associated threat actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1195/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_register_github_actions_runner.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1195.002
+  - actor.blacksuit
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

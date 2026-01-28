@@ -1,0 +1,26 @@
+title: Domain Trust Discovery - BianLian (security)
+id: 64bc0135-3639-4fcb-851a-a7606b53bbc3
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1482 (Domain Trust Discovery).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1482/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_ad_explorer_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1482
+  - actor.bianlian
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'ADExplorer*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Domain Trust Discovery - RansomHub (defender)
+id: 7a540a66-c25d-47c0-b7a1-8fe17caf9a76
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1482 (Domain Trust Discovery).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1482/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_ad_explorer_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1482
+  - actor.ransomhub
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'ADExplorer*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

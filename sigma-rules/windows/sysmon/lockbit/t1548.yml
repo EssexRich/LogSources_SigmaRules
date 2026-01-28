@@ -1,0 +1,28 @@
+title: Abuse Elevation Control Mechanism - LockBit (sysmon)
+id: c7dac678-66b5-47dd-bfde-abda37172b9b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1548 (Abuse Elevation Control Mechanism).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1548/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_connection_attempt_by_non_ssh_root_session.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1548
+  - actor.lockbit
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.executable|contains:
+      - '/bin/ssh'
+      - '/usr/bin/sshpass'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

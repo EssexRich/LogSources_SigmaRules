@@ -1,0 +1,26 @@
+title: Malicious File - Benzona (sysmon)
+id: 0b093d3c-10a6-4415-9377-2980776718e0
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1204.002 (Malicious File).
+  Associated threat actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1204/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_potential_widespread_malware_infection.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1204.002
+  - actor.benzona
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

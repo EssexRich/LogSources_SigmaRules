@@ -1,0 +1,28 @@
+title: Credentials from Web Browsers - LockBit (unified_logging)
+id: 55ed5aa6-a59a-4242-a6f2-8d11fbb1d5f3
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1555.003 (Credentials from Web Browsers).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1555/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_keychain_pwd_retrieval_security_cmd.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1555.003
+  - actor.lockbit
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    process.command_line|contains:
+      - '*Chrome*'
+      - '*Firefox*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

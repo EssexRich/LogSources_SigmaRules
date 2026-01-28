@@ -1,0 +1,26 @@
+title: Service Stop - Kazu (unified_logging)
+id: 0f0e77ce-2291-4a10-a1c5-9aa7f43da922
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1489 (Service Stop).
+  Associated threat actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1489/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/impact_rds_instance_cluster_stoppage.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1489
+  - actor.kazu
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

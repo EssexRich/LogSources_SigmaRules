@@ -1,0 +1,26 @@
+title: Boot or Logon Autostart Execution - 8base (unified_logging)
+id: 997d5edd-704c-4146-b742-89b5ed32f178
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1547 (Boot or Logon Autostart Execution).
+  Associated threat actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1547/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_kernel_module_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1547
+  - actor.8base
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,32 @@
+title: Malicious Link - Benzona (security)
+id: c7aa7239-2ee0-46ec-86b4-6f27219f2237
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1204.001 (Malicious Link).
+  Associated threat actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1204/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_clickfix_filefix_execution.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1204.001
+  - actor.benzona
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    ParentProcessName|contains: '\explorer.exe'
+    CommandLine|contains:
+      - '#'
+      - 'account'
+      - 'anti-bot'
+      - 'botcheck'
+      - 'captcha'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

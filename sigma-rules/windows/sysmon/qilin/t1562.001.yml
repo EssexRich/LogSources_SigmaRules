@@ -1,0 +1,26 @@
+title: Disable or Modify Tools - Qilin (sysmon)
+id: 0df28ba2-7938-47a3-9863-4b666923a65c
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562.001 (Disable or Modify Tools).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1562/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_attempt_to_disable_iptables_or_firewall.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+  - actor.qilin
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

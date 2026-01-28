@@ -1,0 +1,27 @@
+title: Cron - Sarcoma (entra_id)
+id: 92a75639-e4eb-4573-aeb3-e41b3699797c
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1053.003 (Cron).
+  Associated threat actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1053/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_cron_jobs_creation_and_runtime.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1053.003
+  - actor.sarcoma
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.args|contains: '-l'
+    process.name|contains: 'running job'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

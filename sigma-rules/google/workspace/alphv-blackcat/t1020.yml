@@ -1,0 +1,26 @@
+title: Automated Exfiltration - ALPHV-BlackCat (workspace)
+id: c6ede0f0-b8fa-424a-944f-2afba9dc5b5e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1020 (Automated Exfiltration).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1020/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/github/exfiltration_github_private_repository_turned_public.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1020
+  - actor.alphv-blackcat
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

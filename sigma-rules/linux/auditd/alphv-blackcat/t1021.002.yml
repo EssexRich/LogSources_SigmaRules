@@ -1,0 +1,25 @@
+title: SMB/Windows Admin Shares - ALPHV-BlackCat (auditd)
+id: be90aebe-40d3-4639-b2b0-2641e0bd2bf1
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1021.002 (SMB/Windows Admin Shares).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1021.002
+  - actor.alphv-blackcat
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

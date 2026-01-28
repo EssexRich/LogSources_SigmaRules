@@ -1,0 +1,28 @@
+title: Abuse Elevation Control Mechanism - Qilin (workspace)
+id: 6817aaf9-0edc-47b8-b654-6cae9574097d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1548 (Abuse Elevation Control Mechanism).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1548/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_connection_attempt_by_non_ssh_root_session.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1548
+  - actor.qilin
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.executable|contains:
+      - '/bin/ssh'
+      - '/usr/bin/sshpass'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

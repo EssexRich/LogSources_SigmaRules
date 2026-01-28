@@ -1,0 +1,26 @@
+title: Bidirectional Communication - Brain Cipher (entra_id)
+id: 0e4aaa19-277c-49b6-9d0b-84bbbaca834f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1102.002 (Bidirectional Communication).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1102/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/beaconing/command_and_control_beaconing.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1102.002
+  - actor.brain_cipher
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.name|contains: 'WaAppAgent.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

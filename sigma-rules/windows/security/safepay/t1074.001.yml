@@ -1,0 +1,26 @@
+title: Local Data Staging - SafePay (security)
+id: 2c3319f7-4976-47cc-ae95-f1f931fdcf3d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1074.001 (Local Data Staging).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1074/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_classic/posh_pc_susp_zip_compress.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1074.001
+  - actor.safepay
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

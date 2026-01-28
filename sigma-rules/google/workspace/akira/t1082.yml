@@ -1,0 +1,26 @@
+title: System Information Discovery - Akira (workspace)
+id: c06ce0a2-21e6-45a1-9bf4-408b4b031e22
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1082 (System Information Discovery).
+  Associated threat actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1082/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/discovery_virtual_machine_fingerprinting_grep.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1082
+  - actor.akira
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.args|contains: 'Manufacturer*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

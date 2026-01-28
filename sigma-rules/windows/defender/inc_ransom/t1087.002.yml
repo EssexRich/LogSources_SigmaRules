@@ -1,0 +1,26 @@
+title: Domain Account - INC Ransom (defender)
+id: ce21ee36-2a73-47d2-b2a8-cb6e5dce4ffa
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1087.002 (Domain Account).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1087/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_ad_explorer_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1087.002
+  - actor.inc_ransom
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'ADExplorer*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

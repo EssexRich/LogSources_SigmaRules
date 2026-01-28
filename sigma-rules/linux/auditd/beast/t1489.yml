@@ -1,0 +1,30 @@
+title: Service Stop - Beast (auditd)
+id: 97f24958-d802-48a7-9276-7902ce960ae0
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1489 (Service Stop).
+  Associated threat actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1489/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/path/lnx_auditd_magic_system_request_key.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1489
+  - actor.beast
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'PATH'
+      - '/sysrq'
+      - '/sysctl.conf'
+      - '/sysrq-trigger'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

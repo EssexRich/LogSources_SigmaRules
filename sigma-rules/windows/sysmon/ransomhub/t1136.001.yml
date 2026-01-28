@@ -1,0 +1,28 @@
+title: Local Account - RansomHub (sysmon)
+id: abee003e-76b3-4c72-9161-555ac8fb0bfb
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1136.001 (Local Account).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1136/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/fim/persistence_suspicious_file_modifications.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1136.001
+  - actor.ransomhub
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    file.path|contains:
+      - '/var/spool/cron/crontabs/tmp.*'
+      - '/root/.ssh/known_hosts.*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

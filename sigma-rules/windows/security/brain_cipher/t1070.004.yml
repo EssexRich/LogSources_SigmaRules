@@ -1,0 +1,26 @@
+title: File Deletion - Brain Cipher (security)
+id: 1230b4a4-422e-4abf-bcfe-817ae63534a1
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1070.004 (File Deletion).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1070/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_sdelete_potential_secure_deletion.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1070.004
+  - actor.brain_cipher
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

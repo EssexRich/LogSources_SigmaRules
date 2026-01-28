@@ -1,0 +1,30 @@
+title: Indirect Command Execution - COOSEA (sysmon)
+id: 2db96864-250a-4f54-b487-d64509a07a0a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1202 (Indirect Command Execution).
+  Associated threat actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1202/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_indirect_exec_conhost.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1202
+  - actor.coosea
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'conhost.exe'
+    process.args|contains: '--headless'
+    process.command_line|contains:
+      - '*powershell*'
+      - '*mhsta*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

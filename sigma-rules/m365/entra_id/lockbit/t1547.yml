@@ -1,0 +1,26 @@
+title: Boot or Logon Autostart Execution - LockBit (entra_id)
+id: 3d1fd496-a7f8-4ab4-a899-0862eec5aac2
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1547 (Boot or Logon Autostart Execution).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1547/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_kernel_module_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1547
+  - actor.lockbit
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

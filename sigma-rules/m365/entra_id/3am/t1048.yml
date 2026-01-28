@@ -1,0 +1,26 @@
+title: Exfiltration Over Alternative Protocol - 3AM (entra_id)
+id: 3bdb0a13-3ba7-4330-8f55-65232ac5a6f0
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1048 (Exfiltration Over Alternative Protocol).
+  Associated threat actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1048/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_ftp_file_transfer_protocol_activity_to_the_internet.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1048
+  - actor.3am
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

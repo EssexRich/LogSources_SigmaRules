@@ -1,0 +1,26 @@
+title: Unsecured Credentials - ALPHV-BlackCat (auditd)
+id: dc1bd49f-8cfe-43f9-bcd0-7ad28619797c
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1552 (Unsecured Credentials).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1552/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_d4c_k8s_mda_service_account_token_access_followed_by_kubernetes_api_request.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1552
+  - actor.alphv-blackcat
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

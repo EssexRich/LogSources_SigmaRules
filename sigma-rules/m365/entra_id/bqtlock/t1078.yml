@@ -1,0 +1,26 @@
+title: Valid Accounts - BQTLock (entra_id)
+id: b7cd8a3d-ae14-4df9-8f05-2001077e589f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1078 (Valid Accounts).
+  Associated threat actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1078/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/initial_access_login_failures.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1078
+  - actor.bqtlock
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    event.action|contains: 'failed-log-in-too-many-times-to'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

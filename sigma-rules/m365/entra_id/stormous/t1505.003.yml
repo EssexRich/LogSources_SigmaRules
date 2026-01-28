@@ -1,0 +1,26 @@
+title: Web Shell - Stormous (entra_id)
+id: d6b71a57-07ea-4fa1-9576-b5be34c02aba
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1505.003 (Web Shell).
+  Associated threat actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1505/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_shell_activity_by_web_server.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1505.003
+  - actor.stormous
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.parent.name|contains: 'apache'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

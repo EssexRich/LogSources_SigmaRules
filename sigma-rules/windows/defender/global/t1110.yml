@@ -1,0 +1,26 @@
+title: Brute Force - GLOBAL (defender)
+id: c1b53a10-a2c4-4a90-82e2-3e141c3e45be
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1110 (Brute Force).
+  Associated threat actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1110/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/credential_access_entra_signin_brute_force_microsoft_365_repeat_source.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1110
+  - actor.global
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

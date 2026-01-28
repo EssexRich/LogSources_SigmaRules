@@ -1,0 +1,26 @@
+title: Exfiltration over USB - SafePay (sysmon)
+id: f1be9746-f375-4469-af59-7c339713299b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1052.001 (Exfiltration over USB).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1052/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/initial_access_exfiltration_new_usb_device_mounted.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1052.001
+  - actor.safepay
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

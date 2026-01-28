@@ -1,0 +1,27 @@
+title: File and Directory Discovery - LockBit (entra_id)
+id: 87347ff7-e1c0-484c-9366-253446aa7322
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1083 (File and Directory Discovery).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1083/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_file_dir_discovery.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1083
+  - actor.lockbit
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.name|contains: 'tree.com'
+    process.args|contains: 'dir'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

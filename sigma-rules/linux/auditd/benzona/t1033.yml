@@ -1,0 +1,31 @@
+title: System Owner/User Discovery - Benzona (auditd)
+id: 173f8c8c-9d2c-48db-af00-1b391d5d9997
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1033 (System Owner/User Discovery).
+  Associated threat actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1033/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_user_discovery.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1033
+  - actor.benzona
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'EXECVE'
+      - 'hostname'
+      - 'id'
+      - 'last'
+      - 'uname'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

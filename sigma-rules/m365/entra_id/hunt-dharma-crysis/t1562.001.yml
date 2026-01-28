@@ -1,0 +1,26 @@
+title: Disable or Modify Tools - Hunt-Dharma-Crysis (entra_id)
+id: 077757ec-3dd7-4edf-850d-3d231b1363f6
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562.001 (Disable or Modify Tools).
+  Associated threat actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1562/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_attempt_to_disable_iptables_or_firewall.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+  - actor.hunt-dharma-crysis
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

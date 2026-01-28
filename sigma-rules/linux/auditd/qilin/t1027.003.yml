@@ -1,0 +1,31 @@
+title: Steganography - Qilin (auditd)
+id: b30ccc70-24f5-4dc3-8941-34a127393533
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027.003 (Steganography).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1027/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_hidden_zip_files_steganography.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027.003
+  - actor.qilin
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains: 'EXECVE'
+    a0|contains:
+      - 'cat'
+      - '.jpg'
+      - '.png'
+    a2|contains: '.zip'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

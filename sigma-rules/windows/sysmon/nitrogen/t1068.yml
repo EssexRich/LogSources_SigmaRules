@@ -1,0 +1,26 @@
+title: Exploitation for Privilege Escalation - Nitrogen (sysmon)
+id: 7bda8a2f-0d66-4d13-bc0a-04970c6fc604
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1068 (Exploitation for Privilege Escalation).
+  Associated threat actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1068/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_linux_strace_activity.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1068
+  - actor.nitrogen
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

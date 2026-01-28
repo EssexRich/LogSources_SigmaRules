@@ -1,0 +1,29 @@
+title: Default Accounts - GLOBAL (security)
+id: b948d1a4-f755-4651-b939-80a71c42a173
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1078.001 (Default Accounts).
+  Associated threat actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1078/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_admin_rdp_login.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1078.001
+  - actor.global
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4624'
+    LogonType|contains: '10'
+    AuthenticationPackageName|contains: 'Negotiate'
+    TargetUserName|contains: 'Admin'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

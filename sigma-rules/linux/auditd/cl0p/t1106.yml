@@ -1,0 +1,30 @@
+title: Native API - Cl0p (auditd)
+id: ac2ceeda-7049-4191-b376-804aa673c7e9
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1106 (Native API).
+  Associated threat actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1106/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/path/lnx_auditd_bpfdoor_file_accessed.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1106
+  - actor.cl0p
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains:
+      - 'PATH'
+      - '/var/run/haldrund.pid'
+      - '/var/run/xinetd.lock'
+      - '/var/run/kdevrund.pid'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

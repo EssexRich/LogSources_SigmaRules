@@ -1,0 +1,25 @@
+title: Safe Mode Boot - Nitrogen (sysmon)
+id: 6e043036-35db-4165-91fd-5379ad96377a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562.009 (Safe Mode Boot).
+  Associated threat actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1562/009/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562.009
+  - actor.nitrogen
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Mshta - INC Ransom (entra_id)
+id: 273419a8-5474-469a-a811-d6207869a543
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1218.005 (Mshta).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1218/005/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_mshta_making_network_connections.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1218.005
+  - actor.inc_ransom
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.name|contains: 'mshta.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

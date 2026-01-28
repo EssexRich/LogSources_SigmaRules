@@ -1,0 +1,28 @@
+title: Pass the Ticket - Qilin (sysmon)
+id: 39cd5639-5d34-443a-9877-e9aff4fc8ede
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1550.003 (Pass the Ticket).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1550/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/lateral_movement_credential_access_kerberos_correlation.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1550.003
+  - actor.qilin
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.executable|contains:
+      - 'C:\\Windows\\System32\\svchost.exe'
+      - 'F:\\IGEL\\RemoteManager\\*\\bin\\tomcat10.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

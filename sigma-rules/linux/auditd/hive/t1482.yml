@@ -1,0 +1,25 @@
+title: Domain Trust Discovery - Hive (auditd)
+id: e050e987-6570-459d-b4d3-90d0a970d3ad
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1482 (Domain Trust Discovery).
+  Associated threat actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1482/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1482
+  - actor.hive
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

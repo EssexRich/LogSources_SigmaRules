@@ -1,0 +1,28 @@
+title: Password Spraying - Akira (workspace)
+id: cae5e9f2-97d6-454a-acc0-b292f0affdc8
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1110.003 (Password Spraying).
+  Associated threat actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1110/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/credential_access_potential_linux_ssh_bruteforce_root.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1110.003
+  - actor.akira
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    user.name|contains:
+      - '*root*'
+      - '*admin*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

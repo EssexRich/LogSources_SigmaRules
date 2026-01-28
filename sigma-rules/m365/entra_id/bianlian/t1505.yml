@@ -1,0 +1,26 @@
+title: Server Software Component - BianLian (entra_id)
+id: a0325f46-d4fb-442a-95ae-f6431a7331d8
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1505 (Server Software Component).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1505/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_shell_activity_by_web_server.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1505
+  - actor.bianlian
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.parent.name|contains: 'apache'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

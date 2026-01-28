@@ -1,0 +1,28 @@
+title: Masquerading - BlackBasta (workspace)
+id: cab0688a-68eb-4ad4-86e8-d7af59ae22f2
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1036 (Masquerading).
+  Associated threat actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1036/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_potential_processherpaderping.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1036
+  - actor.blackbasta
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    process.parent.executable|contains:
+      - '?:\\Windows\\SoftwareDistribution\\*.exe'
+      - '?:\\Program Files (x86)\\Trend Micro\\*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

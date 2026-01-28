@@ -1,0 +1,26 @@
+title: Exploit Public-Facing Application - Stormous (auditd)
+id: 34f21341-6f2a-4fe0-9830-289defb0f1dd
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1190 (Exploit Public-Facing Application).
+  Associated threat actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1190/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_ssh_secure_shell_from_the_internet.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1190
+  - actor.stormous
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

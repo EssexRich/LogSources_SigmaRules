@@ -1,0 +1,26 @@
+title: Network Denial of Service - ALPHV-BlackCat (sysmon)
+id: 191326f8-2ee4-4851-963d-ae9174f5c476
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1498 (Network Denial of Service).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1498/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/impact_possible_okta_dos_attack.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1498
+  - actor.alphv-blackcat
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

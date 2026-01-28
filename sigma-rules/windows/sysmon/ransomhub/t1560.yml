@@ -1,0 +1,26 @@
+title: Archive Collected Data - RansomHub (sysmon)
+id: 9538803e-021b-48c5-9a98-bb1c64b5bde4
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1560 (Archive Collected Data).
+  Associated threat actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1560/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/credential_access_collection_sensitive_files_compression_inside_a_container.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1560
+  - actor.ransomhub
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

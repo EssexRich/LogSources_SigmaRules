@@ -1,0 +1,29 @@
+title: Automated Collection - BlackSuit (defender)
+id: dfae6a9b-54c7-4e10-bc0c-75c4037b24cf
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1119 (Automated Collection).
+  Associated threat actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1119/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_automated_collection.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1119
+  - actor.blacksuit
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    OriginalFileName|contains:
+      - 'FINDSTR.EXE'
+      - ' /e '
+      - ' /si '
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

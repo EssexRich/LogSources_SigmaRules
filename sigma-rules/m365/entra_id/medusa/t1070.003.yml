@@ -1,0 +1,26 @@
+title: Clear Command History - Medusa (entra_id)
+id: 9bd42614-36e7-4557-bc22-e75c2b39de88
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1070.003 (Clear Command History).
+  Associated threat actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1070/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_deletion_of_bash_command_line_history.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1070.003
+  - actor.medusa
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.args|contains: '+o'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

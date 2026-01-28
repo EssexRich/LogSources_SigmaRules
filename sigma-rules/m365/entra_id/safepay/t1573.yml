@@ -1,0 +1,28 @@
+title: Encrypted Channel - SafePay (entra_id)
+id: e632b725-b24b-4e34-8040-c7d57eff41cc
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1573 (Encrypted Channel).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1573/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/m365/threat_detection/microsoft365_from_susp_ip_addresses.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1573
+  - actor.safepay
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    eventSource|contains: 'SecurityComplianceCenter'
+    eventName|contains: 'Activity from suspicious IP addresses'
+    status|contains: 'success'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

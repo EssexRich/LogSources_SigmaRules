@@ -1,0 +1,28 @@
+title: Process Discovery - BlackSuit (auditd)
+id: df4aef56-5531-43cf-aa13-0fc536730545
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1057 (Process Discovery).
+  Associated threat actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1057/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/syscall/lnx_auditd_susp_discovery_sysinfo_syscall.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1057
+  - actor.blacksuit
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains: 'SYSCALL'
+    SYSCALL|contains: 'sysinfo'
+    exe|contains: '/bin/splunkd'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

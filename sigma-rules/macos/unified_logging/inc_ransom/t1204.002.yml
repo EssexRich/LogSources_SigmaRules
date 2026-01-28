@@ -1,0 +1,26 @@
+title: Malicious File - INC Ransom (unified_logging)
+id: d3ca1238-39f6-48f1-928d-569f8db61bc3
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1204.002 (Malicious File).
+  Associated threat actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1204/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_potential_widespread_malware_infection.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1204.002
+  - actor.inc_ransom
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

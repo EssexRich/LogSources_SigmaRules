@@ -1,0 +1,26 @@
+title: User Execution - Interlock (entra_id)
+id: 7bc06d98-fa4b-482e-9a6c-74a817caa517
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1204 (User Execution).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1204/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_nodejs_pre_or_post_install_script_execution.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1204
+  - actor.interlock
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

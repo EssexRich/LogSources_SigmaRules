@@ -1,0 +1,29 @@
+title: File and Directory Discovery - Yashma-Ator-Vietnamita (auditd)
+id: 357d3532-f40f-4a1f-bbd7-b229160610fb
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1083 (File and Directory Discovery).
+  Associated threat actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1083/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_capabilities_discovery.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1083
+  - actor.yashma-ator-vietnamita
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    type|contains: 'EXECVE'
+    a0|contains: 'getcap'
+    a1|contains: '-r'
+    a2|contains: '/'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

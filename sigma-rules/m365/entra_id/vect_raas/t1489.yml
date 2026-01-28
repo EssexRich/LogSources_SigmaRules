@@ -1,0 +1,26 @@
+title: Service Stop - Vect RaaS (entra_id)
+id: 059c5002-f802-4aed-8c4b-ab4987f32d80
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1489 (Service Stop).
+  Associated threat actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1489/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/impact_rds_instance_cluster_stoppage.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1489
+  - actor.vect_raas
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

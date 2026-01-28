@@ -1,0 +1,26 @@
+title: Data Destruction - Qilin (defender)
+id: d1e6887f-2fc3-4059-8969-c7d622dcc38b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1485 (Data Destruction).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1485/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/github/impact_github_repository_deleted.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1485
+  - actor.qilin
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

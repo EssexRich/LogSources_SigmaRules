@@ -1,0 +1,27 @@
+title: Encrypted/Encoded File - GLOBAL (defender)
+id: ec889e02-713b-462a-951f-bbbacaf97812
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1027.013 (Encrypted/Encoded File).
+  Associated threat actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1027/013/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_encoding_rot13_python_script.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1027.013
+  - actor.global
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'python*'
+    file.name|contains: 'rot_??.cpython-*.pyc*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

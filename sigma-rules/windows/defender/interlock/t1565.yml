@@ -1,0 +1,32 @@
+title: Data Manipulation - Interlock (defender)
+id: 7509ef16-c3f6-4445-bc9b-5b2c42f53d7a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1565 (Data Manipulation).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1565/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/impact_hosts_file_modified.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1565
+  - actor.interlock
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    file.path|contains:
+      - '/private/etc/hosts'
+      - '?:\\Windows\\System32\\drivers\\etc\\hosts'
+    process.executable|contains:
+      - 'C:\\Program Files\\Fortinet\\FortiClient\\FCDBLog.exe'
+      - '/usr/local/demisto/server'
+    process.args|contains: '/etc/hosts'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

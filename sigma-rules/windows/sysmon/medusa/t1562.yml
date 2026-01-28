@@ -1,0 +1,26 @@
+title: Impair Defenses - Medusa (sysmon)
+id: 3d2f9337-486a-4a89-b5ca-4d2c67dffa38
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562 (Impair Defenses).
+  Associated threat actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1562/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_attempt_to_disable_iptables_or_firewall.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562
+  - actor.medusa
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,27 @@
+title: NTFS File Attributes - Rhysida (unified_logging)
+id: ba1f3617-0928-46df-bf53-83b3b1517df4
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1564.004 (NTFS File Attributes).
+  Associated threat actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1564/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_chflags_hidden_flag.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1564.004
+  - actor.rhysida
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    Image|contains: '/chflags'
+    CommandLine|contains: 'hidden '
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

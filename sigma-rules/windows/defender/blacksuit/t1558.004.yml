@@ -1,0 +1,26 @@
+title: AS-REP Roasting - BlackSuit (defender)
+id: f565719c-12d1-41f1-99d7-92a71fde116d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1558.004 (AS-REP Roasting).
+  Associated threat actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1558/004/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_disable_kerberos_preauth.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1558.004
+  - actor.blacksuit
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

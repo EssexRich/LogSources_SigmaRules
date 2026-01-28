@@ -1,0 +1,26 @@
+title: LSASS Memory - Cuba (workspace)
+id: 350f0543-6a85-4af0-82aa-050d980147e9
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.001 (LSASS Memory).
+  Associated threat actor: Cuba
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/promotions/credential_access_endgame_cred_dumping_detected.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.001
+  - actor.cuba
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

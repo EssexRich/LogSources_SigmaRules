@@ -1,0 +1,33 @@
+title: Abuse Elevation Control Mechanism - Spectra (security)
+id: 75106e6b-0649-446d-ac30-d076b04d4e49
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1548 (Abuse Elevation Control Mechanism).
+  Associated threat actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1548/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/account_management/win_security_susp_privesc_kerberos_relay_over_ldap.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1548
+  - actor.spectra
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4624'
+    LogonType|contains: '3'
+    AuthenticationPackageName|contains: 'Kerberos'
+    IpAddress|contains: '127.0.0.1'
+    TargetUserSid|contains:
+      - 'S-1-5-21-'
+      - '-500'
+    IpPort|contains: '0'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

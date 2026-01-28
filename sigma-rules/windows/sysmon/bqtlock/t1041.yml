@@ -1,0 +1,25 @@
+title: Exfiltration Over C2 Channel - BQTLock (sysmon)
+id: 2408a6cd-fdcd-402f-960e-87396b5753e8
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1041 (Exfiltration Over C2 Channel).
+  Associated threat actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1041
+  - actor.bqtlock
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

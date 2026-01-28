@@ -1,0 +1,25 @@
+title: Domain Accounts - Interlock (auditd)
+id: ee5b1999-b965-45e4-90cb-b4b2ec8a6f62
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1078.002 (Domain Accounts).
+  Associated threat actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1078/002/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1078.002
+  - actor.interlock
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

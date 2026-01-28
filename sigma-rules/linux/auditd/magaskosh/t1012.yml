@@ -1,0 +1,26 @@
+title: Query Registry - Magaskosh (auditd)
+id: 9f533939-7044-4805-a3e1-f30573ee26ad
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1012 (Query Registry).
+  Associated threat actor: Magaskosh
+references:
+  - https://attack.mitre.org/techniques/T1012/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_query_registry_via_reg.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1012
+  - actor.magaskosh
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'reg.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,31 @@
+title: Command and Scripting Interpreter - Cl0p (security)
+id: 90dc46da-5bf2-4345-b934-3ed6c787e54f
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1059 (Command and Scripting Interpreter).
+  Associated threat actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1059/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_alert_ruler.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1059
+  - actor.cl0p
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '4776'
+    Workstation|contains:
+      - 'RULER'
+      - '4624'
+      - '4625'
+    WorkstationName|contains: 'RULER'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

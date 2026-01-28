@@ -1,0 +1,26 @@
+title: Process Discovery - Hunt-Dharma-Crysis (entra_id)
+id: 5bcc59a7-42db-4999-809c-27a36e94a7e5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1057 (Process Discovery).
+  Associated threat actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1057/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_process_discovery_via_tasklist_command.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1057
+  - actor.hunt-dharma-crysis
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

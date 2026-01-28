@@ -1,0 +1,26 @@
+title: Valid Accounts - 0mega (entra_id)
+id: d7907124-5c47-4a71-ad19-1d9dca46b2ef
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1078 (Valid Accounts).
+  Associated threat actor: 0mega
+references:
+  - https://attack.mitre.org/techniques/T1078/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/initial_access_login_failures.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1078
+  - actor.0mega
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    event.action|contains: 'failed-log-in-too-many-times-to'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

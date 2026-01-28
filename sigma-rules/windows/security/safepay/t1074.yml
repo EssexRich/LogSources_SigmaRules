@@ -1,0 +1,28 @@
+title: Data Staged - SafePay (security)
+id: 5ba50c3f-a22e-45bc-80c9-3c83816af80b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1074 (Data Staged).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1074/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/collection_google_drive_ownership_transferred_via_google_workspace.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1074
+  - actor.safepay
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    event.dataset|contains: 'google_workspace.admin'
+    event.action|contains: 'CREATE_DATA_TRANSFER_REQUEST'
+    event.category|contains: 'iam'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

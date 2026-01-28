@@ -1,0 +1,26 @@
+title: Query Registry - Magaskosh (entra_id)
+id: 5aed2f0d-f50a-432e-b382-fe1865c44085
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1012 (Query Registry).
+  Associated threat actor: Magaskosh
+references:
+  - https://attack.mitre.org/techniques/T1012/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/discovery_query_registry_via_reg.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1012
+  - actor.magaskosh
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    process.name|contains: 'reg.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

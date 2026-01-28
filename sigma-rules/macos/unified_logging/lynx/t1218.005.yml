@@ -1,0 +1,26 @@
+title: Mshta - Lynx (unified_logging)
+id: 44997e30-42ad-4d22-96d3-a26544e50235
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1218.005 (Mshta).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1218/005/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_mshta_making_network_connections.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1218.005
+  - actor.lynx
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'mshta.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

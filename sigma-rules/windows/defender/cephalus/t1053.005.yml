@@ -1,0 +1,31 @@
+title: Scheduled Task - Cephalus (defender)
+id: f30695ce-1063-4d89-be50-bc5837a7b819
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1053.005 (Scheduled Task).
+  Associated threat actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1053/005/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_scheduled_task_powershell_source.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1053.005
+  - actor.cephalus
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    event.action|contains: 'Image loaded*'
+    dll.name|contains: 'taskschd.dll'
+    file.name|contains: 'taskschd.dll'
+    process.name|contains:
+      - 'powershell.exe'
+      - 'powershell_ise.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

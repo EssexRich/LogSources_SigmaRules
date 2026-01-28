@@ -1,0 +1,26 @@
+title: Indirect Command Execution - Cl0p (auditd)
+id: b5397a9a-629a-4e3e-ac69-bc077511d4eb
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1202 (Indirect Command Execution).
+  Associated threat actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1202/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_symlink_binary_to_writable_dir.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1202
+  - actor.cl0p
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

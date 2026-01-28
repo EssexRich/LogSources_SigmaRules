@@ -1,0 +1,26 @@
+title: Modify Registry - LockBit (defender)
+id: 47974b9c-e9bb-4e34-9b39-4a9d4ba1f281
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1112 (Modify Registry).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1112/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_port_forwarding_added_registry.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1112
+  - actor.lockbit
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    registry.path|contains: '*\\SYSTEM\\*ControlSet*\\Services\\PortProxy\\v4tov4\\*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

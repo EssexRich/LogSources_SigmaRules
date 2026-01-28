@@ -1,0 +1,26 @@
+title: Exploit Public-Facing Application - BianLian (entra_id)
+id: 0771246c-f3bd-4ad7-9d23-281cc65128a5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1190 (Exploit Public-Facing Application).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1190/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_ssh_secure_shell_from_the_internet.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1190
+  - actor.bianlian
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

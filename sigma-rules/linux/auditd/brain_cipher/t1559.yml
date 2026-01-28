@@ -1,0 +1,28 @@
+title: Inter-Process Communication - Brain Cipher (auditd)
+id: 97e53884-d5b7-4a8e-8fa2-4cb65b5f7be3
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1559 (Inter-Process Communication).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1559/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_unix_socket_communication.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1559
+  - actor.brain_cipher
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    process.args|contains:
+      - '--unix-socket'
+      - '--abstract-unix-socket'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

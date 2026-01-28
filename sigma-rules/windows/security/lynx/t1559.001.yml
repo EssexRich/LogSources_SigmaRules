@@ -1,0 +1,26 @@
+title: Component Object Model - Lynx (security)
+id: 00b84a95-af00-4d1e-b2a2-c32ce98cb127
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1559.001 (Component Object Model).
+  Associated threat actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1559/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_email_outlook_mailbox_via_com.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1559.001
+  - actor.lynx
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'OUTLOOK.EXE'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

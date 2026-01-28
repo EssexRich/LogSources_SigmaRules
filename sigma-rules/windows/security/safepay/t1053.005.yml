@@ -1,0 +1,36 @@
+title: Scheduled Task - SafePay (security)
+id: 988ddd56-722f-46bb-a13f-5d62003712da
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1053.005 (Scheduled Task).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1053/005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_gpo_scheduledtasks.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1053.005
+  - actor.safepay
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains:
+      - '5136'
+      - 'gPCMachineExtensionNames'
+      - 'gPCUserExtensionNames'
+      - 'CAB54552-DEEA-4691-817E-ED4A4D1AFC72'
+      - 'AADCED64-746C-4633-A97C-D61349046527'
+    ShareName|contains: '\SYSVOL' # looking for the string \\*\SYSVOL'
+    RelativeTargetName|contains:
+      - 'ScheduledTasks.xml'
+      - 'WriteData'
+      - '%%4417'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

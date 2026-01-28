@@ -1,0 +1,26 @@
+title: Service Stop - Devman's Ransomware (security)
+id: 0b8b2d4e-198a-4410-966d-7122f6f1eb2a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1489 (Service Stop).
+  Associated threat actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1489/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/impact_rds_instance_cluster_stoppage.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1489
+  - actor.devman's_ransomware
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

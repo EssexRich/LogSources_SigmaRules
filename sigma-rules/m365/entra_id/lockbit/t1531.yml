@@ -1,0 +1,26 @@
+title: Account Access Removal - LockBit (entra_id)
+id: 1b17d85b-9a83-445c-adbf-354e7ec79a6e
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1531 (Account Access Removal).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1531/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/impact_rds_group_deletion.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1531
+  - actor.lockbit
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

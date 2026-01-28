@@ -1,0 +1,26 @@
+title: Valid Accounts - Stormous (entra_id)
+id: d8c92897-b23e-4d68-a206-cb21a54b6e28
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1078 (Valid Accounts).
+  Associated threat actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1078/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/initial_access_login_failures.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1078
+  - actor.stormous
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    event.action|contains: 'failed-log-in-too-many-times-to'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

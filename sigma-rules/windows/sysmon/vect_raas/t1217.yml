@@ -1,0 +1,26 @@
+title: Browser Information Discovery - Vect RaaS (sysmon)
+id: ea90f499-1123-4b9d-bf9a-09d5f8e67d78
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1217 (Browser Information Discovery).
+  Associated threat actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1217/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cmd_dir_execution.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1217
+  - actor.vect_raas
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Screen Capture - Qilin (security)
+id: 90e88b0b-d061-4fed-aca7-49e36ddd3cb5
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1113 (Screen Capture).
+  Associated threat actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1113/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_posh_screen_grabber.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1113
+  - actor.qilin
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    user.id|contains: 'S-1-5-18'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,27 @@
+title: Account Discovery - SafeLocker (unified_logging)
+id: 2ba2752d-ec95-4a06-a9bd-5c35766a3290
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1087 (Account Discovery).
+  Associated threat actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1087/
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/discovery_users_domain_built_in_commands.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1087
+  - actor.safelocker
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    process.Ext.effective_parent.name|contains: '.*'
+    process.parent.name|contains: '.*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

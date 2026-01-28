@@ -1,0 +1,27 @@
+title: Shared Modules - Rhysida (sysmon)
+id: a5aecabe-7e54-402f-a575-bb2dc190f1a4
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1129 (Shared Modules).
+  Associated threat actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1129/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_shared_modules_local_sxs_dll.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1129
+  - actor.rhysida
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    file.extension|contains: 'dll'
+    file.path|contains: 'C:\\*\\*.exe.local\\*.dll'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

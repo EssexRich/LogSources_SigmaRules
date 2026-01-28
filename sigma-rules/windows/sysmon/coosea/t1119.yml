@@ -1,0 +1,29 @@
+title: Automated Collection - COOSEA (sysmon)
+id: 9ae7a98f-9575-45a5-81ce-07af12682560
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1119 (Automated Collection).
+  Associated threat actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1119/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_automated_collection.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1119
+  - actor.coosea
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    OriginalFileName|contains:
+      - 'FINDSTR.EXE'
+      - ' /e '
+      - ' /si '
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

@@ -1,0 +1,26 @@
+title: Supply Chain Compromise - Ignoble Scorpius (defender)
+id: 3a8381b6-4a53-45f6-85e2-1802efdf8e8d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1195 (Supply Chain Compromise).
+  Associated threat actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1195/
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_register_github_actions_runner.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1195
+  - actor.ignoble_scorpius
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

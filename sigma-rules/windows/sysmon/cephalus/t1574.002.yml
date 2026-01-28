@@ -1,0 +1,25 @@
+title: DLL Side-Loading - Cephalus (sysmon)
+id: 91ed5b56-d77b-47ec-a697-1dc26526d9ac
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1574.002 (DLL Side-Loading).
+  Associated threat actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1574/002/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1574.002
+  - actor.cephalus
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

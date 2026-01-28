@@ -1,0 +1,37 @@
+title: Modify Registry - BianLian (security)
+id: 2bc03586-d0fd-4351-aae1-6dad6abb77b7
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1112 (Modify Registry).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1112/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_dot_net_etw_tamper.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1112
+  - actor.bianlian
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    EventID|contains:
+      - '4657'
+      - '4657'
+    ObjectName|contains:
+      - '\SOFTWARE\Microsoft\.NETFramework'
+      - '\Environment'
+    ObjectValueName|contains: 'ETWEnabled'
+    NewValue|contains:
+      - '0'
+      - 'COMPlus_ETWEnabled'
+      - 'COMPlus_ETWFlags'
+      - '0'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

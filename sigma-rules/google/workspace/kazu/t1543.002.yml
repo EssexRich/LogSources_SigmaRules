@@ -1,0 +1,31 @@
+title: Systemd Service - Kazu (workspace)
+id: 540571ad-c53f-455e-ab6d-bf523a376e16
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1543.002 (Systemd Service).
+  Associated threat actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1543/002/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_etc_file_creation.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1543.002
+  - actor.kazu
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+  selection:
+    file.path|contains:
+      - '/etc/ld.so.conf.d/*'
+      - '/usr/lib/systemd/system/*'
+    process.name|contains:
+      - 'chef-client'
+      - 'rhn_check'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

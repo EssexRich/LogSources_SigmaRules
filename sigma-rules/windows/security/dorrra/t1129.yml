@@ -1,0 +1,27 @@
+title: Shared Modules - DORRRA (security)
+id: afa39276-c6ce-47d7-b555-7460a3dba0e1
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1129 (Shared Modules).
+  Associated threat actor: DORRRA
+references:
+  - https://attack.mitre.org/techniques/T1129/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_shared_modules_local_sxs_dll.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1129
+  - actor.dorrra
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    file.extension|contains: 'dll'
+    file.path|contains: 'C:\\*\\*.exe.local\\*.dll'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

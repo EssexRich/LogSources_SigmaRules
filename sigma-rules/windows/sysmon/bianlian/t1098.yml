@@ -1,0 +1,30 @@
+title: Account Manipulation - BianLian (sysmon)
+id: 497dd839-d7e4-4aed-8dc3-96231b22b77b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1098 (Account Manipulation).
+  Associated threat actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_google_workspace_user_group_access_modified_to_allow_external_access.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1098
+  - actor.bianlian
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    event.dataset|contains: 'google_workspace.admin'
+    event.action|contains: 'CHANGE_GROUP_SETTING'
+    event.category|contains: 'iam'
+    google_workspace.admin.setting.name|contains: 'WHO_CAN_JOIN'
+    google_workspace.admin.new_value|contains: 'CAN_REQUEST_TO_JOIN'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

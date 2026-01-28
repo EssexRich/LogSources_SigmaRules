@@ -1,0 +1,25 @@
+title: Windows Service - DoNex (sysmon)
+id: 7b263f7b-0a38-41ec-a753-326dfdd3cfe7
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1543.003 (Windows Service).
+  Associated threat actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1543/003/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1543.003
+  - actor.donex
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

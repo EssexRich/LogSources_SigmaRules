@@ -1,0 +1,29 @@
+title: Registry Run Keys / Startup Folder - 8base (defender)
+id: 41cfc2e5-463f-443a-8f31-ca4301dceb5d
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1547.001 (Registry Run Keys / Startup Folder).
+  Associated threat actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1547/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/lateral_movement_via_startup_folder_rdp_smb.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1547.001
+  - actor.8base
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    process.name|contains: 'mstsc.exe'
+    file.path|contains:
+      - '?:\\Users\\*\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*'
+      - '?:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

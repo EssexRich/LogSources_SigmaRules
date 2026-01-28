@@ -1,0 +1,26 @@
+title: LSASS Memory - ALPHV-BlackCat (auditd)
+id: 2d60dd1d-6a0c-4bd2-859d-8a66a01809f7
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1003.001 (LSASS Memory).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+  - https://github.com/elastic/detection-rules/blob/main/rules/promotions/credential_access_endgame_cred_dumping_detected.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1003.001
+  - actor.alphv-blackcat
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

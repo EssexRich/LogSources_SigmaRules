@@ -1,0 +1,26 @@
+title: Multi-hop Proxy - ALPHV-BlackCat (security)
+id: 61bd5a31-a246-4d1d-b177-d80fc474b6b1
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1090.003 (Multi-hop Proxy).
+  Associated threat actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1090/003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/command_and_control_tor_activity_to_the_internet.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1090.003
+  - actor.alphv-blackcat
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

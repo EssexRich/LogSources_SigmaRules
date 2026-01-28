@@ -1,0 +1,28 @@
+title: Masquerading - 8base (unified_logging)
+id: 9df25ece-bdee-4703-9d29-f26943ce1631
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1036 (Masquerading).
+  Associated threat actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1036/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_potential_processherpaderping.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1036
+  - actor.8base
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    process.parent.executable|contains:
+      - '?:\\Windows\\SoftwareDistribution\\*.exe'
+      - '?:\\Program Files (x86)\\Trend Micro\\*.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

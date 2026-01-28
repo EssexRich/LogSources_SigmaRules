@@ -1,0 +1,25 @@
+title: Winlogon Helper DLL - LockBit (unified_logging)
+id: 2b30188a-7d9a-4040-bbf5-f33eb62f19dd
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1547.004 (Winlogon Helper DLL).
+  Associated threat actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1547/004/
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1547.004
+  - actor.lockbit
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

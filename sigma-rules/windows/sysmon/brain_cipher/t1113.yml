@@ -1,0 +1,26 @@
+title: Screen Capture - Brain Cipher (sysmon)
+id: dc375df7-7705-49c1-87f6-a46875483183
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1113 (Screen Capture).
+  Associated threat actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1113/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_posh_screen_grabber.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1113
+  - actor.brain_cipher
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    user.id|contains: 'S-1-5-18'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

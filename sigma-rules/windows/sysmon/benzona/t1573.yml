@@ -1,0 +1,34 @@
+title: Encrypted Channel - Benzona (sysmon)
+id: acb2b5d6-1b26-480e-8dd5-66064b4da747
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1573 (Encrypted Channel).
+  Associated threat actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1573/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_encrypted_channel_freesslcert.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1573
+  - actor.benzona
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    dns.question.name|contains:
+      - '*letsencrypt.org'
+      - '*.freessl.org'
+    process.executable|contains:
+      - 'C:\\Windows\\System32\\*.exe'
+      - 'C:\\Windows\\notepad.exe'
+    process.name|contains:
+      - 'svchost.exe'
+      - 'msedge.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

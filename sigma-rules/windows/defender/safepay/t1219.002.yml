@@ -1,0 +1,28 @@
+title: Remote Desktop Software - SafePay (defender)
+id: 22952c3a-befb-4258-9562-75574b3bd581
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1219.002 (Remote Desktop Software).
+  Associated threat actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1219/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/application/msiinstaller/win_software_atera_rmm_agent_install.yml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1219.002
+  - actor.safepay
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    EventID|contains: '1033'
+    Provider_Name|contains: 'MsiInstaller'
+    Message|contains: 'AteraAgent'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

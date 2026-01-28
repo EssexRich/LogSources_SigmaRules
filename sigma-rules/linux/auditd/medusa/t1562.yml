@@ -1,0 +1,26 @@
+title: Impair Defenses - Medusa (auditd)
+id: 46d338e6-757d-4302-bc04-ec07c89f671b
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1562 (Impair Defenses).
+  Associated threat actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1562/
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_attempt_to_disable_iptables_or_firewall.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1562
+  - actor.medusa
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

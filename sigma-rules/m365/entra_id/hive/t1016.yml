@@ -1,0 +1,26 @@
+title: System Network Configuration Discovery - Hive (entra_id)
+id: 91017ded-36b8-4525-9a0e-724a1ab637a3
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1016 (System Network Configuration Discovery).
+  Associated threat actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1016/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_dns_enumeration.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1016
+  - actor.hive
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium

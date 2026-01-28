@@ -1,0 +1,26 @@
+title: Remote System Discovery - MUSTANG PANDA (defender)
+id: 1503f4c6-70e2-487e-bd18-5e2a1f5d009a
+status: experimental
+description: |
+  Detects activity consistent with MITRE ATT&CK technique T1018 (Remote System Discovery).
+  Associated threat actor: MUSTANG PANDA
+references:
+  - https://attack.mitre.org/techniques/T1018/
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_dns_enumeration.toml
+author: GapMATRIX Sigma Generator
+date: 2026-01-28
+tags:
+  - attack.t1018
+  - actor.mustang_panda
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    placeholder: true  # No detection logic available
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+  - Authorised security testing
+level: medium
