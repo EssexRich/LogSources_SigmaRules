@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1055.001 Detection
+    id: f4318ee3-d136-49f7-bda8-e82595366f01
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1055.001.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1055.001/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1055.001
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: windows
+    service: security
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1055.001
+    
