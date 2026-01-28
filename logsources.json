@@ -1,0 +1,85 @@
+{
+  "generated": "2026-01-28T10:33:02.625Z",
+  "version": "1.0.0",
+  "logsources": [
+    {
+      "product": "windows",
+      "service": "security",
+      "category": "process_creation",
+      "description": "A new process has been created",
+      "fieldMappings": {
+        "process_creation": {
+          "Image": "NewProcessName",
+          "CommandLine": "CommandLine",
+          "ParentImage": "ParentProcessName",
+          "User": "TargetUserName",
+          "ProcessId": "NewProcessId",
+          "ParentProcessId": "ProcessId",
+          "CreatorUserSid": "SubjectUserSid",
+          "CreatorUserName": "SubjectUserName",
+          "CreatorDomainName": "SubjectDomainName",
+          "CreatorLogonId": "SubjectLogonId",
+          "TargetUserSid": "TargetUserSid",
+          "TargetDomainName": "TargetDomainName",
+          "TargetLogonId": "TargetLogonId",
+          "TokenElevationType": "TokenElevationType",
+          "MandatoryLabel": "MandatoryLabel",
+          "CreatorProcessName": "CreatorProcessName"
+        }
+      },
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4688"
+    },
+    {
+      "product": "windows",
+      "service": "sysmon",
+      "category": "process_creation",
+      "description": "Process creation event providing extended information about newly created processes including full command line, process GUID, and file hash",
+      "fieldMappings": {
+        "process_creation": {
+          "UtcTime": "UtcTime",
+          "ProcessGuid": "ProcessGuid",
+          "ProcessId": "ProcessId",
+          "Image": "Image",
+          "CommandLine": "CommandLine",
+          "HashType": "HashType",
+          "Hashes": "Hashes"
+        }
+      },
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon"
+    },
+    {
+      "product": "windows",
+      "service": "defender",
+      "category": "process_creation",
+      "description": "Process creation and related events from Microsoft Defender for Endpoint",
+      "fieldMappings": {
+        "process_creation": {
+          "Image": "InitiatingProcessFileName",
+          "CommandLine": "ProcessCommandLine",
+          "ParentImage": "InitiatingProcessParentFileName",
+          "User": "AccountName",
+          "ProcessId": "ProcessId",
+          "ParentProcessId": "InitiatingProcessParentId",
+          "Timestamp": "Timestamp",
+          "SHA1": "InitiatingProcessSHA1",
+          "SHA256": "InitiatingProcessSHA256",
+          "MD5": "InitiatingProcessMD5",
+          "FolderPath": "InitiatingProcessFolderPath",
+          "ProcessCreationTime": "InitiatingProcessCreationTime",
+          "ParentProcessCreationTime": "InitiatingProcessParentCreationTime",
+          "IntegrityLevel": "ProcessIntegrityLevel",
+          "TokenElevation": "ProcessTokenElevation",
+          "ParentIntegrityLevel": "InitiatingProcessIntegrityLevel",
+          "ParentTokenElevation": "InitiatingProcessTokenElevation",
+          "AccountDomain": "AccountDomain",
+          "AccountSid": "AccountSid",
+          "DeviceName": "DeviceName"
+        }
+      },
+      "lastUpdated": "2026-01-28",
+      "sourceUrl": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table"
+    }
+  ]
+}
