@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1076 Detection (m365)
+    id: 1bc0aa01-b101-4c7b-a077-75058eca1dc5
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1076.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1076/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1076
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1076
+    
