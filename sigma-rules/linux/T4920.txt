@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T4920 Detection (linux)
+    id: 2b832f52-f526-4c8c-aa8f-6346bb57b6b7
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T4920.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T4920/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T4920
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T4920
+    
