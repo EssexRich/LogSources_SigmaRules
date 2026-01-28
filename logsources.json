@@ -1,52 +1,7 @@
 {
-  "generated": "2026-01-28T11:10:11.711Z",
+  "generated": "2026-01-28T11:16:17.098Z",
   "version": "1.0.0",
   "logsources": [
-    {
-      "product": "windows",
-      "service": "security",
-      "category": "process_creation",
-      "description": "A new process has been created",
-      "fieldMappings": {
-        "process_creation": {
-          "Image": "NewProcessName",
-          "CommandLine": "CommandLine",
-          "ParentImage": "ParentProcessName",
-          "User": "SubjectUserName",
-          "ProcessId": "NewProcessId",
-          "ParentProcessId": "ProcessId",
-          "TargetUser": "TargetUserName",
-          "TargetDomain": "TargetDomainName",
-          "SubjectUserSid": "SubjectUserSid",
-          "TargetUserSid": "TargetUserSid",
-          "TokenElevationType": "TokenElevationType",
-          "MandatoryLabel": "MandatoryLabel",
-          "CreatorProcessName": "Creator Process Name"
-        }
-      },
-      "lastUpdated": "2026-01-28",
-      "sourceUrl": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4688"
-    },
-    {
-      "product": "windows",
-      "service": "sysmon",
-      "category": "process_creation",
-      "description": "Event ID 1 provides extended information about a newly created process including full command line, process GUID, and file hash",
-      "fieldMappings": {
-        "process_creation": {
-          "UtcTime": "UtcTime",
-          "ProcessGuid": "ProcessGuid",
-          "ProcessId": "ProcessId",
-          "Image": "Image",
-          "CommandLine": "CommandLine",
-          "ParentProcessId": "ParentProcessId",
-          "ParentImage": "ParentImage",
-          "HashType": "HashType"
-        }
-      },
-      "lastUpdated": "2026-01-28",
-      "sourceUrl": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon"
-    },
     {
       "product": "linux",
       "service": "auditd",
@@ -101,40 +56,6 @@
           "ProcessImageUUID": "processImageUUID"
         }
       }
-    },
-    {
-      "product": "windows",
-      "service": "defender",
-      "category": "process_creation",
-      "description": "Process creation and related events from Microsoft Defender for Endpoint",
-      "fieldMappings": {
-        "process_creation": {
-          "Image": "InitiatingProcessFileName",
-          "CommandLine": "ProcessCommandLine",
-          "ParentImage": "InitiatingProcessParentFileName",
-          "User": "AccountName",
-          "ProcessId": "ProcessId",
-          "ParentProcessId": "InitiatingProcessParentId",
-          "Timestamp": "Timestamp",
-          "DeviceName": "DeviceName",
-          "SHA1": "InitiatingProcessSHA1",
-          "SHA256": "InitiatingProcessSHA256",
-          "MD5": "InitiatingProcessMD5",
-          "IntegrityLevel": "ProcessIntegrityLevel",
-          "TokenElevation": "ProcessTokenElevation",
-          "InitiatingProcessIntegrityLevel": "InitiatingProcessIntegrityLevel",
-          "InitiatingProcessTokenElevation": "InitiatingProcessTokenElevation",
-          "ProcessCreationTime": "ProcessCreationTime",
-          "InitiatingProcessCreationTime": "InitiatingProcessCreationTime",
-          "InitiatingProcessId": "InitiatingProcessId",
-          "InitiatingProcessCommandLine": "InitiatingProcessCommandLine",
-          "AccountDomain": "AccountDomain",
-          "InitiatingProcessAccountDomain": "InitiatingProcessAccountDomain",
-          "InitiatingProcessAccountName": "InitiatingProcessAccountName"
-        }
-      },
-      "lastUpdated": "2026-01-28",
-      "sourceUrl": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table"
     },
     {
       "product": "m365",
