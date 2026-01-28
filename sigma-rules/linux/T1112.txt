@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1112 Detection (linux)
+    id: c362e9f0-0aa3-44c1-9b15-79d60688e252
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1112.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1112/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1112
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1112
+    
