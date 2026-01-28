@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1003.005 Detection (macos)
+    id: b01520df-a0a6-4685-a79b-8e21bf2c7785
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1003.005.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1003.005/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1003.005
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: macos
+    service: unified_logging
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1003.005
+    
