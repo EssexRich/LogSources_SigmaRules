@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T3216 Detection (linux)
+    id: 08216d09-9448-45c8-919e-5d149b4a0072
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T3216.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T3216/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T3216
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T3216
+    
