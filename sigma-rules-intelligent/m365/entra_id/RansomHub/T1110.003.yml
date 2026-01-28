@@ -1,0 +1,29 @@
+title: Password Spraying (M365 - entra_id)
+id: 581906b2-5bb3-421b-a764-1b1c4062a233
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.003.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1110.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.003
+  - actor.ransomhub

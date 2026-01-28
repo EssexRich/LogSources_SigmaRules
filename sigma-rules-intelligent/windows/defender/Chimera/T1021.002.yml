@@ -1,0 +1,33 @@
+title: SMB/Windows Admin Shares (WINDOWS - defender)
+id: b0f51374-5c92-4ab6-a624-bce7271ec88b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.002.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1021.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'computername='
+    CommandLine|contains|all|contains:
+      - ' use '
+      - ' http'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.002
+  - actor.chimera

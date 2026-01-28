@@ -1,0 +1,32 @@
+title: Match Legitimate Resource Name or Location (MACOS - unified_logging)
+id: fd8f6f0c-b8a0-4ef9-b0af-f7b7d31e12de
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.005.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1036.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.005
+  - actor.ke3chang

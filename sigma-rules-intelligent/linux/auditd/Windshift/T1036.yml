@@ -1,0 +1,38 @@
+title: Masquerading (LINUX - auditd)
+id: 8768e04d-d13e-4bf9-bdf6-6265679d7266
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: Windshift
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|startswith|contains:
+      - '/tmp/'
+    Image|endswith|contains:
+      - '/usr/bin/nextcloud'
+    ParentCommandLine|contains:
+      - 'bash -i'
+    CommandLine|contains|contains:
+      - '-c import '
+      - 'base64'
+      - 'pty.spawn'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.windshift

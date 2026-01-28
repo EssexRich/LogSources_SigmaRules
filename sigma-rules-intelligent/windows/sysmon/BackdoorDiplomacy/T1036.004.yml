@@ -1,0 +1,30 @@
+title: Masquerade Task or Service (WINDOWS - sysmon)
+id: ad0d05b2-39a8-4d8d-bb1d-17e69c71a08c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.004.
+  Threat Actor: BackdoorDiplomacy
+references:
+  - https://attack.mitre.org/techniques/T1036.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|windash|contains:
+      - ' /create '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.004
+  - actor.backdoordiplomacy

@@ -1,0 +1,32 @@
+title: Remote Desktop Protocol (LINUX - auditd)
+id: 736e0c9d-22a6-491a-886c-38664a5bd9b6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.001.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1021.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.001
+  - actor.medusa

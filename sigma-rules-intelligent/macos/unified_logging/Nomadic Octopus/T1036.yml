@@ -1,0 +1,32 @@
+title: Masquerading (MACOS - unified_logging)
+id: eb35a66c-1dc8-44ef-9762-3ae4914e6970
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: Nomadic Octopus
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.nomadic_octopus

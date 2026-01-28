@@ -1,0 +1,32 @@
+title: Masquerading (MACOS - unified_logging)
+id: 45d85ed3-b1c3-4124-beea-3fe69745bbf5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.lynx

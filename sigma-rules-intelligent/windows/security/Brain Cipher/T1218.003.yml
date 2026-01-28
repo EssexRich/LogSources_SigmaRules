@@ -1,0 +1,38 @@
+title: CMSTP (WINDOWS - security)
+id: 84e0e9d8-9a99-4ffc-9eab-bbb10e369667
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.003.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1218.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\DllHost.exe'
+    CommandLine|contains|contains:
+      - '/s'
+      - '-s'
+      - '/au'
+    ParentCommandLine|contains|contains:
+      - ' /Processid:{3E5FC7F9-9A51-4367-9063-A120244FBEC7}'
+      - ' /Processid:{3E000D72-A845-4CD9-BD83-80C07C3B881F}'
+      - ' /Processid:{BD54C901-076B-434E-B6C7-17C531F4AB41}'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.003
+  - actor.brain_cipher

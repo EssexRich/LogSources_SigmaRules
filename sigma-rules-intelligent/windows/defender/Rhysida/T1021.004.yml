@@ -1,0 +1,32 @@
+title: SSH (WINDOWS - defender)
+id: 929369a1-7478-47ac-971a-b628f0f7ea6b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.004.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1021.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\ssh.exe'
+    CommandLine|contains|windash|contains:
+      - ' -R '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.004
+  - actor.rhysida

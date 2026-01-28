@@ -1,0 +1,33 @@
+title: Scheduled Task/Job (WINDOWS - sysmon)
+id: 85786815-6802-4a26-91dd-c75e6c7a204f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\crackmapexec.exe'
+    CommandLine|contains|contains:
+      - ' -t schtask -c '
+      - ' -t startupfolder -c '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.yashma-ator-vietnamita

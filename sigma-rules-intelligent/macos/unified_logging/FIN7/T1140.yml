@@ -1,0 +1,33 @@
+title: Deobfuscate/Decode Files or Information (MACOS - unified_logging)
+id: 8362079f-4165-4112-b05a-e7b9af95a436
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '/bash'
+    CommandLine|contains|all|contains:
+      - 'tail'
+      - '-c'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140
+  - actor.fin7

@@ -1,0 +1,33 @@
+title: SMB/Windows Admin Shares (WINDOWS - security)
+id: fc6ae1e6-d5e0-45e5-b0da-07e3b7886a58
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.002.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1021.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ShareName|contains:
+      - '\\\\\*\\IPC$'
+    ServiceFileName|contains|all|contains:
+      - 'ADMIN$'
+      - '.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.002
+  - actor.ignoble_scorpius

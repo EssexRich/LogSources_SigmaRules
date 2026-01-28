@@ -1,0 +1,32 @@
+title: LSASS Memory (LINUX - auditd)
+id: 3c8ebb0e-c4c3-46f5-b99c-1db7f1264bc4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.001.
+  Threat Actor: Cuba
+references:
+  - https://attack.mitre.org/techniques/T1003.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.001
+  - actor.cuba

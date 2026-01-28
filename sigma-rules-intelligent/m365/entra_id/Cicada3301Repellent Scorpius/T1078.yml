@@ -1,0 +1,29 @@
+title: Valid Accounts (M365 - entra_id)
+id: 4b38e4ec-72d9-407a-b618-32c008cca0ba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: Cicada3301Repellent Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.cicada3301repellent_scorpius

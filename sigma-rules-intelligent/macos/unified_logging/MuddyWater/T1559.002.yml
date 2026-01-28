@@ -1,0 +1,32 @@
+title: Dynamic Data Exchange (MACOS - unified_logging)
+id: 0db31476-4c3c-48da-8766-a50187354fa8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.002.
+  Threat Actor: MuddyWater
+references:
+  - https://attack.mitre.org/techniques/T1559.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559.002
+  - actor.muddywater

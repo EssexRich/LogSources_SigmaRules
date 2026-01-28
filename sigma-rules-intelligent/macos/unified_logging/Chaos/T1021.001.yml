@@ -1,0 +1,32 @@
+title: Remote Desktop Protocol (MACOS - unified_logging)
+id: c19d9d32-1339-48ad-91b6-28d92a96b40f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.001.
+  Threat Actor: Chaos
+references:
+  - https://attack.mitre.org/techniques/T1021.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.001
+  - actor.chaos

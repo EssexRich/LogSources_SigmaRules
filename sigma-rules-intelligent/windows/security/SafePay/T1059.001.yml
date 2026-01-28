@@ -1,0 +1,32 @@
+title: PowerShell (WINDOWS - security)
+id: e42586d4-55c0-4637-8c18-8b0af046803f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.001.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1059.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ServiceFileName|contains|all|contains:
+      - 'cmd'
+      - '"set'
+      - '-f'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.001
+  - actor.safepay

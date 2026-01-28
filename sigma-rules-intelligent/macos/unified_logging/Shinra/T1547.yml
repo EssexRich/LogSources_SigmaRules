@@ -1,0 +1,32 @@
+title: Boot or Logon Autostart Execution (MACOS - unified_logging)
+id: 808c40b9-ccc8-4312-a49a-c372828279d4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547
+  - actor.shinra

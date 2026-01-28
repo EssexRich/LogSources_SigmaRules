@@ -1,0 +1,29 @@
+title: Registry Run Keys / Startup Folder (GOOGLE - workspace)
+id: 95fc1f5b-591e-4a73-bd6d-b1a0f6fb5d4d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.001.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1547.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547.001
+  - actor.shinra

@@ -1,0 +1,37 @@
+title: Masquerading (WINDOWS - defender)
+id: 454d622a-b2b6-4867-bf20-93a6f1b804d0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: KageNoHitobito
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - ' -u '
+      - ' --full '
+      - ' -f '
+    Image|endswith|contains:
+      - '\chcp.com'
+    CommandLine|endswith|contains:
+      - ' 936'
+      - ' 1258'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.kagenohitobito

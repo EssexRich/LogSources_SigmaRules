@@ -1,0 +1,29 @@
+title: Multi-Factor Authentication (GOOGLE - workspace)
+id: b00f9041-7745-4bac-a268-74c22289e0dc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1556.006.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1556.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1556.006
+  - actor.lockbit

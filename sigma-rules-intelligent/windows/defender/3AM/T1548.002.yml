@@ -1,0 +1,38 @@
+title: Bypass User Account Control (WINDOWS - defender)
+id: 88e744ee-e6de-4e75-8377-be794c66a5ed
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.002.
+  Threat Actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1548.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'WindowsPowerShellWebAccess'
+      - '/online'
+      - '/enable-feature'
+    ParentImage|endswith|contains:
+      - '\eventvwr.exe'
+    Image|endswith|contains:
+      - '\explorer.exe'
+    CommandLine|contains|contains:
+      - '/NOUACCHECK'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548.002
+  - actor.3am

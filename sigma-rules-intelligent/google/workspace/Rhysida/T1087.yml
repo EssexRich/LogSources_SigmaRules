@@ -1,0 +1,29 @@
+title: Account Discovery (GOOGLE - workspace)
+id: 7fd8cd52-9f9c-4955-9f6a-d6780bb99310
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1087/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087
+  - actor.rhysida

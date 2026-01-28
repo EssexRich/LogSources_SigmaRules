@@ -1,0 +1,32 @@
+title: Bypass User Account Control (LINUX - auditd)
+id: 5c3c3bea-9f91-46d5-af83-5fd6f2abe9ae
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.002.
+  Threat Actor: Evilnum
+references:
+  - https://attack.mitre.org/techniques/T1548.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548.002
+  - actor.evilnum

@@ -1,0 +1,33 @@
+title: Boot or Logon Autostart Execution (WINDOWS - sysmon)
+id: 490f3e15-79b0-4497-a475-6be47be04a26
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'grpconv.exe -o'
+      - 'grpconv -o'
+    Image|endswith|contains:
+      - '\pnputil.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547
+  - actor.interlock

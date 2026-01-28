@@ -1,0 +1,38 @@
+title: Token Impersonation/Theft (WINDOWS - sysmon)
+id: f6d26a58-bc2a-4aeb-960d-e4ab30b7b147
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.001.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1134.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - ' backupkey '
+      - ' blob '
+      - ' certificates '
+    ParentImage|endswith|contains:
+      - '\services.exe'
+    CommandLine|contains|all|contains:
+      - '/c'
+      - 'echo'
+      - '\pipe\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.001
+  - actor.ransomhub

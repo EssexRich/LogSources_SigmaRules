@@ -1,0 +1,30 @@
+title: Masquerade Task or Service (WINDOWS - sysmon)
+id: 28626ae8-3da0-4a9b-9937-693169ec1f6f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.004.
+  Threat Actor: PROMETHIUM
+references:
+  - https://attack.mitre.org/techniques/T1036.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|windash|contains:
+      - ' /create '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.004
+  - actor.promethium

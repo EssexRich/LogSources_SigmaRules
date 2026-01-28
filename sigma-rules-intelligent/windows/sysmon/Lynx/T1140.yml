@@ -1,0 +1,36 @@
+title: Deobfuscate/Decode Files or Information (WINDOWS - sysmon)
+id: 5e852b57-b996-4c43-9095-59d64bb3849d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '.7z'
+      - '.avi'
+      - '.bat'
+    Image|endswith|contains:
+      - '\ping.exe'
+    CommandLine|re|contains:
+      - '0x[a-fA-F0-9]{8}'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140
+  - actor.lynx

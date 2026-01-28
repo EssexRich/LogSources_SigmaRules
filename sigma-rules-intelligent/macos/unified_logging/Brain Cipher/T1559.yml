@@ -1,0 +1,32 @@
+title: Inter-Process Communication (MACOS - unified_logging)
+id: bee068ec-b0ef-46d6-8f38-d5e09a2770e6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1559/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559
+  - actor.brain_cipher

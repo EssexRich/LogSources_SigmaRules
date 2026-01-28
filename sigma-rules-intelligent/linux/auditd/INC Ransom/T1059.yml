@@ -1,0 +1,40 @@
+title: Command and Scripting Interpreter (LINUX - auditd)
+id: ef3a06cd-3ec5-434c-ac8d-db56c99fb3c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'PATH'
+    name|contains:
+      - '/var/run/haldrund.pid'
+      - '/var/run/xinetd.lock'
+      - '/var/run/kdevrund.pid'
+    Image|endswith|contains:
+      - '/capsh'
+    CommandLine|contains|contains:
+      - 'BEGIN {system'
+    CommandLine|endswith|contains:
+      - ' --'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.inc_ransom

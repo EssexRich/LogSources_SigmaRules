@@ -1,0 +1,38 @@
+title: Windows Remote Management (WINDOWS - sysmon)
+id: 3f5334e4-fab6-4fb3-bbaa-e6046e1a61c4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.006.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1021.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\ruby.exe'
+    CommandLine|contains|all|contains:
+      - '-i '
+      - '-u '
+      - '-p '
+    CommandLine|contains|windash|contains:
+      - '/r:localhost'
+      - '/r:127.0.0.1'
+      - '/r:[::1]'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.006
+  - actor.vect_raas

@@ -1,0 +1,38 @@
+title: LSASS Memory (WINDOWS - security)
+id: d80b603f-0d35-4bf8-829f-c75d9c8ead3b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.001.
+  Threat Actor: Aquatic Panda
+references:
+  - https://attack.mitre.org/techniques/T1003.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    AccessMask|contains:
+      - '0x100000'
+      - '0x1010'
+      - '0x1400'
+    ServiceFileName|contains|contains:
+      - 'cachedump'
+      - 'dumpsvc'
+      - 'fgexec'
+    ProcessName|endswith|contains:
+      - '\lsass.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.001
+  - actor.aquatic_panda

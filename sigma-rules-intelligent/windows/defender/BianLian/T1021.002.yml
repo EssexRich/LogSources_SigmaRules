@@ -1,0 +1,33 @@
+title: SMB/Windows Admin Shares (WINDOWS - defender)
+id: a9caf639-e7b6-4b90-b9b4-553f49d5db4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.002.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1021.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'computername='
+    CommandLine|contains|all|contains:
+      - ' use '
+      - ' http'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.002
+  - actor.bianlian

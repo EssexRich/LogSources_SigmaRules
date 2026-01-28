@@ -1,0 +1,38 @@
+title: PowerShell (WINDOWS - sysmon)
+id: 32b9287c-0f61-43a9-8407-102dff08caa9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.001.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1059.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\cmd.exe'
+    CommandLine|contains|all|contains:
+      - ' net use http'
+      - '& start /b '
+      - '\DavWWWRoot\'
+    CommandLine|contains|contains:
+      - '/cwhoami'
+      - '/cpowershell'
+      - '/cschtasks'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.001
+  - actor.devman's_ransomware

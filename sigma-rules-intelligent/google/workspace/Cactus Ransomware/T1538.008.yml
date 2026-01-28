@@ -1,0 +1,29 @@
+title: T1538.008 (GOOGLE - workspace)
+id: 3b3647ab-a66c-4aba-bd78-643c455f4a50
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1538.008.
+  Threat Actor: Cactus Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1538.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1538.008
+  - actor.cactus_ransomware

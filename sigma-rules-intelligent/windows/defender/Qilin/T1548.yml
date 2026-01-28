@@ -1,0 +1,37 @@
+title: Abuse Elevation Control Mechanism (WINDOWS - defender)
+id: 66f99a9b-afbe-4d91-8e7d-3a9fd2b99a73
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1548/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|endswith|contains:
+      - '\regedit.exe'
+    ParentImage|endswith|contains:
+      - '\mmc.exe'
+    User|contains|contains:
+      - 'AUTHORI'
+      - 'AUTORI'
+    ParentCommandLine|contains|contains:
+      - 'WF.msc'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548
+  - actor.qilin

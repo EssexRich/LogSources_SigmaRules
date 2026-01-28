@@ -1,0 +1,29 @@
+title: Domain Trust Discovery (GOOGLE - workspace)
+id: d10cdcd3-1bb2-47f6-99b2-2f8b34f965ac
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1482.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1482/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1482
+  - actor.magic_hound

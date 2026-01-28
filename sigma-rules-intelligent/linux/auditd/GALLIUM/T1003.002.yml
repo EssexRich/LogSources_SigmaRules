@@ -1,0 +1,32 @@
+title: Security Account Manager (LINUX - auditd)
+id: a1ae1b54-9ab8-4962-beb1-b6749ec3d4f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.002.
+  Threat Actor: GALLIUM
+references:
+  - https://attack.mitre.org/techniques/T1003.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.002
+  - actor.gallium

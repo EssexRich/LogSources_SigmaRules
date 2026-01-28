@@ -1,0 +1,33 @@
+title: Boot or Logon Autostart Execution (WINDOWS - sysmon)
+id: 82acd4c2-2807-44a1-b2ff-448eea7ed1c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'grpconv.exe -o'
+      - 'grpconv -o'
+    Image|endswith|contains:
+      - '\pnputil.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547
+  - actor.coosea

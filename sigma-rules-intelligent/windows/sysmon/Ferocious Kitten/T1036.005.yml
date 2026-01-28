@@ -1,0 +1,33 @@
+title: Match Legitimate Resource Name or Location (WINDOWS - sysmon)
+id: 82283eea-c9b8-40f7-8a63-e12a24b5b055
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.005.
+  Threat Actor: Ferocious Kitten
+references:
+  - https://attack.mitre.org/techniques/T1036.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '/create'
+      - '-create'
+    CommandLine|contains|windash|contains:
+      - ' /create '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.005
+  - actor.ferocious_kitten

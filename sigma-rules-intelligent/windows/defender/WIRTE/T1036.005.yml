@@ -1,0 +1,33 @@
+title: Match Legitimate Resource Name or Location (WINDOWS - defender)
+id: 5ae0eb0a-3d4f-4e77-b07b-ba562e954078
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.005.
+  Threat Actor: WIRTE
+references:
+  - https://attack.mitre.org/techniques/T1036.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '/create'
+      - '-create'
+    CommandLine|contains|windash|contains:
+      - ' /create '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.005
+  - actor.wirte

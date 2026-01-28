@@ -1,0 +1,32 @@
+title: Security Account Manager (LINUX - auditd)
+id: 6e762224-f59b-458f-bd0a-86c98a5ec8c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.002.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1003.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.002
+  - actor.dragonfly

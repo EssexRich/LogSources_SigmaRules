@@ -1,0 +1,32 @@
+title: Visual Basic (LINUX - auditd)
+id: 6ab3ad88-b476-4f52-bc08-467d3f1bfc7c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.005.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1059.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.005
+  - actor.safepay

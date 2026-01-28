@@ -1,0 +1,35 @@
+title: Native API (WINDOWS - security)
+id: a4a5409d-9914-4c90-b52a-8f7a3c3c1d51
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - 'Offline_Winpwn'
+      - 'WinPwn '
+      - 'WinPwn.exe'
+    Image|endswith|contains:
+      - '\rundll32.exe'
+      - '\cmd.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106
+  - actor.alphv-blackcat

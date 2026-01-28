@@ -1,0 +1,29 @@
+title: Transfer Data to Cloud Account (GOOGLE - workspace)
+id: 478825a9-195f-4387-afa6-4e5d282828d7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1537.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1537/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1537
+  - actor.ransomhub

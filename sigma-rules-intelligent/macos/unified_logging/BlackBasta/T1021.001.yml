@@ -1,0 +1,32 @@
+title: Remote Desktop Protocol (MACOS - unified_logging)
+id: bf025fe6-19fd-4ca7-a771-cc357dfbe4b5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.001.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1021.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021.001
+  - actor.blackbasta

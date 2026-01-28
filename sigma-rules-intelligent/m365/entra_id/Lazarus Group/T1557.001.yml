@@ -1,0 +1,29 @@
+title: LLMNR/NBT-NS Poisoning and SMB Relay (M365 - entra_id)
+id: dfd2264a-9854-41d3-909f-a9fa4671ed5a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1557.001.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1557.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1557.001
+  - actor.lazarus_group

@@ -1,0 +1,32 @@
+title: Lateral Tool Transfer (MACOS - unified_logging)
+id: d53a83ac-d869-413f-91e2-2f0aad069c19
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570
+  - actor.hive

@@ -1,0 +1,29 @@
+title: Spearphishing Link (M365 - entra_id)
+id: a40055e6-be18-4b64-ada6-39c359a2074d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1598.003.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1598.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1598.003
+  - actor.safepay

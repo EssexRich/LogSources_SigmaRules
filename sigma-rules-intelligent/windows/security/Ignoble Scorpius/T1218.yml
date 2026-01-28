@@ -1,0 +1,37 @@
+title: System Binary Proxy Execution (WINDOWS - security)
+id: 3e9e21d3-74f6-445a-9fe1-91faa761acfc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1218/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '-AddInRoot:'
+      - '-PipelineRoot:'
+    ParentImage|endswith|contains:
+      - '\addinutil.exe'
+    Image|endswith|contains:
+      - ':\Windows\System32\conhost.exe'
+      - ':\Windows\System32\werfault.exe'
+      - ':\Windows\SysWOW64\werfault.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218
+  - actor.ignoble_scorpius

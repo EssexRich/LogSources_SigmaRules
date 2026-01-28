@@ -1,0 +1,32 @@
+title: Hijack Execution Flow (MACOS - unified_logging)
+id: 4a239468-bc46-4323-aad9-6e74411f21cb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1574/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574
+  - actor.avoslocker

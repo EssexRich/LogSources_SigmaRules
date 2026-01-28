@@ -1,0 +1,38 @@
+title: Rundll32 (WINDOWS - defender)
+id: 3fdb9b5a-be6d-4604-80ef-d8fc50684905
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.011.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1218.011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '.application'
+      - '\AppData\Local\Temp\'
+      - '\Content.Outlook\'
+    Image|endswith|contains:
+      - '\CertReq.exe'
+      - '\CertUtil.exe'
+      - '\cmd.exe'
+    ParentImage|endswith|contains:
+      - '\hh.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.011
+  - actor.apt41

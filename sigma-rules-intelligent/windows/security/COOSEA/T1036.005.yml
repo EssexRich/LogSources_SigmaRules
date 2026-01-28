@@ -1,0 +1,33 @@
+title: Match Legitimate Resource Name or Location (WINDOWS - security)
+id: 1e7417d7-ac13-4415-b0b5-3e4d0497b3e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.005.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1036.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|contains:
+      - '/create'
+      - '-create'
+    CommandLine|contains|windash|contains:
+      - ' /create '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.005
+  - actor.coosea

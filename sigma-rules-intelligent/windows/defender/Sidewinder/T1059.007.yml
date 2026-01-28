@@ -1,0 +1,38 @@
+title: JavaScript (WINDOWS - defender)
+id: f8b3a645-72c7-43d5-80ee-8375dc12a467
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.007.
+  Threat Actor: Sidewinder
+references:
+  - https://attack.mitre.org/techniques/T1059.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    ParentImage|endswith|contains:
+      - '\hh.exe'
+    Image|endswith|contains:
+      - '\CertReq.exe'
+      - '\CertUtil.exe'
+      - '\cmd.exe'
+    CommandLine|contains|contains:
+      - '.application'
+      - '\AppData\Local\Temp\'
+      - '\Content.Outlook\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.007
+  - actor.sidewinder

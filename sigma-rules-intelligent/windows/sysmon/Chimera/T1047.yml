@@ -1,0 +1,41 @@
+title: Windows Management Instrumentation (WINDOWS - sysmon)
+id: 31a3e855-ed1e-43cb-8527-e9f7e43f83d8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'reg'
+      - ' add '
+    ParentImage|endswith|contains:
+      - '\hh.exe'
+    Image|endswith|contains:
+      - '\CertReq.exe'
+      - '\CertUtil.exe'
+      - '\cmd.exe'
+    CommandLine|contains|contains:
+      - '.application'
+      - '\AppData\Local\Temp\'
+      - '\Content.Outlook\'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.chimera

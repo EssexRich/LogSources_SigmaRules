@@ -1,0 +1,29 @@
+title: Domain Groups (GOOGLE - workspace)
+id: 81e5560d-e161-4a6d-9b54-98aef9ca8dc9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.002.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1069.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.002
+  - actor.dragonfly

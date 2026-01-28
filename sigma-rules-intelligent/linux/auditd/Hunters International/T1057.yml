@@ -1,0 +1,32 @@
+title: Process Discovery (LINUX - auditd)
+id: 2cadecce-49d1-4d9b-a88e-4fd8f047b492
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1057.
+  Threat Actor: Hunters International
+references:
+  - https://attack.mitre.org/techniques/T1057/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    type|contains:
+      - 'SYSCALL'
+    SYSCALL|contains:
+      - 'sysinfo'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1057
+  - actor.hunters_international

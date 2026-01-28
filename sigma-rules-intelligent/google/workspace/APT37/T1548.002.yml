@@ -1,0 +1,29 @@
+title: Bypass User Account Control (GOOGLE - workspace)
+id: 69c6f476-1754-4708-b439-eaa2760badff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.002.
+  Threat Actor: APT37
+references:
+  - https://attack.mitre.org/techniques/T1548.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548.002
+  - actor.apt37

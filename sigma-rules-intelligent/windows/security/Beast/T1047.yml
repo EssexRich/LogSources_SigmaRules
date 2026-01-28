@@ -1,0 +1,35 @@
+title: Windows Management Instrumentation (WINDOWS - security)
+id: 6b331ab8-b49a-4045-bf0b-bf35396ac0c2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|endswith|contains:
+      - '\WmiPrvSE.exe'
+    RelativeTargetName|endswith|contains:
+      - '\wbem\wbemcomn.dll'
+    CommandLine|contains|all|contains:
+      - 'reg'
+      - ' add '
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.beast

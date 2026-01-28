@@ -1,0 +1,32 @@
+title: Parent PID Spoofing (WINDOWS - security)
+id: d272f961-6e04-4e3e-8ac0-4b6c52598e8c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.004.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1134.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.004
+  - actor.coosea

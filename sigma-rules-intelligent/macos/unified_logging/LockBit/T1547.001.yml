@@ -1,0 +1,32 @@
+title: Registry Run Keys / Startup Folder (MACOS - unified_logging)
+id: 34a0cbe7-64c0-47a5-a51f-cf682413e1bb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1547.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547.001
+  - actor.lockbit

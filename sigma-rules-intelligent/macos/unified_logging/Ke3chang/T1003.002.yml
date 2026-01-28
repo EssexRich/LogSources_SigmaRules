@@ -1,0 +1,32 @@
+title: Security Account Manager (MACOS - unified_logging)
+id: dfa00ee0-92ba-4af7-a525-57dc7ec9693f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.002.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1003.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - '/bin/bash'
+      - '/bin/sh'
+      - '/usr/bin/python'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.002
+  - actor.ke3chang

@@ -1,0 +1,29 @@
+title: Account Discovery (GOOGLE - workspace)
+id: 44a4d4ea-cd75-4da9-aacc-144b2fc95a98
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.
+  Threat Actor: MUSTANG PANDA
+references:
+  - https://attack.mitre.org/techniques/T1087/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    event|contains: action
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087
+  - actor.mustang_panda

@@ -1,0 +1,38 @@
+title: Bypass User Account Control (WINDOWS - security)
+id: 849ce936-dc4b-43b6-9b37-9871e166e03b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.002.
+  Threat Actor: BRONZE BUTLER
+references:
+  - https://attack.mitre.org/techniques/T1548.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    CommandLine|contains|all|contains:
+      - 'WindowsPowerShellWebAccess'
+      - '/online'
+      - '/enable-feature'
+    ParentImage|endswith|contains:
+      - '\eventvwr.exe'
+    Image|endswith|contains:
+      - '\explorer.exe'
+    CommandLine|contains|contains:
+      - '/NOUACCHECK'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548.002
+  - actor.bronze_butler
