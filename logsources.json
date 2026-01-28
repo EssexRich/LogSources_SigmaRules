@@ -1,149 +1,181 @@
 {
-  "generated": "2026-01-28T00:00:00Z",
+  "generated": "2026-01-28T09:24:41.352Z",
   "version": "1.0.0",
   "logsources": [
     {
-      "name": "Windows Event Log - Security",
       "product": "windows",
       "service": "security",
       "category": "process_creation",
-      "description": "Windows Security Event Log - Process creation events (Event ID 4688)",
-      "lastUpdated": "2026-01-28",
-      "eventIds": {
-        "process_creation": 4688
-      },
+      "description": "Windows Event Log Security Event ID 4688 - A new process has been created",
       "fieldMappings": {
         "process_creation": {
-          "EventID": "4688",
           "Image": "NewProcessName",
           "CommandLine": "CommandLine",
           "ParentImage": "ParentProcessName",
-          "ParentCommandLine": "ProcessCommandLine",
           "User": "SubjectUserName",
-          "LogonId": "SubjectLogonId",
-          "TargetLogonId": "TargetLogonId",
           "ProcessId": "NewProcessId",
           "ParentProcessId": "ParentProcessId",
-          "CreationUtcTime": "CreationTime"
+          "TargetLogonId": "TargetLogonId",
+          "SubjectLogonId": "SubjectLogonId",
+          "ProcessTokenElevation": "ProcessElevationTokenElevationType",
+          "SourceIp": "SourceIp",
+          "SourcePort": "SourcePort",
+          "TargetUserName": "TargetUserName",
+          "TargetDomainName": "TargetDomainName"
         }
-      }
+      },
+      "lastUpdated": "2026-01-28"
     },
     {
-      "name": "Sysmon - Event 1 (Process Creation)",
       "product": "windows",
       "service": "sysmon",
       "category": "process_creation",
-      "description": "Sysmon Event 1 - Process creation events",
-      "lastUpdated": "2026-01-28",
-      "eventIds": {
-        "process_creation": 1
-      },
+      "description": "Sysmon Event 1 - Process creation event with detailed process and parent process information",
       "fieldMappings": {
         "process_creation": {
-          "EventID": "1",
           "Image": "Image",
           "CommandLine": "CommandLine",
           "ParentImage": "ParentImage",
-          "ParentCommandLine": "ParentCommandLine",
           "User": "User",
-          "LogonId": "LogonId",
           "ProcessId": "ProcessId",
           "ParentProcessId": "ParentProcessId",
-          "CreationUtcTime": "UtcTime"
+          "UtcTime": "UtcTime",
+          "LogonGuid": "LogonGuid",
+          "LogonId": "LogonId",
+          "TerminalSessionId": "TerminalSessionId",
+          "IntegrityLevel": "IntegrityLevel",
+          "Hashes": "Hashes",
+          "ParentCommandLine": "ParentCommandLine",
+          "TargetFilename": "TargetFilename",
+          "CreationUtcTime": "CreationUtcTime",
+          "ParentUser": "ParentUser"
         }
-      }
+      },
+      "lastUpdated": "2026-01-28"
     },
     {
-      "name": "Linux - auditd (execve)",
       "product": "linux",
       "service": "auditd",
       "category": "process_creation",
-      "description": "Linux auditd - Process execution via execve syscall",
-      "lastUpdated": "2026-01-28",
-      "syscalls": {
-        "process_creation": "execve"
-      },
+      "description": "Linux auditd execve system call logging for process execution tracking",
       "fieldMappings": {
         "process_creation": {
           "Image": "exe",
           "CommandLine": "a0,a1,a2,a3",
-          "ParentImage": "parent_exe",
-          "User": "uid",
           "ProcessId": "pid",
-          "ParentProcessId": "ppid"
+          "ParentProcessId": "ppid",
+          "User": "uid",
+          "EffectiveUser": "euid",
+          "RealUser": "ruid",
+          "EffectiveGroup": "egid",
+          "RealGroup": "rgid"
         }
-      }
+      },
+      "lastUpdated": "2026-01-28"
     },
     {
-      "name": "macOS - Unified Logging (execve)",
       "product": "macos",
       "service": "unified_logging",
       "category": "process_creation",
-      "description": "macOS Unified Logging - Process execution events",
-      "lastUpdated": "2026-01-28",
-      "subsystem": "com.apple.CoreServices.coreservicesd",
+      "description": "macOS Unified Logging process creation field mappings",
       "fieldMappings": {
         "process_creation": {
           "Image": "executable",
-          "CommandLine": "arguments",
-          "ParentImage": "parent_executable",
-          "User": "euid",
-          "ProcessId": "pid",
-          "ParentProcessId": "ppid"
+          "CommandLine": "eventMessage",
+          "ParentImage": "parentExecutable",
+          "User": "uid",
+          "ProcessId": "processImagePath",
+          "ParentProcessId": "parentProcessID"
         }
-      }
+      },
+      "lastUpdated": "2026-01-28"
     },
     {
-      "name": "Microsoft Defender - Device Timeline",
-      "product": "m365",
+      "product": "windows",
       "service": "defender",
       "category": "process_creation",
-      "description": "Microsoft Defender - Device Timeline process execution events",
-      "lastUpdated": "2026-01-28",
+      "description": "Microsoft Defender for Endpoint process creation events from DeviceProcessEvents table",
       "fieldMappings": {
         "process_creation": {
-          "Image": "FileName",
+          "Image": "FolderPath",
           "CommandLine": "ProcessCommandLine",
-          "ParentImage": "InitiatingProcessFileName",
-          "ParentCommandLine": "InitiatingProcessCommandLine",
+          "ParentImage": "ParentFileName",
           "User": "AccountName",
           "ProcessId": "ProcessId",
-          "ParentProcessId": "InitiatingProcessId",
-          "CreationUtcTime": "Timestamp"
+          "ParentProcessId": "ParentProcessId",
+          "SHA1": "ProcessVersionInfoProductName",
+          "MD5": "ProcessVersionInfoInternalFileName",
+          "InitiatingProcessFilePath": "FolderPath",
+          "InitiatingProcessCommandLine": "ProcessCommandLine",
+          "InitiatingProcessParentFileName": "ParentFileName",
+          "InitiatingProcessAccountName": "AccountName",
+          "InitiatingProcessId": "ProcessId",
+          "InitiatingProcessParentId": "ParentProcessId"
         }
-      }
+      },
+      "lastUpdated": "2026-01-28"
     },
     {
-      "name": "Microsoft Entra ID - Sign-in Logs",
       "product": "m365",
       "service": "entra_id",
       "category": "authentication",
-      "description": "Microsoft Entra ID - User sign-in events",
-      "lastUpdated": "2026-01-28",
+      "description": "Microsoft Entra ID authentication and sign-in events",
       "fieldMappings": {
         "authentication": {
-          "User": "userPrincipalName",
-          "LogonId": "correlationId",
-          "SourceIp": "clientIpAddress",
-          "Status": "status"
+          "User": "UserPrincipalName",
+          "UserId": "ObjectId",
+          "SourceIp": "IPAddress",
+          "Status": "Status",
+          "StatusDetails": "StatusDetails",
+          "ErrorCode": "ErrorCode",
+          "AuthenticationMethod": "AuthenticationMethod",
+          "AuthenticationMethodsUsed": "AuthenticationMethodsUsed",
+          "AuthenticationRequirement": "AuthenticationRequirement",
+          "ConditionalAccessStatus": "ConditionalAccessStatus",
+          "ConditionalAccessPolicies": "ConditionalAccessPolicies",
+          "DeviceId": "DeviceId",
+          "DeviceName": "DeviceName",
+          "OperatingSystem": "OperatingSystem",
+          "BrowserInformation": "BrowserInformation",
+          "ClientAppUsed": "ClientAppUsed",
+          "ResourceDisplayName": "ResourceDisplayName",
+          "ResourceId": "ResourceId",
+          "AppDisplayName": "AppDisplayName",
+          "AppId": "AppId",
+          "CorrelationId": "CorrelationId",
+          "RequestId": "RequestId",
+          "CreatedDateTime": "CreatedDateTime",
+          "RiskLevel": "RiskLevel",
+          "RiskState": "RiskState",
+          "RiskDetail": "RiskDetail",
+          "RiskEventType": "RiskEventType",
+          "TokenIssuerName": "TokenIssuerName",
+          "TokenIssuerType": "TokenIssuerType"
         }
-      }
+      },
+      "lastUpdated": "2026-01-28"
     },
     {
-      "name": "Google Workspace - Admin Activity",
       "product": "google",
       "service": "workspace",
-      "category": "user_activity",
-      "description": "Google Workspace - Admin and user activity events",
-      "lastUpdated": "2026-01-28",
+      "category": "authentication",
+      "description": "Google Workspace authentication and user activity events",
       "fieldMappings": {
-        "user_activity": {
+        "authentication": {
           "User": "actor.email",
-          "EventType": "events.name",
-          "SourceIp": "ipAddress",
-          "Resource": "events.parameters"
+          "UserAgent": "events.parameters.user_agent",
+          "IPAddress": "actor.ip_address",
+          "EventType": "events.type",
+          "EventName": "events.name",
+          "Timestamp": "id.time",
+          "Status": "events.parameters.login_status",
+          "AuthMethod": "events.parameters.login_type",
+          "SourceIP": "actor.ip_address",
+          "TargetUser": "actor.email",
+          "TargetDomain": "actor.profile_id"
         }
-      }
+      },
+      "lastUpdated": "2026-01-28"
     }
   ]
 }
