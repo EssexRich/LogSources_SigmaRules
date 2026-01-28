@@ -1,0 +1,36 @@
+name: Fetch External Detection Rules
+
+on:
+  schedule:
+    # Weekly on Sunday at 2am UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+
+jobs:
+  fetch-rules:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Fetch external rules
+        run: node scripts/fetch-external-rules.js
+      
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          if [ -n "$(git status --porcelain)" ]; then
+            git add external-rules-index.json
+            git commit -m "chore: update external rules index [$(date -u +%Y-%m-%d)]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
