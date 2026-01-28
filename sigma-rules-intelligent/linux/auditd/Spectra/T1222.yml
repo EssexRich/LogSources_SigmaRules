@@ -1,0 +1,32 @@
+title: File and Directory Permissions Modification (LINUX - auditd)
+id: c61a8a7c-be55-490e-baf5-2334dc54d69d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1222.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1222/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1222
+  - actor.spectra

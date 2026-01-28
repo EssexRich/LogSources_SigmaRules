@@ -1,0 +1,32 @@
+title: Databases (WINDOWS - security)
+id: f3ef8168-390c-4c3c-b970-b5b8669ad099
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1213.006.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1213.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1213.006
+  - actor.sandworm_team

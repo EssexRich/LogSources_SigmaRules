@@ -1,0 +1,32 @@
+title: Windows Management Instrumentation Event Subscription (WINDOWS - security)
+id: 16e1eacc-ef67-4c73-ad91-766b1ce1d4a4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1546.003.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1546.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1546.003
+  - actor.safepay

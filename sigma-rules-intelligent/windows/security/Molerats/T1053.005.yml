@@ -1,0 +1,32 @@
+title: Scheduled Task (WINDOWS - security)
+id: 210fd955-5cf5-444b-8cc6-6adce4a54eb7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.005.
+  Threat Actor: Molerats
+references:
+  - https://attack.mitre.org/techniques/T1053.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.005
+  - actor.molerats

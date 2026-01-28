@@ -1,0 +1,32 @@
+title: Active Scanning (WINDOWS - security)
+id: 517b4a62-305a-4b01-9277-2dc049669650
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1595/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595
+  - actor.stormous

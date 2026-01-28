@@ -1,0 +1,32 @@
+title: Native API (WINDOWS - defender)
+id: 644aa944-2d90-4715-b179-94a77ccede96
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+  Threat Actor: Magaskosh
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106
+  - actor.magaskosh

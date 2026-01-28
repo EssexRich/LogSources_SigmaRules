@@ -1,0 +1,32 @@
+title: Command and Scripting Interpreter (WINDOWS - sysmon)
+id: d2586551-bd9b-47be-ae6b-fa2cc53372f0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.alphv-blackcat

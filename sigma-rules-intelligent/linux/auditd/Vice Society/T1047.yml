@@ -1,0 +1,32 @@
+title: Windows Management Instrumentation (LINUX - auditd)
+id: d3d82556-845d-437f-90fa-913194815a42
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.vice_society

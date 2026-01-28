@@ -1,0 +1,32 @@
+title: Phishing (M365 - entra_id)
+id: c837d4f6-1002-4a77-890c-2fd1d5ce45a1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1566/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566
+  - actor.alphv-blackcat

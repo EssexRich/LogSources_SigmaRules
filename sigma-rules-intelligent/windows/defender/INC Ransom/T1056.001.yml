@@ -1,0 +1,32 @@
+title: Keylogging (WINDOWS - defender)
+id: bae1f1a8-9e57-4b6c-a13f-ffcf58fddbe4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.001.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1056.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056.001
+  - actor.inc_ransom

@@ -1,0 +1,32 @@
+title: SEO Poisoning (WINDOWS - sysmon)
+id: 5be9ccc8-2361-4171-8dbe-a6e405e0b03c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.006.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1608.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.006
+  - actor.ignoble_scorpius

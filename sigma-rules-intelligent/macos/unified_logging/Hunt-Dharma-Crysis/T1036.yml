@@ -1,0 +1,32 @@
+title: Masquerading (MACOS - unified_logging)
+id: 606a5eb3-ca4d-4202-8fd5-d36f8a1fc0ea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.hunt-dharma-crysis

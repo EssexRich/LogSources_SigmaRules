@@ -1,0 +1,32 @@
+title: Clear Windows Event Logs (WINDOWS - defender)
+id: ff77857e-9007-402d-9860-5b3f5daff141
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.001.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1070.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.001
+  - actor.apt38

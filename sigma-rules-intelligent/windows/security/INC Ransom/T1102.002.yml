@@ -1,0 +1,32 @@
+title: Bidirectional Communication (WINDOWS - security)
+id: 8c0ba161-f672-439b-8611-1368c465b3a1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.002.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1102.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102.002
+  - actor.inc_ransom

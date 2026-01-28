@@ -1,0 +1,32 @@
+title: Archive via Utility (WINDOWS - defender)
+id: d1bc5dd5-3253-47ab-a54b-f4685d5987fa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.001.
+  Threat Actor: Aquatic Panda
+references:
+  - https://attack.mitre.org/techniques/T1560.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.001
+  - actor.aquatic_panda

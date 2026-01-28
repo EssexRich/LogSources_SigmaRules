@@ -1,0 +1,32 @@
+title: Video Capture (WINDOWS - defender)
+id: 24fd2c1b-5720-45ca-8534-49d5979d9fbc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1125.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1125/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1125
+  - actor.brain_cipher

@@ -1,0 +1,32 @@
+title: Replication Through Removable Media (WINDOWS - sysmon)
+id: 94766acc-be29-4111-8d06-e58a3348f564
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091
+  - actor.fin7

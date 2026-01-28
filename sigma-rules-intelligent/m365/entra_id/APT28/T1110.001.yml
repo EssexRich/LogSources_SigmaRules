@@ -1,0 +1,32 @@
+title: Password Guessing (M365 - entra_id)
+id: 89853aa7-4289-42ad-ab42-45f956fcb5e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.001.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1110.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.001
+  - actor.apt28

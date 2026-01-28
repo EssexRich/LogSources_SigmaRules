@@ -1,0 +1,32 @@
+title: OS Credential Dumping (LINUX - auditd)
+id: 63c66f5b-eef0-4977-8e4c-ce8f9fdd521a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: Sowbug
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.sowbug

@@ -1,0 +1,32 @@
+title: Domain Groups (WINDOWS - security)
+id: 19cdb549-a2b7-4796-a1df-66d4fd2eabf5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.002.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1069.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.002
+  - actor.turla

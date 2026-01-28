@@ -1,0 +1,32 @@
+title: Windows Service (WINDOWS - sysmon)
+id: 882a2130-7392-4f2d-b352-851f42fc615b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.003.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1543.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.003
+  - actor.shinra

@@ -1,0 +1,32 @@
+title: Boot or Logon Autostart Execution (WINDOWS - sysmon)
+id: 0b5442b1-df93-4824-9f20-3c6b01bae170
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+  Threat Actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547
+  - actor.hunt-dharma-crysis

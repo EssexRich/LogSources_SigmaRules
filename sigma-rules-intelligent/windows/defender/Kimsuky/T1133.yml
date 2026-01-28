@@ -1,0 +1,32 @@
+title: External Remote Services (WINDOWS - defender)
+id: e094435e-0a6b-4a39-a0ab-d7f3f69e8261
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.kimsuky

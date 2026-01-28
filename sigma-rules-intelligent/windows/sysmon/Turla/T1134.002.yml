@@ -1,0 +1,32 @@
+title: Create Process with Token (WINDOWS - sysmon)
+id: 4bd343c6-f405-4661-a5ff-c08286e7a472
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.002.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1134.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.002
+  - actor.turla

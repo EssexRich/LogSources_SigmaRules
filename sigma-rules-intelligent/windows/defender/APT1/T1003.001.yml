@@ -1,0 +1,32 @@
+title: LSASS Memory (WINDOWS - defender)
+id: 94d77546-e67f-4f8d-a7ce-0741b4aabcea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.001.
+  Threat Actor: APT1
+references:
+  - https://attack.mitre.org/techniques/T1003.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.001
+  - actor.apt1

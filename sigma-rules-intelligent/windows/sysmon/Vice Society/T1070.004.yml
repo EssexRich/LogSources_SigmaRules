@@ -1,0 +1,32 @@
+title: File Deletion (WINDOWS - sysmon)
+id: 42dc5c9a-2b74-4115-af76-c747d967d8ce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.004.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1070.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.004
+  - actor.vice_society

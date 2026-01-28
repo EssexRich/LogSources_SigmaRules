@@ -1,0 +1,32 @@
+title: Compromise Accounts (WINDOWS - defender)
+id: 4a8a9211-752c-4c0a-99a1-5fea9ae0f3c8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1586.
+  Threat Actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1586/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1586
+  - actor.revil

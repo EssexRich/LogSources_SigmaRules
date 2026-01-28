@@ -1,0 +1,32 @@
+title: Exploit Public-Facing Application (WINDOWS - security)
+id: 6986d9ed-8c9a-4ce4-a9b2-68f4312860a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.blackbyte

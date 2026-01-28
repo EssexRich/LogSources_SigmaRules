@@ -1,0 +1,32 @@
+title: Windows Management Instrumentation (WINDOWS - security)
+id: c97620e1-fc1a-486b-b886-25f8068335f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: Generic
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.generic

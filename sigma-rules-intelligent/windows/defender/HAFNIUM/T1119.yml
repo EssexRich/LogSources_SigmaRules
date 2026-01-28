@@ -1,0 +1,32 @@
+title: Automated Collection (WINDOWS - defender)
+id: 1a8c7f13-a828-4af7-be49-18febc780379
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.hafnium

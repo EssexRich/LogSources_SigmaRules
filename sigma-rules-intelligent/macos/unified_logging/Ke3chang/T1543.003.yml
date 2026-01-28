@@ -1,0 +1,32 @@
+title: Windows Service (MACOS - unified_logging)
+id: b75657e1-dea5-4b6e-a3f9-eb78f961c9fa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.003.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1543.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.003
+  - actor.ke3chang

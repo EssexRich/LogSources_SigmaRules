@@ -1,0 +1,32 @@
+title: Input Capture (LINUX - auditd)
+id: 47a2f381-4149-4d13-8009-e47277fd1918
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.
+  Threat Actor: KageNoHitobito
+references:
+  - https://attack.mitre.org/techniques/T1056/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056
+  - actor.kagenohitobito

@@ -1,0 +1,32 @@
+title: System Service Discovery (WINDOWS - defender)
+id: 9d9053c1-a8df-46b3-93e6-7ce3a0395df1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1007.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1007
+  - actor.interlock

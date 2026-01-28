@@ -1,0 +1,32 @@
+title: System Language Discovery (WINDOWS - defender)
+id: 8d7f3285-4649-4b1f-a458-b886dfe3c0ed
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.001.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1614.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614.001
+  - actor.sarcoma

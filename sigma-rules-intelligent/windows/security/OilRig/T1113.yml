@@ -1,0 +1,32 @@
+title: Screen Capture (WINDOWS - security)
+id: 06705257-b513-474c-a1b4-d1d4d3b7ece7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.oilrig

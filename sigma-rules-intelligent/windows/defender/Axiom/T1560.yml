@@ -1,0 +1,32 @@
+title: Archive Collected Data (WINDOWS - defender)
+id: 506f4dfd-c44b-42ee-ae88-eac8a0b8648a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+  Threat Actor: Axiom
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560
+  - actor.axiom

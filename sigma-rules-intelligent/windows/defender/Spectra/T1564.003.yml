@@ -1,0 +1,32 @@
+title: Hidden Window (WINDOWS - defender)
+id: 5e9e1f4f-6bdf-47bb-88b2-c0f1a325ee6d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.003.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1564.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.003
+  - actor.spectra

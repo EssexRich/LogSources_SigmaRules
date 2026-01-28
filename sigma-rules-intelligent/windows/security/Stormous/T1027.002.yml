@@ -1,0 +1,32 @@
+title: Software Packing (WINDOWS - security)
+id: f3c949d6-77a8-4274-b7b9-ee80f6a7173c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.002.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1027.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.002
+  - actor.stormous

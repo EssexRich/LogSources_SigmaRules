@@ -1,0 +1,32 @@
+title: Right-to-Left Override (LINUX - auditd)
+id: 76a7a2e6-1aa3-45a4-b17d-af24524e2ad5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.002.
+  Threat Actor: BlackTech
+references:
+  - https://attack.mitre.org/techniques/T1036.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.002
+  - actor.blacktech

@@ -1,0 +1,32 @@
+title: Credentials in Registry (MACOS - unified_logging)
+id: a0afa67c-80e4-481f-bde4-a8bd15909852
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.002.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1552.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.002
+  - actor.apt32

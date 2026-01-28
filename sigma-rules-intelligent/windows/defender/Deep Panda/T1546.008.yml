@@ -1,0 +1,32 @@
+title: Accessibility Features (WINDOWS - defender)
+id: fe964f96-bfe8-4e78-bb41-15f1ff03d6c8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1546.008.
+  Threat Actor: Deep Panda
+references:
+  - https://attack.mitre.org/techniques/T1546.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1546.008
+  - actor.deep_panda

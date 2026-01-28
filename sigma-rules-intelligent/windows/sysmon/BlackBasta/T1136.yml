@@ -1,0 +1,32 @@
+title: Create Account (WINDOWS - sysmon)
+id: e4b6064c-62f7-41a8-a397-5825d75a8d21
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1136/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136
+  - actor.blackbasta

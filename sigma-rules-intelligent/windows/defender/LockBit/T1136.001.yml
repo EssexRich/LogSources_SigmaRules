@@ -1,0 +1,32 @@
+title: Local Account (WINDOWS - defender)
+id: bde263b3-986f-468c-ab92-a8d7903ae28e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1136.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136.001
+  - actor.lockbit

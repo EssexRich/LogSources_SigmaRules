@@ -1,0 +1,32 @@
+title: Permission Groups Discovery (MACOS - unified_logging)
+id: 86f2572d-904f-4949-92a7-28ec23fafd0e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: APT3
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.apt3

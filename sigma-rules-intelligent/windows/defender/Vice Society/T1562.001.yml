@@ -1,0 +1,32 @@
+title: Disable or Modify Tools (WINDOWS - defender)
+id: f030d177-1240-4f06-96a7-6ee3796f2a5d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.001.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1562.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.001
+  - actor.vice_society

@@ -1,0 +1,32 @@
+title: Peripheral Device Discovery (WINDOWS - security)
+id: 4215678b-7d8b-42e8-b985-96aba18e93f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1120.
+  Threat Actor: APT37
+references:
+  - https://attack.mitre.org/techniques/T1120/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1120
+  - actor.apt37

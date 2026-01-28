@@ -1,0 +1,32 @@
+title: Component Firmware (LINUX - auditd)
+id: 936a5c2f-f214-4b09-a742-36e323bec404
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1542.002.
+  Threat Actor: Equation
+references:
+  - https://attack.mitre.org/techniques/T1542.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1542.002
+  - actor.equation

@@ -1,0 +1,32 @@
+title: Archive Collected Data (WINDOWS - sysmon)
+id: 82b1c493-ffb7-4e79-bb41-9cc94878b207
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.
+  Threat Actor: Leviathan
+references:
+  - https://attack.mitre.org/techniques/T1560/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560
+  - actor.leviathan

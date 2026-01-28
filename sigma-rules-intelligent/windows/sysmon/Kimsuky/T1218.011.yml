@@ -1,0 +1,32 @@
+title: Rundll32 (WINDOWS - sysmon)
+id: 930404b3-c2a6-4fa5-8cf3-10da9cdf16f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.011.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1218.011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.011
+  - actor.kimsuky

@@ -1,0 +1,32 @@
+title: Windows Service (WINDOWS - sysmon)
+id: bac255b8-3d6a-42e9-a42d-983864c62d3d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.003.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1543.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.003
+  - actor.hive

@@ -1,0 +1,32 @@
+title: Data from Local System (WINDOWS - defender)
+id: 06b123b4-ae9f-4a4d-993a-c0a2697a052e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: menuPass
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.menupass

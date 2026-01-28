@@ -1,0 +1,32 @@
+title: Additional Local or Domain Groups (MACOS - unified_logging)
+id: 6e12c841-f20e-4de5-8139-bf5b6c04f2f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.007.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1098.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098.007
+  - actor.dragonfly

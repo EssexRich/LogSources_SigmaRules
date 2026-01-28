@@ -1,0 +1,32 @@
+title: User Execution (LINUX - auditd)
+id: d54a854a-993d-47e5-bb21-50522f33f463
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.
+  Threat Actor: Generic
+references:
+  - https://attack.mitre.org/techniques/T1204/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204
+  - actor.generic

@@ -1,0 +1,32 @@
+title: Malicious Link (WINDOWS - sysmon)
+id: 6940b8da-4037-4cb1-850e-9c48014e2839
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.001.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1204.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.001
+  - actor.safepay

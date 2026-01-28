@@ -1,0 +1,32 @@
+title: Hide Artifacts (WINDOWS - sysmon)
+id: a59d3981-0d86-44e4-8673-e5acfa3f89b2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.lockbit

@@ -1,0 +1,32 @@
+title: Encrypted/Encoded File (WINDOWS - security)
+id: a6237ae5-9dc9-4693-a110-c7aa74c841fc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.013.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1027.013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.013
+  - actor.teamtnt

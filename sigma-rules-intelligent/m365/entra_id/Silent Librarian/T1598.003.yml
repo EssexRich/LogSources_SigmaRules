@@ -1,0 +1,32 @@
+title: Spearphishing Link (M365 - entra_id)
+id: 3fd6f6d6-14b2-48cf-8a20-a8b06e42479d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1598.003.
+  Threat Actor: Silent Librarian
+references:
+  - https://attack.mitre.org/techniques/T1598.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1598.003
+  - actor.silent_librarian

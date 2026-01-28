@@ -1,0 +1,32 @@
+title: Process Discovery (WINDOWS - sysmon)
+id: 2cdc0a8d-66a1-4559-aecf-f47b6c62ee76
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1057.
+  Threat Actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1057/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1057
+  - actor.hunt-dharma-crysis

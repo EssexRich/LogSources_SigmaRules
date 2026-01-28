@@ -1,0 +1,32 @@
+title: Data from Local System (WINDOWS - security)
+id: 47b2d78c-1df7-495b-955b-721b7a024a80
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.sandworm_team

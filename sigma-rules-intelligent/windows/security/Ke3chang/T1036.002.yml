@@ -1,0 +1,32 @@
+title: Right-to-Left Override (WINDOWS - security)
+id: 45f36a72-cacd-4523-9a08-f2d56c13181c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.002.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1036.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.002
+  - actor.ke3chang

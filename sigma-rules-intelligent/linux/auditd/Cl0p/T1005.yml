@@ -1,0 +1,32 @@
+title: Data from Local System (LINUX - auditd)
+id: 9482ad7e-2a65-4409-982d-8fb957b1aab6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.cl0p

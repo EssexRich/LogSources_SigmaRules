@@ -1,0 +1,32 @@
+title: LNK Icon Smuggling (WINDOWS - security)
+id: 9964ee48-e422-4806-bb41-24bcf5d5a735
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.012.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1027.012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.012
+  - actor.mustang_panda

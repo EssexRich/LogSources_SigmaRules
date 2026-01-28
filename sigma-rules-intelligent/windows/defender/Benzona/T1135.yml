@@ -1,0 +1,32 @@
+title: Network Share Discovery (WINDOWS - defender)
+id: 51529e4f-94bf-4039-b146-1c22671a6314
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1135.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1135/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1135
+  - actor.benzona

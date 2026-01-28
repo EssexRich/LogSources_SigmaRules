@@ -1,0 +1,32 @@
+title: Application Window Discovery (WINDOWS - sysmon)
+id: 84972564-8820-4ef7-a5d2-3176e8de5557
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1010.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1010
+  - actor.spectra

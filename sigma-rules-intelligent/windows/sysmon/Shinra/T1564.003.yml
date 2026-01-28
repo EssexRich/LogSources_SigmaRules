@@ -1,0 +1,32 @@
+title: Hidden Window (WINDOWS - sysmon)
+id: 8e3832de-1668-4732-ae2b-19692f51d656
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.003.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1564.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.003
+  - actor.shinra

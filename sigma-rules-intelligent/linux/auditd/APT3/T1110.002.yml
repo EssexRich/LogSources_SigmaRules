@@ -1,0 +1,32 @@
+title: Password Cracking (LINUX - auditd)
+id: 5b1f92a0-c6fa-4160-8b87-7f2eae3b1d5f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.002.
+  Threat Actor: APT3
+references:
+  - https://attack.mitre.org/techniques/T1110.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.002
+  - actor.apt3

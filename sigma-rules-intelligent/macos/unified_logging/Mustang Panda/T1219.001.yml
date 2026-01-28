@@ -1,0 +1,32 @@
+title: IDE Tunneling (MACOS - unified_logging)
+id: 615c26a7-99cb-45c3-82be-442e2c4b1391
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.001.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1219.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219.001
+  - actor.mustang_panda

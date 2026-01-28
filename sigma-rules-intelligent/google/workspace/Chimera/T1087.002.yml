@@ -1,0 +1,32 @@
+title: Domain Account (GOOGLE - workspace)
+id: 44d59e27-7500-4230-b46e-82ffe56f06d0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.002.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1087.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Actor|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.002
+  - actor.chimera

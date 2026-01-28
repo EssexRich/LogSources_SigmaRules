@@ -1,0 +1,32 @@
+title: Valid Accounts (M365 - entra_id)
+id: 97df6cd3-8978-4c2b-a28c-8a500e87d865
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.vice_society

@@ -1,0 +1,32 @@
+title: Taint Shared Content (MACOS - unified_logging)
+id: e2ee047b-a83e-49f6-8442-f91a05242646
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1080.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1080/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1080
+  - actor.qilin

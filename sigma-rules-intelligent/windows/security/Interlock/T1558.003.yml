@@ -1,0 +1,32 @@
+title: Kerberoasting (WINDOWS - security)
+id: 43eeeb6f-9144-45ec-a15a-2e0b5c5d6a94
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.003.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1558.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558.003
+  - actor.interlock

@@ -1,0 +1,32 @@
+title: Port Monitors (LINUX - auditd)
+id: 8623c17e-470a-44cc-aeac-654fb92580ea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1013.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1013
+  - actor.interlock

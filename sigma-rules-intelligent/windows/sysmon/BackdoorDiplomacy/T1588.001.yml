@@ -1,0 +1,32 @@
+title: Malware (WINDOWS - sysmon)
+id: 9593d64c-2fbd-4852-96f2-b1839476fcd3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.001.
+  Threat Actor: BackdoorDiplomacy
+references:
+  - https://attack.mitre.org/techniques/T1588.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.001
+  - actor.backdoordiplomacy

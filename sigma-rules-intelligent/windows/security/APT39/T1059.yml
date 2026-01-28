@@ -1,0 +1,32 @@
+title: Command and Scripting Interpreter (WINDOWS - security)
+id: f4b9db0a-4836-48a9-ab15-f2d81e736720
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: APT39
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.apt39

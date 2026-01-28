@@ -1,0 +1,32 @@
+title: Password Cracking (LINUX - auditd)
+id: 93eea21f-7e46-482c-83fd-1d9b0a9ffcb1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.002.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1110.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.002
+  - actor.dragonfly

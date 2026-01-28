@@ -1,0 +1,32 @@
+title: System Owner/User Discovery (WINDOWS - defender)
+id: d4731107-db6a-498f-82a2-333e815ab824
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.bianlian

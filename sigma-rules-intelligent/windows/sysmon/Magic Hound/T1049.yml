@@ -1,0 +1,32 @@
+title: System Network Connections Discovery (WINDOWS - sysmon)
+id: caefcc10-83ed-49fa-8c3c-3552f745fcfc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.magic_hound

@@ -1,0 +1,32 @@
+title: Tool (WINDOWS - sysmon)
+id: 3b6699a6-29a1-44c0-867c-42cc897c610e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.002.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1588.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.002
+  - actor.hive

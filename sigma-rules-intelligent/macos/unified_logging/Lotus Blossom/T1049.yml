@@ -1,0 +1,32 @@
+title: System Network Connections Discovery (MACOS - unified_logging)
+id: b2d841e6-c855-4de4-9e2c-536334c6a71b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: Lotus Blossom
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.lotus_blossom

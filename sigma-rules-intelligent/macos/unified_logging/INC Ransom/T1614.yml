@@ -1,0 +1,32 @@
+title: System Location Discovery (MACOS - unified_logging)
+id: 0aca06c9-5009-4fad-841c-bfaf2514259a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1614.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1614/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1614
+  - actor.inc_ransom

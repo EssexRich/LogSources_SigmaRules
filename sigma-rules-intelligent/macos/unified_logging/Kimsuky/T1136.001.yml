@@ -1,0 +1,32 @@
+title: Local Account (MACOS - unified_logging)
+id: 247e870c-38da-47a3-b545-814b12c6c9be
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.001.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1136.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136.001
+  - actor.kimsuky

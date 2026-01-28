@@ -1,0 +1,32 @@
+title: Credentials from Web Browsers (LINUX - auditd)
+id: 0090abec-f20a-4ec4-83d0-40c6b1dd8cf7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+  Threat Actor: ZIRCONIUM
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003
+  - actor.zirconium

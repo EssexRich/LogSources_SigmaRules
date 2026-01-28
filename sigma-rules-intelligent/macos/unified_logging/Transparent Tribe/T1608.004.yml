@@ -1,0 +1,32 @@
+title: Drive-by Target (MACOS - unified_logging)
+id: f1fae7ef-5aaf-4915-a519-6814493d0a85
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.004.
+  Threat Actor: Transparent Tribe
+references:
+  - https://attack.mitre.org/techniques/T1608.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.004
+  - actor.transparent_tribe

@@ -1,0 +1,32 @@
+title: System Service Discovery (WINDOWS - defender)
+id: 9aebb2a0-77d8-4772-9f30-2fc40ba5ed82
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1007.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1007
+  - actor.nitrogen

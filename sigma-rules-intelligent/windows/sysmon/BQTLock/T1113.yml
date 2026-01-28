@@ -1,0 +1,32 @@
+title: Screen Capture (WINDOWS - sysmon)
+id: 3eb64a8d-c819-4f28-b5c2-63e4b9f2b28d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.bqtlock

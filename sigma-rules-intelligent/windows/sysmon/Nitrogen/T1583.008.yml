@@ -1,0 +1,32 @@
+title: Malvertising (WINDOWS - sysmon)
+id: f5fe947a-4ebf-4449-b652-c094ea78ad89
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.008.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1583.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.008
+  - actor.nitrogen

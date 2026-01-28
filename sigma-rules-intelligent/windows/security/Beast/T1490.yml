@@ -1,0 +1,32 @@
+title: Inhibit System Recovery (WINDOWS - security)
+id: bd26177f-7ed8-4518-ac72-549e00568e81
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: Beast
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.beast

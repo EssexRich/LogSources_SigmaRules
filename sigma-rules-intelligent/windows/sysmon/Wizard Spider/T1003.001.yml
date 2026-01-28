@@ -1,0 +1,32 @@
+title: LSASS Memory (WINDOWS - sysmon)
+id: d08d3ec3-b85f-4ad7-ae74-e700923792af
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.001.
+  Threat Actor: Wizard Spider
+references:
+  - https://attack.mitre.org/techniques/T1003.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.001
+  - actor.wizard_spider

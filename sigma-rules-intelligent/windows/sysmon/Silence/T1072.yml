@@ -1,0 +1,32 @@
+title: Software Deployment Tools (WINDOWS - sysmon)
+id: e9a151d7-9085-4eae-a80b-77fa60226690
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+  Threat Actor: Silence
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072
+  - actor.silence

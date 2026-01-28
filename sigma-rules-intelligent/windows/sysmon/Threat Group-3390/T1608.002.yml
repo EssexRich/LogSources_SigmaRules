@@ -1,0 +1,32 @@
+title: Upload Tool (WINDOWS - sysmon)
+id: 81eeea4c-fe56-416f-8bd3-d9efede0d2f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.002.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1608.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.002
+  - actor.threat_group-3390

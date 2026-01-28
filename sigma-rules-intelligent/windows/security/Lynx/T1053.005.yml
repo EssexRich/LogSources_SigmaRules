@@ -1,0 +1,32 @@
+title: Scheduled Task (WINDOWS - security)
+id: d36875fa-9d05-4181-9fa9-d5b5ec3c0858
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.005.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1053.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.005
+  - actor.lynx

@@ -1,0 +1,32 @@
+title: LSASS Memory (WINDOWS - sysmon)
+id: 3e7d68a2-50f7-4f09-8c24-d1df9467dd4b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.001.
+  Threat Actor: BRONZE BUTLER
+references:
+  - https://attack.mitre.org/techniques/T1003.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.001
+  - actor.bronze_butler

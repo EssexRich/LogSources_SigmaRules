@@ -1,0 +1,32 @@
+title: File and Directory Discovery (WINDOWS - sysmon)
+id: b3eb40c7-f6da-4ccb-acca-ecc0b4a25182
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.lockbit

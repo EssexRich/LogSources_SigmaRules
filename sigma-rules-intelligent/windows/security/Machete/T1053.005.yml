@@ -1,0 +1,32 @@
+title: Scheduled Task (WINDOWS - security)
+id: d91ffa44-8f79-4f7c-a8e8-41d15dfa0818
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.005.
+  Threat Actor: Machete
+references:
+  - https://attack.mitre.org/techniques/T1053.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.005
+  - actor.machete

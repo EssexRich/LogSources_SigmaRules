@@ -1,0 +1,32 @@
+title: Scheduled Task/Job (WINDOWS - defender)
+id: 7be22751-6395-42f7-b373-7935ea1efc78
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: Nitrogen
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.nitrogen

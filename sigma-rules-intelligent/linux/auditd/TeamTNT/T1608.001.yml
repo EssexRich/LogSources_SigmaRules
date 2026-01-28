@@ -1,0 +1,32 @@
+title: Upload Malware (LINUX - auditd)
+id: 649dd117-a3e7-4ce5-96e1-f2ce0a424388
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.001.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1608.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.001
+  - actor.teamtnt

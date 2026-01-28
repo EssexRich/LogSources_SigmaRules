@@ -1,0 +1,32 @@
+title: Security Account Manager (LINUX - auditd)
+id: 1833ffc9-fc6b-43a8-819e-5978f9e7a55f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.002.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1003.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.002
+  - actor.akira

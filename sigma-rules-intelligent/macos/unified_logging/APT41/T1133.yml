@@ -1,0 +1,32 @@
+title: External Remote Services (MACOS - unified_logging)
+id: 3c32fd46-b92c-42d7-a534-3cae8a748083
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.apt41

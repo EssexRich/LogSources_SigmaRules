@@ -1,0 +1,32 @@
+title: Spearphishing Link (M365 - entra_id)
+id: e4267faa-9796-445b-85ee-d4a037f196d6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1598.003.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1598.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1598.003
+  - actor.apt28

@@ -1,0 +1,32 @@
+title: Multi-Factor Authentication Request Generation (M365 - entra_id)
+id: ef11e10f-448e-43a4-95f7-4613f1e45765
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1621.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1621/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1621
+  - actor.safepay

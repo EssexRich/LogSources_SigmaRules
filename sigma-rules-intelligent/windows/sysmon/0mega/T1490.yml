@@ -1,0 +1,32 @@
+title: Inhibit System Recovery (WINDOWS - sysmon)
+id: 1bc32c2d-9c45-4510-a8fc-4b8bca8ec489
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: 0mega
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.0mega

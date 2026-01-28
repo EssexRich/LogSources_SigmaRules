@@ -1,0 +1,32 @@
+title: Exploit Public-Facing Application (MACOS - unified_logging)
+id: 0d416ac0-0069-4f74-8114-a95ad41cb419
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.apt28

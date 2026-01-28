@@ -1,0 +1,32 @@
+title: Double File Extension (WINDOWS - sysmon)
+id: b27f5867-0a1c-4d16-a20c-1aff1f2d483e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.007.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1036.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.007
+  - actor.safepay

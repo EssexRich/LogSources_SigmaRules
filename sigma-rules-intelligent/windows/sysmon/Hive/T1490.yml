@@ -1,0 +1,32 @@
+title: Inhibit System Recovery (WINDOWS - sysmon)
+id: 71b82b5f-1ee2-4b68-8b3c-cc2883a6a33b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1490.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1490
+  - actor.hive

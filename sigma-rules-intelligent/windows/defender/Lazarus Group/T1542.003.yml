@@ -1,0 +1,32 @@
+title: Bootkit (WINDOWS - defender)
+id: dd78c653-2760-43d7-83fd-75ae92c4b2b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1542.003.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1542.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1542.003
+  - actor.lazarus_group

@@ -1,0 +1,32 @@
+title: Digital Certificates (WINDOWS - sysmon)
+id: ea861143-d249-4f13-bea9-b4c8534b39af
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.004.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1588.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.004
+  - actor.safepay

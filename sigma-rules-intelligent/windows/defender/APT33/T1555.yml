@@ -1,0 +1,32 @@
+title: Credentials from Password Stores (WINDOWS - defender)
+id: c1635a43-6bfe-494f-b740-eab819313785
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: APT33
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.apt33

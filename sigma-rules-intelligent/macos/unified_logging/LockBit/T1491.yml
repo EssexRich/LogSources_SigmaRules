@@ -1,0 +1,32 @@
+title: Defacement (MACOS - unified_logging)
+id: 1d2cb4ce-3fba-4fc9-bc2d-547f34dd37a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1491.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1491/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1491
+  - actor.lockbit

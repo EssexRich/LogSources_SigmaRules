@@ -1,0 +1,32 @@
+title: Windows Credential Manager (WINDOWS - sysmon)
+id: 89732eb6-1722-43dc-9f2a-12a0e454b91c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.004.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1555.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.004
+  - actor.akira

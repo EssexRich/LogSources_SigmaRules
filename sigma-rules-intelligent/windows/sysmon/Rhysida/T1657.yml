@@ -1,0 +1,32 @@
+title: Financial Theft (WINDOWS - sysmon)
+id: a692b857-4b9d-47a9-ac7a-3ab6194ca48c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1657.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1657/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1657
+  - actor.rhysida

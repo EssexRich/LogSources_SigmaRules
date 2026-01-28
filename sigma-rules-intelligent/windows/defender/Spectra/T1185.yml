@@ -1,0 +1,32 @@
+title: Browser Session Hijacking (WINDOWS - defender)
+id: 73a3d9b0-7387-474e-8276-569f5cf4c5a0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1185.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1185/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1185
+  - actor.spectra

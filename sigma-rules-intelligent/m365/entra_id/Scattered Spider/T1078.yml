@@ -1,0 +1,32 @@
+title: Valid Accounts (M365 - entra_id)
+id: b0d0f5d4-d0a5-4559-b48b-fa62c510c3b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: Scattered Spider
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.scattered_spider

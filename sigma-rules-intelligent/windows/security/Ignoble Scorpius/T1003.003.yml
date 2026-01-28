@@ -1,0 +1,32 @@
+title: NTDS (WINDOWS - security)
+id: e14728a3-1b9e-4b88-a64e-fd2e8a6db222
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.003.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1003.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.003
+  - actor.ignoble_scorpius

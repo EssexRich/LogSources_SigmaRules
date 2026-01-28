@@ -1,0 +1,32 @@
+title: Software Deployment Tools (MACOS - unified_logging)
+id: 51c5b6aa-fec5-42d3-97be-ab29965ae0ac
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1072.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1072/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1072
+  - actor.sandworm_team

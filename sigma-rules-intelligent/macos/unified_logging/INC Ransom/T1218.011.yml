@@ -1,0 +1,32 @@
+title: Rundll32 (MACOS - unified_logging)
+id: e6fc65ad-1950-444e-a450-1e382727b172
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.011.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1218.011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.011
+  - actor.inc_ransom

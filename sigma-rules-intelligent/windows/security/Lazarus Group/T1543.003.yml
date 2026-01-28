@@ -1,0 +1,32 @@
+title: Windows Service (WINDOWS - security)
+id: 7b3839fb-5680-4bc5-9e76-2b873b7cf016
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.003.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1543.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.003
+  - actor.lazarus_group

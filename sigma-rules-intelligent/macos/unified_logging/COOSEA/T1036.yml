@@ -1,0 +1,32 @@
+title: Masquerading (MACOS - unified_logging)
+id: 644729c8-bf57-4214-9a74-bef7e2ddc439
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.coosea

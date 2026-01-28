@@ -1,0 +1,32 @@
+title: Access Token Manipulation (MACOS - unified_logging)
+id: 2ea9a58f-8958-4aea-94b0-85b1433c509b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1134/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134
+  - actor.blackbyte

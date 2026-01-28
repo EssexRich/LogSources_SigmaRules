@@ -1,0 +1,32 @@
+title: Embedded Payloads (WINDOWS - defender)
+id: 01f8ac27-28b8-405d-860a-b0e96cbe6ea0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.009.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1027.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.009
+  - actor.lockbit

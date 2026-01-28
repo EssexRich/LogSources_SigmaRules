@@ -1,0 +1,32 @@
+title: Dynamic Data Exchange (WINDOWS - defender)
+id: 0af47b59-17eb-4ceb-bb9b-a1aada07c188
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.002.
+  Threat Actor: Cobalt Group
+references:
+  - https://attack.mitre.org/techniques/T1559.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559.002
+  - actor.cobalt_group

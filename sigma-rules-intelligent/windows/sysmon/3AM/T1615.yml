@@ -1,0 +1,32 @@
+title: Group Policy Discovery (WINDOWS - sysmon)
+id: 561cc463-d2a1-4358-858d-e4978fa93ffd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1615.
+  Threat Actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1615/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1615
+  - actor.3am

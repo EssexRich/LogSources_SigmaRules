@@ -1,0 +1,32 @@
+title: Inter-Process Communication (LINUX - auditd)
+id: 0a7d3b11-64ac-4292-81c1-a66661629a33
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1559/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559
+  - actor.inc_ransom

@@ -1,0 +1,32 @@
+title: Process Injection (WINDOWS - security)
+id: c96f401d-aa0f-447b-8cf2-1ef14f5f9640
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055
+  - actor.apt41

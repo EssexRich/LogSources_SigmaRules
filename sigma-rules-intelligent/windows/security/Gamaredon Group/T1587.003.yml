@@ -1,0 +1,32 @@
+title: Digital Certificates (WINDOWS - security)
+id: 85f919d1-749f-4808-a317-5e074dea959c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.003.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1587.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587.003
+  - actor.gamaredon_group

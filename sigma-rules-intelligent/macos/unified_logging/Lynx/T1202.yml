@@ -1,0 +1,32 @@
+title: Indirect Command Execution (MACOS - unified_logging)
+id: 46695447-5a52-4d01-964b-e1e5aa7e2ba0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1202.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1202/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1202
+  - actor.lynx

@@ -1,0 +1,32 @@
+title: Data from Network Shared Drive (WINDOWS - sysmon)
+id: c840368d-54ab-4e51-9c40-7dfaeacf6b98
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1039.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1039/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1039
+  - actor.vice_society

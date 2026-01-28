@@ -1,0 +1,32 @@
+title: Indicator Removal (MACOS - unified_logging)
+id: 29a14f9e-f311-4c72-a53c-c7c5e122a063
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070
+  - actor.lazarus_group

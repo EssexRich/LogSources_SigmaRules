@@ -1,0 +1,32 @@
+title: Permission Groups Discovery (WINDOWS - defender)
+id: 55f9fe36-448d-4627-b9d9-e6365d968484
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.blackbyte

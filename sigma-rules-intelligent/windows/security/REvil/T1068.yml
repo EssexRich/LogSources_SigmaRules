@@ -1,0 +1,32 @@
+title: Exploitation for Privilege Escalation (WINDOWS - security)
+id: 33a38249-bff5-4a4f-a3b2-5239562eae81
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: REvil
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.revil

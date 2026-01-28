@@ -1,0 +1,32 @@
+title: Screen Capture (MACOS - unified_logging)
+id: ada62367-3ab2-4f35-bd24-415bdb3d1eab
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.apt28

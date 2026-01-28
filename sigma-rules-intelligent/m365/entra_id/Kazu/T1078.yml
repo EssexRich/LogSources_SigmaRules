@@ -1,0 +1,32 @@
+title: Valid Accounts (M365 - entra_id)
+id: 6fa786f6-6c40-4eb6-a12e-a24b9d21350b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.kazu

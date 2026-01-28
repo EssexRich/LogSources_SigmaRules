@@ -1,0 +1,32 @@
+title: System Network Connections Discovery (WINDOWS - security)
+id: ca041ef3-89b5-4ab2-8406-1e6b2f8799b8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.inc_ransom

@@ -1,0 +1,32 @@
+title: Windows Service (WINDOWS - defender)
+id: e6edb245-2a11-4c6d-87e8-4a11ef908ff9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.003.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1543.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.003
+  - actor.apt41

@@ -1,0 +1,32 @@
+title: Defacement (LINUX - auditd)
+id: 32fd8153-a6fd-4e66-b6e1-446b93c2e142
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1491.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1491/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1491
+  - actor.devman's_ransomware

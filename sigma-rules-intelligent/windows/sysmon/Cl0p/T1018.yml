@@ -1,0 +1,32 @@
+title: Remote System Discovery (WINDOWS - sysmon)
+id: 11838302-18b8-428d-b0f6-8b08974276da
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1018.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1018/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1018
+  - actor.cl0p

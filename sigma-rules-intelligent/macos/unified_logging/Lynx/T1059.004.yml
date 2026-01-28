@@ -1,0 +1,32 @@
+title: Unix Shell (MACOS - unified_logging)
+id: 7af177fe-0ef8-4af9-81dd-24dfd8e437f0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.004.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1059.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.004
+  - actor.lynx

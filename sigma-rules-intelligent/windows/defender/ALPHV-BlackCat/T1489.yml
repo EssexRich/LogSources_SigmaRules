@@ -1,0 +1,32 @@
+title: Service Stop (WINDOWS - defender)
+id: 43d06344-2396-4556-9417-2bb4e930d21d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1489.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1489/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1489
+  - actor.alphv-blackcat

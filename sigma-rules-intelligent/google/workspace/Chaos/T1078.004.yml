@@ -1,0 +1,32 @@
+title: Cloud Accounts (GOOGLE - workspace)
+id: 23f591f4-8cf1-4e14-b0f9-fcea84dd816f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.004.
+  Threat Actor: Chaos
+references:
+  - https://attack.mitre.org/techniques/T1078.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Actor|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.004
+  - actor.chaos

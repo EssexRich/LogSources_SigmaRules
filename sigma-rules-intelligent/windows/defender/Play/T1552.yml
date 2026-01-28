@@ -1,0 +1,32 @@
+title: Unsecured Credentials (WINDOWS - defender)
+id: 4941a81a-2862-4fae-a17c-f323dc90ff86
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1552/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552
+  - actor.play

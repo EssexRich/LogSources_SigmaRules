@@ -1,0 +1,32 @@
+title: Rootkit (WINDOWS - sysmon)
+id: e2204ff4-826c-489f-bd93-39b36a9efae8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1014.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1014/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1014
+  - actor.spectra

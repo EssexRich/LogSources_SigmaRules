@@ -1,0 +1,32 @@
+title: Service Stop (WINDOWS - defender)
+id: bca90223-bf3a-4b0b-a30f-68bf66043ceb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1489.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1489/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1489
+  - actor.lynx

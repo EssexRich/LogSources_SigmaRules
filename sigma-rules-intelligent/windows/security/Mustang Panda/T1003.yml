@@ -1,0 +1,32 @@
+title: OS Credential Dumping (WINDOWS - security)
+id: 6bb0717c-9978-41cb-9746-7cb27a45c31c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003
+  - actor.mustang_panda

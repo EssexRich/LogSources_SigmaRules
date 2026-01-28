@@ -1,0 +1,32 @@
+title: Remote Data Staging (WINDOWS - defender)
+id: 3689a040-9267-4058-91e8-2ab60ea0879b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.002.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1074.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074.002
+  - actor.apt28

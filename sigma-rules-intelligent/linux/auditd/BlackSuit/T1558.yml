@@ -1,0 +1,32 @@
+title: Steal or Forge Kerberos Tickets (LINUX - auditd)
+id: c5b89199-d206-4ef0-a0ce-04616f4f76dc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1558/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558
+  - actor.blacksuit

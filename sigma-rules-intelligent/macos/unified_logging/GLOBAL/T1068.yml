@@ -1,0 +1,32 @@
+title: Exploitation for Privilege Escalation (MACOS - unified_logging)
+id: a14250fe-b441-4832-922c-8f8b297ae8f3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.global

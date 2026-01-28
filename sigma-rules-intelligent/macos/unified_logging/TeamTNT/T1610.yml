@@ -1,0 +1,32 @@
+title: Deploy Container (MACOS - unified_logging)
+id: bb32d75d-dac3-413b-9efe-db03366365a2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1610.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1610/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1610
+  - actor.teamtnt

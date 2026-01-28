@@ -1,0 +1,32 @@
+title: System Network Connections Discovery (WINDOWS - defender)
+id: cd4d3ffd-85a4-4244-8783-765855e288d0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: Lotus Blossom
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.lotus_blossom

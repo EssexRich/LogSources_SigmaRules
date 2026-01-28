@@ -1,0 +1,32 @@
+title: System Network Configuration Discovery (WINDOWS - defender)
+id: 1e44605f-a787-4f2f-8398-81fa98caa6f2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.
+  Threat Actor: Sidewinder
+references:
+  - https://attack.mitre.org/techniques/T1016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016
+  - actor.sidewinder

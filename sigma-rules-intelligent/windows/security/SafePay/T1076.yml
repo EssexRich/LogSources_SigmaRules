@@ -1,0 +1,32 @@
+title: Remote Desktop Protocol (WINDOWS - security)
+id: dae43ca9-6254-40e8-ab9c-974d0f264152
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1076.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1076/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1076
+  - actor.safepay

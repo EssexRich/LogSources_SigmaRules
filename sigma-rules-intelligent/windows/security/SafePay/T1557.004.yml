@@ -1,0 +1,32 @@
+title: Evil Twin (WINDOWS - security)
+id: 7b1134bc-a997-47db-89a1-cbb0d522ce45
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1557.004.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1557.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1557.004
+  - actor.safepay

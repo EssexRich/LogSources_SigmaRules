@@ -1,0 +1,32 @@
+title: Credentials from Web Browsers (WINDOWS - security)
+id: 3c4ecc35-76d1-4d3d-b08a-e0e23cdbcce7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003
+  - actor.apt41

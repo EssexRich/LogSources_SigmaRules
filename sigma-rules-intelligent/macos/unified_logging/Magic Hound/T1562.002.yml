@@ -1,0 +1,32 @@
+title: Disable Windows Event Logging (MACOS - unified_logging)
+id: 196ce06c-eba4-4e92-ac1b-169da7d2525f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.002.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1562.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.002
+  - actor.magic_hound

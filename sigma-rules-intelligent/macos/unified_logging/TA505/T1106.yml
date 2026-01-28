@@ -1,0 +1,32 @@
+title: Native API (MACOS - unified_logging)
+id: b9feacdc-665b-491f-bae4-35adbaaba73c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+  Threat Actor: TA505
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106
+  - actor.ta505

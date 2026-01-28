@@ -1,0 +1,32 @@
+title: System Owner/User Discovery (WINDOWS - defender)
+id: 1796af9f-65f1-4a49-bfc6-9644cefd81c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.brain_cipher

@@ -1,0 +1,32 @@
+title: Local Data Staging (WINDOWS - defender)
+id: 9f7286e4-ad12-4f57-b0ea-ad9ed3c3a83b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.001.
+  Threat Actor: Lotus Blossom
+references:
+  - https://attack.mitre.org/techniques/T1074.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074.001
+  - actor.lotus_blossom

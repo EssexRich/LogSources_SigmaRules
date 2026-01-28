@@ -1,0 +1,32 @@
+title: Obfuscated Files or Information (WINDOWS - security)
+id: 08924de7-f445-463e-933a-bbfd9fbe2b4a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: Yashma-Ator-Vietnamita
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.yashma-ator-vietnamita

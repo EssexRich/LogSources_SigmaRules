@@ -1,0 +1,32 @@
+title: Drive-by Compromise (WINDOWS - sysmon)
+id: 9b57c377-e5f0-448e-986e-188503455455
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1189.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1189/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1189
+  - actor.hive

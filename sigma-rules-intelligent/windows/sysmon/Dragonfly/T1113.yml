@@ -1,0 +1,32 @@
+title: Screen Capture (WINDOWS - sysmon)
+id: 0e923726-e51f-4367-b7ee-e2fbc1258881
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.dragonfly

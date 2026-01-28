@@ -1,0 +1,32 @@
+title: Command and Scripting Interpreter (WINDOWS - defender)
+id: a05f12fb-c1ff-4e5b-99a7-156ad9611857
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.ransomhub

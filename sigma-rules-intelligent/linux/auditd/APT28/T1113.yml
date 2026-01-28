@@ -1,0 +1,32 @@
+title: Screen Capture (LINUX - auditd)
+id: 128b76fb-9200-42f0-b38d-6b6c0eeabc6b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.apt28

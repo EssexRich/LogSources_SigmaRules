@@ -1,0 +1,32 @@
+title: Local Accounts (M365 - entra_id)
+id: c532aac8-0b70-4aff-a589-1a3fa9b809a1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.003.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1078.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.003
+  - actor.lockbit

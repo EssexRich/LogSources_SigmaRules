@@ -1,0 +1,32 @@
+title: Pass the Ticket (LINUX - auditd)
+id: a613373c-8434-4ee1-ab63-64ee33db155c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1550.003.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1550.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1550.003
+  - actor.qilin

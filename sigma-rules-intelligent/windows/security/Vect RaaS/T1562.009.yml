@@ -1,0 +1,32 @@
+title: Safe Mode Boot (WINDOWS - security)
+id: 6746497f-e093-432d-9b32-54d3372e674f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.009.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T1562.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.009
+  - actor.vect_raas

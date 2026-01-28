@@ -1,0 +1,32 @@
+title: Credentials from Web Browsers (WINDOWS - sysmon)
+id: cdc0b150-bd1d-4382-a417-b0052629dc0e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+  Threat Actor: Stealth Falcon
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003
+  - actor.stealth_falcon

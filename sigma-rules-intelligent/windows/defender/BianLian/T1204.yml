@@ -1,0 +1,32 @@
+title: User Execution (WINDOWS - defender)
+id: b47a800a-2132-45d9-9b28-78e53cc8d74c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1204/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204
+  - actor.bianlian

@@ -1,0 +1,32 @@
+title: Scheduled Task/Job (LINUX - auditd)
+id: 3cc2ce2b-d7da-4782-be7b-f5198c9f69e5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.blackbasta

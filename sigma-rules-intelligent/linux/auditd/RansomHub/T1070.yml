@@ -1,0 +1,32 @@
+title: Indicator Removal (LINUX - auditd)
+id: 1636c053-580c-4b11-b6bd-7a7e220b5fe6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070
+  - actor.ransomhub

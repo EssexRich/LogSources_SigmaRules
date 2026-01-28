@@ -1,0 +1,32 @@
+title: Hide Artifacts (WINDOWS - defender)
+id: 9f1dcef1-714c-450c-a46c-5a9f85b1c4e5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1564/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564
+  - actor.rhysida

@@ -1,0 +1,32 @@
+title: Deobfuscate/Decode Files or Information (WINDOWS - sysmon)
+id: e01fa8ad-0eaa-4f93-9860-083056be4ba6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140
+  - actor.fin7

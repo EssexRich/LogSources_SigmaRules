@@ -1,0 +1,32 @@
+title: DLL (WINDOWS - defender)
+id: b8875a2f-4b32-40e1-bf98-9d03c63aebae
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.001.
+  Threat Actor: Whitefly
+references:
+  - https://attack.mitre.org/techniques/T1574.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.001
+  - actor.whitefly

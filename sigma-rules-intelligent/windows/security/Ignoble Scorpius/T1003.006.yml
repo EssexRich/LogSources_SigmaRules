@@ -1,0 +1,32 @@
+title: DCSync (WINDOWS - security)
+id: 87f10109-8f59-4d7e-847f-6292e17d546f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.006.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1003.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.006
+  - actor.ignoble_scorpius

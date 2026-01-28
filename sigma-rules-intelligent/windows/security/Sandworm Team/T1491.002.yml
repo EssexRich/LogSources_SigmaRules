@@ -1,0 +1,32 @@
+title: External Defacement (WINDOWS - security)
+id: 6c462938-5611-4d59-b1bd-dc8f94136a88
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1491.002.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1491.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1491.002
+  - actor.sandworm_team

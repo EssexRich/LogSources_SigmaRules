@@ -1,0 +1,32 @@
+title: Code Signing Policy Modification (LINUX - auditd)
+id: 0bab5187-0415-4278-8984-4d0050f1a882
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1553.006.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1553.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1553.006
+  - actor.turla

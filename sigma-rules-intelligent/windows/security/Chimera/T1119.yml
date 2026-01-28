@@ -1,0 +1,32 @@
+title: Automated Collection (WINDOWS - security)
+id: 1cd2759c-9c95-4cec-9b58-7e8ad4657e5a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.chimera

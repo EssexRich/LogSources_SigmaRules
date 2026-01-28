@@ -1,0 +1,32 @@
+title: Archive via Custom Method (WINDOWS - security)
+id: 3490faf0-a367-4034-a5af-e9d064fdb145
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.003.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1560.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.003
+  - actor.lazarus_group

@@ -1,0 +1,32 @@
+title: Exploitation for Client Execution (LINUX - auditd)
+id: bf520a23-52d4-4d3f-8b7a-aa8a4a0b972b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.inc_ransom

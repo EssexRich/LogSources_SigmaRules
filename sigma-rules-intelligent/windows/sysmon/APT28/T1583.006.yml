@@ -1,0 +1,32 @@
+title: Web Services (WINDOWS - sysmon)
+id: 65fd5516-6e39-4972-bd43-c049c5722bc7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.006.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1583.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.006
+  - actor.apt28

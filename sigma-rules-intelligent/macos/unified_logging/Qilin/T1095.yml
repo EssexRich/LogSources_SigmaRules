@@ -1,0 +1,32 @@
+title: Non-Application Layer Protocol (MACOS - unified_logging)
+id: 980fea9f-8655-46f2-9aea-ffa34adfa513
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1095.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1095/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1095
+  - actor.qilin

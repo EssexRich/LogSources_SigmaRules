@@ -1,0 +1,32 @@
+title: Email Accounts (LINUX - auditd)
+id: 27e1409c-98ef-4a6a-84f5-20425f03c30a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1585.002.
+  Threat Actor: Silent Librarian
+references:
+  - https://attack.mitre.org/techniques/T1585.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1585.002
+  - actor.silent_librarian

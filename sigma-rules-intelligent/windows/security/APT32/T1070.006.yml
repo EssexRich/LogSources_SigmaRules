@@ -1,0 +1,32 @@
+title: Timestomp (WINDOWS - security)
+id: 57015665-c798-4d7d-b28c-6b731b667bcc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.006.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1070.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.006
+  - actor.apt32

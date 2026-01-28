@@ -1,0 +1,32 @@
+title: Email Accounts (MACOS - unified_logging)
+id: b18c8d3b-14c3-4920-a734-b0c39ff1190d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1585.002.
+  Threat Actor: APT1
+references:
+  - https://attack.mitre.org/techniques/T1585.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1585.002
+  - actor.apt1

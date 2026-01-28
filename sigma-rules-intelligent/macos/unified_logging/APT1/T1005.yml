@@ -1,0 +1,32 @@
+title: Data from Local System (MACOS - unified_logging)
+id: 76ab04f2-da70-4d34-a574-3d31e10044a8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: APT1
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.apt1

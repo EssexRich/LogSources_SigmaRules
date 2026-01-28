@@ -1,0 +1,32 @@
+title: Portable Executable Injection (WINDOWS - sysmon)
+id: c9f4bf92-d4b3-45f9-8878-42130b3571b3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.002.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1055.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.002
+  - actor.rhysida

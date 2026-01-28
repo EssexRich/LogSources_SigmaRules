@@ -1,0 +1,32 @@
+title: Service Execution (WINDOWS - security)
+id: 60844d70-8d7b-40a3-9ead-7bb79c2290e6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.002.
+  Threat Actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1569.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569.002
+  - actor.hunt-dharma-crysis

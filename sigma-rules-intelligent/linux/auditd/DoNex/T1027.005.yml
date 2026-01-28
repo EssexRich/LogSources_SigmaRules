@@ -1,0 +1,32 @@
+title: Indicator Removal from Tools (LINUX - auditd)
+id: 2c00d6d4-61cd-4f40-8423-dba8e76714a1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.005.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1027.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.005
+  - actor.donex

@@ -1,0 +1,32 @@
+title: Bypass User Account Control (LINUX - auditd)
+id: 04296939-abc7-4101-9f35-8675501d1f75
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.002.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1548.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548.002
+  - actor.inc_ransom

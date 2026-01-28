@@ -1,0 +1,32 @@
+title: Domain Account (GOOGLE - workspace)
+id: 0d0daf95-7e03-4379-b481-a87f8b735892
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.002.
+  Threat Actor: FIN6
+references:
+  - https://attack.mitre.org/techniques/T1087.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Actor|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.002
+  - actor.fin6

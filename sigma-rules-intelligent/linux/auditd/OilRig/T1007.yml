@@ -1,0 +1,32 @@
+title: System Service Discovery (LINUX - auditd)
+id: a43be88d-be44-4618-8f38-819d313f5414
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1007.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1007
+  - actor.oilrig

@@ -1,0 +1,32 @@
+title: System Information Discovery (WINDOWS - sysmon)
+id: 3f7abdbc-a383-42dd-be8a-2769da989ffb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.devman's_ransomware

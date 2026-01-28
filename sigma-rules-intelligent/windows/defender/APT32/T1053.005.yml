@@ -1,0 +1,32 @@
+title: Scheduled Task (WINDOWS - defender)
+id: 7b241d87-7e11-4a67-a3e7-2d8397d8ffa0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.005.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1053.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.005
+  - actor.apt32

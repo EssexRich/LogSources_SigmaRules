@@ -1,0 +1,32 @@
+title: Gather Victim Org Information (WINDOWS - sysmon)
+id: 8af9fdcd-d85b-4b19-b61a-4966aa7736f7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1591.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1591/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1591
+  - actor.lazarus_group

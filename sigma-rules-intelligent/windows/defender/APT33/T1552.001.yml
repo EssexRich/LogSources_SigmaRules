@@ -1,0 +1,32 @@
+title: Credentials In Files (WINDOWS - defender)
+id: 7d194c4c-6172-44de-b032-083f4556e4c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.001.
+  Threat Actor: APT33
+references:
+  - https://attack.mitre.org/techniques/T1552.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.001
+  - actor.apt33

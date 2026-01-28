@@ -1,0 +1,32 @@
+title: Log Enumeration (WINDOWS - defender)
+id: d2959dac-9044-4bd6-92e9-e6e9146fb063
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1654.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1654/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1654
+  - actor.mustang_panda

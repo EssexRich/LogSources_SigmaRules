@@ -1,0 +1,32 @@
+title: DLL (WINDOWS - sysmon)
+id: baefd616-61bd-4d88-926e-aac21fae4ed6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.001.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1574.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.001
+  - actor.inc_ransom

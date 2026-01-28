@@ -1,0 +1,32 @@
+title: Domain Groups (LINUX - auditd)
+id: fca6c4bb-157c-445c-9aab-fd5ecaec0270
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.002.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1069.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.002
+  - actor.turla

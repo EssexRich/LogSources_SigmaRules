@@ -1,0 +1,32 @@
+title: Create Cloud Instance (WINDOWS - sysmon)
+id: cec13bef-3e7f-4e39-9427-89a7b762d2a2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1578.002.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1578.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1578.002
+  - actor.ransomhub

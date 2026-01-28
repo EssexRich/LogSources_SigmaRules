@@ -1,0 +1,32 @@
+title: Reflective Code Loading (WINDOWS - security)
+id: 6238267c-a20c-441c-b320-9728e4ce0f00
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1620.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1620/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1620
+  - actor.kimsuky

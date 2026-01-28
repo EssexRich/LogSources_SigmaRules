@@ -1,0 +1,32 @@
+title: Link Target (LINUX - auditd)
+id: 6c4d9d94-e2f2-4d67-a991-28a69db38db0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.005.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1608.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.005
+  - actor.fin7

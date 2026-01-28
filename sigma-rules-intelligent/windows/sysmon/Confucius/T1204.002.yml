@@ -1,0 +1,32 @@
+title: Malicious File (WINDOWS - sysmon)
+id: 6b37bc45-d19d-4198-87aa-c0892066b850
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+  Threat Actor: Confucius
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002
+  - actor.confucius

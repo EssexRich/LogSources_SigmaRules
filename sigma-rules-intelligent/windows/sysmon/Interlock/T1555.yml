@@ -1,0 +1,32 @@
+title: Credentials from Password Stores (WINDOWS - sysmon)
+id: 24f69d3e-a2c1-43a5-8c8b-93b9f0a3e26a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.interlock

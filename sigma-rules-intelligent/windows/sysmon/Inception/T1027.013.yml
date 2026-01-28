@@ -1,0 +1,32 @@
+title: Encrypted/Encoded File (WINDOWS - sysmon)
+id: 377b0832-857f-4a06-88b3-42bb45bfa2c4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.013.
+  Threat Actor: Inception
+references:
+  - https://attack.mitre.org/techniques/T1027.013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.013
+  - actor.inception

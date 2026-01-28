@@ -1,0 +1,32 @@
+title: System Network Connections Discovery (WINDOWS - defender)
+id: e3009932-704a-4bf7-a975-60b32b3b03eb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.oilrig

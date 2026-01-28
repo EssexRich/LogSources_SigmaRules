@@ -1,0 +1,32 @@
+title: Inter-Process Communication (WINDOWS - defender)
+id: 7d7c7143-daeb-43a7-99f8-4ad2227c5100
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1559/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559
+  - actor.inc_ransom

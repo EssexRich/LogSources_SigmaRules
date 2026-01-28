@@ -1,0 +1,32 @@
+title: Registry Run Keys / Startup Folder (WINDOWS - security)
+id: 71b82486-8574-4119-8a79-a05126182430
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.001.
+  Threat Actor: Chaos
+references:
+  - https://attack.mitre.org/techniques/T1547.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547.001
+  - actor.chaos

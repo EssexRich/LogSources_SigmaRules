@@ -1,0 +1,32 @@
+title: Vulnerability Scanning (MACOS - unified_logging)
+id: 4f461a4a-0392-4343-a477-13f08cfd40c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.002.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1595.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595.002
+  - actor.apt28

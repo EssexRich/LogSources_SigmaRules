@@ -1,0 +1,32 @@
+title: Credentials from Web Browsers (MACOS - unified_logging)
+id: fa6d26b3-05fc-4d2e-80e8-adf331d98df0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.003.
+  Threat Actor: FIN6
+references:
+  - https://attack.mitre.org/techniques/T1555.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555.003
+  - actor.fin6

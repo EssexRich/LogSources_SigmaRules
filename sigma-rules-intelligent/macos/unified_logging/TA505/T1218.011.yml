@@ -1,0 +1,32 @@
+title: Rundll32 (MACOS - unified_logging)
+id: 6c874cc3-a57d-4e9a-b388-e737b5366466
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.011.
+  Threat Actor: TA505
+references:
+  - https://attack.mitre.org/techniques/T1218.011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.011
+  - actor.ta505

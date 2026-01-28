@@ -1,0 +1,32 @@
+title: Active Scanning (LINUX - auditd)
+id: 1f743d6f-5856-492c-9d23-3df0e217e33e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.
+  Threat Actor: Rhysida
+references:
+  - https://attack.mitre.org/techniques/T1595/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595
+  - actor.rhysida

@@ -1,0 +1,32 @@
+title: Web Shell (WINDOWS - sysmon)
+id: 37bcc261-ddd2-41ae-958d-9fa5e32f13b3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1505.003.
+  Threat Actor: BackdoorDiplomacy
+references:
+  - https://attack.mitre.org/techniques/T1505.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1505.003
+  - actor.backdoordiplomacy

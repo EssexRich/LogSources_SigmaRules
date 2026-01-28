@@ -1,0 +1,32 @@
+title: Obtain Capabilities (MACOS - unified_logging)
+id: c3b4ab86-1b15-4116-bc9a-1bd838a7fffc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1588/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588
+  - actor.ransomhub

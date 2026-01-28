@@ -1,0 +1,32 @@
+title: Registry Run Keys / Startup Folder (WINDOWS - sysmon)
+id: a562ea1d-3f71-4656-8312-3da3e437e588
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.001.
+  Threat Actor: Magaskosh
+references:
+  - https://attack.mitre.org/techniques/T1547.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547.001
+  - actor.magaskosh

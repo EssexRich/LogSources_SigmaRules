@@ -1,0 +1,32 @@
+title: Password Cracking (WINDOWS - defender)
+id: ba0b8942-9602-43d5-92d4-653e80e96172
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.002.
+  Threat Actor: FIN6
+references:
+  - https://attack.mitre.org/techniques/T1110.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.002
+  - actor.fin6

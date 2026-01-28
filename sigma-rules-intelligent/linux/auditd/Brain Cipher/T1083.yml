@@ -1,0 +1,32 @@
+title: File and Directory Discovery (LINUX - auditd)
+id: 4207f38b-1050-4008-9d1f-0291dbd35ba1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.brain_cipher

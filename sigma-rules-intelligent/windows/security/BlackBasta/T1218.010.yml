@@ -1,0 +1,32 @@
+title: Regsvr32 (WINDOWS - security)
+id: f6fdf225-496c-4c7b-8a88-29dd71dfa466
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.010.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1218.010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.010
+  - actor.blackbasta

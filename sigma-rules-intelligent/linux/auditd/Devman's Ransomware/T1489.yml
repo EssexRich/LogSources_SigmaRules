@@ -1,0 +1,32 @@
+title: Service Stop (LINUX - auditd)
+id: 1ebfc41b-e0c2-4ddf-8e65-f00518b0227a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1489.
+  Threat Actor: Devman's Ransomware
+references:
+  - https://attack.mitre.org/techniques/T1489/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1489
+  - actor.devman's_ransomware

@@ -1,0 +1,32 @@
+title: Domain Groups (WINDOWS - security)
+id: 9dd09a82-f8c7-493f-9cc0-b2230ce10e67
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.002.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1069.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069.002
+  - actor.blackbyte

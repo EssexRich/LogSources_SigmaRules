@@ -1,0 +1,32 @@
+title: Execution Guardrails (MACOS - unified_logging)
+id: 898e6035-40fe-4e0a-8adc-407bae708a4c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1480.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1480/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1480
+  - actor.lockbit

@@ -1,0 +1,32 @@
+title: Hidden Window (WINDOWS - defender)
+id: a69d5043-adb9-4f6b-b361-a9348b6e7d06
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.003.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1564.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.003
+  - actor.safelocker

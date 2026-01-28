@@ -1,0 +1,32 @@
+title: Debugger Evasion (WINDOWS - security)
+id: 7ca52a18-d636-4e46-a683-f08ff1b56c60
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1622.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1622/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1622
+  - actor.bqtlock

@@ -1,0 +1,32 @@
+title: Software Discovery (LINUX - auditd)
+id: 7aefaaac-eb8f-4ac7-8e3e-f88e96f0545b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1518.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1518/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1518
+  - actor.qilin

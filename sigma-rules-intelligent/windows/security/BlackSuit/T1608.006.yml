@@ -1,0 +1,32 @@
+title: SEO Poisoning (WINDOWS - security)
+id: 85cd99cd-afcb-467f-a4a2-329481d1acda
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.006.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1608.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.006
+  - actor.blacksuit

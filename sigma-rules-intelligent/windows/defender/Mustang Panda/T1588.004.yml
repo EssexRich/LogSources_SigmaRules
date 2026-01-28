@@ -1,0 +1,32 @@
+title: Digital Certificates (WINDOWS - defender)
+id: d62dcc94-f799-4622-bd52-482ba34ac0a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.004.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1588.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.004
+  - actor.mustang_panda

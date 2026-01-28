@@ -1,0 +1,32 @@
+title: Data from Removable Media (MACOS - unified_logging)
+id: b9c70f34-7f2d-408c-b5fb-c9fd28cbf980
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1025.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1025/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1025
+  - actor.gamaredon_group

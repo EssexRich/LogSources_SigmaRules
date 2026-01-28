@@ -1,0 +1,32 @@
+title: Rundll32 (LINUX - auditd)
+id: c034623c-6e3d-47b3-98d5-743fd53e5367
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.011.
+  Threat Actor: TA505
+references:
+  - https://attack.mitre.org/techniques/T1218.011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.011
+  - actor.ta505

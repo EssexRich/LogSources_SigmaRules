@@ -1,0 +1,32 @@
+title: Network Devices (LINUX - auditd)
+id: 5202c8e7-d34a-471e-bdfa-2d131481e997
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.008.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1584.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.008
+  - actor.apt28

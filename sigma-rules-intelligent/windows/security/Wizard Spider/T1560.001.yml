@@ -1,0 +1,32 @@
+title: Archive via Utility (WINDOWS - security)
+id: 3e760630-2614-47f1-b056-f9327a8310d3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.001.
+  Threat Actor: Wizard Spider
+references:
+  - https://attack.mitre.org/techniques/T1560.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.001
+  - actor.wizard_spider

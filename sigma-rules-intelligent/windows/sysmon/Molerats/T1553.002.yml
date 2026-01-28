@@ -1,0 +1,32 @@
+title: Code Signing (WINDOWS - sysmon)
+id: fe02c874-53b1-40a7-a666-3574b841f0d0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1553.002.
+  Threat Actor: Molerats
+references:
+  - https://attack.mitre.org/techniques/T1553.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1553.002
+  - actor.molerats

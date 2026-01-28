@@ -1,0 +1,32 @@
+title: Service Execution (WINDOWS - sysmon)
+id: 777a4ddc-2916-4d46-ba08-8b6c5f36bff6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1569.002.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1569.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1569.002
+  - actor.medusa

@@ -1,0 +1,32 @@
+title: Create Account (WINDOWS - security)
+id: 3c2f298a-d299-48ad-b0b1-8d5e2c1cbd96
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1136.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1136/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1136
+  - actor.akira

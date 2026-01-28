@@ -1,0 +1,32 @@
+title: Code Signing Certificates (WINDOWS - sysmon)
+id: 825c350a-f699-4ad6-bb58-ffba9959b7e1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.002.
+  Threat Actor: Patchwork
+references:
+  - https://attack.mitre.org/techniques/T1587.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587.002
+  - actor.patchwork

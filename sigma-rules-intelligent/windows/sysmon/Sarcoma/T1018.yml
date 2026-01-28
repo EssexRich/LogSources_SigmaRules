@@ -1,0 +1,32 @@
+title: Remote System Discovery (WINDOWS - sysmon)
+id: 6680c6fd-7f2e-4d17-a371-b8ec9cb2d24d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1018.
+  Threat Actor: Sarcoma
+references:
+  - https://attack.mitre.org/techniques/T1018/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1018
+  - actor.sarcoma

@@ -1,0 +1,32 @@
+title: Supply Chain Compromise (WINDOWS - security)
+id: 4f35fb62-b362-4d99-b154-dab893dd0072
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1195.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1195/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1195
+  - actor.ignoble_scorpius

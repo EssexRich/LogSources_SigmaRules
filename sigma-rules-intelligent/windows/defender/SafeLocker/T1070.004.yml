@@ -1,0 +1,32 @@
+title: File Deletion (WINDOWS - defender)
+id: 74f407ee-bcd3-4451-82a7-417a2b78bc02
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.004.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1070.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.004
+  - actor.safelocker

@@ -1,0 +1,32 @@
+title: Exploitation for Client Execution (WINDOWS - sysmon)
+id: 1c3b0f07-c55a-4722-99d2-508bf585bd95
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.global

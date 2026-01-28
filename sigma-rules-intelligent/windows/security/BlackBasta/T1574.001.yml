@@ -1,0 +1,32 @@
+title: DLL (WINDOWS - security)
+id: 5b83a0ae-6cce-460f-a581-2c52b976432d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.001.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1574.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.001
+  - actor.blackbasta

@@ -1,0 +1,32 @@
+title: Command and Scripting Interpreter (MACOS - unified_logging)
+id: 6a68c476-5f3f-4271-90f2-b52cba5a3fcd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.8base

@@ -1,0 +1,32 @@
+title: Digital Certificates (LINUX - auditd)
+id: dc5dba41-4557-4920-9526-c421eecdb8ba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.004.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1588.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.004
+  - actor.mustang_panda

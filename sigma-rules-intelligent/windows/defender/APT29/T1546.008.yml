@@ -1,0 +1,32 @@
+title: Accessibility Features (WINDOWS - defender)
+id: f2187439-59d1-4c1d-bace-9a903db7b827
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1546.008.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1546.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1546.008
+  - actor.apt29

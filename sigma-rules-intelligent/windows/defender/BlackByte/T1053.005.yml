@@ -1,0 +1,32 @@
+title: Scheduled Task (WINDOWS - defender)
+id: 3953eae5-3b59-4035-a381-cb1242f2d05d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.005.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1053.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.005
+  - actor.blackbyte

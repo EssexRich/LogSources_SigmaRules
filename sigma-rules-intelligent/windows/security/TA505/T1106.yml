@@ -1,0 +1,32 @@
+title: Native API (WINDOWS - security)
+id: 5d06ebce-ffea-4091-b08e-1955338b8de0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+  Threat Actor: TA505
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106
+  - actor.ta505

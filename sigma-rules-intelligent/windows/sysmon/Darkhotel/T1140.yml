@@ -1,0 +1,32 @@
+title: Deobfuscate/Decode Files or Information (WINDOWS - sysmon)
+id: 844d648f-5411-4120-ab64-671f3db8e9d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+  Threat Actor: Darkhotel
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140
+  - actor.darkhotel

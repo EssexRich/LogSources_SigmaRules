@@ -1,0 +1,32 @@
+title: Component Object Model (WINDOWS - defender)
+id: 94e3ca9b-c7ba-4a04-baca-9a75e5ccb18c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1559.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559.001
+  - actor.lockbit

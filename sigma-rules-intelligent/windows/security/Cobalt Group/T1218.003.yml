@@ -1,0 +1,32 @@
+title: CMSTP (WINDOWS - security)
+id: 1c933b67-5aec-45cc-89b4-bc9fea2a9a44
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.003.
+  Threat Actor: Cobalt Group
+references:
+  - https://attack.mitre.org/techniques/T1218.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.003
+  - actor.cobalt_group

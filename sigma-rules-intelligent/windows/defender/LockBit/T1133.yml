@@ -1,0 +1,32 @@
+title: External Remote Services (WINDOWS - defender)
+id: 5f55c6e7-a30a-4faf-8500-ed84f52aa455
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.lockbit

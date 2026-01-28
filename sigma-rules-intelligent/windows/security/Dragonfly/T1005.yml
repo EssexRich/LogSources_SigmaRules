@@ -1,0 +1,32 @@
+title: Data from Local System (WINDOWS - security)
+id: 8d58f63a-2cce-4a6c-bf72-e47695a81e5b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.dragonfly

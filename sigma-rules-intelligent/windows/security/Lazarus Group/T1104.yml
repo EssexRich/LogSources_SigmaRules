@@ -1,0 +1,32 @@
+title: Multi-Stage Channels (WINDOWS - security)
+id: 8f3aa8a0-f15c-4e42-8d7d-c455e402e1e6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1104.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1104/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1104
+  - actor.lazarus_group

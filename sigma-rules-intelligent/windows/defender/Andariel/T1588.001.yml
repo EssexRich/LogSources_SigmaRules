@@ -1,0 +1,32 @@
+title: Malware (WINDOWS - defender)
+id: 44bd6c0c-dbdc-46e7-bb8b-6e5d3ac8188e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.001.
+  Threat Actor: Andariel
+references:
+  - https://attack.mitre.org/techniques/T1588.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.001
+  - actor.andariel

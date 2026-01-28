@@ -1,0 +1,32 @@
+title: Boot or Logon Initialization Scripts (WINDOWS - sysmon)
+id: dff18910-ef34-4b0b-9ccc-13c6df207cba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1037.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1037/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1037
+  - actor.apt29

@@ -1,0 +1,32 @@
+title: Scheduled Task/Job (WINDOWS - security)
+id: d5e852a5-8e76-425d-85f3-6ca51f4629bd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.blackbyte

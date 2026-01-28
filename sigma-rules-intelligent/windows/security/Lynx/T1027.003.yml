@@ -1,0 +1,32 @@
+title: Steganography (WINDOWS - security)
+id: a59a8b5b-cc00-465b-9591-4b762e75c52e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.003.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1027.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.003
+  - actor.lynx

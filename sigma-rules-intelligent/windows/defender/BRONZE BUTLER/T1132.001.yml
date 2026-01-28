@@ -1,0 +1,32 @@
+title: Standard Encoding (WINDOWS - defender)
+id: 3cc7764b-72cb-473d-b8c3-f71bd79d836d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1132.001.
+  Threat Actor: BRONZE BUTLER
+references:
+  - https://attack.mitre.org/techniques/T1132.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1132.001
+  - actor.bronze_butler

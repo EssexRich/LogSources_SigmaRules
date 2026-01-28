@@ -1,0 +1,32 @@
+title: Archive via Utility (WINDOWS - sysmon)
+id: 73ee6347-1117-448a-87a1-8c760eb98d48
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.001.
+  Threat Actor: Gallmaker
+references:
+  - https://attack.mitre.org/techniques/T1560.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.001
+  - actor.gallmaker

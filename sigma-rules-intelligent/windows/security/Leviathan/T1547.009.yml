@@ -1,0 +1,32 @@
+title: Shortcut Modification (WINDOWS - security)
+id: 36d8afe4-1bd0-4cc5-b3c7-5d168b9346d4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.009.
+  Threat Actor: Leviathan
+references:
+  - https://attack.mitre.org/techniques/T1547.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547.009
+  - actor.leviathan

@@ -1,0 +1,32 @@
+title: Indicator Removal (WINDOWS - security)
+id: e1137425-4d3a-4152-8d53-27465fa698d5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1070/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070
+  - actor.medusa

@@ -1,0 +1,32 @@
+title: Account Manipulation (GOOGLE - workspace)
+id: 33c27a01-ac21-40be-ad54-727f6fb03027
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1098/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Actor|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098
+  - actor.stormous

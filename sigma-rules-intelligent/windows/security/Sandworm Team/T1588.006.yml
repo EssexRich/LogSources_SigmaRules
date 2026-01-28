@@ -1,0 +1,32 @@
+title: Vulnerabilities (WINDOWS - security)
+id: 84647b22-7e58-4be5-a110-7b5fccc78b66
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.006.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1588.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.006
+  - actor.sandworm_team

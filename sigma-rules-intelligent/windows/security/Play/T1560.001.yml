@@ -1,0 +1,32 @@
+title: Archive via Utility (WINDOWS - security)
+id: 3c7003fc-3433-4cf4-b6ff-a00266a58759
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.001.
+  Threat Actor: Play
+references:
+  - https://attack.mitre.org/techniques/T1560.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.001
+  - actor.play

@@ -1,0 +1,32 @@
+title: PowerShell (WINDOWS - security)
+id: 9b8be7bf-4563-4ed9-95fa-30bc9479aaaa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.001.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1059.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.001
+  - actor.brain_cipher

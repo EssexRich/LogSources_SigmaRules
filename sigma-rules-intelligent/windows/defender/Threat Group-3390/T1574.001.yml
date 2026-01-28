@@ -1,0 +1,32 @@
+title: DLL (WINDOWS - defender)
+id: c9a259c9-fc57-45cf-91ad-df01c1dfd1e9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.001.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1574.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.001
+  - actor.threat_group-3390

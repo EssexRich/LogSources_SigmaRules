@@ -1,0 +1,32 @@
+title: Pass the Hash (WINDOWS - defender)
+id: 4c529c4e-92af-49f5-b81b-9ce1b3f9c927
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1550.002.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1550.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1550.002
+  - actor.akira

@@ -1,0 +1,32 @@
+title: Query Registry (WINDOWS - sysmon)
+id: c23fa6b4-e8e8-4c8a-a4bc-8b1c5845ec9c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: Chaos
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.chaos

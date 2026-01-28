@@ -1,0 +1,32 @@
+title: Data Staged (WINDOWS - defender)
+id: a869348e-ef89-498c-9662-7067bfe1880f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1074/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074
+  - actor.bqtlock

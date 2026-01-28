@@ -1,0 +1,32 @@
+title: Acquire Infrastructure (WINDOWS - defender)
+id: a58bb43b-3529-42ef-a00c-fb5caee78a47
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1583/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583
+  - actor.kimsuky

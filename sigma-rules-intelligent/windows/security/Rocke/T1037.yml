@@ -1,0 +1,32 @@
+title: Boot or Logon Initialization Scripts (WINDOWS - security)
+id: 316cb1fd-791e-421d-bbbc-905349a1c9a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1037.
+  Threat Actor: Rocke
+references:
+  - https://attack.mitre.org/techniques/T1037/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1037
+  - actor.rocke

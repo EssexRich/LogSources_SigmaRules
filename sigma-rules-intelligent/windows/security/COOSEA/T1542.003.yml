@@ -1,0 +1,32 @@
+title: Bootkit (WINDOWS - security)
+id: c4e16cd1-74a4-4943-889f-fdd8df4cb44b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1542.003.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1542.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1542.003
+  - actor.coosea

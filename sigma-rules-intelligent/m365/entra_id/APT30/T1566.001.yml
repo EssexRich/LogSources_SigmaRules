@@ -1,0 +1,32 @@
+title: Spearphishing Attachment (M365 - entra_id)
+id: 28965285-6b1c-43b0-8754-a4a5a677b659
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.001.
+  Threat Actor: APT30
+references:
+  - https://attack.mitre.org/techniques/T1566.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.001
+  - actor.apt30

@@ -1,0 +1,32 @@
+title: Web Services (WINDOWS - defender)
+id: 12ede7bd-7161-4083-a0e7-1cedba8c03e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.006.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1583.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.006
+  - actor.mustang_panda

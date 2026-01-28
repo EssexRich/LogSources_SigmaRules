@@ -1,0 +1,32 @@
+title: Create or Modify System Process (WINDOWS - defender)
+id: 1c29d370-2031-4762-8979-ac0449059e99
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1543/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543
+  - actor.spectra

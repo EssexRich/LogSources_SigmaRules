@@ -1,0 +1,32 @@
+title: Windows Management Instrumentation (WINDOWS - defender)
+id: 90297742-86f2-4c49-8448-17ea4e7d9e5a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: Deep Panda
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.deep_panda

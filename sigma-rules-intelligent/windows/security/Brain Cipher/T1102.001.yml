@@ -1,0 +1,32 @@
+title: Dead Drop Resolver (WINDOWS - security)
+id: c1b89826-6e36-4d2d-a291-8d17cd4930f2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.001.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1102.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102.001
+  - actor.brain_cipher

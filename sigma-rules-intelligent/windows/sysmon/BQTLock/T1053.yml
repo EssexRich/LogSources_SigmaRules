@@ -1,0 +1,32 @@
+title: Scheduled Task/Job (WINDOWS - sysmon)
+id: 96ccf603-e80d-42d3-85b3-2384db390566
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: BQTLock
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.bqtlock

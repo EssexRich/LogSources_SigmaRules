@@ -1,0 +1,32 @@
+title: Right-to-Left Override (LINUX - auditd)
+id: f4e546f5-b140-463e-8131-05b84c11c19b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.002.
+  Threat Actor: Ferocious Kitten
+references:
+  - https://attack.mitre.org/techniques/T1036.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.002
+  - actor.ferocious_kitten

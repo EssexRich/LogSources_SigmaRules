@@ -1,0 +1,32 @@
+title: System Information Discovery (WINDOWS - security)
+id: d1b25189-1b67-4691-ab81-8b880d71a528
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: Patchwork
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.patchwork

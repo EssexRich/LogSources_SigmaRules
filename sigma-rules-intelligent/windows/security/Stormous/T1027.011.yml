@@ -1,0 +1,32 @@
+title: Fileless Storage (WINDOWS - security)
+id: 04be5ee4-c75c-477d-9a65-85fc63b313e0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.011.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1027.011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.011
+  - actor.stormous

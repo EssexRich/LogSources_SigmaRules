@@ -1,0 +1,32 @@
+title: Tool (WINDOWS - defender)
+id: 5adfb61d-ef99-434b-ae3c-a7a7e7c01584
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.002.
+  Threat Actor: Lynx
+references:
+  - https://attack.mitre.org/techniques/T1588.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.002
+  - actor.lynx

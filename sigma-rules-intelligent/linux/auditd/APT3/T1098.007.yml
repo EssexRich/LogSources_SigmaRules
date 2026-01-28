@@ -1,0 +1,32 @@
+title: Additional Local or Domain Groups (LINUX - auditd)
+id: 620c71a1-70cb-4a36-8de3-4423835c2069
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.007.
+  Threat Actor: APT3
+references:
+  - https://attack.mitre.org/techniques/T1098.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098.007
+  - actor.apt3

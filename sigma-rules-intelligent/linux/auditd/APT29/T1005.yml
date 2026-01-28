@@ -1,0 +1,32 @@
+title: Data from Local System (LINUX - auditd)
+id: 21ef0c8c-a1fb-4b4f-89fe-6b4789a0bb24
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.apt29

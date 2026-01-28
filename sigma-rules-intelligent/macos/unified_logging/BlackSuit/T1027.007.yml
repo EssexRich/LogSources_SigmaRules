@@ -1,0 +1,32 @@
+title: Dynamic API Resolution (MACOS - unified_logging)
+id: 5f78d27d-84c5-4c54-aec7-58a99d4ec8b2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.007.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1027.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.007
+  - actor.blacksuit

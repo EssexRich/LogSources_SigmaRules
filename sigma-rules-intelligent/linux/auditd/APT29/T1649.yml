@@ -1,0 +1,32 @@
+title: Steal or Forge Authentication Certificates (LINUX - auditd)
+id: d5c3ef51-cabb-4e7c-a855-99ce20ea8a08
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1649.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1649/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1649
+  - actor.apt29

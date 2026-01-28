@@ -1,0 +1,32 @@
+title: Code Signing (WINDOWS - security)
+id: 31d8b182-bb29-46d9-84f5-22b85b309d75
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1553.002.
+  Threat Actor: GALLIUM
+references:
+  - https://attack.mitre.org/techniques/T1553.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1553.002
+  - actor.gallium

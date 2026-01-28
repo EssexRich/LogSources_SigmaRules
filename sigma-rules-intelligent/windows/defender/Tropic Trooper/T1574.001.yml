@@ -1,0 +1,32 @@
+title: DLL (WINDOWS - defender)
+id: e59cce9f-208a-4374-ba8a-60a2a232aff3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.001.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1574.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.001
+  - actor.tropic_trooper

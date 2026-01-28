@@ -1,0 +1,32 @@
+title: Data Destruction (WINDOWS - defender)
+id: 5048dc6d-f348-47bf-b4c5-a6bded2ef9f3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1485.
+  Threat Actor: Shinra
+references:
+  - https://attack.mitre.org/techniques/T1485/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1485
+  - actor.shinra

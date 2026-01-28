@@ -1,0 +1,32 @@
+title: Dynamic Linker Hijacking (LINUX - auditd)
+id: d4d11d44-b972-477b-8363-1e1adbcb17bf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.006.
+  Threat Actor: Rocke
+references:
+  - https://attack.mitre.org/techniques/T1574.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.006
+  - actor.rocke

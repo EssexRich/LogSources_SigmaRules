@@ -1,0 +1,32 @@
+title: Disable or Modify Tools (WINDOWS - security)
+id: 3225a692-eaa7-45fc-b178-4162785a8b8f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.001.
+  Threat Actor: Hunt-Dharma-Crysis
+references:
+  - https://attack.mitre.org/techniques/T1562.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.001
+  - actor.hunt-dharma-crysis

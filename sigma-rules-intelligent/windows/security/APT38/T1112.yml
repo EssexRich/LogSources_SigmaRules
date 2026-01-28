@@ -1,0 +1,32 @@
+title: Modify Registry (WINDOWS - security)
+id: 7157278a-d7ed-4cb1-8973-d0793bf048c9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.apt38

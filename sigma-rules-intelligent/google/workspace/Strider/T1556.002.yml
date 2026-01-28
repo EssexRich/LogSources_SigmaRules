@@ -1,0 +1,32 @@
+title: Password Filter DLL (GOOGLE - workspace)
+id: cbe205e1-eb59-4c46-841e-167f667cab9d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1556.002.
+  Threat Actor: Strider
+references:
+  - https://attack.mitre.org/techniques/T1556.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Actor|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1556.002
+  - actor.strider

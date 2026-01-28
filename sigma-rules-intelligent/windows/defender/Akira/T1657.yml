@@ -1,0 +1,32 @@
+title: Financial Theft (WINDOWS - defender)
+id: 2825e294-cc20-4486-8e89-e5e32fd5d06f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1657.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1657/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1657
+  - actor.akira

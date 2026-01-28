@@ -1,0 +1,32 @@
+title: At (WINDOWS - sysmon)
+id: 4cbce609-1e42-49ee-b51f-001d8d6d8069
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.002.
+  Threat Actor: Qilin
+references:
+  - https://attack.mitre.org/techniques/T1053.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.002
+  - actor.qilin

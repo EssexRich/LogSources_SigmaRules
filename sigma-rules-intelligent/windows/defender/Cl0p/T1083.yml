@@ -1,0 +1,32 @@
+title: File and Directory Discovery (WINDOWS - defender)
+id: 610d1efd-9998-4619-8c5b-ece77e1c2340
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: Cl0p
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.cl0p

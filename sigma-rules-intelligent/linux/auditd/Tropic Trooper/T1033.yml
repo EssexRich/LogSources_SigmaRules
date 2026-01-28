@@ -1,0 +1,32 @@
+title: System Owner/User Discovery (LINUX - auditd)
+id: 99d2d37d-3641-4cf8-bf04-2d19bb530688
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.tropic_trooper

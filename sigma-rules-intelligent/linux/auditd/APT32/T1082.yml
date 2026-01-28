@@ -1,0 +1,32 @@
+title: System Information Discovery (LINUX - auditd)
+id: 2f77773c-345b-4819-aec7-862ba978d67f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.apt32

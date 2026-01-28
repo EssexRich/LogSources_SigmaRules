@@ -1,0 +1,32 @@
+title: System Information Discovery (WINDOWS - sysmon)
+id: 58c98dc2-bf2b-48a3-8e55-a5181ff9e205
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.spectra

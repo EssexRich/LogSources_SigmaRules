@@ -1,0 +1,32 @@
+title: Malicious Link (WINDOWS - defender)
+id: 27706b88-18e1-4b69-9087-9a7817f30d55
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.001.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1204.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.001
+  - actor.brain_cipher

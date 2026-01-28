@@ -1,0 +1,32 @@
+title: File and Directory Discovery (WINDOWS - sysmon)
+id: 9470123f-88bf-4278-bcc4-e84396a59a62
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1083.
+  Threat Actor: APT3
+references:
+  - https://attack.mitre.org/techniques/T1083/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1083
+  - actor.apt3

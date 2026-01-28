@@ -1,0 +1,32 @@
+title: Modify Registry (WINDOWS - security)
+id: eba4585c-3829-4c4f-9013-d153088bf1ee
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.threat_group-3390

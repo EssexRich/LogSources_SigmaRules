@@ -1,0 +1,32 @@
+title: Malicious File (WINDOWS - defender)
+id: 243ebb11-9589-4cd0-8b01-10c96eca84ac
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+  Threat Actor: Transparent Tribe
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002
+  - actor.transparent_tribe

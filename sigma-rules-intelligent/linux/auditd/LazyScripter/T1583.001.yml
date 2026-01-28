@@ -1,0 +1,32 @@
+title: Domains (LINUX - auditd)
+id: e6b7607c-50ff-440d-b255-faa448636596
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.001.
+  Threat Actor: LazyScripter
+references:
+  - https://attack.mitre.org/techniques/T1583.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.001
+  - actor.lazyscripter

@@ -1,0 +1,32 @@
+title: Redundant Access (WINDOWS - defender)
+id: 578347f1-be97-4e1d-bb68-31667699fab9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1108.
+  Threat Actor: Stormous
+references:
+  - https://attack.mitre.org/techniques/T1108/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1108
+  - actor.stormous

@@ -1,0 +1,32 @@
+title: Malicious File (WINDOWS - defender)
+id: f61ee7c1-a9eb-450a-bd7e-f4181e2845b6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.002.
+  Threat Actor: APT30
+references:
+  - https://attack.mitre.org/techniques/T1204.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.002
+  - actor.apt30

@@ -1,0 +1,32 @@
+title: Valid Accounts (M365 - entra_id)
+id: 8a7129ec-6656-4d8b-9b9b-c740325c0a94
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: DFIR Report
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    User|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.dfir_report

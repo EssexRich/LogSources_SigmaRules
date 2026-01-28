@@ -1,0 +1,32 @@
+title: Process Hollowing (WINDOWS - sysmon)
+id: 63ec1a5f-5b9b-46fe-aef8-6bc316f6b1b5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.012.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1055.012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.012
+  - actor.ransomhub

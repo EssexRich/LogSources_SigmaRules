@@ -1,0 +1,32 @@
+title: System Service Discovery (WINDOWS - sysmon)
+id: 89b98e8f-7e70-4243-b52e-afa6f37975f9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1007.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1007
+  - actor.alphv-blackcat

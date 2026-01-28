@@ -1,0 +1,32 @@
+title: Web Service (LINUX - auditd)
+id: 839236d9-9f14-4152-93cd-827c19dbb538
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.
+  Threat Actor: FIN8
+references:
+  - https://attack.mitre.org/techniques/T1102/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102
+  - actor.fin8

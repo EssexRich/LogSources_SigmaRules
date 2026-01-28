@@ -1,0 +1,32 @@
+title: External Remote Services (WINDOWS - sysmon)
+id: f0ac2a99-6ba8-40d9-8e96-901e184b8756
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    UtcTime|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.ke3chang

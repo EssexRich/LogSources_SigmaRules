@@ -1,0 +1,32 @@
+title: MMC (MACOS - unified_logging)
+id: fbf649b0-d0a7-442a-8419-8ef8dc0d4434
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.014.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1218.014/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    ProcessName|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.014
+  - actor.safepay

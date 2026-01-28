@@ -1,0 +1,32 @@
+title: Inter-Process Communication (WINDOWS - security)
+id: 3943f2cd-aa3e-4784-a319-11fc44160005
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1559/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'suspicious'
+      - 'malicious'
+      - 'attack'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559
+  - actor.brain_cipher
