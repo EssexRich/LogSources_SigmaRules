@@ -1,0 +1,32 @@
+title: External Remote Services (M365 - entra_id)
+id: 2fbe6997-11b6-4ab8-a24a-bae2d2c32f07
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.teamtnt

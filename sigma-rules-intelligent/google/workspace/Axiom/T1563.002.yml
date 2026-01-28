@@ -1,0 +1,30 @@
+title: RDP Hijacking (GOOGLE - workspace)
+id: 3fe0aa30-6934-44b2-a582-ae993b534841
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1563.002.
+  Threat Actor: Axiom
+references:
+  - https://attack.mitre.org/techniques/T1563.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1563.002
+  - actor.axiom

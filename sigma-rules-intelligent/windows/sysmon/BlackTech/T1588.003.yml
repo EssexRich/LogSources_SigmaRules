@@ -1,0 +1,37 @@
+title: Code Signing Certificates (WINDOWS - sysmon)
+id: 1f2d1574-71a6-4b9d-bfe6-8d77080755f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.003.
+  Threat Actor: BlackTech
+references:
+  - https://attack.mitre.org/techniques/T1588.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.003
+  - actor.blacktech

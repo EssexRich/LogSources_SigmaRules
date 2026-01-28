@@ -1,0 +1,37 @@
+title: Fast Flux DNS (WINDOWS - defender)
+id: c98e239b-6938-4b7c-8f39-39a9a0439455
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.001.
+  Threat Actor: menuPass
+references:
+  - https://attack.mitre.org/techniques/T1568.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568.001
+  - actor.menupass

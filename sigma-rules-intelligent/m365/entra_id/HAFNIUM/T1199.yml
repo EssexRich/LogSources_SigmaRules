@@ -1,0 +1,32 @@
+title: Trusted Relationship (M365 - entra_id)
+id: fc25c356-f240-4186-abf8-4d27d05bc9e7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1199.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1199/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1199
+  - actor.hafnium

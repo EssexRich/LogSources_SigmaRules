@@ -1,0 +1,37 @@
+title: Permission Groups Discovery (LINUX - auditd)
+id: 6a25c98f-28bb-4a51-ac95-5d6845f2fd2d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.apt41

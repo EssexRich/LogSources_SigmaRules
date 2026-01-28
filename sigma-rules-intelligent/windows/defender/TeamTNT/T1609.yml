@@ -1,0 +1,37 @@
+title: Container Administration Command (WINDOWS - defender)
+id: c6f701c6-1655-4cae-a6c7-cdffeb2080b9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1609.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1609/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1609
+  - actor.teamtnt

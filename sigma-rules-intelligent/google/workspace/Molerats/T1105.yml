@@ -1,0 +1,30 @@
+title: Ingress Tool Transfer (GOOGLE - workspace)
+id: b5d5b886-a706-40c5-9d1f-4b806a49c416
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+  Threat Actor: Molerats
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105
+  - actor.molerats

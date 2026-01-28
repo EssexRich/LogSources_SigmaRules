@@ -1,0 +1,30 @@
+title: Client Configurations (GOOGLE - workspace)
+id: a74aed29-3481-43c9-aed8-9af1adb19e37
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1592.004.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1592.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1592.004
+  - actor.hafnium

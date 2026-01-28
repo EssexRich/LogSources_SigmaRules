@@ -1,0 +1,37 @@
+title: Traffic Signaling (WINDOWS - defender)
+id: 8d0eb6a9-9f60-4de4-a74c-2283cb71e502
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1205.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1205/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1205
+  - actor.mustang_panda

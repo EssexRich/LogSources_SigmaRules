@@ -1,0 +1,37 @@
+title: Mark-of-the-Web Bypass (WINDOWS - security)
+id: 2f63f498-d0fb-41dc-af2e-299dc15a41ae
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1553.005.
+  Threat Actor: TA505
+references:
+  - https://attack.mitre.org/techniques/T1553.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1553.005
+  - actor.ta505

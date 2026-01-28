@@ -1,0 +1,37 @@
+title: Container and Resource Discovery (LINUX - auditd)
+id: 881e2c34-cbde-4b90-a180-f0e6b2ce499e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1613.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1613/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1613
+  - actor.teamtnt

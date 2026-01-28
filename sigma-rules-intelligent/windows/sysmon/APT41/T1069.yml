@@ -1,0 +1,37 @@
+title: Permission Groups Discovery (WINDOWS - sysmon)
+id: 9cb29aa6-d781-4c56-847d-cc97d0c6f2cb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1069.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1069/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1069
+  - actor.apt41

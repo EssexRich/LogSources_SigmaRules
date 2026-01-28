@@ -1,0 +1,37 @@
+title: Domain Trust Discovery (WINDOWS - security)
+id: be5cb3e3-a851-4a20-a7bd-d7a266e205e4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1482.
+  Threat Actor: FIN8
+references:
+  - https://attack.mitre.org/techniques/T1482/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1482
+  - actor.fin8

@@ -1,0 +1,37 @@
+title: Network Denial of Service (LINUX - auditd)
+id: c66f64d2-ed7c-45ec-8bad-fbe3eac9bbb3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1498.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1498/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1498
+  - actor.apt28

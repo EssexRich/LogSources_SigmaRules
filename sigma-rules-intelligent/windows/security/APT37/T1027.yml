@@ -1,0 +1,37 @@
+title: Obfuscated Files or Information (WINDOWS - security)
+id: d837f1bd-8a32-4655-9657-2bd8ef4a23e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: APT37
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.apt37

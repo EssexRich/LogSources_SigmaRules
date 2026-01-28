@@ -1,0 +1,30 @@
+title: Email Accounts (GOOGLE - workspace)
+id: 714e716b-3ab5-4a61-96da-e77a5c769a04
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1586.002.
+  Threat Actor: Leviathan
+references:
+  - https://attack.mitre.org/techniques/T1586.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1586.002
+  - actor.leviathan

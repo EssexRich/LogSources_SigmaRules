@@ -1,0 +1,30 @@
+title: Business Relationships (GOOGLE - workspace)
+id: 3538f879-f440-444d-ab3d-a88530a0137e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1591.002.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1591.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1591.002
+  - actor.dragonfly

@@ -1,0 +1,37 @@
+title: Masquerading (LINUX - auditd)
+id: 9c7bc7f8-6ccf-4a4a-b76e-044b7b46844a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: menuPass
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.menupass

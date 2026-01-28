@@ -1,0 +1,30 @@
+title: Exploitation for Client Execution (GOOGLE - workspace)
+id: acd5a698-eb54-4990-9481-47f21d08529f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.apt29

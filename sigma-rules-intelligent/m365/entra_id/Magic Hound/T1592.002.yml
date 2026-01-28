@@ -1,0 +1,32 @@
+title: Software (M365 - entra_id)
+id: 0f3b19b4-bca0-4def-8d33-310f1b7d4eb0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1592.002.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1592.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1592.002
+  - actor.magic_hound

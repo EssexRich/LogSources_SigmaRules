@@ -1,0 +1,37 @@
+title: Spearphishing Link (WINDOWS - security)
+id: 13e650c6-f9b9-49c1-87fa-883fb40c3099
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1598.003.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1598.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1598.003
+  - actor.dragonfly

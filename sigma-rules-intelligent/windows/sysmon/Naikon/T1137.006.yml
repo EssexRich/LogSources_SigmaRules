@@ -1,0 +1,37 @@
+title: Add-ins (WINDOWS - sysmon)
+id: 1293d9e9-d5e2-4cf2-bad8-7da8c0622924
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1137.006.
+  Threat Actor: Naikon
+references:
+  - https://attack.mitre.org/techniques/T1137.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1137.006
+  - actor.naikon

@@ -1,0 +1,37 @@
+title: Business Relationships (WINDOWS - security)
+id: ec7bd2d5-b062-4e7c-bce9-be357a9c6c32
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1591.002.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1591.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1591.002
+  - actor.dragonfly

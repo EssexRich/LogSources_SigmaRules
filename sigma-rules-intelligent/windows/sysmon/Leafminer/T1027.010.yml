@@ -1,0 +1,37 @@
+title: Command Obfuscation (WINDOWS - sysmon)
+id: 45df0127-e765-4d27-b2a0-bad063303da2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.010.
+  Threat Actor: Leafminer
+references:
+  - https://attack.mitre.org/techniques/T1027.010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.010
+  - actor.leafminer

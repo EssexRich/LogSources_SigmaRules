@@ -1,0 +1,37 @@
+title: Remote Desktop Software (WINDOWS - defender)
+id: b11e7b60-6d78-499c-81e4-6699c9b75a17
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.002.
+  Threat Actor: Thrip
+references:
+  - https://attack.mitre.org/techniques/T1219.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219.002
+  - actor.thrip

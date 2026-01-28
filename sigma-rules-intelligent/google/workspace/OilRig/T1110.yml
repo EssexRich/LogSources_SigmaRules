@@ -1,0 +1,30 @@
+title: Brute Force (GOOGLE - workspace)
+id: 12542d9f-078b-4b05-a601-665fa51b62c2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1110/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110
+  - actor.oilrig

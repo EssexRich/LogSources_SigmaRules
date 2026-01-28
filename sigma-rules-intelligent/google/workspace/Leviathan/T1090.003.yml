@@ -1,0 +1,30 @@
+title: Multi-hop Proxy (GOOGLE - workspace)
+id: 9bf01437-9a14-43f2-a576-84524ed1dd1d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.003.
+  Threat Actor: Leviathan
+references:
+  - https://attack.mitre.org/techniques/T1090.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.003
+  - actor.leviathan

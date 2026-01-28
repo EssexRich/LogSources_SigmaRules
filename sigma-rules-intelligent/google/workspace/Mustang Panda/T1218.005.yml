@@ -1,0 +1,30 @@
+title: Mshta (GOOGLE - workspace)
+id: 6ea624d0-c068-4f49-b753-e7864310fc48
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.005.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1218.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.005
+  - actor.mustang_panda

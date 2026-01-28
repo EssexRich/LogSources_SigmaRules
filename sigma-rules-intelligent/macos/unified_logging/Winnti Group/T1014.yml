@@ -1,0 +1,34 @@
+title: Rootkit (MACOS - unified_logging)
+id: cb1240b8-30f5-4583-aebc-4583bd334bb8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1014.
+  Threat Actor: Winnti Group
+references:
+  - https://attack.mitre.org/techniques/T1014/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1014
+  - actor.winnti_group

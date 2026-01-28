@@ -1,0 +1,30 @@
+title: Search Open Websites/Domains (GOOGLE - workspace)
+id: 49f9456f-3111-4410-a19b-3978f3912c42
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1593.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1593/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1593
+  - actor.kimsuky

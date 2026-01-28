@@ -1,0 +1,37 @@
+title: Spearphishing via Service (LINUX - auditd)
+id: 59b0c4b7-068a-4065-bb66-d7f30c298f16
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.003.
+  Threat Actor: FIN6
+references:
+  - https://attack.mitre.org/techniques/T1566.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.003
+  - actor.fin6

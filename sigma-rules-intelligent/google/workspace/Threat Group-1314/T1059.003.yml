@@ -1,0 +1,30 @@
+title: Windows Command Shell (GOOGLE - workspace)
+id: 6ccc12a0-70b6-46cc-bc87-ff452cd1d464
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.003.
+  Threat Actor: Threat Group-1314
+references:
+  - https://attack.mitre.org/techniques/T1059.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.003
+  - actor.threat_group-1314

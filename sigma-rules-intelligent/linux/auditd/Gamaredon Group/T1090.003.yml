@@ -1,0 +1,37 @@
+title: Multi-hop Proxy (LINUX - auditd)
+id: ebfafcac-8450-4209-90fa-a9d10d418bde
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.003.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1090.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090.003
+  - actor.gamaredon_group

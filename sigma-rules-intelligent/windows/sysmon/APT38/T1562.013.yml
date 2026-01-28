@@ -1,0 +1,37 @@
+title: Disable or Modify Network Device Firewall (WINDOWS - sysmon)
+id: fa82ab7b-7b7a-4f36-841c-095b4377b51e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.013.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1562.013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.013
+  - actor.apt38

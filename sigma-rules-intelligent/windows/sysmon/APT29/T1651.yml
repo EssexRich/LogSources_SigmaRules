@@ -1,0 +1,37 @@
+title: Cloud Administration Command (WINDOWS - sysmon)
+id: 4fa8db75-c4f5-47a7-8025-16a448bac7a7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1651.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1651/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1651
+  - actor.apt29

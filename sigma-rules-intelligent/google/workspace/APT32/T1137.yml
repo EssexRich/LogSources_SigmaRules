@@ -1,0 +1,30 @@
+title: Office Application Startup (GOOGLE - workspace)
+id: 0c2ea01d-5da1-4ed1-bf5e-47b7841afe52
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1137.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1137/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1137
+  - actor.apt32

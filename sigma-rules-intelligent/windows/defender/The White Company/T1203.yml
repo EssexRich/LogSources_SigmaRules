@@ -1,0 +1,37 @@
+title: Exploitation for Client Execution (WINDOWS - defender)
+id: 3d7adb3f-540f-4c9b-a2b5-f0a56866f100
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: The White Company
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.the_white_company

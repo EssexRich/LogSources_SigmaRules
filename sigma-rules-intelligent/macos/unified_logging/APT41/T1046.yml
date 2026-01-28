@@ -1,0 +1,34 @@
+title: Network Service Discovery (MACOS - unified_logging)
+id: 4b66e0f5-af8e-4276-a234-c73d1dcaea7c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.apt41

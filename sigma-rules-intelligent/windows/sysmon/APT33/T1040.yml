@@ -1,0 +1,37 @@
+title: Network Sniffing (WINDOWS - sysmon)
+id: 9a57e109-0eea-4cea-8866-2c7f8792ea86
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1040.
+  Threat Actor: APT33
+references:
+  - https://attack.mitre.org/techniques/T1040/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1040
+  - actor.apt33

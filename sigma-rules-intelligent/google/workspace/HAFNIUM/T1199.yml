@@ -1,0 +1,30 @@
+title: Trusted Relationship (GOOGLE - workspace)
+id: 12b72694-25d2-479b-af74-8a618f354768
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1199.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1199/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1199
+  - actor.hafnium

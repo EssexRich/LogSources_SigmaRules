@@ -1,0 +1,30 @@
+title: Protocol Tunneling (GOOGLE - workspace)
+id: 7096ee4f-e7cd-47a2-b435-7e21af7c0c3e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1572.
+  Threat Actor: FIN6
+references:
+  - https://attack.mitre.org/techniques/T1572/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1572
+  - actor.fin6

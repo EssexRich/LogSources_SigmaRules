@@ -1,0 +1,30 @@
+title: System Information Discovery (GOOGLE - workspace)
+id: cffc3cee-9bf7-446d-aa09-9d7e9612e604
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1082.
+  Threat Actor: MuddyWater
+references:
+  - https://attack.mitre.org/techniques/T1082/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1082
+  - actor.muddywater

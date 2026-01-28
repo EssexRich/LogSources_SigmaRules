@@ -1,0 +1,37 @@
+title: Virtual Private Server (LINUX - auditd)
+id: 3f0f0615-b9b5-4e2c-96fb-bb2e35d4dd75
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.003.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1583.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.003
+  - actor.gamaredon_group

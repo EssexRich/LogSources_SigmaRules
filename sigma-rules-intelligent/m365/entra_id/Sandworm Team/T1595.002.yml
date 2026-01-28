@@ -1,0 +1,32 @@
+title: Vulnerability Scanning (M365 - entra_id)
+id: 1c2d86e1-2c9d-4b46-addf-610fa770ef7e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.002.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1595.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595.002
+  - actor.sandworm_team

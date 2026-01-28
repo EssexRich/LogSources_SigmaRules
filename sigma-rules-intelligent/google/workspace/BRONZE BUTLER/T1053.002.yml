@@ -1,0 +1,30 @@
+title: At (GOOGLE - workspace)
+id: 276c9c77-78a6-48c3-8343-82de94feacbd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.002.
+  Threat Actor: BRONZE BUTLER
+references:
+  - https://attack.mitre.org/techniques/T1053.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.002
+  - actor.bronze_butler

@@ -1,0 +1,30 @@
+title: COR_PROFILER (GOOGLE - workspace)
+id: 57b13a93-dcba-4443-abd2-59b549a9933b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1574.012.
+  Threat Actor: Blue Mockingbird
+references:
+  - https://attack.mitre.org/techniques/T1574.012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1574.012
+  - actor.blue_mockingbird

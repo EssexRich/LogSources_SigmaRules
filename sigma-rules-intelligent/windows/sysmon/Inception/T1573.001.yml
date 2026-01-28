@@ -1,0 +1,37 @@
+title: Symmetric Cryptography (WINDOWS - sysmon)
+id: 7bc5458c-c710-4f86-a04b-00d474bbeca9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.001.
+  Threat Actor: Inception
+references:
+  - https://attack.mitre.org/techniques/T1573.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.001
+  - actor.inception

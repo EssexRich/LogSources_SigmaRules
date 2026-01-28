@@ -1,0 +1,37 @@
+title: Lateral Tool Transfer (WINDOWS - sysmon)
+id: e8dac722-89ed-41a3-a332-24053cd5088d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570
+  - actor.apt41

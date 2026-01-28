@@ -1,0 +1,32 @@
+title: Local Accounts (M365 - entra_id)
+id: f7c0df02-0d0b-426d-8e84-56eb07bbd54e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.003.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1078.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.003
+  - actor.turla

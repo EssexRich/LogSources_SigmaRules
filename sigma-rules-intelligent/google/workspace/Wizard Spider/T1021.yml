@@ -1,0 +1,30 @@
+title: Remote Services (GOOGLE - workspace)
+id: f8e86931-c79c-4e8f-be85-d789caaf0aff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1021.
+  Threat Actor: Wizard Spider
+references:
+  - https://attack.mitre.org/techniques/T1021/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1021
+  - actor.wizard_spider

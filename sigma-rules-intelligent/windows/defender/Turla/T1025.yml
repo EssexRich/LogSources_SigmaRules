@@ -1,0 +1,37 @@
+title: Data from Removable Media (WINDOWS - defender)
+id: 15c234f8-6f34-4483-93b8-e150dae1decc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1025.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1025/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1025
+  - actor.turla

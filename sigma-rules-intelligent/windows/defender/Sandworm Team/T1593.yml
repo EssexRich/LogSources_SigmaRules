@@ -1,0 +1,37 @@
+title: Search Open Websites/Domains (WINDOWS - defender)
+id: 9ee323e4-e7a5-432a-8a83-9fc9b6a536ff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1593.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1593/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1593
+  - actor.sandworm_team

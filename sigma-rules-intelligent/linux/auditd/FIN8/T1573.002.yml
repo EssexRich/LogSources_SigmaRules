@@ -1,0 +1,37 @@
+title: Asymmetric Cryptography (LINUX - auditd)
+id: 46f6ddf5-54a1-4bef-98aa-9d58bb13c32a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1573.002.
+  Threat Actor: FIN8
+references:
+  - https://attack.mitre.org/techniques/T1573.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1573.002
+  - actor.fin8

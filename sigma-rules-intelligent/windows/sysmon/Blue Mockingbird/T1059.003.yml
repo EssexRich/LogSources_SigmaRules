@@ -1,0 +1,37 @@
+title: Windows Command Shell (WINDOWS - sysmon)
+id: 69cb7db2-7d57-421b-a254-75e1557d4e10
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.003.
+  Threat Actor: Blue Mockingbird
+references:
+  - https://attack.mitre.org/techniques/T1059.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.003
+  - actor.blue_mockingbird

@@ -1,0 +1,37 @@
+title: Email Addresses (WINDOWS - sysmon)
+id: d77ad184-e709-4ac2-b570-f2d0e3b45681
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1589.002.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1589.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1589.002
+  - actor.sandworm_team

@@ -1,0 +1,30 @@
+title: Container and Resource Discovery (GOOGLE - workspace)
+id: adc34646-6718-4ff4-88c8-8238ffb19f9d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1613.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1613/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1613
+  - actor.teamtnt

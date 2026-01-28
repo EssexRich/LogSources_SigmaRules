@@ -1,0 +1,37 @@
+title: Code Repositories (WINDOWS - sysmon)
+id: 87627a98-1c56-4620-a5c1-573b020b0d15
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1213.003.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1213.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1213.003
+  - actor.apt41

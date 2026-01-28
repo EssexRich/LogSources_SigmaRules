@@ -1,0 +1,30 @@
+title: Compute Hijacking (GOOGLE - workspace)
+id: 8182fd4b-3c7a-4033-86b9-1f38b857f0c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1496.001.
+  Threat Actor: Blue Mockingbird
+references:
+  - https://attack.mitre.org/techniques/T1496.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1496.001
+  - actor.blue_mockingbird

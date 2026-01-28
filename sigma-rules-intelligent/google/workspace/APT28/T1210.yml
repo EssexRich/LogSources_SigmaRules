@@ -1,0 +1,30 @@
+title: Exploitation of Remote Services (GOOGLE - workspace)
+id: 68c44506-af60-453b-b442-8816578d68f7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1210.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1210/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1210
+  - actor.apt28

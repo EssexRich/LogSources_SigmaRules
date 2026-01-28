@@ -1,0 +1,32 @@
+title: Exfiltration over USB (M365 - entra_id)
+id: 5d24321d-b60b-46fd-921d-939c3eaf0290
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1052.001.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1052.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1052.001
+  - actor.tropic_trooper

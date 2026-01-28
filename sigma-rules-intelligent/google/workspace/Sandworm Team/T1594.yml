@@ -1,0 +1,30 @@
+title: Search Victim-Owned Websites (GOOGLE - workspace)
+id: 4cf6de37-5c9f-4a73-a54a-b03f94f84a52
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1594.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1594/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1594
+  - actor.sandworm_team

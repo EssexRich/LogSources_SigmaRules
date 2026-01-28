@@ -1,0 +1,30 @@
+title: System Owner/User Discovery (GOOGLE - workspace)
+id: 4f2d8159-4bcb-4022-91ae-cde069ad6b1f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: APT37
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.apt37

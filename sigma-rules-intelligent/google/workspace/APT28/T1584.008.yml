@@ -1,0 +1,30 @@
+title: Network Devices (GOOGLE - workspace)
+id: 1a7ef77b-493b-4175-8c97-705395170bf3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.008.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1584.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.008
+  - actor.apt28

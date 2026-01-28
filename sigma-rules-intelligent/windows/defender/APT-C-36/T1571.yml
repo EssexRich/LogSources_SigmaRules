@@ -1,0 +1,37 @@
+title: Non-Standard Port (WINDOWS - defender)
+id: 0075135a-eb81-46ec-ba2c-1084e0354a82
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1571.
+  Threat Actor: APT-C-36
+references:
+  - https://attack.mitre.org/techniques/T1571/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1571
+  - actor.apt-c-36

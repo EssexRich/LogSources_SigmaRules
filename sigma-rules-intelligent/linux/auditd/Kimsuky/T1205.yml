@@ -1,0 +1,37 @@
+title: Traffic Signaling (LINUX - auditd)
+id: d733ed01-7c56-4444-9610-1aea5a07859c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1205.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1205/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1205
+  - actor.kimsuky

@@ -1,0 +1,37 @@
+title: Valid Accounts (WINDOWS - sysmon)
+id: 8b215bc5-3c12-4100-8a24-b06d794f8f7a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: FIN10
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.fin10

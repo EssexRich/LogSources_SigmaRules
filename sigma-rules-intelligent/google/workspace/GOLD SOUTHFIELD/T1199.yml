@@ -1,0 +1,30 @@
+title: Trusted Relationship (GOOGLE - workspace)
+id: ff2642c9-283d-4c1c-b30d-dc0023a5fd33
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1199.
+  Threat Actor: GOLD SOUTHFIELD
+references:
+  - https://attack.mitre.org/techniques/T1199/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1199
+  - actor.gold_southfield

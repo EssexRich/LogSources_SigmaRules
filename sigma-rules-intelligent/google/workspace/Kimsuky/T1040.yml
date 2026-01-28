@@ -1,0 +1,30 @@
+title: Network Sniffing (GOOGLE - workspace)
+id: 1877afc9-8a16-4a7d-a3ff-d229a4175ee7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1040.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1040/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1040
+  - actor.kimsuky

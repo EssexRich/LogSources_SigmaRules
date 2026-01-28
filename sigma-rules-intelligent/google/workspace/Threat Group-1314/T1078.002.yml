@@ -1,0 +1,30 @@
+title: Domain Accounts (GOOGLE - workspace)
+id: eda1f4dd-55c7-4342-aa53-cc253e7b536a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.002.
+  Threat Actor: Threat Group-1314
+references:
+  - https://attack.mitre.org/techniques/T1078.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.002
+  - actor.threat_group-1314

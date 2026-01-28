@@ -1,0 +1,32 @@
+title: Exploitation for Client Execution (M365 - entra_id)
+id: 419f3179-37e3-4658-8bb2-2e31a533d6b8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: TA459
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.ta459

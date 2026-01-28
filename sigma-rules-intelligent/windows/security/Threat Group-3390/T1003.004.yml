@@ -1,0 +1,37 @@
+title: LSA Secrets (WINDOWS - security)
+id: da59824d-f1ca-45b9-9fbe-df3bcdd1cce6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.004.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1003.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.004
+  - actor.threat_group-3390

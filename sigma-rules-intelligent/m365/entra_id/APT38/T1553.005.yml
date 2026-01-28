@@ -1,0 +1,32 @@
+title: Mark-of-the-Web Bypass (M365 - entra_id)
+id: 2dfd10f5-bac2-43ea-9fd0-171e7c148197
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1553.005.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1553.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1553.005
+  - actor.apt38

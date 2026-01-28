@@ -1,0 +1,37 @@
+title: Search Open Technical Databases (WINDOWS - security)
+id: 1f8fb1c0-fe3b-44e2-b045-7cb900ef3d4b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1596.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1596/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1596
+  - actor.apt28

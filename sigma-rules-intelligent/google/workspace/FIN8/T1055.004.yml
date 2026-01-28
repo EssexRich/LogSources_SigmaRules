@@ -1,0 +1,30 @@
+title: Asynchronous Procedure Call (GOOGLE - workspace)
+id: b6502271-2986-482b-b136-50fac871d6d2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.004.
+  Threat Actor: FIN8
+references:
+  - https://attack.mitre.org/techniques/T1055.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.004
+  - actor.fin8

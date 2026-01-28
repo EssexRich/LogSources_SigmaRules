@@ -1,0 +1,30 @@
+title: Indicator Removal from Tools (GOOGLE - workspace)
+id: ed12b9f5-991d-4de9-83de-a407b8a33449
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.005.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1027.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.005
+  - actor.oilrig

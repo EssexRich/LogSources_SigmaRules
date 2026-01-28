@@ -1,0 +1,30 @@
+title: Automated Collection (GOOGLE - workspace)
+id: 5a4e7f3f-8cd8-450f-a6cd-f62a26117203
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: FIN6
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.fin6

@@ -1,0 +1,37 @@
+title: Local Storage Discovery (LINUX - auditd)
+id: 3559f66e-3863-40fa-b21b-29b2782a9989
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1680.
+  Threat Actor: Patchwork
+references:
+  - https://attack.mitre.org/techniques/T1680/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1680
+  - actor.patchwork

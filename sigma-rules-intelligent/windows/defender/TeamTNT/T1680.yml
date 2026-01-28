@@ -1,0 +1,37 @@
+title: Local Storage Discovery (WINDOWS - defender)
+id: 31215f03-c0b4-4ef8-abbf-3671124fb07d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1680.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1680/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1680
+  - actor.teamtnt

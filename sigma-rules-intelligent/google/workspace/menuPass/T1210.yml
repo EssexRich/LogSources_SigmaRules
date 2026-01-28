@@ -1,0 +1,30 @@
+title: Exploitation of Remote Services (GOOGLE - workspace)
+id: b2fe312b-98d4-4b3c-b110-42933fae6d1b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1210.
+  Threat Actor: menuPass
+references:
+  - https://attack.mitre.org/techniques/T1210/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1210
+  - actor.menupass

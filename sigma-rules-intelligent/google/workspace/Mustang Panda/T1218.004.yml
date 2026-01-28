@@ -1,0 +1,30 @@
+title: InstallUtil (GOOGLE - workspace)
+id: 745c7fa8-e790-4c44-9527-8b408018c9e8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.004.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1218.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.004
+  - actor.mustang_panda

@@ -1,0 +1,37 @@
+title: Trusted Relationship (WINDOWS - sysmon)
+id: a3b15869-e2a7-462c-856e-be91cfc8ce2a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1199.
+  Threat Actor: GOLD SOUTHFIELD
+references:
+  - https://attack.mitre.org/techniques/T1199/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1199
+  - actor.gold_southfield

@@ -1,0 +1,30 @@
+title: Code Signing Certificates (GOOGLE - workspace)
+id: cdcba032-d6db-4dfe-831a-c3fd4c4352f1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.002.
+  Threat Actor: PROMETHIUM
+references:
+  - https://attack.mitre.org/techniques/T1587.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587.002
+  - actor.promethium

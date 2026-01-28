@@ -1,0 +1,30 @@
+title: Logon Script (Windows) (GOOGLE - workspace)
+id: ce48168f-e427-4424-9761-ad637c0c77d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1037.001.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1037.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1037.001
+  - actor.apt28

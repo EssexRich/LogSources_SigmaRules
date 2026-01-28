@@ -1,0 +1,37 @@
+title: Cloud API (LINUX - auditd)
+id: 5037b93b-279f-44bb-88c3-ff180ae2f354
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.009.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1059.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.009
+  - actor.apt29

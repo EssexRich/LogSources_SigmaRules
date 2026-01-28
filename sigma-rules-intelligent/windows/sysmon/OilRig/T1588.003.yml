@@ -1,0 +1,37 @@
+title: Code Signing Certificates (WINDOWS - sysmon)
+id: 6fc54c4d-b07e-4c74-b02c-63e56da416f6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.003.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1588.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.003
+  - actor.oilrig

@@ -1,0 +1,30 @@
+title: Steal Web Session Cookie (GOOGLE - workspace)
+id: ce8aa7a1-e2b6-495c-9ab5-fab42b3f365e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1539.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1539/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1539
+  - actor.kimsuky

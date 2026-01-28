@@ -1,0 +1,32 @@
+title: Exploitation of Remote Services (M365 - entra_id)
+id: 7efdbe59-1e64-4d88-b97f-f9104ec4cbe4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1210.
+  Threat Actor: Tonto Team
+references:
+  - https://attack.mitre.org/techniques/T1210/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1210
+  - actor.tonto_team

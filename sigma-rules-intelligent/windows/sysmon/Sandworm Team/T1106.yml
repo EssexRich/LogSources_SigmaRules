@@ -1,0 +1,37 @@
+title: Native API (WINDOWS - sysmon)
+id: f0994410-e7cf-4c0c-bbb3-825cd0f33a55
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106
+  - actor.sandworm_team

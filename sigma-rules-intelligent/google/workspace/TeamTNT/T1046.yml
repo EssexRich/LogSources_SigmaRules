@@ -1,0 +1,30 @@
+title: Network Service Discovery (GOOGLE - workspace)
+id: da06ca5c-91a5-4b4e-a4fd-af44e0b749ea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.teamtnt

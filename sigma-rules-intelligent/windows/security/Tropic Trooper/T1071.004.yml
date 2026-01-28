@@ -1,0 +1,37 @@
+title: DNS (WINDOWS - security)
+id: f04da0eb-e329-439f-b865-4d96407f8d59
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.004.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1071.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.004
+  - actor.tropic_trooper

@@ -1,0 +1,30 @@
+title: Impersonation (GOOGLE - workspace)
+id: d13c3a21-3f8e-4991-a517-25ea631ac0ac
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1656.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1656/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1656
+  - actor.kimsuky

@@ -1,0 +1,30 @@
+title: Group Policy Modification (GOOGLE - workspace)
+id: f44fef94-96db-4625-a0ff-9c82cee6adf6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1484.001.
+  Threat Actor: Indrik Spider
+references:
+  - https://attack.mitre.org/techniques/T1484.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1484.001
+  - actor.indrik_spider

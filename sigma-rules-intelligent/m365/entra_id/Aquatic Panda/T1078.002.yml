@@ -1,0 +1,32 @@
+title: Domain Accounts (M365 - entra_id)
+id: 76cde27f-d3a8-4117-a01d-0dce2f084e01
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.002.
+  Threat Actor: Aquatic Panda
+references:
+  - https://attack.mitre.org/techniques/T1078.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.002
+  - actor.aquatic_panda

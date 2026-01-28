@@ -1,0 +1,30 @@
+title: Masquerading (GOOGLE - workspace)
+id: 633a8c18-b3c9-44c8-862c-e4907c9f88c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.apt32

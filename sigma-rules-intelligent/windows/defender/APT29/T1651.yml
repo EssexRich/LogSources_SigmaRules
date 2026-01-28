@@ -1,0 +1,37 @@
+title: Cloud Administration Command (WINDOWS - defender)
+id: dc23b732-dcfb-4ef8-8bcd-9b2012d32ebd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1651.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1651/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1651
+  - actor.apt29

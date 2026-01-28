@@ -1,0 +1,32 @@
+title: DNS (M365 - entra_id)
+id: fe65982c-25a8-469e-8d1e-5c6d612004c4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.004.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1071.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.004
+  - actor.ke3chang

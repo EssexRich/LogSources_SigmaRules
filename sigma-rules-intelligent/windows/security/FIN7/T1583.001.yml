@@ -1,0 +1,37 @@
+title: Domains (WINDOWS - security)
+id: 4d762360-7e4c-4f3a-be24-c3aa1fab0e48
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.001.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1583.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.001
+  - actor.fin7

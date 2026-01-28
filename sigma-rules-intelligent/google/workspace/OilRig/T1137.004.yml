@@ -1,0 +1,30 @@
+title: Outlook Home Page (GOOGLE - workspace)
+id: 152c0b98-9aba-4689-8ae6-480480661b7c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1137.004.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1137.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1137.004
+  - actor.oilrig

@@ -1,0 +1,37 @@
+title: Archive via Library (WINDOWS - sysmon)
+id: 1fe0bcda-e1ee-4d49-b7ae-0f20d73f5bb0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1560.002.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1560.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1560.002
+  - actor.lazarus_group

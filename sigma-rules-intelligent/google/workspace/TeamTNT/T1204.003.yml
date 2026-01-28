@@ -1,0 +1,30 @@
+title: Malicious Image (GOOGLE - workspace)
+id: 299ffba5-cc77-41e7-a002-3f5a74eb783f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1204.003.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1204.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1204.003
+  - actor.teamtnt

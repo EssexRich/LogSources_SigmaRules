@@ -1,0 +1,37 @@
+title: Exfiltration Over Asymmetric Encrypted Non-C2 Protocol (WINDOWS - defender)
+id: 534a3ace-eb39-42a7-b452-c94201e8d0b1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.002.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1048.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048.002
+  - actor.apt28

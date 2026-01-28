@@ -1,0 +1,30 @@
+title: Malware (GOOGLE - workspace)
+id: 6a911489-15b3-4188-8c90-d98eaa1b3174
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.001.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1587.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587.001
+  - actor.teamtnt

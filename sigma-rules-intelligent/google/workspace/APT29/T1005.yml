@@ -1,0 +1,30 @@
+title: Data from Local System (GOOGLE - workspace)
+id: c3c5eb92-743d-4bda-b819-7a4177ac74f6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.apt29

@@ -1,0 +1,30 @@
+title: Masquerade File Type (GOOGLE - workspace)
+id: 2bed64e1-19ba-4dfa-9137-ab7107784997
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.008.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1036.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.008
+  - actor.mustang_panda

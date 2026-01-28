@@ -1,0 +1,37 @@
+title: Unix Shell (WINDOWS - defender)
+id: a5ded71d-0967-4153-80a8-2a619bc85115
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.004.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1059.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.004
+  - actor.apt41

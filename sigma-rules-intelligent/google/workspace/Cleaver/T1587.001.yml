@@ -1,0 +1,30 @@
+title: Malware (GOOGLE - workspace)
+id: 50f2b17d-2c5a-4819-b331-a72d804c2c7c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1587.001.
+  Threat Actor: Cleaver
+references:
+  - https://attack.mitre.org/techniques/T1587.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1587.001
+  - actor.cleaver

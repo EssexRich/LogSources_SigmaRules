@@ -1,0 +1,30 @@
+title: Local Accounts (GOOGLE - workspace)
+id: 4ac26308-fb9e-423b-a464-fca1ea177d59
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.003.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1078.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.003
+  - actor.turla

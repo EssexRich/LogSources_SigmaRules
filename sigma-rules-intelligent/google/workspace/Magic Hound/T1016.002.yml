@@ -1,0 +1,30 @@
+title: Wi-Fi Discovery (GOOGLE - workspace)
+id: 20637cec-cad0-4ae6-95a2-f3e4cc2a770b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.002.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1016.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016.002
+  - actor.magic_hound

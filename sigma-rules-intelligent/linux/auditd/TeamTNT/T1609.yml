@@ -1,0 +1,37 @@
+title: Container Administration Command (LINUX - auditd)
+id: 3aff6873-754c-402b-afad-5124ffd42638
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1609.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1609/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1609
+  - actor.teamtnt

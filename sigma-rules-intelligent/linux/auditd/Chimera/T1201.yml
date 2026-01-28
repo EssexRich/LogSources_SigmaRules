@@ -1,0 +1,37 @@
+title: Password Policy Discovery (LINUX - auditd)
+id: 878f2cee-807a-489b-8183-5f9c61d417bd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1201.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1201/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1201
+  - actor.chimera

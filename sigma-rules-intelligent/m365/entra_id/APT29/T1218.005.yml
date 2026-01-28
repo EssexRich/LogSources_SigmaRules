@@ -1,0 +1,32 @@
+title: Mshta (M365 - entra_id)
+id: 2585c217-d2a6-4d21-850d-7ab59d9c0621
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.005.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1218.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.005
+  - actor.apt29

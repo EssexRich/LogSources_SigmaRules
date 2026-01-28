@@ -1,0 +1,30 @@
+title: Ingress Tool Transfer (GOOGLE - workspace)
+id: e8f8da63-f3df-4184-887f-36b2a5ee5fa2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105
+  - actor.hafnium

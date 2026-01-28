@@ -1,0 +1,37 @@
+title: Deobfuscate/Decode Files or Information (WINDOWS - sysmon)
+id: 19ae8ac7-deed-4d4a-9ef6-63adf7176a04
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+  Threat Actor: TA505
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140
+  - actor.ta505

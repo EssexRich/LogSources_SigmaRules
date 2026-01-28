@@ -1,0 +1,30 @@
+title: Code Signing Certificates (GOOGLE - workspace)
+id: 770fa42a-0f6a-41f6-ac31-6eb2ac6aa4ea
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.003.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1588.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.003
+  - actor.mustang_panda

@@ -1,0 +1,37 @@
+title: Ingress Tool Transfer (WINDOWS - security)
+id: 89e91bc3-cd7f-4ccf-8a31-7f4a75ec4d1d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+  Threat Actor: TA551
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105
+  - actor.ta551

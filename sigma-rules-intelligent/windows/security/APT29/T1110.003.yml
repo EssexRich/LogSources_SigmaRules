@@ -1,0 +1,37 @@
+title: Password Spraying (WINDOWS - security)
+id: 2fdd0fca-2e03-4110-98a0-f7b6769a583e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.003.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1110.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.003
+  - actor.apt29

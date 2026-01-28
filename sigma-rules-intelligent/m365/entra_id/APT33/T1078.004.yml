@@ -1,0 +1,32 @@
+title: Cloud Accounts (M365 - entra_id)
+id: 1f9c5091-f2ed-4b84-9aa7-24d77969e7f4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.004.
+  Threat Actor: APT33
+references:
+  - https://attack.mitre.org/techniques/T1078.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.004
+  - actor.apt33

@@ -1,0 +1,30 @@
+title: Peripheral Device Discovery (GOOGLE - workspace)
+id: 4e85b04f-75fa-44d6-be2c-a9a15ed6b2bf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1120.
+  Threat Actor: APT37
+references:
+  - https://attack.mitre.org/techniques/T1120/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1120
+  - actor.apt37

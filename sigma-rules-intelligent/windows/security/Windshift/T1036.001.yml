@@ -1,0 +1,37 @@
+title: Invalid Code Signature (WINDOWS - security)
+id: b7c483a5-07b3-4257-a867-202e330b2ddb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.001.
+  Threat Actor: Windshift
+references:
+  - https://attack.mitre.org/techniques/T1036.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.001
+  - actor.windshift

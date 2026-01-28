@@ -1,0 +1,30 @@
+title: Stage Capabilities (GOOGLE - workspace)
+id: 2ae488a7-ed69-46e7-a0b1-9ff539c4cf93
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1608/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608
+  - actor.mustang_panda

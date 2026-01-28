@@ -1,0 +1,37 @@
+title: Steal Application Access Token (WINDOWS - defender)
+id: 08127661-93df-4256-b3e1-29d6d3083a04
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1528.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1528/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1528
+  - actor.apt28

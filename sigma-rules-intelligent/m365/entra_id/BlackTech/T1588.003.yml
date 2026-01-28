@@ -1,0 +1,32 @@
+title: Code Signing Certificates (M365 - entra_id)
+id: b8af611e-e095-4b73-8f90-ceef65f5b18d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1588.003.
+  Threat Actor: BlackTech
+references:
+  - https://attack.mitre.org/techniques/T1588.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1588.003
+  - actor.blacktech

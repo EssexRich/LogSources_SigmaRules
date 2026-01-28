@@ -1,0 +1,37 @@
+title: Unix Shell (WINDOWS - sysmon)
+id: 99bebe83-2058-4bc5-8ea5-1f938080bd5d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.004.
+  Threat Actor: Rocke
+references:
+  - https://attack.mitre.org/techniques/T1059.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.004
+  - actor.rocke

@@ -1,0 +1,30 @@
+title: Data from Removable Media (GOOGLE - workspace)
+id: 332d0fbf-71fc-433d-a62a-04f2db09edb6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1025.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1025/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1025
+  - actor.gamaredon_group

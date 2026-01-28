@@ -1,0 +1,37 @@
+title: Gather Victim Org Information (WINDOWS - sysmon)
+id: 7fa8e550-917c-4e51-9f4c-694aacc3788d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1591.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1591/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1591
+  - actor.apt28

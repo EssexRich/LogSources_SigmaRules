@@ -1,0 +1,30 @@
+title: Spearphishing via Service (GOOGLE - workspace)
+id: 847dd51d-22ae-44aa-96c7-286ee069ced8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.003.
+  Threat Actor: Windshift
+references:
+  - https://attack.mitre.org/techniques/T1566.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.003
+  - actor.windshift

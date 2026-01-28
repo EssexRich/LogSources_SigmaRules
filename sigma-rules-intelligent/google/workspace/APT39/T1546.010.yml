@@ -1,0 +1,30 @@
+title: AppInit DLLs (GOOGLE - workspace)
+id: 3e566736-b9ba-49ca-b2d3-7bbb47c25f8d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1546.010.
+  Threat Actor: APT39
+references:
+  - https://attack.mitre.org/techniques/T1546.010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1546.010
+  - actor.apt39

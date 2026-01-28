@@ -1,0 +1,37 @@
+title: Cloud API (WINDOWS - defender)
+id: 93cc36ad-2000-46bd-a394-0c1788f0dabd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.009.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1059.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.009
+  - actor.apt29

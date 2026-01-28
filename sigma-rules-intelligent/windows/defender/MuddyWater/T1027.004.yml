@@ -1,0 +1,37 @@
+title: Compile After Delivery (WINDOWS - defender)
+id: 6cf4303f-4d84-4198-848c-0cb0936302c6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.004.
+  Threat Actor: MuddyWater
+references:
+  - https://attack.mitre.org/techniques/T1027.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.004
+  - actor.muddywater

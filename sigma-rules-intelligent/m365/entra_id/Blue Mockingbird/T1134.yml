@@ -1,0 +1,32 @@
+title: Access Token Manipulation (M365 - entra_id)
+id: a38a92bb-602b-40aa-9427-4df1cf3ebca6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.
+  Threat Actor: Blue Mockingbird
+references:
+  - https://attack.mitre.org/techniques/T1134/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134
+  - actor.blue_mockingbird

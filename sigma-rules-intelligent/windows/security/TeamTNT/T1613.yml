@@ -1,0 +1,37 @@
+title: Container and Resource Discovery (WINDOWS - security)
+id: 51ebbbf7-dd2c-4a48-b7b9-fdddd4292ac9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1613.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1613/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1613
+  - actor.teamtnt

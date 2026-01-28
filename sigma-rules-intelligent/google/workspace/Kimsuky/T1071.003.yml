@@ -1,0 +1,30 @@
+title: Mail Protocols (GOOGLE - workspace)
+id: 27a45906-ec9a-444c-a552-620f240d06b9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.003.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1071.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.003
+  - actor.kimsuky

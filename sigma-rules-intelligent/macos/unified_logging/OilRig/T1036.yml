@@ -1,0 +1,34 @@
+title: Masquerading (MACOS - unified_logging)
+id: 42a9ca87-594f-4ed9-a3be-5c768b7b9232
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1036/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036
+  - actor.oilrig

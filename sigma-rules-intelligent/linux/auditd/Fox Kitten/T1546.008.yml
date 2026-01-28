@@ -1,0 +1,37 @@
+title: Accessibility Features (LINUX - auditd)
+id: 6527819b-6153-414e-97d2-b3fe9aa13c33
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1546.008.
+  Threat Actor: Fox Kitten
+references:
+  - https://attack.mitre.org/techniques/T1546.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1546.008
+  - actor.fox_kitten

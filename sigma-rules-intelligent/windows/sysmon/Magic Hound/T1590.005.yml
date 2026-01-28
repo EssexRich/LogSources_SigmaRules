@@ -1,0 +1,37 @@
+title: IP Addresses (WINDOWS - sysmon)
+id: a7ccb66a-216f-4b9d-aef4-01bb2cfd09bd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1590.005.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1590.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1590.005
+  - actor.magic_hound

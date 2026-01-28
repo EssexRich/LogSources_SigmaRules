@@ -1,0 +1,37 @@
+title: Network Devices (WINDOWS - sysmon)
+id: 4b0fb1b2-d522-4de9-add1-4da08a3488a4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.008.
+  Threat Actor: Leviathan
+references:
+  - https://attack.mitre.org/techniques/T1584.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.008
+  - actor.leviathan

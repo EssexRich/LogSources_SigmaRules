@@ -1,0 +1,37 @@
+title: Email Accounts (WINDOWS - defender)
+id: 71e9c8e7-69b7-44ac-9149-967e2d76bbd8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1585.002.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1585.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1585.002
+  - actor.lazarus_group

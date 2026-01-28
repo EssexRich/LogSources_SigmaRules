@@ -1,0 +1,37 @@
+title: Browser Information Discovery (WINDOWS - defender)
+id: 5760d36c-7e19-41c6-a9ab-5165052da7e8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1217.
+  Threat Actor: Fox Kitten
+references:
+  - https://attack.mitre.org/techniques/T1217/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1217
+  - actor.fox_kitten

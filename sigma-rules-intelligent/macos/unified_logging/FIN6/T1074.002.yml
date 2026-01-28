@@ -1,0 +1,34 @@
+title: Remote Data Staging (MACOS - unified_logging)
+id: 03c5943e-721c-4ddd-8adb-860e01bb3342
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.002.
+  Threat Actor: FIN6
+references:
+  - https://attack.mitre.org/techniques/T1074.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074.002
+  - actor.fin6

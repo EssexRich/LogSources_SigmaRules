@@ -1,0 +1,30 @@
+title: Network Service Discovery (GOOGLE - workspace)
+id: bebb4648-eeef-476f-bd7c-760e75f725a7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1046.
+  Threat Actor: BackdoorDiplomacy
+references:
+  - https://attack.mitre.org/techniques/T1046/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1046
+  - actor.backdoordiplomacy

@@ -1,0 +1,37 @@
+title: Replication Through Removable Media (WINDOWS - sysmon)
+id: b4d725bd-ee5a-4df3-a57b-5b7273679607
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091
+  - actor.apt28

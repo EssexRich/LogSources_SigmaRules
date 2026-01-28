@@ -1,0 +1,37 @@
+title: Mail Protocols (WINDOWS - defender)
+id: 723f5c0c-e6de-4bb2-8e6b-5717f062e01e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.003.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1071.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.003
+  - actor.kimsuky

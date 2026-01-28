@@ -1,0 +1,30 @@
+title: Deploy Container (GOOGLE - workspace)
+id: 3c6e3cf4-03e8-4e8b-8025-6acf23d84861
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1610.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1610/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1610
+  - actor.teamtnt

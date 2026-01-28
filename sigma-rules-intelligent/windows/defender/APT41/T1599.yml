@@ -1,0 +1,37 @@
+title: Network Boundary Bridging (WINDOWS - defender)
+id: 3b5b81a8-d3ce-406a-980f-40185a193def
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1599.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1599/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1599
+  - actor.apt41

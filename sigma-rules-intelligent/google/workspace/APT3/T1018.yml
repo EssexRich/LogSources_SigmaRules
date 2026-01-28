@@ -1,0 +1,30 @@
+title: Remote System Discovery (GOOGLE - workspace)
+id: 8ba1d393-7433-4250-a6ac-a49f0f053114
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1018.
+  Threat Actor: APT3
+references:
+  - https://attack.mitre.org/techniques/T1018/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1018
+  - actor.apt3

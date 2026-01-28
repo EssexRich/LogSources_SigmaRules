@@ -1,0 +1,34 @@
+title: Domains (MACOS - unified_logging)
+id: bb16a43b-7dc7-433f-a8c3-aac3d2b36232
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.001.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1584.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.001
+  - actor.kimsuky

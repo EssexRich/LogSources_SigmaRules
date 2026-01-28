@@ -1,0 +1,34 @@
+title: Protocol Tunneling (MACOS - unified_logging)
+id: 15a2facc-44a3-452e-bd83-e45867163896
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1572.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1572/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1572
+  - actor.fin7

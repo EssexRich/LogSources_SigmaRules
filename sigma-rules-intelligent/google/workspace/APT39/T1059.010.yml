@@ -1,0 +1,30 @@
+title: AutoHotKey & AutoIT (GOOGLE - workspace)
+id: b21f9f41-ca4f-4dce-8b08-8caa106ee8df
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.010.
+  Threat Actor: APT39
+references:
+  - https://attack.mitre.org/techniques/T1059.010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.010
+  - actor.apt39

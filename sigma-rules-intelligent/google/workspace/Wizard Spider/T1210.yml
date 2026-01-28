@@ -1,0 +1,30 @@
+title: Exploitation of Remote Services (GOOGLE - workspace)
+id: 924b6efa-6a26-4401-b4de-d0f11d17dc96
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1210.
+  Threat Actor: Wizard Spider
+references:
+  - https://attack.mitre.org/techniques/T1210/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1210
+  - actor.wizard_spider

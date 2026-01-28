@@ -1,0 +1,30 @@
+title: Email Account (GOOGLE - workspace)
+id: 907ae3b1-1a10-4a8c-9cf7-4488c21b3253
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.003.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1087.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.003
+  - actor.magic_hound

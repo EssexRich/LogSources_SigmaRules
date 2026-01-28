@@ -1,0 +1,32 @@
+title: Deobfuscate/Decode Files or Information (M365 - entra_id)
+id: d833dbc0-f3b2-4709-bdf4-63721e734000
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1140.
+  Threat Actor: ZIRCONIUM
+references:
+  - https://attack.mitre.org/techniques/T1140/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1140
+  - actor.zirconium

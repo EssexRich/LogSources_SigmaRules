@@ -1,0 +1,37 @@
+title: Command Obfuscation (WINDOWS - sysmon)
+id: 7cf789ee-f2b5-4c81-b810-7a0819645d27
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.010.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1027.010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.010
+  - actor.apt32

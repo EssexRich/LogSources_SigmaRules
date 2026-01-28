@@ -1,0 +1,37 @@
+title: Replication Through Removable Media (WINDOWS - defender)
+id: 1ccf99dc-33d6-43da-b012-b26bf0edbd89
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+  Threat Actor: Darkhotel
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091
+  - actor.darkhotel

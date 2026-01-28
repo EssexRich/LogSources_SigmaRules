@@ -1,0 +1,37 @@
+title: Virtual Private Server (WINDOWS - sysmon)
+id: 5110d6ac-2c94-4146-ac18-2ae1d88365ce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.003.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1583.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.003
+  - actor.hafnium

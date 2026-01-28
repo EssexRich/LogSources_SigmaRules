@@ -1,0 +1,32 @@
+title: User Activity Based Checks (M365 - entra_id)
+id: d1562e88-4dd5-4f52-85a4-11b7f751999a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1497.002.
+  Threat Actor: Darkhotel
+references:
+  - https://attack.mitre.org/techniques/T1497.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1497.002
+  - actor.darkhotel

@@ -1,0 +1,37 @@
+title: Vulnerability Scanning (WINDOWS - defender)
+id: 105d860d-7913-44db-8d1e-5ded9f4cb1c7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.002.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1595.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595.002
+  - actor.dragonfly

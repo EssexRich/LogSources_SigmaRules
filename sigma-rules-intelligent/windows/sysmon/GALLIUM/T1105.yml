@@ -1,0 +1,37 @@
+title: Ingress Tool Transfer (WINDOWS - sysmon)
+id: 881d98d3-e4fc-4a13-a91f-ff1782401236
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1105.
+  Threat Actor: GALLIUM
+references:
+  - https://attack.mitre.org/techniques/T1105/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1105
+  - actor.gallium

@@ -1,0 +1,32 @@
+title: Password Policy Discovery (M365 - entra_id)
+id: 033690cb-33fa-4cc4-bd9b-188dc993621d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1201.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1201/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1201
+  - actor.turla

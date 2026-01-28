@@ -1,0 +1,37 @@
+title: Password Policy Discovery (WINDOWS - sysmon)
+id: a4e0d47c-10d6-4f5d-a07b-4049e22492e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1201.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1201/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1201
+  - actor.chimera

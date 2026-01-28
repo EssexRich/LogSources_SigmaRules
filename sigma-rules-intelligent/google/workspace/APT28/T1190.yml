@@ -1,0 +1,30 @@
+title: Exploit Public-Facing Application (GOOGLE - workspace)
+id: dc53a839-45b0-42f6-9dce-88f01fd603d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1190.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1190/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1190
+  - actor.apt28

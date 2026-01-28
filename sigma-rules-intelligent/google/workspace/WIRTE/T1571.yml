@@ -1,0 +1,30 @@
+title: Non-Standard Port (GOOGLE - workspace)
+id: 9bf63ade-6628-41c9-8ecb-4ca81f018e74
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1571.
+  Threat Actor: WIRTE
+references:
+  - https://attack.mitre.org/techniques/T1571/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1571
+  - actor.wirte

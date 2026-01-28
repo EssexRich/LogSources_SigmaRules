@@ -1,0 +1,30 @@
+title: System Network Connections Discovery (GOOGLE - workspace)
+id: 8cc397c0-be94-474b-9b66-40b1b7366eb2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1049.
+  Threat Actor: admin@338
+references:
+  - https://attack.mitre.org/techniques/T1049/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1049
+  - actor.admin@338

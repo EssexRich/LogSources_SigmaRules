@@ -1,0 +1,32 @@
+title: Additional Email Delegate Permissions (M365 - entra_id)
+id: 18535500-6d6c-4bba-87db-c837433e145b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1098.002.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1098.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1098.002
+  - actor.apt29

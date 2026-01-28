@@ -1,0 +1,37 @@
+title: Template Injection (WINDOWS - sysmon)
+id: 96302b99-6912-48e3-85e3-61fac7056e02
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1221.
+  Threat Actor: Tropic Trooper
+references:
+  - https://attack.mitre.org/techniques/T1221/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1221
+  - actor.tropic_trooper

@@ -1,0 +1,37 @@
+title: Data Staged (WINDOWS - defender)
+id: 6900f064-b2a2-4c6e-a873-6f99fb6e3705
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1074.
+  Threat Actor: Wizard Spider
+references:
+  - https://attack.mitre.org/techniques/T1074/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1074
+  - actor.wizard_spider

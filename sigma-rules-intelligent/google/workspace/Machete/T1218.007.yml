@@ -1,0 +1,30 @@
+title: Msiexec (GOOGLE - workspace)
+id: ef6706ce-d2ab-42de-a3e3-73e13e5cf4c5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.007.
+  Threat Actor: Machete
+references:
+  - https://attack.mitre.org/techniques/T1218.007/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.007
+  - actor.machete

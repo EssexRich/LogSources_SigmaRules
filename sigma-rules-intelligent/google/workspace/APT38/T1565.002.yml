@@ -1,0 +1,30 @@
+title: Transmitted Data Manipulation (GOOGLE - workspace)
+id: f289d27e-d8d3-40ac-86c1-8d92af2adfcf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1565.002.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1565.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1565.002
+  - actor.apt38

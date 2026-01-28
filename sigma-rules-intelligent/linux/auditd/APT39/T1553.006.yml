@@ -1,0 +1,37 @@
+title: Code Signing Policy Modification (LINUX - auditd)
+id: d5da1b5f-1987-4d27-ba04-e40d0cadc4d6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1553.006.
+  Threat Actor: APT39
+references:
+  - https://attack.mitre.org/techniques/T1553.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1553.006
+  - actor.apt39

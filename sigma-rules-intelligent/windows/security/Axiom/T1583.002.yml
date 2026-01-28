@@ -1,0 +1,37 @@
+title: DNS Server (WINDOWS - security)
+id: 8860c5e8-43c6-491b-9c6c-202971e41d5f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.002.
+  Threat Actor: Axiom
+references:
+  - https://attack.mitre.org/techniques/T1583.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.002
+  - actor.axiom

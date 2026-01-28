@@ -1,0 +1,37 @@
+title: Code Repositories (WINDOWS - security)
+id: a53d7310-fc76-4ab2-90b4-da87cccc945f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1593.003.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1593.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1593.003
+  - actor.hafnium

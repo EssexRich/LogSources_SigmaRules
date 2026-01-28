@@ -1,0 +1,37 @@
+title: Domain Trust Discovery (WINDOWS - defender)
+id: 273f6e6f-d130-4d48-92e3-d6d61fa2c913
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1482.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1482/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1482
+  - actor.magic_hound

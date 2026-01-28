@@ -1,0 +1,30 @@
+title: Modify Registry (GOOGLE - workspace)
+id: 33a34451-19d5-404b-a87f-fac214a69647
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1112.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1112/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1112
+  - actor.oilrig

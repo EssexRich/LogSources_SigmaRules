@@ -1,0 +1,37 @@
+title: Establish Accounts (WINDOWS - defender)
+id: 5897c2fe-c0f9-4d47-99c9-92cacd5f0018
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1585.
+  Threat Actor: Fox Kitten
+references:
+  - https://attack.mitre.org/techniques/T1585/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1585
+  - actor.fox_kitten

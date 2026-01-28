@@ -1,0 +1,37 @@
+title: Wi-Fi Discovery (WINDOWS - defender)
+id: ce3b14e6-d1f0-49ac-be27-32bb8f42a8c4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1016.002.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1016.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1016.002
+  - actor.magic_hound

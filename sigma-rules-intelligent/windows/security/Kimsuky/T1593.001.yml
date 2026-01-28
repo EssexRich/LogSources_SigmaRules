@@ -1,0 +1,37 @@
+title: Social Media (WINDOWS - security)
+id: d3643805-663f-4e78-a3c5-d027eefb9d70
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1593.001.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1593.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1593.001
+  - actor.kimsuky

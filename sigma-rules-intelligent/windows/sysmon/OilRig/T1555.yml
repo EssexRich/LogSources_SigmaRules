@@ -1,0 +1,37 @@
+title: Credentials from Password Stores (WINDOWS - sysmon)
+id: 8f5020c0-ce9b-48ec-ba40-d14aa827bd5e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1555.
+  Threat Actor: OilRig
+references:
+  - https://attack.mitre.org/techniques/T1555/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1555
+  - actor.oilrig

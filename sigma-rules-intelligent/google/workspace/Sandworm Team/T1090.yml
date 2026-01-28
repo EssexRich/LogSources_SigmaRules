@@ -1,0 +1,30 @@
+title: Proxy (GOOGLE - workspace)
+id: 99a59da4-e079-4c9d-904c-091e9e56fae4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1090.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1090/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1090
+  - actor.sandworm_team

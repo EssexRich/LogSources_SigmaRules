@@ -1,0 +1,37 @@
+title: Trusted Relationship (WINDOWS - defender)
+id: 34c4b907-80c1-4ca9-a6af-bd8d49c84387
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1199.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1199/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1199
+  - actor.hafnium

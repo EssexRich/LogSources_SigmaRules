@@ -1,0 +1,37 @@
+title: Credential Stuffing (WINDOWS - sysmon)
+id: ce8b77e7-d83f-41ff-80ce-85bd2accaad0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.004.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1110.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.004
+  - actor.chimera

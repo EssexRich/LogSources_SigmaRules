@@ -1,0 +1,37 @@
+title: Drive-by Target (WINDOWS - security)
+id: ec6d605a-3516-4c1c-917b-f0f63ef87301
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.004.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1608.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.004
+  - actor.dragonfly

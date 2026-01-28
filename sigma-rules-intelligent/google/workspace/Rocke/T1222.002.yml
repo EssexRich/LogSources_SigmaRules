@@ -1,0 +1,30 @@
+title: Linux and Mac File and Directory Permissions Modification (GOOGLE - workspace)
+id: 150cfc25-aa8d-4c3d-93e0-7c9bf4ecc08b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1222.002.
+  Threat Actor: Rocke
+references:
+  - https://attack.mitre.org/techniques/T1222.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1222.002
+  - actor.rocke

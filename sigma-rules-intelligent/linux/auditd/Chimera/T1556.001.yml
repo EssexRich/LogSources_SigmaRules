@@ -1,0 +1,37 @@
+title: Domain Controller Authentication (LINUX - auditd)
+id: a8c8f0a9-38c6-4755-b6f8-f05b02ade29c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1556.001.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1556.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1556.001
+  - actor.chimera

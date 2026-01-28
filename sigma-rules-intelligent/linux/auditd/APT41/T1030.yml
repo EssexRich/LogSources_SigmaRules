@@ -1,0 +1,37 @@
+title: Data Transfer Size Limits (LINUX - auditd)
+id: e2c9a045-187d-48bb-9d7e-29fd46423694
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1030.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1030/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1030
+  - actor.apt41

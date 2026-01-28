@@ -1,0 +1,37 @@
+title: Deploy Container (LINUX - auditd)
+id: 55f50572-ffb2-408c-b6a4-f4cc70988bf1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1610.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1610/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1610
+  - actor.teamtnt

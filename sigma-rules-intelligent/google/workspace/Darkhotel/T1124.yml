@@ -1,0 +1,30 @@
+title: System Time Discovery (GOOGLE - workspace)
+id: ae7b8aae-3098-48d4-a257-6cbcc15b6d14
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1124.
+  Threat Actor: Darkhotel
+references:
+  - https://attack.mitre.org/techniques/T1124/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1124
+  - actor.darkhotel

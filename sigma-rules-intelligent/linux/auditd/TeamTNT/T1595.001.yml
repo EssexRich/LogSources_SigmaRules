@@ -1,0 +1,37 @@
+title: Scanning IP Blocks (LINUX - auditd)
+id: 35041121-f04a-42a5-9cc0-3f073c88fd8a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1595.001.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1595.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1595.001
+  - actor.teamtnt

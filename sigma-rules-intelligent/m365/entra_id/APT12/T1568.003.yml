@@ -1,0 +1,32 @@
+title: DNS Calculation (M365 - entra_id)
+id: 5b70f522-6ff7-4bf6-abb9-5be9946d480e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.003.
+  Threat Actor: APT12
+references:
+  - https://attack.mitre.org/techniques/T1568.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568.003
+  - actor.apt12

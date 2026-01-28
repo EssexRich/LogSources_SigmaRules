@@ -1,0 +1,30 @@
+title: Odbcconf (GOOGLE - workspace)
+id: 5a42737c-9cbe-4679-9f74-1260b03a4e5b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.008.
+  Threat Actor: Cobalt Group
+references:
+  - https://attack.mitre.org/techniques/T1218.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.008
+  - actor.cobalt_group

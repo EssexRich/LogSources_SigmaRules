@@ -1,0 +1,37 @@
+title: System Time Discovery (WINDOWS - sysmon)
+id: b54e0f54-5325-4e08-91ba-9acdc5ea25c3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1124.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1124/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1124
+  - actor.turla

@@ -1,0 +1,37 @@
+title: Server (WINDOWS - security)
+id: a3829664-1ace-455c-94c4-dd2c306a77fa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.004.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1584.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.004
+  - actor.sandworm_team

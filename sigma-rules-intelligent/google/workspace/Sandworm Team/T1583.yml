@@ -1,0 +1,30 @@
+title: Acquire Infrastructure (GOOGLE - workspace)
+id: d8bf7a92-4df8-4a63-b41f-b89db352432f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1583/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583
+  - actor.sandworm_team

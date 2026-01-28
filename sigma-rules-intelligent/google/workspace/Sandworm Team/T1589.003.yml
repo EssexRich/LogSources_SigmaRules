@@ -1,0 +1,30 @@
+title: Employee Names (GOOGLE - workspace)
+id: cc0f2849-25f5-4f66-a143-2f3170b1dc97
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1589.003.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1589.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1589.003
+  - actor.sandworm_team

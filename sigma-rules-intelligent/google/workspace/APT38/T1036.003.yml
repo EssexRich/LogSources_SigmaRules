@@ -1,0 +1,30 @@
+title: Rename Legitimate Utilities (GOOGLE - workspace)
+id: de647c05-b6ad-4fc6-8578-b1a0c12b600b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.003.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1036.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.003
+  - actor.apt38

@@ -1,0 +1,30 @@
+title: Remote Access Tools (GOOGLE - workspace)
+id: 48912ddf-ec38-429b-993a-f95577f50a9e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219
+  - actor.fin7

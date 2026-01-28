@@ -1,0 +1,37 @@
+title: Email Addresses (WINDOWS - defender)
+id: f0bfc9ed-c068-42bf-97f9-f0bb7f2fe5d6
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1589.002.
+  Threat Actor: TA551
+references:
+  - https://attack.mitre.org/techniques/T1589.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1589.002
+  - actor.ta551

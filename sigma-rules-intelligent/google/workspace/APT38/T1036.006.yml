@@ -1,0 +1,30 @@
+title: Space after Filename (GOOGLE - workspace)
+id: e4a77b72-a2da-4ccb-885e-54c3b8f51ca2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.006.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1036.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.006
+  - actor.apt38

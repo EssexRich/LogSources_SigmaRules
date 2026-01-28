@@ -1,0 +1,37 @@
+title: Accessibility Features (WINDOWS - security)
+id: 9e7a7489-bfa4-4d9d-9397-5a9d9ab4e726
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1546.008.
+  Threat Actor: APT3
+references:
+  - https://attack.mitre.org/techniques/T1546.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1546.008
+  - actor.apt3

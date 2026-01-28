@@ -1,0 +1,37 @@
+title: Domain Generation Algorithms (LINUX - auditd)
+id: e02884a6-b921-4a7d-8862-3cb8fe3bd0bf
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.002.
+  Threat Actor: TA551
+references:
+  - https://attack.mitre.org/techniques/T1568.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568.002
+  - actor.ta551

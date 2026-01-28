@@ -1,0 +1,32 @@
+title: Upload Tool (M365 - entra_id)
+id: 12aef850-dff1-4084-afa1-df4f550774dd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.002.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1608.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.002
+  - actor.threat_group-3390

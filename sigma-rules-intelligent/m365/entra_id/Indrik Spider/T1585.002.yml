@@ -1,0 +1,32 @@
+title: Email Accounts (M365 - entra_id)
+id: 60f7a288-9f34-4632-99d1-9d4614cef039
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1585.002.
+  Threat Actor: Indrik Spider
+references:
+  - https://attack.mitre.org/techniques/T1585.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1585.002
+  - actor.indrik_spider

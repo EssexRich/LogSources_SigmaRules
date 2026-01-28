@@ -1,0 +1,30 @@
+title: Taint Shared Content (GOOGLE - workspace)
+id: 0ccf677b-b8b8-45fe-a29e-6ff50d33bbdc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1080.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1080/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1080
+  - actor.gamaredon_group

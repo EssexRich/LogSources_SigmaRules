@@ -1,0 +1,37 @@
+title: HTML Smuggling (WINDOWS - sysmon)
+id: f57bd86d-2b59-4723-95e3-6cd1c1f23714
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.006.
+  Threat Actor: APT29
+references:
+  - https://attack.mitre.org/techniques/T1027.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.006
+  - actor.apt29

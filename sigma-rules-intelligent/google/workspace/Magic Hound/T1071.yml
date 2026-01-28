@@ -1,0 +1,30 @@
+title: Application Layer Protocol (GOOGLE - workspace)
+id: d581279d-6dbc-4bd8-a18f-046e34a0dca7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.
+  Threat Actor: Magic Hound
+references:
+  - https://attack.mitre.org/techniques/T1071/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071
+  - actor.magic_hound

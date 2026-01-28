@@ -1,0 +1,37 @@
+title: Identify Roles (WINDOWS - defender)
+id: bcf6cb20-ebb4-4161-806c-32b97fd9d4af
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1591.004.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1591.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1591.004
+  - actor.fin7

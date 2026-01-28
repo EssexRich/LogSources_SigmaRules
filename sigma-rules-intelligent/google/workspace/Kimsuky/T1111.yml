@@ -1,0 +1,30 @@
+title: Multi-Factor Authentication Interception (GOOGLE - workspace)
+id: 35e0335f-6b0e-4c41-93d4-359b69815204
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1111.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1111/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1111
+  - actor.kimsuky

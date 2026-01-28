@@ -1,0 +1,32 @@
+title: Automated Collection (M365 - entra_id)
+id: 48c0b5d1-9565-4250-9b3f-66d0c403c368
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1119.
+  Threat Actor: HAFNIUM
+references:
+  - https://attack.mitre.org/techniques/T1119/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1119
+  - actor.hafnium

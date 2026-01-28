@@ -1,0 +1,37 @@
+title: Disk Structure Wipe (WINDOWS - sysmon)
+id: 40f27d73-899c-4671-bb5b-b4fa35087b35
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1561.002.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1561.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1561.002
+  - actor.apt38

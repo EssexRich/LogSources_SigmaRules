@@ -1,0 +1,32 @@
+title: Remote System Discovery (M365 - entra_id)
+id: de114ebe-d229-42e9-b9fd-d895afd25e81
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1018.
+  Threat Actor: FIN5
+references:
+  - https://attack.mitre.org/techniques/T1018/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1018
+  - actor.fin5

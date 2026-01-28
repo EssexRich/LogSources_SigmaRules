@@ -1,0 +1,30 @@
+title: Non-Standard Port (GOOGLE - workspace)
+id: f0578f2a-cfb0-49fb-96d1-8467b4a1e3da
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1571.
+  Threat Actor: DarkVishnya
+references:
+  - https://attack.mitre.org/techniques/T1571/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1571
+  - actor.darkvishnya

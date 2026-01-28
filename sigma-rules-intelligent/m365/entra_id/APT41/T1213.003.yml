@@ -1,0 +1,32 @@
+title: Code Repositories (M365 - entra_id)
+id: ce92766c-9a8d-41cc-9aed-f3a8c82c6730
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1213.003.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1213.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1213.003
+  - actor.apt41

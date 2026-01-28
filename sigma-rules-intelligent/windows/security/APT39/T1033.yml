@@ -1,0 +1,37 @@
+title: System Owner/User Discovery (WINDOWS - security)
+id: f81718ec-3ea9-4625-b122-931e0f5ca6c8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1033.
+  Threat Actor: APT39
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1033
+  - actor.apt39

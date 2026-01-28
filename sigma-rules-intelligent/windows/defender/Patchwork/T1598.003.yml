@@ -1,0 +1,37 @@
+title: Spearphishing Link (WINDOWS - defender)
+id: c46926e2-5e6f-4acb-b2dd-690af99819fc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1598.003.
+  Threat Actor: Patchwork
+references:
+  - https://attack.mitre.org/techniques/T1598.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1598.003
+  - actor.patchwork

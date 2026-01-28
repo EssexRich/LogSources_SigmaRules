@@ -1,0 +1,30 @@
+title: Drive-by Compromise (GOOGLE - workspace)
+id: 43d5d87e-e1f4-4572-afe7-651d80557741
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1189.
+  Threat Actor: Dark Caracal
+references:
+  - https://attack.mitre.org/techniques/T1189/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1189
+  - actor.dark_caracal

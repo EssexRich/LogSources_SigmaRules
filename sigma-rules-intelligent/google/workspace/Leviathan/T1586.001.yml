@@ -1,0 +1,30 @@
+title: Social Media Accounts (GOOGLE - workspace)
+id: a92f97b0-5480-4758-92e0-7b58b91386ff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1586.001.
+  Threat Actor: Leviathan
+references:
+  - https://attack.mitre.org/techniques/T1586.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1586.001
+  - actor.leviathan

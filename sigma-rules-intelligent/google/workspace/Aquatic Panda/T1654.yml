@@ -1,0 +1,30 @@
+title: Log Enumeration (GOOGLE - workspace)
+id: fc8b7a49-3cc2-4152-849f-ab31b8601ab4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1654.
+  Threat Actor: Aquatic Panda
+references:
+  - https://attack.mitre.org/techniques/T1654/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1654
+  - actor.aquatic_panda

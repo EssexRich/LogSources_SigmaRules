@@ -1,0 +1,34 @@
+title: File Transfer Protocols (MACOS - unified_logging)
+id: 49e88174-c66b-4372-a36a-15dfacc0f020
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.002.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1071.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.002
+  - actor.apt41

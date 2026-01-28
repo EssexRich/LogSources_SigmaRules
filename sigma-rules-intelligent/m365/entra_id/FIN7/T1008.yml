@@ -1,0 +1,32 @@
+title: Fallback Channels (M365 - entra_id)
+id: ab856976-1226-44e3-b5aa-b16d4abdf7de
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1008.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1008
+  - actor.fin7

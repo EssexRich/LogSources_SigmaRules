@@ -1,0 +1,37 @@
+title: Virtual Private Server (WINDOWS - defender)
+id: 4eba7ed8-ba5e-45d3-b93c-9bd63ac50c04
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.003.
+  Threat Actor: Turla
+references:
+  - https://attack.mitre.org/techniques/T1584.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.003
+  - actor.turla

@@ -1,0 +1,30 @@
+title: Stored Data Manipulation (GOOGLE - workspace)
+id: 73b1d739-93d6-42a2-8757-bfd1547cec4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1565.001.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1565.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1565.001
+  - actor.apt38

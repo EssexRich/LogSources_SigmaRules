@@ -1,0 +1,32 @@
+title: Server (M365 - entra_id)
+id: a42744b3-bc02-46b2-a481-dd5e2dac81ab
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1584.004.
+  Threat Actor: APT16
+references:
+  - https://attack.mitre.org/techniques/T1584.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1584.004
+  - actor.apt16

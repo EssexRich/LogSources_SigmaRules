@@ -1,0 +1,30 @@
+title: Remote Email Collection (GOOGLE - workspace)
+id: b2c4ca7a-e33a-47ab-815f-911d47c924fb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1114.002.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1114.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1114.002
+  - actor.ke3chang

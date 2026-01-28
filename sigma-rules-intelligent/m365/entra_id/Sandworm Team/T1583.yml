@@ -1,0 +1,32 @@
+title: Acquire Infrastructure (M365 - entra_id)
+id: 3c57dc2a-82ae-479e-b084-c7c38eea1b5c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1583/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583
+  - actor.sandworm_team

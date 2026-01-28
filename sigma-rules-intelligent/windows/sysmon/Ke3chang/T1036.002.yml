@@ -1,0 +1,37 @@
+title: Right-to-Left Override (WINDOWS - sysmon)
+id: 453f8b65-8bb1-43f8-9570-881d9f916bd1
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1036.002.
+  Threat Actor: Ke3chang
+references:
+  - https://attack.mitre.org/techniques/T1036.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1036.002
+  - actor.ke3chang

@@ -1,0 +1,30 @@
+title: External Remote Services (GOOGLE - workspace)
+id: 46c3d093-a589-48ae-989d-981270e8f3e4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1133.
+  Threat Actor: FIN5
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1133
+  - actor.fin5

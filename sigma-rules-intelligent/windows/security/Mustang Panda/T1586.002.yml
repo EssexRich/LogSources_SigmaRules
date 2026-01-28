@@ -1,0 +1,37 @@
+title: Email Accounts (WINDOWS - security)
+id: 23da79ec-33d7-4ac4-92ac-8f7335a9cca3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1586.002.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1586.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1586.002
+  - actor.mustang_panda

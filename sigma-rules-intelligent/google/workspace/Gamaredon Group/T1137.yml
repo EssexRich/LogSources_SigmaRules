@@ -1,0 +1,30 @@
+title: Office Application Startup (GOOGLE - workspace)
+id: 74a8ec45-6c8e-475f-b658-a106a921e06b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1137.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1137/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1137
+  - actor.gamaredon_group

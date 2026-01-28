@@ -1,0 +1,37 @@
+title: At (WINDOWS - sysmon)
+id: 1c953fbd-2756-45b4-929b-990d9cb934d0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.002.
+  Threat Actor: APT18
+references:
+  - https://attack.mitre.org/techniques/T1053.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053.002
+  - actor.apt18

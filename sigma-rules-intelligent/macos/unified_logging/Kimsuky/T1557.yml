@@ -1,0 +1,34 @@
+title: Adversary-in-the-Middle (MACOS - unified_logging)
+id: 7e878ef7-53e2-42a8-b0d6-4ae1ec45d08c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1557.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1557/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1557
+  - actor.kimsuky

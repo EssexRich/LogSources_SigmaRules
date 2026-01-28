@@ -1,0 +1,37 @@
+title: Exploitation for Client Execution (WINDOWS - defender)
+id: 5d07c516-9e70-49a3-b02c-b45c4310b44c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: Elderwood
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.elderwood

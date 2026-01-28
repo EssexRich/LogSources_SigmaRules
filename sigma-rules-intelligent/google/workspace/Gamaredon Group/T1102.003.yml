@@ -1,0 +1,30 @@
+title: One-Way Communication (GOOGLE - workspace)
+id: ae84f135-87d4-4121-b1a9-39ee35aea4cd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.003.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1102.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102.003
+  - actor.gamaredon_group

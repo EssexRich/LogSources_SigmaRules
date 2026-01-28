@@ -1,0 +1,37 @@
+title: Escape to Host (WINDOWS - defender)
+id: f6956d9b-98f0-4914-9f8e-4c53be2fd57d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1611.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1611/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1611
+  - actor.teamtnt

@@ -1,0 +1,30 @@
+title: Password Cracking (GOOGLE - workspace)
+id: 9ec91a77-ae1f-41d8-9554-061ecc6556ad
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.002.
+  Threat Actor: APT3
+references:
+  - https://attack.mitre.org/techniques/T1110.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110.002
+  - actor.apt3

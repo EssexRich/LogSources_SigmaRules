@@ -1,0 +1,30 @@
+title: Execution Guardrails (GOOGLE - workspace)
+id: 9f38cae4-165c-4093-8af4-2558f44ebe23
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1480.
+  Threat Actor: Gamaredon Group
+references:
+  - https://attack.mitre.org/techniques/T1480/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1480
+  - actor.gamaredon_group

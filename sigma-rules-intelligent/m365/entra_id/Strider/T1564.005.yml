@@ -1,0 +1,32 @@
+title: Hidden File System (M365 - entra_id)
+id: 7be2d232-1fe4-4b46-a155-a1605780087b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.005.
+  Threat Actor: Strider
+references:
+  - https://attack.mitre.org/techniques/T1564.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.005
+  - actor.strider

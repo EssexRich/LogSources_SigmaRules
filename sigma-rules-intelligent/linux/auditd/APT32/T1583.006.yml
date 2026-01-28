@@ -1,0 +1,37 @@
+title: Web Services (LINUX - auditd)
+id: 89819975-9f1b-493b-b1ad-5eeaa0ba8686
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.006.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1583.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.006
+  - actor.apt32

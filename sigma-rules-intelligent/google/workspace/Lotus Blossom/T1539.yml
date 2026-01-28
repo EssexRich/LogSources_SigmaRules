@@ -1,0 +1,30 @@
+title: Steal Web Session Cookie (GOOGLE - workspace)
+id: 31452cf6-f09c-453c-873e-a3acb6d0dd9d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1539.
+  Threat Actor: Lotus Blossom
+references:
+  - https://attack.mitre.org/techniques/T1539/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1539
+  - actor.lotus_blossom

@@ -1,0 +1,30 @@
+title: Shortcut Modification (GOOGLE - workspace)
+id: 1f65c01f-46bb-4a43-b9ef-cf6fc2d34842
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.009.
+  Threat Actor: Gorgon Group
+references:
+  - https://attack.mitre.org/techniques/T1547.009/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547.009
+  - actor.gorgon_group

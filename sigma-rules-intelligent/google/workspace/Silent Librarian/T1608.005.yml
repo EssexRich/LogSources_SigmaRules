@@ -1,0 +1,30 @@
+title: Link Target (GOOGLE - workspace)
+id: 041b1d68-4c40-468d-a024-6f18fefff187
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.005.
+  Threat Actor: Silent Librarian
+references:
+  - https://attack.mitre.org/techniques/T1608.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608.005
+  - actor.silent_librarian

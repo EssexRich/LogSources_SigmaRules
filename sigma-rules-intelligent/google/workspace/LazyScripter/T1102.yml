@@ -1,0 +1,30 @@
+title: Web Service (GOOGLE - workspace)
+id: 5c016190-b205-4a3c-a826-322d3afa9b9c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.
+  Threat Actor: LazyScripter
+references:
+  - https://attack.mitre.org/techniques/T1102/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102
+  - actor.lazyscripter

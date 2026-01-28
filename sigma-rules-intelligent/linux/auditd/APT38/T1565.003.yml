@@ -1,0 +1,37 @@
+title: Runtime Data Manipulation (LINUX - auditd)
+id: 3a9aa678-4a4b-4827-9010-823ea6bfd311
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1565.003.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1565.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1565.003
+  - actor.apt38

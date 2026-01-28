@@ -1,0 +1,30 @@
+title: NTFS File Attributes (GOOGLE - workspace)
+id: 90d90d9a-773a-4cca-9934-c48f8cfde279
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.004.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1564.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.004
+  - actor.apt32

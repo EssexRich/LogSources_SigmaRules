@@ -1,0 +1,30 @@
+title: Unix Shell (GOOGLE - workspace)
+id: 9e7986c6-f6f5-4c2e-8d19-cf227e57c36a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.004.
+  Threat Actor: Rocke
+references:
+  - https://attack.mitre.org/techniques/T1059.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.004
+  - actor.rocke

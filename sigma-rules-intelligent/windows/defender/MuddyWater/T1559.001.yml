@@ -1,0 +1,37 @@
+title: Component Object Model (WINDOWS - defender)
+id: afa31852-85ee-445a-acf9-7af0428f6e47
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1559.001.
+  Threat Actor: MuddyWater
+references:
+  - https://attack.mitre.org/techniques/T1559.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1559.001
+  - actor.muddywater

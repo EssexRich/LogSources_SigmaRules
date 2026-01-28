@@ -1,0 +1,37 @@
+title: Social Media Accounts (WINDOWS - security)
+id: 25d3caa7-4d28-4690-8b17-632a20d99d4f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1586.001.
+  Threat Actor: Leviathan
+references:
+  - https://attack.mitre.org/techniques/T1586.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1586.001
+  - actor.leviathan

@@ -1,0 +1,32 @@
+title: IDE Tunneling (M365 - entra_id)
+id: 0e5e7182-6f14-49b9-bf84-3687eab63d62
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1219.001.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1219.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1219.001
+  - actor.mustang_panda

@@ -1,0 +1,37 @@
+title: Virtual Private Server (WINDOWS - security)
+id: 17d4beda-4ab0-4f90-95c0-70266a8f6006
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.003.
+  Threat Actor: Dragonfly
+references:
+  - https://attack.mitre.org/techniques/T1583.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.003
+  - actor.dragonfly

@@ -1,0 +1,30 @@
+title: Mail Protocols (GOOGLE - workspace)
+id: 49575fab-a7c1-4ea5-9f0c-8eb5e0ea14e8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1071.003.
+  Threat Actor: SilverTerrier
+references:
+  - https://attack.mitre.org/techniques/T1071.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1071.003
+  - actor.silverterrier

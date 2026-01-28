@@ -1,0 +1,32 @@
+title: Hardware Additions (M365 - entra_id)
+id: e1f2bebd-3f24-48f4-af54-620fac3cac7e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1200.
+  Threat Actor: DarkVishnya
+references:
+  - https://attack.mitre.org/techniques/T1200/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1200
+  - actor.darkvishnya

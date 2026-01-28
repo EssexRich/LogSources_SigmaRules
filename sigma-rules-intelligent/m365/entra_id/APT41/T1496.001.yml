@@ -1,0 +1,32 @@
+title: Compute Hijacking (M365 - entra_id)
+id: 0f30e970-f2a0-4694-8c31-017cf0444c40
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1496.001.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1496.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1496.001
+  - actor.apt41

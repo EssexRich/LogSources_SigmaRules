@@ -1,0 +1,30 @@
+title: Exfiltration Over Unencrypted Non-C2 Protocol (GOOGLE - workspace)
+id: 4a0e7296-a6d3-42fa-90bb-ecb7d8c538f8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.003.
+  Threat Actor: FIN8
+references:
+  - https://attack.mitre.org/techniques/T1048.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048.003
+  - actor.fin8

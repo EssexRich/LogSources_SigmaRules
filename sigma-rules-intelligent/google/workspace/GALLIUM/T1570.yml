@@ -1,0 +1,30 @@
+title: Lateral Tool Transfer (GOOGLE - workspace)
+id: 11a4b1b0-58cc-48a1-bfac-cb3fbe7339fd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1570.
+  Threat Actor: GALLIUM
+references:
+  - https://attack.mitre.org/techniques/T1570/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1570
+  - actor.gallium

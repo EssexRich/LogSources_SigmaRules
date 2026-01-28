@@ -1,0 +1,37 @@
+title: System Shutdown/Reboot (WINDOWS - sysmon)
+id: a3b8b304-d3e8-49c4-9baf-2e977b4581e8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1529.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1529
+  - actor.lazarus_group

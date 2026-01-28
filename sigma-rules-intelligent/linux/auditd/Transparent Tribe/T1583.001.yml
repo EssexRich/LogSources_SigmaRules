@@ -1,0 +1,37 @@
+title: Domains (LINUX - auditd)
+id: d0c05ff7-a35e-4a69-b4b3-2766a48adba4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1583.001.
+  Threat Actor: Transparent Tribe
+references:
+  - https://attack.mitre.org/techniques/T1583.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1583.001
+  - actor.transparent_tribe

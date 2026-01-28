@@ -1,0 +1,37 @@
+title: Stage Capabilities (WINDOWS - defender)
+id: 3e6e82a2-af02-4ee7-b02e-a63eef95d283
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1608.
+  Threat Actor: Mustang Panda
+references:
+  - https://attack.mitre.org/techniques/T1608/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1608
+  - actor.mustang_panda

@@ -1,0 +1,37 @@
+title: Screen Capture (WINDOWS - sysmon)
+id: ef9844ed-04d4-4fc2-a948-1e128d70f852
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1113.
+  Threat Actor: GOLD SOUTHFIELD
+references:
+  - https://attack.mitre.org/techniques/T1113/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1113
+  - actor.gold_southfield

@@ -1,0 +1,37 @@
+title: Container CLI/API (WINDOWS - defender)
+id: c551d2a1-eced-419c-8169-f38070e55ac5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.013.
+  Threat Actor: TeamTNT
+references:
+  - https://attack.mitre.org/techniques/T1059.013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059.013
+  - actor.teamtnt

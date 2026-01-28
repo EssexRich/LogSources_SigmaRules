@@ -1,0 +1,37 @@
+title: XSL Script Processing (WINDOWS - sysmon)
+id: b83e3d99-72c3-4d0e-8ecf-ef96c590e420
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1220.
+  Threat Actor: Higaisa
+references:
+  - https://attack.mitre.org/techniques/T1220/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1220
+  - actor.higaisa

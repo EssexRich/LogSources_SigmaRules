@@ -1,0 +1,30 @@
+title: Process Doppelgänging (GOOGLE - workspace)
+id: bb70d121-0824-4748-b2c8-67ab31a4babb
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1055.013.
+  Threat Actor: Leafminer
+references:
+  - https://attack.mitre.org/techniques/T1055.013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1055.013
+  - actor.leafminer

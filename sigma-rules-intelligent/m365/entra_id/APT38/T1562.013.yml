@@ -1,0 +1,32 @@
+title: Disable or Modify Network Device Firewall (M365 - entra_id)
+id: c3791adf-a7fc-4432-a7b9-4796ff9d75a5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.013.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1562.013/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562.013
+  - actor.apt38

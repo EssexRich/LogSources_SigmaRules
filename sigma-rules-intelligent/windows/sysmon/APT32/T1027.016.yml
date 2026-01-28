@@ -1,0 +1,37 @@
+title: Junk Code Insertion (WINDOWS - sysmon)
+id: 435922e5-f18d-4955-92bf-f334d08b8efa
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.016.
+  Threat Actor: APT32
+references:
+  - https://attack.mitre.org/techniques/T1027.016/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027.016
+  - actor.apt32

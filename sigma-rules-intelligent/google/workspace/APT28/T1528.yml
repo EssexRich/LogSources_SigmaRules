@@ -1,0 +1,30 @@
+title: Steal Application Access Token (GOOGLE - workspace)
+id: 9f5c96bf-9044-4ba2-aa19-07a08ee50ea4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1528.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1528/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1528
+  - actor.apt28

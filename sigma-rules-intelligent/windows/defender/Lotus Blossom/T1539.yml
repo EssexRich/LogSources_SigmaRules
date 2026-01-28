@@ -1,0 +1,37 @@
+title: Steal Web Session Cookie (WINDOWS - defender)
+id: 870d1f2c-8684-4f1e-ad8f-22eaca49974f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1539.
+  Threat Actor: Lotus Blossom
+references:
+  - https://attack.mitre.org/techniques/T1539/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1539
+  - actor.lotus_blossom

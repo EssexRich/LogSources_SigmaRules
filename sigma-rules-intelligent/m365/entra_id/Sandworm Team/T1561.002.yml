@@ -1,0 +1,32 @@
+title: Disk Structure Wipe (M365 - entra_id)
+id: 75eccb9b-44bd-4e89-824d-abeb250ac089
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1561.002.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1561.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1561.002
+  - actor.sandworm_team

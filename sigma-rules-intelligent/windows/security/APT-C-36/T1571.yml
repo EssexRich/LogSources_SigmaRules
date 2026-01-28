@@ -1,0 +1,37 @@
+title: Non-Standard Port (WINDOWS - security)
+id: e33075f7-44c6-4a28-b5a2-6d5b9d795294
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1571.
+  Threat Actor: APT-C-36
+references:
+  - https://attack.mitre.org/techniques/T1571/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1571
+  - actor.apt-c-36

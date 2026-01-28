@@ -1,0 +1,30 @@
+title: Local Storage Discovery (GOOGLE - workspace)
+id: 0ccac250-b7c3-47e7-8864-a9cb13320d0a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1680.
+  Threat Actor: Lazarus Group
+references:
+  - https://attack.mitre.org/techniques/T1680/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1680
+  - actor.lazarus_group

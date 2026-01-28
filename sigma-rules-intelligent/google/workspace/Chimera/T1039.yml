@@ -1,0 +1,30 @@
+title: Data from Network Shared Drive (GOOGLE - workspace)
+id: 73a631bd-7b76-429d-99f1-2cd61b06c1de
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1039.
+  Threat Actor: Chimera
+references:
+  - https://attack.mitre.org/techniques/T1039/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1039
+  - actor.chimera

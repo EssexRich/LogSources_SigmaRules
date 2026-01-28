@@ -1,0 +1,37 @@
+title: Non-Standard Port (WINDOWS - security)
+id: 67e6c6c0-4c4a-4562-bd5d-a9ba13add5ff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1571.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1571/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1571
+  - actor.sandworm_team

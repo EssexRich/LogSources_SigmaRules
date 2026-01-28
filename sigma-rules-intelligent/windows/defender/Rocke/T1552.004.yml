@@ -1,0 +1,37 @@
+title: Private Keys (WINDOWS - defender)
+id: 997eb50d-5865-48bb-b3e0-a38af82f7d23
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1552.004.
+  Threat Actor: Rocke
+references:
+  - https://attack.mitre.org/techniques/T1552.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1552.004
+  - actor.rocke

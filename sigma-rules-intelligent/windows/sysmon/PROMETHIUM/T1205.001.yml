@@ -1,0 +1,37 @@
+title: Port Knocking (WINDOWS - sysmon)
+id: 886479b4-f0df-4d34-b311-6c15aa939d44
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1205.001.
+  Threat Actor: PROMETHIUM
+references:
+  - https://attack.mitre.org/techniques/T1205.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1205.001
+  - actor.promethium

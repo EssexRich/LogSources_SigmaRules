@@ -1,0 +1,30 @@
+title: System Shutdown/Reboot (GOOGLE - workspace)
+id: c780bdb1-78be-4141-adda-78191f305b8e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1529.
+  Threat Actor: APT38
+references:
+  - https://attack.mitre.org/techniques/T1529/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1529
+  - actor.apt38

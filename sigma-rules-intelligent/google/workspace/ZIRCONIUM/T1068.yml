@@ -1,0 +1,30 @@
+title: Exploitation for Privilege Escalation (GOOGLE - workspace)
+id: c082c574-73dd-45bf-9e42-7a1c1fbc13f4
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1068.
+  Threat Actor: ZIRCONIUM
+references:
+  - https://attack.mitre.org/techniques/T1068/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1068
+  - actor.zirconium

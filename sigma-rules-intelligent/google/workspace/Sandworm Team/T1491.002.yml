@@ -1,0 +1,30 @@
+title: External Defacement (GOOGLE - workspace)
+id: bc9b5b9a-f376-4ca6-a941-b8958f223c76
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1491.002.
+  Threat Actor: Sandworm Team
+references:
+  - https://attack.mitre.org/techniques/T1491.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1491.002
+  - actor.sandworm_team

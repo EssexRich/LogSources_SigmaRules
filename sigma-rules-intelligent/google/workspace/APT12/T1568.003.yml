@@ -1,0 +1,30 @@
+title: DNS Calculation (GOOGLE - workspace)
+id: 873ad0a9-4df4-464f-b38d-fe0adcc6885d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1568.003.
+  Threat Actor: APT12
+references:
+  - https://attack.mitre.org/techniques/T1568.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1568.003
+  - actor.apt12

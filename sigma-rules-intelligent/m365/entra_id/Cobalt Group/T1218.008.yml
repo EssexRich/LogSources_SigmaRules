@@ -1,0 +1,32 @@
+title: Odbcconf (M365 - entra_id)
+id: d8913d92-ed8e-465c-928d-1eb3fe29b9e5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1218.008.
+  Threat Actor: Cobalt Group
+references:
+  - https://attack.mitre.org/techniques/T1218.008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1218.008
+  - actor.cobalt_group

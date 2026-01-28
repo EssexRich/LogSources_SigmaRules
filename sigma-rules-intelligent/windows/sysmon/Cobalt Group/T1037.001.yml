@@ -1,0 +1,37 @@
+title: Logon Script (Windows) (WINDOWS - sysmon)
+id: f20e69b8-ecc1-46a8-b6b6-0362c86e2ee7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1037.001.
+  Threat Actor: Cobalt Group
+references:
+  - https://attack.mitre.org/techniques/T1037.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1037.001
+  - actor.cobalt_group

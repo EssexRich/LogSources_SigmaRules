@@ -1,0 +1,32 @@
+title: Exfiltration Over Unencrypted Non-C2 Protocol (M365 - entra_id)
+id: b69a60f0-dd8c-479f-8137-b01e206f9842
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1048.003.
+  Threat Actor: FIN6
+references:
+  - https://attack.mitre.org/techniques/T1048.003/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1048.003
+  - actor.fin6

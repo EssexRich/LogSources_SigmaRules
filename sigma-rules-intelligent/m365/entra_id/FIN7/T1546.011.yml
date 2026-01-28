@@ -1,0 +1,32 @@
+title: Application Shimming (M365 - entra_id)
+id: 9419a6d5-6172-451b-b6c6-c1629ae20c54
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1546.011.
+  Threat Actor: FIN7
+references:
+  - https://attack.mitre.org/techniques/T1546.011/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1546.011
+  - actor.fin7

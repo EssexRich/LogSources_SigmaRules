@@ -1,0 +1,32 @@
+title: Network Share Connection Removal (M365 - entra_id)
+id: 545ef73a-99bf-4236-bd80-bfcdc32d162c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1070.005.
+  Threat Actor: Threat Group-3390
+references:
+  - https://attack.mitre.org/techniques/T1070.005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1070.005
+  - actor.threat_group-3390

@@ -1,0 +1,37 @@
+title: Multi-Factor Authentication Interception (WINDOWS - sysmon)
+id: bb8b3a09-704f-48cb-826c-613f4bb53e75
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1111.
+  Threat Actor: Kimsuky
+references:
+  - https://attack.mitre.org/techniques/T1111/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1111
+  - actor.kimsuky

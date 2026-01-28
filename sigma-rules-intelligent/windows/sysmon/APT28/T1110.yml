@@ -1,0 +1,37 @@
+title: Brute Force (WINDOWS - sysmon)
+id: 2594ecda-2023-4808-b0ed-26c7ca6ddfe5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.
+  Threat Actor: APT28
+references:
+  - https://attack.mitre.org/techniques/T1110/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110
+  - actor.apt28

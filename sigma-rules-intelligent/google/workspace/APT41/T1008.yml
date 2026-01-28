@@ -1,0 +1,30 @@
+title: Fallback Channels (GOOGLE - workspace)
+id: af6c1e0d-f2ab-4cb1-89b1-1235d2f72398
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1008.
+  Threat Actor: APT41
+references:
+  - https://attack.mitre.org/techniques/T1008/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    actor.email: admin@example.com
+    events.type: admin_role_assigned
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1008
+  - actor.apt41
