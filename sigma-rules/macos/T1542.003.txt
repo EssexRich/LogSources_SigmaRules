@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1542.003 Detection (macos)
+    id: 316a7be9-52ca-4f91-9181-695d02bf58d6
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1542.003.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1542.003/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1542.003
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: macos
+    service: unified_logging
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1542.003
+    
