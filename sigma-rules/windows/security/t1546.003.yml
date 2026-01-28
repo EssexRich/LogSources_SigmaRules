@@ -1,0 +1,28 @@
+title: WMI Persistence - Security
+id: 163e3a72-bf6b-4e7f-acb3-009ea4895901
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1546.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1546/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_wmi_persistence.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1546.003
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 4662
+          ObjectType: 'WMI Namespace'
+          ObjectName|contains: 'subscription'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

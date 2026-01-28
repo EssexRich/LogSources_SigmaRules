@@ -1,0 +1,31 @@
+title: Suspicious LDAP-Attributes Used
+id: 1cabb641-76e2-4951-8af0-6082bf2e6e9d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1001.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1001/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_susp_ldap_dataexchange.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1001.003
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 5136
+          AttributeValue|contains: '*'
+          AttributeLDAPDisplayName:
+              - 'primaryInternationalISDNNumber'
+              - 'otherFacsimileTelephoneNumber'
+              - 'primaryTelexNumber'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

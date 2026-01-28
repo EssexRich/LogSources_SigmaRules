@@ -1,0 +1,37 @@
+title: System Shutdown/Reboot - Linux
+id: ba21b2ae-7c7a-4780-a114-257ade7bdfc6
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1529.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1529/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_system_shutdown_reboot.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1529
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      execve:
+          type: 'EXECVE'
+      shutdowncmd:
+          - 'shutdown'
+          - 'reboot'
+          - 'halt'
+          - 'poweroff'
+      init:
+          - 'init'
+          - 'telinit'
+      initselection:
+          - 0
+          - 6
+      condition: execve and (shutdowncmd or (init and initselection))
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

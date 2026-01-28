@@ -1,0 +1,30 @@
+title: HackTool - WinPwn Execution
+id: f21366aa-7cc0-4baa-b38a-edbbc7af0a3a
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1518.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1518/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_winpwn.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1518
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          CommandLine|contains:
+              - 'Offline_Winpwn'
+              - 'WinPwn '
+              - 'WinPwn.exe'
+              - 'WinPwn.ps1'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

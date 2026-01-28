@@ -1,0 +1,31 @@
+title: Remote Access Tool - Renamed MeshAgent Execution - MacOS
+id: 6412dccc-7fbc-498c-a0ee-f2b634f0a10e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1036.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1036/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_remote_access_tools_renamed_meshagent_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1036.003
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection_meshagent:
+          - CommandLine|contains: '--meshServiceName'
+          - OriginalFileName|contains: 'meshagent'
+      filter_main_legitimate:
+          Image|endswith:
+              - '/meshagent'
+              - '/meshagent_osx64'
+      condition: selection_meshagent and not 1 of filter_main_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

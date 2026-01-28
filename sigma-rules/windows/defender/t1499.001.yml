@@ -1,0 +1,31 @@
+title: NTFS Vulnerability Exploitation
+id: 9087038e-40b4-4629-a89c-04293c16ccb0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1499.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1499/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/ntfs/win_system_ntfs_vuln_exploit.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1499.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          Provider_Name: Ntfs
+          EventID: 55
+          Origin: 'File System Driver'
+          Description|contains|all:
+              - 'contains a corrupted file record'
+              - 'The name of the file is "\"'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

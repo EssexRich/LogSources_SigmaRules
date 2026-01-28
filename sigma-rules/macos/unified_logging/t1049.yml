@@ -1,0 +1,31 @@
+title: System Network Connections Discovery - MacOs
+id: 50e23ca0-f15f-46dd-b624-7d33046829eb
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1049.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1049/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_system_network_connections_discovery.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1049
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection:
+          Image|endswith:
+              - '/who'
+              - '/w'
+              - '/last'
+              - '/lsof'
+              - '/netstat'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,33 @@
+title: Credentials from Password Stores - Keychain
+id: e7f4ca2c-8119-41ea-b46d-8d55ee4b453f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1555.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1555/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_creds_from_keychain.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1555.001
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection1:
+          Image: '/usr/bin/security'
+          CommandLine|contains:
+              - 'find-certificate'
+              - ' export '
+      selection2:
+          CommandLine|contains:
+              - ' dump-keychain '
+              - ' login-keychain '
+      condition: 1 of selection*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

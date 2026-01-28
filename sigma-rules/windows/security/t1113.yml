@@ -1,0 +1,29 @@
+title: Screen Capture Activity Via Psr.EXE
+id: 0bf6cbc6-a9e2-43af-bed0-51c9e1e5cd4f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1113.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1113/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_psr_capture_screenshots.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1113
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '\Psr.exe'
+          CommandLine|contains:
+              - '/start'
+              - '-start'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

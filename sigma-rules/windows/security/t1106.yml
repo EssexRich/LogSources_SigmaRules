@@ -1,0 +1,31 @@
+title: Potential Binary Proxy Execution Via Cdb.EXE
+id: 1e6ed531-cff4-42fc-bec5-0c96f20edf98
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1106.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1106/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cdb_arbitrary_command_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1106
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_img:
+          - Image|endswith: '\cdb.exe'
+          - OriginalFileName: 'CDB.Exe'
+      selection_cli:
+          CommandLine|contains:
+              - ' -c ' # Using a debugger script
+              - ' -cf '
+      condition: all of selection*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

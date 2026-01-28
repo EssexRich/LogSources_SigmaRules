@@ -1,0 +1,26 @@
+title: Msxsl.EXE Execution
+id: aafbedc7-0f05-4cc6-9fb6-780f8c466c98
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1220.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1220/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msxsl_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1220
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '\msxsl.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

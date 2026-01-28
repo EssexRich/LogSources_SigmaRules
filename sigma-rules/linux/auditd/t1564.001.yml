@@ -1,0 +1,35 @@
+title: Hidden Files and Directories
+id: b1aca7da-e9f1-464e-9b57-5d99e54d86a5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1564.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1564/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_hidden_files_directories.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1564.001
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection_commands:
+          type: 'EXECVE'
+          a0:
+              - 'mkdir'
+              - 'nano'
+              - 'touch'
+              - 'vi'
+              - 'vim'
+      selection_arguments:
+          - a1|re: '(^|\/)\.[^.\/]'
+          - a2|re: '(^|\/)\.[^.\/]'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

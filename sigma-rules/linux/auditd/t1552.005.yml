@@ -1,0 +1,53 @@
+title: Unusual Instance Metadata Service (IMDS) API Request
+id: 17b3758e-a531-43e1-9999-945e72c50d97
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1552.005.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1552/005/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_unusual_instance_metadata_service_api_request.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1552.005
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    process.name:
+      - 'curl'
+      - 'sh'
+    process.executable:
+      - './*'
+      - '/etc/rc.local'
+      - '/opt/rumble/bin/rumble-agent*'
+      - '/lusr/libexec/oracle-cloud-agent/*'
+    process.command_line:
+      - '*169.254.169.254/latest/api/token*'
+      - '*169.254.169.254/opc/v*/vnics*'
+      - '*-X PUT*169.254.169.254/latest/api/token*'
+      - '*X-aws-ec2-metadata-token-ttl-seconds*'
+      - '*-H X-aws-ec2-metadata-token:*169.254.169.254/latest/*'
+      - '*-A amazon-ec2-net-utils/*'
+      - '*-H Metadata:true*169.254.169.254/metadata/*'
+      - '*-H Authorization:*Oracle*169.254.169.254/opc/*'
+    process.working_directory:
+      - '/opt/rapid7*'
+      - '/opt/nessus_agent/var/nessus/*'
+    process.parent.executable:
+      - '/usr/bin/setup-policy-routes'
+      - '/usr/bin/runc'
+    process.entry_leader.executable:
+      - '/usr/local/qualys/cloud-agent/bin/qualys-cloud-agent'
+      - '/opt/nessus_agent/sbin/nessus-service'
+    out: 'safe'
+    token: '169.254.169.254/latest/*'
+    Metadata: 'true*169.254.169.254/metadata/*'
+    Authorization: 'Oracle*169.254.169.254/opc/*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

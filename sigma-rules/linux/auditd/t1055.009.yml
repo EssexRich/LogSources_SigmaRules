@@ -1,0 +1,33 @@
+title: ASLR Disabled Via Sysctl or Direct Syscall - Linux
+id: c4cdef03-3e1a-4716-9526-032fcdd44967
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1055.009.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1055/009/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_disable_aslr_protection.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1055.009
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection_syscall:
+          type: 'SYSCALL'
+          SYSCALL: 'personality'
+          a0: 40000
+      selection_sysctl:
+          type: 'EXECVE'
+          a0: 'sysctl'
+          a1: '-w'
+          a2: 'kernel.randomize_va_space=0' # 0 = disable
+      condition: 1 of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,45 @@
+title: Suspicious Execution via Microsoft Office Add-Ins
+id: bc748599-1a65-431c-a911-626aae59c539
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1137.006.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1137/006/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/initial_access_execution_via_office_addins.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1137.006
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    process.name:
+      - 'WINWORD.EXE'
+      - 'VSTOInstaller.exe'
+      - 'VSTOInstaller.exe'
+      - 'VSTOInstaller.exe'
+    process.args:
+      - '?:\\Users\\*\\Temp\\7z*'
+      - 'http*'
+      - '*.vsto'
+      - '/Uninstall'
+      - 'https://dl.getsidekick.com/outlook/vsto/Sidekick.vsto'
+    process.parent.name:
+      - 'explorer.exe'
+      - 'OpenWith.exe'
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'rundll32.exe'
+    process.parent.executable:
+      - '?:\\Program Files\\Logitech\\LogiOptions\\PlugInInstallerUtility*.exe'
+      - '?:\\Program Files\\Common Files\\microsoft shared\\VSTO\\*\\VSTOInstaller.exe'
+    process.parent.args: '?:\\WINDOWS\\Installer\\MSI*.tmp,zzzzInvokeManagedCustomActionOutOfProc'
+    https: '//dl.getsidekick.com/outlook/vsto/Sidekick.vsto'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

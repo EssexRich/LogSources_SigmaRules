@@ -1,0 +1,136 @@
+title: HackTool - SharpView Execution
+id: 39d3add3-d0d6-48b7-8d49-6b9066f65e03
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1049.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1049/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_hktl_sharpview.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1049
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          - OriginalFileName: 'SharpView.exe'
+          - Image|endswith: '\SharpView.exe'
+          - CommandLine|contains:
+                # - 'Add-DomainGroupMember'
+                # - 'Add-DomainObjectAcl'
+                # - 'Add-ObjectAcl'
+                - 'Add-RemoteConnection'
+                - 'Convert-ADName'
+                - 'ConvertFrom-SID'
+                - 'ConvertFrom-UACValue'
+                - 'Convert-SidToName'
+                # - 'ConvertTo-SID'
+                - 'Export-PowerViewCSV'
+                # - 'Find-DomainLocalGroupMember'
+                - 'Find-DomainObjectPropertyOutlier'
+                - 'Find-DomainProcess'
+                - 'Find-DomainShare'
+                - 'Find-DomainUserEvent'
+                - 'Find-DomainUserLocation'
+                - 'Find-ForeignGroup'
+                - 'Find-ForeignUser'
+                - 'Find-GPOComputerAdmin'
+                - 'Find-GPOLocation'
+                - 'Find-Interesting' # 'Find-InterestingDomainAcl', 'Find-InterestingDomainShareFile', 'Find-InterestingFile'
+                - 'Find-LocalAdminAccess'
+                - 'Find-ManagedSecurityGroups'
+                # - 'Get-ADObject'
+                - 'Get-CachedRDPConnection'
+                - 'Get-DFSshare'
+                # - 'Get-DNSRecord'
+                # - 'Get-DNSZone'
+                # - 'Get-Domain'
+                - 'Get-DomainComputer'
+                - 'Get-DomainController'
+                - 'Get-DomainDFSShare'
+                - 'Get-DomainDNSRecord'
+                # - 'Get-DomainDNSZone'
+                - 'Get-DomainFileServer'
+                - 'Get-DomainForeign' # 'Get-DomainForeignGroupMember', 'Get-DomainForeignUser'
+                - 'Get-DomainGPO' # 'Get-DomainGPOComputerLocalGroupMapping', 'Get-DomainGPOLocalGroup', 'Get-DomainGPOUserLocalGroupMapping'
+                - 'Get-DomainGroup' # 'Get-DomainGroupMember'
+                - 'Get-DomainGUIDMap'
+                - 'Get-DomainManagedSecurityGroup'
+                - 'Get-DomainObject' # 'Get-DomainObjectAcl'
+                - 'Get-DomainOU'
+                - 'Get-DomainPolicy' # 'Get-DomainPolicyData'
+                - 'Get-DomainSID'
+                - 'Get-DomainSite'
+                - 'Get-DomainSPNTicket'
+                - 'Get-DomainSubnet'
+                - 'Get-DomainTrust' # 'Get-DomainTrustMapping'
+                # - 'Get-DomainUser'
+                - 'Get-DomainUserEvent'
+                # - 'Get-Forest'
+                - 'Get-ForestDomain'
+                - 'Get-ForestGlobalCatalog'
+                - 'Get-ForestTrust'
+                - 'Get-GptTmpl'
+                - 'Get-GroupsXML'
+                # - 'Get-GUIDMap'
+                # - 'Get-IniContent'
+                # - 'Get-IPAddress'
+                - 'Get-LastLoggedOn'
+                - 'Get-LoggedOnLocal'
+                - 'Get-NetComputer' # 'Get-NetComputerSiteName'
+                - 'Get-NetDomain' # 'Get-NetDomainController', 'Get-NetDomainTrust'
+                - 'Get-NetFileServer'
+                - 'Get-NetForest' # 'Get-NetForestCatalog', 'Get-NetForestDomain', 'Get-NetForestTrust'
+                - 'Get-NetGPO' # 'Get-NetGPOGroup'
+                # - 'Get-NetGroup'
+                - 'Get-NetGroupMember'
+                - 'Get-NetLocalGroup' # 'Get-NetLocalGroupMember'
+                - 'Get-NetLoggedon'
+                - 'Get-NetOU'
+                - 'Get-NetProcess'
+                - 'Get-NetRDPSession'
+                - 'Get-NetSession'
+                - 'Get-NetShare'
+                - 'Get-NetSite'
+                - 'Get-NetSubnet'
+                - 'Get-NetUser'
+                # - 'Get-ObjectAcl'
+                - 'Get-PathAcl'
+                - 'Get-PrincipalContext'
+                # - 'Get-Proxy'
+                - 'Get-RegistryMountedDrive'
+                - 'Get-RegLoggedOn'
+                # - 'Get-SiteName'
+                # - 'Get-UserEvent'
+                # - 'Get-WMIProcess'
+                - 'Get-WMIRegCachedRDPConnection'
+                - 'Get-WMIRegLastLoggedOn'
+                - 'Get-WMIRegMountedDrive'
+                - 'Get-WMIRegProxy'
+                - 'Invoke-ACLScanner'
+                - 'Invoke-CheckLocalAdminAccess'
+                - 'Invoke-Kerberoast'
+                - 'Invoke-MapDomainTrust'
+                - 'Invoke-RevertToSelf'
+                - 'Invoke-Sharefinder'
+                - 'Invoke-UserImpersonation'
+                # - 'New-DomainGroup'
+                # - 'New-DomainUser'
+                - 'Remove-DomainObjectAcl'
+                - 'Remove-RemoteConnection'
+                - 'Request-SPNTicket'
+                # - 'Resolve-IPAddress'
+                # - 'Set-ADObject'
+                - 'Set-DomainObject'
+                # - 'Set-DomainUserPassword'
+                - 'Test-AdminAccess'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

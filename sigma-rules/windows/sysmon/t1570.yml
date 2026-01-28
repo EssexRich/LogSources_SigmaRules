@@ -1,0 +1,32 @@
+title: Metasploit Or Impacket Service Installation Via SMB PsExec
+id: 09eded77-c0c3-4a2e-932b-702f8f0e7d80
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1570.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1570/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_metasploit_or_impacket_smb_psexec_service_install.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1570
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          EventID: 4697
+          ServiceFileName|re: '^%systemroot%\\[a-zA-Z]{8}\.exe$'
+          ServiceName|re: '(^[a-zA-Z]{4}$)|(^[a-zA-Z]{8}$)|(^[a-zA-Z]{16}$)'
+          ServiceStartType: 3  # on-demand start, see https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4697
+          ServiceType: '0x10'
+      filter:
+          ServiceName: 'PSEXESVC'
+      condition: selection and not filter
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,46 @@
+title: Password Policy Discovery - Linux
+id: e1e5c634-0529-4940-b262-746124c7bba9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1201.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1201/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_password_policy_discovery.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1201
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection_files:
+          type: 'PATH'
+          name:
+              - '/etc/login.defs'
+              - '/etc/pam.d/auth'
+              - '/etc/pam.d/common-account'
+              - '/etc/pam.d/common-auth'
+              - '/etc/pam.d/common-password'
+              - '/etc/pam.d/system-auth'
+              - '/etc/security/pwquality.conf'
+      selection_chage:
+          type: 'EXECVE'
+          a0: 'chage'
+          a1:
+              - '--list'
+              - '-l'
+      selection_passwd:
+          type: 'EXECVE'
+          a0: 'passwd'
+          a1:
+              - '-S'
+              - '--status'
+      condition: 1 of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,29 @@
+title: Suspicious Execution of Shutdown
+id: 8980a0cc-6df2-4584-bf3e-a375a336ef21
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1529.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1529/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_shutdown_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1529
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '\shutdown.exe'
+          CommandLine|contains:
+              - '/r '
+              - '/s '
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

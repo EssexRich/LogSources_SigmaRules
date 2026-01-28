@@ -1,0 +1,24 @@
+title: Dumping Account Hashes via Built-In Commands
+id: 368096f6-09e2-471c-9202-8b24032b2625
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1003.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1003/
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_dumping_hashes_bi_cmds.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1003
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

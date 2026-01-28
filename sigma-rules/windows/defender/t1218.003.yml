@@ -1,0 +1,27 @@
+title: CMSTP Execution Process Creation
+id: 06fcd663-f7d1-4040-820c-02dffbbd8a78
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1218.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1218/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cmstp_execution_by_creation.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1218.003
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      # CMSTP Spawning Child Process
+      selection:
+          ParentImage|endswith: '\cmstp.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

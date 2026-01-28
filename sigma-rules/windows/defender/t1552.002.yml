@@ -1,0 +1,28 @@
+title: SAM Registry Hive Handle Request
+id: c083bac5-c01c-4371-9a03-75a6e57134ff
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1552.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1552/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_sam_registry_hive_handle_request.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1552.002
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 4656
+          ObjectType: 'Key'
+          ObjectName|endswith: '\SAM'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

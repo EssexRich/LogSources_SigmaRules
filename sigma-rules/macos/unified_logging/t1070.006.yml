@@ -1,0 +1,31 @@
+title: File Time Attribute Change
+id: e0f43fe1-dbe4-443e-87fe-71b43414b8a5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1070.006.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1070/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_change_file_time_attr.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1070.006
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '/touch'
+          CommandLine|contains:
+              - '-t'
+              - '-acmr'
+              - '-d'
+              - '-r'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

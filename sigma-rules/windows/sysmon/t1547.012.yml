@@ -1,0 +1,28 @@
+title: Potential Port Monitor or Print Processor Registration Abuse
+id: 0e96c43d-2d0d-4cf4-a928-44518def25e7
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1547.012.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1547/012/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_port_monitor_print_pocessor_abuse.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1547.012
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    registry.path:
+      - 'HKLM\\SYSTEM\\*ControlSet*\\Control\\Print\\Monitors\\*'
+      - '\\REGISTRY\\MACHINE\\SYSTEM\\*ControlSet*\\Control\\Print\\Environments\\Windows*\\Print Processors\\*'
+    registry.data.strings: '*.dll'
+    user.id: 'S-1-5-18'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

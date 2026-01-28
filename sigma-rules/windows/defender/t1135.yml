@@ -1,0 +1,31 @@
+title: File Explorer Folder Opened Using Explorer Folder Shortcut Via Shell
+id: a9c204b4-212c-49db-bb0d-4b9b189f455e
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1135.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1135/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_explorer_folder_shortcut_via_shell_binary.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1135
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          ParentImage|endswith:
+              - '\cmd.exe'
+              - '\powershell.exe'
+              - '\pwsh.exe'
+          Image|endswith: '\explorer.exe'
+          CommandLine|contains: 'shell:mycomputerfolder'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

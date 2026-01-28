@@ -1,0 +1,31 @@
+title: Remote File Copy
+id: 6e126e68-a4b0-4cbf-ae9a-b508e1ab8592
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1105.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1105/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/builtin/lnx_file_copy.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1105
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      tools:
+          - 'scp '
+          - 'rsync '
+          - 'sftp '
+      filter:
+          - '@'
+          - ':'
+      condition: tools and filter
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

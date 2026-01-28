@@ -1,0 +1,27 @@
+title: Ngrok Usage with Remote Desktop Service
+id: 44e7b785-fed1-460a-9701-ce5980ca4ad0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1090.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1090/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/terminalservices/win_terminalservices_rdp_ngrok.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1090
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          EventID: 21
+          Address|contains: '16777216'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

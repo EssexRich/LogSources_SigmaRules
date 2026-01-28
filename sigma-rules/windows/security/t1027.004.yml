@@ -1,0 +1,71 @@
+title: Dynamic .NET Compilation Via Csc.EXE
+id: c156c11e-4d47-42c9-9775-f97dfb9aa8d0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1027.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1027/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_csc_susp_dynamic_compilation.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1027.004
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_img:
+          Image|endswith: '\csc.exe'
+      selection_susp_location_1:
+          CommandLine|contains:
+              - ':\Perflogs\'
+              - ':\Users\Public\'
+              - '\AppData\Local\Temp\' # User execution
+              - '\Temporary Internet'
+              - '\Windows\Temp\' # Admin execution
+      selection_susp_location_2:
+          - CommandLine|contains|all:
+                - ':\Users\'
+                - '\Favorites\'
+          - CommandLine|contains|all:
+                - ':\Users\'
+                - '\Favourites\'
+          - CommandLine|contains|all:
+                - ':\Users\'
+                - '\Contacts\'
+          - CommandLine|contains|all:
+                - ':\Users\'
+                - '\Pictures\'
+      selection_susp_location_3:
+          CommandLine|re: '([Pp]rogram[Dd]ata|%([Ll]ocal)?[Aa]pp[Dd]ata%|\\[Aa]pp[Dd]ata\\([Ll]ocal([Ll]ow)?|[Rr]oaming))\\[^\\]{1,256}$'
+      filter_main_programfiles:
+          # Note: this is a generic filter. You could baseline execution in your env for a more robust rule
+          ParentImage|startswith:
+              - 'C:\Program Files (x86)\' # https://twitter.com/gN3mes1s/status/1206874118282448897
+              - 'C:\Program Files\' # https://twitter.com/gN3mes1s/status/1206874118282448897
+      filter_main_sdiagnhost:
+          ParentImage: 'C:\Windows\System32\sdiagnhost.exe' # https://twitter.com/gN3mes1s/status/1206874118282448897
+      filter_main_w3p:
+          ParentImage: 'C:\Windows\System32\inetsrv\w3wp.exe' # https://twitter.com/gabriele_pippi/status/1206907900268072962
+      filter_optional_chocolatey:
+          ParentImage: # Chocolatey https://chocolatey.org/
+              - 'C:\ProgramData\chocolatey\choco.exe'
+              - 'C:\ProgramData\chocolatey\tools\shimgen.exe'
+      filter_optional_defender:
+          ParentCommandLine|contains: '\ProgramData\Microsoft\Windows Defender Advanced Threat Protection'
+      filter_optional_ansible:
+          # Note: As ansible is widely used we exclude it with this generic filter.
+          # A better option would be to filter based on script content basis or other marker while hunting
+          ParentCommandLine|contains:
+              # '{"failed":true,"msg":"Ansible requires PowerShell v3.0 or newer"}'
+              - 'JwB7ACIAZgBhAGkAbABlAGQAIgA6AHQAcgB1AGUALAAiAG0AcwBnACIAOgAiAEEAbgBzAGkAYgBsAGUAIAByAGUAcQB1AGkAcgBlAHMAIABQAG8AdwBlAHIAUwBoAGUAbABsACAAdgAzAC4AMAAgAG8AcgAgAG4AZQB3AGUAcgAiAH0AJw'
+              - 'cAewAiAGYAYQBpAGwAZQBkACIAOgB0AHIAdQBlACwAIgBtAHMAZwAiADoAIgBBAG4AcwBpAGIAbABlACAAcgBlAHEAdQBpAHIAZQBzACAAUABvAHcAZQByAFMAaABlAGwAbAAgAHYAMwAuADAAIABvAHIAIABuAGUAdwBlAHIAIgB9ACcA'
+              - 'nAHsAIgBmAGEAaQBsAGUAZAAiADoAdAByAHUAZQAsACIAbQBzAGcAIgA6ACIAQQBuAHMAaQBiAGwAZQAgAHIAZQBxAHUAaQByAGUAcwAgAFAAbwB3AGUAcgBTAGgAZQBsAGwAIAB2ADMALgAwACAAbwByACAAbgBlAHcAZQByACIAfQAnA'
+      condition: selection_img and 1 of selection_susp_location_* and not 1 of filter_main_* and not 1 of filter_optional_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

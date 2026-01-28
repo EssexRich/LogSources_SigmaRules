@@ -1,0 +1,37 @@
+title: Azure AD Health Monitoring Agent Registry Keys Access
+id: 6cf93555-2683-4f2c-8d20-940da354a043
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1012.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1012/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_aadhealth_mon_agent_regkey_access.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1012
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          EventID:
+              - 4656
+              - 4663
+          ObjectType: 'Key'
+          ObjectName: '\REGISTRY\MACHINE\SOFTWARE\Microsoft\Microsoft Online\Reporting\MonitoringAgent'
+      filter:
+          ProcessName|contains:
+              - 'Microsoft.Identity.Health.Adfs.DiagnosticsAgent.exe'
+              - 'Microsoft.Identity.Health.Adfs.InsightsService.exe'
+              - 'Microsoft.Identity.Health.Adfs.MonitoringAgent.Startup.exe'
+              - 'Microsoft.Identity.Health.Adfs.PshSurrogate.exe'
+              - 'Microsoft.Identity.Health.Common.Clients.ResourceMonitor.exe'
+      condition: selection and not filter
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium
