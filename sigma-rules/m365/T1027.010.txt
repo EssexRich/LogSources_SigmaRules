@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1027.010 Detection (m365)
+    id: 9bdc1890-0d33-4600-8b07-6918c2040150
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1027.010.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1027.010/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1027.010
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: m365
+    service: entra_id
+    category: authentication
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1027.010
+    
