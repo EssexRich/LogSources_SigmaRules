@@ -1,0 +1,18 @@
+[metadata]
+creation_date = "2020/02/18"
+deprecation_date = "2020/10/30"
+maturity = "deprecated"
+updated_date = "2020/10/30"
+
+[rule]
+author = ["Elastic"]
+description = """
+Identifies mshta.exe making a network connection. This may indicate adversarial activity, as mshta.exe is often
+leveraged by adversaries to execute malicious scripts and evade detection.
+"""
+from = "now-9m"
+index = ["winlogbeat-*", "logs-endpoint.events.*", "logs-windows.*"]
+language = "eql"
+license = "Elastic License v2"
+name 
+# Adapted for actor attribution
