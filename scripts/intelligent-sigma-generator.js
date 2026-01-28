@@ -6,7 +6,11 @@ const https = require('https');
 
 function fetchURL(url) {
   return new Promise((resolve, reject) => {
-    const request = https.get(url, (res) => {
+    const request = https.get(url, {
+      headers: {
+        'User-Agent': 'GapMATRIX-SigmaGen/1.0'
+      }
+    }, (res) => {
       let data = '';
       res.on('data', (chunk) => { data += chunk; });
       res.on('end', () => {
@@ -36,7 +40,11 @@ function fetchURL(url) {
 
 function fetchText(url) {
   return new Promise((resolve, reject) => {
-    const request = https.get(url, (res) => {
+    const request = https.get(url, {
+      headers: {
+        'User-Agent': 'GapMATRIX-SigmaGen/1.0'
+      }
+    }, (res) => {
       let data = '';
       res.on('data', (chunk) => { data += chunk; });
       res.on('end', () => resolve(data));
@@ -314,21 +322,10 @@ async function main() {
   const actorIdToName = {};
 
   try {
-    for (let i = 1; i <= 500; i++) {
-      const actorId = `G${String(i).padStart(4, '0')}`;
-      try {
-        const actor = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/actors/${actorId}.json`);
-        if (actor && actor.name && actor.id) {
-          mitreActorNames.add(actor.name);
-          actorIdToName[actor.id] = actor.name;
-        }
-      } catch (e) {
-        if (i > 50 && mitreActorNames.size === 0) throw e;
-      }
-    }
-    console.log(`[SigmaGen] ✓ Found ${mitreActorNames.size} MITRE actors`);
-
+    console.log('[SigmaGen]   - Fetching MITRE index...');
     const mitreIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/index.json');
+    
+    // Get technique names
     if (mitreIndex.techniques) {
       Object.entries(mitreIndex.techniques).forEach(([techId, techName]) => {
         techniqueNames[techId] = techName;
@@ -336,31 +333,51 @@ async function main() {
     }
     console.log(`[SigmaGen] ✓ Found ${Object.keys(techniqueNames).length} techniques`);
 
-    const relationships = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/relationships/index.json');
-    const stixIdToTech = {};
+    // Get actor names and IDs from index
+    const actorIds = new Set();
+    if (mitreIndex.actors) {
+      Object.entries(mitreIndex.actors).forEach(([actorId, actorName]) => {
+        actorIds.add(actorId);
+        mitreActorNames.add(actorName);
+        actorIdToName[actorId] = actorName;
+      });
+    }
+    console.log(`[SigmaGen] ✓ Found ${actorIds.size} MITRE actors from index`);
 
+    // Build STIX UUID to technique ID mapping
+    console.log('[SigmaGen]   - Building STIX to T-number mapping...');
+    const stixIdToTech = {};
     for (const techId of Object.keys(techniqueNames).slice(0, 500)) {
       try {
         const tech = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques/${techId}.json`);
         if (tech && tech.id) stixIdToTech[tech.id] = techId;
-      } catch (e) {}
+      } catch (e) {
+        // Continue - some techniques may not exist
+      }
     }
+    console.log(`[SigmaGen] ✓ Built STIX mapping for ${Object.keys(stixIdToTech).length} techniques`);
 
+    // Fetch relationships
+    console.log('[SigmaGen]   - Fetching relationships...');
+    const relationships = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/relationships/index.json');
+    
     let relCount = 0;
-    relationships.forEach(rel => {
-      if (rel.relationship_type === 'uses' && rel.source_ref.startsWith('intrusion-set--') && rel.target_ref.startsWith('attack-pattern--')) {
-        const actorName = actorIdToName[rel.source_ref];
-        const techId = stixIdToTech[rel.target_ref];
+    if (Array.isArray(relationships)) {
+      relationships.forEach(rel => {
+        if (rel.relationship_type === 'uses' && rel.source_ref.startsWith('intrusion-set--') && rel.target_ref.startsWith('attack-pattern--')) {
+          const actorName = actorIdToName[rel.source_ref];
+          const techId = stixIdToTech[rel.target_ref];
 
-        if (actorName && techId) {
-          if (!mitreActorTechMap[techId]) mitreActorTechMap[techId] = [];
-          if (!mitreActorTechMap[techId].includes(actorName)) {
-            mitreActorTechMap[techId].push(actorName);
-            relCount++;
+          if (actorName && techId) {
+            if (!mitreActorTechMap[techId]) mitreActorTechMap[techId] = [];
+            if (!mitreActorTechMap[techId].includes(actorName)) {
+              mitreActorTechMap[techId].push(actorName);
+              relCount++;
+            }
           }
         }
-      }
-    });
+      });
+    }
     console.log(`[SigmaGen] ✓ Loaded ${relCount} MITRE relationships`);
   } catch (error) {
     console.warn('[SigmaGen] ⚠ Could not fetch MITRE data:', error.message);
