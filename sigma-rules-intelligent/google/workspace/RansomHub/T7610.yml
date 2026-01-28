@@ -1,0 +1,29 @@
+title: T7610 (GOOGLE - workspace)
+id: 8f4062b4-9d1c-4af1-9d7c-91c49c24af7c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7610.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T7610/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7610
+  - actor.ransomhub

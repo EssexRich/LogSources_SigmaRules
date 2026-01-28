@@ -1,0 +1,34 @@
+title: T1110 (MACOS - unified_logging)
+id: dfefe5d6-1e24-45b7-a28a-893c2c1e50e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1110/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110
+  - actor.global

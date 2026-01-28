@@ -1,0 +1,34 @@
+title: T1039 (MACOS - unified_logging)
+id: 2d38ff37-e1a4-42d1-856f-e79beb4d078e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1039.
+  Threat Actor: Vice Society
+references:
+  - https://attack.mitre.org/techniques/T1039/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1039
+  - actor.vice_society

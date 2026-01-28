@@ -1,0 +1,32 @@
+title: T1003.006 (M365 - entra_id)
+id: baba4fa5-36d7-4b81-a4d7-e66187ca63f5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1003.006.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1003.006/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1003.006
+  - actor.blacksuit

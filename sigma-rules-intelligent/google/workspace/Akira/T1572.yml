@@ -1,0 +1,29 @@
+title: T1572 (GOOGLE - workspace)
+id: 63ea59d2-e579-4995-8d99-a5d42b52036e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1572.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1572/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1572
+  - actor.akira

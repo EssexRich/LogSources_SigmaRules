@@ -1,0 +1,32 @@
+title: T1012 (M365 - entra_id)
+id: 00971703-c2bd-4527-9d58-bdb56ec07bce
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.safelocker

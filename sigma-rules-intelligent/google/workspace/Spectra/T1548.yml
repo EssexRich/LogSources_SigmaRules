@@ -1,0 +1,29 @@
+title: T1548 (GOOGLE - workspace)
+id: 7d617b73-5a29-42a8-a0e6-314f28d4c68f
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1548.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1548/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1548
+  - actor.spectra

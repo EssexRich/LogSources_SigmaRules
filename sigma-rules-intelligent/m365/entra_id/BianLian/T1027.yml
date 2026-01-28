@@ -1,0 +1,32 @@
+title: T1027 (M365 - entra_id)
+id: 38f4663a-e736-4a7e-9883-fe8a0a9b4437
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1027.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1027/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1027
+  - actor.bianlian

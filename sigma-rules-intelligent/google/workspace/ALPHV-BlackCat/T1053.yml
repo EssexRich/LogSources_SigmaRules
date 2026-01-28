@@ -1,0 +1,29 @@
+title: T1053 (GOOGLE - workspace)
+id: a411c89f-c378-49e2-a5f0-fe2b223695a9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1053.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1053/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1053
+  - actor.alphv-blackcat

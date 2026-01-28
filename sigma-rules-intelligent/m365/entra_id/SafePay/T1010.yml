@@ -1,0 +1,32 @@
+title: T1010 (M365 - entra_id)
+id: 22f43187-a824-45fa-81af-03d7512a8628
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1010.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1010/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1010
+  - actor.safepay

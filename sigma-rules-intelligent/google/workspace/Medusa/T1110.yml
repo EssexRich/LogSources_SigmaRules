@@ -1,0 +1,29 @@
+title: T1110 (GOOGLE - workspace)
+id: 90cfedb8-f57a-430a-80c7-accdda5bce9e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1110.
+  Threat Actor: Medusa
+references:
+  - https://attack.mitre.org/techniques/T1110/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1110
+  - actor.medusa

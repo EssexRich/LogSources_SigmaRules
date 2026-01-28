@@ -1,0 +1,29 @@
+title: T1203 (GOOGLE - workspace)
+id: c92b9901-66a5-4fd4-a7ca-30d052b49f7b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1203.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1203/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1203
+  - actor.safepay

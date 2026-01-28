@@ -1,0 +1,32 @@
+title: T1566.004 (M365 - entra_id)
+id: e7374bad-1658-4864-90ad-19ccc96c10a2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.004.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1566.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.004
+  - actor.lockbit

@@ -1,0 +1,29 @@
+title: T1047 (GOOGLE - workspace)
+id: 34ff5105-6d1f-4cee-a1aa-2c69e27eb3d9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1047.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1047/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1047
+  - actor.donex

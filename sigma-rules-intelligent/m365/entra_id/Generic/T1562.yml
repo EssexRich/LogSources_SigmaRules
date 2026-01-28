@@ -1,0 +1,32 @@
+title: T1562 (M365 - entra_id)
+id: 65997b2e-e7d7-48b8-b8b3-f22b16bf1edd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1562.
+  Threat Actor: Generic
+references:
+  - https://attack.mitre.org/techniques/T1562/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1562
+  - actor.generic

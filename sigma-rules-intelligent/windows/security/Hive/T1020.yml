@@ -1,0 +1,37 @@
+title: T1020 (WINDOWS - security)
+id: 6ed8695d-2c9e-410d-80d3-9af6f5acd241
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1020.
+  Threat Actor: Hive
+references:
+  - https://attack.mitre.org/techniques/T1020/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1020
+  - actor.hive

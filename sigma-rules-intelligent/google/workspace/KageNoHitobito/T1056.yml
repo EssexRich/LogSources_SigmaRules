@@ -1,0 +1,29 @@
+title: T1056 (GOOGLE - workspace)
+id: bca23bf8-8f5e-4010-952e-707a3de2aece
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1056.
+  Threat Actor: KageNoHitobito
+references:
+  - https://attack.mitre.org/techniques/T1056/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1056
+  - actor.kagenohitobito

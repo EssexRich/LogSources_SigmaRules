@@ -1,0 +1,29 @@
+title: T1115 (GOOGLE - workspace)
+id: 11eccd25-a39c-417f-a323-4405090a8595
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1115.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1115/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1115
+  - actor.coosea

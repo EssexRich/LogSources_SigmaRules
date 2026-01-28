@@ -1,0 +1,37 @@
+title: T5198 (LINUX - auditd)
+id: 45ea2e6e-a0a6-4efc-ac77-dca55ff43fbd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5198.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T5198/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5198
+  - actor.cephalus

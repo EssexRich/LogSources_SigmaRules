@@ -1,0 +1,29 @@
+title: T1537 (GOOGLE - workspace)
+id: 068acc32-9ffd-4b63-9018-24f35e7407de
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1537.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1537/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1537
+  - actor.bianlian

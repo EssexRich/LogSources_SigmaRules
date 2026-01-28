@@ -1,0 +1,32 @@
+title: T0370 (M365 - entra_id)
+id: 542c80dd-ae09-4e1d-ab9b-52d30316cf55
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T0370.
+  Threat Actor: Vect RaaS
+references:
+  - https://attack.mitre.org/techniques/T0370/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T0370
+  - actor.vect_raas

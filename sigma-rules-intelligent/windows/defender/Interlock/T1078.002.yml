@@ -1,0 +1,37 @@
+title: T1078.002 (WINDOWS - defender)
+id: e31305c2-93e9-4819-ab07-64145ffb41e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.002.
+  Threat Actor: Interlock
+references:
+  - https://attack.mitre.org/techniques/T1078.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078.002
+  - actor.interlock

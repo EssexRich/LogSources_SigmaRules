@@ -1,0 +1,29 @@
+title: T1566.004 (GOOGLE - workspace)
+id: ca5d2eab-76d8-4aa5-97e1-0ab3139c2e97
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1566.004.
+  Threat Actor: BlackBasta
+references:
+  - https://attack.mitre.org/techniques/T1566.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1566.004
+  - actor.blackbasta

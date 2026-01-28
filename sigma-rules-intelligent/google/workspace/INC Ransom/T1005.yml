@@ -1,0 +1,29 @@
+title: T1005 (GOOGLE - workspace)
+id: 955ae5c3-62ea-4019-82d9-58d13fca2c3e
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1005.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1005/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1005
+  - actor.inc_ransom

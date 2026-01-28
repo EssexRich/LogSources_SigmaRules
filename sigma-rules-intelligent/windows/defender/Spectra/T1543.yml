@@ -1,0 +1,37 @@
+title: T1543 (WINDOWS - defender)
+id: 8e569eec-d845-4dc6-932f-414c44efbfd7
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1543/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543
+  - actor.spectra

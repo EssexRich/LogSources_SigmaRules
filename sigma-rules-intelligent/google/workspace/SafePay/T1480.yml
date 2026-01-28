@@ -1,0 +1,29 @@
+title: T1480 (GOOGLE - workspace)
+id: c7a9c193-e31b-4460-979b-2bd555da9a34
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1480.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1480/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1480
+  - actor.safepay

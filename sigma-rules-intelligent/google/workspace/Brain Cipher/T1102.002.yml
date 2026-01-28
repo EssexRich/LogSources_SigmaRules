@@ -1,0 +1,29 @@
+title: T1102.002 (GOOGLE - workspace)
+id: 75a8b3c2-95e2-4410-b27e-4e5a26df41a2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.002.
+  Threat Actor: Brain Cipher
+references:
+  - https://attack.mitre.org/techniques/T1102.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102.002
+  - actor.brain_cipher

@@ -1,0 +1,29 @@
+title: T1102 (GOOGLE - workspace)
+id: 9d08ca34-fed9-48b8-834a-9d0e0be1db1c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1102.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T1102/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1102
+  - actor.benzona

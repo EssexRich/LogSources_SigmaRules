@@ -1,0 +1,32 @@
+title: T1012 (M365 - entra_id)
+id: 1dd2cb5e-f68e-427c-a499-2744b91534e3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: COOSEA
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.coosea

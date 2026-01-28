@@ -1,0 +1,29 @@
+title: T1012 (GOOGLE - workspace)
+id: 40516e5a-89f7-43ec-b448-cc27812e0cf2
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1012.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1012/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1012
+  - actor.bianlian

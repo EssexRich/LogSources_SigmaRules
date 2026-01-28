@@ -1,0 +1,29 @@
+title: T1020 (GOOGLE - workspace)
+id: 2d81efc0-e762-4da8-8711-99d3277451e9
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1020.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T1020/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1020
+  - actor.cephalus

@@ -1,0 +1,29 @@
+title: T1547 (GOOGLE - workspace)
+id: cf550c9f-993a-4cfc-a14d-14569aee498d
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1547.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1547/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1547
+  - actor.lockbit

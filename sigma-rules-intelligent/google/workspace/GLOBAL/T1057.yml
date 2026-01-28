@@ -1,0 +1,29 @@
+title: T1057 (GOOGLE - workspace)
+id: 07c884ce-6d47-4ff9-9d4e-3762fb7cc872
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1057.
+  Threat Actor: GLOBAL
+references:
+  - https://attack.mitre.org/techniques/T1057/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1057
+  - actor.global

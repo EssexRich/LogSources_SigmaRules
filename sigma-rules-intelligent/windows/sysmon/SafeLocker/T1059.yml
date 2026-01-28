@@ -1,0 +1,37 @@
+title: T1059 (WINDOWS - sysmon)
+id: 548a390e-0dc3-4fda-8590-4bb704bf4c95
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1059.
+  Threat Actor: SafeLocker
+references:
+  - https://attack.mitre.org/techniques/T1059/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1059
+  - actor.safelocker

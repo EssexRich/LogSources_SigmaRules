@@ -1,0 +1,37 @@
+title: T1604 (WINDOWS - defender)
+id: e866da9f-0c9a-43a1-82e1-6b50b30f6f66
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1604.
+  Threat Actor: Akira
+references:
+  - https://attack.mitre.org/techniques/T1604/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1604
+  - actor.akira

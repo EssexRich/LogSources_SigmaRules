@@ -1,0 +1,37 @@
+title: T1531 (WINDOWS - sysmon)
+id: e1a1e167-1f0a-45fb-b707-d9965ad50c1b
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1531.
+  Threat Actor: 0mega
+references:
+  - https://attack.mitre.org/techniques/T1531/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1531
+  - actor.0mega

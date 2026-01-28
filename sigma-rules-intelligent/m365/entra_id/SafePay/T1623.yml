@@ -1,0 +1,32 @@
+title: T1623 (M365 - entra_id)
+id: 01b9b38e-d1d0-44cc-93bd-0146f3485e49
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1623.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1623/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1623
+  - actor.safepay

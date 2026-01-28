@@ -1,0 +1,34 @@
+title: T1650 (MACOS - unified_logging)
+id: dca49753-5368-405e-b57c-12b9295b3a82
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1650.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1650/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1650
+  - actor.safepay

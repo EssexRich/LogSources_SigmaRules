@@ -1,0 +1,29 @@
+title: T4833 (GOOGLE - workspace)
+id: d630d909-37e7-4a87-896c-c730e4bc8b2a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T4833.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T4833/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T4833
+  - actor.benzona

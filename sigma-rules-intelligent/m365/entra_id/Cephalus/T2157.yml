@@ -1,0 +1,32 @@
+title: T2157 (M365 - entra_id)
+id: 0ce0cf7f-b90a-46fd-ad78-fbc1048477a8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T2157.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T2157/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T2157
+  - actor.cephalus

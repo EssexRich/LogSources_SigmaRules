@@ -1,0 +1,29 @@
+title: T1543.002 (GOOGLE - workspace)
+id: 74f628d1-e8c6-44d6-8d3b-d08532a714a3
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.002.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1543.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.002
+  - actor.kazu

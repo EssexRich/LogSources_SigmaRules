@@ -1,0 +1,32 @@
+title: T7074 (M365 - entra_id)
+id: 2a3eae7c-d1a6-4f61-b0e3-40782f8a8459
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7074.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T7074/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7074
+  - actor.cephalus

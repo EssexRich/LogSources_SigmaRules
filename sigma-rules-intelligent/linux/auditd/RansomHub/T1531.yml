@@ -1,0 +1,37 @@
+title: T1531 (LINUX - auditd)
+id: 6407ae2e-5249-427d-8c3a-5a8d13b2b088
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1531.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1531/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+
+detection:
+  selection:
+    exe|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    cmd|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1531
+  - actor.ransomhub

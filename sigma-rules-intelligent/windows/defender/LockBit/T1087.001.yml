@@ -1,0 +1,37 @@
+title: T1087.001 (WINDOWS - defender)
+id: 88423b3d-2285-4e1e-9690-aad231398bba
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1087.001.
+  Threat Actor: LockBit
+references:
+  - https://attack.mitre.org/techniques/T1087.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1087.001
+  - actor.lockbit

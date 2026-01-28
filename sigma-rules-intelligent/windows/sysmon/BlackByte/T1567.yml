@@ -1,0 +1,37 @@
+title: T1567 (WINDOWS - sysmon)
+id: 38d89fe1-b970-4b57-9517-50d9c0eead31
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1567.
+  Threat Actor: BlackByte
+references:
+  - https://attack.mitre.org/techniques/T1567/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1567
+  - actor.blackbyte

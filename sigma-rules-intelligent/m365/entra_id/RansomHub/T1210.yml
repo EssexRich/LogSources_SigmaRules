@@ -1,0 +1,32 @@
+title: T1210 (M365 - entra_id)
+id: d04aa94c-fb7d-449f-b8af-2a2f90a10a62
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1210.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T1210/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+
+detection:
+  selection:
+    userPrincipalName: user@domain.com
+    ipAddress|startswith:
+      - '192.168'
+      - '10.0'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1210
+  - actor.ransomhub

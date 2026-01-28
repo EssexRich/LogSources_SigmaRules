@@ -1,0 +1,37 @@
+title: T1543.002 (WINDOWS - sysmon)
+id: 664796d7-198b-4c4a-90e8-a4416424687a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1543.002.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1543.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1543.002
+  - actor.kazu

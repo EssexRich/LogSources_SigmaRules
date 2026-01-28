@@ -1,0 +1,29 @@
+title: T1106 (GOOGLE - workspace)
+id: e418fdb1-1a99-46af-a6e4-c7a3ce0f14c0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1106.
+  Threat Actor: DoNex
+references:
+  - https://attack.mitre.org/techniques/T1106/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1106
+  - actor.donex

@@ -1,0 +1,29 @@
+title: T5466 (GOOGLE - workspace)
+id: 2bb7ffc0-a3db-4bb1-a95c-d55b798e0e05
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T5466.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T5466/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T5466
+  - actor.benzona

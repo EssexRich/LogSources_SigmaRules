@@ -1,0 +1,37 @@
+title: T8550 (WINDOWS - defender)
+id: dbb12734-0141-4ecb-97bf-04c0f5f9dd44
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T8550.
+  Threat Actor: Cephalus
+references:
+  - https://attack.mitre.org/techniques/T8550/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+
+detection:
+  selection:
+    InitiatingProcessFileName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    ProcessCommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T8550
+  - actor.cephalus

@@ -1,0 +1,37 @@
+title: T1650 (WINDOWS - security)
+id: 523ec50a-d4e1-4954-90dc-a7b9dca5c6fd
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1650.
+  Threat Actor: BlackSuit
+references:
+  - https://attack.mitre.org/techniques/T1650/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+
+detection:
+  selection:
+    NewProcessName|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1650
+  - actor.blacksuit

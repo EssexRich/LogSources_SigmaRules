@@ -1,0 +1,29 @@
+title: T1018 (GOOGLE - workspace)
+id: 17925523-6ff7-433e-b575-17ed395264a8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1018.
+  Threat Actor: 3AM
+references:
+  - https://attack.mitre.org/techniques/T1018/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1018
+  - actor.3am

@@ -1,0 +1,29 @@
+title: T1041 (GOOGLE - workspace)
+id: 958d232e-13a8-45fa-a6c5-57ad9a721a25
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1041.
+  Threat Actor: 0mega
+references:
+  - https://attack.mitre.org/techniques/T1041/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1041
+  - actor.0mega

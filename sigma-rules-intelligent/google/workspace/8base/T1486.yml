@@ -1,0 +1,29 @@
+title: T1486 (GOOGLE - workspace)
+id: cbd2c478-9c83-4d8c-ba43-0f76a099bcff
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1486.
+  Threat Actor: 8base
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1486
+  - actor.8base

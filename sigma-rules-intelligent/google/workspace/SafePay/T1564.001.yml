@@ -1,0 +1,29 @@
+title: T1564.001 (GOOGLE - workspace)
+id: fb5b5129-15e9-4240-8971-38a5e7467aa5
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1564.001.
+  Threat Actor: SafePay
+references:
+  - https://attack.mitre.org/techniques/T1564.001/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1564.001
+  - actor.safepay

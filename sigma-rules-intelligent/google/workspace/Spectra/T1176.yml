@@ -1,0 +1,29 @@
+title: T1176 (GOOGLE - workspace)
+id: 5152b67d-de8a-4214-9367-7ab5f47790f0
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1176.
+  Threat Actor: Spectra
+references:
+  - https://attack.mitre.org/techniques/T1176/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1176
+  - actor.spectra

@@ -1,0 +1,34 @@
+title: T1155 (MACOS - unified_logging)
+id: 55c9e680-1d8c-4a5b-836a-b234a2e702c8
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1155.
+  Threat Actor: Kazu
+references:
+  - https://attack.mitre.org/techniques/T1155/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1155
+  - actor.kazu

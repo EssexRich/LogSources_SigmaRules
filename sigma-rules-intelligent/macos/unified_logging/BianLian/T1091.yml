@@ -1,0 +1,34 @@
+title: T1091 (MACOS - unified_logging)
+id: 68ada699-0514-4659-b195-baf9ae25e61c
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1091.
+  Threat Actor: BianLian
+references:
+  - https://attack.mitre.org/techniques/T1091/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd'
+      - 'powershell'
+    CommandLine|contains:
+      - 'encoded'
+      - 'bypass'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1091
+  - actor.bianlian

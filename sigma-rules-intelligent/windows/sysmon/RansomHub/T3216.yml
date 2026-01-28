@@ -1,0 +1,37 @@
+title: T3216 (WINDOWS - sysmon)
+id: a4b5cc2e-2a17-40d4-85b2-9bef0e0952be
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T3216.
+  Threat Actor: RansomHub
+references:
+  - https://attack.mitre.org/techniques/T3216/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+
+detection:
+  selection:
+    Image|contains:
+      - 'cmd.exe'
+      - 'powershell.exe'
+      - 'bash'
+      - 'sh'
+    CommandLine|contains:
+      - '-enc'
+      - 'bypass'
+      - 'encoded'
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T3216
+  - actor.ransomhub

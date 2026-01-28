@@ -1,0 +1,29 @@
+title: T1134 (GOOGLE - workspace)
+id: 5847cb28-f6cd-4acf-a328-967310771bda
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.
+  Threat Actor: INC Ransom
+references:
+  - https://attack.mitre.org/techniques/T1134/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134
+  - actor.inc_ransom

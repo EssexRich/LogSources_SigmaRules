@@ -1,0 +1,29 @@
+title: T7767 (GOOGLE - workspace)
+id: f9e1a805-d21b-4a1e-8ce4-9e671d891c85
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T7767.
+  Threat Actor: Benzona
+references:
+  - https://attack.mitre.org/techniques/T7767/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T7767
+  - actor.benzona

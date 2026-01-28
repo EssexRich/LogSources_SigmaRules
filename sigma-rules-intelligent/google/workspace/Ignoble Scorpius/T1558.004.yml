@@ -1,0 +1,29 @@
+title: T1558.004 (GOOGLE - workspace)
+id: f2c77680-77ab-4386-85a0-c265ed3f1d9a
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1558.004.
+  Threat Actor: Ignoble Scorpius
+references:
+  - https://attack.mitre.org/techniques/T1558.004/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1558.004
+  - actor.ignoble_scorpius

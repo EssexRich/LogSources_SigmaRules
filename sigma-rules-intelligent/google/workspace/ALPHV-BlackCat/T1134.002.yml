@@ -1,0 +1,29 @@
+title: T1134.002 (GOOGLE - workspace)
+id: 8a1a6ad0-4650-4ce0-a417-61b4bd451759
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1134.002.
+  Threat Actor: ALPHV-BlackCat
+references:
+  - https://attack.mitre.org/techniques/T1134.002/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1134.002
+  - actor.alphv-blackcat

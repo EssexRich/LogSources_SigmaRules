@@ -1,0 +1,29 @@
+title: T1078 (GOOGLE - workspace)
+id: b000d930-096e-4ea9-a087-156e75b6febc
+description: >
+  Detects techniques consistent with MITRE ATT&CK technique T1078.
+  Threat Actor: AvosLocker
+references:
+  - https://attack.mitre.org/techniques/T1078/
+author: GapMATRIX Intelligent Sigma Generator
+date: 2026-01-28
+status: experimental
+severity: medium
+
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+
+detection:
+  selection:
+    Image|contains: process
+  condition: selection
+
+falsepositives:
+  - Legitimate system administration activity
+  - Authorized security testing
+
+tags:
+  - attack.T1078
+  - actor.avoslocker
