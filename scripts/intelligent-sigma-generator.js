@@ -178,41 +178,37 @@ async function main() {
   const techniqueNames = {};
   
   try {
-    // Fetch all intrusion-set actors from individual files
+    // Fetch all intrusion-set actors from individual files (only need to do this once)
     console.log('[SigmaGen]   - Fetching intrusion-sets from /data/actors/...');
-    let actorCount = 0;
+    const actorIdToName = {};
     for (let i = 1; i <= 500; i++) {
       const actorId = `G${String(i).padStart(4, '0')}`;
       try {
         const actor = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/actors/${actorId}.json`);
-        if (actor && actor.name) {
+        if (actor && actor.name && actor.id) {
           mitreActorNames.add(actor.name);
-          actorCount++;
+          actorIdToName[actor.id] = actor.name;
         }
       } catch (e) {
         // File doesn't exist, continue
-        if (i > 50 && actorCount === 0) {
+        if (i > 50 && mitreActorNames.size === 0) {
           throw new Error('Could not find any actor files');
         }
       }
     }
     console.log(`[SigmaGen]   ✓ Found ${mitreActorNames.size} MITRE intrusion-sets`);
 
-    // Fetch technique names from individual files
-    console.log('[SigmaGen]   - Fetching attack-pattern (technique) names...');
-    let techCount = 0;
-    for (let i = 1; i <= 1000; i++) {
-      const techId = `T${i}`;
-      try {
-        const tech = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques/${techId}.json`);
-        if (tech && tech.name) {
-          // Just use the T-number as key, we already know what it is from the filename
-          techniqueNames[techId] = tech.name;
-          techCount++;
-        }
-      } catch (e) {
-        // File doesn't exist, continue
+    // Fetch technique names from index.json - much faster than individual files
+    console.log('[SigmaGen]   - Fetching attack-pattern (technique) names from index...');
+    try {
+      const mitreIndex = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/index.json');
+      if (mitreIndex.techniques) {
+        Object.entries(mitreIndex.techniques).forEach(([techId, techName]) => {
+          techniqueNames[techId] = techName;
+        });
       }
+    } catch (e) {
+      console.warn('[SigmaGen]   ⚠ Could not fetch technique index:', e.message);
     }
     console.log(`[SigmaGen]   ✓ Found ${Object.keys(techniqueNames).length} technique names`);
 
@@ -221,39 +217,25 @@ async function main() {
     const relationships = await fetchURL('https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/relationships/index.json');
     
     if (Array.isArray(relationships)) {
-      let relationshipCount = 0;
+      console.log('[SigmaGen]   - Building STIX UUID to T-number mapping...');
       
-      // We need to fetch actor name mappings for the intrusion-set IDs in relationships
-      const actorIdToName = {};
-      for (const actorName of mitreActorNames) {
-        for (let i = 1; i <= 500; i++) {
-          const actorId = `G${String(i).padStart(4, '0')}`;
-          try {
-            const actor = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/actors/${actorId}.json`);
-            if (actor && actor.name === actorName && actor.id) {
-              actorIdToName[actor.id] = actor.name;
-            }
-          } catch (e) {
-            // ignore
-          }
-        }
-      }
-      
-      // Build technique ID to name mapping
-      const techniqueIdToName = {};
+      // Build STIX ID to T-number mapping by fetching all technique files
+      const stixIdToTech = {};
       for (let i = 1; i <= 1000; i++) {
         const techId = `T${i}`;
         try {
           const tech = await fetchURL(`https://raw.githubusercontent.com/EssexRich/mitre_attack/main/data/techniques/${techId}.json`);
           if (tech && tech.id) {
-            techniqueIdToName[tech.id] = techId;
+            stixIdToTech[tech.id] = techId;
           }
         } catch (e) {
           // ignore
         }
       }
+      console.log(`[SigmaGen]   ✓ Built mapping for ${Object.keys(stixIdToTech).length} techniques`);
       
       // Process relationships
+      let relationshipCount = 0;
       relationships.forEach(rel => {
         // Only process intrusion-set -> attack-pattern relationships
         if (rel.relationship_type === 'uses') {
@@ -262,7 +244,7 @@ async function main() {
           
           if (sourceType === 'intrusion-set' && targetType === 'attack-pattern') {
             const actorName = actorIdToName[rel.source_ref];
-            const techId = techniqueIdToName[rel.target_ref];
+            const techId = stixIdToTech[rel.target_ref];
             
             if (actorName && techId) {
               if (!mitreActorTechMap[techId]) {
