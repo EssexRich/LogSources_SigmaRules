@@ -1,0 +1,28 @@
+title: Azure Application Deleted
+id: 49b62b8c-ef68-4bac-b4b3-693072bb01c5
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1489.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1489/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_application_deleted.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1489
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection:
+          properties.message:
+              - Delete application
+              - Hard Delete application
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

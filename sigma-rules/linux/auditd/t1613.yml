@@ -1,0 +1,24 @@
+title: GitHub Authentication Token Access via Node.js
+id: 6ff0882e-2a31-4a50-82df-6c3d80f7f724
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1613.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1613/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_gh_auth_via_nodejs.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1613
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

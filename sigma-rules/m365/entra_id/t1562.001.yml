@@ -1,0 +1,26 @@
+title: Azure Kubernetes Events Deleted
+id: 7dbbce1d-55e4-4e61-b211-87a0d178dd34
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1562/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_kubernetes_events_deleted.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1562.001
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection:
+          operationName: MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/EVENTS.K8S.IO/EVENTS/DELETE
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

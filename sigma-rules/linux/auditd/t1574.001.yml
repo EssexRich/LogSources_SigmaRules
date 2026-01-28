@@ -1,0 +1,33 @@
+title: Use Of Hidden Paths Or Files
+id: c61a2d0c-17f2-44b6-b938-c41c320e0ae1
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1574.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1574/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/path/lnx_auditd_hidden_binary_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1574.001
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          type: 'PATH'
+          name|contains: '/.'
+      filter:
+          name|contains:
+              - '/.cache/'
+              - '/.config/'
+              - '/.pyenv/'
+              - '/.rustup/toolchains'
+      condition: selection and not filter
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

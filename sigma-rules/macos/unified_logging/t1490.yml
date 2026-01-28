@@ -1,0 +1,29 @@
+title: Time Machine Backup Deletion Attempt Via Tmutil - MacOS
+id: 2948d0bb-0b74-4802-ae21-7d7be05ba9c7
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1490.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1490/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_tmutil_delete_backup.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1490
+logsource:
+  product: macos
+  service: unified_logging
+  category: process_creation
+detection:
+      selection_img:
+          - Image|endswith: '/tmutil'
+          - CommandLine|contains: 'tmutil'
+      selection_cmd:
+          CommandLine|contains: 'delete'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

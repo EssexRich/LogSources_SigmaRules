@@ -1,0 +1,27 @@
+title: Windows Outlook Macro Security Modified
+id: efec907d-3278-4a94-80ef-20737ebbff84
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1008.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1008/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_outlook_macro_security_modified.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1008
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Registry'
+    registry_path: '*\\Outlook\\Security*'
+    registry_value_name: 'Level'
+    registry_value_data: '0x00000001'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

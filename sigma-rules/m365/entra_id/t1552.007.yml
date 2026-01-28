@@ -1,0 +1,31 @@
+title: Azure Kubernetes Admission Controller
+id: c970ac93-96d7-4be2-a75d-e3d9dcca0c22
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1552.007.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1552/007/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_kubernetes_admission_controller.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1552.007
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection:
+          operationName|startswith:
+              - 'MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/ADMISSIONREGISTRATION.K8S.IO'
+              - 'MICROSOFT.CONTAINERSERVICE/MANAGEDCLUSTERS/ADMISSIONREGISTRATION.K8S.IO'
+          operationName|endswith:
+              - '/MUTATINGWEBHOOKCONFIGURATIONS/WRITE'
+              - '/VALIDATINGWEBHOOKCONFIGURATIONS/WRITE'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

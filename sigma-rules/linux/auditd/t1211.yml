@@ -1,0 +1,24 @@
+title: Potential Defense Evasion via PRoot
+id: 856b4f7f-a69e-4c98-8cc5-f5b789c086ae
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1211.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1211/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_potential_proot_exploits.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1211
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

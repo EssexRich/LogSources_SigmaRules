@@ -1,0 +1,32 @@
+title: Driver/DLL Installation Via Odbcconf.EXE
+id: cd9b9066-5101-4693-baf1-d847c249bfdf
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1218.008.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1218/008/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_odbcconf_driver_install.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1218.008
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection_img:
+          - Image|endswith: '\odbcconf.exe'
+          - OriginalFileName: 'odbcconf.exe'
+      selection_cli:
+          # Note: The "/A" flag is not required to call a specific action
+          CommandLine|contains|all:
+              - 'INSTALLDRIVER '
+              - '.dll'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

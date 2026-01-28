@@ -1,0 +1,29 @@
+title: Persistence via PowerShell profile
+id: 8c9e7f44-5c52-4d1b-85e1-fc219d7abb25
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1546.013.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1546/013/
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_powershell_profiles.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1546.013
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    file.name:
+      - 'profile.ps1'
+      - 'Microsoft.Powershell_profile.ps1'
+    file.path:
+      - '?:\\Users\\*\\Documents\\WindowsPowerShell\\*.ps1'
+      - '\\Device\\HarddiskVolume*\\Windows\\System32\\WindowsPowerShell\\*.ps1'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,35 @@
+title: Potential Shim Database Persistence via Sdbinst.EXE
+id: 7f52ea93-1a53-4ca5-a2fa-8fbbb6111808
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1546.011.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1546/011/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_sdbinst_shim_persistence.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1546.011
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection_img:
+          - Image|endswith: '\sdbinst.exe'
+          - OriginalFileName: 'sdbinst.exe'
+      selection_cli:
+          CommandLine|contains: '.sdb'
+      filter_optional_iis:
+          ParentImage|endswith: '\msiexec.exe'
+          CommandLine|contains:
+              # Expected behavior for IIS Express (e.g. https://www.hybrid-analysis.com/sample/15d4ff941f77f7bdfc9dfb2399b7b952a0a2c860976ef3e835998ff4796e5e91?environmentId=120)
+              - ':\Program Files (x86)\IIS Express\iisexpressshim.sdb'
+              - ':\Program Files\IIS Express\iisexpressshim.sdb'
+      condition: all of selection_* and not 1 of filter_optional_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,28 @@
+title: Disabled MFA to Bypass Authentication Mechanisms
+id: 0aa3230b-5410-42d5-86c9-4c6d22cd897b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1556.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1556/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_mfa_disabled.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1556
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection:
+          eventSource: AzureActiveDirectory
+          eventName: 'Disable Strong Authentication.'
+          status: success
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

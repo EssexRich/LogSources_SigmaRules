@@ -1,0 +1,41 @@
+title: Windows Potential AppDomainManager Hijack Artifacts Creation
+id: 1b59822f-2637-4a34-b68c-5e8d46220373
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1574.014.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1574/014/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_potential_appdomainmanager_hijack_artifacts_creation.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1574.014
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Filesystem'
+    action: 'created'
+    exe_present:
+      - 'if(mvcount(mvfilter(match(file_name,'
+      - '1'
+    config_present:
+      - 'if(mvcount(mvfilter(match(file_name,'
+      - '1'
+    dll_present:
+      - 'if(mvcount(mvfilter(match(file_name,'
+      - '1'
+    exe_files: 'mvfilter(match(file_name,'
+    config_files: 'mvfilter(match(file_name,'
+    exe_base_names:
+      - 'mvmap(exe_files,'
+      - 'config_base_names'
+    config_base_names: 'mvmap(config_files,'
+    file_count: 'mvcount(file_name)'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

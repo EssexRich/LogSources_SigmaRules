@@ -1,0 +1,36 @@
+title: Findstr Launching .lnk File
+id: 2ff66302-888a-423b-9f05-0415d3ef3243
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1027.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1027/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_findstr_lnk.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1027.003
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_img:
+          - Image|endswith:
+                - '\find.exe'
+                - '\findstr.exe'
+          - OriginalFileName:
+                - 'FIND.EXE'
+                - 'FINDSTR.EXE'
+      selection_cli:
+          CommandLine|endswith:
+              - '.lnk'
+              - '.lnk"'
+              - ".lnk'"
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

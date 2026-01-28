@@ -1,0 +1,36 @@
+title: Boot Configuration Tampering Via Bcdedit.EXE
+id: 9df549d8-e9ed-46ec-9371-feed13423784
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1490.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1490/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_bcdedit_boot_conf_tamper.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1490
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection_img:
+          - Image|endswith: '\bcdedit.exe'
+          - OriginalFileName: 'bcdedit.exe'
+      selection_set:
+          CommandLine|contains: 'set'
+      selection_cli:
+          - CommandLine|contains|all:
+                - 'bootstatuspolicy'
+                - 'ignoreallfailures'
+          - CommandLine|contains|all:
+                - 'recoveryenabled'
+                - 'no'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

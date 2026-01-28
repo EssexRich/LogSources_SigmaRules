@@ -1,0 +1,41 @@
+title: SQLite Chromium Profile Data DB Access
+id: c89d8be6-0542-4111-b94d-aaf1a4c6b714
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1539.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1539/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_sqlite_chromium_profile_data.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1539
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection_sql:
+          - Product: SQLite
+          - Image|endswith:
+                - '\sqlite.exe'
+                - '\sqlite3.exe'
+      selection_chromium:
+          CommandLine|contains:
+              - '\User Data\' # Most common folder for user profile data among Chromium browsers
+              - '\Opera Software\' # Opera
+              - '\ChromiumViewer\' # Sleipnir (Fenrir)
+      selection_data:
+          CommandLine|contains:
+              - 'Login Data' # Passwords
+              - 'Cookies'
+              - 'Web Data' # Credit cards, autofill data
+              - 'History'
+              - 'Bookmarks'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

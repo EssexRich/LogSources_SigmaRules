@@ -1,0 +1,26 @@
+title: Replay Attack Detected
+id: 19c65c81-7197-4a60-9fd4-79dd4ecd8ea7
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1558.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1558/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_replay_attack_detected.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1558
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 4649
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,26 @@
+title: Suspicious C2 Activities
+id: 20a92277-7f1d-4e97-9310-0be408fd94e0
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1071.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1071/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_susp_c2_commands.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1071
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          key: 'susp_activity'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,27 @@
+title: DirLister Execution
+id: 9f5c14d8-5436-4a5f-a114-6ade69539058
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1083.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1083/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_dirlister_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1083
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          - OriginalFileName: 'DirLister.exe'
+          - Image|endswith: '\DirLister.exe'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

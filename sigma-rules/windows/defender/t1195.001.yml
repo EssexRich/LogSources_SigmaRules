@@ -1,0 +1,24 @@
+title: GitHub Workflow File Creation or Modification
+id: d460c381-7359-4765-9475-bcd17d8bd7f8
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1195.001.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1195/001/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/github_workflow_file_creation_or_modification.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1195.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Filesystem'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

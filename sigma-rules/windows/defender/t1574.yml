@@ -1,0 +1,29 @@
+title: DLL Execution Via Register-cimprovider.exe
+id: b2eb0fe4-46d4-4d3b-b56c-c047f8f698cb
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1574.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1574/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_registry_cimprovider_dll_load.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1574
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          Image|endswith: '\register-cimprovider.exe'
+          CommandLine|contains|all:
+              - '-path'
+              - 'dll'
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

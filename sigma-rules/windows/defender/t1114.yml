@@ -1,0 +1,32 @@
+title: Hacktool Ruler
+id: cd69af1c-bf6b-40d2-acc1-6b219253540b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1114.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1114/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_alert_ruler.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1114
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection1:
+          EventID: 4776
+          Workstation: 'RULER'
+      selection2:
+          EventID:
+              - 4624
+              - 4625
+          WorkstationName: 'RULER'
+      condition: (1 of selection*)
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,28 @@
+title: Azure Firewall Modified or Deleted
+id: 37087499-c692-4099-8aae-08001c2bafa8
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1562.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1562/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_firewall_modified_or_deleted.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1562.004
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      selection:
+          operationName:
+              - MICROSOFT.NETWORK/AZUREFIREWALLS/WRITE
+              - MICROSOFT.NETWORK/AZUREFIREWALLS/DELETE
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

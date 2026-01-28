@@ -1,0 +1,27 @@
+title: Symlink Etc Passwd
+id: 199d7e0d-7990-4ef1-a135-6a3bfbabe1c2
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1204.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1204/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/builtin/lnx_symlink_etc_passwd.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1204.001
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      keywords:
+          - 'ln -s -f /etc/passwd'
+          - 'ln -s /etc/passwd'
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,28 @@
+title: Google Cloud Service Account Disabled or Deleted
+id: 19bf6459-414c-47c2-81d6-85e5ec3aba07
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1531.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1531/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_service_account_disabled_or_deleted.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1531
+logsource:
+  product: google
+  service: workspace
+  category: admin_activity
+detection:
+      selection:
+          gcp.audit.method_name|endswith:
+              - .serviceAccounts.disable
+              - .serviceAccounts.delete
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

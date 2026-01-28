@@ -1,0 +1,26 @@
+title: Suspicious Data Encryption via OpenSSL Utility
+id: 5e5ad576-d5c9-4975-b0d4-e255402a52d9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1486.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1486/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/impact_data_encrypted_via_openssl.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1486
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    process.parent.name:
+      - 'bash'
+      - 'xargs'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,29 @@
+title: DCOM InternetExplorer.Application Iertutil DLL Hijack - Security
+id: 9b973ea3-71f3-46f8-9163-ad956ebcd943
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1021.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1021/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_dcom_iertutil_dll_hijack.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1021.003
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          EventID: 5145
+          RelativeTargetName|endswith: '\Internet Explorer\iertutil.dll'
+      filter:
+          SubjectUserName|endswith: '$'
+      condition: selection and not filter
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

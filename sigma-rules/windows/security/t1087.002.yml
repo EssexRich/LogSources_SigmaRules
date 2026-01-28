@@ -1,0 +1,43 @@
+title: AD Privileged Users or Groups Reconnaissance
+id: 52c43c3b-e036-45ba-a247-6021a1481b43
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1087.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1087/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_account_discovery.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1087.002
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          EventID: 4661
+          ObjectType:
+              - 'SAM_USER'
+              - 'SAM_GROUP'
+      selection_object:
+          - ObjectName|endswith:
+                - '-512'
+                - '-502'
+                - '-500'
+                - '-505'
+                - '-519'
+                - '-520'
+                - '-544'
+                - '-551'
+                - '-555'
+          - ObjectName|contains: 'admin'
+      filter:
+          SubjectUserName|endswith: '$'
+      condition: selection and selection_object and not filter
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

@@ -1,0 +1,31 @@
+title: Unix Socket Connection
+id: 77c1a13e-7b78-45e4-b51a-f1ac76eb9aaf
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1559.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1559/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_unix_socket_communication.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1559
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    process.args:
+      - '/usr/local/*'
+      - '/var/run/*'
+      - 'UNIX-CLIENT:/usr/local/*'
+      - 'UNIX-CLIENT:/var/run/*'
+      - '--unix-socket'
+      - '--abstract-unix-socket'
+    CLIENT: '/usr/local/*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

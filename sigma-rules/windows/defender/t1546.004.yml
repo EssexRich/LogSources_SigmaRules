@@ -1,0 +1,24 @@
+title: Linux File Creation In Init Boot Directory
+id: 3f7def9b-efd7-4956-92d0-b1fd6a879d66
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1546.004.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1546/004/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_file_creation_in_init_boot_directory.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1546.004
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    datamodel: 'Endpoint.Filesystem'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

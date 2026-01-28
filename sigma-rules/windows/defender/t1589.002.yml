@@ -1,0 +1,30 @@
+title: Kerberos User Enumeration
+id: 44299281-9611-4ce6-a0e0-ab140556a89f
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1589.002.
+  Original source: splunk
+references:
+  - https://attack.mitre.org/techniques/T1589/002/
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_user_enumeration.yml
+author: GapMATRIX (sourced from splunk)
+date: 2026-01-28
+tags:
+  - attack.t1589.002
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+  selection:
+    EventCode: '4768'
+    Status: '0x6'
+    span: '2m'
+    upperBound: '(comp_avg+comp_std*3)'
+    isOutlier:
+      - 'if(unique_accounts'
+      - '1'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

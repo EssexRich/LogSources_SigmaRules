@@ -1,0 +1,25 @@
+title: Kubectl Apply Pod from URL
+id: 78711454-7f08-4cc2-ad92-a380f509c0bd
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1610.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1610/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_kubectl_apply_pod_from_url.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1610
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    http: '//*'
+    https: '//*'
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

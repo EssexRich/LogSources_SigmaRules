@@ -1,0 +1,24 @@
+title: Kernel Load or Unload via Kexec Detected
+id: 49500c10-5e2c-4aa2-b3e8-523fa5273720
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1601.
+  Original source: elastic
+references:
+  - https://attack.mitre.org/techniques/T1601/
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_load_and_unload_of_kernel_via_kexec.toml
+author: GapMATRIX (sourced from elastic)
+date: 2026-01-28
+tags:
+  - attack.t1601
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+  selection:
+    placeholder: true
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

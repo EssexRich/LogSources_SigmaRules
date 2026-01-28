@@ -1,0 +1,37 @@
+title: Password Protected ZIP File Opened (Suspicious Filenames)
+id: 0f96cad8-9910-4bf8-a280-8e232a6a254b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1105.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1105/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_susp_opened_encrypted_zip_filename.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1105
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection:
+          EventID: 5379
+          TargetName|contains: 'Microsoft_Windows_Shell_ZipFolder:filename'
+      selection_filename:
+          TargetName|contains:
+              - 'invoice'
+              - 'new order'
+              - 'rechnung'
+              - 'factura'
+              - 'delivery'
+              - 'purchase'
+              - 'order'
+              - 'payment'
+      condition: selection and selection_filename
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

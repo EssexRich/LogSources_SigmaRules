@@ -1,0 +1,32 @@
+title: Chromium Browser Instance Executed With Custom Extension
+id: 09b16de8-e0bd-47e4-bdc1-259641490496
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1176.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1176/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_browsers_chromium_load_extension.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1176.001
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection:
+          Image|endswith:
+              - '\brave.exe'
+              - '\chrome.exe'
+              - '\msedge.exe'
+              - '\opera.exe'
+              - '\vivaldi.exe'
+          CommandLine|contains: '--load-extension='
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

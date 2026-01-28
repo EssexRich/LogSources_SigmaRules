@@ -1,0 +1,31 @@
+title: WebDav Client Execution Via Rundll32.EXE
+id: 850bf944-8503-4f30-9ff0-6918348794ba
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1048.003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1048/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_rundll32_webdav_client_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1048.003
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+      selection_parent:
+          ParentImage|endswith: '\svchost.exe'
+      selection_img:
+          - Image|endswith: '\rundll32.exe'
+          - OriginalFileName: 'RUNDLL32.EXE'
+      selection_cli:
+          CommandLine|contains: 'C:\windows\system32\davclnt.dll,DavSetCookie'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

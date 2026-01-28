@@ -1,0 +1,30 @@
+title: BPFDoor Abnormal Process ID or Lock File Accessed
+id: 0a46788a-d347-4392-b84f-d44a9cf5ac7d
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1059.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1059/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/path/lnx_auditd_bpfdoor_file_accessed.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1059
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      selection:
+          type: 'PATH'
+          name:
+              - /var/run/haldrund.pid
+              - /var/run/xinetd.lock
+              - /var/run/kdevrund.pid
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

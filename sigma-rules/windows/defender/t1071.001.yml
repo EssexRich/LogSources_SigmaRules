@@ -1,0 +1,38 @@
+title: Visual Studio Code Tunnel Execution
+id: 66c4e5f9-a4cc-4b83-a9a1-dafd048158a9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1071.001.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1071/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_vscode_tunnel_execution.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1071.001
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection_only_tunnel:
+          OriginalFileName: null
+          CommandLine|endswith: '.exe tunnel'
+      selection_tunnel_args:
+          CommandLine|contains|all:
+              - '.exe tunnel'
+              - '--accept-server-license-terms'
+      selection_parent_tunnel:
+          ParentCommandLine|endswith: ' tunnel'
+          Image|endswith: '\cmd.exe'
+          CommandLine|contains|all:
+              - '/d /c '
+              - '\servers\Stable-'
+              - 'code-server.cmd'
+      condition: 1 of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

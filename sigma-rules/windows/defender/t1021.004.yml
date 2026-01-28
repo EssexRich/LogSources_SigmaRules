@@ -1,0 +1,28 @@
+title: OpenSSH Server Listening On Socket
+id: 72e757ea-a730-4802-ac15-260e71784d7b
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1021.004.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1021/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/openssh/win_sshd_openssh_server_listening_on_socket.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1021.004
+logsource:
+  product: windows
+  service: defender
+  category: process_creation
+detection:
+      selection:
+          EventID: 4
+          process: sshd
+          payload|startswith: 'Server listening on '
+      condition: selection
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

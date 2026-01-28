@@ -1,0 +1,39 @@
+title: Screen Capture with Import Tool
+id: 54375239-8028-4eb9-b3c3-a744d14144a4
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1113.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1113/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/execve/lnx_auditd_screencapture_import.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1113
+logsource:
+  product: linux
+  service: auditd
+  category: process_creation
+detection:
+      import:
+          type: EXECVE
+          a0: import
+      import_window_root:
+          a1: '-window'
+          a2: 'root'
+          a3|endswith:
+              - '.png'
+              - '.jpg'
+              - '.jpeg'
+      import_no_window_root:
+          a1|endswith:
+              - '.png'
+              - '.jpg'
+              - '.jpeg'
+      condition: import and (import_window_root or import_no_window_root)
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

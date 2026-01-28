@@ -1,0 +1,32 @@
+title: Rare Subscription-level Operations In Azure
+id: cb38bf4c-eb76-4eb2-9700-311a01c7a6c9
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1003.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_rare_operations.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1003
+logsource:
+  product: m365
+  service: entra_id
+  category: authentication
+detection:
+      keywords:
+          - Microsoft.DocumentDB/databaseAccounts/listKeys/action
+          - Microsoft.Maps/accounts/listKeys/action
+          - Microsoft.Media/mediaservices/listKeys/action
+          - Microsoft.CognitiveServices/accounts/listKeys/action
+          - Microsoft.Storage/storageAccounts/listKeys/action
+          - Microsoft.Compute/snapshots/write
+          - Microsoft.Network/networkSecurityGroups/write
+      condition: keywords
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium

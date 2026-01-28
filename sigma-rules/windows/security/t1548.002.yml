@@ -1,0 +1,32 @@
+title: PowerShell Web Access Feature Enabled Via DISM
+id: a343c71d-6e00-4981-b90f-b76f1d151276
+status: experimental
+description: |
+  Detection for MITRE ATT&CK technique T1548.002.
+  Original source: sigma
+references:
+  - https://attack.mitre.org/techniques/T1548/002/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_dism_enable_powershell_web_access_feature.yml
+author: GapMATRIX (sourced from sigma)
+date: 2026-01-28
+tags:
+  - attack.t1548.002
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+      selection_img:
+          - Image|endswith: '\dism.exe'
+          - OriginalFileName: 'DISM.EXE'
+      selection_cli:
+          CommandLine|contains|all:
+              - 'WindowsPowerShellWebAccess'
+              - '/online'
+              - '/enable-feature'
+      condition: all of selection_*
+  
+  condition: selection
+falsepositives:
+  - Legitimate administrative activity
+level: medium
