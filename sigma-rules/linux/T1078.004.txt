@@ -1,0 +1,30 @@
+title: MITRE ATT&CK T1078.004 Detection (linux)
+    id: f4380e85-6ae5-4503-8cbe-2597700e2ec2
+    description: >
+    Detects techniques consistent with MITRE ATT&CK technique T1078.004.
+    Adversaries may use a variety of techniques throughout the attack lifecycle.
+    This rule provides baseline detection for security monitoring and threat hunting.
+    references:
+    - https://attack.mitre.org/techniques/T1078.004/
+    - https://incidentbuddy.ai/gapmatrix/techniques/T1078.004
+    author: GapMATRIX Sigma Generator
+    date: 2026-01-28
+
+    logsource:
+    product: linux
+    service: auditd
+    category: process_creation
+
+    detection:
+    selection:
+    EventID: 4688
+    condition: selection
+
+    falsepositives:
+    - Legitimate system administration
+
+    level: medium
+
+    tags:
+    - attack.T1078.004
+    
