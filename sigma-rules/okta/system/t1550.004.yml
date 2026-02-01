@@ -1,11 +1,11 @@
-title: Multiple Okta Sessions Detected for a Single User
-id: 472edafd-472e-472e-a72e-472edafd0000
+title: Okta AiTM Session Cookie Replay
+id: 1d484edd-1d48-4d48-ad48-1d484edd0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1550.004
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/lateral_movement_multiple_sessions_for_single_user.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_okta_aitm_session_cookie_replay.toml
 author: elastic (via IncidentBuddy)
-date: 2026-01-28
+date: 2026-02-01
 tags:
   - attack.t1550.004
 logsource:
@@ -14,9 +14,46 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:okta.system
-    #     and okta.event_type:user.session.start
-    #     and okta.authentication_context.external_session_id:*
-    #     and not (okta.actor.id: okta* or okta.actor.display_name: okta*)
+    # FROM logs-okta.system-*
+    # 
+    # // Filter to relevant event types for AiTM detection
+    # | WHERE
+    #     okta.event_type IN ("user.session.start", "policy.evaluate_sign_on", "user.authentication.sso") AND
+    #     okta.authentication_context.root_session_id IS NOT NULL AND
+    #     okta.actor.alternate_id != "system@okta.com"
+    # 
+    # // Create event type flags
+    # | EVAL Esql.is_session_start = okta.event_type == "user.session.start"
+    # | EVAL Esql.is_policy_eval = okta.event_type == "policy.evaluate_sign_on"
+    # | EVAL Esql.is_sso = okta.event_type == "user.authentication.sso"
+    # | EVAL Esql.is_replay_event = Esql.is_policy_eval OR Esql.is_sso
+    # 
+    # // Flag suspicious non-browser user agents
+    # | EVAL Esql.is_suspicious_ua =
+    #     user_agent.original LIKE "python-requests*" OR
+    #     user_agent.original LIKE "curl/*" OR
+    #     user_agent.original LIKE "httpx*" OR
+    #     user_agent.original LIKE "aiohttp*" OR
+    #     user_agent.original LIKE "Go-http-client*" OR
+    #     user_agent.original LIKE "*Headless*" OR
+    #     user_agent.original LIKE "Java/*" OR
+    #     user_agent.original LIKE "okhttp*"
+    # 
+    # // Aggregate by session
+    # | STATS
+    #     Esql.session_start_count = SUM(CASE(Esql.is_session_start, 1, 0)),
+    #     Esql.replay_event_count = SUM(CASE(Esql.is_replay_event, 1, 0)),
+    #     Esql.session_start_time = MIN(CASE(Esql.is_session_start, @timestamp, null)),
+    #     Esql.first_replay_time = MIN(CASE(Esql.is_replay_event, @timestamp, null)),
+    #     Esql.last_replay_time = MAX(CASE(Esql.is_replay_event, @timestamp, null)),
+    #     Esql.session_start_ip = MAX(CASE(Esql.is_session_start, okta.client.ip, null)),
+    #     Esql.session_start_ua = MAX(CASE(Esql.is_session_start, user_agent.original, null)),
+    #     Esql.suspicious_ua_count = SUM(CASE(Esql.is_suspicious_ua, 1, 0)),
+    #     Esql.okta_client_ip_count_distinct = COUNT_DISTINCT(okta.client.ip),
+    #     Esql.user_agent_count_distinct = COUNT_DISTINCT(user_agent.original),
+    #     Esql.okta_client_ip_values = VALUES(okta.client.ip),
+    #     Esql.user_agent_values = VALUES(user_agent.original),
+    #     Esql.okta_event_type_values = VALUES(okta.e
+    # ... [truncated]
   condition: selection
 level: medium

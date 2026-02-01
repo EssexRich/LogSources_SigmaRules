@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1218.005
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_mshta_writing_to_world_writable_path.yml
 author: splunk (via IncidentBuddy)
-date: 2026-01-28
+date: 2026-02-01
 tags:
   - attack.t1218.005
 logsource:
@@ -14,18 +14,35 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `sysmon` EventCode=11 Image="*\\mshta.exe" TargetFilename IN ("*\\Windows\\Tasks\\*",
-    #   "*\\Windows\\Temp\\*", "*\\Windows\\tracing\\*", "*\\Windows\\PLA\\Reports\\*",
-    #   "*\\Windows\\PLA\\Rules\\*", "*\\Windows\\PLA\\Templates\\*", "*\\Windows\\PLA\\Reports\\en-US\\*",
-    #   "*\\Windows\\PLA\\Rules\\en-US\\*", "*\\Windows\\Registration\\CRMLog\\*", "*\\Windows\\System32\\Tasks\\*",
-    #   "*\\Windows\\System32\\Com\\dmp\\*", "*\\Windows\\System32\\LogFiles\\WMI\\*", "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*",
-    #   "*\\Windows\\System32\\spool\\PRINTERS\\*", "*\\Windows\\System32\\spool\\SERVERS\\*",
-    #   "*\\Windows\\System32\\spool\\drivers\\color\\*", "*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\RemoteApp
-    #   and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\*", "*\\Windows\\SysWOW64\\Com\\dmp\\*",
-    #   "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\RemoteApp
-    #   and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\*")
+    # `sysmon`
+    #   EventCode=11
+    #   (
+    #     Image="*\\mshta.exe"
+    #     OR
+    #     OriginalFileName="mshta.exe"
+    #   )
+    #   TargetFilename IN (
+    #                       "*\\Windows\\PLA\\Reports\\*",
+    #                       "*\\Windows\\PLA\\Rules\\*",
+    #                       "*\\Windows\\PLA\\Templates\\*",
+    #                       "*\\Windows\\Registration\\CRMLog\\*",
+    #                       "*\\Windows\\System32\\Com\\dmp\\*",
+    #                       "*\\Windows\\System32\\LogFiles\\WMI\\*",
+    #                       "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*",
+    #                       "*\\Windows\\System32\\spool\\drivers\\color\\*",
+    #                       "*\\Windows\\System32\\spool\\PRINTERS\\*",
+    #                       "*\\Windows\\System32\\spool\\SERVERS\\*",
+    #                       "*\\Windows\\System32\\Tasks\\*",
+    #                       "*\\Windows\\SysWOW64\\Com\\dmp\\*",
+    #                       "*\\Windows\\SysWOW64\\Tasks\\*",
+    #                       "*\\Windows\\Tasks\\*",
+    #                       "*\\Windows\\Temp\\*",
+    #                       "*\\Windows\\tracing\\*"
+    #                     )
     #   | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name
     #   file_path  process_guid process_id user user_id vendor_product Image TargetFilename
-    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_mshta_writing_to_world_writable_path_filter`
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `windows_mshta_writing_to_world_writable_path_filter`
   condition: selection
 level: medium

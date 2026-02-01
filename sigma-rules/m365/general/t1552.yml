@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1552
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_email_suspicious_search_behavior.yml
 author: splunk (via IncidentBuddy)
-date: 2026-01-28
+date: 2026-02-01
 tags:
   - attack.t1552
 logsource:
@@ -17,12 +17,12 @@ detection:
     # -
     #   `o365_management_activity` Operation=SearchQueryInitiatedExchange
     #   | eval command = case(Operation=="SearchQueryPerformed",SearchQueryText,true(),QueryText), UserId = lower(UserId), signature_id = CorrelationId, signature=Operation, src = ClientIP, user = lower(UserId), object_name=case(Operation=="SearchQueryPerformed",'EventData',true(),QuerySource), -time = _time, suspect_terms = case(match(command, `o365_suspect_search_terms_regex`),command,true(),null())
-    #   | where command != "*" AND command != "(*)" 
+    #   | where command != "*" AND command != "(*)"
     #   | bin _time span=1hr
-    #   | `o365_email_suspicious_search_behavior_filter`
     #   | stats values(ScenarioName) as app, values(object_name) as object_name values(command) as command, values(suspect_terms) as suspect_terms, values(src) as src, dc(suspect_terms) as suspect_terms_count, dc(command) as count, min(-time) as firstTime, max(-time) as lastTime by user,signature,_time
     #   | where count > 20 OR suspect_terms_count >= 2
-    #   | `security_content_ctime(firstTime)` 
+    #   | `security_content_ctime(firstTime)`
     #   | `security_content_ctime(lastTime)`
+    #   | `o365_email_suspicious_search_behavior_filter`
   condition: selection
 level: medium

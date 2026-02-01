@@ -1,0 +1,39 @@
+title: FortiGate FortiCloud SSO Login from Unusual Source
+id: 50d435d3-50d4-40d4-a0d4-50d435d30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/initial_access_fortigate_sso_login_from_unusual_source.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-01
+tags:
+  - attack.t1078.004
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-fortinet_fortigate.* metadata _id, _version, _index
+    # 
+    # | WHERE event.dataset == "fortinet_fortigate.log" and
+    #         event.category == "authentication" and event.action == "login" and
+    #         event.outcome == "success" and
+    #         (fortinet.firewall.method == "sso" or fortinet.firewall.ui like "sso*") and
+    #         source.ip is not null
+    # | STATS Esql.logon_count = COUNT(*),
+    #         Esql.first_time_seen = MIN(@timestamp),
+    #         Esql.user_values = VALUES(source.user.name),
+    #         Esql.observer_name_values = VALUES(observer.name),
+    #         Esql.message_values = VALUES(message) BY source.ip
+    # 
+    # // first time seen is within 6m of the rule execution time and for the last 5d of events history
+    # | EVAL Esql.recent = DATE_DIFF("minute", Esql.first_time_seen, now())
+    # | WHERE Esql.recent <= 6 AND Esql.logon_count == 1
+    # 
+    # // move dynamic fields to ECS equivalent for rule exceptions
+    # | EVAL source.user.name = MV_FIRST(Esql.user_values)
+    # 
+    # | KEEP source.ip, source.user.name, Esql.*
+  condition: selection
+level: medium

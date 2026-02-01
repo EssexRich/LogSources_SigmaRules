@@ -1,0 +1,21 @@
+title: FortiGate Configuration File Downloaded
+id: 27389996-2738-4738-a738-273899960000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1602.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/collection_fortigate_config_download.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-01
+tags:
+  - attack.t1602.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # any where event.dataset == "fortinet_fortigate.log" and
+    #     event.code == "0100032095" and
+    #     fortinet.firewall.action == "download"
+  condition: selection
+level: medium
