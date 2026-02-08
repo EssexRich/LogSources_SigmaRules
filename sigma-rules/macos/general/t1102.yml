@@ -1,0 +1,24 @@
+title: Potential Etherhiding C2 via Blockchain Connection
+id: 15c5c7a5-15c5-45c5-a5c5-15c5c7a50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1102
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/command_and_control_potential_etherhiding_c2.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-08
+tags:
+  - attack.t1102
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=15s
+    #   [network where host.os.type == "macos" and event.type == "start" and
+    #     (process.name in ("bash", "sh", "zsh", "osascript", "node", "Cursor") or
+    #     process.name like ("python*", "ruby*", "perl*", "tclsh*")) and
+    #     destination.domain like ("eth-mainnet*", "ethereum*", "eth.*.com")]
+    #   [file where host.os.type == "macos" and event.action == "modification" and file.extension in ("js", "py", "sh")]
+  condition: selection
+level: medium

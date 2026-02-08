@@ -1,0 +1,32 @@
+title: Suspicious File Creation via Pkg Install Script
+id: 319fcfc0-319f-419f-a19f-319fcfc00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.016
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_suspicious_file_creation_via_pkg_install_script.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-08
+tags:
+  - attack.t1546.016
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=30s
+    #   [process where host.os.type == "macos" and event.type == "start" and process.name in ("bash", "sh", "zsh") and
+    #     process.args like~ ("/tmp/PKInstallSandbox.*/Scripts/com.*/preinstall", 
+    #                         "/tmp/PKInstallSandbox.*/Scripts/*/postinstall") and
+    #     process.args like ("/Users/*", "/Volumes/*") and 
+    #     not process.args like~ "/Users/*/Library/Caches/*"]
+    #   [file where host.os.type == "macos" and event.action != "deletion" and process.name in ("mv", "cp") and
+    #     (file.extension in ("py", "js", "sh", "scpt", "terminal", "tcl", "app", "pkg", "dmg", "command") or
+    #       file.Ext.header_bytes like~ ("cffaedfe*", "cafebabe*")) and
+    #     file.path like ("/private/etc/*", "/var/tmp/*", "/tmp/*", "/var/folders/*", "/Users/Shared/*",
+    #                     "/Library/Graphics/*", "/Library/Containers/*", "/Users/*/Library/Containers/*", 
+    #                     "/Users/*/Library/Services/*", "/Users/*/Library/Preferences/*", "/var/root/*",
+    #                     "/Library/WebServer/*", "/Library/Fonts/*", "/usr/local/bin/*") and 
+    #     not file.name == "CodeResources"]
+  condition: selection
+level: medium

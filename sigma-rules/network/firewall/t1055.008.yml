@@ -1,11 +1,11 @@
-title: Root Network Connection via GDB CAP_SYS_PTRACE
-id: 2be62b25-2be6-4be6-abe6-2be62b250000
+title: Deprecated - Network Connection via Sudo Binary
+id: 104be0c0-104b-404b-a04b-104be0c00000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1055.008
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_gdb_sys_ptrace_netcon.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_netcon_via_sudo_binary.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1055.008
 logsource:
@@ -14,11 +14,20 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by host.id, process.entry_leader.entity_id with maxspan=30s
-    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.name == "gdb" and
-    #    (process.thread.capabilities.effective : "CAP_SYS_PTRACE" or process.thread.capabilities.permitted : "CAP_SYS_PTRACE") and
-    #    user.id != "0"]
-    #   [network where host.os.type == "linux" and event.action == "connection_attempted" and event.type == "start" and
-    #    process.name != null and user.id == "0"]
+    # sequence by host.id, process.entity_id with maxspan=5s
+    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.name == "sudo" and not (
+    #     process.args == "su" or
+    #     process.command_line like ("sudo su*", "sudo ./opt/Limpar_ram.sh", "*BECOME-SUCCESS*")
+    #   )]
+    #   [network where host.os.type == "linux" and event.type == "start" and
+    #   event.action in ("connection_attempted", "ipv4_connection_attempt_event") and process.name == "sudo" and not (
+    #     destination.ip == null or destination.ip == "0.0.0.0" or cidrmatch(
+    #       destination.ip, "10.0.0.0/8", "127.0.0.0/8", "169.254.0.0/16", "172.16.0.0/12", "192.0.0.0/24", "192.0.0.0/29",
+    #       "192.0.0.8/32", "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+    #       "192.31.196.0/24", "192.52.193.0/24", "192.168.0.0/16", "192.88.99.0/24", "224.0.0.0/4", "100.64.0.0/10",
+    #       "192.175.48.0/24","198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1", "FE80::/10",
+    #       "FF00::/8", "172.31.0.0/16"
+    #     )
+    #   )]
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1548
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_privilege_escalation_privacy_pref_sshd_fulldiskaccess.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1548
 logsource:
@@ -17,7 +17,7 @@ detection:
     # process where host.os.type == "macos" and event.type in ("start", "process_started") and
     #  process.name == "scp" and
     #  process.args like~ "StrictHostKeyChecking=no" and
-    #  process.command_line : ("scp *localhost:/*", "scp *127.0.0.1:/*") and
-    #  not process.args : "vagrant@*127.0.0.1*"
+    #  process.command_line like~ ("*scp *localhost:/*", "*scp *127.0.0.?:/*") and
+    #  not process.command_line like~ "*vagrant@*127.0.0.1*"
   condition: selection
 level: medium

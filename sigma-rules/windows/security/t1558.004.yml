@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1558.004
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_pre_authentication_flag_disabled_in_useraccountcontrol.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1558.004
 logsource:
@@ -14,8 +14,10 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `wineventlog_security` EventCode=4738 MSADChangedAttributes="*\'Don\'t Require Preauth\'
-    #   - Enabled*" |rename Account_Name as user | table EventCode, user, dest, Security_ID,
-    #   MSADChangedAttributes | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`
+    # `wineventlog_security` EventCode=4738 UserAccountControl="*%%2096*"
+    #   | rename TargetUserName as user, SubjectUserName as actor | stats count earliest(_time) as firstTime latest(_time) as lastTime by actor, user, dest
+    #   | `security_content_ctime(firstTime)`
+    #   | `security_content_ctime(lastTime)`
+    #   | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`
   condition: selection
 level: medium

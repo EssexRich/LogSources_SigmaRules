@@ -1,11 +1,11 @@
-title: Emond Rules Creation or Modification
-id: 631530a9-6315-4315-a315-631530a90000
+title: Suspicious Apple Mail Rule Plist Modification
+id: 06e504fd-06e5-46e5-a6e5-06e504fd0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1546
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_emond_rules_file_creation.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_apple_mail_rule_modification.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1546
 logsource:
@@ -14,7 +14,17 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # file where host.os.type == "macos" and event.action == "modification" and
-    #  file.path like ("/private/etc/emond.d/rules/*.plist", "/etc/emon.d/rules/*.plist", "/private/var/db/emondClients/*")
+    # file where host.os.type == "macos" and event.type != "deletion" and
+    #   file.name == "SyncedRules.plist" and
+    #   file.path like ("/Users/*/Library/Mail/*/MailData/SyncedRules.plist",
+    #                   "/Users/*/Library/Mobile Documents/com.apple.mail/Data/*/MailData/SyncedRules.plist") and
+    #   not process.executable like ("/System/Applications/Mail.app/Contents/MacOS/Mail",
+    #                                "/Applications/Mail.app/Contents/MacOS/Mail",
+    #                                "/System/Library/CoreServices/backupd.bundle/Contents/Resources/backupd",
+    #                                "/usr/libexec/xpcproxy",
+    #                                "/System/Library/Frameworks/FileProvider.framework/Support/fileproviderd",
+    #                                "/System/Library/PrivateFrameworks/CloudDocsDaemon.framework/Versions/A/Support/bird",
+    #                                "/sbin/launchd",
+    #                                "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder")
   condition: selection
 level: medium

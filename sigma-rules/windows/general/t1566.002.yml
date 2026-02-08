@@ -1,11 +1,11 @@
-title: Downloaded Shortcut Files
-id: 76184c85-7618-4618-a618-76184c850000
+title: Deprecated - Execution of File Written or Modified by PDF Reader
+id: 1f1466bb-1f14-4f14-af14-1f1466bb0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1566.002
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_downloaded_shortcut_files.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/execution_pdf_written_file.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1566.002
 logsource:
@@ -14,6 +14,19 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # file where host.os.type == "windows" and event.type == "creation" and file.extension == "lnk" and file.Ext.windows.zone_identifier > 1
+    # sequence with maxspan=2h
+    #   [file where host.os.type == "windows" and event.type != "deletion" and file.extension : "exe" and
+    #      (process.name : "AcroRd32.exe" or
+    #       process.name : "rdrcef.exe" or
+    #       process.name : "FoxitPhantomPDF.exe" or
+    #       process.name : "FoxitReader.exe") and
+    #      not (file.name : "FoxitPhantomPDF.exe" or
+    #           file.name : "FoxitPhantomPDFUpdater.exe" or
+    #           file.name : "FoxitReader.exe" or
+    #           file.name : "FoxitReaderUpdater.exe" or
+    #           file.name : "AcroRd32.exe" or
+    #           file.name : "rdrcef.exe")
+    #   ] by host.id, file.path
+    #   [process where host.os.type == "windows" and event.type == "start"] by host.id, process.executable
   condition: selection
 level: medium

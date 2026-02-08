@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1610
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_kubectl_apply_pod_from_url.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1610
 logsource:
@@ -18,6 +18,6 @@ detection:
     # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "process_started", "executed") and
     # process.name == "kubectl" and process.args == "apply" and
     # process.args like ("http://*", "https://*") and
-    # not process.command_line like ("*download.elastic.co*", "*github.com/kubernetes-sigs/*")
+    # not process.args like~ ("*download.elastic.co*", "*github.com/kubernetes-sigs/*")
   condition: selection
 level: medium

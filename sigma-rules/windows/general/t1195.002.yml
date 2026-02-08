@@ -1,11 +1,11 @@
-title: SUNBURST Command and Control Activity
-id: 2d74622d-2d74-4d74-ad74-2d74622d0000
+title: Notepad++ Updater DNS Query to Uncommon Domains
+id: 2402ef86-2402-4402-a402-2402ef860000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1195.002
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_sunburst_c2_activity_detected.toml
-author: elastic (via IncidentBuddy)
-date: 2026-02-01
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/dns_query/dns_query_win_gup_query_to_uncommon_domains.yml
+author: sigma (via IncidentBuddy)
+date: 2026-02-08
 tags:
   - attack.t1195.002
 logsource:
@@ -13,22 +13,20 @@ logsource:
   service: general
 detection:
   selection:
-    # Original elastic detection logic
-    # network where host.os.type == "windows" and event.type == "protocol" and network.protocol == "http" and
-    #   process.name : ("ConfigurationWizard.exe",
-    #                   "NetFlowService.exe",
-    #                   "NetflowDatabaseMaintenance.exe",
-    #                   "SolarWinds.Administration.exe",
-    #                   "SolarWinds.BusinessLayerHost.exe",
-    #                   "SolarWinds.BusinessLayerHostx64.exe",
-    #                   "SolarWinds.Collector.Service.exe",
-    #                   "SolarwindsDiagnostics.exe") and
-    #   (
-    #     (
-    #       (http.request.body.content : "*/swip/Upload.ashx*" and http.request.body.content : ("POST*", "PUT*")) or
-    #       (http.request.body.content : ("*/swip/SystemDescription*", "*/swip/Events*") and http.request.body.content : ("GET*", "HEAD*"))
-    #     ) and
-    #     not http.request.body.content : "*solarwinds.com*"
-    #   )
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '\gup.exe'
+    #     filter_main_notepad_legit_domain:
+    #         QueryName: 'notepad-plus-plus.org'
+    #     filter_optional_sourceforge_legit_domain:
+    #         QueryName|endswith: '.sourceforge.net'
+    #     filter_optional_github_legit_domain:
+    #         - QueryName|endswith: '.githubusercontent.com'
+    #         - QueryName: 'github.com'
+    #     filter_optional_google_storage_legit_domain:
+    #         QueryName|endswith: '.googleapis.com'
+    #     # Add other known legitimate domains if any
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
   condition: selection
 level: medium

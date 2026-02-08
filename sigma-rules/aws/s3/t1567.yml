@@ -1,0 +1,31 @@
+title: Suspicious AWS S3 Connection via Script Interpreter
+id: 26bccccf-26bc-46bc-a6bc-26bccccf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/command_and_control_aws_s3_connection_via_script.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-08
+tags:
+  - attack.t1567
+logsource:
+  product: aws
+  service: s3
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-endpoint.events.network-*
+    # | WHERE host.os.type == "macos" 
+    #     AND event.type == "start"
+    #     AND (process.name == "osascript" 
+    #          OR process.name == "node" 
+    #          OR process.name LIKE "python*")
+    #     AND (destination.domain LIKE "s3.*.amazonaws.com" 
+    #          OR destination.domain LIKE "*.s3*.amazonaws.com" 
+    #          OR destination.domain LIKE "*.cloudfront.net")
+    # | STATS Esql.connection_count = COUNT(*) 
+    #   BY process.executable, user.name, host.name, destination.domain
+    # | WHERE Esql.connection_count >= 5
+    # | KEEP Esql.*, process.executable, user.name, host.name, destination.domain
+  condition: selection
+level: medium

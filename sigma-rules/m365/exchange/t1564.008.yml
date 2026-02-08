@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1564.008
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_exchange_new_inbox_rule_delete_or_move.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1564.008
 logsource:
@@ -15,8 +15,11 @@ detection:
   selection:
     # Original elastic detection logic
     # event.dataset: "o365.audit" and
-    #     event.action: "New-InboxRule" and event.outcome: "success" and
-    #     o365.audit.Parameters.SubjectContainsWords: (
+    #     event.action: ("New-InboxRule" or "Set-InboxRule") and event.outcome: "success" and
+    #     (
+    #      o365.audit.Parameters.BodyContainsWords: "\u0000" or 
+    #      o365.audit.Parameters.WithinSizeRangeMinimum <= 1023 or 
+    #      o365.audit.Parameters.SubjectContainsWords: (
     #         *phish* or
     #         *hack* or
     #         *alert* or
@@ -32,12 +35,14 @@ detection:
     #         *protection* or
     #         *login* or
     #         *suspicious*
+    #       )
     #     ) and (
     #     o365.audit.Parameters.DeleteMessage: True or
     #     o365.audit.Parameters.MoveToFolder: (
     #         *Deleted* or
     #         *Junk* or
-    #         *RSS*
+    #         *RSS* or 
+    #         *Calendar*
     #     )
     # )
   condition: selection

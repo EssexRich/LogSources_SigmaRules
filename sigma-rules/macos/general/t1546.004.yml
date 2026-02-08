@@ -1,0 +1,27 @@
+title: Curl Execution via Shell Profile
+id: 6f4ca7b6-6f4c-4f4c-af4c-6f4ca7b60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_curl_execution_via_shell_profile.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-08
+tags:
+  - attack.t1546.004
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence with maxspan=10s
+    #   [process where host.os.type == "macos" and event.type == "start" and event.action == "exec" and
+    #     process.name in ("bash", "zsh", "sh") and
+    #     process.args in ("-zsh", "-sh", "-bash") and process.args_count == 1 and
+    #     process.parent.name == "login"] by process.entity_id
+    #   [process where host.os.type == "macos" and event.type == "start" and event.action == "exec" and
+    #     process.name in ("curl", "nscurl") and
+    #     process.args in ("-o", "--output", "--download", "-dl", "-dir", "--directory", "-F", "--form") and
+    #     not process.args like ("https://upload.elastic.co*", "https://vault-ci-prod.elastic.dev", "https://artifacts.elastic.co*")] by process.parent.entity_id
+  condition: selection
+level: medium

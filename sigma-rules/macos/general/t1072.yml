@@ -1,0 +1,23 @@
+title: Suspicious Curl to Jamf Endpoint
+id: 00c72db6-00c7-40c7-a0c7-00c72db60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1072
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/lateral_movement_suspicious_curl_to_jamf_endpoint.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-08
+tags:
+  - attack.t1072
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type == "start" and event.action == "exec" and
+    #   process.name in ("curl", "nscurl") and process.command_line like "*https://jamf.*" and
+    #   ((process.parent.code_signature.exists == false or process.parent.code_signature.trusted == false) or
+    #    process.parent.name in ("osascript", "node", "perl", "ruby") or
+    #    process.parent.name like "python*")
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: Potential Persistence via File Modification
-id: 1f5c95cd-1f5c-4f5c-af5c-1f5c95cd0000
+title: Deprecated - Creation of Kernel Module
+id: 705320eb-7053-4053-a053-705320eb0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1547.006
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/fim/persistence_suspicious_file_modifications.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/persistence_creation_of_kernel_module.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1547.006
 logsource:
@@ -14,53 +14,9 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # file where host.os.type == "linux" and event.dataset == "fim.event" and event.action == "updated" and
-    # file.path : (
-    #   // cron, anacron & at
-    #   "/etc/cron.d/*", "/etc/cron.daily/*", "/etc/cron.hourly/*", "/etc/cron.monthly/*",
-    #   "/etc/cron.weekly/*", "/etc/crontab", "/var/spool/cron/crontabs/*", "/etc/cron.allow",
-    #   "/etc/cron.deny",  "/var/spool/anacron/*", "/var/spool/cron/atjobs/*",
-    # 
-    #   // systemd services & timers
-    #   "/etc/systemd/system/*", "/usr/local/lib/systemd/system/*", "/lib/systemd/system/*",
-    #   "/usr/lib/systemd/system/*", "/home/*/.config/systemd/user/*", "/home/*/.local/share/systemd/user/*",
-    #   "/root/.config/systemd/user/*", "/root/.local/share/systemd/user/*",
-    # 
-    #   // LD_PRELOAD
-    #   "/etc/ld.so.preload", "/etc/ld.so.conf.d/*", "/etc/ld.so.conf",
-    # 
-    #   // Dynamic linker
-    #   "/lib/ld-linux*.so*", "/lib64/ld-linux*.so*", "/usr/lib/ld-linux*.so*", "/usr/lib64/ld-linux*.so*",
-    # 
-    #   // message-of-the-day (MOTD)
-    #   "/etc/update-motd.d/*",
-    # 
-    #   // SSH
-    #   "/home/*/.ssh/*", "/root/.ssh/*", "/etc/ssh/*",
-    # 
-    #   // system-wide shell configurations
-    #   "/etc/profile", "/etc/profile.d/*", "/etc/bash.bashrc", "/etc/zsh/*", "/etc/csh.cshrc",
-    #   "/etc/csh.login", "/etc/fish/config.fish", "/etc/ksh.kshrc",
-    # 
-    #   // root and user shell configurations
-    #   "/home/*/.profile", "/home/*/.bashrc", "/home/*/.bash_login", "/home/*/.bash_logout",
-    #   "/root/.profile", "/root/.bashrc", "/root/.bash_login", "/root/.bash_logout",
-    #   "/home/*/.zprofile", "/home/*/.zshrc", "/root/.zprofile", "/root/.zshrc",
-    #   "/home/*/.cshrc", "/home/*/.login", "/home/*/.logout", "/root/.cshrc", "/root/.login", "/root/.logout",
-    #   "/home/*/.config/fish/config.fish", "/root/.config/fish/config.fish",
-    #   "/home/*/.kshrc", "/root/.kshrc",
-    # 
-    #   // Alias files
-    #   "/home/*/.bash_aliases", "/root/.bash_aliases", "/home/*/.zsh_aliases", "/root/.zsh_aliases",
-    #   "/home/*/.aws/cli/alias", "/root/.aws/cli/alias", 
-    # 
-    #   // runtime control
-    #   "/etc/rc.common", "/etc/rc.local",
-    # 
-    #   // System V init/Upstart
-    #   "/etc/init.d/*", "/etc/init/*",
-    # 
-    #   // passwd/sud
-    # ... [truncated]
+    # file where host.os.type == "linux" and event.type in ("change", "creation") and file.path : "/lib/modules/*" and
+    # file.extension == "ko" and not process.name : (
+    #   "dpkg", "systemd", "falcon-sensor*", "dnf", "yum", "rpm", "cp"
+    # )
   condition: selection
 level: medium

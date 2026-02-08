@@ -1,11 +1,11 @@
-title: Potential PowerShell Pass-the-Hash/Relay Script
-id: 797dbc99-797d-497d-a97d-797dbc990000
+title: Suspicious Child Process of Notepad++ Updater - GUP.Exe
+id: 27b57d4d-27b5-47b5-a7b5-27b57d4d0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1557
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_posh_relay_tools.toml
-author: elastic (via IncidentBuddy)
-date: 2026-02-01
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_gup_susp_child_process.yml
+author: sigma (via IncidentBuddy)
+date: 2026-02-08
 tags:
   - attack.t1557
 logsource:
@@ -13,16 +13,28 @@ logsource:
   service: powershell
 detection:
   selection:
-    # Original elastic detection logic
-    # event.category:process and host.os.type:windows and
-    #   powershell.file.script_block_text : (
-    #     ("NTLMSSPNegotiate" and ("NegotiateSMB" or "NegotiateSMB2")) or
-    #     "4E544C4D53535000" or
-    #     "0x4e,0x54,0x4c,0x4d,0x53,0x53,0x50" or
-    #     "0x4e,0x54,0x20,0x4c,0x4d" or
-    #     "0x53,0x4d,0x42,0x20,0x32" or
-    #     "0x81,0xbb,0x7a,0x36,0x44,0x98,0xf1,0x35,0xad,0x32,0x98,0xf0,0x38"
-    #   ) and
-    #   not file.directory : "C:\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Downloads"
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|endswith: '\gup.exe'
+    #     selection_child_img:
+    #         Image|endswith:
+    #             - '\cmd.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\cscript.exe'
+    #             - '\wscript.exe'
+    #             - '\mshta.exe'
+    #     selection_child_cli:
+    #         CommandLine|contains:
+    #             - 'bitsadmin'
+    #             - 'certutil'
+    #             - 'curl'
+    #             - 'finger'
+    #             - 'forfiles'
+    #             - 'regsvr32'
+    #             - 'rundll32'
+    #             - 'wget'
+    #     condition: selection_parent and 1 of selection_child_*
+    # 
   condition: selection
 level: medium

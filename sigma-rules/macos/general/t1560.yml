@@ -1,0 +1,28 @@
+title: Sensitive File Access followed by Compression
+id: 23a034dc-23a0-43a0-a3a0-23a034dc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1560
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/collection_sensitive_file_access_followed_by_compression.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-08
+tags:
+  - attack.t1560
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=30s
+    #   [file where host.os.type == "macos" and event.action == "open" and 
+    #     not file.name in~ ("System.keychain", "login.keychain-db", "preferences.plist", "com.apple.TimeMachine.plist")]
+    #   [file where host.os.type == "macos" and event.action == "modification" and 
+    #     file.extension in ("zip", "gzip", "gz") and
+    #     file.path like~ ("/Users/Shared/*", "/Library/WebServer/*", "/Users/*/Library/WebServer/*",
+    #                      "/Library/Graphics/*", "/Users/*/Library/Graphics/*", "/Library/Fonts/*",
+    #                      "/Users/*/Library/Fonts/*", "/private/var/root/Library/HTTPStorages/*",
+    #                      "/tmp/*", "/var/tmp/*", "/private/tmp/*") and
+    #     not file.path like~ ("/Library/Logs/CrashReporter/*", "/private/tmp/publish.*")]
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1036.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_unsigned_dll_loaded_from_suspdir.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1036.001
 logsource:
@@ -28,6 +28,7 @@ detection:
     #                   "?:\\Users\\*\\Music\\*.dll",
     #                   "?:\\Users\\Public\\*.dll",
     #                   "?:\\Users\\*\\Documents\\*.dll",
+    # 				  "?:\\Users\\*\\Downloads\\*.dll",
     #                   "?:\\Windows\\Tasks\\*.dll",
     #                   "?:\\Windows\\System32\\Tasks\\*.dll",
     #                   "?:\\Intel\\*.dll",
@@ -56,8 +57,7 @@ detection:
     #                   "?:\\Windows\\ServiceProfiles\\*.dll",
     #                   "?:\\Windows\\panther\\*.dll",
     #                   "?:\\Windows\\RemotePackages\\*.dll",
-    #                   "?:\\Windows\\OCR\\*.dll",
-    #                   "?:\\Win
+    #                   "?:\\Windows\
     # ... [truncated]
   condition: selection
 level: medium

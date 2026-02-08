@@ -1,0 +1,32 @@
+title: Script Interpreter Connection to Non-Standard Port
+id: 7b4fc51d-7b4f-4b4f-ab4f-7b4fc51d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1571
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/command_and_control_script_interpreter_connection_to_non_standard_port.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-08
+tags:
+  - attack.t1571
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=1m
+    #   [process where host.os.type == "macos" and event.type == "start" and event.action == "exec" and 
+    #     (process.name like~ "python*" or process.name in ("node", "ruby")) and 
+    #     process.args_count == 2]
+    #   [network where host.os.type == "macos" and event.type == "start" and 
+    #     (process.name like~ "python*" or process.name in ("node", "ruby")) and 
+    #     destination.domain == null and 
+    #     not destination.port in (443, 80, 53, 22, 25, 587, 465, 8080, 8089, 8200, 9200) and 
+    #     destination.port < 49152 and
+    #     not cidrmatch(destination.ip, "240.0.0.0/4", "233.252.0.0/24", "224.0.0.0/4", "198.19.0.0/16", 
+    #                   "192.18.0.0/15", "192.0.0.0/24", "10.0.0.0/8", "127.0.0.0/8", "169.254.0.0/16", 
+    #                   "172.16.0.0/12", "192.0.2.0/24", "192.31.196.0/24", "192.52.193.0/24", 
+    #                   "192.168.0.0/16", "192.88.99.0/24", "100.64.0.0/10", "192.175.48.0/24", 
+    #                   "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "::1", "FE80::/10", "FF00::/8")]
+  condition: selection
+level: medium

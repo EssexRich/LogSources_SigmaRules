@@ -1,0 +1,28 @@
+title: Persistence via a Hidden Plist Filename
+id: 4924e22b-4924-4924-a924-4924e22b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.011
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_hidden_plist_filename.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-08
+tags:
+  - attack.t1547.011
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "macos" and event.type != "deletion" and
+    #   file.path like~ (
+    #     "/System/Library/LaunchAgents/.*.plist",
+    #     "/Library/LaunchAgents/.*.plist",
+    #     "/Users/*/Library/LaunchAgents/.*.plist",
+    #     "/System/Library/LaunchDaemons/.*.plist",
+    #     "/Library/LaunchDaemons/.*.plist"
+    #   ) and
+    #   not (file.name like ".chef-com*.plist" and process.executable like "/opt/chef/embedded/bin/ruby") and
+    #   not (process.executable in ("/usr/bin/sed", "/bin/bash") and file.name like ".!*!*.plist")
+  condition: selection
+level: medium

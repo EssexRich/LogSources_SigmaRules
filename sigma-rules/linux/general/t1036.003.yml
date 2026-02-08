@@ -1,11 +1,11 @@
-title: System Binary Moved or Copied
-id: 493eef76-493e-493e-a93e-493eef760000
+title: Deprecated - Suspicious Renaming of ESXI index.html File
+id: 5c6eab7f-5c6e-4c6e-ac6e-5c6eab7f0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1036.003
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_binary_copied_to_suspicious_directory.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_rename_esxi_index_file.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1036.003
 logsource:
@@ -14,16 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # file where host.os.type == "linux" and event.action in ("rename", "creation") and process.name in ("cp", "mv") and
-    # file.Ext.original.path : (
-    #   "/bin/*", "/usr/bin/*", "/usr/local/bin/*", "/sbin/*", "/usr/sbin/*", "/usr/local/sbin/*"
-    # ) and not (
-    #   file.Ext.original.path : (
-    #     "/bin/*.tmp", "/usr/bin/*.tmp", "/usr/local/bin/*.tmp", "/sbin/*.tmp", "/usr/sbin/*.tmp", "/usr/local/sbin/*.tmp"
-    #   ) or
-    #   file.extension in ("swp", "swpx", "swx", "dpkg-remove") or
-    #   file.Ext.original.extension == "dpkg-new" or
-    #   process.executable : ("/nix/store/*", "/var/lib/dpkg/*", "/tmp/vmis.*", "/snap/*", "/dev/fd/*", "/tmp/newroot/*")
-    # )
+    # file where host.os.type == "linux" and event.action == "rename" and file.name : "index.html" and
+    # file.Ext.original.path : "/usr/lib/vmware/*"
   condition: selection
 level: medium

@@ -1,0 +1,30 @@
+title: Dylib Injection via Process Environment Variables
+id: 09913cfc-0991-4991-a991-09913cfc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_dylib_injection_via_env_vars.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-08
+tags:
+  - attack.t1574.006
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=15s
+    #   [process where host.os.type == "macos" and event.type == "start" and event.action == "exec" and
+    #     process.env_vars like ("DYLD_INSERT_LIBRARIES=?*", "LD_PRELOAD=?*") and
+    #     not process.env_vars like ("DYLD_INSERT_LIBRARIES=", "LD_PRELOAD=", "LD_PRELOAD=<null>") and
+    #     not process.executable like ("/Users/*/Library/Developer/Xcode/*", "/Users/*/Library/Developer/CoreSimulator/*") and
+    #     not process.parent.executable like ("/usr/bin/xcrun", "/Applications/Xcode*.app/*", "/Library/Developer/*")]
+    #   [library where host.os.type == "macos" and event.action == "load" and
+    #     not dll.name like ("*.aot", "*.so") and
+    #     not dll.code_signature.trusted == true and
+    #     not dll.path like ("/System/*", "/usr/lib/*", "/opt/homebrew/*", "/private/var/folders/*",
+    #                        "/Library/Apple/*", "/Library/Developer/*",
+    #                        "/Users/*/Library/Developer/Xcode/*", "/Users/*/Library/Developer/CoreSimulator/*")]
+  condition: selection
+level: medium

@@ -3,9 +3,9 @@ id: 4c445b98-4c44-4c44-ac44-4c445b980000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1486
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_s3_bucket_object_uploaded_with_ransom_extension.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_s3_bucket_object_uploaded_with_ransom_keyword.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1486
 logsource:
@@ -20,7 +20,8 @@ detection:
     #   event.action == "PutObject" and
     #   event.outcome == "success" and
     #   /* Apply regex to match patterns only after the bucket name */
-    #   aws.cloudtrail.resources.arn regex "arn:aws:s3:::[^/]+/.*?(ransom|lock|crypt|enc|readme|how_to_decrypt|decrypt_instructions|recovery|datarescue).*" and
-    #   not aws.cloudtrail.resources.arn regex ".*(AWSLogs|CloudTrail|access-logs).*"
+    #   /* common ransom note file name keywords */
+    #   aws.cloudtrail.resources.arn regex~ "arn:aws:s3:::[^/]+/.*?(how|decrypt|restor|help|instruct|read|get|recov|save|encrypt|info|ransom).*"
+    #   and not aws.cloudtrail.resources.arn regex~ ".*(AWSLogs|CloudTrail|access-logs).*"
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1090
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_kubectl_networking_modification.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-01
+date: 2026-02-08
 tags:
   - attack.t1090
 logsource:
@@ -17,7 +17,7 @@ detection:
     # process where host.os.type == "linux" and event.type == "start" and
     # event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
     # process.name == "kubectl" and (
-    #   process.args == "port-forward" and process.command_line like "*:*" or
+    #   process.args == "port-forward" and process.args like "*:*" or
     #   process.args in ("proxy", "expose")
     # ) and (
     #   process.parent.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") or

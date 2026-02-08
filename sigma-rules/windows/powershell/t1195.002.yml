@@ -1,11 +1,11 @@
-title: Command Execution via SolarWinds Process
-id: 0bf9ae39-0bf9-4bf9-abf9-0bf9ae390000
+title: Suspicious Child Process of Notepad++ Updater - GUP.Exe
+id: 7c146c6d-7c14-4c14-ac14-7c146c6d0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1195.002
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_apt_solarwinds_backdoor_child_cmd_powershell.toml
-author: elastic (via IncidentBuddy)
-date: 2026-02-01
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_gup_susp_child_process.yml
+author: sigma (via IncidentBuddy)
+date: 2026-02-08
 tags:
   - attack.t1195.002
 logsource:
@@ -13,15 +13,28 @@ logsource:
   service: powershell
 detection:
   selection:
-    # Original elastic detection logic
-    # process where host.os.type == "windows" and event.type == "start" and process.name: ("cmd.exe", "powershell.exe") and
-    # process.parent.name: (
-    #      "ConfigurationWizard*.exe",
-    #      "NetflowDatabaseMaintenance*.exe",
-    #      "NetFlowService*.exe",
-    #      "SolarWinds.Administration*.exe",
-    #      "SolarWinds.Collector.Service*.exe",
-    #      "SolarwindsDiagnostics*.exe"
-    #      )
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|endswith: '\gup.exe'
+    #     selection_child_img:
+    #         Image|endswith:
+    #             - '\cmd.exe'
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #             - '\cscript.exe'
+    #             - '\wscript.exe'
+    #             - '\mshta.exe'
+    #     selection_child_cli:
+    #         CommandLine|contains:
+    #             - 'bitsadmin'
+    #             - 'certutil'
+    #             - 'curl'
+    #             - 'finger'
+    #             - 'forfiles'
+    #             - 'regsvr32'
+    #             - 'rundll32'
+    #             - 'wget'
+    #     condition: selection_parent and 1 of selection_child_*
+    # 
   condition: selection
 level: medium
