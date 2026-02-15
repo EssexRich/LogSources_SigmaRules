@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1055.002
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_posh_assembly_load.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-08
+date: 2026-02-15
 tags:
   - attack.t1055.002
 logsource:
@@ -15,25 +15,16 @@ detection:
   selection:
     # Original elastic detection logic
     # event.category:process and host.os.type:windows and
+    # (
     #   powershell.file.script_block_text : (
     #     "[System.Reflection.Assembly]::Load" or
     #     "[Reflection.Assembly]::Load" or
     #     "Assembly.Load("
     #   ) and
-    #   not powershell.file.script_block_text : (
-    #         ("CommonWorkflowParameters" or "RelatedLinksHelpInfo") and
-    #         "HelpDisplayStrings"
-    #   ) and
-    #   not (powershell.file.script_block_text :
-    #         ("Get-SolutionFiles" or "Get-VisualStudio" or "Select-MSBuildPath") and
-    #         file.name : "PathFunctions.ps1"
-    #   ) and
-    #   not powershell.file.script_block_text : (
-    #         "Microsoft.PowerShell.Workflow.ServiceCore" and "ExtractPluginProperties([string]$pluginDir"
-    #   ) and 
-    #   
-    #   not powershell.file.script_block_text : ("reflection.assembly]::Load('System." or "LoadWithPartialName('Microsoft." or "::Load(\"Microsoft." or "Microsoft.Build.Utilities.Core.dll") and 
-    #   
-    #   not user.id : "S-1-5-18"
+    #   powershell.file.script_block_text : (
+    #       "FromBase64String" or "GzipStream" or "DeflateStream" or "IO.Compression" or
+    #       "MemoryStream" or "DownloadData" or "WebClient" or "ReadAllBytes"
+    #   )
+    # )
   condition: selection
 level: medium

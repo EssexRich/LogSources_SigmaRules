@@ -1,11 +1,11 @@
-title: Interactive Terminal Spawned via Python
-id: 77f29eda-77f2-47f2-a7f2-77f29eda0000
+title: Suspicious Interpreter Execution Detected via Defend for Containers
+id: 59908ca0-5990-4990-a990-59908ca00000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1059.006
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_python_tty_shell.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_suspicious_interactive_interpreter_command_execution.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-08
+date: 2026-02-15
 tags:
   - attack.t1059.006
 logsource:
@@ -14,18 +14,34 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start") and
-    # (
-    #   (process.parent.name : "python*" and process.name in ("bash", "dash", "ash", "sh", "tcsh", "csh", "zsh", "ksh",
-    #    "fish") and process.parent.args_count >= 3 and process.parent.args : "*pty.spawn*" and process.parent.args : "-c") or
-    #   (process.parent.name : "python*" and process.name in ("bash", "dash", "ash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and
-    #    process.args in (
-    #      "sh", "dash", "bash", "zsh",
-    #      "/bin/sh", "/bin/dash", "/bin/bash", "/bin/zsh",
-    #      "/usr/bin/sh", "/usr/bin/dash", "/usr/bin/bash", "/usr/bin/zsh",
-    #      "/usr/local/bin/sh", "/usr/local/bin/dash", "/usr/local/bin/bash", "/usr/local/bin/zsh"
-    #    ) and process.args_count == 1 and process.parent.args_count == 1
-    #   )
-    # )
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.interactive == true and
+    # process.parent.executable != null and (
+    #   (
+    #     process.executable like ("/bin/perl*", "/usr/bin/perl*", "/usr/local/bin/perl*") and
+    #     process.args == "-e" and process.args like~ (
+    #       "*system(*", "*exec(*", "*IO.popen(*", "*Open3.popen3(*", "*spawn(*", "*eval(*",
+    #       "*load(*IO::*", "*load(*Marshal*", "*load(*Fiddle*", "*load(*Zlib*", "*load(*Base64*",
+    #       "*zlib.inflate(*", "*zlib.deflate(*", "*zlib.decompress(*", "*zlib.uncompress(*", "*zlib.compress(*",
+    #       "*Marshal.load(*", "*Fiddle.dlopen(*", "*Fiddle::Function.new(*", "*base64*", "*zlib*", 
+    #       "*net/http*", "*socket.new*", "*open-uri*", "*pack(*"
+    #     )
+    #   ) or
+    #   process.executable like ("/bin/php*", "/usr/bin/php*", "/usr/local/bin/php*") and
+    #   process.args == "-r" and process.args like~ (
+    #     "*exec(*", "*system(*", "*shell_exec(*", "*passthru(*", "*proc_open(*", "*pcntl_exec(*", "*popen(*", 
+    #     "*eval(*", "*assert(*", "*create_function(*", "*preg_replace(*e*", "*include(*", "*require(*",
+    #     "*base64_decode(*", "*gzinflate(*", "*gzuncompress(*", "*str_rot13(*", "*urldecode(*", "*chr(*", 
+    #     "*ord(*", "*strrev(*", "*strtr(*", "*pack(*", "*unpack(*", "*curl_exec(*", "*curl_multi_exec(*",
+    #     "*file_get_contents(*", "*fopen(*", "*fsockopen(*", "*pfsockopen(*", "*stream_socket_client(*",
+    #     "*socket_create(*", "*socket_connect(*", "*socket_write(*", "*socket_read(*", "*mail(*",
+    #     "*move_uploaded_file(*"
+    #   ) or
+    #   process.executable like ("/bin/lua*", "/usr/bin/lua*", "/usr/local/bin/lua*") and
+    #   process.args == "-e" and process.args like~ (
+    #     "*os.execute(*", "*io.popen(*", "*load(*", "*loadstring(*", "*require(*", "*dofile(*",
+    #     "*package.loadlib(*", "*base64.decode(*", "*base64.encode(*", "*zlib.inflate(*",
+    #     "*zlib.deflate(*", "*zlib.decompress(*", "*zlib.compress(*", "*socket.bind(*",
+    #     "*socket.connect(*", "*socket.receive(*", "*socket.send(*", "*socket.tc
+    # ... [truncated]
   condition: selection
 level: medium

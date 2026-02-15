@@ -1,11 +1,11 @@
-title: Potential Etherhiding C2 via Blockchain Connection
-id: 15c5c7a5-15c5-45c5-a5c5-15c5c7a50000
+title: Connection to Common Large Language Model Endpoints
+id: 07ba666b-07ba-47ba-a7ba-07ba666b0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1102
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/command_and_control_potential_etherhiding_c2.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_common_llm_endpoint.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-08
+date: 2026-02-15
 tags:
   - attack.t1102
 logsource:
@@ -14,11 +14,60 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by process.entity_id with maxspan=15s
-    #   [network where host.os.type == "macos" and event.type == "start" and
-    #     (process.name in ("bash", "sh", "zsh", "osascript", "node", "Cursor") or
-    #     process.name like ("python*", "ruby*", "perl*", "tclsh*")) and
-    #     destination.domain like ("eth-mainnet*", "ethereum*", "eth.*.com")]
-    #   [file where host.os.type == "macos" and event.action == "modification" and file.extension in ("js", "py", "sh")]
+    # network where host.os.type in ("macos", "windows") and dns.question.name != null and
+    # (
+    #   process.name : ("MSBuild.exe", "mshta.exe", "wscript.exe", "powershell.exe", "pwsh.exe", "msiexec.exe", "rundll32.exe",
+    #   "bitsadmin.exe", "InstallUtil.exe", "RegAsm.exe", "vbc.exe", "RegSvcs.exe", "regsvr32.exe", "dllhost.exe",
+    #   "node.exe", "javaw.exe", "java.exe", "*.pif", "*.com", "python*", "osascript", "Script Editor", "curl", "curl.exe", "deno", 
+    #   "deno.exe", "node", "bun", "bun.exe") or
+    # 
+    #   ?process.code_signature.subject_name : ("AutoIt Consulting Ltd", "OpenJS Foundation", "Python Software Foundation") or
+    # 
+    #   (
+    #     process.executable : ("?:\\Users\\*.exe", "?:\\ProgramData\\*.exe", "/Users/Shared/*", "/Library/WebServer/*", 
+    #                           "/Users/*/Library/WebServer/*", "/Library/Graphics/*", "/Users/*/Library/Graphics/*", "/Library/Fonts/*", 
+    #                           "/Users/*/Library/Fonts/*", "/private/var/root/Library/HTTPStorages/*", "/tmp/*", "/var/tmp/*", "/private/tmp/*") and
+    #     (?process.code_signature.trusted == false or ?process.code_signature.exists == false)
+    #   )
+    #  ) and
+    #     dns.question.name : (
+    #     // Major LLM APIs
+    #     "api.openai.com",
+    #     "*.openai.azure.com",
+    #     "api.anthropic.com",
+    #     "api.mistral.ai",
+    #     "api.cohere.ai",
+    #     "api.ai21.com",
+    #     "api.groq.com",
+    #     "api.perplexity.ai",
+    #     "api.x.ai",
+    #     "api.deepseek.com",
+    #     "api.gemini.google.com",
+    #     "generativelanguage.googleapis.com",
+    #     "api.azure.com",
+    #     "api.bedrock.aws",
+    #     "bedrock-runtime.amazonaws.com",
+    # 
+    #     // Hugging Face & other ML infra
+    #     "api-inference.huggingface.co",
+    #     "inference-endpoint.huggingface.cloud",
+    #     "*.hf.space",
+    #     "*.replicate.com",
+    #     "api.replicate.com",
+    #     "api.runpod.ai",
+    #     "*.runpod.io",
+    #     "api.modal.com",
+    #     "*.forefront.ai",
+    # 
+    #     // Consumer-facing AI chat portals
+    #     "chat.openai.com",
+    #     "chatgpt.com",
+    #     "copilot.microsoft.com",
+    #     "bard.google.com",
+    #     "gemini.google.com",
+    #     "claude.ai",
+    #     "perplexity.ai",
+    #     "po
+    # ... [truncated]
   condition: selection
 level: medium

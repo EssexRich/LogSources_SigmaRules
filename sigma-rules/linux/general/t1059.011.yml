@@ -1,0 +1,47 @@
+title: Suspicious Interpreter Execution Detected via Defend for Containers
+id: 19e03506-19e0-49e0-a9e0-19e035060000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.011
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_suspicious_interactive_interpreter_command_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-15
+tags:
+  - attack.t1059.011
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.interactive == true and
+    # process.parent.executable != null and (
+    #   (
+    #     process.executable like ("/bin/perl*", "/usr/bin/perl*", "/usr/local/bin/perl*") and
+    #     process.args == "-e" and process.args like~ (
+    #       "*system(*", "*exec(*", "*IO.popen(*", "*Open3.popen3(*", "*spawn(*", "*eval(*",
+    #       "*load(*IO::*", "*load(*Marshal*", "*load(*Fiddle*", "*load(*Zlib*", "*load(*Base64*",
+    #       "*zlib.inflate(*", "*zlib.deflate(*", "*zlib.decompress(*", "*zlib.uncompress(*", "*zlib.compress(*",
+    #       "*Marshal.load(*", "*Fiddle.dlopen(*", "*Fiddle::Function.new(*", "*base64*", "*zlib*", 
+    #       "*net/http*", "*socket.new*", "*open-uri*", "*pack(*"
+    #     )
+    #   ) or
+    #   process.executable like ("/bin/php*", "/usr/bin/php*", "/usr/local/bin/php*") and
+    #   process.args == "-r" and process.args like~ (
+    #     "*exec(*", "*system(*", "*shell_exec(*", "*passthru(*", "*proc_open(*", "*pcntl_exec(*", "*popen(*", 
+    #     "*eval(*", "*assert(*", "*create_function(*", "*preg_replace(*e*", "*include(*", "*require(*",
+    #     "*base64_decode(*", "*gzinflate(*", "*gzuncompress(*", "*str_rot13(*", "*urldecode(*", "*chr(*", 
+    #     "*ord(*", "*strrev(*", "*strtr(*", "*pack(*", "*unpack(*", "*curl_exec(*", "*curl_multi_exec(*",
+    #     "*file_get_contents(*", "*fopen(*", "*fsockopen(*", "*pfsockopen(*", "*stream_socket_client(*",
+    #     "*socket_create(*", "*socket_connect(*", "*socket_write(*", "*socket_read(*", "*mail(*",
+    #     "*move_uploaded_file(*"
+    #   ) or
+    #   process.executable like ("/bin/lua*", "/usr/bin/lua*", "/usr/local/bin/lua*") and
+    #   process.args == "-e" and process.args like~ (
+    #     "*os.execute(*", "*io.popen(*", "*load(*", "*loadstring(*", "*require(*", "*dofile(*",
+    #     "*package.loadlib(*", "*base64.decode(*", "*base64.encode(*", "*zlib.inflate(*",
+    #     "*zlib.deflate(*", "*zlib.decompress(*", "*zlib.compress(*", "*socket.bind(*",
+    #     "*socket.connect(*", "*socket.receive(*", "*socket.send(*", "*socket.tc
+    # ... [truncated]
+  condition: selection
+level: medium
