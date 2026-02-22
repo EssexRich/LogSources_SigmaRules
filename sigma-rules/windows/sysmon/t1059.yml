@@ -1,11 +1,11 @@
-title: Suspicious Windows Powershell Arguments
-id: 74a7b455-74a7-44a7-a4a7-74a7b4550000
+title: Command and Scripting Interpreter via Windows Scripts
+id: 05879ce0-0587-4587-a587-05879ce00000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1059
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_windows_powershell_susp_args.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_powershell_susp_args_via_winscript.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-15
+date: 2026-02-22
 tags:
   - attack.t1059
 logsource:
@@ -15,73 +15,29 @@ detection:
   selection:
     # Original elastic detection logic
     # process where host.os.type == "windows" and event.type == "start" and
-    #  process.name : "powershell.exe" and
-    # 
+    #   process.command_line != null and
+    #   (
+    #     process.name : ("powershell.exe", "pwsh.exe", "powershell_ise.exe", "cmd.exe") or
+    #     ?process.pe.original_file_name : ("powershell.exe", "pwsh.dll", "powershell_ise.exe", "Cmd.Exe")
+    #   ) and
+    #   process.parent.name : ("wscript.exe", "mshta.exe") and
+    #   not (
+    #     process.args : (
+    #       "C:\\Program Files\\Intel\\SUR\\QUEENCREEK\\x64\\task.bat",
+    #       "\"C:\\Program Files\\Intel\\SUR\\QUEENCREEK\\x64\\task.bat\""
+    #     ) or
+    #     process.command_line : (
+    #       "\"C:\\Windows\\system32\\cmd.exe\" /c auditpol.exe /set /SUBCATEGORY:*",
+    #       "\"C:\\Windows\\system32\\cmd.exe\" /c auditpol.exe /get*",
+    #       "\"C:\\Windows\\system32\\cmd.exe\" /c exit\""
+    #     ) or
+    #     (process.args == "-File" and process.args == "-ExecutionPolicy")
+    #   )
+    #   and 
     #   not (
     #     ?user.id == "S-1-5-18" and
     #     /* Don't apply the user.id exclusion to Sysmon for compatibility */
     #     not event.dataset : ("windows.sysmon_operational", "windows.sysmon")
-    #   ) and
-    # 
-    #   (
-    #     process.command_line : (
-    #           "*^*^*^*^*^*^*^*^*^*",
-    #           "*`*`*`*`*",
-    #           "*+*+*+*+*+*+*",
-    #           "*[char[]](*)*-join*",
-    #           "*Base64String*",
-    #           "*[*Convert]*",
-    #           "*.Compression.*",
-    #           "*-join($*",
-    #           "*.replace*",
-    #           "*MemoryStream*",
-    #           "*WriteAllBytes*",
-    #           "* -enc *",
-    #           "* -ec *",
-    #           "* /e *",
-    #           "* /enc *",
-    #           "* /ec *",
-    #           "*WebClient*",
-    #           "*DownloadFile*",
-    #           "*DownloadString*",
-    #           "* iex*",
-    #           "* iwr*",
-    #           "* aQB3AHIAIABpA*",
-    #           "*Reflection.Assembly*",
-    #           "*Assembly.GetType*",
-    #           "*$env:temp\\*start*",
-    #           "*powercat*",
-    #           "*nslookup -q=txt*",
-    #           "*$host.UI.PromptForCredential*",
-    #           "*Net.Sockets.TCPClient*",
-    #           "*curl *;Start*",
-    #           "powershell.exe \"<#*",
-    #           "*ssh -p *",
-    #           "*http*|iex*",
-    #           "*@SSL\\DavWWWRoot\\*.ps1*",
-    #           "*.lnk*.Seek(0x*",
-    #           "*[string]::join(*",
-    #           "*[Array]::Reverse($*",
-    #           "* hidden $(gc *",
-    #           "*=wscri& set*",
-    #           "*http'+'s://*",
-    #           "*.content|i''Ex*",
-    #           "*//:sptth*",
-    #           "*//:ptth*",
-    #           "*h''t''t''p*",
-    #           "*'tp'':''/'*",
-    #           "*$env:T\"E\"MP*",
-    #           "*;cmd /c $?",
-    #           "*s''t''a''r*",
-    #           "*$*=Get-Content*AppData*.SubString(*$*",
-    #           "*=cat *AppData*.substring(*);*$*",
-    #           "*-join'';*|powershell*",
-    #           "*.Content;sleep *|powershell*",
-    #           "*h\''t\''tp:\''*",
-    #           "*-e aQB3AHIAIABp*",
-    #           "*iwr *https*).Content*",
-    #           "*$env:computername*http*",
-    #           "*;InVoKe-E
-    # ... [truncated]
+    #   )
   condition: selection
 level: medium

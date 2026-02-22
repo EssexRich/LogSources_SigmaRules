@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1486
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_s3_bucket_object_uploaded_with_ransom_keyword.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-15
+date: 2026-02-22
 tags:
   - attack.t1486
 logsource:
@@ -23,5 +23,6 @@ detection:
     #   /* common ransom note file name keywords */
     #   aws.cloudtrail.resources.arn regex~ "arn:aws:s3:::[^/]+/.*?(how|decrypt|restor|help|instruct|read|get|recov|save|encrypt|info|ransom).*"
     #   and not aws.cloudtrail.resources.arn regex~ ".*(AWSLogs|CloudTrail|access-logs).*"
+    #   and not aws.cloudtrail.user_identity.type == "AWSService"
   condition: selection
 level: medium

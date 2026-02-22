@@ -1,11 +1,11 @@
-title: File Creation Time Changed
-id: 5f8b4e63-5f8b-4f8b-af8b-5f8b4e630000
+title: Potential Timestomp in Executable Files
+id: 20f0df6b-20f0-40f0-a0f0-20f0df6b0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1070.006
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_timestomp_sysmon.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-15
+date: 2026-02-22
 tags:
   - attack.t1070.006
 logsource:
@@ -15,24 +15,29 @@ detection:
   selection:
     # Original elastic detection logic
     # file where host.os.type == "windows" and
-    #   event.provider == "Microsoft-Windows-Sysmon" and
-    #   /* File creation time change */
-    #   event.code == "2" and
-    #   not process.executable :
-    #            ("?:\\Program Files\\*",
-    #             "?:\\Program Files (x86)\\*",
-    #             "?:\\Windows\\system32\\cleanmgr.exe",
-    #             "?:\\Windows\\system32\\msiexec.exe",
-    #             "?:\\Windows\\syswow64\\msiexec.exe",
-    #             "?:\\Windows\\system32\\svchost.exe",
-    #             "?:\\WINDOWS\\system32\\backgroundTaskHost.exe",
-    #             "?:\\Users\\*\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe",
-    #             "?:\\Users\\*\\AppData\\Local\\Mozilla Firefox\\firefox.exe",
-    #             "?:\\Users\\*\\AppData\\Local\\slack\\app-*\\slack.exe",
-    #             "?:\\Users\\*\\AppData\\Local\\GitHubDesktop\\app-*\\GitHubDesktop.exe",
-    #             "?:\\Users\\*\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe",
-    #             "?:\\Users\\*\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe") and
-    #   not file.extension : ("temp", "tmp", "~tmp", "xml", "newcfg") and not user.name : ("SYSTEM", "Local Service", "Network Service") and
-    #   not file.name : ("LOG", "temp-index", "license.rtf", "iconcache_*.db")
+    #   event.provider == "Microsoft-Windows-Sysmon" and event.code == "2" and
+    #   file.extension : (
+    #     "exe", "dll", "sys", "msi", "scr", "pif", "lnk"
+    #   ) and
+    #   file.path : (
+    #     "?:\\Windows\\System32\\*",
+    #     "?:\\Windows\\SysWOW64\\*",
+    #     "?:\\ProgramData\\*",
+    #     "?:\\Users\\Public\\*",
+    #     "?:\\Users\\*\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*",
+    #     "?:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*"
+    #   ) and
+    #   not process.executable : (
+    #     "?:\\Program Files\\*",
+    #     "?:\\Program Files (x86)\\*",
+    #     "?:\\Windows\\system32\\cleanmgr.exe",
+    #     "?:\\Windows\\system32\\msiexec.exe",
+    #     "?:\\Windows\\syswow64\\msiexec.exe",
+    #     "?:\\Windows\\system32\\svchost.exe",
+    #     "?:\\Windows\\System32\\Robocopy.exe",
+    #     "?:\\Windows\\SysWOW64\\Robocopy.exe"
+    #   ) and
+    #   not (process.executable : "?:\\Windows\\System32\\spoolsv.exe" and file.path : "?:\\Windows\\System32\\spool\\*") and
+    #   not user.name : ("SYSTEM", "Local Service", "Network Service")
   condition: selection
 level: medium

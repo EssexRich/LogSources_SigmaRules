@@ -1,0 +1,27 @@
+title: AWS SSM Inventory Reconnaissance by Rare User
+id: 3807087e-3807-4807-a807-3807087e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1538
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_ssm_inventory_reconnaissance.toml
+author: elastic (via IncidentBuddy)
+date: 2026-02-22
+tags:
+  - attack.t1538
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "ssm.amazonaws.com"
+    #     and (
+    #         event.action: ("GetInventory" or "GetInventorySchema" or "ListInventoryEntries" or "DescribeInstancePatches" or "ListCommands")
+    #         or (event.action: "CreateAssociation"
+    #             and aws.cloudtrail.request_parameters: *AWS-GatherSoftwareInventory*)
+    #     )
+    #     and not aws.cloudtrail.user_identity.type : "AWSService" 
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

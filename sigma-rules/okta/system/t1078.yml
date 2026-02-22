@@ -1,11 +1,11 @@
-title: High Number of Okta User Password Reset or Unlock Attempts
-id: 4a24542c-4a24-4a24-aa24-4a24542c0000
+title: Okta Successful Login After Credential Attack
+id: 13f6005e-13f6-43f6-a3f6-13f6005e0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1078
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/defense_evasion_suspicious_okta_user_password_reset_or_unlock_attempts.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_okta_successful_login_after_credential_attack.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-15
+date: 2026-02-22
 tags:
   - attack.t1078
 logsource:
@@ -14,10 +14,52 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:okta.system and
-    #   event.action:(system.email.account_unlock.sent_message or system.email.password_reset.sent_message or
-    #                 system.sms.send_account_unlock_message or system.sms.send_password_reset_message or
-    #                 system.voice.send_account_unlock_call or system.voice.send_password_reset_call or
-    #                 user.account.unlock_token)
+    # FROM .alerts-security.*, logs-okta.system-* METADATA _id, _version, _index
+    # // Filter for credential attack alerts OR successful Okta authentications
+    # | WHERE
+    #     (
+    #         // Credential attack alerts from the five correlated rules
+    #         kibana.alert.rule.rule_id IN (
+    #             "94e734c0-2cda-11ef-84e1-f661ea17fbce",  // Credential Stuffing
+    #             "42bf698b-4738-445b-8231-c834ddefd8a0",  // Password Spraying
+    #             "23f18264-2d6d-11ef-9413-f661ea17fbce",  // DT Brute Force
+    #             "5889760c-9858-4b4b-879c-e299df493295",  // Distributed Brute Force
+    #             "2d3c27d5-d133-4152-8102-8d051619ec4a"   // Distributed Spray
+    #         )
+    #     )
+    #     OR (
+    #         // Successful Okta authentication events
+    #         event.dataset == "okta.system"
+    #         AND (event.action LIKE "user.authentication.*" OR event.action == "user.session.start")
+    #         AND okta.outcome.result == "SUCCESS"
+    #         AND okta.actor.alternate_id IS NOT NULL
+    #     )
+    # // correlation - alerts may store user/IP in different fields than raw logs
+    # | EVAL
+    #     Esql.user = COALESCE(okta.actor.alternate_id, user.name, user.email),
+    #     Esql.source_ip = COALESCE(okta.client.ip, client.ip, source.ip)
+    # // Must have user identity to correlate
+    # | WHERE Esql.user IS NOT NULL
+    # // Classify events and capture timestamps/IPs by event type
+    # | EVAL
+    #     Esql.is_attack_alert = CASE(
+    #         kibana.alert.rule.rule_id IN (
+    #             "94e734c0-2cda-11ef-84e1-f661ea17fbce",
+    #             "42bf698b-4738-445b-8231-c834ddefd8a0",
+    #             "23f18264-2d6d-11ef-9413-f661ea17fbce",
+    #             "5889760c-9858-4b4b-879c-e299df493295",
+    #             "2d3c27d5-d133-4152-8102-8d051619ec4a"
+    #         ), 1, 0
+    #     ),
+    #     Esql.is_success_login = CASE(
+    #         event.dataset == "okta.system"
+    #         AND okta.outcome.result == "SUCCESS", 1, 0
+    #     ),
+    #     Esql.attack_ip = CASE(
+    #         kibana.alert.rule.rule_id IN (
+    #             "94e734c0-2cda-11ef-84e1-f661ea17fbce",
+    #             "42bf698b-4738-445b-8231-c834ddefd8a0",
+    #             "23f18264-2d6d-11ef
+    # ... [truncated]
   condition: selection
 level: medium

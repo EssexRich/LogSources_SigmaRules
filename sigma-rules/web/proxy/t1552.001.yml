@@ -1,0 +1,38 @@
+title: MCP Github Suspicious Operation
+id: 3a681386-3a68-4a68-aa68-3a6813860000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/mcp_github_suspicious_operation.yml
+author: splunk (via IncidentBuddy)
+date: 2026-02-22
+tags:
+  - attack.t1552.001
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # `mcp_server` direction=inbound
+    #   | eval dest=host
+    #   | eval 
+    #       query_lower=lower('params.query'),
+    #       file_path_lower=lower('params.path'),
+    #       search_query='params.query',
+    #       file_path='params.path',
+    #       target_owner='params.owner',
+    #       is_secret_hunting=if(method="search_code" AND (like(query_lower, "%password%") OR like(query_lower, "%api_key%") OR like(query_lower, "%secret%") OR like(query_lower, "%token%") OR like(query_lower, "%aws_%") OR like(query_lower, "%private_key%") OR like(query_lower, "%credential%") OR like(query_lower, "%.env%") OR like(query_lower, "%config%")), 1, 0),
+    #       is_org_recon=if(method IN ("list_repositories", "get_repository", "get_organization", "list_organization_members", "get_collaborators", "list_forks", "fork_repository"), 1, 0),
+    #       is_branch_protection_abuse=if(method IN ("update_branch_protection", "delete_branch_protection"), 1, 0),
+    #       is_workflow_manipulation=if((method IN ("create_or_update_file", "push_files")) AND like(file_path_lower, "%github/workflows%"), 1, 0),
+    #       is_sensitive_file_access=if((method IN ("create_or_update_file", "push_files", "get_file_contents")) AND (like(file_path_lower, "%dockerfile%") OR like(file_path_lower, "%package.json%") OR like(file_path_lower, "%requirements.txt%") OR like(file_path_lower, "%.env%") OR like(file_path_lower, "%settings.py%") OR like(file_path_lower, "%config%")), 1, 0),
+    #       is_issue_intel=if(method IN ("list_issues", "search_issues") AND (like(query_lower, "%vulnerability%") OR like(query_lower, "%cve%") OR like(query_lower, "%security%") OR like(query_lower, "%exploit%") OR like(query_lower, "%bug%")), 1, 0)
+    #   | where is_secret_hunting=1 OR is_org_recon=1 OR is_branch_protection_abuse=1 OR is_workflow_manipulation=1 OR is_sensitive_file_access=1 OR is_issue_intel=1
+    #   | eval attack_type=case(
+    #       is_secret_hunting=1, "Secret Hunting",
+    #       is_branch_protection_abuse=1, "Branch Protection Abuse",
+    #       is_workflow_manipulation=1, "Workflow Manipul
+    # ... [truncated]
+  condition: selection
+level: medium

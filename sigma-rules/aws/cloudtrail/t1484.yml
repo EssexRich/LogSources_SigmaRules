@@ -1,11 +1,11 @@
-title: AWS IAM SAML Provider Updated
-id: 7ed49537-7ed4-4ed4-aed4-7ed495370000
+title: AWS IAM OIDC Provider Created by Rare User
+id: 4238d154-4238-4238-a238-4238d1540000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1484
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/privilege_escalation_iam_saml_provider_updated.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_iam_oidc_provider_created.toml
 author: elastic (via IncidentBuddy)
-date: 2026-02-15
+date: 2026-02-22
 tags:
   - attack.t1484
 logsource:
@@ -16,8 +16,7 @@ detection:
     # Original elastic detection logic
     # event.dataset: "aws.cloudtrail"
     #     and event.provider: "iam.amazonaws.com"
-    #     and event.action: "UpdateSAMLProvider"
+    #     and event.action: "CreateOpenIDConnectProvider"
     #     and event.outcome: "success"
-    #     and not (source.address: "sso.amazonaws.com" and user_agent.original: "sso.amazonaws.com")
   condition: selection
 level: medium
