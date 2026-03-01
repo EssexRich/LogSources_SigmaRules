@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1189
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/network/detect_hosts_connecting_to_dynamic_domain_providers.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1189
 logsource:
@@ -15,17 +15,17 @@ detection:
   selection:
     # Original splunk detection logic
     # | tstats `security_content_summariesonly` count min(_time) as firstTime
-    #     from datamodel=Network_Resolution where
-    #     DNS.query=*
-    #     NOT DNS.query IN ("-", "unknown")
-    #     by DNS.answer DNS.answer_count DNS.query DNS.query_count
-    #        DNS.reply_code_id DNS.src DNS.vendor_product
-    #   | `drop_dm_object_name("DNS")`
-    #   | `security_content_ctime(firstTime)`
-    #   | lookup update=true dynamic_dns_providers_default dynamic_dns_domains as query OUTPUTNEW isDynDNS_default
-    #   | lookup update=true dynamic_dns_providers_local dynamic_dns_domains as query OUTPUTNEW isDynDNS_local
-    #   | eval isDynDNS = coalesce(isDynDNS_local,isDynDNS_default)
-    #   |fields - isDynDNS_default, isDynDNS_local| search isDynDNS=True
-    #   | `detect_hosts_connecting_to_dynamic_domain_providers_filter`
+    #       from datamodel=Network_Resolution where
+    #       DNS.query=*
+    #       NOT DNS.query IN ("-", "unknown")
+    #       by DNS.answer DNS.answer_count DNS.query DNS.query_count
+    #          DNS.reply_code_id DNS.src DNS.vendor_product
+    #     | `drop_dm_object_name("DNS")`
+    #     | `security_content_ctime(firstTime)`
+    #     | lookup update=true dynamic_dns_providers_default dynamic_dns_domains as query OUTPUTNEW isDynDNS_default
+    #     | lookup update=true dynamic_dns_providers_local dynamic_dns_domains as query OUTPUTNEW isDynDNS_local
+    #     | eval isDynDNS = coalesce(isDynDNS_local,isDynDNS_default)
+    #     |fields - isDynDNS_default, isDynDNS_local| search isDynDNS=True
+    #     | `detect_hosts_connecting_to_dynamic_domain_providers_filter`
   condition: selection
 level: medium

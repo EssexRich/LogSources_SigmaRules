@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1003.008
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_sensitive_files_accessed.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1003.008
 logsource:
@@ -14,13 +14,6 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `esxi_syslog` Message="*shell[*" Message IN ("*/etc/shadow*","*/etc/vmware/hostd/hostd.xml*",
-    #    "*/etc/vmware/vpxa/vpxa.cfg*","*/etc/sfcb/sfcb.cfg*","*/etc/security/*",
-    #    "*/etc/likewise/krb5-affinity.conf*","*/etc/vmware-vpx/vcdb.properties*")
-    #   | rex field=_raw "\]: \[(?<user>\w+)\]:(?<command>.+)"
-    #   | rex field=_raw "Z (?<dest>[\w\.]+)\s"
-    #   | stats min(_time) as firstTime max(_time) as lastTime count by dest user command
-    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-    #   | `esxi_sensitive_files_accessed_filter`
+    # `esxi_syslog` Message="*shell[*" Message IN ("*/etc/shadow*","*/etc/vmware/hostd/hostd.xml*", "*/etc/vmware/vpxa/vpxa.cfg*","*/etc/sfcb/sfcb.cfg*","*/etc/security/*", "*/etc/likewise/krb5-affinity.conf*","*/etc/vmware-vpx/vcdb.properties*") | rex field=_raw "\]: \[(?<user>\w+)\]:(?<command>.+)" | rex field=_raw "Z (?<dest>[\w\.]+)\s" | stats min(_time) as firstTime max(_time) as lastTime count by dest user command | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `esxi_sensitive_files_accessed_filter`
   condition: selection
 level: medium

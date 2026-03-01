@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1558.001
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/kerberos_service_ticket_request_using_rc4_encryption.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1558.001
 logsource:
@@ -14,10 +14,13 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `wineventlog_security` EventCode=4769 ServiceName="*$" (TicketOptions=0x40810000
-    #   OR TicketOptions=0x40800000 OR TicketOptions=0x40810010) TicketEncryptionType=0x17
-    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id,
-    #   TicketEncryptionType, TicketOptions | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-    #   | `kerberos_service_ticket_request_using_rc4_encryption_filter`
+    # -
+    #     `wineventlog_security` EventCode=4769 ServiceName="*$" (TicketOptions=0x40810000 OR TicketOptions=0x40800000 OR TicketOptions=0x40810010) TicketEncryptionType=0x17
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY dest, service, service_id,
+    #            TicketEncryptionType, TicketOptions
+    #       | `security_content_ctime(lastTime)`
+    #       | `security_content_ctime(firstTime)`
+    #       | `kerberos_service_ticket_request_using_rc4_encryption_filter`
   condition: selection
 level: medium

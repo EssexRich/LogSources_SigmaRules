@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1498.002
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/network/large_volume_of_dns_any_queries.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1498.002
 logsource:
@@ -14,8 +14,12 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-    #   where nodename=DNS "DNS.message_type"="QUERY" "DNS.record_type"="ANY" by "DNS.dest"
-    #   | `drop_dm_object_name("DNS")` | where count>200 | `large_volume_of_dns_any_queries_filter`
+    # -
+    #     | tstats `security_content_summariesonly` count FROM datamodel=Network_Resolution
+    #       WHERE nodename=DNS "DNS.message_type"="QUERY" "DNS.record_type"="ANY"
+    #       BY "DNS.dest"
+    #     | `drop_dm_object_name("DNS")`
+    #     | where count>200
+    #     | `large_volume_of_dns_any_queries_filter`
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1555
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/application/mcp_postgres_suspicious_query.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1555
 logsource:
@@ -15,22 +15,22 @@ detection:
   selection:
     # Original splunk detection logic
     # `mcp_server` method=query direction=inbound
-    #   | eval dest=host
-    #   | eval query_lower=lower('params.query')
-    #   | eval suspicious_query='params.query'
-    #   | eval is_priv_escalation=if(like(query_lower, "%update%users%role%admin%") OR like(query_lower, "%grant%admin%") OR like(query_lower, "%grant%superuser%"), 1, 0)
-    #   | eval is_credential_theft=if(like(query_lower, "%password%") OR like(query_lower, "%credential%") OR like(query_lower, "%api_key%") OR like(query_lower, "%secret%"), 1, 0)
-    #   | eval is_recon=if(like(query_lower, "%information_schema%") OR like(query_lower, "%pg_catalog%") OR like(query_lower, "%pg_tables%") OR like(query_lower, "%pg_user%"), 1, 0)
-    #   | where is_priv_escalation=1 OR is_credential_theft=1 OR is_recon=1
-    #   | eval attack_type=case(
-    #       is_priv_escalation=1, "Privilege Escalation",
-    #       is_credential_theft=1, "Credential Theft",
-    #       is_recon=1, "Schema Reconnaissance",
-    #       1=1, "Unknown")
-    #   | stats count min(_time) as firstTime max(_time) as lastTime values(suspicious_query) as suspicious_queries values(attack_type) as attack_types dc(attack_type) as attack_diversity by dest
-    #   | `security_content_ctime(firstTime)` 
-    #   | `security_content_ctime(lastTime)`
-    #   | table dest firstTime lastTime count suspicious_queries attack_types attack_diversity
-    #   | `mcp_postgres_suspicious_query_filter`
+    #     | eval dest=host
+    #     | eval query_lower=lower('params.query')
+    #     | eval suspicious_query='params.query'
+    #     | eval is_priv_escalation=if(like(query_lower, "%update%users%role%admin%") OR like(query_lower, "%grant%admin%") OR like(query_lower, "%grant%superuser%"), 1, 0)
+    #     | eval is_credential_theft=if(like(query_lower, "%password%") OR like(query_lower, "%credential%") OR like(query_lower, "%api_key%") OR like(query_lower, "%secret%"), 1, 0)
+    #     | eval is_recon=if(like(query_lower, "%information_schema%") OR like(query_lower, "%pg_catalog%") OR like(query_lower, "%pg_tables%") OR like(query_lower, "%pg_user%"), 1, 0)
+    #     | where is_priv_escalation=1 OR is_credential_theft=1 OR is_recon=1
+    #     | eval attack_type=case(
+    #         is_priv_escalation=1, "Privilege Escalation",
+    #         is_credential_theft=1, "Credential Theft",
+    #         is_recon=1, "Schema Reconnaissance",
+    #         1=1, "Unknown")
+    #     | stats count min(_time) as firstTime max(_time) as lastTime values(suspicious_query) as suspicious_queries values(attack_type) as attack_types dc(attack_type) as attack_diversity by dest
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | table dest firstTime lastTime count suspicious_queries attack_types attack_diversity
+    #     | `mcp_postgres_suspicious_query_filter`
   condition: selection
 level: medium

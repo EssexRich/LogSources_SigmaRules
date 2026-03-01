@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1586.003
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_console_login_failed_during_mfa_challenge.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1586.003
 logsource:
@@ -14,11 +14,16 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `cloudtrail` eventName= ConsoleLogin errorMessage="Failed authentication" additionalEventData.MFAUsed = "Yes" 
-    #   | rename user_name as user
-    #   | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user user_agent src vendor_account vendor_region vendor_product additionalEventData.MFAUsed errorMessage
-    #   | `security_content_ctime(firstTime)`
-    #   | `security_content_ctime(lastTime)`
-    #   | `aws_console_login_failed_during_mfa_challenge_filter`
+    # -
+    #     `cloudtrail` eventName= ConsoleLogin errorMessage="Failed authentication" additionalEventData.MFAUsed = "Yes"
+    #       | rename user_name as user
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY signature dest user
+    #            user_agent src vendor_account
+    #            vendor_region vendor_product additionalEventData.MFAUsed
+    #            errorMessage
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `aws_console_login_failed_during_mfa_challenge_filter`
   condition: selection
 level: medium

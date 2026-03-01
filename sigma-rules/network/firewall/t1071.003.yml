@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1071.003
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/network/windows_multi_hop_proxy_tor_website_query.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1071.003
 logsource:
@@ -14,10 +14,17 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionrouter.com")
-    #   | stats count min(_time) as firstTime max(_time) as lastTime by answer answer_count
-    #   dvc process_exec process_guid process_name query query_count reply_code_id signature
-    #   signature_id src user_id vendor_product QueryName QueryResults QueryStatus | `security_content_ctime(firstTime)`
-    #   | `security_content_ctime(lastTime)` | `windows_multi_hop_proxy_tor_website_query_filter`
+    # -
+    #     `sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionrouter.com")
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY answer answer_count dvc
+    #            process_exec process_guid process_name
+    #            query query_count reply_code_id
+    #            signature signature_id src
+    #            user_id vendor_product QueryName
+    #            QueryResults QueryStatus
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `windows_multi_hop_proxy_tor_website_query_filter`
   condition: selection
 level: medium

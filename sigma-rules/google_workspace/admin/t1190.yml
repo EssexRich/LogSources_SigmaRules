@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1190
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/web/vmware_workspace_one_freemarker_server_side_template_injection.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1190
 logsource:
@@ -14,9 +14,16 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url="*/catalog-portal/ui/oauth/verify?error=&deviceudid=*"
-    #   AND Web.url="*freemarker.template.utility.Execute*" by Web.http_user_agent Web.http_method,
-    #   Web.url,Web.url_length Web.src, Web.dest sourcetype | `drop_dm_object_name("Web")`
-    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `vmware_workspace_one_freemarker_server_side_template_injection_filter`
+    # -
+    #     | tstats count FROM datamodel=Web
+    #       WHERE Web.http_method IN ("GET") Web.url="*/catalog-portal/ui/oauth/verify?error=&deviceudid=*"
+    #         AND
+    #         Web.url="*freemarker.template.utility.Execute*"
+    #       BY Web.http_user_agent Web.http_method, Web.url,Web.url_length
+    #          Web.src, Web.dest sourcetype
+    #     | `drop_dm_object_name("Web")`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `vmware_workspace_one_freemarker_server_side_template_injection_filter`
   condition: selection
 level: medium

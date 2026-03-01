@@ -1,0 +1,49 @@
+title: M365 SharePoint Search for Sensitive Content
+id: 7f00d5c0-7f00-4f00-af00-7f00d5c00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1619
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/discovery_sharepoint_sensitive_term_search.toml
+author: elastic (via IncidentBuddy)
+date: 2026-03-01
+tags:
+  - attack.t1619
+logsource:
+  product: m365
+  service: sharepoint
+detection:
+  selection:
+    # Original elastic detection logic
+    # web where event.dataset == "o365.audit" and
+    #     event.provider == "SharePoint" and
+    #     event.action == "SearchQueryPerformed" and
+    #     event.outcome == "success" and
+    #     o365.audit.SearchQueryText != null and
+    #     o365.audit.SearchQueryText != "" and
+    #     o365.audit.SearchQueryText like~ (
+    #         /* Credentials and Secrets */
+    #         "*password*", "*credential*", "*secret*", "*api key*", "*apikey*",
+    #         "*token*", "*private key*", "*certificate*", "*ssh*", "*aws*",
+    #         "*azure*", "*gcp*", "*oauth*", "*bearer*", "*connection string*",
+    #         "*access key*", "*secret key*",
+    #         /* Financial */
+    #         "*salary*", "*payroll*", "*compensation*", "*budget*", "*revenue*",
+    #         "*financial*", "*banking*", "*invoice*", "*wire transfer*", "*account number*",
+    #         "*credit card*", "*routing number*", "*profit*", "*expense*", "*1099*",
+    #         /* Legal and Compliance */
+    #         "*confidential*", "*privileged*", "*attorney*", "*legal hold*", "*settlement*",
+    #         "*contract*", "*nda*", "*merger*", "*acquisition*", "*litigation*",
+    #         "*subpoena*", "*trade secret*", "*intellectual property*", "*proprietary*",
+    #         "*internal*", "*proposal*", "*poc*",
+    #         /* HR and PII */
+    #         "*ssn*", "*social security*", "*employee*", "*personnel*", "*performance review*",
+    #         "*termination*", "*tax*", "*w2*", "*benefits*", "*background check*",
+    #         "*medical*", "*hipaa*", "*passport*", "*driver license*", "*dob*",
+    #         /* Infrastructure and IT */
+    #         "*admin*", "*root*", "*vpn*", "*firewall*", "*network diagram*",
+    #         "*architecture*", "*topology*", "*production*", "*database*", "*config*",
+    #         "*backup*", "*disaster recovery*", "*vulnerability*", "*pentest*", "*security audit*",
+    #         "*salesforce*"
+    #     )
+  condition: selection
+level: medium

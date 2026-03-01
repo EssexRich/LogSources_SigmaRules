@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1078.002
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_powerview_ad_access_control_list_enumeration.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1078.002
 logsource:
@@ -14,10 +14,17 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `powershell` EventCode=4104  (ScriptBlockText=*get-objectacl* OR ScriptBlockText=*Get-DomainObjectAcl*)
-    #   | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest
-    #   signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID
-    #   ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-    #   | `windows_powerview_ad_access_control_list_enumeration_filter`
+    # -
+    #     `powershell` EventCode=4104  (ScriptBlockText=*get-objectacl* OR ScriptBlockText=*Get-DomainObjectAcl*)
+    #       | fillnull
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY dest signature signature_id
+    #            user_id vendor_product EventID
+    #            Guid Opcode Name
+    #            Path ProcessID ScriptBlockId
+    #            ScriptBlockText
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `windows_powerview_ad_access_control_list_enumeration_filter`
   condition: selection
 level: medium

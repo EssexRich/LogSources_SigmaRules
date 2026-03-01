@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1484
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_cross_tenant_access_change.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1484
 logsource:
@@ -14,15 +14,6 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `o365_management_activity` Workload=AzureActiveDirectory Operation IN (\"\
-    #     Add a partner to cross-tenant access setting.\",\"Delete partner specific cross-tenant
-    #     access setting.\") 
-    #   | eval user = case(match(mvindex('Actor{}.ID',-1),\"User\"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),\"\
-    #       ServicePrincipal\"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)) 
-    #   | fillnull 
-    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature signature_id 
-    #   | `security_content_ctime(firstTime)` 
-    #   | `security_content_ctime(lastTime)` 
-    #   | `o365_cross_tenant_access_change_filter`
+    # `o365_management_activity` Workload=AzureActiveDirectory Operation IN (\"Add a partner to cross-tenant access setting.\",\"Delete partner specific cross-tenant access setting.\") | eval user = case(match(mvindex('Actor{}.ID',-1),\"User\"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),\"ServicePrincipal\"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)) | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature signature_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_cross_tenant_access_change_filter`
   condition: selection
 level: medium

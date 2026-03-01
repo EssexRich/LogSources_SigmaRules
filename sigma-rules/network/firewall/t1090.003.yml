@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1090.003
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/network/tor_traffic.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1090.003
 logsource:
@@ -14,13 +14,20 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    #   as lastTime from datamodel=Network_Traffic where All_Traffic.app=tor AND All_Traffic.action
-    #   IN ("allowed", "allow") by All_Traffic.action All_Traffic.app All_Traffic.bytes
-    #   All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest All_Traffic.dest_ip
-    #   All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol All_Traffic.protocol_version
-    #   All_Traffic.src All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport All_Traffic.user
-    #   All_Traffic.vendor_product All_Traffic.rule | `security_content_ctime(firstTime)`
-    #   | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `tor_traffic_filter`
+    # -
+    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Traffic
+    #       WHERE All_Traffic.app=tor
+    #         AND
+    #         All_Traffic.action IN ("allowed", "allow")
+    #       BY All_Traffic.action All_Traffic.app All_Traffic.bytes
+    #          All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest
+    #          All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc
+    #          All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src
+    #          All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport
+    #          All_Traffic.user All_Traffic.vendor_product All_Traffic.rule
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `drop_dm_object_name("All_Traffic")`
+    #     | `tor_traffic_filter`
   condition: selection
 level: medium

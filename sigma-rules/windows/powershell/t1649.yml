@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1649
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_certify_with_powershell_script_block_logging.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1649
 logsource:
@@ -14,14 +14,19 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptBlockText
-    #   IN ("* /vulnerable*","* -vulnerable*","* /enrolleeSuppliesSubject *","* /json /outfile*"))
-    #   OR (ScriptBlockText IN (,"*auth *","*req *",) AND ScriptBlockText IN ("* -ca *","*
-    #   -username *","* -u *")) OR (ScriptBlockText IN ("*request *","*download *") AND
-    #   ScriptBlockText IN ("* /ca:*")) | fillnull | stats count min(_time) as firstTime
-    #   max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID
-    #   Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
-    #   | `security_content_ctime(lastTime)` | eval file_name = case(isnotnull(file_name),file_name,true(),"unknown")
-    #   | eval signature = substr(command,0,256) | `detect_certify_with_powershell_script_block_logging_filter`
+    # -
+    #     `powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptBlockText IN ("* /vulnerable*","* -vulnerable*","* /enrolleeSuppliesSubject *","* /json /outfile*")) OR (ScriptBlockText IN (,"*auth *","*req *",) AND ScriptBlockText IN ("* -ca *","* -username *","* -u *")) OR (ScriptBlockText IN ("*request *","*download *") AND ScriptBlockText IN ("* /ca:*"))
+    #       | fillnull
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY dest signature signature_id
+    #            user_id vendor_product EventID
+    #            Guid Opcode Name
+    #            Path ProcessID ScriptBlockId
+    #            ScriptBlockText
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | eval file_name = case(isnotnull(file_name),file_name,true(),"unknown")
+    #       | eval signature = substr(command,0,256)
+    #       | `detect_certify_with_powershell_script_block_logging_filter`
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1559.001
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/process_writing_dynamicwrapperx.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1559.001
 logsource:
@@ -14,11 +14,17 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
-    #   where Filesystem.file_name="dynwrapx.dll" by Filesystem.action Filesystem.dest Filesystem.file_access_time
-    #   Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name
-    #   Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid
-    #   Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)`
-    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `process_writing_dynamicwrapperx_filter`
+    # -
+    #     | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
+    #       WHERE Filesystem.file_name="dynwrapx.dll"
+    #       BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+    #          Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+    #          Filesystem.file_name Filesystem.file_path Filesystem.file_acl
+    #          Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+    #          Filesystem.user Filesystem.vendor_product
+    #     | `drop_dm_object_name(Filesystem)`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `process_writing_dynamicwrapperx_filter`
   condition: selection
 level: medium

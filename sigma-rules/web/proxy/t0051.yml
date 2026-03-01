@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T0051
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/application/mcp_prompt_injection.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t0051
 logsource:
@@ -15,14 +15,14 @@ detection:
   selection:
     # Original splunk detection logic
     # `mcp_server` direction=inbound ( "IGNORE PREVIOUS INSTRUCTIONS" OR "AI_INSTRUCTION" OR "SYSTEM PROMPT OVERRIDE" OR "[SYSTEM]:" OR "ignore all security" OR "New directive" OR "ignore security policies" )
-    #   | eval dest=host
-    #   | eval injection_payload=coalesce('params.content_preview', 'params.result_preview')
-    #   | eval target_path='params.path'
-    #   | eval sql_query='params.query'
-    #   | stats count min(_time) as firstTime max(_time) as lastTime values(method) as method values(target_path) as target_path values(sql_query) as sql_query values(injection_payload) as injection_payload by dest, source
-    #   | `security_content_ctime(firstTime)` 
-    #   | `security_content_ctime(lastTime)`
-    #   | table dest firstTime lastTime count source method target_path sql_query injection_payload
-    #   | `mcp_prompt_injection_filter`
+    #     | eval dest=host
+    #     | eval injection_payload=coalesce('params.content_preview', 'params.result_preview')
+    #     | eval target_path='params.path'
+    #     | eval sql_query='params.query'
+    #     | stats count min(_time) as firstTime max(_time) as lastTime values(method) as method values(target_path) as target_path values(sql_query) as sql_query values(injection_payload) as injection_payload by dest, source
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | table dest firstTime lastTime count source method target_path sql_query injection_payload
+    #     | `mcp_prompt_injection_filter`
   condition: selection
 level: medium

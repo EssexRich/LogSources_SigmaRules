@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1053.002
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_at_application_execution.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1053.002
 logsource:
@@ -14,12 +14,15 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `linux_auditd` type=SYSCALL comm IN ("at", "atd") OR exe IN ("/usr/bin/at","/usr/bin/atd") AND NOT (uid IN ("daemon")) 
-    #   | rename host as dest 
-    #   | stats count min(_time) as firstTime max(_time) as lastTime 
-    #   by comm exe  syscall uid ppid pid dest 
-    #   | `security_content_ctime(firstTime)`
-    #   | `security_content_ctime(lastTime)`
-    #   | `linux_auditd_at_application_execution_filter`
+    # -
+    #     `linux_auditd` type=SYSCALL comm IN ("at", "atd") OR exe IN ("/usr/bin/at","/usr/bin/atd") AND NOT (uid IN ("daemon"))
+    #       | rename host as dest
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY comm exe syscall
+    #            uid ppid pid
+    #            dest
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `linux_auditd_at_application_execution_filter`
   condition: selection
 level: medium

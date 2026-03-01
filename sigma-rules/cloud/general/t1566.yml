@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1566
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/gdrive_suspicious_file_sharing.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1566
 logsource:
@@ -14,10 +14,13 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `gsuite_drive` name=change_user_access | rename parameters.* as * | search
-    #   email = "*@yourdomain.com" target_user != "*@yourdomain.com" | stats count values(owner)
-    #   as owner values(target_user) as target values(doc_type) as doc_type values(doc_title)
-    #   as doc_title dc(target_user) as distinct_target by src_ip email | where distinct_target
-    #   > 50 | `gdrive_suspicious_file_sharing_filter`
+    # -
+    #     `gsuite_drive` name=change_user_access
+    #       | rename parameters.* as *
+    #       | search email = "*@yourdomain.com" target_user != "*@yourdomain.com"
+    #       | stats count values(owner) as owner values(target_user) as target values(doc_type) as doc_type values(doc_title) as doc_title dc(target_user) as distinct_target
+    #         BY src_ip email
+    #       | where distinct_target > 50
+    #       | `gdrive_suspicious_file_sharing_filter`
   condition: selection
 level: medium

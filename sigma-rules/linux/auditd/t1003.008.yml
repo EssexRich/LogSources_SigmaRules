@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1003.008
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_possible_access_to_credential_files.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1003.008
 logsource:
@@ -14,9 +14,13 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `linux_auditd`  proctitle IN ("*shadow*", "*passwd*") AND proctitle IN ("*cat
-    #   *", "*nano *", "*vim *", "*vi *") | rename host as dest | stats count min(_time)
-    #   as firstTime max(_time) as lastTime by proctitle  dest | `security_content_ctime(firstTime)`
-    #   | `security_content_ctime(lastTime)` | `linux_auditd_possible_access_to_credential_files_filter`
+    # -
+    #     `linux_auditd`  proctitle IN ("*shadow*", "*passwd*") AND proctitle IN ("*cat *", "*nano *", "*vim *", "*vi *")
+    #       | rename host as dest
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY proctitle dest
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `linux_auditd_possible_access_to_credential_files_filter`
   condition: selection
 level: medium

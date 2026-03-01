@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1583.006
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_secure_firewall___rare_snort_rule_triggered.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1583.006
 logsource:
@@ -15,18 +15,18 @@ detection:
   selection:
     # Original splunk detection logic
     # `cisco_secure_firewall` EventType=IntrusionEvent earliest=-7d
-    #   | stats dc(_time) as TriggerCount min(_time) as firstTime max(_time) as lastTime 
-    #           values(signature) as signature 
-    #           values(src) as src 
-    #           values(dest) as dest 
-    #           values(dest_port) as dest_port
-    #           values(transport) as transport
-    #           values(app) as app 
-    #           values(rule) as rule 
-    #           by signature_id class_desc MitreAttackGroups InlineResult InlineResultReason
-    #   | where TriggerCount = 1
-    #   | `security_content_ctime(firstTime)`
-    #   | `security_content_ctime(lastTime)`
-    #   | `cisco_secure_firewall___rare_snort_rule_triggered_filter`
+    #     | stats dc(_time) as TriggerCount min(_time) as firstTime max(_time) as lastTime
+    #             values(signature) as signature
+    #             values(src) as src
+    #             values(dest) as dest
+    #             values(dest_port) as dest_port
+    #             values(transport) as transport
+    #             values(app) as app
+    #             values(rule) as rule
+    #             by signature_id class_desc MitreAttackGroups InlineResult InlineResultReason
+    #     | where TriggerCount = 1
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `cisco_secure_firewall___rare_snort_rule_triggered_filter`
   condition: selection
 level: medium

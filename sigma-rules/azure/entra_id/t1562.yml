@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1562
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_ad_block_user_consent_for_risky_apps_disabled.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1562
 logsource:
@@ -14,15 +14,6 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `azure_monitor_aad` operationName=\"Update authorization policy\" 
-    #   | rename properties.* as *  
-    #   | eval index_number = if(mvfind('targetResources{}.modifiedProperties{}.displayName',\"AllowUserConsentForRiskyApps\") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName',\"AllowUserConsentForRiskyApps\"), -1) 
-    #   | search index_number >= 0  
-    #   | eval AllowUserConsentForRiskyApps = mvindex('targetResources{}.modifiedProperties{}.newValue',index_number)
-    #   | search AllowUserConsentForRiskyApps = \"[true]\"
-    #   | rename userAgent as user_agent
-    #   | fillnull 
-    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product user_agent signature
-    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_block_user_consent_for_risky_apps_disabled_filter`
+    # `azure_monitor_aad` operationName=\"Update authorization policy\" | rename properties.* as * | eval index_number = if(mvfind('targetResources{}.modifiedProperties{}.displayName',\"AllowUserConsentForRiskyApps\") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName',\"AllowUserConsentForRiskyApps\"), -1) | search index_number >= 0 | eval AllowUserConsentForRiskyApps = mvindex('targetResources{}.modifiedProperties{}.newValue',index_number) | search AllowUserConsentForRiskyApps = \"[true]\" | rename userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product user_agent signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_block_user_consent_for_risky_apps_disabled_filter`
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1621
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_multiple_failed_mfa_requests_for_user.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1621
 logsource:
@@ -14,10 +14,13 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ResultStatus=Success ErrorNumber=500121 
-    #   | bucket span=10m _time 
-    #   | stats dc(_raw) as mfa_prompts values(LogonError) as LogonError values(signature) as signature values(action) as action values(src) as src by user _time vendor_account vendor_product dest
-    #   | where mfa_prompts > 9 
-    #   | `o365_multiple_failed_mfa_requests_for_user_filter`
+    # -
+    #     `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ResultStatus=Success ErrorNumber=500121
+    #       | bucket span=10m _time
+    #       | stats dc(_raw) as mfa_prompts values(LogonError) as LogonError values(signature) as signature values(action) as action values(src) as src
+    #         BY user _time vendor_account
+    #            vendor_product dest
+    #       | where mfa_prompts > 9
+    #       | `o365_multiple_failed_mfa_requests_for_user_filter`
   condition: selection
 level: medium

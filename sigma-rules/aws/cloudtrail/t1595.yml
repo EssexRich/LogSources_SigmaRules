@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1595
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_bedrock_high_number_list_foundation_model_failures.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1595
 logsource:
@@ -15,11 +15,11 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #   `cloudtrail` eventSource=bedrock.amazonaws.com eventName=ListFoundationModels errorCode=AccessDenied  | rename user_name as user 
-    #   | stats count min(_time) as firstTime max(_time) as lastTime values(errorCode) as errorCodes values(errorMessage) as errorMessages by src user user_agent vendor_account vendor_product dest signature vendor_region
-    #   | where count > 9
-    #   | `security_content_ctime(firstTime)` 
-    #   | `security_content_ctime(lastTime)`
-    #   | `aws_bedrock_high_number_list_foundation_model_failures_filter`
+    #     `cloudtrail` eventSource=bedrock.amazonaws.com eventName=ListFoundationModels errorCode=AccessDenied  | rename user_name as user
+    #     | stats count min(_time) as firstTime max(_time) as lastTime values(errorCode) as errorCodes values(errorMessage) as errorMessages by src user user_agent vendor_account vendor_product dest signature vendor_region
+    #     | where count > 9
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `aws_bedrock_high_number_list_foundation_model_failures_filter`
   condition: selection
 level: medium

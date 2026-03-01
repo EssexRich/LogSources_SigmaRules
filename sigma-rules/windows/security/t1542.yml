@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1542
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_registry_bootexecute_modification.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1542
 logsource:
@@ -14,12 +14,6 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    #   as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_path="*\\System\\CurrentControlSet\\Control\\Session
-    #   Manager\\BootExecute" by Registry.action Registry.dest Registry.process_guid Registry.process_id
-    #   Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data
-    #   Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user
-    #   Registry.vendor_product | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
-    #   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_registry_bootexecute_modification_filter`
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_path="*\\System\\CurrentControlSet\\Control\\Session Manager\\BootExecute" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_registry_bootexecute_modification_filter`
   condition: selection
 level: medium

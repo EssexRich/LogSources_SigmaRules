@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1087.004
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/application/okta_idp_lifecycle_modifications.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1087.004
 logsource:
@@ -14,10 +14,14 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `okta` eventType IN ("system.idp.lifecycle.activate","system.idp.lifecycle.create","system.idp.lifecycle.delete","system.idp.lifecycle.deactivate")
-    #   |  stats count  min(_time) as firstTime max(_time) as lastTime values(target{}.id)
-    #   as target_id values(target{}.type) as target_modified by src dest src_user_id user
-    #   user_agent command description | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-    #   | `okta_idp_lifecycle_modifications_filter`
+    # -
+    #     `okta` eventType IN ("system.idp.lifecycle.activate","system.idp.lifecycle.create","system.idp.lifecycle.delete","system.idp.lifecycle.deactivate")
+    #       | stats count  min(_time) as firstTime max(_time) as lastTime values(target{}.id) as target_id values(target{}.type) as target_modified
+    #         BY src dest src_user_id
+    #            user user_agent command
+    #            description
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `okta_idp_lifecycle_modifications_filter`
   condition: selection
 level: medium

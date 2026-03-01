@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1586.003
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_multi_source_failed_authentications_spike.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1586.003
 logsource:
@@ -14,14 +14,16 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ErrorNumber=50126 
-    #   | bucket span=5m _time 
-    #   | eval uniqueIPUserCombo = src_ip . "-" . user 
-    #   | fillnull 
-    #   | stats earliest(_time) as firstTime max(_time) as lastTime dc(uniqueIPUserCombo) as uniqueIpUserCombinations, dc(user) as uniqueUsers, dc(src_ip) as uniqueIPs, values(user) as user, values(src_ip) as ips, values(user_agent) as user_agents values(signature) as signature values(src) as src values(dest) as dest by _time vendor_account vendor_product
-    #   | where uniqueIpUserCombinations > 20 AND uniqueUsers > 20 AND uniqueIPs > 20 
-    #   | `security_content_ctime(firstTime)` 
-    #   | `security_content_ctime(lastTime)` 
-    #   | `o365_multi_source_failed_authentications_spike_filter`
+    # -
+    #     `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ErrorNumber=50126
+    #       | bucket span=5m _time
+    #       | eval uniqueIPUserCombo = src_ip . "-" . user
+    #       | fillnull
+    #       | stats earliest(_time) as firstTime max(_time) as lastTime dc(uniqueIPUserCombo) as uniqueIpUserCombinations, dc(user) as uniqueUsers, dc(src_ip) as uniqueIPs, values(user) as user, values(src_ip) as ips, values(user_agent) as user_agents values(signature) as signature values(src) as src values(dest) as dest
+    #         BY _time vendor_account vendor_product
+    #       | where uniqueIpUserCombinations > 20 AND uniqueUsers > 20 AND uniqueIPs > 20
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `o365_multi_source_failed_authentications_spike_filter`
   condition: selection
 level: medium

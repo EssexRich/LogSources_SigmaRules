@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1020.001
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/network/detect_traffic_mirroring.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1020.001
 logsource:
@@ -14,10 +14,12 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR (facility="SPAN"
-    #   mnemonic="SESSION_UP") OR (facility="SPAN" mnemonic="PKTCAP_START") OR (mnemonic="CFGLOG_LOGGEDCMD"
-    #   command="monitor session*") | stats min(_time) AS firstTime max(_time) AS lastTime
-    #   count BY host facility mnemonic | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
-    #   | `detect_traffic_mirroring_filter`
+    # -
+    #     `cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR (facility="SPAN" mnemonic="SESSION_UP") OR (facility="SPAN" mnemonic="PKTCAP_START") OR (mnemonic="CFGLOG_LOGGEDCMD" command="monitor session*")
+    #       | stats min(_time) AS firstTime max(_time) AS lastTime count
+    #         BY host facility mnemonic
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `detect_traffic_mirroring_filter`
   condition: selection
 level: medium

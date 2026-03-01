@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1611
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cisco_isovalent___potential_escape_to_host.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1611
 logsource:
@@ -16,25 +16,25 @@ detection:
     # Original splunk detection logic
     # `cisco_isovalent_process_exec`
     # 
-    #   (
-    #       process_name IN ("nsenter","mount","ps","ls")
-    #       OR
-    #       process IN ("*nsenter*", "*mount*", "*ps aux*", "*ps -ef*")
-    #   )
-    #   | bin _time span=5m
-    #   | stats 
-    #       count AS total_events
-    #       dc(process_name) AS distinct_cmds
-    #       min(_time) AS firstTime
-    #       max(_time) AS lastTime
-    #       values(process) AS process
-    #       values(process_name) AS process_name
-    #     BY cluster_name node_name pod_name _time
-    #   | eval duration_s = round(lastTime - firstTime, 0)
-    #   | where distinct_cmds >= 2 AND duration_s <= 120
-    #   | table _time cluster_name node_name pod_name total_events distinct_cmds duration_s firstTime lastTime process process_name
-    #   | `security_content_ctime(firstTime)`
-    #   | `security_content_ctime(lastTime)`
-    #   | `cisco_isovalent___potential_escape_to_host_filter`
+    #     (
+    #         process_name IN ("nsenter","mount","ps","ls")
+    #         OR
+    #         process IN ("*nsenter*", "*mount*", "*ps aux*", "*ps -ef*")
+    #     )
+    #     | bin _time span=5m
+    #     | stats
+    #         count AS total_events
+    #         dc(process_name) AS distinct_cmds
+    #         min(_time) AS firstTime
+    #         max(_time) AS lastTime
+    #         values(process) AS process
+    #         values(process_name) AS process_name
+    #       BY cluster_name node_name pod_name _time
+    #     | eval duration_s = round(lastTime - firstTime, 0)
+    #     | where distinct_cmds >= 2 AND duration_s <= 120
+    #     | table _time cluster_name node_name pod_name total_events distinct_cmds duration_s firstTime lastTime process process_name
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `cisco_isovalent___potential_escape_to_host_filter`
   condition: selection
 level: medium

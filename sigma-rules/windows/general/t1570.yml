@@ -1,11 +1,11 @@
-title: PSEXEC Remote Execution File Artefact
-id: 67191f1a-6719-4719-a719-67191f1a0000
+title: Potentially Suspicious File Creation by OpenEDR
+id: 108163cb-1081-4081-a081-108163cb0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1570
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_sysinternals_psexec_service_key.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_comodo_itsm_potentially_suspicious_file_creation.yml
 author: sigma (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1570
 logsource:
@@ -14,10 +14,26 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection:
-    #         TargetFilename|startswith: 'C:\Windows\PSEXEC-'
-    #         TargetFilename|endswith: '.key'
-    #     condition: selection
+    #     selection_process:
+    #         Image|endswith: '\COMODO\Endpoint Manager\ITSMService.exe'
+    #     selection_suspicious_extensions:
+    #         TargetFilename|endswith:
+    #             - '.7z'
+    #             - '.bat'
+    #             - '.cmd'
+    #             - '.com'
+    #             - '.dll'
+    #             - '.exe'
+    #             - '.hta'
+    #             - '.js'
+    #             - '.pif'
+    #             - '.ps1'
+    #             - '.rar'
+    #             - '.scr'
+    #             - '.vbe'
+    #             - '.vbs'
+    #             - '.zip'
+    #     condition: all of selection_*
     # 
   condition: selection
 level: medium

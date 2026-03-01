@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1185
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_concurrent_sessions_from_different_ips.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1185
 logsource:
@@ -14,13 +14,15 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoggedIn 
-    #   | fillnull 
-    #   | stats count min(_time) as firstTime max(_time) as lastTime values(src) as src 
-    #     by signature dest user vendor_account vendor_product SessionId
-    #   | where mvcount(src) > 1 
-    #   | `security_content_ctime(firstTime)` 
-    #   | `security_content_ctime(lastTime)` 
-    #   | `o365_concurrent_sessions_from_different_ips_filter`
+    # -
+    #     `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoggedIn
+    #       | fillnull
+    #       | stats count min(_time) as firstTime max(_time) as lastTime values(src) as src
+    #         BY signature dest user
+    #            vendor_account vendor_product SessionId
+    #       | where mvcount(src) > 1
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `o365_concurrent_sessions_from_different_ips_filter`
   condition: selection
 level: medium

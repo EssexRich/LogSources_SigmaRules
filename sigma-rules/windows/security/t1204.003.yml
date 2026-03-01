@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1204.003
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cisco_isovalent___non_allowlisted_image_use.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1204.003
 logsource:
@@ -15,13 +15,13 @@ detection:
   selection:
     # Original splunk detection logic
     # `cisco_isovalent_process_exec` pod_name!=""
-    #   | search NOT `cisco_isovalent_allowed_images`
-    #   | stats count 
-    #           min(_time) as firstTime 
-    #           max(_time) as lastTime 
-    #       by pod_image_name pod_namespace pod_name process_name cluster_name
-    #   | `security_content_ctime(firstTime)`
-    #   | `security_content_ctime(lastTime)`
-    #   | `cisco_isovalent___non_allowlisted_image_use_filter`
+    #     | search NOT `cisco_isovalent_allowed_images`
+    #     | stats count
+    #             min(_time) as firstTime
+    #             max(_time) as lastTime
+    #         by pod_image_name pod_namespace pod_name process_name cluster_name
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `cisco_isovalent___non_allowlisted_image_use_filter`
   condition: selection
 level: medium

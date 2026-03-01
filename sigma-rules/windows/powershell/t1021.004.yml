@@ -1,0 +1,30 @@
+title: OpenEDR Spawning Command Shell
+id: 4937daac-4937-4937-a937-4937daac0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_comodo_ssh_shellhost_cmd_spawn.yml
+author: sigma (via IncidentBuddy)
+date: 2026-03-01
+tags:
+  - attack.t1021.004
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         ParentImage|endswith: '\ITSMService.exe'
+    #         Image|endswith: '\ssh-shellhost.exe'
+    #         CommandLine|contains: '--pty'
+    #     selection_cli_shell:
+    #         CommandLine|contains:
+    #             - 'bash'
+    #             - 'cmd'
+    #             - 'powershell'
+    #             - 'pwsh'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

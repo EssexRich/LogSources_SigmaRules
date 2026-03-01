@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1486
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/high_process_termination_frequency.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1486
 logsource:
@@ -14,12 +14,16 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `sysmon` EventCode=5 | bin _time span=3s | stats values(process) as process
-    #   values(process_exec) as process_exec values(process_guid) as process_guid values(process_id)
-    #   as process_id values(process_name) as process_name values(process_path) as process_path
-    #   values(user_id) as user_id min(_time) as firstTime max(_time) as lastTime count
-    #   by _time dest EventCode ProcessID signature signature_id vendor_product | where
-    #   count >= 15 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-    #   | `high_process_termination_frequency_filter`
+    # -
+    #     `sysmon` EventCode=5
+    #       | bin _time span=3s
+    #       | stats values(process) as process values(process_exec) as process_exec values(process_guid) as process_guid values(process_id) as process_id values(process_name) as process_name values(process_path) as process_path values(user_id) as user_id min(_time) as firstTime max(_time) as lastTime count
+    #         BY _time dest EventCode
+    #            ProcessID signature signature_id
+    #            vendor_product
+    #       | where count >= 15
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `high_process_termination_frequency_filter`
   condition: selection
 level: medium

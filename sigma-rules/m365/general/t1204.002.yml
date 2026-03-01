@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1204.002
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_threat_intelligence_suspicious_file_detected.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1204.002
 logsource:
@@ -14,12 +14,16 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `o365_management_activity` Workload=ThreatIntelligence Operation=AtpDetection
-    #   | eval dest="NA" | eval src="NA" | stats values(DetectionMethod) as category values(FileData.FileName)
-    #   as file_name values(FileData.FilePath) as file_path values(FileData.FileSize) as
-    #   file_size values(FileData.MalwareFamily) as signature count, min(_time) as firstTime,
-    #   max(_time) as lastTime by Id, UserId, dest, src, vendor_account, vendor_product
-    #   | rename Id as signature_id, UserId as user | `security_content_ctime(firstTime)`
-    #   | `security_content_ctime(lastTime)` | `o365_threat_intelligence_suspicious_file_detected_filter`
+    # -
+    #     `o365_management_activity` Workload=ThreatIntelligence Operation=AtpDetection
+    #       | eval dest="NA"
+    #       | eval src="NA"
+    #       | stats values(DetectionMethod) as category values(FileData.FileName) as file_name values(FileData.FilePath) as file_path values(FileData.FileSize) as file_size values(FileData.MalwareFamily) as signature count, min(_time) as firstTime, max(_time) as lastTime
+    #         BY Id, UserId, dest,
+    #            src, vendor_account, vendor_product
+    #       | rename Id as signature_id, UserId as user
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `o365_threat_intelligence_suspicious_file_detected_filter`
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1003.002
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_ad_privileged_authentication_administrator_role_assigned.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1003.002
 logsource:
@@ -14,13 +14,17 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `azure_monitor_aad` "operationName"="Add member to role" "properties.targetResources{}.modifiedProperties{}.newValue"="\"Privileged Authentication Administrator\"" 
-    #   | rename properties.* as * 
-    #   | rename initiatedBy.user.userPrincipalName as initiatedBy 
-    #   | fillnull 
-    #   | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product initiatedBy signature
-    #   | `security_content_ctime(firstTime)` 
-    #   | `security_content_ctime(lastTime)` 
-    #   | `azure_ad_privileged_authentication_administrator_role_assigned_filter`
+    # -
+    #     `azure_monitor_aad` "operationName"="Add member to role" "properties.targetResources{}.modifiedProperties{}.newValue"="\"Privileged Authentication Administrator\""
+    #       | rename properties.* as *
+    #       | rename initiatedBy.user.userPrincipalName as initiatedBy
+    #       | fillnull
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY dest user src
+    #            vendor_account vendor_product initiatedBy
+    #            signature
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `azure_ad_privileged_authentication_administrator_role_assigned_filter`
   condition: selection
 level: medium

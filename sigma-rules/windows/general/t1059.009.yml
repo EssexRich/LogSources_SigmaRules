@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1059.009
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_sql_server_extended_procedure_dll_loading_hunt.yml
 author: splunk (via IncidentBuddy)
-date: 2026-02-22
+date: 2026-03-01
 tags:
   - attack.t1059.009
 logsource:
@@ -14,19 +14,15 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `wineventlog_application` EventCode=8128
-    #   | rex field=EventData_Xml "<Data>(?<dll_name>[^<]+)</Data><Data>(?<dll_version>[^<]+)</Data><Data>(?<procedure_name>[^<]+)</Data>"
-    #   | rename host as dest
-    #   | eval dll_category=case(
-    #       dll_name=="xpstar.dll", "Extended Procedures",
-    #       dll_name=="odsole70.dll", "OLE Automation",
-    #       dll_name=="xplog70.dll", "Logging Procedures",
-    #       true(), "Other")
-    #   | stats 
-    #       count as execution_count,
-    #       values(procedure_name) as procedures_used,
-    #       latest(_time) as last_seen
-    #       by dest dll_name dll_category dll_version
-    #   | sort - execution_count | `windows_sql_server_extended_procedure_dll_loading_hunt_filter`
+    # -
+    #     `wineventlog_application` EventCode=8128
+    #       | rex field=EventData_Xml "<Data>(?<dll_name>[^<]+)</Data><Data>(?<dll_version>[^<]+)</Data><Data>(?<procedure_name>[^<]+)</Data>"
+    #       | rename host as dest
+    #       | eval dll_category=case( dll_name=="xpstar.dll", "Extended Procedures", dll_name=="odsole70.dll", "OLE Automation", dll_name=="xplog70.dll", "Logging Procedures", true(), "Other")
+    #       | stats count as execution_count, values(procedure_name) as procedures_used, latest(_time) as last_seen
+    #         BY dest dll_name dll_category
+    #            dll_version
+    #       | sort - execution_count
+    #       | `windows_sql_server_extended_procedure_dll_loading_hunt_filter`
   condition: selection
 level: medium
