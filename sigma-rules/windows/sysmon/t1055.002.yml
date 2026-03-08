@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1055.002
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_process_injection_into_commonly_abused_processes.yml
 author: splunk (via IncidentBuddy)
-date: 2026-03-01
+date: 2026-03-08
 tags:
   - attack.t1055.002
 logsource:
@@ -14,6 +14,54 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `sysmon` EventCode=10 TargetImage IN ("*\\notepad.exe", "*\\wordpad.exe", "*\\calc.exe", "*\\mspaint.exe", "*\\lsass.exe", "*\\svchost.exe", "*\\backgroundtaskhost.exe", "*\\dllhost.exe", "*\\regsvr32.exe", "*\\searchprotocolhost.exe", "*\\werfault.exe", "*\\wuauclt.exe", "*\\spoolsv.exe", "*\\chrome.exe", "*\\edge.exe", "*\\firefox.exe") NOT (SourceImage IN ("*\\system32\\*","*\\syswow64\\*","*\\Program Files\\*", "*\\Program Files (x86)\\*")) GrantedAccess IN ("0x40","0x1fffff", "0x1f3fff") | stats values(user) as user, min(_time) as firstTime, max(_time) as lastTime, count by dest user_id parent_process_name parent_process_guid process_name process_guid process_id signature SourceImage TargetImage GrantedAccess CallTrace | eval CallTrace=split(CallTrace, "|") | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | table firstTime lastTime dest user_id parent_process_name parent_process_guid process_name process_guid process_id signature SourceImage TargetImage GrantedAccess CallTrace| `windows_process_injection_into_commonly_abused_processes_filter`
+    # -
+    #     `sysmon`
+    #     EventCode=10
+    #     TargetImage IN (
+    #         "*\\backgroundtaskhost.exe",
+    #         "*\\calc.exe",
+    #         "*\\CalculatorApp.exe",
+    #         "*\\chrome.exe",
+    #         "*\\dllhost.exe",
+    #         "*\\edge.exe",
+    #         "*\\firefox.exe",
+    #         "*\\lsass.exe",
+    #         "*\\mspaint.exe",
+    #         "*\\notepad.exe",
+    #         "*\\regsvr32.exe",
+    #         "*\\searchprotocolhost.exe",
+    #         "*\\spoolsv.exe",
+    #         "*\\svchost.exe",
+    #         "*\\werfault.exe",
+    #         "*\\win32calc.exe",
+    #         "*\\wordpad.exe",
+    #         "*\\wuauclt.exe"
+    #     )
+    # 
+    #     NOT SourceImage IN (
+    #         "*:\\Windows\\Program Files (x86)\\*",
+    #         "*:\\Windows\\Program Files\\*",
+    #         "*:\\Windows\\System32\\*",
+    #         "*:\\Windows\\SysWOW64\\*"
+    #     )
+    # 
+    #     GrantedAccess IN (
+    #         "0x1f3fff",
+    #         "0x1fffff",
+    #         "0x40"
+    #     )
+    # 
+    #     | stats values(user) as user
+    #             min(_time) as firstTime
+    #             max(_time) as lastTime count
+    #     by dest user_id parent_process_name parent_process_guid
+    #        process_name process_guid process_id signature SourceImage
+    #        TargetImage GrantedAccess CallTrace
+    # 
+    #     | eval CallTrace=split(CallTrace, "|")
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | table firstTime lastTime dest user_id parent_process_name parent_process_guid process_name process_guid process_id signature SourceImage TargetImage GrantedAccess CallTrace
+    #     | `windows_process_injection_into_commonly_abused_processes_filter`
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: Linux apt-get Privilege Escalation
-id: 118849ba-1188-4188-a188-118849ba0000
+title: Linux Add User Account
+id: 7edb1fb9-7edb-4edb-aedb-7edb1fb90000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1548.003
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/linux_apt_get_privilege_escalation.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_add_user_account.yml
 author: splunk (via IncidentBuddy)
-date: 2026-03-01
+date: 2026-03-08
 tags:
   - attack.t1548.003
 logsource:
@@ -14,6 +14,21 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process="*apt-get*" AND Processes.process="*APT::Update::Pre-Invoke::*" AND Processes.process="*sudo*" by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_apt_get_privilege_escalation_filter`
+    # -
+    #     | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+    #       WHERE Processes.process_name IN ("useradd", "adduser")
+    #         OR
+    #         Processes.process IN ("*useradd *", "*adduser *")
+    #       BY Processes.action Processes.dest Processes.original_file_name
+    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    #          Processes.process Processes.process_exec Processes.process_guid
+    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #          Processes.process_name Processes.process_path Processes.user
+    #          Processes.user_id Processes.vendor_product
+    #     | `drop_dm_object_name(Processes)`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `linux_add_user_account_filter`
   condition: selection
 level: medium
