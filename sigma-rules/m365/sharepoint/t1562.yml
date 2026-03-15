@@ -1,0 +1,39 @@
+title: M365 SharePoint Site Sharing Policy Weakened
+id: 0812219c-0812-4812-a812-0812219c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_sharepoint_sharing_policy_weakened.toml
+author: elastic (via IncidentBuddy)
+date: 2026-03-15
+tags:
+  - attack.t1562
+logsource:
+  product: m365
+  service: sharepoint
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "o365.audit" and event.provider: ("SharePoint" or "OneDrive") and
+    #     event.action: "SharingPolicyChanged" and event.outcome: "success" and
+    #     (
+    #         (o365.audit.ModifiedProperties.ShareWithGuests.NewValue: (true or "Enabled") and
+    #             o365.audit.ModifiedProperties.ShareWithGuests.OldValue: (false or "Disabled"))
+    #         or
+    #         (o365.audit.ModifiedProperties.ShareUsingAnonymousLinks.NewValue: (true or "Enabled") and
+    #             o365.audit.ModifiedProperties.ShareUsingAnonymousLinks.OldValue: (false or "Disabled"))
+    #         or
+    #         (o365.audit.ModifiedProperties.IsPublic.NewValue: (true or "Enabled") and
+    #             o365.audit.ModifiedProperties.IsPublic.OldValue: (false or "Disabled"))
+    #         or
+    #         (o365.audit.ModifiedProperties.AllowGuestUser.NewValue: (true or "Enabled") and
+    #             o365.audit.ModifiedProperties.AllowGuestUser.OldValue: (false or "Disabled"))
+    #         or
+    #         (o365.audit.ModifiedProperties.AllowFederatedUsers.NewValue: (true or "Enabled") and
+    #             o365.audit.ModifiedProperties.AllowFederatedUsers.OldValue: (false or "Disabled"))
+    #         or
+    #         (o365.audit.ModifiedProperties.AllowTeamsConsumer.NewValue: (true or "Enabled") and
+    #             o365.audit.ModifiedProperties.AllowTeamsConsumer.OldValue: (false or "Disabled"))
+    #     )
+  condition: selection
+level: medium

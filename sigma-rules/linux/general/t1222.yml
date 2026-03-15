@@ -1,11 +1,11 @@
-title: File Execution Permission Modification Detected via Defend for Containers
-id: 2bca79b8-2bca-4bca-abca-2bca79b80000
+title: Access Control List Modification via setfacl
+id: 23fb5453-23fb-43fb-a3fb-23fb54530000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1222
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_suspicious_file_made_executable_via_chmod_inside_a_container.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_acl_modification_via_setfacl.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-08
+date: 2026-03-15
 tags:
   - attack.t1222
 logsource:
@@ -14,22 +14,18 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # file where host.os.type == "linux" and event.type in ("change", "creation") and (
-    #   process.name == "chmod" or
-    #   (
-    #     /* account for tools that execute utilities as a subprocess, in this case the target utility name will appear as a process arg */
-    #     process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "busybox") and
-    #     process.args in (
-    #       "chmod", "/bin/chmod", "/usr/bin/chmod", "/usr/local/bin/chmod"
-    #     ) and
-    #     /* default exclusion list to not FP on default multi-process commands */
-    #     not process.args in (
-    #       "which", "/bin/which", "/usr/bin/which", "/usr/local/bin/which",
-    #       "man", "/bin/man", "/usr/bin/man", "/usr/local/bin/man"
-    #     )
-    #   )
-    # ) and process.args in ("4755", "755", "777", "0777", "444", "+x", "a+x") and
-    # process.args like ("/dev/shm/*", "/tmp/*", "/var/tmp/*", "/run/*", "/var/run/*", "/mnt/*", "/media/*") and
-    # process.interactive == true and container.id like "*" and not process.args == "-x"
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
+    # process.name == "setfacl" and not (
+    #   ?process.parent.executable in (
+    #     "/opt/puppetlabs/puppet/bin/ruby", "/usr/libexec/dirsrv/ds_systemd_ask_password_acl", "/usr/lib/systemd/systemd-udevd",
+    #     "/usr/bin/udevadm", "/usr/sbin/ds_systemd_ask_password_acl", "/usr/bin/su", "/bin/su"
+    #   ) or
+    #   process.command_line == "/bin/setfacl --restore=-" or
+    #   process.args == "/var/log/journal/" or
+    #   ?process.parent.name in ("stats.pl", "perl", "find") or
+    #   ?process.parent.command_line like~ "*ansible*" or
+    #   ?process.parent.args == "/opt/audit-log-acl.sh"
+    # )
   condition: selection
 level: medium

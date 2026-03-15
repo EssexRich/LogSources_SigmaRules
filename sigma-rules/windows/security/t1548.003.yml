@@ -1,11 +1,11 @@
-title: Linux Add User Account
-id: 7edb1fb9-7edb-4edb-aedb-7edb1fb90000
+title: Linux Docker Privilege Escalation
+id: 5c79a346-5c79-4c79-ac79-5c79a3460000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1548.003
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_add_user_account.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/linux_docker_privilege_escalation.yml
 author: splunk (via IncidentBuddy)
-date: 2026-03-08
+date: 2026-03-15
 tags:
   - attack.t1548.003
 logsource:
@@ -15,10 +15,10 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-    #       WHERE Processes.process_name IN ("useradd", "adduser")
+    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+    #       WHERE Processes.process IN("*docker*-v*/*:*","*docker*--volume*/*:*")
     #         OR
-    #         Processes.process IN ("*useradd *", "*adduser *")
+    #         Processes.process IN("*docker*exec*sh*","*docker*exec*bash*")
     #       BY Processes.action Processes.dest Processes.original_file_name
     #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
     #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -29,6 +29,6 @@ detection:
     #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `linux_add_user_account_filter`
+    #     | `linux_docker_privilege_escalation_filter`
   condition: selection
 level: medium
