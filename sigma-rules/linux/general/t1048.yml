@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1048
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/exfiltration_potential_curl_data_exfiltration.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-15
+date: 2026-03-22
 tags:
   - attack.t1048
 logsource:
@@ -14,10 +14,17 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "ProcessRollup2", "start") and process.name == "curl" and
-    # ?process.parent.executable != null and (process.args in ("-F", "-T", "-d") or process.args like ("--data*", "--form*")) and 
-    # process.command_line like~ ("*@/*.zip*", "*@/*.gz*", "*@/*.tgz*", "*b64=@*", "*=<*") and
-    # process.command_line like~ "*http*" and
-    # not ?process.parent.executable == "/usr/share/untangle/bin/configuration-backup-upload-backup.sh"
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "ProcessRollup2", "start") and
+    # process.name == "curl" and ?process.parent.executable != null and
+    # (
+    #   process.args in ("-T", "--upload-file") or
+    #   (
+    #     (process.args in ("-F", "-d", "--form") or process.args like "--data*") and process.command_line like "*@*"
+    #   )
+    # ) and
+    # (
+    #   process.command_line like ("*http:*", "*https:*", "*ftp:*", "*ftps:*") or
+    #   process.command_line regex ".*[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}.*"
+    # )
   condition: selection
 level: medium

@@ -1,0 +1,27 @@
+title: Azure Service Principal Sign-In Followed by Arc Cluster Credential Access
+id: 5a0bf403-5a0b-4a0b-aa0b-5a0bf4030000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_azure_service_principal_signin_then_arc_credential_listing.toml
+author: elastic (via IncidentBuddy)
+date: 2026-03-22
+tags:
+  - attack.t1552
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence with maxspan=30m
+    # [authentication where event.dataset == "azure.signinlogs"
+    #     and azure.signinlogs.category == "ServicePrincipalSignInLogs"
+    #     and azure.signinlogs.properties.status.error_code == 0
+    # ] by azure.signinlogs.properties.app_id
+    # [any where event.dataset == "azure.activitylogs"
+    #     and azure.activitylogs.operation_name : "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/LISTCLUSTERUSERCREDENTIAL/ACTION"
+    #     and event.outcome : ("Success", "success")
+    # ] by azure.activitylogs.identity.claims.appid
+  condition: selection
+level: medium

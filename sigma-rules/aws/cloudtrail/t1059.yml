@@ -1,0 +1,22 @@
+title: AWS CloudShell Environment Created
+id: 19ebb57b-19eb-49eb-a9eb-19ebb57b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/execution_cloudshell_environment_created.toml
+author: elastic (via IncidentBuddy)
+date: 2026-03-22
+tags:
+  - attack.t1059
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "cloudshell.amazonaws.com"
+    #     and event.action: "CreateEnvironment"
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

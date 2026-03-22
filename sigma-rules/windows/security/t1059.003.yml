@@ -1,11 +1,11 @@
-title: CMD Carry Out String Command Parameter
-id: 2737325f-2737-4737-a737-2737325f0000
+title: Potentially malicious code on commandline
+id: 1a985467-1a98-4a98-aa98-1a9854670000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1059.003
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cmd_carry_out_string_command_parameter.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/potentially_malicious_code_on_commandline.yml
 author: splunk (via IncidentBuddy)
-date: 2026-03-15
+date: 2026-03-22
 tags:
   - attack.t1059.003
 logsource:
@@ -14,21 +14,6 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # -
-    #     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE `process_cmd`
-    #         AND
-    #         Processes.process IN ("*/c*", "*/k*")
-    #       BY Processes.action Processes.dest Processes.original_file_name
-    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #          Processes.process Processes.process_exec Processes.process_guid
-    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
-    #          Processes.process_name Processes.process_path Processes.user
-    #          Processes.user_id Processes.vendor_product
-    #     | `drop_dm_object_name(Processes)`
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `cmd_carry_out_string_command_parameter_filter`
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.original_file_name) as original_file_name values(Processes.action) as action values(Processes.parent_process_exec) as parent_process_exec values(Processes.parent_process_guid) as parent_process_guid values(Processes.parent_process_id) as parent_process_id values(Processes.parent_process_path) as parent_process_path values(Processes.process_exec) as process_exec values(Processes.process_guid) as process_guid values(Processes.process_hash) as process_hash values(Processes.process_id) as process_id values(Processes.process_integrity_level) as process_integrity_level values(Processes.process_name) as process_name values(Processes.process_path) as process_path values(Processes.user) as user  values(Processes.user_id) as user_id values(Processes.vendor_product) as vendor_product from datamodel="Endpoint.Processes" by Processes.parent_process_name Processes.process_name Processes.process Processes.user Processes.dest | `drop_dm_object_name(Processes)` | where len(process) > 200 | `potentially_malicious_code_on_cmdline_tokenize_score` | apply unusual_commandline_detection | eval score=''predicted(unusual_cmdline_logits)'', process=orig_process | fields - unusual_cmdline* predicted(unusual_cmdline_logits) orig_process | where score > 0.5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `potentially_malicious_code_on_commandline_filter`
   condition: selection
 level: medium

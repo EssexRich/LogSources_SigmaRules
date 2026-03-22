@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1595.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/reconnaissance_web_server_unusual_user_agents.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-15
+date: 2026-03-22
 tags:
   - attack.t1595.001
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # from logs-nginx.access-*, logs-apache.access-*, logs-apache_tomcat.access-*, logs-iis.access-*
+    # from logs-nginx.access-*, logs-apache.access-*, logs-apache_tomcat.access-*, logs-iis.access-*, logs-traefik.access-*
     # 
     # | eval Esql.user_agent_original_to_lower = to_lower(user_agent.original), Esql.url_original_to_lower = to_lower(url.original)
     # 
@@ -37,7 +37,7 @@ detection:
     #     Esql.user_agent_original_to_lower like "*hydra*" or // Hydra Brute Forcer
     #     Esql.user_agent_original_to_lower like "*w3af*" or // w3af Web Application Attack and Audit Framework
     #     Esql.user_agent_original_to_lower like "*arachni*" or // Arachni Web Application Security Scanner
-    #     Esql.user_agent_original_to_lower like "*skipfish*"
+    #     Esql.user_agent_original_to_
     # ... [truncated]
   condition: selection
 level: medium

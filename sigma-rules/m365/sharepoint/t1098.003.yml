@@ -1,0 +1,23 @@
+title: M365 SharePoint Site Administrator Added
+id: 28b1b0ea-28b1-48b1-a8b1-28b1b0ea0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/privilege_escalation_sharepoint_site_collection_admin_added.toml
+author: elastic (via IncidentBuddy)
+date: 2026-03-22
+tags:
+  - attack.t1098.003
+logsource:
+  product: m365
+  service: sharepoint
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit
+    #     and event.provider:(SharePoint or OneDrive)
+    #     and event.category:web
+    #     and event.action:SiteCollectionAdminAdded
+    #     and event.outcome:success
+  condition: selection
+level: medium
