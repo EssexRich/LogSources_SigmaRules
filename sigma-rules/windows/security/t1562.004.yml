@@ -1,11 +1,11 @@
-title: Linux Stdout Redirection To Dev Null File
-id: 59eb814b-59eb-49eb-a9eb-59eb814b0000
+title: Processes launching netsh
+id: 38286d67-3828-4828-a828-38286d670000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.004
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_stdout_redirection_to_dev_null_file.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/processes_launching_netsh.yml
 author: splunk (via IncidentBuddy)
-date: 2026-03-22
+date: 2026-03-29
 tags:
   - attack.t1562.004
 logsource:
@@ -16,7 +16,7 @@ detection:
     # Original splunk detection logic
     # -
     #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE Processes.process = "*&amp;&gt;/dev/null*"
+    #       WHERE `process_netsh`
     #       BY Processes.action Processes.dest Processes.original_file_name
     #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
     #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -24,9 +24,9 @@ detection:
     #          Processes.process_hash Processes.process_id Processes.process_integrity_level
     #          Processes.process_name Processes.process_path Processes.user
     #          Processes.user_id Processes.vendor_product
-    #     | `drop_dm_object_name(Processes)`
+    #     | `drop_dm_object_name("Processes")`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `linux_stdout_redirection_to_dev_null_file_filter`
+    #     | `processes_launching_netsh_filter`
   condition: selection
 level: medium

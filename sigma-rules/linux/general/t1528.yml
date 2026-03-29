@@ -1,11 +1,11 @@
-title: GitHub Authentication Token Access via Node.js
-id: 11e8c4de-11e8-41e8-a1e8-11e8c4de0000
+title: Potential Impersonation Attempt via Kubectl
+id: 7f4af7d0-7f4a-4f4a-af4a-7f4af7d00000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1528
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_gh_auth_via_nodejs.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_potential_kubectl_impersonation.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-22
+date: 2026-03-29
 tags:
   - attack.t1528
 logsource:
@@ -14,7 +14,17 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "ProcessRollup2", "exec_event") and process.parent.name == "node" and
-    # process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and process.args == "gh auth token"
+    # process where host.os.type in ("linux", "macos") and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "executed", "process_started") and
+    # process.name == "kubectl" and (
+    #   process.parent.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") or
+    #   (
+    #     process.parent.executable like (
+    #       "/tmp/*", "/private/tmp/*", "/var/tmp/*", "/private/var/tmp/*", "/dev/shm/*", "/root/*", "/home/*", "/Users/*"
+    #     ) or
+    #     process.parent.name like (".*", "*.sh", "python*")
+    #   )
+    # ) and process.args like~ ("--kubeconfig*", "--token*", "--as*", "--as-group*", "--as-uid*") and
+    # not process.parent.args like ("/snap/microk8s/*/apiservice-kicker", "/snap/microk8s/*/microk8s-start.wrapper")
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: Service Account Token or Certificate Access Followed by Kubernetes API Request
-id: 30707703-3070-4070-a070-307077030000
+title: Potential Credential Discovery via Recursive Grep
+id: 0959b73d-0959-4959-a959-0959b73d0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1552
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_d4c_k8s_mda_service_account_token_access_followed_by_kubernetes_api_request.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_grep_recursive_credential_discovery.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-22
+date: 2026-03-29
 tags:
   - attack.t1552
 logsource:
@@ -14,10 +14,45 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence with maxspan=60s
-    #   [file where host.os.type == "linux" and event.type == "change" and event.action == "open" and
-    #    file.path in ("/var/run/secrets/kubernetes.io/serviceaccount/token", "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt") and
-    #    process.interactive == true and container.id like "*"] by orchestrator.resource.name
-    #   [any where event.dataset == "kubernetes.audit_logs" and kubernetes.audit.stage in ("ResponseComplete", "ResponseStarted")] by `kubernetes.audit.user.extra.authentication.kubernetes.io/pod-name`
+    # from logs-endpoint.events.process-* metadata _id, _version, _index
+    # | where host.os.type in ("linux", "macos")
+    #   and event.category == "process"
+    #   and process.name in ("grep", "egrep")
+    #   and (to_lower(process.command_line) like "* -r*" or to_lower(process.command_line) like "*--recursive*")
+    #   and (
+    #     process.command_line like "*password*"
+    #     or process.command_line like "*passwd*"
+    #     or process.command_line like "*pwd*"
+    #     or process.command_line like "*secret*"
+    #     or process.command_line like "*token*"
+    #     or process.command_line like "*apikey*"
+    #     or process.command_line like "*api_key*"
+    #     or process.command_line like "*api.key*"
+    #     or process.command_line like "*access_key*"
+    #     or process.command_line like "*private_key*"
+    #     or process.command_line like "*client_secret*"
+    #     or process.command_line like "*credential*"
+    #     or process.command_line like "*auth*"
+    #     or process.command_line like "*bearer*"
+    #     or process.command_line like "*BEGIN*PRIVATE*KEY*"
+    #     or process.command_line like "*ssh-rsa*"
+    #     or process.command_line like "*ghp_*"
+    #     or process.command_line like "*github_pat*"
+    #     or process.command_line like "*xoxb-*"
+    #     or process.command_line like "*hooks.slack.com*"
+    #     or process.command_line like "*discord.com/api/webhooks*"
+    #     or process.command_line like "*/.aws/*"
+    #     or process.command_line like "*/.git/*"
+    #     or process.command_line like "*/.env*"
+    #   )
+    #   and (process.parent.command_line is null or not (to_lower(process.parent.command_line) like "*shell-snapshots*" and process.parent.name in ("bash", "sh", "zsh")))
+    # | eval Esql.time_bucket = date_trunc(1 minute, @timestamp)
+    # | stats Esql.unique_cmd = count_distinct(process.command_line),
+    #         Esql.cmd_values = values(process.command_line),
+    #         Esql.pcmd_values = values(process.parent.command_line)
+    #   by process.name, host.id, host.name, agent.id, process.parent.name, user.name, Esql.time_bucket
+    # | where Esql.unique_cmd >= 3
+    # | keep host.id, host.name, agent.id, user.name, proce
+    # ... [truncated]
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: DebugFS Execution Detected via Defend for Containers
-id: 21e4ec6f-21e4-41e4-a1e4-21e4ec6f0000
+title: Chroot Execution Detected via Defend for Containers
+id: 086da3ca-086d-486d-a86d-086da3ca0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1611
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/privilege_escalation_debugfs_launched_inside_a_privileged_container.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/privilege_escalation_chroot_execution_detected_inside_container.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-22
+date: 2026-03-29
 tags:
   - attack.t1611
 logsource:
@@ -15,12 +15,12 @@ detection:
   selection:
     # Original elastic detection logic
     # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and (
-    #   process.name == "debugfs" or
+    #   process.name == "chroot" or
     #   (
     #     /* account for tools that execute utilities as a subprocess, in this case the target utility name will appear as a process arg */
     #     process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "busybox") and
     #     process.args in (
-    #       "debugfs", "/bin/debugfs", "/usr/bin/debugfs", "/usr/local/bin/debugfs"
+    #       "chroot", "/bin/chroot", "/usr/bin/chroot", "/usr/local/bin/chroot"
     #     ) and
     #     /* default exclusion list to not FP on default multi-process commands */
     #     not process.args in (
@@ -30,8 +30,6 @@ detection:
     #       "chown", "/bin/chown", "/usr/bin/chown", "/usr/local/bin/chown"
     #     )
     #   )
-    # ) and
-    # process.args like "/dev/sd*" and not process.args == "-R" and
-    # container.security_context.privileged == true and process.interactive == true and container.id like "*"
+    # ) and container.id like "?*"
   condition: selection
 level: medium

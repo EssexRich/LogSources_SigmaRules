@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1546.018
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_pth_file_creation.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-22
+date: 2026-03-29
 tags:
   - attack.t1546.018
 logsource:
@@ -24,19 +24,16 @@ detection:
     #   "/opt/*/lib/python*/site-packages/*"
     # ) and process.executable != null and not (
     #   process.executable in (
-    #     "/usr/local/bin/pip2", "/usr/bin/restic", "/usr/bin/pacman", "/usr/bin/dockerd", "/usr/local/bin/pip3",
-    #     "/usr/bin/pip3", "/usr/local/bin/pip", "/usr/bin/pip", "/usr/bin/podman", "/usr/local/bin/poetry",
-    #     "/usr/bin/poetry", "/usr/bin/pamac-daemon", "/opt/venv/bin/pip", "/usr/bin/dnf", "./venv/bin/pip",
-    #     "/usr/bin/dnf5", "/bin/dnf5", "/bin/pip", "/bin/podman", "./usr/bin/podman", "/kaniko/executor", "/dev/fd/3",
-    #     "/opt/SolarWinds/Agent/bin/Plugins/Discovery/SolarWinds.Agent.Discovery.Plugin", "/usr/bin/crio",
+    #     "/usr/bin/restic", "/usr/bin/pacman", "/usr/bin/dockerd",  "/usr/bin/podman", "/usr/bin/pamac-daemon",
+    #     "/usr/bin/dnf", "/usr/bin/dnf5", "/bin/dnf5", "/bin/podman", "./usr/bin/podman", "/kaniko/executor",
+    #     "/dev/fd/3", "/opt/SolarWinds/Agent/bin/Plugins/Discovery/SolarWinds.Agent.Discovery.Plugin", "/usr/bin/crio",
     #     "/opt/splunk/bin/splunkd", "/opt/Tanium/TaniumClient/TaniumCX"
     #   ) or
     #   process.executable like (
-    #     "/usr/bin/python*", "/usr/local/bin/python*", "/opt/venv/bin/python*",
     #     "/nix/store/*libexec/docker/dockerd", "/snap/docker/*dockerd"
     #   ) or
     #   (
-    #     process.name like ("python*", "platform-python*", "conda", "virtualenv", "cp", "pip*", "uv") and
+    #     process.name like ("platform-python*", "cp", "uv") and
     #     file.name in ("distutils-precedence.pth", "_virtualenv.pth")
     #   )
     # )

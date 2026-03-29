@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1027.013
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_encoding_rot13_python_script.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-22
+date: 2026-03-29
 tags:
   - attack.t1027.013
 logsource:
@@ -15,7 +15,11 @@ detection:
   selection:
     # Original elastic detection logic
     # sequence by process.entity_id with maxspan=1m
-    #  [process where host.os.type in ("windows", "macos") and event.type == "start" and process.name : "python*"]
+    #  [process where host.os.type in ("windows", "macos") and event.type == "start" and process.name : "python*" and
+    #   not (
+    #     process.args : ("*gcloud.py", "*conda-script.py", "*compileall.py", "*.lmstudio*") or
+    #     process.parent.args : ("*gcloud.py", "*conda-script.py", "*compileall.py", "*.lmstudio*")
+    #   )]
     #  [file where host.os.type in ("windows", "macos") and
     #   event.action != "deletion" and process.name : "python*" and file.name : "rot_??.cpython-*.pyc*"]
   condition: selection

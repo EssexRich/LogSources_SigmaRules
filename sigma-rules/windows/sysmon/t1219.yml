@@ -1,11 +1,11 @@
-title: Detect Remote Access Software Usage FileInfo
-id: 733e9423-733e-433e-a33e-733e94230000
+title: First Time Seen DNS Query to RMM Domain
+id: 6160fc6c-6160-4160-a160-6160fc6c0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1219
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_remote_access_software_usage_fileinfo.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-22
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_dns_rmm_domains_non_browser.toml
+author: elastic (via IncidentBuddy)
+date: 2026-03-29
 tags:
   - attack.t1219
 logsource:
@@ -13,20 +13,83 @@ logsource:
   service: sysmon
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     `sysmon` EventCode=1
-    #       | stats count min(_time) as firstTime max(_time) as lastTime, values(Company) as Company values(Product) as Product
-    #         BY action dest original_file_name
-    #            parent_process parent_process_exec parent_process_guid
-    #            parent_process_id parent_process_name parent_process_path
-    #            process process_exec process_guid
-    #            process_hash process_id process_integrity_level
-    #            process_name process_path user
-    #            user_id vendor_product
-    #       | lookup remote_access_software remote_utility_fileinfo AS Product OUTPUT isutility, description as signature, comment_reference as desc, category
-    #       | search isutility = True
-    #       | `remote_access_software_usage_exceptions`
-    #       | `detect_remote_access_software_usage_fileinfo_filter`
+    # Original elastic detection logic
+    # FROM logs-endpoint.events.network-*, logs-windows.sysmon_operational-* METADATA _index
+    # | WHERE host.os.type == "windows"
+    #     AND event.category == "network"
+    #     AND event.action in ("lookup_requested", "DNSEvent (DNS query)")
+    #     AND dns.question.name IS NOT NULL
+    # 
+    # // Exclude browser processes
+    # | WHERE NOT
+    #     process.name IN (
+    #         "chrome.exe", "msedge.exe", "MicrosoftEdge.exe", "MicrosoftEdgeCP.exe",
+    #         "firefox.exe", "iexplore.exe", "safari.exe", "brave.exe",
+    #         "opera.exe", "vivaldi.exe", "msedgewebview2.exe"
+    #     )
+    # 
+    # // Extract the parent domain (last two labels, e.g. example.com)
+    # | GROK dns.question.name """(?:[^.]+\.)+(?<parent_domain>[^.]+\.[^.]+)$"""
+    # | EVAL parent_domain = COALESCE(parent_domain, dns.question.name)
+    # 
+    # // Known RMM parent domains, add or remove entries here as your environment changes.
+    # | WHERE parent_domain IN (
+    #     "teamviewer.com",
+    #     "logmein.com",
+    #     "logmeinrescue.com",
+    #     "logmeininc.com",
+    #     "internapcdn.net",
+    #     "anydesk.com",
+    #     "screenconnect.com",
+    #     "connectwise.com",
+    #     "splashtop.com",
+    #     "zohoassist.com",
+    #     "dwservice.net",
+    #     "gotoassist.com",
+    #     "getgo.com",
+    #     "logmeinrescue.com",
+    #     "rustdesk.com",
+    #     "remoteutilities.com",
+    #     "atera.com",
+    #     "ammyy.com",
+    #     "n-able.com",
+    #     "kaseya.net",
+    #     "bomgar.com",
+    #     "beyondtrustcloud.com",
+    #     "parsec.app",
+    #     "parsecusercontent.com",
+    #     "tailscale.com",
+    #     "twingate.com",
+    #     "jumpcloud.com",
+    #     "vnc.com",
+    #     "remotepc.com",
+    #     "netsupportsoftware.com",
+    #     "getscreen.me",
+    #     "beanywhere.com",
+    #     "swi-rc.com",
+    #     "swi-tc.com",
+    #     "qetqo.com",
+    #     "tmate.io",
+    #     "playanext.com",
+    #     "supremocontrol.com",
+    #     "itarian.com",
+    #     "datto.com",
+    #     "auvik.com",
+    #     "syncromsp.com",
+    #     "pulseway.com",
+    #     "immy.bot",
+    #     "immybot.com",
+    #     "level.io",
+    #     "ninjarmm.com",
+    #     "ninjaone.com",
+    #     "centrastage.net",
+    #     "datto.net",
+    #     "liongard.com",
+    #     "naverisk.com",
+    #     "panorama9.com",
+    #     "superops.ai",
+    #     "superops.com",
+    #     "tacticalrmm.
+    # ... [truncated]
   condition: selection
 level: medium

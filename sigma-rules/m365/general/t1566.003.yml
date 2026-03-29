@@ -1,0 +1,50 @@
+title: M365 Azure Monitor Alert Email with Financial or Billing Theme
+id: 0823b9a6-0823-4823-a823-0823b9a60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/microsoft_exchange_online_message_trace/initial_access_azure_monitor_callback_phishing_email.toml
+author: elastic (via IncidentBuddy)
+date: 2026-03-29
+tags:
+  - attack.t1566.003
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-microsoft_exchange_online_message_trace.* metadata _id, _version, _index
+    # 
+    # // Filter for Azure Monitor notification emails with financial/billing themed subjects
+    # | where event.dataset == "microsoft_exchange_online_message_trace.log"
+    #     and email.from.address == "azure-noreply@microsoft.com"
+    #     and event.outcome in ("success", "unknown")
+    #     and email.subject like "*Azure Monitor alert*"
+    #     and (
+    #         email.subject like "*INV-*"
+    #         or email.subject like "*invoice*"
+    #         or email.subject like "*payment*"
+    #         or email.subject like "*order-*"
+    #         or email.subject like "*purchase*"
+    #         or email.subject like "*funds*"
+    #         or email.subject like "*receipt*"
+    #         or email.subject like "*billing*"
+    #         or email.subject like "*transaction*"
+    #         or email.subject like "*refund*"
+    #         or email.subject like "*charge*"
+    #         or email.subject like "*subscription*"
+    #         or email.subject like "*renewal*"
+    #         or email.subject like "*overdue*"
+    #         or email.subject like "*past due*"
+    #         or email.subject like "*amount due*"
+    #         or email.subject like "*wire transfer*"
+    #         or email.subject like "*bank account*"
+    #         or email.subject like "*credit card*"
+    #         or email.subject like "*financial*"
+    #         or email.subject like "*remittance*"
+    #     )
+    # 
+    # | keep *
+  condition: selection
+level: medium

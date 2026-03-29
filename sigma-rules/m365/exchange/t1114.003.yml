@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1114.003
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/collection_exchange_new_inbox_rule.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-22
+date: 2026-03-29
 tags:
   - attack.t1114.003
 logsource:
@@ -14,16 +14,17 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:o365.audit and event.provider:Exchange and
-    # event.category:web and event.action:("New-InboxRule" or "Set-InboxRule") and
+    # web where
+    #     event.provider == "Exchange" and
+    #     event.action in ("New-InboxRule", "Set-InboxRule") and
+    #     event.outcome == "success" and
     #     (
-    #         o365.audit.Parameters.ForwardTo:* or
-    #         o365.audit.Parameters.ForwardAsAttachmentTo:* or
-    #         o365.audit.Parameters.ForwardingAddress:* or
-    #         o365.audit.Parameters.ForwardingSmtpAddress:* or
-    #         o365.audit.Parameters.RedirectTo:* or
-    #         o365.audit.Parameters.RedirectToRecipients:*
+    #         (?o365.audit.Parameters.ForwardTo != null and not endsWith~(?o365.audit.Parameters.ForwardTo, user.domain)) or
+    #         (?o365.audit.Parameters.ForwardAsAttachmentTo != null and not endsWith~(?o365.audit.Parameters.ForwardAsAttachmentTo, user.domain)) or
+    #         (?o365.audit.Parameters.ForwardingAddress != null and not endsWith~(?o365.audit.Parameters.ForwardingAddress, user.domain)) or
+    #         (?o365.audit.Parameters.ForwardingSmtpAddress != null and not endsWith~(?o365.audit.Parameters.ForwardingSmtpAddress, user.domain)) or
+    #         (?o365.audit.Parameters.RedirectTo != null and not endsWith~(?o365.audit.Parameters.RedirectTo, user.domain)) or
+    #         (?o365.audit.Parameters.RedirectToRecipients != null and not endsWith~(?o365.audit.Parameters.RedirectToRecipients, user.domain))
     #     )
-    #     and event.outcome:success
   condition: selection
 level: medium

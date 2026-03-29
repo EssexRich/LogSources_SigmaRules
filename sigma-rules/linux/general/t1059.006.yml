@@ -1,11 +1,11 @@
-title: Suspicious Interpreter Execution Detected via Defend for Containers
-id: 59908ca0-5990-4990-a990-59908ca00000
+title: Suspicious Python Shell Command Execution
+id: 0761b7a2-0761-4761-a761-0761b7a20000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1059.006
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_suspicious_interactive_interpreter_command_execution.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_suspicious_python_command_execution.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-22
+date: 2026-03-29
 tags:
   - attack.t1059.006
 logsource:
@@ -14,34 +14,59 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.interactive == true and
-    # process.parent.executable != null and (
-    #   (
-    #     process.executable like ("/bin/perl*", "/usr/bin/perl*", "/usr/local/bin/perl*") and
-    #     process.args == "-e" and process.args like~ (
-    #       "*system(*", "*exec(*", "*IO.popen(*", "*Open3.popen3(*", "*spawn(*", "*eval(*",
-    #       "*load(*IO::*", "*load(*Marshal*", "*load(*Fiddle*", "*load(*Zlib*", "*load(*Base64*",
-    #       "*zlib.inflate(*", "*zlib.deflate(*", "*zlib.decompress(*", "*zlib.uncompress(*", "*zlib.compress(*",
-    #       "*Marshal.load(*", "*Fiddle.dlopen(*", "*Fiddle::Function.new(*", "*base64*", "*zlib*", 
-    #       "*net/http*", "*socket.new*", "*open-uri*", "*pack(*"
-    #     )
-    #   ) or
-    #   process.executable like ("/bin/php*", "/usr/bin/php*", "/usr/local/bin/php*") and
-    #   process.args == "-r" and process.args like~ (
-    #     "*exec(*", "*system(*", "*shell_exec(*", "*passthru(*", "*proc_open(*", "*pcntl_exec(*", "*popen(*", 
-    #     "*eval(*", "*assert(*", "*create_function(*", "*preg_replace(*e*", "*include(*", "*require(*",
-    #     "*base64_decode(*", "*gzinflate(*", "*gzuncompress(*", "*str_rot13(*", "*urldecode(*", "*chr(*", 
-    #     "*ord(*", "*strrev(*", "*strtr(*", "*pack(*", "*unpack(*", "*curl_exec(*", "*curl_multi_exec(*",
-    #     "*file_get_contents(*", "*fopen(*", "*fsockopen(*", "*pfsockopen(*", "*stream_socket_client(*",
-    #     "*socket_create(*", "*socket_connect(*", "*socket_write(*", "*socket_read(*", "*mail(*",
-    #     "*move_uploaded_file(*"
-    #   ) or
-    #   process.executable like ("/bin/lua*", "/usr/bin/lua*", "/usr/local/bin/lua*") and
-    #   process.args == "-e" and process.args like~ (
-    #     "*os.execute(*", "*io.popen(*", "*load(*", "*loadstring(*", "*require(*", "*dofile(*",
-    #     "*package.loadlib(*", "*base64.decode(*", "*base64.encode(*", "*zlib.inflate(*",
-    #     "*zlib.deflate(*", "*zlib.decompress(*", "*zlib.compress(*", "*socket.bind(*",
-    #     "*socket.connect(*", "*socket.receive(*", "*socket.send(*", "*socket.tc
+    # FROM logs-endpoint.events.process-* METADATA _id, _version, _index
+    # 
+    # | WHERE host.os.type in ("linux", "macos") and event.type == "start" and TO_LOWER(process.parent.name) like "python*" and
+    #   process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "busybox") and
+    #   KQL("""event.action:"exec" and process.args:("-c" or "-cl" or "-lc")""")
+    # 
+    # // truncate timestamp to 1-minute window
+    # | EVAL Esql.time_window_date_trunc = DATE_TRUNC(1 minutes, @timestamp)
+    # 
+    # | EVAL Esql.process_command_line_patterns = CASE(
+    #   process.command_line like "*grep*", "grep",
+    #   process.command_line like "*find*", "find",
+    #   process.command_line like "*curl*", "curl",
+    #   process.command_line like "*env *", "environment_enumeration",
+    #   process.command_line like "*wget*", "wget",
+    #   process.command_line like "*whoami*" or process.command_line like "*uname*" or process.command_line like "*hostname*", "discovery", "other"
+    # )
+    # 
+    # | KEEP
+    #     @timestamp,
+    #     _id,
+    #     _index,
+    #     _version,
+    #     Esql.process_command_line_patterns,
+    #     Esql.time_window_date_trunc,
+    #     host.os.type,
+    #     event.type,
+    #     event.action,
+    #     process.parent.name,
+    #     process.working_directory,
+    #     process.parent.working_directory,
+    #     process.name,
+    #     process.executable,
+    #     process.command_line,
+    #     process.parent.executable,
+    #     process.parent.entity_id,
+    #     agent.id,
+    #     host.name,
+    #     event.dataset,
+    #     data_stream.namespace
+    # 
+    # | STATS
+    #   Esql.process_command_line_count_distinct = COUNT_DISTINCT(process.command_line),
+    #   Esql.patterns_count_distinct = COUNT_DISTINCT(Esql.process_command_line_patterns),
+    #   Esql.process_command_line_values = VALUES(process.command_line),
+    #   Esql.host_name_values = values(host.name),
+    #   Esql.agent_id_values = values(agent.id),
+    #   Esql.event_dataset_values = values(event.dataset),
+    #   Esql.data_stream_namespace_values = values(data_stream.namespace)
+    #   BY process.parent.entity_id, agent.id, host.name, Esql.time_window_date_trunc
+    # 
+    # | SORT Esql.process_command_line_count_distinct DESC
+    # | WHERE Esql.proc
     # ... [truncated]
   condition: selection
 level: medium
