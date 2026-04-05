@@ -1,0 +1,20 @@
+title: User or Group Creation/Modification
+id: 0fdb57ed-0fdb-4fdb-afdb-0fdb57ed0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_user_or_group_creation_or_modification.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1098.007
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # iam where host.os.type == "linux" and event.type in ("creation", "change") and auditd.result == "success" and
+    # event.action in ("changed-password", "added-user-account", "added-group-account-to") and process.name != null
+  condition: selection
+level: medium

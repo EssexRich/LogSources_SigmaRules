@@ -1,0 +1,30 @@
+title: PowerShell Suspicious Payload Encoded and Compressed
+id: 6345bb25-6345-4345-a345-6345bb250000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.015
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_posh_compressed.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1027.015
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    #   powershell.file.script_block_entropy_bits >= 4.5 and
+    #   powershell.file.script_block_text : (
+    #     (
+    #       "System.IO.Compression.DeflateStream" or
+    #       "System.IO.Compression.GzipStream" or
+    #       "IO.Compression.DeflateStream" or
+    #       "IO.Compression.GzipStream"
+    #     ) and
+    #     FromBase64String
+    #   ) and
+    #   not user.id : "S-1-5-18"
+  condition: selection
+level: medium

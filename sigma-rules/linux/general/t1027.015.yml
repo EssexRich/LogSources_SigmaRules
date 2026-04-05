@@ -1,0 +1,23 @@
+title: Suspicious Content Extracted or Decompressed via Funzip
+id: 4be0c92c-4be0-4be0-abe0-4be0c92c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.015
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_sus_extraction_or_decrompression_via_funzip.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1027.015
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
+    # ((process.args == "tail" and process.args == "-c" and process.args == "funzip")) and
+    # not process.args : "/var/log/messages" and
+    # not ?process.parent.executable : ("/usr/bin/dracut", "/sbin/dracut", "/usr/bin/xargs") and
+    # not (process.parent.name in ("sh", "sudo") and ?process.parent.command_line : "*nessus_su*")
+  condition: selection
+level: medium

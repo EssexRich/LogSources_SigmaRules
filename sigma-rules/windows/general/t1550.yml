@@ -1,11 +1,11 @@
-title: Local Account TokenFilter Policy Disabled
-id: 0df720cb-0df7-4df7-adf7-0df720cb0000
+title: Potential Kerberos Relay Attack against a Computer Account
+id: 42c5fa2a-42c5-42c5-a2c5-42c5fa2a0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1550
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_persistence_account_tokenfilterpolicy.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_dollar_account_relay_kerberos.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1550
 logsource:
@@ -14,25 +14,26 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # registry where host.os.type == "windows" and event.type == "change" and
-    #   registry.value : "LocalAccountTokenFilterPolicy" and
-    #   registry.path : (
-    #     "HKLM\\*\\LocalAccountTokenFilterPolicy",
-    #     "\\REGISTRY\\MACHINE\\*\\LocalAccountTokenFilterPolicy",
-    #     "MACHINE\\*\\LocalAccountTokenFilterPolicy"
-    #   ) and registry.data.strings : ("1", "0x00000001") and
-    #   not process.executable : (
-    #     /* Intune */
-    #     "C:\\Windows\\system32\\deviceenroller.exe",
-    #     "C:\\Windows\\system32\\omadmclient.exe",
-    #     "C:\\Windows\\UUS\\amd64\\MoUsoCoreWorker.exe",
-    #     "C:\\Windows\\UUS\\Packages\\Preview\\amd64\\MoUsoCoreWorker.exe",
+    # sequence by winlog.computer_name, source.ip with maxspan=5s
     # 
-    #     /* Crowdstrike specific exclusion as it uses NT Object paths */
-    #     "\\Device\\HarddiskVolume*\\system32\\deviceenroller.exe",
-    #     "\\Device\\HarddiskVolume*\\system32\\omadmclient.exe",
-    #     "\\Device\\HarddiskVolume*\\UUS\\amd64\\MoUsoCoreWorker.exe",
-    #     "\\Device\\HarddiskVolume*\\UUS\\Packages\\Preview\\amd64\\MoUsoCoreWorker.exe"
-    #   )
+    # /* Filter for an event that indicates coercion against known abused named pipes using an account that is not the host */
+    # [file where host.os.type == "windows" and event.code : "5145" and 
+    #     not startswith~(winlog.computer_name, substring(user.name, 0, -1)) and
+    #     file.name : (
+    #         "Spoolss", "netdfs", "lsarpc", "lsass", "netlogon", "samr", "efsrpc", "FssagentRpc",
+    #         "eventlog", "winreg", "srvsvc", "dnsserver", "dhcpserver", "WinsPipe"
+    #     )]
+    # 
+    # /* Detects a logon attempt using the Kerberos protocol resulting from the coercion coming from the same IP address */
+    # [authentication where host.os.type == "windows" and event.code in ("4624", "4625") and
+    #     endswith~(user.name, "$") and winlog.logon.type : "network" and
+    #     winlog.event_data.AuthenticationPackageName : "Kerberos" and
+    # 
+    #     /* Filter for a machine account that matches the hostname */
+    #     startswith~(winlog.computer_name, substring(user.name, 0, -1)) and
+    # 
+    #     /* Verify if the Source IP belongs to the host */
+    #     not endswith(string(source.ip), string(host.ip)) and
+    #     source.ip != null and source.ip != "::1" and source.ip != "127.0.0.1"]
   condition: selection
 level: medium

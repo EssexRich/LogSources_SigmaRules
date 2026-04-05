@@ -1,11 +1,11 @@
-title: Windows App Layer Protocol Qakbot NamedPipe
-id: 3b0a293a-3b0a-4b0a-ab0a-3b0a293a0000
+title: Potential File Transfer via Curl for Windows
+id: 6178c6ab-6178-4178-a178-6178c6ab0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1071
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_app_layer_protocol_qakbot_namedpipe.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_tool_transfer_via_curl.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1071
 logsource:
@@ -13,7 +13,26 @@ logsource:
   service: sysmon
 detection:
   selection:
-    # Original splunk detection logic
-    # `sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPipe") Image IN ("*\\calc.exe", "*\\notepad.exe", "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe", "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe") | regex PipeName="^\\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{8}" | stats  min(_time) as firstTime max(_time) as lastTime count by dest dvc pipe_name process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product Image PipeName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_app_layer_protocol_qakbot_namedpipe_filter`
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   process.executable : (
+    #     "?:\\Windows\\System32\\curl.exe",
+    #     "?:\\Windows\\SysWOW64\\curl.exe"
+    #   ) and
+    #   process.command_line : "*http*" and
+    #   process.parent.name : (
+    #     "cmd.exe", "powershell.exe",
+    #     "rundll32.exe", "explorer.exe",
+    #     "conhost.exe", "forfiles.exe",
+    #     "wscript.exe", "cscript.exe",
+    #     "mshta.exe", "hh.exe", "mmc.exe"
+    #   ) and 
+    #   not (
+    #     ?user.id == "S-1-5-18" and
+    #     /* Don't apply the user.id exclusion to Sysmon for compatibility */
+    #     not event.dataset : ("windows.sysmon_operational", "windows.sysmon")
+    #   ) and
+    #   /* Exclude System Integrity Processes for Sysmon */
+    #   not ?winlog.event_data.IntegrityLevel == "System"
   condition: selection
 level: medium

@@ -1,0 +1,19 @@
+title: GCP Logging Bucket Deletion
+id: 51d1d9bc-51d1-41d1-a1d1-51d1d9bc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.008
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/defense_evasion_gcp_logging_bucket_deletion.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1562.008
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:gcp.audit and event.action:google.logging.v*.ConfigServiceV*.DeleteBucket and event.outcome:success
+  condition: selection
+level: medium

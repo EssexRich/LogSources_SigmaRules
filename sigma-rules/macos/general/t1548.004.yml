@@ -1,11 +1,11 @@
-title: Execution with Explicit Credentials via Scripting
-id: 41bf6550-41bf-41bf-a1bf-41bf65500000
+title: Apple Scripting Execution with Administrator Privileges
+id: 3cb6bf41-3cb6-4cb6-acb6-3cb6bf410000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1548.004
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/privilege_escalation_explicit_creds_via_scripting.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/privilege_escalation_applescript_with_admin_privs.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1548.004
 logsource:
@@ -14,8 +14,8 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
-    #  process.name == "security_authtrampoline" and
-    #  process.parent.name like~ ("osascript", "com.apple.automator.runner", "sh", "bash", "dash", "zsh", "python*", "perl*", "php*", "ruby", "pwsh")
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and process.name == "osascript" and
+    #  process.command_line : "osascript*with administrator privileges" and
+    #  ((process.parent.code_signature.trusted == false or process.parent.code_signature.exists == false) or process.Ext.effective_parent.executable like ("/tmp/*", "/private/tmp/*", "/Users/Shared/*"))
   condition: selection
 level: medium

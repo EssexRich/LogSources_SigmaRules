@@ -1,0 +1,21 @@
+title: ProxyChains Activity
+id: 274292f7-2742-4742-a742-274292f70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1090.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_linux_proxychains_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1090.003
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
+    # process.name == "proxychains"
+  condition: selection
+level: medium

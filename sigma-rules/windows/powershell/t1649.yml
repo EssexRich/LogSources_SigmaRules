@@ -1,11 +1,11 @@
-title: Detect Certify With PowerShell Script Block Logging
-id: 0177cba4-0177-4177-a177-0177cba40000
+title: Potential Invoke-Mimikatz PowerShell Script
+id: 4cbea374-4cbe-4cbe-acbe-4cbea3740000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1649
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_certify_with_powershell_script_block_logging.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_mimikatz_powershell_module.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1649
 logsource:
@@ -13,20 +13,14 @@ logsource:
   service: powershell
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     `powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptBlockText IN ("* /vulnerable*","* -vulnerable*","* /enrolleeSuppliesSubject *","* /json /outfile*")) OR (ScriptBlockText IN (,"*auth *","*req *",) AND ScriptBlockText IN ("* -ca *","* -username *","* -u *")) OR (ScriptBlockText IN ("*request *","*download *") AND ScriptBlockText IN ("* /ca:*"))
-    #       | fillnull
-    #       | stats count min(_time) as firstTime max(_time) as lastTime
-    #         BY dest signature signature_id
-    #            user_id vendor_product EventID
-    #            Guid Opcode Name
-    #            Path ProcessID ScriptBlockId
-    #            ScriptBlockText
-    #       | `security_content_ctime(firstTime)`
-    #       | `security_content_ctime(lastTime)`
-    #       | eval file_name = case(isnotnull(file_name),file_name,true(),"unknown")
-    #       | eval signature = substr(command,0,256)
-    #       | `detect_certify_with_powershell_script_block_logging_filter`
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    # powershell.file.script_block_text:(
+    #   (DumpCreds and
+    #   DumpCerts) or
+    #   "sekurlsa::logonpasswords" or
+    #   ("crypto::certificates" and
+    #   "CERT_SYSTEM_STORE_LOCAL_MACHINE")
+    # )
   condition: selection
 level: medium

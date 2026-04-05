@@ -1,0 +1,22 @@
+title: Base16 or Base32 Encoding/Decoding Activity
+id: 384db963-384d-484d-a84d-384db9630000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1132
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_base16_or_base32_encoding_or_decoding_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1132
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
+    # process.name in ("base16", "base32", "base32plain", "base32hex") and
+    # not process.args in ("--help", "--version")
+  condition: selection
+level: medium

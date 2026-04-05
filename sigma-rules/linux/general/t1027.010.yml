@@ -1,0 +1,24 @@
+title: Potential Hex Payload Execution via Command-Line
+id: 55037fcd-5503-4503-a503-55037fcd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.010
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_hex_payload_execution_via_commandline.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1027.010
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
+    # ?process.parent.executable != null and
+    # process.command_line : "*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*" and
+    # length(process.command_line) > 50 and
+    # not process.name in ("snap", "printf", "sed")
+  condition: selection
+level: medium

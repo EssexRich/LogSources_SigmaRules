@@ -1,11 +1,11 @@
-title: Entra ID Service Principal Created
-id: 627ba112-627b-427b-a27b-627ba1120000
+title: Entra ID External Guest User Invited
+id: 563c111a-563c-463c-a63c-563c111a0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1136
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/persistence_entra_id_service_principal_created.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_external_guest_user_invite.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1136
 logsource:
@@ -14,15 +14,6 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:azure.auditlogs
-    #     and azure.auditlogs.operation_name:"Add service principal"
-    #     and event.outcome:(success or Success)
-    #     and not azure.auditlogs.identity: (
-    #         "Managed Service Identity" or
-    #         "Windows Azure Service Management API" or
-    #         "Microsoft Azure AD Internal - Jit Provisioning" or
-    #         "AAD App Management" or
-    #         "Power Virtual Agents Service"
-    #         )
+    # event.dataset:azure.auditlogs and azure.auditlogs.operation_name:"Invite external user" and azure.auditlogs.properties.target_resources.*.display_name:guest and event.outcome:(Success or success)
   condition: selection
 level: medium

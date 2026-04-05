@@ -1,0 +1,45 @@
+title: Suspicious Endpoint Security Parent Process
+id: 132364da-1323-4323-a323-132364da0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1055.012
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_masquerading_as_elastic_endpoint_process.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1055.012
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   process.name : ("esensor.exe", "elastic-endpoint.exe") and
+    #   process.parent.executable != null and
+    #   process.args != null and
+    #   /* add FPs here */
+    #   not process.parent.executable : (
+    #         "?:\\Program Files\\Elastic\\*",
+    #         "?:\\Windows\\System32\\services.exe",
+    #         "?:\\Windows\\System32\\WerFault*.exe",
+    #         "?:\\Windows\\System32\\wermgr.exe",
+    #         "?:\\Windows\\explorer.exe"
+    #   ) and
+    #   not (
+    #     process.parent.executable : (
+    #         "?:\\Windows\\System32\\cmd.exe",
+    #         "?:\\Windows\\System32\\SecurityHealthHost.exe",
+    #         "?:\\Windows\\System32\\SecurityHealth\\*\\SecurityHealthHost.exe",
+    #         "?:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    #     ) and
+    #     process.args : (
+    #         "test", "version",
+    #         "top", "run",
+    #         "*help", "status",
+    #         "upgrade", "/launch",
+    #         "/enable", "/av"
+    #     )
+    #   )
+  condition: selection
+level: medium

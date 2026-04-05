@@ -1,0 +1,19 @@
+title: Linux Group Creation
+id: 442579ee-4425-4425-a425-442579ee0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_linux_group_creation.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1098.007
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # iam where host.os.type == "linux" and event.type == "group" and event.type == "creation" and event.outcome == "success"
+  condition: selection
+level: medium

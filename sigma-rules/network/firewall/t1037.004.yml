@@ -1,0 +1,42 @@
+title: Suspicious Network Activity to the Internet by Previously Unknown Executable
+id: 062c4fa2-062c-462c-a62c-062c4fa20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1037.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_suspicious_network_activity_from_unknown_executable.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1037.004
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:linux and event.category:network and event.action:(connection_attempted or ipv4_connection_attempt_event) and
+    # process.executable : (
+    #   /etc/crontab or /etc/rc.local or ./* or /boot/* or /dev/shm/* or /etc/cron.*/* or /etc/init.d/* or /etc/rc*.d/* or
+    #   /etc/update-motd.d/* or /home/*/.* or /tmp/* or /usr/lib/update-notifier/* or /var/log/* or /var/tmp/*
+    # ) and process.name : * and
+    # not (
+    #   process.executable : (
+    #     /tmp/newroot/* or /tmp/snap.rootfs* or /etc/cron.hourly/BitdefenderRedline or /tmp/go-build* or /srv/snp/docker/* or
+    #     /run/containerd/* or /tmp/.mount* or /run/k3s/containerd/* or /tmp/selenium* or /tmp/tmp.*/juliainstaller or
+    #     /tmp/.criu.mntns* or /home/*/.local/share/containers/* or /etc/update-motd.d/*
+    #   ) or
+    #   source.ip:(10.0.0.0/8 or 127.0.0.0/8 or 172.16.0.0/12 or 192.168.0.0/16) or
+    #   process.name : (
+    #     apt or chrome or curl or dnf or dockerd or dpkg or firefox-bin or git-remote-https or java or kite-update or
+    #     kited or node or rpm or saml2aws or selenium-manager or solana-validator or wget or yum or ansible* or aws* or
+    #     php* or pip* or python* or steam* or terraform* or filebeat or apk or cursor or http
+    #   ) or
+    #   destination.ip:(
+    #     0.0.0.0 or 10.0.0.0/8 or 100.64.0.0/10 or 127.0.0.0/8 or 169.254.0.0/16 or 172.16.0.0/12 or 192.0.0.0/24 or
+    #     192.0.0.0/29 or 192.0.0.10/32 or 192.0.0.170/32 or 192.0.0.171/32 or 192.0.0.8/32 or 192.0.0.9/32 or 192.0.2.0/24 or
+    #     192.168.0.0/16 or 192.175.48.0/24 or 192.31.196.0/24 or 192.52.193.0/24 or 192.88.99.0/24 or 198.18.0.0/15 or
+    #     198.51.100.0/24 or 203.0.113.0/24 or 224.0.0.0/4 or 240.0.0.0/4 or "::1" or "FE80::/10" or "FF00::/8"
+    #   )
+    # )
+  condition: selection
+level: medium

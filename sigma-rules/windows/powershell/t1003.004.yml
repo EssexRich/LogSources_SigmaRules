@@ -1,0 +1,32 @@
+title: PowerShell Invoke-NinjaCopy script
+id: 14236cf3-1423-4423-a423-14236cf30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1003.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_posh_invoke_ninjacopy.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1003.004
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    #   powershell.file.script_block_text : (
+    #     "StealthReadFile" or
+    #     "StealthReadFileAddr" or
+    #     "StealthCloseFileDelegate" or
+    #     "StealthOpenFile" or
+    #     "StealthCloseFile" or
+    #     "StealthReadFile" or
+    #     "Invoke-NinjaCopy"
+    #    )
+    #   and not user.id : "S-1-5-18"
+    #   and not powershell.file.script_block_text : (
+    #     "sentinelbreakpoints" and "Set-PSBreakpoint" and "PowerSploitIndicators"
+    #   )
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1190
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/web/vmware_workspace_one_freemarker_server_side_template_injection.yml
 author: splunk (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1190
 logsource:
@@ -15,12 +15,17 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     | tstats count FROM datamodel=Web
-    #       WHERE Web.http_method IN ("GET") Web.url="*/catalog-portal/ui/oauth/verify?error=&deviceudid=*"
-    #         AND
-    #         Web.url="*freemarker.template.utility.Execute*"
-    #       BY Web.http_user_agent Web.http_method, Web.url,Web.url_length
-    #          Web.src, Web.dest sourcetype
+    #     | tstats `security_content_summariesonly`
+    #              count min(_time) as firstTime
+    #                    max(_time) as lastTime
+    # 
+    #     FROM datamodel=Web WHERE
+    #     Web.http_method="GET"
+    #     Web.url="*/catalog-portal/ui/oauth/verify?error=&deviceudid=*"
+    #     Web.url="*freemarker.template.utility.Execute*"
+    #     BY Web.http_user_agent Web.http_method
+    #        Web.url Web.url_length
+    #        Web.src Web.dest sourcetype
     #     | `drop_dm_object_name("Web")`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`

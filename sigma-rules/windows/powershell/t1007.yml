@@ -1,0 +1,51 @@
+title: PowerShell Suspicious Discovery Related Windows API Functions
+id: 4b1223aa-4b12-4b12-ab12-4b1223aa0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_posh_suspicious_api_functions.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1007
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    #   powershell.file.script_block_text : (
+    #     NetShareEnum or
+    #     NetWkstaUserEnum or
+    #     NetSessionEnum or
+    #     NetLocalGroupEnum or
+    #     NetLocalGroupGetMembers or
+    #     DsGetSiteName or
+    #     DsEnumerateDomainTrusts or
+    #     WTSEnumerateSessionsEx or
+    #     WTSQuerySessionInformation or
+    #     LsaGetLogonSessionData or
+    #     QueryServiceObjectSecurity or
+    #     GetComputerNameEx or
+    #     NetWkstaGetInfo or
+    #     GetUserNameEx or
+    #     NetUserEnum or
+    #     NetUserGetInfo or
+    #     NetGroupEnum or
+    #     NetGroupGetInfo or
+    #     NetGroupGetUsers or
+    #     NetWkstaTransportEnum or
+    #     NetServerGetInfo or
+    #     LsaEnumerateTrustedDomains  or
+    #     NetScheduleJobEnum or
+    #     NetUserModalsGet
+    #   ) and
+    #   not powershell.file.script_block_text : (
+    #     ("DsGetSiteName" and ("DiscoverWindowsComputerProperties.ps1" and "param($SourceType, $SourceId, $ManagedEntityId, $ComputerIdentity)")) or
+    #     ("# Copyright: (c) 2018, Ansible Project" and "#Requires -Module Ansible.ModuleUtils.AddType" and "#AnsibleRequires -CSharpUtil Ansible.Basic") or
+    #     ("Ansible.Windows.Setup" and "Ansible.Windows.Setup" and "NativeMethods.NetWkstaGetInfo(null, 100, out netBuffer);")
+    #   ) and
+    #   not file.directory: "C:\Program Files (x86)\Automox\WDK\Win32\WinSession"
+  condition: selection
+level: medium

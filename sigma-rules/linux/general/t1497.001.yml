@@ -1,0 +1,32 @@
+title: Virtual Machine Fingerprinting
+id: 6e674dcf-6e67-4e67-ae67-6e674dcf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1497.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/discovery_virtual_machine_fingerprinting.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1497.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and 
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "process_started") and
+    # process.args in (
+    #   "/sys/class/dmi/id/bios_version", "/sys/class/dmi/id/product_name", "/sys/class/dmi/id/chassis_vendor",
+    #   "/proc/scsi/scsi", "/proc/ide/hd0/model"
+    # ) and not (
+    #   user.name == "root" or
+    #   ?process.parent.name in ("LinkManager.exe", "saposcol", "svc_snow_discovery") or
+    #   ?process.working_directory == "/home/qualys" or
+    #   ?process.parent.executable in (
+    #     "/usr/sara/sbin/sys2prometheus", "/usr/sara/sbin/sys2ganglia", "/usr/libexec/valgrind/memcheck-amd64-linux",
+    #     "/var/lib/cfengine3/modules/init_node", "/opt/emby-server/system/EmbyServer"
+    #   )
+    # )
+  condition: selection
+level: medium

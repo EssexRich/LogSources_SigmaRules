@@ -1,0 +1,21 @@
+title: Azure Key Vault Modified
+id: 1a2fb2b3-1a2f-4a2f-aa2f-1a2fb2b30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1578
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/impact_key_vault_modified_by_unusual_user.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1578
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "azure.activitylogs"
+    #     and azure.activitylogs.operation_name: MICROSOFT.KEYVAULT/VAULTS/*
+    #     and event.outcome:(Success or success)
+  condition: selection
+level: medium

@@ -1,0 +1,71 @@
+title: Azure Key Vault Excessive Secret or Key Retrieved
+id: 04196391-0419-4419-a419-041963910000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1213
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_key_vault_excessive_retrieval.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1213
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-azure.platformlogs-* metadata _id, _index
+    # 
+    # // Filter for Azure Key Vault read operations
+    # | where event.dataset == "azure.platformlogs"
+    #   and event.action in (
+    #     "VaultGet",
+    #     "KeyGet",
+    #     "KeyList",
+    #     "KeyListVersions",
+    #     "KeyGetDeleted",
+    #     "KeyListDeleted",
+    #     "SecretGet",
+    #     "SecretList",
+    #     "SecretListVersions",
+    #     "SecretGetDeleted",
+    #     "SecretListDeleted",
+    #     "CertificateGet",
+    #     "CertificateList",
+    #     "CertificateListVersions",
+    #     "CertificateGetDeleted",
+    #     "CertificateListDeleted",
+    #     "CertificatePolicyGet",
+    #     "CertificateContactsGet",
+    #     "CertificateIssuerGet",
+    #     "CertificateIssuersList"
+    #   )
+    # 
+    # // Truncate timestamps into 1-minute windows
+    # | eval Esql.time_window_date_trunc = date_trunc(1 minute, @timestamp)
+    # 
+    # // Aggregate identity, geo, resource, and activity info
+    # | stats
+    #     Esql_priv.azure_platformlogs_identity_claim_upn_values = values(azure.platformlogs.identity.claim.upn),
+    #     Esql.azure_platformlogs_identity_claim_upn_count_distinct = count_distinct(azure.platformlogs.identity.claim.upn),
+    #     Esql.azure_platformlogs_identity_claim_appid_values = values(azure.platformlogs.identity.claim.appid),
+    # 
+    #     Esql.source_ip_values = values(source.ip),
+    #     Esql.source_geo_city_values = values(source.geo.city_name),
+    #     Esql.source_geo_region_values = values(source.geo.region_name),
+    #     Esql.source_geo_country_values = values(source.geo.country_name),
+    #     Esql.source_as_organization_name_values = values(source.as.organization.name),
+    # 
+    #     Esql.event_action_values = values(event.action),
+    #     Esql.event_count = count(*),
+    #     Esql.event_action_count_distinct = count_distinct(event.action),
+    #     Esql.azure_resource_name_count_distinct = count_distinct(azure.resource.name),
+    #     Esql.azure_resource_name_values = values(azure.resource.name),
+    #     Esql.azure_platformlogs_result_type_values = values(azure.platformlogs.result_type),
+    #     Esql.cloud_region_values = values(cloud.region),
+    # 
+    #     Esql.agent_name_values = values(agent.name),
+    #     Esql.a
+    # ... [truncated]
+  condition: selection
+level: medium

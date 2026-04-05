@@ -1,0 +1,34 @@
+title: Curl SOCKS Proxy Activity from Unusual Parent
+id: 1f5d2dfa-1f5d-4f5d-af5d-1f5d2dfa0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1090.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_curl_socks_proxy_detected.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1090.002
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
+    # process.name == "curl" and (
+    #   process.parent.executable like (
+    #     "/dev/shm/*", "/tmp/*", "/var/tmp/*", "/var/run/*", "/root/*", "/boot/*", "/var/www/*", "/opt/.*",
+    #     "/home/*"
+    #   ) or
+    #   process.parent.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") or
+    #   process.parent.name like ".*"
+    # ) and (
+    #   process.args like ("--socks5-hostname", "--proxy", "--preproxy", "socks5*") or
+    #   process.args == "-x" or
+    #   process.env_vars like~ ("http_proxy=socks5h://*", "HTTPS_PROXY=socks5h://*", "ALL_PROXY=socks5h://*")
+    # ) and not (
+    #   process.parent.args == "/opt/rudder/share/commands/agent-run" or
+    #   process.args == "http://localhost:8080/rudder/api/status"
+    # )
+  condition: selection
+level: medium

@@ -1,0 +1,21 @@
+title: Google Workspace MFA Enforcement Disabled
+id: 153dcb70-153d-453d-a53d-153dcb700000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/impact_google_workspace_mfa_enforcement_disabled.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1556.006
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:google_workspace.admin and event.provider:admin
+    #   and event.category:iam and event.action:ENFORCE_STRONG_AUTHENTICATION
+    #   and google_workspace.admin.new_value:false
+  condition: selection
+level: medium

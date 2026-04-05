@@ -1,11 +1,11 @@
-title: Powershell LocalAccount Manipulation
-id: 37ca34f3-37ca-47ca-a7ca-37ca34f30000
+title: DMSA Service Account Created in Specific OUs - PowerShell
+id: 551b1654-551b-451b-a51b-551b16540000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1098
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_localuser.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_create_new_dmsasvc_account.yml
 author: sigma (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1098
 logsource:
@@ -15,14 +15,10 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         ScriptBlockText|contains:
-    #             - 'Disable-LocalUser'
-    #             - 'Enable-LocalUser'
-    #             - 'Get-LocalUser'
-    #             - 'Set-LocalUser'
-    #             - 'New-LocalUser'
-    #             - 'Rename-LocalUser'
-    #             - 'Remove-LocalUser'
+    #         ScriptBlockText|contains|all:
+    #             - 'New-ADServiceAccount'
+    #             - '-CreateDelegatedServiceAccount'
+    #             - '-path'
     #     condition: selection
     # 
   condition: selection

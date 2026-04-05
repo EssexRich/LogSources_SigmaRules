@@ -1,0 +1,33 @@
+title: Memory Swap Modification
+id: 5b0606d4-5b06-4b06-ab06-5b0606d40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1496.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/impact_memory_swap_modification.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1496.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
+    # ?process.parent.executable != null and
+    # process.name in ("swapon", "swapoff") or (
+    #   process.command_line like ("*vm.swappiness*", "*/proc/sys/vm/swappiness*") and (
+    #     (process.name == "sysctl" and process.args like ("*-w*", "*--write*", "*=*")) or
+    #     (
+    #       process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and process.args == "-c" and
+    #       process.command_line like "*echo *"
+    #     )
+    #   )
+    # ) and
+    # not (
+    #   process.parent.name in ("lynis", "systemd", "end-zram-swapping", "SyxsenseResponder", "tuned", "platform-python", "timeout") or
+    #   ?process.parent.executable in ("/opt/puppetlabs/puppet/bin/ruby", "/u01/app/grid/perl/bin/perl")
+    # )
+  condition: selection
+level: medium

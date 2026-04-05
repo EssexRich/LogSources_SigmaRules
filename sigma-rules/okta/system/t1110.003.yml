@@ -1,11 +1,11 @@
-title: Multiple Okta User Auth Events with Same Device Token Hash Behind a Proxy
-id: 12f5e1fa-12f5-42f5-a2f5-12f5e1fa0000
+title: Attempts to Brute Force an Okta User Account
+id: 5f7c54e9-5f7c-4f7c-af7c-5f7c54e90000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1110.003
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_multiple_auth_events_from_single_device_behind_proxy.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_attempts_to_brute_force_okta_user_account.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1110.003
 logsource:
@@ -14,8 +14,6 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:okta.system
-    #     and not okta.actor.id:okta* and okta.debug_context.debug_data.dt_hash:*
-    #     and okta.event_type:user.authentication* and okta.security_context.is_proxy:true
+    # event.dataset:okta.system and event.action:user.account.lock
   condition: selection
 level: medium

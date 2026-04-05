@@ -1,0 +1,20 @@
+title: Process Started from Process ID (PID) File
+id: 449110ef-4491-4491-a491-449110ef0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.008
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_process_started_from_process_id_file.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1036.008
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and user.id == "0" and
+    #   process.executable regex~ """/var/run/\w+\.(pid|lock|reboot)"""
+  condition: selection
+level: medium

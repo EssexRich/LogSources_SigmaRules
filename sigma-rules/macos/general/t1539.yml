@@ -1,11 +1,11 @@
-title: Suspicious Web Browser Sensitive File Access
-id: 44133160-4413-4413-a413-441331600000
+title: First Time Python Accessed Sensitive Credential Files
+id: 14a1f5df-14a1-44a1-a4a1-14a1f5df0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1539
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_suspicious_web_browser_sensitive_file_access.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_python_sensitive_file_access_first_occurrence.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1539
 logsource:
@@ -14,15 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # file where event.action == "open" and host.os.type == "macos" and process.executable != null and
-    #  file.name like~ ("cookies.sqlite",
-    #                   "key?.db",
-    #                   "logins.json",
-    #                   "Cookies",
-    #                   "Cookies.binarycookies",
-    #                   "Login Data") and
-    #  ((process.code_signature.trusted == false or process.code_signature.exists == false) or process.name == "osascript") and
-    #  not process.code_signature.signing_id == "org.mozilla.firefox" and
-    #  not Effective_process.executable like "/Library/Elastic/Endpoint/elastic-endpoint.app/Contents/MacOS/elastic-endpoint"
+    # event.category:file and host.os.type:macos and event.action:open and
+    # process.name:python*
   condition: selection
 level: medium

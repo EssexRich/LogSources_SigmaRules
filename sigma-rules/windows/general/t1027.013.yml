@@ -1,0 +1,21 @@
+title: Deprecated - Encoded Executable Stored in the Registry
+id: 6967738b-6967-4967-a967-6967738b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.013
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_hide_encoded_executable_registry.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1027.013
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # registry where host.os.type == "windows" and
+    # /* update here with encoding combinations */
+    #  registry.data.strings : "TVqQAAMAAAAEAAAA*"
+  condition: selection
+level: medium

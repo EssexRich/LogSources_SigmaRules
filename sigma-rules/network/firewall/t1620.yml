@@ -1,0 +1,24 @@
+title: Network Connection from Binary with RWX Memory Region
+id: 13b72607-13b7-43b7-a3b7-13b726070000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1620
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_netcon_from_rwx_mem_region_binary.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1620
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sample by host.id, process.pid, process.name
+    #   /* auditd.data.a2 == "7" translates to RWX memory region protection (PROT_READ | PROT_WRITE | PROT_EXEC) */
+    #   [process where host.os.type == "linux" and auditd.data.syscall == "mprotect" and auditd.data.a2 == "7" and
+    #    not process.name in ("httpd", "java", "node", "code", "apache2")]
+    #   [network where host.os.type == "linux" and event.type == "start" and event.action == "connection_attempted" and
+    #    not cidrmatch(destination.ip, "127.0.0.0/8", "169.254.0.0/16", "224.0.0.0/4", "::1")]
+  condition: selection
+level: medium

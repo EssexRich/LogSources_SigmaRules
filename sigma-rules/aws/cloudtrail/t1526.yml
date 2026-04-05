@@ -1,11 +1,11 @@
-title: AWS Excessive Security Scanning
-id: 2ad32108-2ad3-4ad3-aad3-2ad321080000
+title: AWS Discovery API Calls via CLI from a Single Resource
+id: 0c18f532-0c18-4c18-ac18-0c18f5320000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1526
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_excessive_security_scanning.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_multiple_discovery_api_calls_via_cli.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1526
 logsource:
@@ -13,16 +13,68 @@ logsource:
   service: cloudtrail
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     `cloudtrail` eventName=Describe* OR eventName=List* OR eventName=Get*
-    #       | fillnull
-    #       | rename user_name as user
-    #       | stats dc(signature) as dc_events min(_time) as firstTime max(_time) as lastTime values(signature) as signature values(dest) as dest values(user_agent) as user_agent values(src) as src values(vendor_account) as vendor_account values(vendor_region) as vendor_region
-    #         BY user
-    #       | where dc_events > 50
-    #       | `security_content_ctime(firstTime)`
-    #       | `security_content_ctime(lastTime)`
-    #       | `aws_excessive_security_scanning_filter`
+    # Original elastic detection logic
+    # from logs-aws.cloudtrail-* metadata _id, _version, _index
+    # // create time window buckets of 10 seconds
+    # | eval Esql.time_window_date_trunc = date_trunc(10 seconds, @timestamp)
+    # 
+    # | where
+    #     event.dataset == "aws.cloudtrail"
+    #     
+    #     // exclude service account and console behavior
+    #     and source.ip IS NOT NULL
+    #     and aws.cloudtrail.session_credential_from_console IS NULL
+    #     and event.provider in (
+    #       "iam.amazonaws.com",
+    #       "ec2.amazonaws.com",
+    #       "s3.amazonaws.com",
+    #       "rds.amazonaws.com",
+    #       "lambda.amazonaws.com",
+    #       "dynamodb.amazonaws.com",
+    #       "kms.amazonaws.com",
+    #       "cloudfront.amazonaws.com",
+    #       "elasticloadbalancing.amazonaws.com", 
+    #       "cloudtrail.amazonaws.com",
+    #       "sts.amazonaws.com",
+    #       "ses.amazonaws.com",
+    #       "organizations.amazonaws.com"
+    #     )
+    #     // ignore AWS service actions
+    #     and aws.cloudtrail.user_identity.type != "AWSService"
+    #     // filter for aws-cli specifically
+    #     and user_agent.name == "aws-cli"
+    #     // exclude DescribeCapacityReservations events related to AWS Config
+    #     and event.action != "DescribeCapacityReservations"
+    #     and user.name != "AWSServiceRoleForConfig"
+    # 
+    # // filter for Describe, Get, List, and Generate API calls
+    # | where true in (
+    #     starts_with(event.action, "Describe"),
+    #     starts_with(event.action, "Get"),
+    #     starts_with(event.action, "List"),
+    #     starts_with(event.action, "Generate")
+    # )
+    # 
+    # // keep relevant fields (preserving ECS fields and computed time window)
+    # | keep 
+    #     @timestamp, 
+    #     Esql.time_window_date_trunc, 
+    #     event.action, 
+    #     aws.cloudtrail.user_identity.arn, 
+    #     aws.cloudtrail.user_identity.type, 
+    #     aws.cloudtrail.user_identity.access_key_id, 
+    #     source.ip, 
+    #     cloud.account.id, 
+    #     event.provider, 
+    #     user_agent.name, 
+    #     source.as.organization.name, 
+    #     cloud.region,
+    #     data_stream.namespace
+    # 
+    # // count the number of unique API calls per time window and actor
+    # | stats
+    #     Esql.event_action_count_distinct = count_distinct(event.action),
+    #     Esql.event_action_values
+    # ... [truncated]
   condition: selection
 level: medium

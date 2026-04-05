@@ -1,0 +1,34 @@
+title: Microsoft Graph Request Email Access by Unusual User and Client
+id: 37b878c4-37b8-47b8-a7b8-37b878c40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1114.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/collection_graph_email_access_by_unusual_public_client_via_graph.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1114.002
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:azure.graphactivitylogs
+    #     and azure.graphactivitylogs.properties.app_id:*
+    #     and azure.graphactivitylogs.result_signature:200
+    #     and azure.graphactivitylogs.properties.c_idtyp:user
+    #     and azure.graphactivitylogs.properties.client_auth_method:0
+    #     and http.request.method:(DELETE or GET or PATCH or POST or PUT)
+    #     and (
+    #         (
+    #             url.path:(/v1.0/me/*cc or /v1.0/users/*)
+    #             and (
+    #                 url.path:((*inbox* or *mail* or *messages*) and not *mailboxSettings*)
+    #                 or azure.graphactivitylogs.properties.requestUri:(*inbox* or *mail* or *messages*)
+    #             )
+    #         )
+    #         or azure.graphactivitylogs.properties.scopes:(Mail.Read or Mail.ReadWrite or Mail.Send)
+    #     )
+  condition: selection
+level: medium

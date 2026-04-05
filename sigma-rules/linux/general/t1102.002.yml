@@ -1,0 +1,21 @@
+title: Linux Telegram API Request
+id: 105e3505-105e-405e-a05e-105e35050000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1102.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_telegram_api_request.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1102.002
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "start", "exec_event", "ProcessRollup2", "executed", "exec_event", "process_started") and
+    # process.name in ("curl", "wget") and process.command_line like "*api.telegram.org*"
+  condition: selection
+level: medium

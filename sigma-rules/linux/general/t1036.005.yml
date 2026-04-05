@@ -1,0 +1,26 @@
+title: System Path File Creation and Execution Detected via Defend for Containers
+id: 4cc0df9d-4cc0-4cc0-acc0-4cc0df9d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_interactive_file_creation_in_system_binary_locations.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1036.005
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "linux" and event.type == "creation" and process.interactive == true and
+    # file.path like (
+    #   "/etc/*", "/root/*", "/bin/*", "/usr/bin/*", "/usr/local/bin/*", "/entrypoint*"
+    # ) and (
+    #   process.name like ("wget", "curl") or
+    #   (process.name == "busybox" and process.args == "wget") or
+    #   process.executable like ("/tmp/*", "/dev/shm/*", "/var/tmp/*", "/run/*", "/var/run/*", "/mnt/*")
+    # ) and container.id like "?*"
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: Suspicious Service was Installed in the System
-id: 2b0faf70-2b0f-4b0f-ab0f-2b0faf700000
+title: Suspicious ScreenConnect Client Child Process
+id: 1c650f91-1c65-4c65-ac65-1c650f910000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1543
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_service_windows_service_winlog.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_screenconnect_childproc.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1543
 logsource:
@@ -14,29 +14,24 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # any where host.os.type == "windows" and
-    #   (event.code : "4697" and
-    #    (winlog.event_data.ServiceFileName : 
-    #            ("*COMSPEC*", "*\\127.0.0.1*", "*Admin$*", "*powershell*", "*rundll32*", "*cmd.exe*",
-    #             "*echo*", "*RemComSvc*", "*.bat*", "*.cmd*", "*certutil*", "*vssadmin*", "*certmgr*", "*bitsadmin*", 
-    #             "*\\Users\\*", "*\\Windows\\Tasks\\*", "*\\PerfLogs\\*", "*\\Windows\\Debug\\*",
-    #             "*regsvr32*", "*msbuild*") or
-    #    winlog.event_data.ServiceFileName regex~ """%systemroot%\\[a-z0-9]+\.exe""") and
-    #    not winlog.event_data.ServiceFileName:
-    #                                      ("%SystemRoot%\\PSEXESVC.exe", "%SystemRoot%\\\\RemComSvc.exe",
-    #                                       "%SystemRoot%\\pbpsdeploy.exe", "%SystemRoot%\\system32\\RemComSvc.exe",
-    #                                       "\"C:\\Program Files\\Common Files\\Zoom\\Support\\CptService.exe*",
-    #                                       "\"C:\\Program Files (x86)\\CheckPoint\\Endpoint Security\\EFR\\host\\cpsechost.exe\" service")) or
-    # 
-    #   (event.code : "7045" and
-    #    winlog.event_data.ImagePath : (
-    #        "*COMSPEC*", "*\\127.0.0.1*", "*Admin$*", "*powershell*", "*rundll32*", "*cmd.exe*",
-    #        "*echo*", "*.bat*", "*.cmd*", "*certutil*", "*vssadmin*", "*certmgr*", "*bitsadmin*",
-    #        "*\\Users\\*", "*\\Windows\\Tasks\\*", "*\\PerfLogs\\*", "*\\Windows\\Debug\\*",
-    #        "*regsvr32*", "*msbuild*") and
-    #    not winlog.event_data.ImagePath : ("%SystemRoot%\\PSEXESVC.exe", "%SystemRoot%\\\\RemComSvc.exe",
-    #                                       "%SystemRoot%\\pbpsdeploy.exe", "%SystemRoot%\\system32\\RemComSvc.exe",
-    #                                       "\"C:\\Program Files\\Common Files\\Zoom\\Support\\CptService.exe*",
-    #                                       "\"C:\\Program Files (x86)\\CheckPoint\\Endpoint Security\\EFR\\host\\cpsechost.exe\" service"))
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   process.parent.name :
+    #                 ("ScreenConnect.ClientService.exe",
+    #                  "ScreenConnect.WindowsClient.exe",
+    #                  "ScreenConnect.WindowsBackstageShell.exe",
+    #                  "ScreenConnect.WindowsFileManager.exe") and
+    #   (
+    #    (process.name : "powershell.exe" and
+    #     process.args : ("-enc", "-ec", "-e", "*downloadstring*", "*Reflection.Assembly*", "*http*")) or
+    #    (process.name : "cmd.exe" and process.args : "/c") or
+    #    (process.name : "net.exe" and process.args : "/add") or
+    #    (process.name : "schtasks.exe" and process.args : ("/create", "-create")) or
+    #    (process.name : "sc.exe" and process.args : "create") or
+    #    (process.name : "rundll32.exe" and not process.args : "url.dll,FileProtocolHandler") or
+    #    (process.name : "msiexec.exe" and process.args : ("/i", "-i") and
+    #     process.args : ("/q", "/quiet", "/qn", "-q", "-quiet", "-qn", "-Q+")) or
+    #    process.name : ("mshta.exe", "certutil.exe", "bistadmin.exe", "certreq.exe", "wscript.exe", "cscript.exe", "curl.exe",
+    #                    "ssh.exe", "scp.exe", "wevtutil.exe", "wget.exe", "wmic.exe")
+    #    )
   condition: selection
 level: medium

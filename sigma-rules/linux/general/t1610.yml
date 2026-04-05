@@ -1,11 +1,11 @@
-title: Kubectl Apply Pod from URL
-id: 233598c5-2335-4335-a335-233598c50000
+title: Potential Kubectl Masquerading via Unexpected Process
+id: 07e82102-07e8-47e8-a7e8-07e821020000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1610
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_kubectl_apply_pod_from_url.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_potential_kubectl_masquerading.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1610
 logsource:
@@ -14,10 +14,32 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and
-    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "process_started", "executed") and
-    # process.name == "kubectl" and process.args == "apply" and
-    # process.args like ("http://*", "https://*") and
-    # not process.args like~ ("*download.elastic.co*", "*github.com/kubernetes-sigs/*")
+    # process where host.os.type in ("linux", "macos") and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "executed", "process_started") and
+    # (
+    #   process.executable like~ (
+    #     "/tmp/*", "/private/tmp/*", "/var/tmp/*", "/private/var/tmp/*", "/dev/shm/*", "/root/*", "/var/www/*", "/home/*", "/Users/*", "./kubectl"
+    #   ) or
+    #   process.name like ".*"
+    # ) and
+    # process.args like~ (
+    # 
+    #   // get and describe commands
+    #   "*get po*", "*get deploy*", "*get node*", "*get svc*", "*get service*", "*get secret*", "*get clusterrole*", "*get ingress*",
+    #   "*get configmap*", "*describe po*", "*describe deploy*", "*describe node*", "*describe svc*", "*describe service*",
+    #   "*describe secret*", "*describe configmap*", "*describe clusterrole*", "*describe ingress*",
+    #   
+    #   // exec commands
+    #   "*exec -it*", "*exec --stdin*", "*exec --tty*",
+    #   
+    #   // networking commands
+    #   "*port-forward* ", "*proxy --port*", "*run --image=*", "*expose*",
+    # 
+    #   // authentication/impersonation commands
+    #   "*auth can-i*", "*--kubeconfig*", "*--as *", "*--as=*", "*--as-group*", "*--as-uid*"
+    # ) and not (
+    #   process.executable like "/tmp/newroot/*" or
+    #   process.name == ".flatpak-wrapped"
+    # )
   condition: selection
 level: medium

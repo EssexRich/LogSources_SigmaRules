@@ -1,11 +1,11 @@
-title: Potential Database Dumping Activity
-id: 57aedb38-57ae-47ae-a7ae-57aedb380000
+title: Netcat File Transfer or Listener Detected via Defend for Containers
+id: 46eba662-46eb-46eb-a6eb-46eba6620000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1048
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/exfiltration_potential_database_dumping.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_netcat_listener_established_inside_a_container.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1048
 logsource:
@@ -14,8 +14,34 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and
-    # event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
-    # process.name in ("pg_dump", "pg_dumpall", "mysqldump", "mariadb-dump", "mongodump")
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and (
+    #   process.name in ("nc","ncat","netcat","netcat.openbsd","netcat.traditional") or
+    #   (
+    #     /* account for tools that execute utilities as a subprocess, in this case the target utility name will appear as a process arg */
+    #     process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "busybox") and
+    #     process.args in (
+    #       "nc", "/bin/nc", "/usr/bin/nc", "/usr/local/bin/nc",
+    #       "ncat", "/bin/ncat", "/usr/bin/ncat", "/usr/local/bin/ncat",
+    #       "netcat", "/bin/netcat", "/usr/bin/netcat", "/usr/local/bin/netcat",
+    #       "netcat.openbsd", "/bin/netcat.openbsd", "/usr/bin/netcat.openbsd", "/usr/local/bin/netcat.openbsd",
+    #       "netcat.traditional", "/bin/netcat.traditional", "/usr/bin/netcat.traditional", "/usr/local/bin/netcat.traditional"
+    #     ) and 
+    #     /* default exclusion list to not FP on default multi-process commands */
+    #     not process.args in (
+    #       "which", "/bin/which", "/usr/bin/which", "/usr/local/bin/which",
+    #       "man", "/bin/man", "/usr/bin/man", "/usr/local/bin/man",
+    #       "chmod", "/bin/chmod", "/usr/bin/chmod", "/usr/local/bin/chmod",
+    #       "chown", "/bin/chown", "/usr/bin/chown", "/usr/local/bin/chown"
+    #     )
+    #   )
+    # ) and
+    # process.args like~ (
+    #   /* bind shell to specific port or listener */
+    #   "-*l*","-*p*",
+    #   /* reverse shell to command-line interpreter used for command execution */
+    #   "-*e*",
+    #   /* file transfer via stdout/pipe */
+    #   ">","<", "|"
+    # ) and process.interactive == true and container.id like "*"
   condition: selection
 level: medium

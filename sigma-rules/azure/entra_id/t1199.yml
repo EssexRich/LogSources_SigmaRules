@@ -1,0 +1,25 @@
+title: Entra ID Illicit Consent Grant via Registered Application
+id: 0ccb3516-0ccb-4ccb-accb-0ccb35160000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1199
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_illicit_consent_grant_via_registered_application.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1199
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "azure.auditlogs" and
+    #   (
+    #     azure.auditlogs.operation_name:"Consent to application"
+    #     or event.action:"Consent to application"
+    #   )
+    #   and event.outcome: "success"
+    #   and azure.auditlogs.properties.additional_details.key: "AppId"
+  condition: selection
+level: medium

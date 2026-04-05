@@ -1,0 +1,30 @@
+title: AWS SSM `SendCommand` with Run Shell Command Parameters
+id: 098cf459-098c-498c-a98c-098cf4590000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_aws_ssm_sendcommand_with_command_parameters.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1059
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category: "process" and event.type: "start" and process.name: "aws"
+    # and (
+    #     host.os.type: ("windows" or "macos")
+    #     or (
+    #         host.os.type: "linux"
+    #         and event.action: ("exec" or "exec_event" or "executed" or "process_started")
+    #     )
+    # )
+    # and process.args: (
+    #     "send-command" and "--parameters" and commands=*
+    #     and ("AWS-RunShellScript" or "AWS-RunPowerShellScript")
+    # )
+  condition: selection
+level: medium

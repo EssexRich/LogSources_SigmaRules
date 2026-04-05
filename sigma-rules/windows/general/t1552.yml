@@ -1,11 +1,11 @@
-title: Creation or Modification of Domain Backup DPAPI private key
-id: 73b65ddd-73b6-43b6-a3b6-73b65ddd0000
+title: Script Interpreter Spawning Credential Scanner - Windows
+id: 6861b9d3-6861-4861-a861-6861b9d30000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1552
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_domain_backup_dpapi_private_keys.toml
-author: elastic (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_script_interpretor_spawn_credential_scanner.yml
+author: sigma (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1552
 logsource:
@@ -13,7 +13,20 @@ logsource:
   service: general
 detection:
   selection:
-    # Original elastic detection logic
-    # file where host.os.type == "windows" and event.type != "deletion" and file.name : ("ntds_capi_*.pfx", "ntds_capi_*.pvk")
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|endswith:
+    #            # Add more script interpreters as needed
+    #             - '\node.exe'
+    #             - '\bun.exe'
+    #     selection_child:
+    #         - Image|endswith:
+    #               - 'trufflehog.exe'
+    #               - 'gitleaks.exe'
+    #         - CommandLine|contains:
+    #               - 'trufflehog'
+    #               - 'gitleaks'
+    #     condition: all of selection_*
+    # 
   condition: selection
 level: medium

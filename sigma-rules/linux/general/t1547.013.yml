@@ -1,11 +1,11 @@
-title: Executable Bit Set for Potential Persistence Script
-id: 6aad7108-6aad-4aad-aaad-6aad71080000
+title: Potential Persistence via File Modification
+id: 7d6c2917-7d6c-4d6c-ad6c-7d6c29170000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1547.013
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_potential_persistence_script_executable_bit_set.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/fim/persistence_suspicious_file_modifications.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1547.013
 logsource:
@@ -14,27 +14,53 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start") and
-    # process.args : (
-    #   // Misc.
-    #   "/etc/rc.local", "/etc/rc.common", "/etc/rc.d/rc.local", "/etc/init.d/*", "/etc/update-motd.d/*",
-    #   "/etc/apt/apt.conf.d/*", "/etc/cron*", "/etc/init/*", "/etc/NetworkManager/dispatcher.d/*",
-    #   "/lib/dracut/modules.d/*", "/usr/lib/dracut/modules.d/*",
+    # file where host.os.type == "linux" and event.dataset == "fim.event" and event.action == "updated" and
+    # file.path : (
+    #   // cron, anacron & at
+    #   "/etc/cron.d/*", "/etc/cron.daily/*", "/etc/cron.hourly/*", "/etc/cron.monthly/*",
+    #   "/etc/cron.weekly/*", "/etc/crontab", "/var/spool/cron/crontabs/*", "/etc/cron.allow",
+    #   "/etc/cron.deny",  "/var/spool/anacron/*", "/var/spool/cron/atjobs/*",
     # 
-    #   // XDG
-    #   "/etc/xdg/autostart/*", "/home/*/.config/autostart/*", "/root/.config/autostart/*",
-    #   "/home/*/.local/share/autostart/*", "/root/.local/share/autostart/*", "/home/*/.config/autostart-scripts/*",
-    #   "/root/.config/autostart-scripts/*", "/etc/xdg/autostart/*", "/usr/share/autostart/*",
+    #   // systemd services & timers
+    #   "/etc/systemd/system/*", "/usr/local/lib/systemd/system/*", "/lib/systemd/system/*",
+    #   "/usr/lib/systemd/system/*", "/home/*/.config/systemd/user/*", "/home/*/.local/share/systemd/user/*",
+    #   "/root/.config/systemd/user/*", "/root/.local/share/systemd/user/*",
     # 
-    #   // udev
-    #   "/lib/udev/*", "/etc/udev/rules.d/*", "/usr/lib/udev/rules.d/*", "/run/udev/rules.d/*"
+    #   // LD_PRELOAD
+    #   "/etc/ld.so.preload", "/etc/ld.so.conf.d/*", "/etc/ld.so.conf",
     # 
-    # ) and (
-    #   (process.name == "chmod" and process.args : ("+x*", "1*", "3*", "5*", "7*")) or
-    #   (process.name == "install" and process.args : "-m*" and process.args : ("7*", "5*", "3*", "1*"))
-    # ) and not (
-    #   process.parent.executable : "/var/lib/dpkg/*" or
-    #   process.command_line in ("chmod 777 /etc/update-motd.d/", "chmod 755 /etc/update-motd.d/")
-    # )
+    #   // Dynamic linker
+    #   "/lib/ld-linux*.so*", "/lib64/ld-linux*.so*", "/usr/lib/ld-linux*.so*", "/usr/lib64/ld-linux*.so*",
+    # 
+    #   // message-of-the-day (MOTD)
+    #   "/etc/update-motd.d/*",
+    # 
+    #   // SSH
+    #   "/home/*/.ssh/*", "/root/.ssh/*", "/etc/ssh/*",
+    # 
+    #   // system-wide shell configurations
+    #   "/etc/profile", "/etc/profile.d/*", "/etc/bash.bashrc", "/etc/zsh/*", "/etc/csh.cshrc",
+    #   "/etc/csh.login", "/etc/fish/config.fish", "/etc/ksh.kshrc",
+    # 
+    #   // root and user shell configurations
+    #   "/home/*/.profile", "/home/*/.bashrc", "/home/*/.bash_login", "/home/*/.bash_logout",
+    #   "/root/.profile", "/root/.bashrc", "/root/.bash_login", "/root/.bash_logout",
+    #   "/home/*/.zprofile", "/home/*/.zshrc", "/root/.zprofile", "/root/.zshrc",
+    #   "/home/*/.cshrc", "/home/*/.login", "/home/*/.logout", "/root/.cshrc", "/root/.login", "/root/.logout",
+    #   "/home/*/.config/fish/config.fish", "/root/.config/fish/config.fish",
+    #   "/home/*/.kshrc", "/root/.kshrc",
+    # 
+    #   // Alias files
+    #   "/home/*/.bash_aliases", "/root/.bash_aliases", "/home/*/.zsh_aliases", "/root/.zsh_aliases",
+    #   "/home/*/.aws/cli/alias", "/root/.aws/cli/alias", 
+    # 
+    #   // runtime control
+    #   "/etc/rc.common", "/etc/rc.local",
+    # 
+    #   // System V init/Upstart
+    #   "/etc/init.d/*", "/etc/init/*",
+    # 
+    #   // passwd/sud
+    # ... [truncated]
   condition: selection
 level: medium

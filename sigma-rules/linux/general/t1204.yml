@@ -1,11 +1,11 @@
-title: Node.js Pre or Post-Install Script Execution
-id: 03c8805c-03c8-43c8-a3c8-03c8805c0000
+title: Masquerading Space After Filename
+id: 6f86c898-6f86-4f86-af86-6f86c8980000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1204
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_nodejs_pre_or_post_install_script_execution.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_masquerading_space_after_filename.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1204
 logsource:
@@ -14,8 +14,14 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by host.id with maxspan=10s
-    #   [process where host.os.type in ("linux", "macos") and event.type == "start" and event.action in ("exec", "ProcessRollup2", "start") and process.name == "node" and process.args == "install"] by process.entity_id
-    #   [process where host.os.type in ("linux", "macos") and event.type == "start" and event.action in ("exec", "ProcessRollup2", "start") and process.parent.name == "node"] by process.parent.entity_id
+    # process where host.os.type:("linux","macos") and event.type == "start" and
+    # process.executable regex~ """/[a-z0-9\s_\-\\./]+\s""" and not (
+    #   process.name in ("ls", "find", "grep", "xkbcomp") or
+    #   process.executable like ("/opt/nessus_agent/*", "/opt/gitlab/sv/gitlab-exporter/*", "/tmp/ansible-admin/*") or
+    #   process.parent.args in (
+    #     "./check_rubrik", "/usr/bin/check_mk_agent", "/etc/rubrik/start_stop_bootstrap.sh", "/etc/rubrik/start_stop_agent.sh"
+    #   ) or
+    #   process.args == "runc"
+    # )
   condition: selection
 level: medium

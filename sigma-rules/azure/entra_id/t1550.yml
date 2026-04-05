@@ -1,11 +1,11 @@
-title: Entra ID OAuth Device Code Grant by Microsoft Authentication Broker
-id: 15a4c30d-15a4-45a4-a5a4-15a4c30d0000
+title: Entra ID Concurrent Sign-in with Suspicious Properties
+id: 0780552f-0780-4780-a780-0780552f0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1550
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_device_code_auth_with_broker_client.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_entra_id_suspicious_signin.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1550
 logsource:
@@ -14,11 +14,53 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:(azure.activitylogs or azure.signinlogs)
-    #     and azure.signinlogs.properties.authentication_protocol:deviceCode
-    #     and azure.signinlogs.properties.conditional_access_audiences.application_id:29d9ed98-a469-4536-ade2-f981bc1d605e
-    #     and event.outcome:success or (
-    #         azure.activitylogs.properties.appId:29d9ed98-a469-4536-ade2-f981bc1d605e
-    #         and azure.activitylogs.properties.authentication_protocol:deviceCode)
+    # from logs-azure.signinlogs-* metadata _id, _version, _index
+    # 
+    # // Scheduled to run every hour, reviewing events from past hour
+    # | where
+    #   @timestamp > now() - 1 hours
+    #   and event.dataset == "azure.signinlogs"
+    #   and source.ip is not null
+    #   and azure.signinlogs.identity is not null
+    #   and to_lower(event.outcome) == "success"
+    # 
+    # // keep relevant raw fields
+    # | keep
+    #   @timestamp,
+    #   azure.signinlogs.identity,
+    #   source.ip,
+    #   azure.signinlogs.properties.authentication_requirement,
+    #   azure.signinlogs.properties.app_id,
+    #   azure.signinlogs.properties.resource_display_name,
+    #   azure.signinlogs.properties.authentication_protocol,
+    #   azure.signinlogs.properties.app_display_name
+    # 
+    # // case classifications for identity usage
+    # | eval
+    #       Esql.azure_signinlogs_properties_authentication_device_code_case = case(
+    #       azure.signinlogs.properties.authentication_protocol == "deviceCode"
+    #       and azure.signinlogs.properties.authentication_requirement != "multiFactorAuthentication",
+    #       azure.signinlogs.identity,
+    #       null),
+    # 
+    #     Esql.azure_signinlogs_auth_visual_studio_case = case(
+    #       azure.signinlogs.properties.app_id == "aebc6443-996d-45c2-90f0-388ff96faa56"
+    #       and azure.signinlogs.properties.resource_display_name == "Microsoft Graph",
+    #       azure.signinlogs.identity,
+    #       null),
+    # 
+    #     Esql.azure_signinlogs_auth_other_case = case(
+    #       azure.signinlogs.properties.authentication_protocol != "deviceCode"
+    #       and azure.signinlogs.properties.app_id != "aebc6443-996d-45c2-90f0-388ff96faa56",
+    #       azure.signinlogs.identity,
+    #       null)
+    # 
+    # // Aggregate metrics by user identity
+    # | stats
+    #     Esql.event_count = count(*),
+    #     Esql.azure_signinlogs_properties_authentication_device_code_case_count_distinct = count_distinct(Esql.azure_signinlogs_properties_authentication_device_code_case),
+    #     Esql.azure_signinlogs_properties_auth_visual_studio_count_distinct = count_distinct(Esql.azure_signinlogs_auth_visual_studio_case),
+    #     Esql.azure_signinlogs_properties_auth_other_count_distinct = count_distin
+    # ... [truncated]
   condition: selection
 level: medium

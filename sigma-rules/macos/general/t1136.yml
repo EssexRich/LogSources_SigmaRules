@@ -1,0 +1,21 @@
+title: Potential Hidden Local User Account Creation
+id: 5acfb960-5acf-4acf-aacf-5acfb9600000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_account_creation_hide_at_logon.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1136
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.name == "dscl" and process.args like~ "IsHidden" and process.args like~ "create" and 
+    #  process.args like~ ("true", "1", "yes")
+  condition: selection
+level: medium

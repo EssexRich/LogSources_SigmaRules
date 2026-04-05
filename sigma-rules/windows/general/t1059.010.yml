@@ -1,0 +1,24 @@
+title: Renamed Automation Script Interpreter
+id: 49167d39-4916-4916-a916-49167d390000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.010
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_masquerading_renamed_autoit.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1059.010
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   (
+    #    (process.pe.original_file_name : "AutoIt*.exe" and not process.name : "AutoIt*.exe") or
+    #    (process.pe.original_file_name == "AutoHotkey.exe" and not process.name : ("AutoHotkey*.exe", "InternalAHK.exe")) or
+    #    (process.pe.original_file_name == "KIX32.EXE" and not process.name : "KIX*.exe" and process.executable : ("?:\\Users\\*.exe", "?:\\ProgramData\\*.exe", "\\Device\\HarddiskVolume*\\Users\\*.exe", "\\Device\\HarddiskVolume*\\ProgramData\\*.exe"))
+    #    )
+  condition: selection
+level: medium

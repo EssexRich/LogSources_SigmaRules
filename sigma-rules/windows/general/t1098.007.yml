@@ -1,0 +1,50 @@
+title: User Added to Privileged Group in Active Directory
+id: 0f3e050a-0f3e-4f3e-af3e-0f3e050a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_user_account_added_to_privileged_group_ad.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1098.007
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # iam where host.os.type == "windows" and event.action == "added-member-to-group" and
+    # (
+    #     group.id : "S-1-5-21*" and
+    #     (
+    #         group.name : (
+    #             "Admin*",
+    #             "Domain Admins",
+    #             "Enterprise Admins",
+    #             "Backup Admins",
+    #             "Schema Admins",
+    #             "DnsAdmins",
+    #             "Exchange Organization Administrators",
+    #             "Print Operators",
+    #             "Server Operators",
+    #             "Account Operators"
+    #         )
+    #     ) or
+    #     (
+    #         group.id : (
+    #             "S-1-5-21-*-544",
+    #             "S-1-5-21-*-512",
+    #             "S-1-5-21-*-519",
+    #             "S-1-5-21-*-551",
+    #             "S-1-5-21-*-518",
+    #             "S-1-5-21-*-1101",
+    #             "S-1-5-21-*-1102",
+    #             "S-1-5-21-*-550",
+    #             "S-1-5-21-*-549",
+    #             "S-1-5-21-*-548"
+    #         )
+    #     )
+    # )
+  condition: selection
+level: medium

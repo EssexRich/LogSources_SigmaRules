@@ -1,11 +1,11 @@
-title: Password Set to Never Expire via WMI
-id: 0bb07de3-0bb0-4bb0-abb0-0bb07de30000
+title: DMSA Link Attributes Modified
+id: 2fe9ef3e-2fe9-4fe9-afe9-2fe9ef3e0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1098
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_wmi_password_never_expire.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_modification_of_dmsa_link_attribute.yml
 author: sigma (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1098
 logsource:
@@ -14,16 +14,11 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_img:   # Example command simulated:  wmic  useraccount where name='guest' set passwordexpires=false
-    #         - Image|endswith: '\wmic.exe'
-    #         - OriginalFileName: 'wmic.exe'
-    #     selection_cli:
-    #         CommandLine|contains|all:
-    #             - 'useraccount'
-    #             - ' set '
-    #             - 'passwordexpires'
-    #             - 'false'
-    #     condition: all of selection_*
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - '.Put("msDS-ManagedAccountPrecededByLink'
+    #             - 'CN='
+    #     condition: selection
     # 
   condition: selection
 level: medium

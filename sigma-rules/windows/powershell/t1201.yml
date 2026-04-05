@@ -1,11 +1,11 @@
-title: Get ADDefaultDomainPasswordPolicy with Powershell
-id: 0915afc9-0915-4915-a915-0915afc90000
+title: PowerShell Suspicious Discovery Related Windows API Functions
+id: 69802d26-6980-4980-a980-69802d260000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1201
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/get_addefaultdomainpasswordpolicy_with_powershell.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_posh_suspicious_api_functions.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1201
 logsource:
@@ -13,25 +13,39 @@ logsource:
   service: powershell
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE (
-    #             Processes.process_name="cmd.exe"
-    #             OR
-    #             Processes.process_name="powershell*"
-    #         )
-    #         AND Processes.process = "*Get-ADDefaultDomainPasswordPolicy*"
-    #       BY Processes.action Processes.dest Processes.original_file_name
-    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #          Processes.process Processes.process_exec Processes.process_guid
-    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
-    #          Processes.process_name Processes.process_path Processes.user
-    #          Processes.user_id Processes.vendor_product
-    #     | `drop_dm_object_name(Processes)`
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `get_addefaultdomainpasswordpolicy_with_powershell_filter`
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    #   powershell.file.script_block_text : (
+    #     NetShareEnum or
+    #     NetWkstaUserEnum or
+    #     NetSessionEnum or
+    #     NetLocalGroupEnum or
+    #     NetLocalGroupGetMembers or
+    #     DsGetSiteName or
+    #     DsEnumerateDomainTrusts or
+    #     WTSEnumerateSessionsEx or
+    #     WTSQuerySessionInformation or
+    #     LsaGetLogonSessionData or
+    #     QueryServiceObjectSecurity or
+    #     GetComputerNameEx or
+    #     NetWkstaGetInfo or
+    #     GetUserNameEx or
+    #     NetUserEnum or
+    #     NetUserGetInfo or
+    #     NetGroupEnum or
+    #     NetGroupGetInfo or
+    #     NetGroupGetUsers or
+    #     NetWkstaTransportEnum or
+    #     NetServerGetInfo or
+    #     LsaEnumerateTrustedDomains  or
+    #     NetScheduleJobEnum or
+    #     NetUserModalsGet
+    #   ) and
+    #   not powershell.file.script_block_text : (
+    #     ("DsGetSiteName" and ("DiscoverWindowsComputerProperties.ps1" and "param($SourceType, $SourceId, $ManagedEntityId, $ComputerIdentity)")) or
+    #     ("# Copyright: (c) 2018, Ansible Project" and "#Requires -Module Ansible.ModuleUtils.AddType" and "#AnsibleRequires -CSharpUtil Ansible.Basic") or
+    #     ("Ansible.Windows.Setup" and "Ansible.Windows.Setup" and "NativeMethods.NetWkstaGetInfo(null, 100, out netBuffer);")
+    #   ) and
+    #   not file.directory: "C:\Program Files (x86)\Automox\WDK\Win32\WinSession"
   condition: selection
 level: medium

@@ -1,0 +1,65 @@
+title: AWS S3 Static Site JavaScript File Uploaded
+id: 682cd6cf-682c-482c-a82c-682cd6cf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1491
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_s3_static_site_js_file_uploaded.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1491
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-aws.cloudtrail* metadata _id, _version, _index
+    # 
+    # | where
+    #     // S3 object write activity
+    #     event.dataset == "aws.cloudtrail"
+    #     and event.provider == "s3.amazonaws.com"
+    #     and event.action == "PutObject"
+    #     and event.outcome == "success"
+    # 
+    #     // IAM users or assumed roles only
+    #     and aws.cloudtrail.user_identity.type in ("IAMUser", "AssumedRole")
+    # 
+    #     // Requests for static site bundles
+    #     and aws.cloudtrail.request_parameters like "*static/js/*.js*"
+    # 
+    #     // Exclude IaC and automation tools
+    #     and not (
+    #         user_agent.original like "*Terraform*"
+    #         or user_agent.original like "*Ansible*"
+    #         or user_agent.original like "*Pulumi*"
+    #     )
+    # 
+    # // Extract fields from request parameters
+    # | dissect aws.cloudtrail.request_parameters
+    #     "%{{?bucket.name.key}=%{Esql.aws_cloudtrail_request_parameters_bucket_name}, %{?host.key}=%{Esql_priv.aws_cloudtrail_request_parameters_host}, %{?bucket.object.location.key}=%{Esql.aws_cloudtrail_request_parameters_bucket_object_location}}"
+    # 
+    # // Extract file name portion from full object path
+    # | dissect Esql.aws_cloudtrail_request_parameters_bucket_object_location "%{}static/js/%{Esql.aws_cloudtrail_request_parameters_object_key}"
+    # 
+    # // Match on JavaScript files
+    # | where ends_with(Esql.aws_cloudtrail_request_parameters_object_key, ".js")
+    # 
+    # // Retain relevant ECS and dissected fields
+    # | keep
+    #     aws.cloudtrail.user_identity.arn,
+    #     aws.cloudtrail.user_identity.access_key_id,
+    #     aws.cloudtrail.user_identity.type,
+    #     aws.cloudtrail.request_parameters,
+    #     Esql.aws_cloudtrail_request_parameters_bucket_name,
+    #     Esql.aws_cloudtrail_request_parameters_object_key,
+    #     user_agent.original,
+    #     source.ip,
+    #     event.action,
+    #     @timestamp,
+    #     _id,
+    #     _version,
+    #     _index
+  condition: selection
+level: medium

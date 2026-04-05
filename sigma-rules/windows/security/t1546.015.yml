@@ -1,11 +1,11 @@
-title: Windows COM Hijacking InprocServer32 Modification
-id: 08d5a8e8-08d5-48d5-a8d5-08d5a8e80000
+title: Potential RemoteMonologue Attack
+id: 5e0dd6ea-5e0d-4e0d-ae0d-5e0dd6ea0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1546.015
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_com_hijacking_inprocserver32_modification.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_regmod_remotemonologue.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1546.015
 logsource:
@@ -13,20 +13,49 @@ logsource:
   service: security
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE `process_reg` Processes.process=*inprocserver32*
-    #       BY Processes.action Processes.dest Processes.original_file_name
-    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #          Processes.process Processes.process_exec Processes.process_guid
-    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
-    #          Processes.process_name Processes.process_path Processes.user
-    #          Processes.user_id Processes.vendor_product
-    #     | `drop_dm_object_name(Processes)`
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `windows_com_hijacking_inprocserver32_modification_filter`
+    # Original elastic detection logic
+    # registry where host.os.type == "windows" and event.action != "deletion" and
+    #   registry.value == "RunAs" and registry.data.strings : "Interactive User" and
+    # 
+    #   not 
+    #   (
+    #     (
+    #       process.executable : (
+    #         "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.*\\MsMpEng.exe",
+    #         "C:\\Program Files\\Windows Defender\\MsMpEng.exe"
+    #       ) and
+    #       registry.path : "*\\SOFTWARE\\Classes\\AppID\\{1111A26D-EF95-4A45-9F55-21E52ADF9887}\\RunAs"
+    #     ) or
+    #     (
+    #       process.executable : (
+    #         "C:\\Program Files\\TeamViewer\\TeamViewer.exe",
+    #         "C:\\Program Files (x86)\\TeamViewer\\TeamViewer.exe"
+    #       ) and
+    #       registry.path : "*\\SOFTWARE\\Classes\\AppID\\{850A928D-5456-4865-BBE5-42635F1EBCA1}\\RunAs"
+    #     ) or
+    #     (
+    #       process.executable : "C:\\Windows\\System32\\svchost.exe" and
+    #       registry.path : "*\\S-1-*Classes\\AppID\\{D3E34B21-9D75-101A-8C3D-00AA001A1652}\\RunAs"
+    #     ) or
+    #     (
+    #       process.executable : "C:\\Windows\\System32\\SecurityHealthService.exe" and
+    #       registry.path : (
+    #         "*\\SOFTWARE\\Classes\\AppID\\{1D278EEF-5C38-4F2A-8C7D-D5C13B662567}\\RunAs",
+    #         "*\\SOFTWARE\\Classes\\AppID\\{7E55A26D-EF95-4A45-9F55-21E52ADF9878}\\RunAs"
+    #       )
+    #     ) or
+    #     (
+    #       process.executable : "C:\\Windows\\System32\\SecurityHealthService.exe" and
+    #       registry.path : (
+    #         "*\\SOFTWARE\\Classes\\AppID\\{1D278EEF-5C38-4F2A-8C7D-D5C13B662567}\\RunAs",
+    #         "*\\SOFTWARE\\Classes\\AppID\\{7E55A26D-EF95-4A45-9F55-21E52ADF9878}\\RunAs"
+    #       )
+    #     ) or
+    #     registry.path : (
+    #       "HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\VREGISTRY_*",
+    #       "\\REGISTRY\\MACHINE\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\VREGISTRY_*"
+    #     ) or
+    #     (process.executable : "C:\\windows\\System32\\msiexec.exe" and ?user.id : "S-1-5-18")
+    #   )
   condition: selection
 level: medium

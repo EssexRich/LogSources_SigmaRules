@@ -1,11 +1,11 @@
-title: MsBuild Making Network Connections
-id: 522f7f2a-522f-422f-a22f-522f7f2a0000
+title: Network Activity to a Suspicious Top Level Domain
+id: 046aace5-046a-446a-a46a-046aace50000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1127
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_msbuild_making_network_connections.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_dns_susp_tld.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1127
 logsource:
@@ -14,31 +14,15 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by process.entity_id with maxspan=30s
-    # 
-    #   /* Look for MSBuild.exe process execution */
-    #   /* The events for this first sequence may be noisy, consider adding exceptions */
-    #   [process where host.os.type == "windows" and event.type == "start" and
-    #     (
-    #       process.pe.original_file_name: "MSBuild.exe" or
-    #       process.name: "MSBuild.exe"
-    #     ) and
-    #     not user.id == "S-1-5-18"]
-    # 
-    #   /* Followed by a network connection to an external address */
-    #   /* Exclude domains that are known to be benign */
-    #   [network where host.os.type == "windows" and
-    #     event.action: ("connection_attempted", "lookup_requested") and
-    #     (
-    #       process.pe.original_file_name: "MSBuild.exe" or
-    #       process.name: "MSBuild.exe"
-    #     ) and
-    #     not user.id == "S-1-5-18" and
-    #     not cidrmatch(destination.ip, "127.0.0.1", "::1") and
-    #     not dns.question.name : (
-    #       "localhost",
-    #       "dc.services.visualstudio.com",
-    #       "vortex.data.microsoft.com",
-    #       "api.nuget.org")]
+    # network where host.os.type == "windows" and dns.question.name != null and
+    #  (
+    #   process.name : ("MSBuild.exe", "mshta.exe", "wscript.exe", "powershell.exe", "pwsh.exe", "msiexec.exe", "rundll32.exe",
+    #                   "bitsadmin.exe", "InstallUtil.exe", "python.exe", "regsvr32.exe", "dllhost.exe", "node.exe",
+    #                   "java.exe", "javaw.exe", "*.pif", "*.com", "*.scr") or
+    #   (?process.code_signature.trusted == false or ?process.code_signature.exists == false) or
+    #   ?process.code_signature.subject_name : ("AutoIt Consulting Ltd", "OpenJS Foundation", "Python Software Foundation") or
+    #   ?process.executable : ("?:\\Users\\*.exe", "?:\\ProgramData\\*.exe")
+    #  ) and
+    # dns.question.name regex """.*\.(top|buzz|xyz|rest|ml|cf|gq|ga|onion|monster|cyou|quest|cc|bar|cfd|click|cam|surf|tk|shop|club|icu|pw|ws|online|fun|life|boats|store|hair|skin|motorcycles|christmas|lol|makeup|mom|bond|beauty|biz|live|work|zip|country|accountant|date|party|science|loan|win|men|faith|review|racing|download|host)"""
   condition: selection
 level: medium

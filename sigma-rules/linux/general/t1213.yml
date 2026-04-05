@@ -1,0 +1,21 @@
+title: Potential Database Dumping Activity
+id: 1a8643e8-1a86-4a86-aa86-1a8643e80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1213
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/exfiltration_potential_database_dumping.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1213
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
+    # process.name in ("pg_dump", "pg_dumpall", "mysqldump", "mariadb-dump", "mongodump")
+  condition: selection
+level: medium

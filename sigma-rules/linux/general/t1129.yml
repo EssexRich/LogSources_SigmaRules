@@ -1,0 +1,42 @@
+title: Suspicious Execution from Foomatic-rip or Cupsd Parent
+id: 27feadb7-27fe-47fe-a7fe-27feadb70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1129
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_cupsd_foomatic_rip_suspicious_child_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1129
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start", "ProcessRollup2") and
+    # process.parent.name in ("foomatic-rip", "cupsd") and process.command_line like (
+    #   // persistence
+    #   "*cron*", "*/etc/rc.local*", "*/dev/tcp/*", "*/etc/init.d*", "*/etc/update-motd.d*", "*/etc/sudoers*",
+    #   "*/etc/profile*", "*autostart*", "*/etc/ssh*", "*/home/*/.ssh/*", "*/root/.ssh*", "*~/.ssh/*", "*udev*",
+    #   "*/etc/shadow*", "*/etc/passwd*",
+    # 
+    #   // Downloads
+    #   "*curl*", "*wget*",
+    # 
+    #   // encoding and decoding
+    #   "*base64 *", "*base32 *", "*xxd *", "*openssl*",
+    # 
+    #   // reverse connections
+    #   "*GS_ARGS=*", "*/dev/tcp*", "*/dev/udp/*", "*import*pty*spawn*", "*import*subprocess*call*", "*TCPSocket.new*",
+    #   "*TCPSocket.open*", "*io.popen*", "*os.execute*", "*fsockopen*", "*disown*", "*nohup*",
+    # 
+    #   // SO loads
+    #   "*openssl*-engine*.so*", "*cdll.LoadLibrary*.so*", "*ruby*-e**Fiddle.dlopen*.so*", "*Fiddle.dlopen*.so*",
+    #   "*cdll.LoadLibrary*.so*",
+    # 
+    #   // misc. suspicious command lines
+    #    "*/etc/ld.so*", "*/dev/shm/*", "*/var/tmp*", "*echo*", "*>>*", "*|*"
+    # ) and not process.args like "gs*"
+  condition: selection
+level: medium

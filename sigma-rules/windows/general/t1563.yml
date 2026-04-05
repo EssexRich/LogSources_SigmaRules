@@ -1,0 +1,36 @@
+title: Potential Remote Desktop Shadowing Activity
+id: 0025443f-0025-4025-a025-0025443f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1563
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/lateral_movement_evasion_rdp_shadowing.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1563
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # /* Identifies the modification of RDP Shadow registry or
+    #   the execution of processes indicative of active shadow RDP session */
+    # 
+    # any where host.os.type == "windows" and
+    # (
+    #   (event.category == "registry" and event.type == "change" and
+    #     registry.value : "Shadow" and
+    #     registry.path : (
+    #       "*\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services\\Shadow"
+    #     ) and
+    #     registry.data.strings : ("1", "0x00000001", "2", "0x00000002", "3", "0x00000003", "4", "0x00000004")
+    # 
+    #   ) or
+    #   (event.category == "process" and event.type == "start" and
+    #      (process.name : ("RdpSaUacHelper.exe", "RdpSaProxy.exe") and process.parent.name : "svchost.exe") or
+    #      (?process.pe.original_file_name : "mstsc.exe" and process.args : "/shadow:*")
+    #   )
+    # )
+  condition: selection
+level: medium

@@ -1,0 +1,26 @@
+title: Perl Outbound Network Connection
+id: 086e1e27-086e-486e-a86e-086e1e270000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/command_and_control_perl_outbound_network_connection.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1059.006
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=30s
+    #   [process where host.os.type == "macos" and event.type == "start" and event.action == "exec" and
+    #     process.name == "perl" and not process.args like "/usr/bin/xpath"]
+    #   [network where host.os.type == "macos" and event.type == "start" and process.name == "perl" and
+    #     not cidrmatch(destination.ip, 
+    #         "10.0.0.0/8", "127.0.0.0/8", "169.254.0.0/16", "172.16.0.0/12", 
+    #         "192.0.0.0/24", "192.0.2.0/24", "192.168.0.0/16", "192.88.99.0/24",
+    #         "224.0.0.0/4", "240.0.0.0/4", "::1", "FE80::/10", "FF00::/8")]
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: M365 Identity Login from Atypical Travel Location
-id: 6f979ecd-6f97-4f97-af97-6f979ecd0000
+title: M365 Identity User Account Lockouts
+id: 209a0be2-209a-409a-a09a-209a0be20000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1078.004
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/initial_access_entra_id_portal_login_atypical_travel.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/credential_access_identity_user_account_lockouts.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1078.004
 logsource:
@@ -14,28 +14,44 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:o365.audit and
-    #     event.provider:AzureActiveDirectory and
-    #     event.action:UserLoggedIn and
-    #     event.outcome:success and
-    #     o365.audit.Target.Type:(0 or 10 or 2 or 3 or 5 or 6) and
-    #     o365.audit.UserId:(* and not "Not Available") and
-    #     source.geo.country_iso_code:* and
-    #     not o365.audit.ApplicationId:(
-    #         29d9ed98-a469-4536-ade2-f981bc1d605e or
-    #         38aa3b87-a06d-4817-b275-7a316988d93b or
-    #         a809996b-059e-42e2-9866-db24b99a9782
-    #     ) and not o365.audit.ExtendedProperties.RequestType:(
-    #         "Consent:Set" or
-    #         "DeviceAuth:ReprocessTls" or
-    #         "Kmsi:kmsi" or
-    #         "Login:reprocess" or
-    #         "Login:resume" or
-    #         "MessagePrompt:MessagePrompt" or
-    #         "Saml2:processrequest" or
-    #         "SAS:EndAuth" or
-    #         "SAS:ProcessAuth"
-    #     ) and
-    #     not user_agent.original:(*iPhone* or *iPad* or *Android* or *PKeyAuth*)
+    # from logs-o365.audit-*
+    # | mv_expand event.category
+    # | eval
+    #     Esql.time_window_date_trunc = date_trunc(5 minutes, @timestamp)
+    # | where
+    #     event.dataset == "o365.audit" and
+    #     event.category == "authentication" and
+    #     event.provider in ("AzureActiveDirectory", "Exchange") and
+    #     event.action in ("UserLoginFailed", "PasswordLogonInitialAuthUsingPassword") and
+    #     to_lower(o365.audit.ExtendedProperties.RequestType) rlike "(oauth.*||.*login.*)" and
+    #     o365.audit.LogonError == "IdsLocked" and
+    #     to_lower(o365.audit.UserId) != "not available" and
+    #     o365.audit.Target.Type in ("0", "2", "6", "10") and
+    #     source.`as`.organization.name != "MICROSOFT-CORP-MSN-as-BLOCK"
+    # | stats
+    #     Esql_priv.o365_audit_UserId_count_distinct = count_distinct(to_lower(o365.audit.UserId)),
+    #     Esql_priv.o365_audit_UserId_values = values(to_lower(o365.audit.UserId)),
+    #     Esql.source_ip_values = values(source.ip),
+    #     Esql.source_ip_count_distinct = count_distinct(source.ip),
+    #     Esql.source_as_organization_name_values = values(source.`as`.organization.name),
+    #     Esql.source_as_organization_name_count_distinct = count_distinct(source.`as`.organization.name),
+    #     Esql.source_geo_country_name_values = values(source.geo.country_name),
+    #     Esql.source_geo_country_name_count_distinct = count_distinct(source.geo.country_name),
+    #     Esql.o365_audit_ExtendedProperties_RequestType_values = values(to_lower(o365.audit.ExtendedProperties.RequestType)),
+    #     Esql.timestamp_first_seen = min(@timestamp),
+    #     Esql.timestamp_last_seen = max(@timestamp),
+    #     Esql.event_count = count(*)
+    #   by Esql.time_window_date_trunc
+    # | eval
+    #     Esql.event_duration_seconds = date_diff("seconds", Esql.timestamp_first_seen, Esql.timestamp_last_seen)
+    # | keep
+    #     Esql.time_window_date_trunc,
+    #     Esql_priv.o365_audit_UserId_count_distinct,
+    #     Esql_priv.o365_audit_UserId_values,
+    #     Esql.source_ip_values,
+    #     Esql.source_ip_count_distinct,
+    #     Esql.source_as_organization_name_values,
+    #     Esql.source_as_organization_name_count_distinct
+    # ... [truncated]
   condition: selection
 level: medium

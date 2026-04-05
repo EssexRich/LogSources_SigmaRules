@@ -1,0 +1,52 @@
+title: Entra ID OAuth User Impersonation to Microsoft Graph
+id: 6b288914-6b28-4b28-ab28-6b2889140000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_graph_single_session_from_multiple_addresses.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1550.004
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-azure.signinlogs-*, logs-azure.graphactivitylogs-* metadata _id, _version, _index
+    # | where
+    #     (event.dataset == "azure.signinlogs"
+    #      and source.`as`.organization.name != "MICROSOFT-CORP-MSN-AS-BLOCK"
+    #      and azure.signinlogs.properties.session_id is not null)
+    #     or
+    #     (event.dataset == "azure.graphactivitylogs"
+    #      and source.`as`.organization.name != "MICROSOFT-CORP-MSN-AS-BLOCK"
+    #      and azure.graphactivitylogs.properties.c_sid is not null)
+    # 
+    # | eval
+    #     Esql.azure_signinlogs_properties_session_id_coalesce = coalesce(azure.signinlogs.properties.session_id, azure.graphactivitylogs.properties.c_sid),
+    #     Esql.azure_signinlogs_properties_user_id_coalesce = coalesce(azure.signinlogs.properties.user_id, azure.graphactivitylogs.properties.user_principal_object_id),
+    #     Esql.azure_signinlogs_properties_app_id_coalesce = coalesce(azure.signinlogs.properties.app_id, azure.graphactivitylogs.properties.app_id),
+    #     Esql.source_ip = source.ip,
+    #     Esql.@timestamp = @timestamp,
+    #     Esql.event_type_case = case(
+    #         event.dataset == "azure.signinlogs", "signin",
+    #         event.dataset == "azure.graphactivitylogs", "graph",
+    #         "other"
+    #     ),
+    #     Esql.signin_source_asn = case(event.dataset == "azure.signinlogs", source.`as`.organization.name, null),
+    #     Esql.graph_source_asn = case(event.dataset == "azure.graphactivitylogs", source.`as`.organization.name, null)
+    # 
+    # | where Esql.azure_signinlogs_properties_app_id_coalesce not in (
+    #     "4354e225-50c9-4423-9ece-2d5afd904870",  // Augmentation Loop
+    #     "cc15fd57-2c6c-4117-a88c-83b1d56b4bbe",  // Microsoft Teams Services
+    #     "ecd6b820-32c2-49b6-98a6-444530e5a77a",  // Microsoft Edge [Community Contributed]
+    #     "e8be65d6-d430-4289-a665-51bf2a194bda",  // Microsoft 365 App Catalog Services
+    #     "ab9b8c07-8f02-4f72-87fa-80105867a763",  // OneDrive SyncEngine
+    #     "394866fc-eedb-4f01-8536-3ff84b16be2a",  // Microsoft People Cards Service
+    #     "66a88757-258c-4c72-893c-3e8bed4d6899",  // Office 365 Search Service
+    #     "9ea1ad
+    # ... [truncated]
+  condition: selection
+level: medium

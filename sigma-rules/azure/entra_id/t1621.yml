@@ -1,11 +1,11 @@
-title: Azure AD Authentication Failed During MFA Challenge
-id: 72af4b1e-72af-42af-a2af-72af4b1e0000
+title: Entra ID User Reported Suspicious Activity
+id: 5fc9543e-5fc9-4fc9-afc9-5fc9543e0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1621
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/cloud/azure_ad_authentication_failed_during_mfa_challenge.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_user_reported_risk.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1621
 logsource:
@@ -13,7 +13,11 @@ logsource:
   service: entra_id
 detection:
   selection:
-    # Original splunk detection logic
-    # `azure_monitor_aad` category=SignInLogs properties.status.errorCode=500121 | rename properties.* as *, authenticationDetails{}.* as * | eval time=strptime(authenticationStepDateTime,\"%Y-%m-%dT%H:%M:%S\") | eval auth_detail=mvzip(strftime(time, \"%Y-%m-%dT%H:%M:%S\"),authenticationStepResultDetail,\" - \"), auth_msg=mvappend('status.additionalDetails', authenticationStepResultDetail) | eval auth_method=mvmap(authenticationMethod, if(isnull(mvfind('mfaDetail.authMethod',authenticationMethod)), authenticationMethod, null())) | search NOT auth_msg=\"MFA successfully completed\" | rename userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product auth_method auth_msg user_agent signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_authentication_failed_during_mfa_challenge_filter`
+    # Original elastic detection logic
+    # event.dataset: "azure.auditlogs"
+    #     and azure.auditlogs.operation_name: "Suspicious activity reported"
+    #     and azure.auditlogs.properties.additional_details.key: "AuthenticationMethod"
+    #     and azure.auditlogs.properties.target_resources.*.type: "User"
+    #     and event.outcome: "success"
   condition: selection
 level: medium

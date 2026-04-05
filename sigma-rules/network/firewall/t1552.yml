@@ -1,11 +1,11 @@
-title: Cisco SNMP Community String Configuration Changes
-id: 4b90432a-4b90-4b90-ab90-4b90432a0000
+title: FortiGate Configuration File Downloaded
+id: 2d0a2100-2d0a-4d0a-ad0a-2d0a21000000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1552
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_snmp_community_string_configuration_changes.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/collection_fortigate_config_download.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1552
 logsource:
@@ -13,21 +13,9 @@ logsource:
   service: firewall
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     | tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
-    #       WHERE (
-    #             (All_Changes.command="*snmp-server community*rw*")
-    #             OR
-    #             (All_Changes.command="*snmp-server community*ro*")
-    #             OR
-    #             (All_Changes.command="*snmp-server host*")
-    #         )
-    #       BY All_Changes.dvc All_Changes.user
-    #     | `drop_dm_object_name("All_Changes")`
-    #     | rename dvc as dest
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `cisco_snmp_community_string_configuration_changes_filter`
+    # Original elastic detection logic
+    # any where event.dataset == "fortinet_fortigate.log" and
+    #     event.code == "0100032095" and
+    #     fortinet.firewall.action == "download"
   condition: selection
 level: medium

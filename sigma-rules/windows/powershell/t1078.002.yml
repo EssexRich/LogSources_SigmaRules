@@ -1,11 +1,11 @@
-title: Windows PowerView AD Access Control List Enumeration
-id: 2d31990b-2d31-4d31-ad31-2d31990b0000
+title: DMSA Service Account Created in Specific OUs - PowerShell
+id: 2ed228da-2ed2-4ed2-aed2-2ed228da0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1078.002
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_powerview_ad_access_control_list_enumeration.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_create_new_dmsasvc_account.yml
+author: sigma (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1078.002
 logsource:
@@ -13,18 +13,13 @@ logsource:
   service: powershell
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     `powershell` EventCode=4104  (ScriptBlockText=*get-objectacl* OR ScriptBlockText=*Get-DomainObjectAcl*)
-    #       | fillnull
-    #       | stats count min(_time) as firstTime max(_time) as lastTime
-    #         BY dest signature signature_id
-    #            user_id vendor_product EventID
-    #            Guid Opcode Name
-    #            Path ProcessID ScriptBlockId
-    #            ScriptBlockText
-    #       | `security_content_ctime(firstTime)`
-    #       | `security_content_ctime(lastTime)`
-    #       | `windows_powerview_ad_access_control_list_enumeration_filter`
+    # Original sigma detection logic
+    #     selection:
+    #         ScriptBlockText|contains|all:
+    #             - 'New-ADServiceAccount'
+    #             - '-CreateDelegatedServiceAccount'
+    #             - '-path'
+    #     condition: selection
+    # 
   condition: selection
 level: medium

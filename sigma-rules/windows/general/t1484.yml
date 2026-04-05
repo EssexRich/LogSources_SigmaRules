@@ -1,11 +1,11 @@
-title: Creation or Modification of a new GPO Scheduled Task or Service
-id: 5e8acb62-5e8a-4e8a-ae8a-5e8acb620000
+title: AdminSDHolder SDProp Exclusion Added
+id: 29952eb4-2995-4995-a995-29952eb40000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1484
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_gpo_schtask_service_creation.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_sdprop_exclusion_dsheuristics.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1484
 logsource:
@@ -14,12 +14,9 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # file where host.os.type == "windows" and event.type != "deletion" and event.action != "open" and
-    #  file.name : ("ScheduledTasks.xml", "Services.xml") and
-    #   file.path : (
-    #     "?:\\Windows\\SYSVOL\\domain\\Policies\\*\\MACHINE\\Preferences\\ScheduledTasks\\ScheduledTasks.xml",
-    #     "?:\\Windows\\SYSVOL\\domain\\Policies\\*\\MACHINE\\Preferences\\Services\\Services.xml"
-    #   ) and
-    #   not process.executable : "C:\\Windows\\System32\\dfsrs.exe"
+    # any where host.os.type == "windows" and event.code == "5136" and
+    #   winlog.event_data.AttributeLDAPDisplayName : "dSHeuristics" and
+    #   length(winlog.event_data.AttributeValue) > 15 and
+    #   winlog.event_data.AttributeValue regex~ "[0-9]{15}([1-9a-f]).*"
   condition: selection
 level: medium

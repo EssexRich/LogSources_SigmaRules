@@ -1,0 +1,24 @@
+title: Exchange Mailbox Export via PowerShell
+id: 343dd385-343d-443d-a43d-343dd3850000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1074
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/collection_mailbox_export_winlog.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1074
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    # powershell.file.script_block_text : "New-MailboxExportRequest" and
+    # (
+    #   powershell.file.script_block_text : ("-FilePath" or ".pst") and
+    #   powershell.file.script_block_text : ("-Mailbox" or "Get-Mailbox" or "ExportToPSTFile" or "-Identity")
+    # )
+  condition: selection
+level: medium

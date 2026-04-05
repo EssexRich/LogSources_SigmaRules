@@ -1,11 +1,11 @@
-title: Web Shell Detection: Script Process Child of Common Web Processes
-id: 76418bb8-7641-4641-a641-76418bb80000
+title: Microsoft Exchange Worker Spawning Suspicious Processes
+id: 17f0850a-17f0-47f0-a7f0-17f0850a0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1505
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_webshell_detection.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/initial_access_suspicious_ms_exchange_worker_child_process.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1505
 logsource:
@@ -14,39 +14,11 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # host.os.type:windows and event.category:process and event.type:start and process.args : * and
-    #   process.parent.name:("w3wp.exe" or "httpd.exe" or "nginx.exe" or "php.exe" or "php-cgi.exe" or "tomcat.exe" or "ArcSOC.exe") and
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   process.parent.name : "w3wp.exe" and process.parent.args : "MSExchange*AppPool" and
     #   (
-    #     process.name : ("cmd.exe" or "cscript.exe" or "powershell.exe" or "pwsh.exe" or "powershell_ise.exe" or "wmic.exe" or "wscript.exe") or
-    #     process.name.caseless : ("cmd.exe" or "cscript.exe" or "powershell.exe" or "pwsh.exe" or "powershell_ise.exe" or "wmic.exe" or "wscript.exe")
-    #   ) and
-    #   not
-    #   (
-    #     process.command_line : (
-    #       "cmd.exe /c mode CON" or
-    #       "cmd.exe /s /c \"mode CON\"" or
-    #       "cmd.exe /c \"mode\"" or
-    #       "cmd.exe /s /c \"tput colors 2>&1\"" or
-    #       "cmd.exe /s /c \"stty 2> NUL\"" or
-    #       "cmd.exe /s /c \"stty 2>&1\"" or
-    #       "cmd.exe /c \"stty 2>&1\"" or
-    #       "cmd.exe /s /c \"ipconfig /all 2>&1\"" or
-    #       "cmd.exe /s /c \"echo '%os%'\"" or
-    #       *.\\install\\awk.exe*
-    #     ) or
-    #     process.args : (\(git or (*artisan* and *queue\:work*) or *rmdir* or "mode CON" or ver or ls or mode or dir) or
-    # 
-    #     (process.name:cmd.exe and process.parent.args : "c:\\\\xampp\\\\htdocs\\\\open-audit\\\\index.php") or
-    # 
-    #     (process.name:cmd.exe and process.args:("/V:ON" and "--header-html")) or
-    # 
-    #     (process.parent.args:"WebCession" and process.args:E\:\\Data\\CLM\\cession\\*.bat) or
-    # 
-    #     (process.parent.executable :"D:\\AiDKlinik\\php\\php-cgi.exe" and process.args:D\:\\AiDKlinik\\web*) or
-    # 
-    #     (process.parent.args :"E:/wamp64/bin/apache/apache2.4.62.1" and process.args:node*) or
-    # 
-    #     (process.parent.name:"php.exe" and process.name:"cmd.exe" and process.args:("/V:ON" and "/E:ON"))
+    #     (process.name : ("cmd.exe", "powershell.exe", "pwsh.exe", "powershell_ise.exe") or
+    #     ?process.pe.original_file_name in ("Cmd.Exe", "PowerShell.EXE", "pwsh.dll", "powershell_ise.EXE"))
     #   )
   condition: selection
 level: medium

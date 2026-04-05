@@ -1,11 +1,11 @@
-title: Okta Successful Login After Credential Attack
-id: 13f6005e-13f6-43f6-a3f6-13f6005e0000
+title: Multiple Okta User Auth Events with Same Device Token Hash Behind a Proxy
+id: 7a33debe-7a33-4a33-aa33-7a33debe0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1078
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_okta_successful_login_after_credential_attack.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_multiple_auth_events_from_single_device_behind_proxy.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1078
 logsource:
@@ -14,52 +14,8 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # FROM .alerts-security.*, logs-okta.system-* METADATA _id, _version, _index
-    # // Filter for credential attack alerts OR successful Okta authentications
-    # | WHERE
-    #     (
-    #         // Credential attack alerts from the five correlated rules
-    #         kibana.alert.rule.rule_id IN (
-    #             "94e734c0-2cda-11ef-84e1-f661ea17fbce",  // Credential Stuffing
-    #             "42bf698b-4738-445b-8231-c834ddefd8a0",  // Password Spraying
-    #             "23f18264-2d6d-11ef-9413-f661ea17fbce",  // DT Brute Force
-    #             "5889760c-9858-4b4b-879c-e299df493295",  // Distributed Brute Force
-    #             "2d3c27d5-d133-4152-8102-8d051619ec4a"   // Distributed Spray
-    #         )
-    #     )
-    #     OR (
-    #         // Successful Okta authentication events
-    #         event.dataset == "okta.system"
-    #         AND (event.action LIKE "user.authentication.*" OR event.action == "user.session.start")
-    #         AND okta.outcome.result == "SUCCESS"
-    #         AND okta.actor.alternate_id IS NOT NULL
-    #     )
-    # // correlation - alerts may store user/IP in different fields than raw logs
-    # | EVAL
-    #     Esql.user = COALESCE(okta.actor.alternate_id, user.name, user.email),
-    #     Esql.source_ip = COALESCE(okta.client.ip, client.ip, source.ip)
-    # // Must have user identity to correlate
-    # | WHERE Esql.user IS NOT NULL
-    # // Classify events and capture timestamps/IPs by event type
-    # | EVAL
-    #     Esql.is_attack_alert = CASE(
-    #         kibana.alert.rule.rule_id IN (
-    #             "94e734c0-2cda-11ef-84e1-f661ea17fbce",
-    #             "42bf698b-4738-445b-8231-c834ddefd8a0",
-    #             "23f18264-2d6d-11ef-9413-f661ea17fbce",
-    #             "5889760c-9858-4b4b-879c-e299df493295",
-    #             "2d3c27d5-d133-4152-8102-8d051619ec4a"
-    #         ), 1, 0
-    #     ),
-    #     Esql.is_success_login = CASE(
-    #         event.dataset == "okta.system"
-    #         AND okta.outcome.result == "SUCCESS", 1, 0
-    #     ),
-    #     Esql.attack_ip = CASE(
-    #         kibana.alert.rule.rule_id IN (
-    #             "94e734c0-2cda-11ef-84e1-f661ea17fbce",
-    #             "42bf698b-4738-445b-8231-c834ddefd8a0",
-    #             "23f18264-2d6d-11ef
-    # ... [truncated]
+    # event.dataset:okta.system
+    #     and not okta.actor.id:okta* and okta.debug_context.debug_data.dt_hash:*
+    #     and okta.event_type:user.authentication* and okta.security_context.is_proxy:true
   condition: selection
 level: medium

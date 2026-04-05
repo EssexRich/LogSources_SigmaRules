@@ -1,0 +1,24 @@
+title: Potential Admin Group Account Addition
+id: 6229a580-6229-4229-a229-6229a5800000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/privilege_escalation_local_user_added_to_admin.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1098
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.name in ("dscl", "dseditgroup") and process.args like~ ("/Groups/admin", "admin") and process.args like ("-a", "-append") and
+    #  not process.Ext.effective_parent.executable like ("/Library/Application Support/JAMF/Jamf.app/Contents/MacOS/JamfDaemon.app/Contents/MacOS/JamfDaemon",
+    #                                                    "/Library/Application Support/JAMF/Jamf.app/Contents/MacOS/JamfManagementService.app/Contents/MacOS/JamfManagementService",
+    #                                                    "/opt/jc/bin/jumpcloud-agent",
+    #                                                    "/Library/Addigy/go-agent")
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: AWS EC2 Full Network Packet Capture Detected
-id: 3e77f33b-3e77-4e77-ae77-3e77f33b0000
+title: AWS RDS DB Instance Restored
+id: 0f3e2444-0f3e-4f3e-af3e-0f3e24440000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1074
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/exfiltration_ec2_full_network_packet_capture_detected.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_rds_instance_restored.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1074
 logsource:
@@ -14,9 +14,9 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset: "aws.cloudtrail" and 
-    #     event.provider: "ec2.amazonaws.com" and
-    #     event.action: "CreateTrafficMirrorSession" and
-    #     event.outcome: "success"
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "rds.amazonaws.com"
+    #     and event.action: ("RestoreDBInstanceFromDBSnapshot" or "RestoreDBInstanceFromS3")
+    #     and event.outcome: "success"
   condition: selection
 level: medium

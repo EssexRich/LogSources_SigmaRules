@@ -1,0 +1,19 @@
+title: GCP Service Account Key Creation
+id: 35c2656a-35c2-45c2-a5c2-35c2656a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/persistence_gcp_key_created_for_service_account.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1098.001
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:gcp.audit and event.action:google.iam.admin.v*.CreateServiceAccountKey and event.outcome:success
+  condition: selection
+level: medium

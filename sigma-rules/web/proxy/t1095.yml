@@ -1,11 +1,11 @@
-title: Linux Proxy Socks Curl
-id: 5755398d-5755-4755-a755-5755398d0000
+title: Web Server Exploitation Detected via Defend for Containers
+id: 0d5ec4de-0d5e-4d5e-ad5e-0d5ec4de0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1095
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_proxy_socks_curl.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/persistence_suspicious_webserver_child_process_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1095
 logsource:
@@ -13,22 +13,51 @@ logsource:
   service: proxy
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE Processes.process_name=curl Processes.process IN ("*-x *", "*socks4a://*", "*socks5h://*", "*socks4://*","*socks5://*", "*--preproxy *", "--proxy*")
-    #       BY Processes.action Processes.dest Processes.original_file_name
-    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #          Processes.process Processes.process_exec Processes.process_guid
-    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
-    #          Processes.process_name Processes.process_path Processes.user
-    #          Processes.user_id Processes.vendor_product
-    #     | `drop_dm_object_name(Processes)`
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | where match(process, "-x\s") OR match(process, "(?i)socks\d\w?:\/\/
-    #     | --(pre)?proxy")
-    #     | `linux_proxy_socks_curl_filter`
+    # Original elastic detection logic
+    # process where event.type == "start" and event.action == "exec" and process.parent.interactive == false and
+    # container.id like "?*" and (
+    #   process.parent.name in (
+    #     "nginx", "apache2", "httpd", "caddy", "mongrel_rails", "uwsgi", "daphne", "httpd.worker", "flask",
+    #     "php-cgi", "php-fcgi", "php-cgi.cagefs", "lswsctrl", "varnishd", "uvicorn", "waitress-serve", "starman"
+    #   ) or
+    #   process.parent.name like ("php-fpm*", "gunicorn*", "*.cgi", "*.fcgi") or
+    #   (process.parent.name like "ruby*" and process.parent.args like~ ("*puma*", "*rails*", "*passenger*")) or
+    #   (process.parent.name like "python*" and process.parent.args like~ (
+    #     "*hypercorn*", "*flask*", "*uvicorn*", "*django*", "*app.py*", "*server.py*", "*wsgi.py*", "*asgi.py*"
+    #   )) or
+    #   (process.parent.name like "perl*" and process.parent.args like~ "*plackup*") or
+    #   (process.parent.name == "node" and process.parent.args like~ (
+    #     "*next start*", "*--port*", "*PORT=*", "*HOST=*", "*0.0.0.0*", "*/dist/*.js*", "*/build/*.js*", "*/server/*.js*",
+    #     "*/app/*.js*","*/apps/*/*.js*", "*/index.js*", "*/main.js*", "*/srv/*", "*/opt/*", "*/var/www/*"
+    #     ) and
+    #     not process.parent.args like ("/opt/cursor-agent/*", "/home/*/*", "/root/*", "/opt/vscode-server/*", "/usr/lib/node_modules/openclaw/dist/index.js") 
+    #   ) or
+    #   (process.parent.name == "java" and process.parent.args like~ (
+    #     /* Tomcat */
+    #     "org.apache.catalina.startup.Bootstrap", "-Dcatalina.base=*",
+    # 
+    #     /* Jetty */
+    #     "org.eclipse.jetty.start.Main", "-Djetty.home=*",
+    # 
+    #     /* WildFly / JBoss */
+    #     "org.jboss.modules.Main", "-Djboss.home.dir=*",
+    # 
+    #     /* WebLogic */
+    #     "weblogic.Server", "-Dweblogic.Name=*", "*weblogic-launcher.jar*",
+    # 
+    #     /* WebSphere traditional + Liberty */
+    #     "com.ibm.ws.runtime.WsServer", "com.ibm.ws.kernel.boot.cmdline.Bootstrap",
+    # 
+    #     /* GlassFish */
+    #     "com.sun.enterprise.glassfish.bootstrap.ASMain",
+    # 
+    #     /* Resin */
+    #     "com.caucho.server.resin.Resin",
+    # 
+    #     /* Spring Boot */
+    #     "org.springframework.boot.loader.*",
+    # 
+    #     /* Quar
+    # ... [truncated]
   condition: selection
 level: medium

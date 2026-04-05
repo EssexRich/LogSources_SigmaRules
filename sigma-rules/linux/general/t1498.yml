@@ -1,0 +1,21 @@
+title: Nping Process Activity
+id: 56349b81-5634-4634-a634-56349b810000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1498
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/discovery_linux_nping_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1498
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    #  event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
+    #  process.name == "nping"
+  condition: selection
+level: medium

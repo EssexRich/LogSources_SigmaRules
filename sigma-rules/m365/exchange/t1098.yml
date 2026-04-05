@@ -1,11 +1,11 @@
-title: M365 Exchange Management Group Role Assigned
-id: 42a37fd9-42a3-42a3-a2a3-42a37fd90000
+title: M365 Exchange Mailbox Audit Logging Bypass Added
+id: 5a9e77c7-5a9e-4a9e-aa9e-5a9e77c70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1098
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/persistence_exchange_management_role_assignment.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_exchange_mailbox_audit_bypass_association.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1098
 logsource:
@@ -14,6 +14,6 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:o365.audit and event.provider:Exchange and event.category:web and event.action:"New-ManagementRoleAssignment" and event.outcome:success
+    # event.dataset:o365.audit and event.provider:Exchange and event.action:Set-MailboxAuditBypassAssociation and event.outcome:success
   condition: selection
 level: medium

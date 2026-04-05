@@ -1,0 +1,25 @@
+title: Unusual Web Config File Access
+id: 2ae06430-2ae0-4ae0-aae0-2ae064300000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_web_config_file_access.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1005
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:file and host.os.type:windows and event.action:open and
+    #   file.name:"web.config" and file.path : *VirtualDirectories* and
+    #   not process.executable: (
+    #         "C:\Program Files\Microsoft Security Client\MsMpEng.exe" or
+    #         "C:\Program Files\Windows Defender Advanced Threat Protection\MsSense.exe" or
+    #         "C:\Windows\System32\MRT.exe"
+    #   )
+  condition: selection
+level: medium

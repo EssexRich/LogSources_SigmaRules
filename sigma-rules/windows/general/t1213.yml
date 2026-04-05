@@ -1,0 +1,24 @@
+title: Potential Veeam Credential Access Command
+id: 5cad5974-5cad-4cad-acad-5cad59740000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1213
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_veeam_commands.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1213
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   (
+    #     (process.name : "sqlcmd.exe" or ?process.pe.original_file_name : "sqlcmd.exe") or
+    #     process.args : ("Invoke-Sqlcmd", "Invoke-SqlExecute", "Invoke-DbaQuery", "Invoke-SqlQuery")
+    #   ) and
+    #   process.args : "*[VeeamBackup].[dbo].[Credentials]*"
+  condition: selection
+level: medium

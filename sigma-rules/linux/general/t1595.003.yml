@@ -1,0 +1,37 @@
+title: Potential Linux Hack Tool Launched
+id: 70e2982d-70e2-40e2-a0e2-70e2982d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1595.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_potential_hack_tool_executed.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1595.003
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
+    # process.name in~ (
+    #   // exploitation frameworks
+    #   "crackmapexec", "msfconsole", "msfvenom", "sliver-client", "sliver-server", "havoc",
+    #   // network scanners (nmap left out to reduce noise)
+    #   "zenmap", "nuclei", "netdiscover", "legion",
+    #   // web enumeration
+    #   "gobuster", "dirbuster", "dirb", "wfuzz", "ffuf", "whatweb", "eyewitness",
+    #   // web vulnerability scanning
+    #   "wpscan", "joomscan", "droopescan", "nikto",
+    #   // exploitation tools
+    #   "sqlmap", "commix", "yersinia",
+    #   // cracking and brute forcing
+    #   "john", "hashcat", "hydra", "ncrack", "cewl", "fcrackzip", "rainbowcrack",
+    #   // host and network
+    #   "linenum.sh", "linpeas.sh", "pspy32", "pspy32s", "pspy64", "pspy64s", "binwalk", "evil-winrm",
+    #   "linux-exploit-suggester-2.pl", "linux-exploit-suggester.sh", "panix.sh"
+    # )
+  condition: selection
+level: medium

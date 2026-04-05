@@ -1,0 +1,24 @@
+title: Unknown Execution of Binary with RWX Memory Region
+id: 1373d262-1373-4373-a373-1373d2620000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1620
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_unknown_rwx_mem_region_binary_executed.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1620
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:linux and auditd.data.syscall:mprotect and auditd.data.a2:7 and not (
+    #   process.executable:(
+    #     "/usr/share/kibana/node/bin/node" or "/usr/share/elasticsearch/jdk/bin/java" or "/usr/sbin/apache2"
+    #   ) or
+    #   process.name:(httpd or java or node or dotnet or github-desktop or code or tenzir or brave or qemu-* or php* or deno)
+    # )
+  condition: selection
+level: medium

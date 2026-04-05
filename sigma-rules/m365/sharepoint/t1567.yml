@@ -1,0 +1,60 @@
+title: M365 OneDrive/SharePoint Excessive File Downloads
+id: 66b0decb-66b0-46b0-a6b0-66b0decb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/collection_onedrive_excessive_file_downloads.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1567
+logsource:
+  product: m365
+  service: sharepoint
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-o365.audit-* metadata _id, _version, _index
+    # | where
+    #     event.dataset == "o365.audit" and
+    #     event.provider == "OneDrive" and
+    #     event.action == "FileDownloaded" and
+    #     event.outcome == "success"
+    #     and (user.id is not null and o365.audit.ApplicationId is not null)
+    #     and o365.audit.ApplicationId not in (
+    #         "08e18876-6177-487e-b8b5-cf950c1e598c", // SharePoint Online Web Client Extensibility
+    #         "fb8d773d-7ef8-4ec0-a117-179f88add510", // Enterprise Copilot Platform
+    #         "d3590ed6-52b3-4102-aeff-aad2292ab01c", // Microsoft Office
+    #         "7ab7862c-4c57-491e-8a45-d52a7e023983" // App Service
+    #     )
+    # | eval session.id = coalesce(o365.audit.AppAccessContext.AADSessionId, session.id, null)
+    # | where session.id is not null
+    # | eval Esql.time_window_date_trunc = date_trunc(3 minutes, @timestamp)
+    # | stats
+    #     Esql.file_directory_values = values(file.directory),
+    #     Esql.file_extension_values = values(file.extension),
+    #     Esql.application_name_values = values(application.name),
+    #     Esql.file_name_count_distinct = count_distinct(file.name),
+    #     Esql.total_file_size_mb = round((mv_sum(values(file.size))) / 1048576.0, 2),
+    #     Esql.o365_audit_Site_values = values(o365.audit.Site),
+    #     Esql.o365_audit_SiteUrl_values = values(o365.audit.SiteUrl),
+    #     Esql.user_domain_values = values(user.domain),
+    #     Esql.token_id_values = values(token.id),
+    #     Esql.event_code_values = values(event.code),
+    #     Esql.event_provider_values = values(event.provider),
+    #     Esql.auth_type_values = values(o365.audit.AuthenticationType),
+    #     Esql.is_managed_device_values = values(o365.audit.IsManagedDevice),
+    #     Esql.platform_values = values(o365.audit.Platform),
+    #     Esql.user_agent_values = values(user_agent.name),
+    #     Esql.source_asn_org_values = values(source.as.organization.name),
+    #     Esql.geo_country_values = values(source.geo.country_name),
+    #     Esql.event_count = count(*)
+    #     by
+    #     Esql.time_window_date_trunc,
+    #     user.id,
+    #     session.id,
+    #     source.ip,
+    #     o365.audit.ApplicationI
+    # ... [truncated]
+  condition: selection
+level: medium

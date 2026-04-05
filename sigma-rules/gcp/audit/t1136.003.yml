@@ -1,0 +1,19 @@
+title: GCP Service Account Creation
+id: 44323ef0-4432-4432-a432-44323ef00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1136.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/persistence_gcp_service_account_created.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1136.003
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:gcp.audit and event.action:google.iam.admin.v*.CreateServiceAccount and event.outcome:success
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: Creation of Hidden Login Item via Apple Script
-id: 67fb23ee-67fb-47fb-a7fb-67fb23ee0000
+title: SoftwareUpdate Preferences Modification
+id: 3fc10da3-3fc1-4fc1-afc1-3fc10da30000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1647
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_creation_hidden_login_item_osascript.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_apple_softupdates_modification.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1647
 logsource:
@@ -14,7 +14,8 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "macos" and event.type in ("start", "process_started") and process.name == "osascript" and
-    #  process.command_line : "osascript*login item*hidden:true*"
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.name == "defaults" and
+    #  process.args like "write" and process.args like "-bool" and process.args like~ ("com.apple.SoftwareUpdate", "/Library/Preferences/com.apple.SoftwareUpdate.plist") and not process.args like ("TRUE", "true")
   condition: selection
 level: medium

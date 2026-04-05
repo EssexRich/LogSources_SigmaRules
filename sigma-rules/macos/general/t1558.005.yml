@@ -1,0 +1,21 @@
+title: Kerberos Cached Credentials Dumping
+id: 1c1ef4da-1c1e-4c1e-ac1e-1c1ef4da0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1558.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_kerberosdump_kcc.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1558.005
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #   process.name == "kcc" and
+    #   process.args like~ "copy_cred_cache"
+  condition: selection
+level: medium

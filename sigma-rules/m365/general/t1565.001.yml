@@ -1,0 +1,23 @@
+title: Deprecated - M365 Security Compliance Potential Ransomware Activity
+id: 7c30e1cf-7c30-4c30-ac30-7c30e1cf0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1565.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/impact_security_compliance_potential_ransomware_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1565.001
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit and
+    #     event.provider:SecurityComplianceCenter and
+    #     event.category:web and
+    #     rule.name:("Ransomware activity" or "Potential ransomware activity") and
+    #     event.outcome:success
+  condition: selection
+level: medium

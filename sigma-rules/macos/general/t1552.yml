@@ -1,0 +1,20 @@
+title: First Time Python Accessed Sensitive Credential Files
+id: 23e77196-23e7-43e7-a3e7-23e771960000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/credential_access_python_sensitive_file_access_first_occurrence.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1552
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:file and host.os.type:macos and event.action:open and
+    # process.name:python*
+  condition: selection
+level: medium

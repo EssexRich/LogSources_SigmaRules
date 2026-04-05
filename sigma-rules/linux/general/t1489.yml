@@ -1,11 +1,11 @@
-title: Suspicious Termination of ESXI Process
-id: 4daa6885-4daa-4daa-adaa-4daa68850000
+title: Kill Command Execution
+id: 5af00c24-5af0-4af0-aaf0-5af00c240000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1489
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/impact_esxi_process_kill.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_kill_command_executed.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1489
 logsource:
@@ -14,7 +14,15 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "end" and process.name in ("vmware-vmx", "vmx")
-    # and process.parent.name == "kill"
+    # event.category:process and host.os.type:linux and event.type:start and event.action:exec and
+    # process.name:(kill or pkill or killall) and not (
+    #   process.args:("-HUP" or "-SIGUSR1" or "-USR2" or "-WINCH" or "-USR1") or
+    #   process.parent.command_line:"runc init" or
+    #   process.parent.executable:(
+    #     "/usr/lib/systemd/systemd" or "/usr/local/qualys/cloud-agent/bin/qualys-cloud-agent" or "/bin/xargs" or
+    #     "/usr/bin/xargs" or "/usr/bin/sudo" or "/usr/sbin/safe_asterisk" or "/usr/local/manageengine/uems_agent/bin/dcservice" or
+    #     "/lib/systemd/systemd" or "/opt/nessus_agent/sbin/nessuscli" or "/etc/rubrik/start_stop_bootstrap.sh" or
+    #     "/usr/local/manageengine/uems_agent/bin/dcpatchscan")
+    # )
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: Suspicious Dynamic Linker Discovery via od
-id: 18e0602c-18e0-48e0-a8e0-18e0602c0000
+title: Potential Linux Credential Dumping via Proc Filesystem
+id: 5fb8cd8a-5fb8-4fb8-afb8-5fb8cd8a0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1057
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/discovery_dynamic_linker_via_od.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_proc_credential_dumping.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1057
 logsource:
@@ -14,10 +14,10 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started")
-    #  and process.name == "od" and process.args in (
-    #   "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2", "/etc/ld.so.preload", "/lib64/ld-linux-x86-64.so.2",
-    #   "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2", "/usr/lib64/ld-linux-x86-64.so.2"
-    # )
+    # sequence by host.id, process.parent.name with maxspan=1m
+    #   [process where host.os.type == "linux" and process.name == "ps" and event.action in ("exec", "start", "exec_event")
+    #    and process.args in ("-eo", "pid", "command")]
+    #   [process where host.os.type == "linux" and process.name == "strings" and event.action in ("exec", "start", "exec_event")
+    #    and process.args : "/tmp/*"]
   condition: selection
 level: medium

@@ -1,0 +1,22 @@
+title: AWS Route 53 Private Hosted Zone Associated With a VPC
+id: 26a5ae8f-26a5-46a5-a6a5-26a5ae8f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1557
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_route_53_hosted_zone_associated_with_a_vpc.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1557
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: aws.cloudtrail 
+    #     and event.provider: route53.amazonaws.com 
+    #     and event.action: AssociateVPCWithHostedZone 
+    #     and event.outcome: success
+  condition: selection
+level: medium

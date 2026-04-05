@@ -1,0 +1,54 @@
+title: Potential PowerShell HackTool Script by Function Names
+id: 56409a10-5640-4640-a640-56409a100000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_posh_hacktool_functions.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1567.002
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    #   powershell.file.script_block_text : (
+    #     "Add-DomainGroupMember" or "Add-DomainObjectAcl" or
+    #     "Add-RemoteConnection" or "Add-ServiceDacl" or
+    #     "Add-Win32Type" or "Convert-ADName" or
+    #     "Convert-LDAPProperty" or "ConvertFrom-LDAPLogonHours" or
+    #     "ConvertFrom-UACValue" or "Copy-ArrayOfMemAddresses" or
+    #     "Create-NamedPipe" or "Create-ProcessWithToken" or
+    #     "Create-RemoteThread" or "Create-SuspendedWinLogon" or
+    #     "Create-WinLogonProcess" or "Emit-CallThreadStub" or
+    #     "Enable-SeAssignPrimaryTokenPrivilege" or "Enable-SeDebugPrivilege" or
+    #     "Enum-AllTokens" or "Export-PowerViewCSV" or
+    #     "Find-AVSignature" or "Find-AppLockerLog" or
+    #     "Find-DomainLocalGroupMember" or "Find-DomainObjectPropertyOutlier" or
+    #     "Find-DomainProcess" or "Find-DomainShare" or
+    #     "Find-DomainUserEvent" or "Find-DomainUserLocation" or
+    #     "Find-InterestingDomainAcl" or "Find-InterestingDomainShareFile" or
+    #     "Find-InterestingFile" or "Find-LocalAdminAccess" or
+    #     "Find-PSScriptsInPSAppLog" or "Find-PathDLLHijack" or
+    #     "Find-ProcessDLLHijack" or "Find-RDPClientConnection" or
+    #     "Get-AllAttributesForClass" or "Get-CachedGPPPassword" or
+    #     "Get-DecryptedCpassword" or "Get-DecryptedSitelistPassword" or
+    #     "Get-DelegateType" or "New-RelayEnumObject" or
+    #     "Get-DomainDFSShare" or "Get-DomainDFSShareV1" or
+    #     "Get-DomainDFSShareV2" or "Get-DomainDNSRecord" or
+    #     "Get-DomainDNSZone" or "Get-DomainFileServer" or
+    #     "Get-DomainForeignGroupMember" or "Get-DomainForeignUser" or
+    #     "Get-DomainGPO" or "Get-DomainGPOComputerLocalGroupMapping" or
+    #     "Get-DomainGPOLocalGroup" or "Get-DomainGPOUserLocalGroupMapping" or
+    #     "Get-DomainGUIDMap" or "Get-DomainGroup" or
+    #     "Get-DomainGroupMember" or "Get-DomainGroupMemberDeleted" or
+    #     "Get-DomainManagedSecurityGroup" or "Get-DomainOU" or
+    #     "Get-DomainObject" or "Get-DomainObjectAcl" or
+    #     "Get-DomainObjectAttributeHistory" or "Get-DomainObjectLinkedAttributeHistory" or
+    #     "
+    # ... [truncated]
+  condition: selection
+level: medium

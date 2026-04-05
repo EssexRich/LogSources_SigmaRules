@@ -1,11 +1,11 @@
-title: Google Workspace 2SV Policy Disabled
-id: 781f748f-781f-481f-a81f-781f748f0000
+title: Google Workspace MFA Enforcement Disabled
+id: 7aeb0a38-7aeb-4aeb-aaeb-7aeb0a380000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1556
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/persistence_google_workspace_2sv_policy_disabled.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/impact_google_workspace_mfa_enforcement_disabled.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1556
 logsource:
@@ -14,6 +14,8 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:"google_workspace.login" and event.action:"2sv_disable"
+    # event.dataset:google_workspace.admin and event.provider:admin
+    #   and event.category:iam and event.action:ENFORCE_STRONG_AUTHENTICATION
+    #   and google_workspace.admin.new_value:false
   condition: selection
 level: medium

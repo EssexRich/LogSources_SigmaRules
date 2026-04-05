@@ -1,0 +1,28 @@
+title: Signed Proxy Execution via MS Work Folders
+id: 189e4416-189e-489e-a89e-189e44160000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.008
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_workfolders_control_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1574.008
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #   process.name : "control.exe" and process.parent.name : "WorkFolders.exe" and
+    #   not process.executable : (
+    #     "?:\\Windows\\System32\\control.exe",
+    #     "?:\\Windows\\SysWOW64\\control.exe",
+    # 
+    #     /* Crowdstrike specific condition as it uses NT Object paths */
+    #     "\\Device\\HarddiskVolume*\\Windows\\System32\\control.exe",
+    #     "\\Device\\HarddiskVolume*\\Windows\\SysWOW64\\control.exe"
+    #   )
+  condition: selection
+level: medium

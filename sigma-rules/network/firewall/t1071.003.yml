@@ -1,11 +1,11 @@
-title: Windows Multi hop Proxy TOR Website Query
-id: 44823702-4482-4482-a482-448237020000
+title: SMTP on Port 26/TCP
+id: 20c0e937-20c0-40c0-a0c0-20c0e9370000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1071.003
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/network/windows_multi_hop_proxy_tor_website_query.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_port_26_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1071.003
 logsource:
@@ -13,18 +13,7 @@ logsource:
   service: firewall
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     `sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionrouter.com")
-    #       | stats count min(_time) as firstTime max(_time) as lastTime
-    #         BY answer answer_count dvc
-    #            process_exec process_guid process_name
-    #            query query_count reply_code_id
-    #            signature signature_id src
-    #            user_id vendor_product QueryName
-    #            QueryResults QueryStatus
-    #       | `security_content_ctime(firstTime)`
-    #       | `security_content_ctime(lastTime)`
-    #       | `windows_multi_hop_proxy_tor_website_query_filter`
+    # Original elastic detection logic
+    # (event.dataset: (network_traffic.flow or zeek.smtp) or event.category:(network or network_traffic)) and network.transport:tcp and destination.port:26
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: Potential Webshell Deployed via Apache Struts CVE-2023-50164 Exploitation
-id: 3eb3d802-3eb3-4eb3-aeb3-3eb3d8020000
+title: Potential SAP NetWeaver WebShell Creation
+id: 17c7e2a2-17c7-47c7-a7c7-17c7e2a20000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1505
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/initial_access_apache_struts_cve_2023_50164_exploitation_to_webshell.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_sap_netweaver_jsp_webshell.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1505
 logsource:
@@ -14,19 +14,11 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by agent.id with maxspan=10s
-    #   [network where data_stream.dataset == "network_traffic.http" and
-    #       http.request.method == "POST" and
-    #       http.request.body.content like "*WebKitFormBoundary*" and
-    #       url.path like~ "*upload*.action"]
-    #   [file where event.dataset == "endpoint.events.file" and
-    #       host.os.type == "linux" and
-    #       event.action == "creation" and
-    #       process.name == "java" and
-    #       file.extension == "jsp" and
-    #       file.path like "*/webapps/*" and
-    #       not file.path like "*/WEB-INF/*" and
-    #       not file.path like "*/META-INF/*" and
-    #       not process.parent.name in ("apk", "apt", "apt-get", "dpkg", "yum", "rpm", "dnf", "systemd", "init")]
+    # file where host.os.type in ("linux", "windows") and event.action == "creation" and
+    #  file.extension : ("jsp", "java", "class") and
+    #  file.path : ("/*/sap.com/*/servlet_jsp/irj/root/*",
+    #               "/*/sap.com/*/servlet_jsp/irj/work/*",
+    #               "?:\\*\\sap.com\\*\\servlet_jsp\\irj\\root\\*",
+    #               "?:\\*\\sap.com\\*\\servlet_jsp\\irj\\work\\*")
   condition: selection
 level: medium

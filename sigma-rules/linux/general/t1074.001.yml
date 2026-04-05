@@ -1,0 +1,44 @@
+title: Potential OpenSSH Backdoor Logging Activity
+id: 749f7e91-749f-449f-a49f-749f7e910000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1074.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_ssh_backdoor_log.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1074.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "linux" and event.type == "creation" and process.name in ("ssh", "sshd") and
+    #   (
+    #     (
+    #       file.name : (".*", "~*", "*~") and not file.name : (
+    #         ".cache", ".viminfo", ".bash_history", ".google_authenticator", ".jelenv", ".csvignore", ".rtreport", ".git*"
+    #       )
+    #     ) or
+    #     file.extension : ("in", "out", "ini", "h", "gz", "so", "sock", "sync", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9") or
+    #     file.path :
+    #     (
+    #       "/tmp/*",
+    #       "/var/tmp/*",
+    #       "/dev/shm/*",
+    #       "/usr/share/*",
+    #       "/usr/include/*",
+    #       "/usr/local/include/*",
+    #       "/usr/share/man/*",
+    #       "/usr/local/share/*",
+    #       "/usr/lib/*.so.*",
+    #       "/usr/bin/ssd",
+    #       "/var/run/sshd/sshd.pid",
+    #       "/var/run/nscd/ns.pid",
+    #       "/var/run/udev/ud.pid",
+    #       "/var/run/udevd.pid"
+    #     )
+    #   )
+  condition: selection
+level: medium

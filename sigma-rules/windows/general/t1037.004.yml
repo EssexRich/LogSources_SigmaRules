@@ -1,0 +1,75 @@
+title: GenAI Process Accessing Sensitive Files
+id: 79fdb3e0-79fd-49fd-a9fd-79fdb3e00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1037.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_genai_process_sensitive_file_access.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1037.004
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where event.action in ("open", "creation", "modification") and event.outcome == "success" and
+    # 
+    #   // GenAI process 
+    #     (
+    #       process.name in (
+    #         "ollama.exe", "ollama", "Ollama",
+    #         "textgen.exe", "textgen", "text-generation-webui.exe", "oobabooga.exe",
+    #         "lmstudio.exe", "lmstudio", "LM Studio",
+    #         "claude.exe", "claude", "Claude",
+    #         "cursor.exe", "cursor", "Cursor",
+    #         "copilot.exe", "copilot", "Copilot",
+    #         "codex.exe", "codex",
+    #         "Jan", "jan.exe", "jan",
+    #         "gpt4all.exe", "gpt4all", "GPT4All",
+    #         "gemini-cli.exe", "gemini-cli",
+    #         "genaiscript.exe", "genaiscript",
+    #         "grok.exe", "grok",
+    #         "qwen.exe", "qwen",
+    #         "koboldcpp.exe", "koboldcpp", "KoboldCpp",
+    #         "llama-server", "llama-cli"
+    #       ) or
+    #       // OpenClaw/Moltbot/Clawdbot via Node.js
+    #       (process.name in ("node", "node.exe") and
+    #        process.command_line like~ ("*openclaw*", "*moltbot*", "*clawdbot*"))
+    #     ) and
+    # 
+    #   // Sensitive file paths
+    #   (
+    #     // Persistence via Shell configs
+    #     file.name in (".bashrc", ".bash_profile", ".zshrc", ".zshenv", ".zprofile", ".profile", ".bash_logout") or
+    # 
+    #     // Credentials In Files 
+    #     file.name like~ 
+    #                  ("key?.db", 
+    #                   "logins.json", 
+    #                   "Login Data", 
+    #                   "Local State",
+    #                   "signons.sqlite",
+    #                   "Cookies", 
+    #                   "cookies.sqlite",
+    #                   "Cookies.binarycookies", 
+    #                   "login.keychain-db", 
+    #                   "System.keychain", 
+    #                   "credentials.db", 
+    #                   "credentials", 
+    #                   "access_tokens.db", 
+    #                   "accessTokens.json", 
+    #                   "azureProfile.json",
+    #                   "RDCMan.settings", 
+    #                   "known_hosts", 
+    #                   "KeePass.config.xml", 
+    #                   "Unattended.xml")
+    #   ) and not (
+    #     host.os.type == "windows" and
+    #     process.name : ("claude.exe", "Claude") and
+    #     fi
+    # ... [truncated]
+  condition: selection
+level: medium

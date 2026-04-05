@@ -1,11 +1,11 @@
-title: AWS RDS Snapshot Export
-id: 1617aee6-1617-4617-a617-1617aee60000
+title: AWS Secrets Manager Rapid Secrets Retrieval
+id: 7b80dcf4-7b80-4b80-ab80-7b80dcf40000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1213.006
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/exfiltration_rds_snapshot_export.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_rapid_secret_retrieval_attempts_from_secretsmanager.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1213.006
 logsource:
@@ -14,9 +14,13 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset: aws.cloudtrail 
-    #     and event.provider: rds.amazonaws.com 
-    #     and event.action: StartExportTask 
-    #     and event.outcome: success
+    # event.dataset: "aws.cloudtrail" 
+    #     and event.provider: "secretsmanager.amazonaws.com" 
+    #     and event.action: "GetSecretValue" 
+    #     and event.outcome: "success" 
+    #     and not (
+    #         user_agent.name: ("Chrome" or "Firefox" or "Safari" or "Edge" or "Brave" or "Opera") 
+    #         or source.address: ("kafka.amazonaws.com" or "apidestinations.events.amazonaws.com")
+    #     )
   condition: selection
 level: medium

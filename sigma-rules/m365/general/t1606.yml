@@ -1,0 +1,28 @@
+title: M365 Identity Unusual SSO Authentication Errors for User
+id: 0b388a18-0b38-4b38-ab38-0b388a180000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1606
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/initial_access_identity_unusual_sso_errors_for_user.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1606
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:o365.audit
+    #     and event.provider:AzureActiveDirectory
+    #     and event.category:authentication
+    #     and o365.audit.ErrorNumber:(
+    #         20001 or 20012 or 20033 or 40008 or 40009 or 40015 or
+    #         50006 or 50008 or 50012 or 50013 or 50027 or 50048 or
+    #         50099 or 50132 or 75005 or 75008 or 75011 or 75016 or
+    #         81004 or 81009 or 81010 or 399284 or 500212 or 500213 or
+    #         700005 or 5000819
+    #     )
+  condition: selection
+level: medium

@@ -1,0 +1,23 @@
+title: Potential Fake CAPTCHA Phishing Attack
+id: 10403323-1040-4040-a040-104033230000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1189
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_windows_fakecaptcha_cmd_ps.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1189
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #  process.name : ("powershell.exe", "cmd.exe", "mshta.exe") and process.parent.name : "explorer.exe" and
+    #  process.command_line : ("*recaptcha *", "*CAPTCHA Verif*", "*complete verification*", "*Verification ID*", "*Verification Code*", "*Verification UID*",
+    #                          "*hυmаn vаlіdаtiοn*", "*human ID*", "*Action Identificator*", "*not a robot*", "*Click OK to*", "*anti-robot test*",
+    #                          "*Cloudflare ID*")
+  condition: selection
+level: medium

@@ -1,0 +1,21 @@
+title: Persistence via Microsoft Outlook VBA
+id: 27616fd3-2761-4761-a761-27616fd30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1137.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_ms_outlook_vba_template.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1137.001
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "windows" and event.type != "deletion" and
+    #   file.name : "VbaProject.OTM" and
+    #   file.path : ("?:\\Users\\*\\AppData\\Roaming\\Microsoft\\Outlook\\VbaProject.OTM", "\\Device\\HarddiskVolume*\\Users\\*\\AppData\\Roaming\\Microsoft\\Outlook\\VbaProject.OTM")
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: Kubectl Permission Discovery
-id: 027aa4a9-027a-427a-a27a-027aa4a90000
+title: Potential Kubectl Masquerading via Unexpected Process
+id: 2778c081-2778-4778-a778-2778c0810000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1613
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/discovery_kubectl_permission_discovery.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_potential_kubectl_masquerading.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1613
 logsource:
@@ -15,7 +15,31 @@ detection:
   selection:
     # Original elastic detection logic
     # process where host.os.type in ("linux", "macos") and event.type == "start" and
-    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
-    # process.name == "kubectl" and process.args == "auth" and process.args == "can-i"
+    # event.action in ("exec", "exec_event", "start", "executed", "process_started") and
+    # (
+    #   process.executable like~ (
+    #     "/tmp/*", "/private/tmp/*", "/var/tmp/*", "/private/var/tmp/*", "/dev/shm/*", "/root/*", "/var/www/*", "/home/*", "/Users/*", "./kubectl"
+    #   ) or
+    #   process.name like ".*"
+    # ) and
+    # process.args like~ (
+    # 
+    #   // get and describe commands
+    #   "*get po*", "*get deploy*", "*get node*", "*get svc*", "*get service*", "*get secret*", "*get clusterrole*", "*get ingress*",
+    #   "*get configmap*", "*describe po*", "*describe deploy*", "*describe node*", "*describe svc*", "*describe service*",
+    #   "*describe secret*", "*describe configmap*", "*describe clusterrole*", "*describe ingress*",
+    #   
+    #   // exec commands
+    #   "*exec -it*", "*exec --stdin*", "*exec --tty*",
+    #   
+    #   // networking commands
+    #   "*port-forward* ", "*proxy --port*", "*run --image=*", "*expose*",
+    # 
+    #   // authentication/impersonation commands
+    #   "*auth can-i*", "*--kubeconfig*", "*--as *", "*--as=*", "*--as-group*", "*--as-uid*"
+    # ) and not (
+    #   process.executable like "/tmp/newroot/*" or
+    #   process.name == ".flatpak-wrapped"
+    # )
   condition: selection
 level: medium

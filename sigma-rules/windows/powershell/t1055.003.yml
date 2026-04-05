@@ -1,0 +1,29 @@
+title: Potential Process Injection via PowerShell
+id: 12f4efe4-12f4-42f4-a2f4-12f4efe40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1055.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_posh_process_injection.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1055.003
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    #   powershell.file.script_block_text : (
+    #    (VirtualAlloc or VirtualAllocEx or VirtualProtect or LdrLoadDll or LoadLibrary or LoadLibraryA or
+    #       LoadLibraryEx or GetProcAddress or OpenProcess or OpenProcessToken or AdjustTokenPrivileges) and
+    #    (WriteProcessMemory or CreateRemoteThread or NtCreateThreadEx or CreateThread or QueueUserAPC or
+    #       SuspendThread or ResumeThread or GetDelegateForFunctionPointer)
+    #   ) and not 
+    #   file.directory: (
+    #     "C:\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\SenseCM" or
+    #     "C:\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Downloads"
+    #   )
+  condition: selection
+level: medium

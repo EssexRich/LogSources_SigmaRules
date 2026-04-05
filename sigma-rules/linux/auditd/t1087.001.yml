@@ -1,0 +1,24 @@
+title: Potential Meterpreter Reverse Shell
+id: 2eda91cd-2eda-4eda-aeda-2eda91cd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_shell_via_meterpreter_linux.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1087.001
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # sample by host.id, process.pid, user.id
+    #   [file where host.os.type == "linux" and auditd.data.syscall == "open" and auditd.data.a2 == "1b6" and file.path == "/etc/machine-id"]
+    #   [file where host.os.type == "linux" and auditd.data.syscall == "open" and auditd.data.a2 == "1b6" and file.path == "/etc/passwd"]
+    #   [file where host.os.type == "linux" and auditd.data.syscall == "open" and auditd.data.a2 == "1b6" and file.path == "/proc/net/route"]
+    #   [file where host.os.type == "linux" and auditd.data.syscall == "open" and auditd.data.a2 == "1b6" and file.path == "/proc/net/ipv6_route"]
+    #   [file where host.os.type == "linux" and auditd.data.syscall == "open" and auditd.data.a2 == "1b6" and file.path == "/proc/net/if_inet6"]
+  condition: selection
+level: medium

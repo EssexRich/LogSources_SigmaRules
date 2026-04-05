@@ -1,11 +1,11 @@
-title: AWS RDS DB Instance Restored
-id: 3927eb25-3927-4927-a927-3927eb250000
+title: AWS EC2 Serial Console Access Enabled
+id: 781a887d-781a-481a-a81a-781a887d0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1578
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_rds_instance_restored.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_ec2_serial_console_access_enabled.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1578
 logsource:
@@ -15,8 +15,8 @@ detection:
   selection:
     # Original elastic detection logic
     # event.dataset: "aws.cloudtrail"
-    #     and event.provider: "rds.amazonaws.com"
-    #     and event.action: ("RestoreDBInstanceFromDBSnapshot" or "RestoreDBInstanceFromS3")
+    #     and event.provider: "ec2.amazonaws.com"
+    #     and event.action: "EnableSerialConsoleAccess"
     #     and event.outcome: "success"
   condition: selection
 level: medium

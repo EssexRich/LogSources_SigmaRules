@@ -1,0 +1,32 @@
+title: Script Interpreter Spawning Credential Scanner - Linux
+id: 6d62c967-6d62-4d62-ad62-6d62c9670000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_susp_script_interpretor_spawn_credential_scanner.yml
+author: sigma (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1005
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_parent:
+    #         ParentImage|endswith:
+    #          # Add more script interpreters as needed
+    #             - '/node'
+    #             - '/bun'
+    #     selection_child:
+    #         - Image|endswith:
+    #               - '/trufflehog'
+    #               - '/gitleaks'
+    #         - CommandLine|contains:
+    #               - 'trufflehog'
+    #               - 'gitleaks'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

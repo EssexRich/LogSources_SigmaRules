@@ -1,11 +1,11 @@
-title: Privilege Escalation via GDB CAP_SYS_PTRACE
-id: 6240170b-6240-4240-a240-6240170b0000
+title: Linux Process Hooking via GDB
+id: 3b0a6e5d-3b0a-4b0a-ab0a-3b0a6e5d0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1055.008
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_gdb_sys_ptrace_elevation.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_gdb_process_hooking.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1055.008
 logsource:
@@ -14,11 +14,9 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by host.id, process.entry_leader.entity_id with maxspan=1m
-    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.name == "gdb" and
-    #    (process.thread.capabilities.effective : "CAP_SYS_PTRACE" or process.thread.capabilities.permitted : "CAP_SYS_PTRACE") and
-    #    user.id != "0"]
-    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
-    #    process.name != null and user.id == "0"]
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started")
+    #  and process.name == "gdb" and process.args in ("--pid", "-p") and
+    # /* Covered by d4ff2f53-c802-4d2e-9fb9-9ecc08356c3f */
+    # process.args != "1"
   condition: selection
 level: medium

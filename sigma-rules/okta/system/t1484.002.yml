@@ -1,0 +1,19 @@
+title: Attempt to Deactivate an Okta Network Zone
+id: 18bc83be-18bc-48bc-a8bc-18bc83be0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1484.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/defense_evasion_attempt_to_deactivate_okta_network_zone.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1484.002
+logsource:
+  product: okta
+  service: system
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:okta.system and event.action:zone.deactivate
+  condition: selection
+level: medium

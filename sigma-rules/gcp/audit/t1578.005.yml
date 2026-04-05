@@ -1,0 +1,19 @@
+title: GCP Storage Bucket Configuration Modification
+id: 39540856-3954-4954-a954-395408560000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1578.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/defense_evasion_gcp_storage_bucket_configuration_modified.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1578.005
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset:gcp.audit and event.action:"storage.buckets.update" and event.outcome:success
+  condition: selection
+level: medium

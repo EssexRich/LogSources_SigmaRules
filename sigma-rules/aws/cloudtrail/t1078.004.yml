@@ -1,11 +1,11 @@
-title: AWS Management Console Root Login
-id: 399057e1-3990-4990-a990-399057e10000
+title: AWS EC2 Unauthorized Admin Credential Fetch via Assumed Role
+id: 6b6da0d6-6b6d-4b6d-ab6d-6b6da0d60000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1078.004
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/initial_access_console_login_root.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_aws_getpassword_for_ec2_instance.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1078.004
 logsource:
@@ -14,10 +14,8 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:aws.cloudtrail and 
-    # event.provider:signin.amazonaws.com and 
-    # event.action:ConsoleLogin and 
-    # aws.cloudtrail.user_identity.type:Root and 
-    # event.outcome:success
+    # event.dataset:"aws.cloudtrail"
+    #     and event.provider:"ec2.amazonaws.com" and event.action:"GetPasswordData"
+    #     and aws.cloudtrail.user_identity.type:"AssumedRole" and aws.cloudtrail.error_code:"Client.UnauthorizedOperation"
   condition: selection
 level: medium

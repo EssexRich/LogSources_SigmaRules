@@ -1,0 +1,21 @@
+title: Kubectl Permission Discovery
+id: 29b29352-29b2-49b2-a9b2-29b293520000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1069
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/discovery_kubectl_permission_discovery.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1069
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type in ("linux", "macos") and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
+    # process.name == "kubectl" and process.args == "auth" and process.args == "can-i"
+  condition: selection
+level: medium

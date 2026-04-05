@@ -1,11 +1,11 @@
-title: Potential Okta Brute Force (Multi-Source)
-id: 2b95989b-2b95-4b95-ab95-2b95989b0000
+title: Attempts to Brute Force an Okta User Account
+id: 44d27659-44d2-44d2-a4d2-44d276590000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1110.001
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_okta_brute_force_multi_source.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_attempts_to_brute_force_okta_user_account.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1110.001
 logsource:
@@ -14,42 +14,6 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # FROM logs-okta.system-* METADATA _id, _version, _index
-    # | WHERE event.dataset == "okta.system"
-    #     AND (event.action LIKE "user.authentication.*" OR event.action == "user.session.start")
-    #     AND okta.outcome.reason IN ("INVALID_CREDENTIALS", "LOCKED_OUT")
-    #     AND okta.actor.alternate_id IS NOT NULL
-    # 
-    # // Create source mapping for analyst context
-    # | EVAL Esql.source_info = CONCAT(
-    #     "{\"ip\":\"", COALESCE(okta.client.ip::STRING, "unknown"),
-    #     "\",\"country\":\"", COALESCE(client.geo.country_name, "unknown"),
-    #     "\",\"asn\":\"", COALESCE(source.as.organization.name, "unknown"),
-    #     "\",\"user_agent\":\"", COALESCE(okta.client.user_agent.raw_user_agent, "unknown"), "\"}"
-    #   )
-    # 
-    # | STATS
-    #     Esql.unique_source_ips = COUNT_DISTINCT(okta.client.ip),
-    #     Esql.total_attempts = COUNT(*),
-    #     Esql.unique_user_agents = COUNT_DISTINCT(okta.client.user_agent.raw_user_agent),
-    #     Esql.unique_dt_hashes = COUNT_DISTINCT(okta.debug_context.debug_data.dt_hash),
-    #     Esql.unique_asns = COUNT_DISTINCT(source.as.number),
-    #     Esql.unique_countries = COUNT_DISTINCT(client.geo.country_name),
-    #     Esql.first_seen = MIN(@timestamp),
-    #     Esql.last_seen = MAX(@timestamp),
-    #     Esql.source_ip_values = VALUES(okta.client.ip),
-    #     Esql.source_mapping = VALUES(Esql.source_info),
-    #     Esql.event_action_values = VALUES(event.action),
-    #     Esql.user_agent_values = VALUES(okta.client.user_agent.raw_user_agent),
-    #     Esql.device_values = VALUES(okta.client.device),
-    #     Esql.is_proxy_values = VALUES(okta.security_context.is_proxy),
-    #     Esql.geo_country_values = VALUES(client.geo.country_name),
-    #     Esql.geo_city_values = VALUES(client.geo.city_name),
-    #     Esql.source_asn_values = VALUES(source.as.number),
-    #     Esql.source_asn_org_values = VALUES(source.as.organization.name),
-    #     Esql.threat_suspected_values = VALUES(okta.debug_context.debug_data.threat_suspected),
-    #     Esql.risk_level_values = VALUES(okta.debug_context.debug_data.risk_level),
-    #     Esql.risk_reasons_values = VALUES(okta.debug_context.debug_data.risk_
-    # ... [truncated]
+    # event.dataset:okta.system and event.action:user.account.lock
   condition: selection
 level: medium

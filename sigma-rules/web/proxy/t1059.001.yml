@@ -1,11 +1,11 @@
-title: Windows SSH Proxy Command
-id: 7c6d3a2d-7c6d-4c6d-ac6d-7c6d3a2d0000
+title: Proxy Execution via Console Window Host
+id: 1f6a9dd4-1f6a-4f6a-af6a-1f6a9dd40000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1059.001
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_ssh_proxy_command.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_indirect_exec_conhost.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1059.001
 logsource:
@@ -13,43 +13,9 @@ logsource:
   service: proxy
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     | tstats `security_content_summariesonly`
-    #       count min(_time) as firstTime
-    #             max(_time) as lastTime
-    # 
-    #     from datamodel=Endpoint.Processes where
-    # 
-    #     Processes.parent_process_name="ssh.exe"
-    #     (
-    #       Processes.parent_process = "*ProxyCommand=*"
-    #       OR
-    #       (
-    #         Processes.parent_process = "* PermitLocalCommand=yes*"
-    #         Processes.parent_process = "* LocalCommand=*"
-    #       )
-    #     )
-    # 
-    #     Processes.process IN (
-    #       "*cscript*",
-    #       "*http*",
-    #       "*mshta*",
-    #       "*powershell*",
-    #       "*pwsh*",
-    #       "*wmic*",
-    #       "*wscript*"
-    #     )
-    # 
-    #     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-    #        Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #        Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
-    #        Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id
-    #        Processes.vendor_product
-    # 
-    #     | `drop_dm_object_name(Processes)`
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `windows_ssh_proxy_command_filter`
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #  process.name : "conhost.exe" and process.args : "--headless" and
+    #   process.command_line : ("*powershell*", "*cmd *", "*cmd.exe *", "*script*", "*mshta*", "*curl *", "*curl.exe *", "*^*^*^*", "*.bat*", "*.cmd*", "*schtasks*", "*@SSL*", "*http*", "* \\\\*", "*.vbs*", "*.js*", "*mhsta*")
   condition: selection
 level: medium

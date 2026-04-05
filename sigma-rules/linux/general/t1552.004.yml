@@ -1,0 +1,47 @@
+title: Sensitive Keys Or Passwords Search Detected via Defend for Containers
+id: 3f2adab8-3f2a-4f2a-af2a-3f2adab80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/credential_access_sensitive_keys_or_passwords_search_inside_a_container.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1552.004
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and (
+    #   process.name in ("grep", "egrep", "fgrep", "find", "locate", "mlocate", "cat", "sed", "awk") or
+    #   (
+    #     /* account for tools that execute utilities as a subprocess, in this case the target utility name will appear as a process arg */
+    #     process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "busybox") and
+    #     process.args in (
+    #       "grep", "/bin/grep", "/usr/bin/grep", "/usr/local/bin/grep",
+    #       "egrep", "/bin/egrep", "/usr/bin/egrep", "/usr/local/bin/egrep",
+    #       "fgrep", "/bin/fgrep", "/usr/bin/fgrep", "/usr/local/bin/fgrep",
+    #       "find", "/bin/find", "/usr/bin/find", "/usr/local/bin/find",
+    #       "locate", "/bin/locate", "/usr/bin/locate", "/usr/local/bin/locate",
+    #       "mlocate", "/bin/mlocate", "/usr/bin/mlocate", "/usr/local/bin/mlocate",
+    #       "cat", "/bin/cat", "/usr/bin/cat", "/usr/local/bin/cat",
+    #       "sed", "/bin/sed", "/usr/bin/sed", "/usr/local/bin/sed",
+    #       "awk", "/bin/awk", "/usr/bin/awk", "/usr/local/bin/awk"
+    #     ) and 
+    #     /* default exclusion list to not FP on default multi-process commands */
+    #     not process.args in (
+    #       "which", "/bin/which", "/usr/bin/which", "/usr/local/bin/which",
+    #       "man", "/bin/man", "/usr/bin/man", "/usr/local/bin/man",
+    #       "chmod", "/bin/chmod", "/usr/bin/chmod", "/usr/local/bin/chmod",
+    #       "chown", "/bin/chown", "/usr/bin/chown", "/usr/local/bin/chown"
+    #     )
+    #   )
+    # ) and
+    # process.args like~ (
+    #   "*BEGIN PRIVATE*", "*BEGIN OPENSSH PRIVATE*", "*BEGIN RSA PRIVATE*", "*BEGIN DSA PRIVATE*", "*BEGIN EC PRIVATE*",
+    #   "*password*", "*ssh*", "*id_rsa*", "*id_dsa*"
+    # ) and process.interactive == true and container.id like "*"
+  condition: selection
+level: medium

@@ -1,0 +1,19 @@
+title: First Time Seen Driver Loaded
+id: 500d6bfd-500d-400d-a00d-500d6bfd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_driver_newterm_imphash.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1547.006
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:"driver" and host.os.type:windows and event.action:"load"
+  condition: selection
+level: medium

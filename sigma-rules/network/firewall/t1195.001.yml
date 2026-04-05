@@ -1,0 +1,22 @@
+title: Network Connection to OAST Domain via Script Interpreter
+id: 292cfa47-292c-492c-a92c-292cfa470000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1195.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/command_and_control_network_connection_to_oast_domain.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1195.001
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=1m
+    #   [process where host.os.type == "macos" and event.type == "start" and event.action == "exec" and
+    #     (process.name == "node" or process.name like ("python*", "ruby*", "perl*"))]
+    #   [network where host.os.type == "macos" and event.type == "start" and destination.domain like "*.oast*"]
+  condition: selection
+level: medium

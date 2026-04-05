@@ -1,11 +1,11 @@
-title: Potential Privacy Control Bypass via Localhost Secure Copy
-id: 18386615-1838-4838-a838-183866150000
+title: Potential Privacy Control Bypass via TCCDB Modification
+id: 3170dc66-3170-4170-a170-3170dc660000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1548
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_privilege_escalation_privacy_pref_sshd_fulldiskaccess.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_privacy_controls_tcc_database_modification.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1548
 logsource:
@@ -14,10 +14,8 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
-    #  process.name == "scp" and
-    #  process.args like~ "StrictHostKeyChecking=no" and
-    #  process.command_line like~ ("*scp *localhost:/*", "*scp *127.0.0.?:/*") and
-    #  not process.command_line like~ "*vagrant@*127.0.0.1*"
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and process.name == "sqlite*" and
+    #  process.args like "/*/Application Support/com.apple.TCC/TCC.db" and
+    #  (process.parent.name like~ ("osascript", "bash", "sh", "zsh", "Terminal", "Python*") or (process.parent.code_signature.exists == false or process.parent.code_signature.trusted == false))
   condition: selection
 level: medium

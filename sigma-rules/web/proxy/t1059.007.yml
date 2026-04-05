@@ -1,0 +1,61 @@
+title: Unusual Process Spawned from Web Server Parent
+id: 360d399e-360d-460d-a60d-360d399e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_web_server_sus_child_spawned.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1059.007
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-endpoint.events.process-* metadata _id, _index, _version
+    # | mv_expand event.action
+    # | where
+    #     host.os.type == "linux" and
+    #     event.type == "start" and
+    #     event.action == "exec" and (
+    #       (
+    #         process.parent.name in (
+    #             "apache", "nginx", "apache2", "httpd", "lighttpd", "caddy", "mongrel_rails", "gunicorn",
+    #             "uwsgi", "openresty", "cherokee", "h2o", "resin", "puma", "unicorn", "traefik", "tornado", "hypercorn",
+    #             "daphne", "twistd", "yaws", "webfsd", "httpd.worker", "flask", "rails", "mongrel", "php-cgi",
+    #             "php-fcgi", "php-cgi.cagefs", "catalina.sh", "hiawatha", "lswsctrl"
+    #         ) or
+    #         process.parent.name like "php-fpm*" or
+    #         user.name in ("apache", "www-data", "httpd", "nginx", "lighttpd", "tomcat", "tomcat8", "tomcat9") or
+    #         user.id in ("33", "498", "48") or
+    #         (process.parent.name == "java" and process.parent.working_directory like "/u0?/*") or
+    #         process.parent.working_directory like "/var/www/*"
+    #       )
+    #     ) and (
+    #         process.name in (
+    #           "bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "socat", "openssl", "busybox",
+    #           "nc", "ncat", "netcat", "nc.openbsd", "nc.traditional", "nohup", "setsid", "mkfifo", "mknod",
+    #           "node", "socket"
+    #         ) or
+    #         process.name like "python*" or
+    #         process.name like "php*" or
+    #         process.name like "perl" or
+    #         process.name like "ruby*" or
+    #         process.name like "lua*" or
+    #         process.executable like "/tmp/*" or
+    #         process.executable like "/var/tmp/*" or
+    #         process.executable like "/dev/shm/*" or
+    #         process.executable like "/var/log/*" or
+    #         process.executable like "/sys/*" or
+    #         process.executable like "/media/*" or
+    #         process.executable like "/proc/*" or
+    #         process.executable like "/var/backups/*" or
+    #         process.executable like "/var/mail/*" or
+    #         process.executable like "/var/spool/*" or
+    #         process.executable like "/var/www/*" or
+    #  
+    # ... [truncated]
+  condition: selection
+level: medium

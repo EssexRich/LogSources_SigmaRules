@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1036.007
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_double_extension.yml
 author: sigma (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1036.007
 logsource:
@@ -48,7 +48,9 @@ detection:
     #     #     TargetFilename|contains:
     #     #         - '\AppData\Roaming\Microsoft\Office\Recent\'
     #     #         - '\AppData\Roaming\Microsoft\Windows\Recent\'
-    #     condition: 1 of selection_*
+    #     filter_icons_linux:
+    #         TargetFilename|startswith: '/usr/share/icons/'
+    #     condition: 1 of selection_* and not 1 of filter_*
     # 
   condition: selection
 level: medium

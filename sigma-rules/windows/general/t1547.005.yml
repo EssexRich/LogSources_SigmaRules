@@ -1,0 +1,19 @@
+title: Mimikatz Memssp Log File Detected
+id: 30dafc7a-30da-40da-a0da-30dafc7a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1547.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_mimikatz_memssp_default_logs.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1547.005
+logsource:
+  product: windows
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type == "windows" and file.name : "mimilsa.log" and process.name : "lsass.exe"
+  condition: selection
+level: medium

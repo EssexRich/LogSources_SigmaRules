@@ -1,0 +1,37 @@
+title: IPv4/IPv6 Forwarding Activity
+id: 37e20d01-37e2-47e2-a7e2-37e20d010000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1090.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_ip_forwarding_activity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1090.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "start", "exec_event", "ProcessRollup2") and
+    # ?process.parent.executable != null and process.command_line like (
+    #   "*net.ipv4.ip_forward*", "*/proc/sys/net/ipv4/ip_forward*", "*net.ipv6.conf.all.forwarding*",
+    #   "*/proc/sys/net/ipv6/conf/all/forwarding*"
+    # ) and (
+    #   (process.name == "sysctl" and process.args like ("*-w*", "*--write*", "*=*")) or
+    #   (
+    #     process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and process.args == "-c" and
+    #     process.command_line like "*echo *"
+    #   )
+    # ) and
+    # not (
+    #   process.parent.name like~ ("privsep-helper", "platform-python*", "init.ipv6-global", "wsl-bootstrap") or
+    #   ?process.parent.executable == "/usr/sbin/sshd" or
+    #   ?process.parent.args in (
+    #     "/usr/lib/pritunl/usr/bin/pritunl", "/usr/bin/dockerd-rootless.sh", "/etc/rc.d/init.d/network", "/etc/rc0.d/K90network"
+    #   )  or
+    #   ?process.parent.args like "/etc/untangle/post-network-hook.d/*"
+    # )
+  condition: selection
+level: medium

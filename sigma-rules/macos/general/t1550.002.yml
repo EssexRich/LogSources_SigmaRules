@@ -1,0 +1,25 @@
+title: Potential Kerberos Attack via Bifrost
+id: 6401e8d6-6401-4401-a401-6401e8d60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/lateral_movement_credential_access_kerberos_bifrostconsole.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1550.002
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
+    #  process.args like~ "-action" and
+    #  (
+    #   process.args like~ ("-kerberoast", "askhash", "asktgs", "asktgt", "s4u") or
+    #   (process.args like~ "-ticket" and process.args like~ "ptt") or
+    #   (process.args like~ "dump" and process.args in~ ("tickets", "keytab"))
+    #  )
+  condition: selection
+level: medium

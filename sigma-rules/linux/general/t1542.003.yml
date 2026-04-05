@@ -1,0 +1,24 @@
+title: Initramfs Unpacking via unmkinitramfs
+id: 23f36a73-23f3-43f3-a3f3-23f36a730000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1542.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_unpack_initramfs_via_unmkinitramfs.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1542.003
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed") and
+    # process.name == "unmkinitramfs" and not (
+    #   ?process.parent.executable == "/usr/bin/lsinitramfs" or
+    #   ?process.working_directory == "/usr/local/nutanix/ngt/python/bin"
+    # )
+  condition: selection
+level: medium

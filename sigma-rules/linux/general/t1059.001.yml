@@ -1,0 +1,42 @@
+title: Potential SAP NetWeaver Exploitation
+id: 46fbcefe-46fb-46fb-a6fb-46fbcefe0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_sap_netweaver_webshell_exec.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1059.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where event.type == "start" and host.os.type in ("linux", "windows") and
+    #    process.name : ("sh",
+    #                    "bash",
+    #                    "dash",
+    #                    "ksh",
+    #                    "tcsh",
+    #                    "zsh",
+    #                    "curl",
+    #                    "perl*",
+    #                    "python*",
+    #                    "ruby*",
+    #                    "php*",
+    #                    "wget",
+    #                    "cmd.exe",
+    #                    "powershell.exe",
+    #                    "rundll32.exe",
+    #                    "msbuild.exe",
+    #                    "curl.exe",
+    #                    "certutil.exe") and
+    #    (
+    #     process.working_directory : ("/*/sap.com*/servlet_jsp/irj/*", "*\\sap.com*\\servlet_jsp\\irj\\*") or
+    #     process.command_line : ("*/sap.com*/servlet_jsp/irj/*", "*\\sap.com*\\servlet_jsp\\irj\\*") or
+    #     process.parent.command_line : ("*/sap.com*/servlet_jsp/irj/*", "*\\sap.com*\\servlet_jsp\\irj\\*")
+    #    )
+  condition: selection
+level: medium

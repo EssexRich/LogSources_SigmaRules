@@ -1,0 +1,29 @@
+title: Email Attachments With Lots Of Spaces
+id: 708837a1-7088-4088-a088-708837a10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.008
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/email_attachments_with_lots_of_spaces.yml
+author: splunk (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1036.008
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     | tstats `security_content_summariesonly` count values(All_Email.recipient) as recipient_address min(_time) as firstTime max(_time) as lastTime FROM datamodel=Email
+    #       WHERE All_Email.file_name="*"
+    #       BY All_Email.src_user, All_Email.file_name All_Email.message_id
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `drop_dm_object_name("All_Email")`
+    #     | eval space_ratio = (mvcount(split(file_name," "))-1)/len(file_name)
+    #     | search space_ratio >= 0.1
+    #     | rex field=recipient_address "(?<recipient_user>.*)@"
+    #     | `email_attachments_with_lots_of_spaces_filter`
+  condition: selection
+level: medium

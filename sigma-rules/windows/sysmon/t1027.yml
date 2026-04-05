@@ -1,11 +1,11 @@
-title: Wermgr Process Create Executable File
-id: 2160b576-2160-4160-a160-2160b5760000
+title: Suspicious Windows Powershell Arguments
+id: 0cfbe674-0cfb-4cfb-acfb-0cfbe6740000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1027
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/wermgr_process_create_executable_file.yml
-author: splunk (via IncidentBuddy)
-date: 2026-03-29
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_windows_powershell_susp_args.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
 tags:
   - attack.t1027
 logsource:
@@ -13,15 +13,77 @@ logsource:
   service: sysmon
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     `sysmon` EventCode=11 process_name = "wermgr.exe" TargetFilename = "*.exe"
-    #       | stats  min(_time) as firstTime max(_time) as lastTime count
-    #         BY action dest file_name
-    #            file_path process_guid process_id
-    #            user_id vendor_product
-    #       | `security_content_ctime(firstTime)`
-    #       | `security_content_ctime(lastTime)`
-    #       | `wermgr_process_create_executable_file_filter`
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    #  process.name : "powershell.exe" and
+    # 
+    #   not (
+    #     ?user.id == "S-1-5-18" and
+    #     /* Don't apply the user.id exclusion to Sysmon for compatibility */
+    #     not event.dataset : ("windows.sysmon_operational", "windows.sysmon")
+    #   ) and
+    # 
+    #   not process.parent.executable : (
+    #         "?:\\Program Files\\*.exe",
+    #         "?:\\Program Files (x86)\\*.exe"
+    #   ) and
+    # 
+    #   (
+    #     process.command_line : (
+    #           "*^*^*^*^*^*^*^*^*^*",
+    #           "*`*`*`*`*",
+    #           "*+*+*+*+*+*+*",
+    #           "*[char[]](*)*-join*",
+    #           "*Base64String*",
+    #           "*[*Convert]*",
+    #           "*.Compression.*",
+    #           "*-join($*",
+    #           "*.replace*",
+    #           "*MemoryStream*",
+    #           "*WriteAllBytes*",
+    #           "* -enc *",
+    #           "* -ec *",
+    #           "* /e *",
+    #           "* /enc *",
+    #           "* /ec *",
+    #           "*WebClient*",
+    #           "*DownloadFile*",
+    #           "*DownloadString*",
+    #           "* iex*",
+    #           "* iwr*",
+    #           "* aQB3AHIAIABpA*",
+    #           "*Reflection.Assembly*",
+    #           "*Assembly.GetType*",
+    #           "*$env:temp\\*start*",
+    #           "*powercat*",
+    #           "*nslookup -q=txt*",
+    #           "*$host.UI.PromptForCredential*",
+    #           "*Net.Sockets.TCPClient*",
+    #           "*curl *;Start*",
+    #           "powershell.exe \"<#*",
+    #           "*ssh -p *",
+    #           "*http*|iex*",
+    #           "*@SSL\\DavWWWRoot\\*.ps1*",
+    #           "*.lnk*.Seek(0x*",
+    #           "*[string]::join(*",
+    #           "*[Array]::Reverse($*",
+    #           "* hidden $(gc *",
+    #           "*=wscri& set*",
+    #           "*http'+'s://*",
+    #           "*.content|i''Ex*",
+    #           "*//:sptth*",
+    #           "*//:ptth*",
+    #           "*h''t''t''p*",
+    #           "*'tp'':''/'*",
+    #           "*$env:T\"E\"MP*",
+    #           "*;cmd /c $?",
+    #           "*s''t''a''r*",
+    #           "*$*=Get-Content*AppData*.SubString(*$*",
+    #           "*=cat *AppData*.substring(*);*$*",
+    #           "*-join'';*|powershell*",
+    #           "*.Content;sleep *|powershell*",
+    #           "*h\''t\''tp:\''*",
+    #     
+    # ... [truncated]
   condition: selection
 level: medium

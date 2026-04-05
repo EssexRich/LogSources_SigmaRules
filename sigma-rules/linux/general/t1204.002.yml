@@ -1,11 +1,11 @@
-title: Encoded Payload Detected via Defend for Containers
-id: 2b302baf-2b30-4b30-ab30-2b302baf0000
+title: Masquerading Space After Filename
+id: 6fe46ca4-6fe4-4fe4-afe4-6fe46ca40000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1204.002
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/defense_evasion_potential_evasion_via_encoded_payload.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_masquerading_space_after_filename.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1204.002
 logsource:
@@ -14,16 +14,14 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.interactive == true and (
-    #   (process.name in ("base64", "base64plain", "base64url", "base64mime", "base64pem", "base32", "base16") and process.args like~ "*-*d*") or
-    #   (process.name == "xxd" and process.args like~ ("-*r*", "-*p*")) or
-    #   (process.name == "openssl" and process.args == "enc" and process.args in ("-d", "-base64", "-a")) or
-    #   (process.name like "python*" and (
-    #     (process.args == "base64" and process.args in ("-d", "-u", "-t")) or
-    #     (process.args == "-c" and process.args like "*base64*" and process.args like "*b64decode*")
-    #   )) or
-    #   (process.name like "perl*" and process.args like "*decode_base64*") or
-    #   (process.name like "ruby*" and process.args == "-e" and process.args like "*Base64.decode64*")
-    # ) and container.id like "?*"
+    # process where host.os.type:("linux","macos") and event.type == "start" and
+    # process.executable regex~ """/[a-z0-9\s_\-\\./]+\s""" and not (
+    #   process.name in ("ls", "find", "grep", "xkbcomp") or
+    #   process.executable like ("/opt/nessus_agent/*", "/opt/gitlab/sv/gitlab-exporter/*", "/tmp/ansible-admin/*") or
+    #   process.parent.args in (
+    #     "./check_rubrik", "/usr/bin/check_mk_agent", "/etc/rubrik/start_stop_bootstrap.sh", "/etc/rubrik/start_stop_agent.sh"
+    #   ) or
+    #   process.args == "runc"
+    # )
   condition: selection
 level: medium

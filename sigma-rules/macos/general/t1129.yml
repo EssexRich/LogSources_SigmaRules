@@ -1,0 +1,24 @@
+title: Unusual Library Load via Python
+id: 619f7ae4-619f-419f-a19f-619f7ae40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1129
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/execution_unusual_library_load_via_python.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1129
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # library where host.os.type == "macos" and event.action == "load" and
+    #   dll.path like "/Users/*" and
+    #   process.name like "python*" and
+    #   not dll.name like ("*.so", "*.dylib", "Python", "*.*_extension", "*.dylib.*") and
+    #   not dll.path like ("*/site-packages/*/Qt*/lib/Qt*.framework/Versions/*/Qt*",
+    #                      "/Users/*/.pyenv/versions/*/lib/python*/site-packages/*")
+  condition: selection
+level: medium

@@ -1,0 +1,21 @@
+title: Potential SSH Password Grabbing via strace
+id: 16dc29cc-16dc-46dc-a6dc-16dc29cc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1056
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_ssh_password_grabbing_via_strace.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1056
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id with maxspan=3s
+    #   [process where host.os.type == "linux" and event.type == "end" and process.name == "sshd"]
+    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.name == "strace"]
+  condition: selection
+level: medium

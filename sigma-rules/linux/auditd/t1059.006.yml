@@ -1,0 +1,34 @@
+title: Potential Reverse Shell via UDP
+id: 2fffaad5-2fff-4fff-afff-2fffaad50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_shell_via_udp_cli_utility_linux.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-05
+tags:
+  - attack.t1059.006
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # sample by host.id, process.pid, process.parent.pid
+    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "executed" and process.name : (
+    #     "bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "perl", "python*", "nc", "ncat", "netcat", "php*",
+    #     "ruby", "openssl", "awk", "telnet", "lua*", "socat"
+    #     ) and
+    #     not process.args in ("/var/www/MISP/app/Console/cake", "/var/www/MISP/app", "/usr/local/bin/wp")]
+    #   [process where host.os.type == "linux" and auditd.data.syscall == "socket" and process.name : (
+    #     "bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "perl", "python*", "nc", "ncat", "netcat", "php*",
+    #     "ruby", "openssl", "awk", "telnet", "lua*", "socat"
+    #     ) and auditd.data.a1 == "2"]
+    #   [network where host.os.type == "linux" and event.type == "start" and event.action == "connected-to" and
+    #    process.name : (
+    #     "bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "perl", "python*", "nc", "ncat", "netcat", "php*",
+    #     "ruby", "openssl", "awk", "telnet", "lua*", "socat"
+    #     ) and network.direction == "egress" and destination.ip != null and
+    #    not cidrmatch(destination.ip, "127.0.0.0/8", "169.254.0.0/16", "224.0.0.0/4", "::1")]
+  condition: selection
+level: medium

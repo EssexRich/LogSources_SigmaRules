@@ -1,11 +1,11 @@
-title: AWS IAM Roles Anywhere Profile Creation
-id: 34dfec42-34df-44df-a4df-34dfec420000
+title: AWS IAM User Addition to Group
+id: 3fd4c5c7-3fd4-4fd4-afd4-3fd4c5c70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1098.003
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_iam_roles_anywhere_profile_created.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_iam_user_addition_to_group.toml
 author: elastic (via IncidentBuddy)
-date: 2026-03-29
+date: 2026-04-05
 tags:
   - attack.t1098.003
 logsource:
@@ -14,9 +14,9 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset: aws.cloudtrail
-    #     and event.provider: rolesanywhere.amazonaws.com
-    #     and event.action: CreateProfile
-    #     and event.outcome: success
+    # event.dataset: aws.cloudtrail and 
+    #     event.provider: iam.amazonaws.com and 
+    #     event.action: AddUserToGroup and 
+    #     event.outcome: success
   condition: selection
 level: medium
