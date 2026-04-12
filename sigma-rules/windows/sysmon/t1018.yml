@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1018
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_enumerating_domain_trusts_via_nltest.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1018
 logsource:
@@ -24,7 +24,7 @@ detection:
     # not (
     #   user.id in ("S-1-5-18", "S-1-5-19", "S-1-5-20") and
     #   /* Don't apply the user.id exclusion to Sysmon for compatibility */
-    #   not event.dataset : ("windows.sysmon_operational", "windows.sysmon")
+    #   not data_stream.dataset : ("windows.sysmon_operational", "windows.sysmon")
     # )
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1098.004
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/lateral_movement_ec2_instance_connect_ssh_public_key_uploaded.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1098.004
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset: aws.cloudtrail
+    # data_stream.dataset: aws.cloudtrail
     #     and event.provider: ec2-instance-connect.amazonaws.com
     #     and event.action: (SendSSHPublicKey or SendSerialConsoleSSHPublicKey)
     #     and event.outcome: success

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1098.005
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_aws_attempt_to_register_virtual_mfa_device.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1098.005
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # iam where event.dataset == "aws.cloudtrail"
+    # iam where data_stream.dataset == "aws.cloudtrail"
     #   and event.provider == "iam.amazonaws.com"
     #   and event.outcome == "success"
     #   and event.action in ("CreateVirtualMFADevice", "EnableMFADevice")

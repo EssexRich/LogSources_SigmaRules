@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1087
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_d4c_k8s_mda_kubernetes_api_activity_by_unusual_utilities.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1087
 logsource:
@@ -47,8 +47,8 @@ detection:
     #      )
     #    )] by orchestrator.resource.name
     #   [any where
-    #      event.dataset == "kubernetes.audit_logs" and
-    #      kubernetes.audit.stage in ("Respons
+    #      data_stream.dataset == "kubernetes.audit_logs" and
+    #      kubernetes.audit.stage in ("R
     # ... [truncated]
   condition: selection
 level: medium

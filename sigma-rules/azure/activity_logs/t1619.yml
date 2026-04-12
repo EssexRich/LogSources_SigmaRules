@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1619
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/discovery_storage_blob_container_access_modification.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1619
 logsource:
@@ -14,6 +14,6 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:azure.activitylogs and azure.activitylogs.operation_name:"MICROSOFT.STORAGE/STORAGEACCOUNTS/BLOBSERVICES/CONTAINERS/WRITE" and event.outcome:(Success or success)
+    # data_stream.dataset:azure.activitylogs and azure.activitylogs.operation_name:"MICROSOFT.STORAGE/STORAGEACCOUNTS/BLOBSERVICES/CONTAINERS/WRITE" and event.outcome:(Success or success)
   condition: selection
 level: medium

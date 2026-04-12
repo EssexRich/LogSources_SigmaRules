@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1491
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_s3_static_site_js_file_uploaded.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1491
 logsource:
@@ -18,7 +18,7 @@ detection:
     # 
     # | where
     #     // S3 object write activity
-    #     event.dataset == "aws.cloudtrail"
+    #     data_stream.dataset == "aws.cloudtrail"
     #     and event.provider == "s3.amazonaws.com"
     #     and event.action == "PutObject"
     #     and event.outcome == "success"

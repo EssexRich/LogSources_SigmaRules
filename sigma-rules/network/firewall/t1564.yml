@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1564
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_frequent_egress_netcon_from_sus_executable.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1564
 logsource:
@@ -60,7 +60,7 @@ detection:
     #     destination.ip,
     #     agent.id,
     #     host.name,
-    #     event.dataset,
+    #     data_stream.dataset,
     #     data_stream.namespace
     # 
     # | stats
@@ -68,8 +68,8 @@ detection:
     #     Esql.agent_id_count_distinct = count_distinct(agent.id),
     #     Esql.host_name_values = values(host.name),
     #     Esql.agent_id_values = values(agent.id),
-    #     Esql.event_dataset_values = values(event.dataset),
-    #     Esql.data_stream_na
+    #     Esql.data_stream_dataset_values = values(data_stream.dataset),
+    #     E
     # ... [truncated]
   condition: selection
 level: medium

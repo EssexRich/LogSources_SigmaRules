@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1484
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_teams_custom_app_interaction_allowed.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1484
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:o365.audit and event.provider:MicrosoftTeams and
+    # data_stream.dataset:o365.audit and event.provider:MicrosoftTeams and
     # event.category:web and event.action:TeamsTenantSettingChanged and
     # o365.audit.Name:"Allow sideloading and interaction of custom apps" and
     # o365.audit.NewValue:True and event.outcome:success

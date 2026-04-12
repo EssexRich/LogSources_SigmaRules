@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1489
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/defense_evasion_gcp_pub_sub_subscription_deletion.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1489
 logsource:
@@ -14,6 +14,6 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:gcp.audit and event.action:google.pubsub.v*.Subscriber.DeleteSubscription and event.outcome:success
+    # data_stream.dataset:gcp.audit and event.action:google.pubsub.v*.Subscriber.DeleteSubscription and event.outcome:success
   condition: selection
 level: medium

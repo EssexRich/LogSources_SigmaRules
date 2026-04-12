@@ -1,11 +1,11 @@
-title: AWS Credentials Searched For Inside A Container
-id: 1dfba29d-1dfb-4dfb-adfb-1dfba29d0000
+title: AWS IAM Long-Term Access Key Correlated with Elevated Detection Alerts
+id: 2c87c4e3-2c87-4c87-ac87-2c87c4e30000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1552
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_aws_creds_search_inside_container.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_iam_long_term_access_key_correlated_with_elevated_detection_alerts.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1552
 logsource:
@@ -14,12 +14,52 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
-    # process.entry_leader.entry_meta.type == "container" and
-    # process.name in ("grep", "egrep", "fgrep", "find", "locate", "mlocate", "cat", "sed", "awk") and
-    # process.command_line like~ (
-    #   "*aws_access_key_id*", "*aws_secret_access_key*", "*aws_session_token*", "*accesskeyid*", "*secretaccesskey*",
-    #   "*access_key*", "*.aws/credentials*"
-    # )
+    # from .alerts-security.* METADATA _id, _version, _index
+    # 
+    # // Sibling rule: AWS Long-Term Access Key First Seen from Source IP
+    # // rule_id = 9f8e3c5e-f72e-4e91-93f6-e98a4fae3e4f
+    # 
+    # | where kibana.alert.workflow_status == "open"
+    #     and event.kind == "signal"
+    #     and source.ip is not null
+    #     and kibana.alert.rule.name is not null
+    #     and not kibana.alert.rule.type in ("threat_match", "machine_learning")
+    #     and not kibana.alert.rule.name like "Deprecated - *"
+    #     and not KQL("""kibana.alert.rule.tags : "Rule Type: Higher-Order Rule" """)
+    #     and (
+    #         kibana.alert.rule.rule_id == "9f8e3c5e-f72e-4e91-93f6-e98a4fae3e4f"
+    #         or kibana.alert.risk_score >= 47
+    #         or kibana.alert.severity in ("medium", "high", "critical")
+    #     )
+    # 
+    # | eval Esql.is_long_term_key_new_ip_rule = kibana.alert.rule.rule_id == "9f8e3c5e-f72e-4e91-93f6-e98a4fae3e4f"
+    # | eval Esql.is_other_elevated_rule = kibana.alert.rule.rule_id != "9f8e3c5e-f72e-4e91-93f6-e98a4fae3e4f"
+    #     and (
+    #         kibana.alert.risk_score >= 47
+    #         or kibana.alert.severity in ("medium", "high", "critical")
+    #     )
+    # 
+    # | stats
+    #     Esql.alert_count_long_term_key_new_ip_rule = SUM(CASE(Esql.is_long_term_key_new_ip_rule, 1, 0)),
+    #     Esql.alert_count_other_elevated_rule = SUM(CASE(Esql.is_other_elevated_rule, 1, 0)),
+    #     Esql.kibana_alert_rule_name_values = VALUES(kibana.alert.rule.name),
+    #     Esql.kibana_alert_rule_id_values = VALUES(kibana.alert.rule.rule_id),
+    #     Esql.kibana_alert_risk_score_values = VALUES(kibana.alert.risk_score),
+    #     Esql.kibana_alert_severity_values = VALUES(kibana.alert.severity),
+    #     Esql.user_entity_id_values = VALUES(user.entity.id),
+    #     Esql.timestamp_min = MIN(@timestamp),
+    #     Esql.timestamp_max = MAX(@timestamp)
+    #   by source.ip
+    # 
+    # | where Esql.alert_count_long_term_key_new_ip_rule > 0
+    #     and Esql.alert_count_other_elevated_rule > 0
+    # 
+    # | keep
+    #     source.ip,
+    #     Esql.alert_count_long_term_key_new_ip_rule,
+    #     Esql.alert_count_other_elevated_rule,
+    #     Esql.kibana_alert_rule_name_values,
+    #     Esql.kibana_ale
+    # ... [truncated]
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1530
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/collection_onedrive_excessive_file_downloads.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1530
 logsource:
@@ -16,7 +16,7 @@ detection:
     # Original elastic detection logic
     # from logs-o365.audit-* metadata _id, _version, _index
     # | where
-    #     event.dataset == "o365.audit" and
+    #     data_stream.dataset == "o365.audit" and
     #     event.provider == "OneDrive" and
     #     event.action == "FileDownloaded" and
     #     event.outcome == "success"
@@ -54,7 +54,7 @@ detection:
     #     user.id,
     #     session.id,
     #     source.ip,
-    #     o365.audit.ApplicationI
+    #     o365.audit.Applic
     # ... [truncated]
   condition: selection
 level: medium

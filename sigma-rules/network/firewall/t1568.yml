@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1568
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_cobalt_strike_beacon.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1568
 logsource:
@@ -15,7 +15,7 @@ detection:
   selection:
     # Original elastic detection logic
     # ((event.category: (network OR network_traffic) AND type: (tls OR http))
-    #     OR event.dataset: (network_traffic.tls OR network_traffic.http)
+    #     OR data_stream.dataset: (network_traffic.tls OR network_traffic.http)
     # ) AND destination.domain:/[a-z]{3}.stage.[0-9]{8}\..*/
   condition: selection
 level: medium

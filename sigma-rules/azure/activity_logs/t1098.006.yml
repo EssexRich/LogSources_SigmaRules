@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1098.006
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/privilege_escalation_kubernetes_aks_rolebinding_created.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1098.006
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:azure.activitylogs and azure.activitylogs.operation_name:
+    # data_stream.dataset:azure.activitylogs and azure.activitylogs.operation_name:
     # 	("MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/ROLEBINDINGS/WRITE" or
     # 	 "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/CLUSTERROLEBINDINGS/WRITE") and
     # event.outcome:(Success or success)

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1110.004
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_entra_id_brute_force_activity.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1110.004
 logsource:
@@ -20,7 +20,7 @@ detection:
     # | eval Esql.time_window_date_trunc = date_trunc(15 minutes, @timestamp)
     # 
     # // Filter relevant failed authentication events with specific error codes
-    # | where event.dataset == "azure.signinlogs"
+    # | where data_stream.dataset == "azure.signinlogs"
     #     and event.category == "authentication"
     #     and azure.signinlogs.category in ("NonInteractiveUserSignInLogs", "SignInLogs")
     #     and event.outcome == "failure"
@@ -53,7 +53,7 @@ detection:
     # 
     # | stats
     #     Esql.azure_signinlogs_properties_authentication_requirement_values = values(azure.signinlogs.properties.authentication_requirement),
-    #     Esq
+    #  
     # ... [truncated]
   condition: selection
 level: medium

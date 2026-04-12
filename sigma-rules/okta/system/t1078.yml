@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1078
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_multiple_auth_events_from_single_device_behind_proxy.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1078
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:okta.system
+    # data_stream.dataset:okta.system
     #     and not okta.actor.id:okta* and okta.debug_context.debug_data.dt_hash:*
     #     and okta.event_type:user.authentication* and okta.security_context.is_proxy:true
   condition: selection

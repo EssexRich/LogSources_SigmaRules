@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1566.002
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/initial_access_okta_fastpass_phishing.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1566.002
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:okta.system and event.category:authentication and
+    # data_stream.dataset:okta.system and event.category:authentication and
     #   okta.event_type:user.authentication.auth_via_mfa and event.outcome:failure and okta.outcome.reason:"FastPass declined phishing attempt"
   condition: selection
 level: medium

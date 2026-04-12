@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1552
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_azure_service_principal_signin_then_arc_credential_listing.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1552
 logsource:
@@ -15,11 +15,11 @@ detection:
   selection:
     # Original elastic detection logic
     # sequence with maxspan=30m
-    # [authentication where event.dataset == "azure.signinlogs"
+    # [authentication where data_stream.dataset == "azure.signinlogs"
     #     and azure.signinlogs.category == "ServicePrincipalSignInLogs"
     #     and azure.signinlogs.properties.status.error_code == 0
     # ] by azure.signinlogs.properties.app_id
-    # [any where event.dataset == "azure.activitylogs"
+    # [any where data_stream.dataset == "azure.activitylogs"
     #     and azure.activitylogs.operation_name : "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/LISTCLUSTERUSERCREDENTIAL/ACTION"
     #     and event.outcome : ("Success", "success")
     # ] by azure.activitylogs.identity.claims.appid

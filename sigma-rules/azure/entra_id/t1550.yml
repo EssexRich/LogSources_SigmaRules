@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1550
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_entra_id_suspicious_signin.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1550
 logsource:
@@ -19,7 +19,7 @@ detection:
     # // Scheduled to run every hour, reviewing events from past hour
     # | where
     #   @timestamp > now() - 1 hours
-    #   and event.dataset == "azure.signinlogs"
+    #   and data_stream.dataset == "azure.signinlogs"
     #   and source.ip is not null
     #   and azure.signinlogs.identity is not null
     #   and to_lower(event.outcome) == "success"
@@ -60,7 +60,7 @@ detection:
     #     Esql.event_count = count(*),
     #     Esql.azure_signinlogs_properties_authentication_device_code_case_count_distinct = count_distinct(Esql.azure_signinlogs_properties_authentication_device_code_case),
     #     Esql.azure_signinlogs_properties_auth_visual_studio_count_distinct = count_distinct(Esql.azure_signinlogs_auth_visual_studio_case),
-    #     Esql.azure_signinlogs_properties_auth_other_count_distinct = count_distin
+    #     Esql.azure_signinlogs_properties_auth_other_count_distinct = count_
     # ... [truncated]
   condition: selection
 level: medium

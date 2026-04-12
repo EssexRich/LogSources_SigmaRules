@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1610
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/kubernetes/privilege_escalation_container_created_with_excessive_linux_capabilities.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1610
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset: kubernetes.audit_logs and kubernetes.audit.annotations.authorization_k8s_io/decision:"allow" and
+    # data_stream.dataset: kubernetes.audit_logs and kubernetes.audit.annotations.authorization_k8s_io/decision:"allow" and
     # kubernetes.audit.verb: create and kubernetes.audit.objectRef.resource: pods and
     # kubernetes.audit.requestObject.spec.containers.securityContext.capabilities.add: ("BPF" or "DAC_READ_SEARCH"  or "NET_ADMIN" or "SYS_ADMIN" or "SYS_BOOT" or "SYS_MODULE" or "SYS_PTRACE" or "SYS_RAWIO"  or "SYSLOG") and
     # not (

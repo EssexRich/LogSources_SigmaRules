@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1552
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/network/collection_fortigate_config_download.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1552
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # any where event.dataset == "fortinet_fortigate.log" and
+    # any where data_stream.dataset == "fortinet_fortigate.log" and
     #     event.code == "0100032095" and
     #     fortinet.firewall.action == "download"
   condition: selection

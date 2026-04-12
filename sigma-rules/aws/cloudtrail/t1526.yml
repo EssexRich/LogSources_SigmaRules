@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1526
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_multiple_discovery_api_calls_via_cli.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1526
 logsource:
@@ -19,7 +19,7 @@ detection:
     # | eval Esql.time_window_date_trunc = date_trunc(10 seconds, @timestamp)
     # 
     # | where
-    #     event.dataset == "aws.cloudtrail"
+    #     data_stream.dataset == "aws.cloudtrail"
     #     
     #     // exclude service account and console behavior
     #     and source.ip IS NOT NULL
@@ -74,7 +74,7 @@ detection:
     # // count the number of unique API calls per time window and actor
     # | stats
     #     Esql.event_action_count_distinct = count_distinct(event.action),
-    #     Esql.event_action_values
+    #     Esql.event_action_
     # ... [truncated]
   condition: selection
 level: medium

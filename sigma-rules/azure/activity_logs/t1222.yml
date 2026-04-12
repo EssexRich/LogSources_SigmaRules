@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1222
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/defense_evasion_storage_blob_permissions_modified.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1222
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:azure.activitylogs and azure.activitylogs.operation_name:(
+    # data_stream.dataset:azure.activitylogs and azure.activitylogs.operation_name:(
     #      "MICROSOFT.STORAGE/STORAGEACCOUNTS/BLOBSERVICES/CONTAINERS/BLOBS/MANAGEOWNERSHIP/ACTION" or
     #      "MICROSOFT.STORAGE/STORAGEACCOUNTS/BLOBSERVICES/CONTAINERS/BLOBS/MODIFYPERMISSIONS/ACTION") and
     #   event.outcome:(Success or success)

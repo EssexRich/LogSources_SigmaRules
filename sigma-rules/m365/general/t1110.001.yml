@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1110.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/credential_access_entra_id_potential_user_account_brute_force.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1110.001
 logsource:
@@ -22,7 +22,7 @@ detection:
     #     Esql.o365_audit_LogonError = o365.audit.LogonError,
     #     Esql.o365_audit_ExtendedProperties_RequestType_lower = to_lower(o365.audit.ExtendedProperties.RequestType)
     # | where
-    #     event.dataset == "o365.audit" and
+    #     data_stream.dataset == "o365.audit" and
     #     event.category == "authentication" and
     #     event.provider in ("AzureActiveDirectory", "Exchange") and
     #     event.action in ("UserLoginFailed", "PasswordLogonInitialAuthUsingPassword") and
@@ -50,7 +50,7 @@ detection:
     #     Esql.source_ip_values = values(source.ip),
     #     Esql.source_ip_count_distinct = count_distinct(source.ip),
     #     Esql.source_as_organization_name_values = values(source.`as`.organization.name),
-    #     Esql.source_geo_country_name_values = values(
+    #     Esql.source_geo_country_name_values = v
     # ... [truncated]
   condition: selection
 level: medium

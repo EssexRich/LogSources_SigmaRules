@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1498
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/impact_possible_okta_dos_attack.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1498
 logsource:
@@ -14,6 +14,6 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:okta.system and event.action:(application.integration.rate_limit_exceeded or system.org.rate_limit.warning or system.org.rate_limit.violation or core.concurrency.org.limit.violation)
+    # data_stream.dataset:okta.system and event.action:(application.integration.rate_limit_exceeded or system.org.rate_limit.warning or system.org.rate_limit.violation or core.concurrency.org.limit.violation)
   condition: selection
 level: medium

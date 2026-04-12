@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1546
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_sysmon_wmi_event_subscription.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1546
 logsource:
@@ -16,10 +16,10 @@ detection:
     # Original elastic detection logic
     # any where host.os.type == "windows" and
     #  (
-    #    (event.dataset == "windows.sysmon_operational" and event.code == "21" and
+    #    (data_stream.dataset == "windows.sysmon_operational" and event.code == "21" and
     #     ?winlog.event_data.Operation : "Created" and ?winlog.event_data.Consumer : ("*subscription:CommandLineEventConsumer*", "*subscription:ActiveScriptEventConsumer*")) or
     # 
-    #    (event.dataset == "endpoint.events.api" and event.provider == "Microsoft-Windows-WMI-Activity" and ?process.Ext.api.name == "IWbemServices::PutInstance" and
+    #    (data_stream.dataset == "endpoint.events.api" and event.provider == "Microsoft-Windows-WMI-Activity" and ?process.Ext.api.name == "IWbemServices::PutInstance" and
     #     ?process.Ext.api.parameters.consumer_type in ("ActiveScriptEventConsumer", "CommandLineEventConsumer"))
     #  )
   condition: selection

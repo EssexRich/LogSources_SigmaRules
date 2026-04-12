@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1213
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_key_vault_excessive_retrieval.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1213
 logsource:
@@ -17,7 +17,7 @@ detection:
     # from logs-azure.platformlogs-* metadata _id, _index
     # 
     # // Filter for Azure Key Vault read operations
-    # | where event.dataset == "azure.platformlogs"
+    # | where data_stream.dataset == "azure.platformlogs"
     #   and event.action in (
     #     "VaultGet",
     #     "KeyGet",
@@ -65,7 +65,7 @@ detection:
     #     Esql.cloud_region_values = values(cloud.region),
     # 
     #     Esql.agent_name_values = values(agent.name),
-    #     Esql.a
+    #     
     # ... [truncated]
   condition: selection
 level: medium

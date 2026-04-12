@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1078.004
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_aws_getpassword_for_ec2_instance.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1078.004
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:"aws.cloudtrail"
+    # data_stream.dataset:"aws.cloudtrail"
     #     and event.provider:"ec2.amazonaws.com" and event.action:"GetPasswordData"
     #     and aws.cloudtrail.user_identity.type:"AssumedRole" and aws.cloudtrail.error_code:"Client.UnauthorizedOperation"
   condition: selection

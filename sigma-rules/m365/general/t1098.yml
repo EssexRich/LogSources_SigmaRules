@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1098
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/credential_access_entra_id_device_reg_via_oauth_redirection.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1098
 logsource:
@@ -20,6 +20,6 @@ detection:
     #  o365.audit.UserType: ("0", "2", "3", "10")] // victim source.ip
     # [authentication where event.action == "UserLoggedIn" and
     #  o365.audit.ExtendedProperties.RequestType == "OAuth2:Token" and o365.audit.ExtendedProperties.ResultStatusDetail == "Success"] // attacker source.ip to convert oauth code to token
-    # [web where event.dataset == "o365.audit" and event.action == "Add registered users to device."] // user.name is captured in related.user
+    # [web where data_stream.dataset == "o365.audit" and event.action == "Add registered users to device."] // user.name is captured in related.user
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1114
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/collection_google_workspace_custom_gmail_route_created_or_modified.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1114
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:"google_workspace.admin" and event.action:("CREATE_GMAIL_SETTING" or "CHANGE_GMAIL_SETTING")
+    # data_stream.dataset:"google_workspace.admin" and event.action:("CREATE_GMAIL_SETTING" or "CHANGE_GMAIL_SETTING")
     #   and google_workspace.event.type:"EMAIL_SETTINGS" and google_workspace.admin.setting.name:("EMAIL_ROUTE" or "MESSAGE_SECURITY_RULE")
   condition: selection
 level: medium

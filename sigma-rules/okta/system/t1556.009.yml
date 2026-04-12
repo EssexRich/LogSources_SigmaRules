@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1556.009
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/persistence_okta_attempt_to_modify_or_delete_application_sign_on_policy.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1556.009
 logsource:
@@ -14,6 +14,6 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:okta.system and event.action:(application.policy.sign_on.update or application.policy.sign_on.rule.delete)
+    # data_stream.dataset:okta.system and event.action:(application.policy.sign_on.update or application.policy.sign_on.rule.delete)
   condition: selection
 level: medium

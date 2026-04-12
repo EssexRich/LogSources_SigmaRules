@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1484.002
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/privilege_escalation_exchange_new_or_modified_federation_domain.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1484.002
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.dataset:o365.audit and event.provider:Exchange and event.category:web and event.action:("Set-AcceptedDomain" or
+    # data_stream.dataset:o365.audit and event.provider:Exchange and event.category:web and event.action:("Set-AcceptedDomain" or
     # "Set-MsolDomainFederationSettings" or "Add-FederatedDomain" or "New-AcceptedDomain" or "Remove-AcceptedDomain" or "Remove-FederatedDomain") and
     # event.outcome:success
   condition: selection

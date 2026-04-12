@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1037.004
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/persistence_rc_local_error_via_syslog.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1037.004
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # host.os.type:linux and event.dataset:system.syslog and process.name:rc.local and
+    # host.os.type:linux and data_stream.dataset:system.syslog and process.name:rc.local and
     # message:("Connection refused" or "No such file or directory" or "command not found")
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1528
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_azure_entra_susp_device_code_signin.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1528
 logsource:
@@ -16,7 +16,7 @@ detection:
     # Original elastic detection logic
     # from logs-azure.signinlogs-* metadata _id, _version, _index
     # 
-    # | where event.category == "authentication" and event.dataset == "azure.signinlogs" and
+    # | where event.category == "authentication" and data_stream.dataset == "azure.signinlogs" and
     #         azure.signinlogs.properties.original_transfer_method == "deviceCodeFlow"
     # 
     # // Track events with deviceCode authentication protocol (browser auth) vs polling client
@@ -41,7 +41,7 @@ detection:
     #         by azure.signinlogs.properties.session_id, azure.signinlogs.identity
     # 
     # // Require: 2+ events, at least one deviceCode auth protocol event, and either 2+ IPs or 2+ user agents
-    # | where Esql.count_logon >= 2 and E
+    # | where Esql.count_logon >= 2
     # ... [truncated]
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1078.004
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/credential_access_identity_user_account_lockouts.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1078.004
 logsource:
@@ -19,7 +19,7 @@ detection:
     # | eval
     #     Esql.time_window_date_trunc = date_trunc(5 minutes, @timestamp)
     # | where
-    #     event.dataset == "o365.audit" and
+    #     data_stream.dataset == "o365.audit" and
     #     event.category == "authentication" and
     #     event.provider in ("AzureActiveDirectory", "Exchange") and
     #     event.action in ("UserLoginFailed", "PasswordLogonInitialAuthUsingPassword") and
@@ -51,7 +51,7 @@ detection:
     #     Esql.source_ip_values,
     #     Esql.source_ip_count_distinct,
     #     Esql.source_as_organization_name_values,
-    #     Esql.source_as_organization_name_count_distinct
+    #     Esql.source_as_organization_name_count_di
     # ... [truncated]
   condition: selection
 level: medium

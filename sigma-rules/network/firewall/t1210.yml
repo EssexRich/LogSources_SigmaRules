@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1210
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/network/lateral_movement_dns_server_overflow.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-05
+date: 2026-04-12
 tags:
   - attack.t1210
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # (event.dataset: network_traffic.dns or (event.category: (network or network_traffic) and destination.port: 53)) and
-    #   (event.dataset:zeek.dns or type:dns or event.type:connection) and network.bytes > 60000
+    # (data_stream.dataset: network_traffic.dns or (event.category: (network or network_traffic) and destination.port: 53)) and
+    #   (data_stream.dataset:zeek.dns or type:dns or event.type:connection) and network.bytes > 60000
   condition: selection
 level: medium
