@@ -1,0 +1,37 @@
+title: Microsoft Intune Bulk Wipe
+id: 43ec3c23-43ec-43ec-a3ec-43ec3c230000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1561.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/microsoft_intune_bulk_wipe.yml
+author: splunk (via IncidentBuddy)
+date: 2026-04-19
+tags:
+  - attack.t1561.001
+logsource:
+  product: azure
+  service: intune
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `azure_monitor_activity`
+    #     operationName="wipe ManagedDevice"
+    #     | rename identity as user
+    #              resultType as result
+    #     | fillnull
+    #     | table _time action command dest user src
+    #             vendor_account vendor_product change_type
+    #             properties.Targets.*
+    # 
+    #     | stats min(_time) as firstTime
+    #             max(_time) as lastTime
+    #             values(*) as *
+    #       count by user
+    # 
+    #     | where count >= 5
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `microsoft_intune_bulk_wipe_filter`
+  condition: selection
+level: medium

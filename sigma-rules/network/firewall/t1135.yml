@@ -1,11 +1,11 @@
-title: Network Share Discovery Via Dir Command
-id: 576aacf0-576a-476a-a76a-576aacf00000
+title: MacOS Network Share Discovery
+id: 1e3a80dd-1e3a-4e3a-ae3a-1e3a80dd0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1135
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/network_share_discovery_via_dir_command.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/macos_network_share_discovery.yml
 author: splunk (via IncidentBuddy)
-date: 2026-04-12
+date: 2026-04-19
 tags:
   - attack.t1135
 logsource:
@@ -14,6 +14,25 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `wineventlog_security` EventCode=5140 ShareName IN("\\\\*\\ADMIN$","\\\\*\\C$","*\\\\*\\IPC$") AccessMask= 0x1 | stats min(_time) as firstTime max(_time) as lastTime count by ShareName IpAddress ObjectType SubjectUserName SubjectDomainName IpPort AccessMask Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `network_share_discovery_via_dir_command_filter`
+    # -
+    #     | tstats `security_content_summariesonly`
+    #       count min(_time) as firstTime
+    #             max(_time) as lastTime
+    # 
+    #     from datamodel=Endpoint.Processes where
+    # 
+    #     Processes.process IN ("*showmount *", "*smbutil *")
+    # 
+    #     by Processes.dest Processes.original_file_name Processes.parent_process_id
+    #        Processes.process Processes.process_exec Processes.process_guid
+    #        Processes.process_hash Processes.process_id
+    #        Processes.process_current_directory Processes.process_name
+    #        Processes.process_path Processes.user
+    #        Processes.user_id Processes.vendor_product
+    # 
+    #     | `drop_dm_object_name(Processes)`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `macos_network_share_discovery_filter`
   condition: selection
 level: medium
