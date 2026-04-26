@@ -1,0 +1,42 @@
+title: LSA PPL Protection Setting Modification via CommandLine
+id: 1fd93c54-1fd9-4fd9-afd9-1fd93c540000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.010
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_lsa_ppl_protection_setting_modification_via_cli.yml
+author: sigma (via IncidentBuddy)
+date: 2026-04-26
+tags:
+  - attack.t1562.010
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith:
+    #               - '\reg.exe'
+    #               - '\powershell.exe'
+    #               - '\pwsh.exe'
+    #         - OriginalFileName:
+    #               - 'reg.exe'
+    #               - 'powershell.exe'
+    #               - 'pwsh.dll'
+    #     selection_cli_action:
+    #         CommandLine|contains|all:
+    #             - 'ControlSet'
+    #             - '\Control\Lsa'
+    #         CommandLine|contains:
+    #             - 'Set-ItemProperty'
+    #             - 'New-ItemProperty'
+    #             - ' add '
+    #     selection_key:
+    #         CommandLine|contains:
+    #             - 'IsPplAutoEnabled'
+    #             - 'RunAsPPL'
+    #             - 'RunAsPPLBoot'
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: LSA PPL Protection Disabled Via Reg.EXE
-id: 157b3c6b-157b-457b-a57b-157b3c6b0000
+title: Network-Level Authentication (NLA) Disabled
+id: 3949342f-3949-4949-a949-3949342f0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.010
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_reg_lsa_ppl_protection_disabled.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-19
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_disable_nla.toml
+author: elastic (via IncidentBuddy)
+date: 2026-04-26
 tags:
   - attack.t1562.010
 logsource:
@@ -13,17 +13,12 @@ logsource:
   service: general
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection_img:
-    #         - Image|endswith: '\reg.exe'
-    #         - OriginalFileName: 'reg.exe'
-    #     selection_cli:
-    #         CommandLine|contains: 'SYSTEM\CurrentControlSet\Control\Lsa'
-    #         CommandLine|contains|all:
-    #             - ' add '
-    #             - ' /d 0'
-    #             - ' /v RunAsPPL '
-    #     condition: all of selection_*
-    # 
+    # Original elastic detection logic
+    # registry where host.os.type == "windows" and event.action != "deletion" and registry.value : "UserAuthentication" and
+    #   registry.path : (
+    #     "HKLM\\SYSTEM\\ControlSet*\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\UserAuthentication",
+    #     "\\REGISTRY\\MACHINE\\SYSTEM\\*ControlSet*\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\UserAuthentication",
+    #     "MACHINE\\SYSTEM\\*ControlSet*\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\UserAuthentication"
+    #   ) and registry.data.strings :  ("0", "0x00000000")
   condition: selection
 level: medium

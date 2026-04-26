@@ -1,11 +1,11 @@
-title: Potential Obfuscated Ordinal Call Via Rundll32
-id: 778a8b69-778a-478a-a78a-778a8b690000
+title: Python One-Liners with Base64 Decoding
+id: 38090bd6-3809-4809-a809-38090bd60000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1027.010
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_rundll32_obfuscated_ordinal_call.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_python_base64_encoded_execution.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-19
+date: 2026-04-26
 tags:
   - attack.t1027.010
 logsource:
@@ -15,19 +15,21 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection_img:
-    #         - Image|endswith: '\rundll32.exe'
-    #         - OriginalFileName: 'RUNDLL32.EXE'
-    #         - CommandLine|contains: 'rundll32'
+    #         - Image|contains: '\python'
+    #         - OriginalFileName|contains: 'python'
     #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - 'import'
+    #             - 'base64'
+    #             - ' -c'
     #         CommandLine|contains:
-    #             - '#+'
-    #             - '#-'
-    #             # ordinal can be represented by adding any number of zeros in front ordinal number, for e.g. 000000024
-    #             - '#0'
-    #             # ordinal is 16 bit ordinal, so if you make the number large enough (don't fit in 16 bit space), then it normally wraps around.
-    #             # for e.g ordinal 24 can be also represented by 65560 (65536+24)
-    #             - '#655'
-    #             - '#656'
+    #             - '.decode'
+    #             - 'b16decode'
+    #             - 'b32decode'
+    #             - 'b32hexdecode'
+    #             - 'b64decode'
+    #             - 'b85decode'
+    #             - 'z85decode'
     #     condition: all of selection_*
     # 
   condition: selection

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1037
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_genai_process_sensitive_file_access.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-19
+date: 2026-04-26
 tags:
   - attack.t1037
 logsource:
@@ -18,26 +18,31 @@ detection:
     # 
     #   // GenAI process 
     #     (
-    #       process.name in (
-    #         "ollama.exe", "ollama", "Ollama",
+    #       process.name in~ (
+    #         "ollama.exe", "ollama",
     #         "textgen.exe", "textgen", "text-generation-webui.exe", "oobabooga.exe",
     #         "lmstudio.exe", "lmstudio", "LM Studio",
-    #         "claude.exe", "claude", "Claude",
-    #         "cursor.exe", "cursor", "Cursor",
-    #         "copilot.exe", "copilot", "Copilot",
+    #         "claude.exe", "claude",
+    #         "cursor.exe", "cursor",
+    #         "copilot.exe", "copilot",
     #         "codex.exe", "codex",
-    #         "Jan", "jan.exe", "jan",
-    #         "gpt4all.exe", "gpt4all", "GPT4All",
-    #         "gemini-cli.exe", "gemini-cli",
+    #         "jan.exe", "jan",
+    #         "gpt4all.exe", "gpt4all",
+    #         "gemini-cli.exe", "gemini-cli", "gemini.exe",
     #         "genaiscript.exe", "genaiscript",
     #         "grok.exe", "grok",
     #         "qwen.exe", "qwen",
-    #         "koboldcpp.exe", "koboldcpp", "KoboldCpp",
-    #         "llama-server", "llama-cli"
+    #         "koboldcpp.exe", "koboldcpp",
+    #         "llama-server", "llama-cli",
+    #         "windsurf.exe", "windsurf",
+    #         "zed.exe", "zed",
+    #         "opencode.exe", "opencode",
+    #         "goose.exe", "goose"
     #       ) or
-    #       // OpenClaw/Moltbot/Clawdbot via Node.js
-    #       (process.name in ("node", "node.exe") and
-    #        process.command_line like~ ("*openclaw*", "*moltbot*", "*clawdbot*"))
+    #       // OpenClaw/Moltbot/Clawdbot family via Node.js
+    #       (process.name in~ ("node", "node.exe") and
+    #        process.command_line like~ ("*openclaw*", "*moltbot*", "*clawdbot*",
+    #                                    "*nemoclaw*", "*nanoclaw*", "*picoclaw*"))
     #     ) and
     # 
     #   // Sensitive file paths
@@ -64,12 +69,7 @@ detection:
     #                   "azureProfile.json",
     #                   "RDCMan.settings", 
     #                   "known_hosts", 
-    #                   "KeePass.config.xml", 
-    #                   "Unattended.xml")
-    #   ) and not (
-    #     host.os.type == "windows" and
-    #     process.name : ("claude.exe", "Claude") and
-    #     fi
+    #                   "KeeP
     # ... [truncated]
   condition: selection
 level: medium

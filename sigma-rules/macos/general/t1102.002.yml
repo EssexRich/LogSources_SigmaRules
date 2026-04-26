@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1102.002
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_common_llm_endpoint.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-19
+date: 2026-04-26
 tags:
   - attack.t1102.002
 logsource:
@@ -46,11 +46,12 @@ detection:
     #     "generativelanguage.googleapis.com",
     #     "api.azure.com",
     #     "api.bedrock.aws",
-    #     "bedrock-runtime.amazonaws.com",
+    #     "bedrock-runtime.*.amazonaws.com",
     # 
     #     // Hugging Face & other ML infra
     #     "api-inference.huggingface.co",
     #     "inference-endpoint.huggingface.cloud",
+    #     "router.huggingface.co",
     #     "*.hf.space",
     #     "*.replicate.com",
     #     "api.replicate.com",
@@ -59,15 +60,14 @@ detection:
     #     "api.modal.com",
     #     "*.forefront.ai",
     # 
-    #     // Consumer-facing AI chat portals
-    #     "chat.openai.com",
-    #     "chatgpt.com",
-    #     "copilot.microsoft.com",
-    #     "bard.google.com",
-    #     "gemini.google.com",
-    #     "claude.ai",
-    #     "perplexity.ai",
-    #     "po
+    #     "api.arcee.ai",
+    #     "api.sambanova.ai",
+    #     "chatapi.akash.network",
+    #     "api.reka.ai",
+    #     "api.cerebras.ai",
+    #     "api.morphllm.com",
+    #     "openrouter.ai",
+    #     "api.moo
     # ... [truncated]
   condition: selection
 level: medium

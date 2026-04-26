@@ -1,11 +1,11 @@
-title: Potential Hex Payload Execution via Command-Line
-id: 55037fcd-5503-4503-a503-55037fcd0000
+title: Python One-Liners with Base64 Decoding - Linux
+id: 59635cc9-5963-4963-a963-59635cc90000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1027.010
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_hex_payload_execution_via_commandline.toml
-author: elastic (via IncidentBuddy)
-date: 2026-04-19
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_python_base64_encoded_execution.yml
+author: sigma (via IncidentBuddy)
+date: 2026-04-26
 tags:
   - attack.t1027.010
 logsource:
@@ -13,12 +13,23 @@ logsource:
   service: general
 detection:
   selection:
-    # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and
-    # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
-    # ?process.parent.executable != null and
-    # process.command_line : "*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*" and
-    # length(process.command_line) > 50 and
-    # not process.name in ("snap", "printf", "sed")
+    # Original sigma detection logic
+    #     selection_img:
+    #         Image|contains: '/python'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - 'import'
+    #             - 'base64'
+    #             - ' -c'
+    #         CommandLine|contains:
+    #             - '.decode'
+    #             - 'b16decode'
+    #             - 'b32decode'
+    #             - 'b32hexdecode'
+    #             - 'b64decode'
+    #             - 'b85decode'
+    #             - 'z85decode'
+    #     condition: all of selection_*
+    # 
   condition: selection
 level: medium

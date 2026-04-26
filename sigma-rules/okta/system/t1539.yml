@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1539
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/okta/credential_access_multiple_device_token_hashes_for_single_okta_session.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-19
+date: 2026-04-26
 tags:
   - attack.t1539
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # from logs-okta*
+    # from logs-okta.system-*
     # | where
     #     data_stream.dataset == "okta.system" and
     #     not event.action in (
@@ -24,20 +24,37 @@ detection:
     #     ) and
     #     okta.actor.alternate_id != "system@okta.com" and
     #     okta.actor.alternate_id rlike "[^@\\s]+\\@[^@\\s]+" and
-    #     okta.authentication_context.external_session_id != "unknown"
-    # | keep
-    #     event.action,
-    #     okta.actor.alternate_id,
-    #     okta.authentication_context.external_session_id,
-    #     okta.debug_context.debug_data.dt_hash
+    #     okta.authentication_context.external_session_id != "unknown" and
+    #     (
+    #         okta.authentication_context.external_session_id IS NOT NULL and
+    #         okta.debug_context.debug_data.dt_hash IS NOT NULL and
+    #         okta.client.ip IS NOT NULL and
+    #         okta.client.user_agent.raw_user_agent IS NOT NULL
+    #     ) and
+    #     (
+    #         okta.authentication_context.external_session_id != "-" and
+    #         okta.debug_context.debug_data.dt_hash != "-" and
+    #         okta.client.user_agent.raw_user_agent != "-"
+    #     )
     # | stats
-    #     Esql.okta_debug_context_debug_data_dt_hash_count_distinct = count_distinct(okta.debug_context.debug_data.dt_hash)
-    #   by
-    #     okta.actor.alternate_id,
-    #     okta.authentication_context.external_session_id
-    # | where
-    #     Esql.okta_debug_context_debug_data_dt_hash_count_distinct >= 2
-    # | sort
-    #     Esql.okta_debug_context_debug_data_dt_hash_count_distinct desc
+    #     Esql.dt_hash_count_distinct = count_distinct(okta.debug_context.debug_data.dt_hash),
+    #     Esql.client_ip_count_distinct = count_distinct(okta.client.ip),
+    #     Esql.event_count = count(*),
+    #     Esql.first_event_time = min(@timestamp),
+    #     Esql.last_event_time = max(@timestamp),
+    #     Esql.dt_hash_values = values(okta.debug_context.debug_data.dt_hash),
+    #     Esql.event_action_values = values(event.action),
+    #     Esql.client_ip_values = values(okta.client.ip),
+    #     Esql.user_agent_values = values(okta.client.user_agent.raw_user_agent),
+    #     Esql.device_values = values(okta.client.device),
+    #     Esql.is_proxy_values = values(okta.security_context.is_proxy),
+    #     Esql.geo_country_name_values = values(client.geo.country_name),
+    #     Esql.geo_city_name_values = values(client.geo.city_name),
+    #     Esql.source_asn_number_values = values(source.`as`.number),
+    #     Esql.source_asn_org_name_values = values(source.`as`.organization.name),
+    #     Esql.threat_suspected_values = values(okta.debug_context.debug_data.threat_suspected),
+    #     Esql.risk_level_values = values(okta.debug_context.debug_data.risk_level),
+    #     Esql.risk_reasons_values = values(okta.debug_context.debug_data.
+    # ... [truncated]
   condition: selection
 level: medium
