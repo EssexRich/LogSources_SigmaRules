@@ -1,0 +1,41 @@
+title: Windows EventLog Autologger Session Registry Modification Via CommandLine
+id: 30a56404-30a5-40a5-a0a5-30a564040000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685.001
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_autologger_session_registry_modification.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1685.001
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith:
+    #               - '\reg.exe'
+    #               - '\powershell.exe'
+    #               - '\pwsh.exe'
+    #         - OriginalFileName:
+    #               - 'reg.exe'
+    #               - 'PowerShell.EXE'
+    #               - 'pwsh.dll'
+    #     selection_cli_action:
+    #         CommandLine|contains:
+    #             - 'add '
+    #             - 'Set-ItemProperty'
+    #             - 'New-ItemProperty'
+    #             - 'si ' # Set-ItemProperty alias
+    #     selection_cli_base:
+    #         CommandLine|contains: '\Control\WMI\Autologger\'
+    #     selection_cli_key:
+    #         CommandLine|contains:
+    #             - 'Start' # Key used to disable specific autologger session like EventLog-Application, EventLog-System etc.
+    #             - 'Enabled' # Key used to disable specific provider of autologger session
+    #     condition: all of selection_*
+    # 
+  condition: selection
+level: medium

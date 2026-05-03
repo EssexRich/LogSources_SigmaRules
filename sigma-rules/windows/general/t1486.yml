@@ -1,11 +1,11 @@
-title: Suspicious Creation TXT File in User Desktop
-id: 16fc17bc-16fc-46fc-a6fc-16fc17bc0000
+title: Suspicious Appended Extension
+id: 56e01721-56e0-46e0-a6e0-56e017210000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1486
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_desktop_txt.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_rename/file_rename_win_ransomware.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1486
 logsource:
@@ -15,12 +15,43 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         Image|endswith: '\cmd.exe'
-    #         TargetFilename|contains|all:
-    #             - '\Users\'
-    #             - '\Desktop\'
-    #         TargetFilename|endswith: '.txt'
-    #     condition: selection
+    #         SourceFilename|endswith:
+    #             - '.doc'
+    #             - '.docx'
+    #             - '.jpeg'
+    #             - '.jpg'
+    #             - '.lnk'
+    #             - '.pdf'
+    #             - '.png'
+    #             - '.pst'
+    #             - '.rtf'
+    #             - '.xls'
+    #             - '.xlsx'
+    #         TargetFilename|contains:
+    #             - '.doc.'
+    #             - '.docx.'
+    #             - '.jpeg.'
+    #             - '.jpg.'
+    #             - '.lnk.'
+    #             - '.pdf.'
+    #             - '.png.'
+    #             - '.pst.'
+    #             - '.rtf.'
+    #             - '.xls.'
+    #             - '.xlsx.'
+    #     filter_main_generic:
+    #         TargetFilename|endswith:
+    #             # Note: Please add more used extensions by backup or recovery software
+    #             - '.backup'
+    #             - '.bak'
+    #             - '.old'
+    #             - '.orig'
+    #             - '.temp'
+    #             - '.tmp'
+    #     filter_optional_anaconda:
+    #         TargetFilename|contains: ':\ProgramData\Anaconda3\'
+    #         TargetFilename|endswith: '.c~'
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
     # 
   condition: selection
 level: medium

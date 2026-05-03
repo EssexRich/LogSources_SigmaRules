@@ -1,11 +1,11 @@
-title: Suspicious Windows Trace ETW Session Tamper Via Logman.EXE
-id: 4e2dd95c-4e2d-4e2d-ae2d-4e2dd95c0000
+title: Suspicious Windows Service Tampering
+id: 1919392c-1919-4919-a919-1919392c0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_logman_disable_eventlog.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_service_tamper.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1562.001
 logsource:
@@ -14,20 +14,66 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_img:
-    #         - Image|endswith: '\logman.exe'
-    #         - OriginalFileName: 'Logman.exe'
-    #     selection_action:
+    #     selection_tools_img:
+    #         - OriginalFileName:
+    #               - 'net.exe'
+    #               - 'net1.exe'
+    #               - 'PowerShell_ISE.EXE'
+    #               - 'PowerShell.EXE'
+    #               - 'psservice.exe'
+    #               - 'pwsh.dll'
+    #               - 'sc.exe'
+    #               - 'wmic.exe'
+    #         - Image|endswith:
+    #               - '\net.exe'
+    #               - '\net1.exe'
+    #               - '\PowerShell_ISE.EXE'
+    #               - '\powershell.exe'
+    #               - '\PsService.exe'
+    #               - '\PsService64.exe'
+    #               - '\pwsh.exe'
+    #               - '\sc.exe'
+    #               - '\wmic.exe' # wmic process call win32_service where name='servicename' delete
+    #     selection_tools_cli:
+    #         - CommandLine|contains:
+    #               - ' delete '
+    #               - '.delete()' # Get-WmiObject win32_service -Filter "name='$serviceName'" ).delete()
+    #               - ' pause ' # Covers flags from: PsService and Sc.EXE
+    #               - ' stop ' # Covers flags from: PsService.EXE, Net.EXE and Sc.EXE
+    #               - 'Stop-Service '
+    #               - 'Remove-Service '
+    #         - CommandLine|contains|all:
+    #               - 'config'
+    #               - 'start=disabled'
+    #     selection_services:
     #         CommandLine|contains:
-    #             - 'stop '
-    #             - 'delete '
-    #     selection_service:
-    #         CommandLine|contains:
-    #             - 'Circular Kernel Context Logger'
-    #             - 'EventLog-' # Cover multiple traces starting with EventLog-*
-    #             - 'SYSMON TRACE'
-    #             - 'SysmonDnsEtwSession'
-    #     condition: all of selection*
-    # 
+    #             - '143Svc'
+    #             - 'Acronis VSS Provider'
+    #             - 'AcronisAgent'
+    #             - 'AcrSch2Svc'
+    #             - 'AdobeARMservice'
+    #             - 'AHS Service'
+    #             - 'Antivirus'
+    #             - 'Apache4'
+    #             - 'ARSM'
+    #             - 'aswBcc'
+    #             - 'AteraAgent'
+    #             - 'Avast Business Console Client Antivirus Service'
+    #             - 'avast! Antivirus'
+    #             - 'AVG Antivirus'
+    #             - 'avgAdminClient'
+    #             - 'AvgAdminServer'
+    #             - 'AVP1'
+    #             - 'BackupExec'
+    #             - 'bedbg'
+    #             - 'BITS'
+    #             - 'BrokerInfrastructure'
+    #             - 'CASLicenceServer'
+    #             - 'CASWebServer'
+    #             - 'Client Agent 7.60'
+    #             - 'Core Browsing Protection'
+    #             - 'Core Mail Protection'
+    #            
+    # ... [truncated]
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: Azure Network Firewall Policy Modified or Deleted
-id: 1410ace0-1410-4410-a410-1410ace00000
+title: Azure VNet Firewall Policy Deleted
+id: 6ebda7eb-6ebd-4ebd-aebd-6ebda7eb0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.007
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_network_firewall_policy_modified_or_deleted.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/defense_evasion_network_firewall_policy_deletion.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562.007
 logsource:
@@ -13,14 +13,7 @@ logsource:
   service: activity_logs
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection:
-    #         operationName:
-    #             - MICROSOFT.NETWORK/FIREWALLPOLICIES/WRITE
-    #             - MICROSOFT.NETWORK/FIREWALLPOLICIES/JOIN/ACTION
-    #             - MICROSOFT.NETWORK/FIREWALLPOLICIES/CERTIFICATES/ACTION
-    #             - MICROSOFT.NETWORK/FIREWALLPOLICIES/DELETE
-    #     condition: selection
-    # 
+    # Original elastic detection logic
+    # data_stream.dataset:azure.activitylogs and azure.activitylogs.operation_name:"MICROSOFT.NETWORK/FIREWALLPOLICIES/DELETE" and event.outcome:(Success or success)
   condition: selection
 level: medium

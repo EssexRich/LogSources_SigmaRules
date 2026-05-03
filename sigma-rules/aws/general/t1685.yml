@@ -1,0 +1,27 @@
+title: AWS SecurityHub Findings Evasion
+id: 0cd6cdb2-0cd6-4cd6-acd6-0cd6cdb20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_securityhub_finding_evasion.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1685
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         eventSource: securityhub.amazonaws.com
+    #         eventName:
+    #             - 'BatchUpdateFindings'
+    #             - 'DeleteInsight'
+    #             - 'UpdateFindings'
+    #             - 'UpdateInsight'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

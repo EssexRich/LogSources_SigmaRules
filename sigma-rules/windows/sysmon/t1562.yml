@@ -1,11 +1,11 @@
-title: Sysmon Application Crashed
-id: 3b0be084-3b0b-4b0b-ab0b-3b0be0840000
+title: Potential Evasion via Windows Filtering Platform
+id: 4128d82c-4128-4128-a128-4128d82c0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/application_popup/win_system_application_sysmon_crash.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_windows_filtering_platform.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562
 logsource:
@@ -13,14 +13,27 @@ logsource:
   service: sysmon
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection:
-    #         Provider_Name: 'Application Popup'
-    #         EventID: 26
-    #         Caption:
-    #             - 'sysmon64.exe - Application Error'
-    #             - 'sysmon.exe - Application Error'
-    #     condition: selection
-    # 
+    # Original elastic detection logic
+    # sequence by winlog.computer_name with maxspan=1m
+    #  [network where host.os.type == "windows" and
+    #   event.action : ("windows-firewall-packet-block", "windows-firewall-packet-drop") and
+    #   process.name : (
+    #         "bdagent.exe", "bdreinit.exe", "pdscan.exe", "pdiface.exe", "BDSubWiz.exe", "ProductAgentService.exe",
+    #         "ProductAgentUI.exe", "WatchDog.exe", "CarbonBlackClientSetup.exe", "TrGUI.exe", "TracCAPI.exe", "cpmsi_tool.exe",
+    #         "trac.exe", "vna_install64.exe", "vna_utils.exe", "TracSrvWrapper.exe", "vsmon.exe", "p95tray.exe",
+    #         "CybereasonRansomFreeServiceHost.exe", "CrAmTray.exe", "minionhost.exe", "CybereasonSensor.exe", "CylanceUI.exe",
+    #         "CylanceProtectSetup.exe", "cylancesvc.exe", "cyupdate.exe", "elastic-agent.exe", "elastic-endpoint.exe",
+    #         "egui.exe", "minodlogin.exe", "emu-rep.exe", "emu_install.exe", "emu-cci.exe", "emu-gui.exe", "emu-uninstall.exe",
+    #         "ndep.exe", "spike.exe", "ecls.exe", "ecmd.exe", "ecomserver.exe", "eeclnt.exe", "eh64.exe", "EHttpSrv.exe",
+    #         "xagt.exe", "collectoragent.exe", "FSAEConfig.exe", "uninstalldcagent.exe", "rmon.exe", "fccomint.exe",
+    #         "fclanguageselector.exe", "fortifw.exe", "fcreg.exe", "fortitray.exe", "fcappdb.exe", "fcwizard.exe", "submitv.exe",
+    #         "av_task.exe", "fortiwf.exe", "fortiwadbd.exe", "fcauth.exe", "fcdblog.exe", "fcmgr.exe", "fortiwad.exe",
+    #         "fortiproxy.exe", "fortiscand.exe", "fortivpnst.exe", "ipsec.exe", "fcwscd7.exe", "fcasc.exe", "fchelper.exe",
+    #         "forticlient.exe","fcwsc.exe", "FortiClient.exe", "fmon.exe", "FSSOMA.exe", "FCVbltScan.exe", "FortiESNAC.exe",
+    #         "EPCUserAvatar.exe", "FortiAvatar.exe", "FortiClient_Diagnostic_Tool.exe", "FortiSSLVPNdaemon.exe", "avp.exe",
+    #         "FCConfig.exe", "avpsus.exe", "klnagent.exe", "klnsacwsrv.exe", "kl_platf.exe", "stpass.exe", "klnagwds.exe",
+    #         "mbae.exe", "mbae64.exe", "mbae-svc.exe", "mbae-uninstaller.exe", "mbaeLoader32.exe", "mbaeloader64.exe",
+    #         "mbam-dor.exe", "mbamgui.exe", "
+    # ... [truncated]
   condition: selection
 level: medium

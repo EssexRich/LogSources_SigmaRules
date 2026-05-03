@@ -1,11 +1,11 @@
-title: Security Event Logging Disabled via MiniNt Registry Key - Process
-id: 43332c8f-4333-4333-a333-43332c8f0000
+title: Clearing Windows Event Logs
+id: 515334b0-5153-4153-a153-515334b00000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.002
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_event_logging_disable_via_key_minint.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_clearing_windows_event_logs.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562.002
 logsource:
@@ -13,30 +13,20 @@ logsource:
   service: powershell
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection_reg_img:
-    #         # Example: reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\MiniNt"
-    #         - Image|endswith: '\reg.exe'
-    #         - OriginalFileName: 'reg.exe'
-    #     selection_reg_cmd:
-    #         CommandLine|contains|all:
-    #             - ' add '
-    #             - '\SYSTEM\CurrentControlSet\Control\MiniNt'
-    #     selection_powershell_img:
-    #         - Image|endswith:
-    #               - '\powershell.exe'
-    #               - '\pwsh.exe'
-    #               - '\powershell_ise.exe'
-    #         - OriginalFileName:
-    #               - 'PowerShell.EXE'
-    #               - 'pwsh.dll'
-    #     selection_powershell_cmd1:
-    #         CommandLine|contains:
-    #             - 'New-Item '
-    #             - 'ni '
-    #     selection_powershell_cmd2:
-    #         CommandLine|contains: '\SYSTEM\CurrentControlSet\Control\MiniNt'
-    #     condition: all of selection_reg_* or all of selection_powershell_*
-    # 
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type == "start" and
+    # (
+    #   (
+    #     (process.name : "wevtutil.exe" or ?process.pe.original_file_name == "wevtutil.exe") and
+    #     process.args : ("/e:false", "cl", "clear-log")
+    #   ) or
+    #   (
+    #     (
+    #       process.name : ("powershell.exe", "pwsh.exe", "powershell_ise.exe") or
+    #       ?process.pe.original_file_name in ("PowerShell.EXE", "pwsh.dll", "powershell_ise.EXE")
+    #     ) and
+    #     process.args : "Clear-EventLog"
+    #   )
+    # )
   condition: selection
 level: medium

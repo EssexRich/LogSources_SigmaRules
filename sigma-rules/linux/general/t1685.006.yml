@@ -1,0 +1,35 @@
+title: Linux Logs Clearing Attempts
+id: 32cf1265-32cf-42cf-a2cf-32cf12650000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685.006
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_clear_logs.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1685.006
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '/rm'    # covers /rmdir as well
+    #             - '/rmdir'
+    #             - '/shred'
+    #             - '/unlink'
+    #         CommandLine|contains:
+    #             - '/var/log'
+    #             - '/var/spool/mail'
+    #     filter_main_legit_systat:
+    #         Image|endswith: '/rm'
+    #         CommandLine|startswith: 'rm -f /var/log/sysstat/'
+    #     filter_main_dmseg:
+    #         Image|endswith: '/rm'
+    #         CommandLine|startswith: 'rm -f -- /var/log//dmesg' # // before dmesg is not typo
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

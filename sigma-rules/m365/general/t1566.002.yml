@@ -1,11 +1,11 @@
-title: M365 Identity OAuth Flow by User Sign-in to Device Registration
-id: 0ba37eda-0ba3-4ba3-aba3-0ba37eda0000
+title: Suspicious Email Delivered In Microsoft 365
+id: 7de0c747-7de0-4de0-ade0-7de0c7470000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1566.002
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/credential_access_entra_id_device_reg_via_oauth_redirection.toml
-author: elastic (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/m365/audit/microsoft365_suspicious_email_delivered.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1566.002
 logsource:
@@ -13,13 +13,14 @@ logsource:
   service: general
 detection:
   selection:
-    # Original elastic detection logic
-    # sequence by related.user with maxspan=30m
-    # [authentication where event.action == "UserLoggedIn" and
-    #  o365.audit.ExtendedProperties.RequestType == "OAuth2:Authorize" and o365.audit.ExtendedProperties.ResultStatusDetail == "Redirect" and
-    #  o365.audit.UserType: ("0", "2", "3", "10")] // victim source.ip
-    # [authentication where event.action == "UserLoggedIn" and
-    #  o365.audit.ExtendedProperties.RequestType == "OAuth2:Token" and o365.audit.ExtendedProperties.ResultStatusDetail == "Success"] // attacker source.ip to convert oauth code to token
-    # [web where data_stream.dataset == "o365.audit" and event.action == "Add registered users to device."] // user.name is captured in related.user
+    # Original sigma detection logic
+    #     selection:
+    #         Workload: 'ThreatIntelligence'
+    #         Operation: 'TIMailData'
+    #         Directionality: 'Inbound'
+    #     filter_main_blocked:
+    #         DeliveryAction: 'Blocked'
+    #     condition: selection and not 1 of filter_main_*
+    # 
   condition: selection
 level: medium

@@ -1,0 +1,26 @@
+title: Curl or Wget Execution from Container Context
+id: 62232e54-6223-4223-a223-62232e540000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1105
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_auditd_curl_wget_from_container.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1105
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:linux and 
+    # data_stream.dataset:"auditd_manager.auditd" and
+    # event.action:("executed" or "exec") and
+    # process.title:"runc init" and
+    # (
+    #   process.name:(curl or wget) or
+    #   process.args:(* curl* or */bin/curl* or *wget*)
+    # )
+  condition: selection
+level: medium

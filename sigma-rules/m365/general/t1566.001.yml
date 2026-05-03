@@ -1,11 +1,11 @@
-title: Deprecated - M365 Security Compliance Email Reported by User as Malware or Phish
-id: 0f61dd33-0f61-4f61-af61-0f61dd330000
+title: Suspicious Email Delivered In Microsoft 365
+id: 7d6a6148-7d6a-4d6a-ad6a-7d6a61480000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1566.001
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/initial_access_security_compliance_user_reported_phish_malware.toml
-author: elastic (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/m365/audit/microsoft365_suspicious_email_delivered.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1566.001
 logsource:
@@ -13,7 +13,14 @@ logsource:
   service: general
 detection:
   selection:
-    # Original elastic detection logic
-    # data_stream.dataset:o365.audit and event.provider:SecurityComplianceCenter and event.action:AlertTriggered and rule.name:"Email reported by user as malware or phish"
+    # Original sigma detection logic
+    #     selection:
+    #         Workload: 'ThreatIntelligence'
+    #         Operation: 'TIMailData'
+    #         Directionality: 'Inbound'
+    #     filter_main_blocked:
+    #         DeliveryAction: 'Blocked'
+    #     condition: selection and not 1 of filter_main_*
+    # 
   condition: selection
 level: medium

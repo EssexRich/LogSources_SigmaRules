@@ -1,11 +1,11 @@
-title: AWS Config Disabling Channel/Recorder
-id: 4cab9c9d-4cab-4cab-acab-4cab9c9d0000
+title: ASL AWS Defense Evasion Delete CloudWatch Log Group
+id: 4048c46d-4048-4048-a048-4048c46d0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.008
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_config_disable_recording.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/asl_aws_defense_evasion_delete_cloudwatch_log_group.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562.008
 logsource:
@@ -13,13 +13,17 @@ logsource:
   service: general
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection:
-    #         eventSource: 'config.amazonaws.com'
-    #         eventName:
-    #             - 'DeleteDeliveryChannel'
-    #             - 'StopConfigurationRecorder'
-    #     condition: selection
-    # 
+    # Original splunk detection logic
+    # -
+    #     `amazon_security_lake` api.operation=DeleteLogGroup
+    #       | fillnull
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY actor.user.uid api.operation api.service.name
+    #            http_request.user_agent src_endpoint.ip actor.user.account.uid
+    #            cloud.provider cloud.region
+    #       | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `asl_aws_defense_evasion_delete_cloudwatch_log_group_filter`
   condition: selection
 level: medium

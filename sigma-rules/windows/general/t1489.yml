@@ -1,11 +1,11 @@
-title: Important Scheduled Task Deleted
-id: 0de564be-0de5-4de5-ade5-0de564be0000
+title: Important Scheduled Task Deleted or Disabled
+id: 5c04e2c5-5c04-4c04-ac04-5c04e2c50000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1489
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/taskscheduler/win_taskscheduler_susp_schtasks_delete.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/taskscheduler/win_taskscheduler_susp_schtasks_delete_or_disable.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1489
 logsource:
@@ -15,7 +15,9 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         EventID: 141
+    #         EventID:
+    #             - 141 # Task Deleted
+    #             - 142 # Task Disabled
     #         TaskName|contains:
     #             - '\Windows\SystemRestore\SR'
     #             - '\Windows\Windows Defender\'
@@ -24,11 +26,11 @@ detection:
     #             - '\Windows\WindowsUpdate\'
     #             - '\Windows\UpdateOrchestrator\'
     #             - '\Windows\ExploitGuard'
-    #     filter:
+    #     filter_main_user:
     #         UserName|contains:
     #             - 'AUTHORI'
     #             - 'AUTORI'
-    #     condition: selection and not filter
+    #     condition: selection and not 1 of filter_main_*
     # 
   condition: selection
 level: medium

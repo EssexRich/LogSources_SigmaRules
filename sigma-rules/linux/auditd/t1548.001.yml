@@ -1,11 +1,11 @@
-title: Linux Auditd Setuid Using Chmod Utility
-id: 6cc60ed6-6cc6-4cc6-acc6-6cc60ed60000
+title: Potential Copy Fail (CVE-2026-31431) Exploitation via AF_ALG Socket
+id: 6aeb6521-6aeb-4aeb-aaeb-6aeb65210000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1548.001
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_setuid_using_chmod_utility.yml
-author: splunk (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_potential_copy_fail_cve_2026_31431_exploitation_via_af_alg_socket.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1548.001
 logsource:
@@ -13,14 +13,20 @@ logsource:
   service: auditd
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     `linux_auditd`  proctitle IN ("*chmod *")  AND proctitle IN ("* u+s *", "* g+s *", "* 4777 *", "* 4577 *")
-    #       | rename host as dest
-    #       | stats count min(_time) as firstTime max(_time) as lastTime
-    #         BY proctitle dest
-    #       | `security_content_ctime(firstTime)`
-    #       | `security_content_ctime(lastTime)`
-    #       | `linux_auditd_setuid_using_chmod_utility_filter`
+    # Original elastic detection logic
+    # sequence with maxspan=60s
+    #   [any where host.os.type == "linux" and    
+    #    (
+    #     (event.category == "process" and auditd.data.syscall == "socket" and auditd.data.a0 == "26") or 
+    #     (event.category == "process" and auditd.data.syscall == "splice") or 
+    #     (event.category == "network" and event.action == "bound-socket" and data_stream.dataset == "auditd_manager.auditd" and ?auditd.data.socket.family == "38") 
+    #     )  
+    #    and user.id != "0"]  by process.pid, host.id, user.id with runs=10
+    #   [process where host.os.type == "linux"  and event.action == "executed" and 
+    #    (
+    #      (user.effective.id == "0" and user.id != "0") or 
+    #      (process.name in ("bash", "sh", "zsh", "dash", "fish", "ksh", "busybox") and 
+    #       process.args in ("-c", "--command", "-ic", "-ci", "-cl", "-lc", "-bash", "-sh", "-zsh", "-dash", "-fish", "-ksh"))
+    #     )] by process.parent.pid, host.id, user.id
   condition: selection
 level: medium

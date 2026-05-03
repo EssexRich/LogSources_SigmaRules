@@ -1,11 +1,11 @@
-title: Sensitive File Access Via Volume Shadow Copy Backup
-id: 06b065cc-06b0-46b0-a6b0-06b065cc0000
+title: Important Scheduled Task Deleted/Disabled
+id: 15039c57-1503-4503-a503-15039c570000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1490
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_sensitive_file_access_shadowcopy.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_susp_scheduled_task_delete_or_disable.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1490
 logsource:
@@ -14,16 +14,24 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_1:
-    #         # copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:\temp\ntds.dit 2>&1
-    #         # There is an additional "\" to escape the special "?"
-    #         CommandLine|contains: '\\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy'
-    #     selection_2:
-    #         CommandLine|contains:
-    #             - '\\NTDS.dit'
-    #             - '\\SYSTEM'
-    #             - '\\SECURITY'
-    #     condition: all of selection_*
+    #     selection:
+    #         EventID:
+    #             - 4699 # Task Deleted Event
+    #             - 4701 # Task Disabled Event
+    #         TaskName|contains:
+    #             # Add more important tasks
+    #             - '\Windows\SystemRestore\SR'
+    #             - '\Windows\Windows Defender\'
+    #             - '\Windows\BitLocker'
+    #             - '\Windows\WindowsBackup\'
+    #             - '\Windows\WindowsUpdate\'
+    #             - '\Windows\UpdateOrchestrator\Schedule'
+    #             - '\Windows\ExploitGuard'
+    #     filter_main_defender_update:
+    #         EventID: 4699
+    #         SubjectUserName|endswith: '$'  # False positives during upgrades of Defender, where its tasks get removed and added
+    #         TaskName|contains: '\Windows\Windows Defender\'
+    #     condition: selection and not 1 of filter_main_*
     # 
   condition: selection
 level: medium

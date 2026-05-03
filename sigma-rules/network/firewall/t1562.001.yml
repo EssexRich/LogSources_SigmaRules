@@ -1,11 +1,11 @@
-title: Cisco Disabling Logging
-id: 44b2fde1-44b2-44b2-a4b2-44b2fde10000
+title: Attempt to Disable IPTables or Firewall
+id: 1f888339-1f88-4f88-af88-1f8883390000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_disable_logging.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_attempt_to_disable_iptables_or_firewall.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562.001
 logsource:
@@ -13,11 +13,13 @@ logsource:
   service: firewall
 detection:
   selection:
-    # Original sigma detection logic
-    #     keywords:
-    #         - 'no logging'
-    #         - 'no aaa new-model'
-    #     condition: keywords
+    # Original elastic detection logic
+    # event.category:process and event.type:(start or process_started) and
+    #   process.name:ufw and process.args:(allow or disable or reset) or
     # 
+    #   (((process.name:service and process.args:stop) or
+    #      (process.name:chkconfig and process.args:off) or
+    #      (process.name:systemctl and process.args:(disable or stop or kill))) and
+    #    process.args:(firewalld or ip6tables or iptables))
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1059.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_indirect_exec_conhost.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1059.001
 logsource:
@@ -16,6 +16,25 @@ detection:
     # Original elastic detection logic
     # process where host.os.type == "windows" and event.type == "start" and
     #  process.name : "conhost.exe" and process.args : "--headless" and
-    #   process.command_line : ("*powershell*", "*cmd *", "*cmd.exe *", "*script*", "*mshta*", "*curl *", "*curl.exe *", "*^*^*^*", "*.bat*", "*.cmd*", "*schtasks*", "*@SSL*", "*http*", "* \\\\*", "*.vbs*", "*.js*", "*mhsta*")
+    #   process.command_line : (
+    #     "*powershell*", "*cmd *", "*cmd.exe *", "*script*", "*mshta*", "*curl *", "*curl.exe *", "*^*^*^*",
+    #     "*.bat*", "*.cmd*", "*schtasks*", "*@SSL*", "*http*", "* \\\\*", "*.vbs*", "*.js*", "*mhsta*"
+    #   ) and
+    #   not (
+    #     /* Winget-AutoUpdate via ServiceUI */
+    #     process.parent.executable : "?:\\Program Files\\winget-autoupdate*\\serviceui.exe" or
+    #     /* Winget-AutoUpdate notification via Task Scheduler */
+    #     (
+    #       process.parent.executable : "?:\\Windows\\System32\\svchost.exe" and process.parent.args : "-s" and
+    #       process.parent.args : "Schedule" and process.command_line : "*WAU-Notify.ps1*"
+    #     ) or
+    #     /* Windows OpenSSH console host — SSH-specific detection handled by 8cd49fbc-a35a-4418-8688-133cc3a1e548 */
+    #     process.parent.executable : (
+    #       "?:\\Windows\\System32\\OpenSSH\\sshd.exe",
+    #       "?:\\Windows\\System32\\OpenSSH\\sshd-session.exe",
+    #       "?:\\Program Files\\OpenSSH*\\sshd.exe",
+    #       "?:\\Program Files\\OpenSSH*\\sshd-session.exe"
+    #     )
+    #   )
   condition: selection
 level: medium

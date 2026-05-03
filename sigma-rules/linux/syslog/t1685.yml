@@ -1,0 +1,27 @@
+title: ESXi Syslog Configuration Change Via ESXCLI
+id: 74cf618b-74cf-44cf-a4cf-74cf618b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_esxcli_syslog_config_change.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1685
+logsource:
+  product: linux
+  service: syslog
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/esxcli'
+    #         CommandLine|contains|all:
+    #             - 'system'
+    #             - 'syslog'
+    #             - 'config'
+    #         CommandLine|contains: ' set'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

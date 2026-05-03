@@ -1,0 +1,26 @@
+title: AWS CloudTrail Important Change
+id: 2fb031a5-2fb0-4fb0-afb0-2fb031a50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685.002
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_disable_logging.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1685.002
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_source:
+    #         eventSource: cloudtrail.amazonaws.com
+    #         eventName:
+    #             - StopLogging
+    #             - UpdateTrail
+    #             - DeleteTrail
+    #     condition: selection_source
+    # 
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: Win Defender Restored Quarantine File
-id: 73edab1f-73ed-43ed-a3ed-73edab1f0000
+title: Dism Remove Online Package
+id: 7be7be86-7be7-4be7-abe7-7be7be860000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/windefend/win_defender_restored_quarantine_file.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_dism_remove.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1562.001
 logsource:
@@ -14,9 +14,25 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection:
-    #         EventID: 1009 # The antimalware platform restored an item from quarantine.
-    #     condition: selection
+    #     selection_dismhost:
+    #         Image|endswith: '\DismHost.exe'
+    #         ParentCommandLine|contains|all:
+    #             - '/Online'
+    #             - '/Disable-Feature'
+    #             # - '/FeatureName:'
+    #             # - '/Remove'
+    #             # /NoRestart
+    #             # /quiet
+    #     selection_dism:
+    #         Image|endswith: '\Dism.exe'
+    #         CommandLine|contains|all:
+    #             - '/Online'
+    #             - '/Disable-Feature'
+    #             # - '/FeatureName:'
+    #             # - '/Remove'
+    #             # /NoRestart
+    #             # /quiet
+    #     condition: 1 of selection_*
     # 
   condition: selection
 level: medium

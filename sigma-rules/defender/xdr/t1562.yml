@@ -1,11 +1,11 @@
-title: Windows Defender Exclusions Added - PowerShell
-id: 55552cc8-5555-4555-a555-55552cc80000
+title: Windows Defender Disabled via Registry Modification
+id: 287796a0-2877-4877-a877-287796a00000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_win_defender_exclusions_added.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_defender_disabled_via_registry.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562
 logsource:
@@ -13,18 +13,32 @@ logsource:
   service: xdr
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection_args_exc:
-    #         ScriptBlockText|contains:
-    #             - ' -ExclusionPath '
-    #             - ' -ExclusionExtension '
-    #             - ' -ExclusionProcess '
-    #             - ' -ExclusionIpAddress '
-    #     selection_args_pref:
-    #         ScriptBlockText|contains:
-    #             - 'Add-MpPreference '
-    #             - 'Set-MpPreference '
-    #     condition: all of selection*
+    # Original elastic detection logic
+    # registry where host.os.type == "windows" and event.type == "change" and
+    #   (
+    #     (
+    #       registry.path: (
+    #         "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\DisableAntiSpyware",
+    #         "\\REGISTRY\\MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\DisableAntiSpyware"
+    #       ) and
+    #       registry.data.strings: ("1", "0x00000001")
+    #    ) or
+    #    (
+    #       registry.path: (
+    #         "HKLM\\System\\*ControlSet*\\Services\\WinDefend\\Start",
+    #         "\\REGISTRY\\MACHINE\\System\\*ControlSet*\\Services\\WinDefend\\Start"
+    #       ) and
+    #       registry.data.strings in ("3", "4", "0x00000003", "0x00000004")
+    #    )
+    #   ) and
     # 
+    #   not
+    #     (
+    #       process.executable : (
+    #           "?:\\WINDOWS\\system32\\services.exe",
+    #           "?:\\Windows\\System32\\svchost.exe",
+    #           "?:\\Program Files (x86)\\Trend Micro\\Security Agent\\NTRmv.exe"
+    #       ) and user.id : "S-1-5-18"
+    #     )
   condition: selection
 level: medium

@@ -1,0 +1,29 @@
+title: ASLR Disabled Via Sysctl or Direct Syscall - Linux
+id: 78c0661f-78c0-48c0-a8c0-78c0661f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_disable_aslr_protection.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1685
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_syscall:
+    #         type: 'SYSCALL'
+    #         SYSCALL: 'personality'
+    #         a0: 40000
+    #     selection_sysctl:
+    #         type: 'EXECVE'
+    #         a0: 'sysctl'
+    #         a1: '-w'
+    #         a2: 'kernel.randomize_va_space=0' # 0 = disable
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

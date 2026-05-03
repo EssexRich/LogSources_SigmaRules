@@ -1,0 +1,23 @@
+title: Audit Rules Deleted Via Auditctl
+id: 75b09d22-75b0-45b0-a5b0-75b09d220000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_auditctl_clear_rules.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1685.004
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith: '/auditctl'
+    #         CommandLine|re: '-D'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

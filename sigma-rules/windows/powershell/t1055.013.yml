@@ -1,0 +1,71 @@
+title: PowerShell PInvoke Process Injection API Chain
+id: 5fb4fa8e-5fb4-4fb4-afb4-5fb4fa8e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1055.013
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/powershell_pinvoke_process_injection_api_chain.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1055.013
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `powershell`
+    #     EventCode=4104
+    #     (
+    #         ScriptBlockText = "*add-type*"
+    #         ScriptBlockText="*DllImport*"
+    #         (
+    #             (
+    #                ScriptBlockText="*extern IntPtr VirtualAlloc*"
+    #                ScriptBlockText="*extern bool VirtualProtect*"
+    #                ScriptBlockText="*extern IntPtr CreateThread*"
+    #             )
+    #             OR
+    #             (
+    #                ScriptBlockText="*extern IntPtr OpenProcess*"
+    #                ScriptBlockText="*extern IntPtr VirtualAlloc*"
+    #                ScriptBlockText="*extern bool WriteProcessMemory*"
+    #                ScriptBlockText="*extern IntPtr CreateRemoteThread*"
+    #             )
+    #             OR
+    #             (
+    #                ScriptBlockText="*extern IntPtr OpenProcess*"
+    #                ScriptBlockText="*extern IntPtr VirtualAlloc*"
+    #                ScriptBlockText="*extern bool WriteProcessMemory*"
+    #                ScriptBlockText="*extern bool QueueUserAPC*"
+    #             )
+    #             OR
+    #             (
+    #                ScriptBlockText="*extern IntPtr OpenThread*"
+    #                ScriptBlockText="*extern uint SuspendThread*"
+    #                ScriptBlockText="*extern bool GetThreadContext*"
+    #                ScriptBlockText="*extern bool WriteProcessMemory*"
+    #                ScriptBlockText="*extern bool SetThreadContext*"
+    #                ScriptBlockText="*extern uint ResumeThread*"
+    #             )
+    #             OR
+    #             (
+    #                ScriptBlockText="*extern bool CreateProcess*"
+    #                ScriptBlockText="*extern IntPtr VirtualAlloc*"
+    #                ScriptBlockText="*extern bool WriteProcessMemory*"
+    #                ScriptBlockText="*extern bool SetThreadContext*"
+    #                ScriptBlockText="*extern uint ResumeThread*"
+    #             )
+    #             OR
+    #             (
+    #                ScriptBlockText="*extern int NtCreateSection*"
+    #                ScriptBlockText="*extern int NtMapViewOfSection*"
+    #                ScriptBlockText="*extern IntPtr CreateRemoteThread*"
+    #             )
+    #             OR
+    #             (
+    #                ScriptB
+    # ... [truncated]
+  condition: selection
+level: medium

@@ -1,0 +1,35 @@
+title: Potential Invoke-Mimikatz PowerShell Script
+id: 77d3f7d4-77d3-47d3-a7d3-77d3f7d40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1555.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_mimikatz_powershell_module.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1555.004
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.category:process and host.os.type:windows and
+    # powershell.file.script_block_text:(
+    #   (DumpCreds and DumpCerts) or
+    #   "sekurlsa::logonpasswords" or
+    #   "sekurlsa::ekeys" or
+    #   "sekurlsa::tickets" or
+    #   "sekurlsa::pth" or
+    #   "sekurlsa::minidump" or
+    #   "lsadump::sam" or
+    #   "lsadump::secrets" or
+    #   "lsadump::cache" or
+    #   "lsadump::dcsync" or
+    #   "vault::cred" or
+    #   "dpapi::cred" or
+    #   ("crypto::certificates" and
+    #   "CERT_SYSTEM_STORE_LOCAL_MACHINE")
+    # )
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: ESXi Syslog Configuration Change Via ESXCLI
-id: 409fe24a-409f-409f-a09f-409fe24a0000
+title: Attempt to Disable Syslog Service
+id: 43b64db6-43b6-43b6-a3b6-43b64db60000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_esxcli_syslog_config_change.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_attempt_to_disable_syslog_service.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562.001
 logsource:
@@ -13,15 +13,18 @@ logsource:
   service: syslog
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection:
-    #         Image|endswith: '/esxcli'
-    #         CommandLine|contains|all:
-    #             - 'system'
-    #             - 'syslog'
-    #             - 'config'
-    #         CommandLine|contains: ' set'
-    #     condition: selection
-    # 
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "ProcessRollup2") and (
+    #   (process.name == "service" and process.args == "stop") or
+    #   (process.name == "chkconfig" and process.args == "off") or
+    #   (process.name == "update-rc.d" and process.args in ("remove", "disable")) or
+    #   (process.name == "systemctl" and process.args in ("disable", "stop", "kill", "mask"))
+    # ) and
+    # process.args in ("syslog", "rsyslog", "syslog-ng", "syslog.service", "rsyslog.service", "syslog-ng.service") and
+    # not (
+    #   process.parent.name == "rsyslog-rotate" or
+    #   process.args == "HUP"
+    # )
   condition: selection
 level: medium

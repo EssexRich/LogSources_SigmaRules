@@ -1,11 +1,11 @@
-title: ASLR Disabled Via Sysctl or Direct Syscall - Linux
-id: 259f9f80-259f-459f-a59f-259f9f800000
+title: Attempt to Disable Auditd Service
+id: 56580ce4-5658-4658-a658-56580ce40000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_disable_aslr_protection.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_attempt_to_disable_auditd_service.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562.001
 logsource:
@@ -13,17 +13,14 @@ logsource:
   service: auditd
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection_syscall:
-    #         type: 'SYSCALL'
-    #         SYSCALL: 'personality'
-    #         a0: 40000
-    #     selection_sysctl:
-    #         type: 'EXECVE'
-    #         a0: 'sysctl'
-    #         a1: '-w'
-    #         a2: 'kernel.randomize_va_space=0' # 0 = disable
-    #     condition: 1 of selection_*
-    # 
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "exec_event", "start", "ProcessRollup2") and (
+    #   (process.name == "service" and process.args == "stop") or
+    #   (process.name == "chkconfig" and process.args == "off") or
+    #   (process.name == "update-rc.d" and process.args in ("remove", "disable")) or
+    #   (process.name == "systemctl" and process.args in ("disable", "stop", "kill", "mask"))
+    # ) and
+    # process.args in ("auditd", "auditd.service") and 
+    # not ?process.parent.name == "auditd.prerm"
   condition: selection
 level: medium

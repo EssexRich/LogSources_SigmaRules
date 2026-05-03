@@ -1,11 +1,11 @@
-title: FortiGate - Firewall Address Object Added
-id: 37ed5f58-37ed-47ed-a7ed-37ed5f580000
+title: Attempt to Disable IPTables or Firewall
+id: 4322d736-4322-4322-a322-4322d7360000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/fortinet/fortigate/fortinet_fortigate_new_firewall_address_object.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/defense_evasion_attempt_to_disable_iptables_or_firewall.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562
 logsource:
@@ -13,11 +13,13 @@ logsource:
   service: firewall
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection:
-    #         action: 'Add'
-    #         cfgpath: 'firewall.address'
-    #     condition: selection
+    # Original elastic detection logic
+    # event.category:process and event.type:(start or process_started) and
+    #   process.name:ufw and process.args:(allow or disable or reset) or
     # 
+    #   (((process.name:service and process.args:stop) or
+    #      (process.name:chkconfig and process.args:off) or
+    #      (process.name:systemctl and process.args:(disable or stop or kill))) and
+    #    process.args:(firewalld or ip6tables or iptables))
   condition: selection
 level: medium

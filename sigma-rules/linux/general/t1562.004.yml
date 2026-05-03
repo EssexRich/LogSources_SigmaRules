@@ -1,11 +1,11 @@
-title: Ufw Force Stop Using Ufw-Init
-id: 490a4e3d-490a-490a-a90a-490a4e3d0000
+title: Disabling Security Tools
+id: 104411b5-1044-4044-a044-104411b50000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.004
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_disable_ufw.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_security_tools_disabling.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1562.004
 logsource:
@@ -14,15 +14,70 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_init:
+    #     selection_iptables_1:
+    #         Image|endswith: '/service'
     #         CommandLine|contains|all:
-    #             - '-ufw-init'
-    #             - 'force-stop'
-    #     selection_ufw:
+    #             - 'iptables'
+    #             - 'stop'
+    #     selection_iptables_2:
+    #         Image|endswith: '/service'
     #         CommandLine|contains|all:
-    #             - 'ufw'
+    #             - 'ip6tables'
+    #             - 'stop'
+    #     selection_iptables_3:
+    #         Image|endswith: '/chkconfig'
+    #         CommandLine|contains|all:
+    #             - 'iptables'
+    #             - 'stop'
+    #     selection_iptables_4:
+    #         Image|endswith: '/chkconfig'
+    #         CommandLine|contains|all:
+    #             - 'ip6tables'
+    #             - 'stop'
+    #     selection_firewall_1:
+    #         Image|endswith: '/systemctl'
+    #         CommandLine|contains|all:
+    #             - 'firewalld'
+    #             - 'stop'
+    #     selection_firewall_2:
+    #         Image|endswith: '/systemctl'
+    #         CommandLine|contains|all:
+    #             - 'firewalld'
     #             - 'disable'
-    #     condition: 1 of selection_*
+    #     selection_carbonblack_1:
+    #         Image|endswith: '/service'
+    #         CommandLine|contains|all:
+    #             - 'cbdaemon'
+    #             - 'stop'
+    #     selection_carbonblack_2:
+    #         Image|endswith: '/chkconfig'
+    #         CommandLine|contains|all:
+    #             - 'cbdaemon'
+    #             - 'off'
+    #     selection_carbonblack_3:
+    #         Image|endswith: '/systemctl'
+    #         CommandLine|contains|all:
+    #             - 'cbdaemon'
+    #             - 'stop'
+    #     selection_carbonblack_4:
+    #         Image|endswith: '/systemctl'
+    #         CommandLine|contains|all:
+    #             - 'cbdaemon'
+    #             - 'disable'
+    #     selection_selinux:
+    #         Image|endswith: '/setenforce'
+    #         CommandLine|contains: '0'
+    #     selection_crowdstrike_1:
+    #         Image|endswith: '/systemctl'
+    #         CommandLine|contains|all:
+    #             - 'stop'
+    #             - 'falcon-sensor'
+    #     selection_crowdstrike_2:
+    #         Image|endswith: '/systemctl'
+    #         CommandLine|contains|all:
+    #             - 'disable'
+    #             - 'falcon-sensor'
+    #     condition: 1 of selection*
     # 
   condition: selection
 level: medium

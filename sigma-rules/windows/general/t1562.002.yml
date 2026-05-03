@@ -1,11 +1,11 @@
-title: ETW Logging/Processing Option Disabled On IIS Server
-id: 5fc1fe3a-5fc1-4fc1-afc1-5fc1fe3a0000
+title: Disable Windows IIS HTTP Logging
+id: 36e43564-36e4-46e4-a6e4-36e435640000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.002
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/iis-configuration/win_iis_logging_etw_disabled.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_iis_appcmd_http_logging.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1562.002
 logsource:
@@ -14,13 +14,16 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection:
-    #         EventID: 29
-    #         Configuration|endswith: '@logTargetW3C'
-    #         OldValue|contains: 'ETW'
-    #     filter_main_etw_added:
-    #         NewValue|contains: 'ETW'
-    #     condition: selection and not 1 of filter_main_*
+    #     selection_img:
+    #         - Image|endswith: '\appcmd.exe'
+    #         - OriginalFileName: 'appcmd.exe'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - 'set'
+    #             - 'config'
+    #             - 'section:httplogging'
+    #             - 'dontLog:true'
+    #     condition: all of selection_*
     # 
   condition: selection
 level: medium

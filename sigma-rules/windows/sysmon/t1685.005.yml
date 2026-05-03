@@ -1,0 +1,32 @@
+title: Eventlog Cleared
+id: 0c22666e-0c22-4c22-ac22-0c22666e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685.005
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/microsoft_windows_eventlog/win_system_eventlog_cleared.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1685.005
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         EventID: 104
+    #         Provider_Name: 'Microsoft-Windows-Eventlog'
+    #     filter_main_covered:
+    #         # The channels below are already covered by the rule 100ef69e-3327-481c-8e5c-6d80d9507556
+    #         Channel:
+    #             - 'Microsoft-Windows-PowerShell/Operational'
+    #             - 'Microsoft-Windows-Sysmon/Operational'
+    #             - 'PowerShellCore/Operational'
+    #             - 'Security'
+    #             - 'System'
+    #             - 'Windows PowerShell'
+    #     condition: selection and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

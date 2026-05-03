@@ -1,11 +1,11 @@
-title: AWS CloudTrail Important Change
-id: 0bb2cca9-0bb2-4bb2-abb2-0bb2cca90000
+title: AWS CloudTrail Log Created
+id: 615fd157-615f-415f-a15f-615fd1570000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.008
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_disable_logging.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/collection_cloudtrail_logging_created.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562.008
 logsource:
@@ -13,14 +13,10 @@ logsource:
   service: cloudtrail
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection_source:
-    #         eventSource: cloudtrail.amazonaws.com
-    #         eventName:
-    #             - StopLogging
-    #             - UpdateTrail
-    #             - DeleteTrail
-    #     condition: selection_source
-    # 
+    # Original elastic detection logic
+    # data_stream.dataset: "aws.cloudtrail" 
+    #     and event.provider: "cloudtrail.amazonaws.com" 
+    #     and event.action: "CreateTrail" 
+    #     and event.outcome: "success"
   condition: selection
 level: medium

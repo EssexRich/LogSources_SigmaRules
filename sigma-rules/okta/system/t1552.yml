@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1552
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/identity/okta/okta_password_in_alternateid_field.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1552
 logsource:
@@ -15,7 +15,7 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         legacyeventtype: 'core.user_auth.login_failed'
+    #         legacyEventType: 'core.user_auth.login_failed'
     #     filter_main:
     #         # Okta service account names start with 0oa
     #         # Email addresses are the default format for Okta usernames, so attempt
@@ -23,7 +23,7 @@ detection:
     #         # If your Okta configuration uses different character restrictions, you
     #         # will need to update this regular expression to reflect that or disable the rule for your environment
     #         # Possible false negatives are failed login attempts with a password that looks like a valid email address
-    #         actor.alternateid|re: '(^0oa.*|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10})'
+    #         actor.alternateId|re: '(^0oa.*|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10})'
     #     condition: selection and not filter_main
     # 
   condition: selection

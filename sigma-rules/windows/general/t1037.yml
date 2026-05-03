@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1037
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_genai_process_sensitive_file_access.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1037
 logsource:
@@ -38,11 +38,7 @@ detection:
     #         "zed.exe", "zed",
     #         "opencode.exe", "opencode",
     #         "goose.exe", "goose"
-    #       ) or
-    #       // OpenClaw/Moltbot/Clawdbot family via Node.js
-    #       (process.name in~ ("node", "node.exe") and
-    #        process.command_line like~ ("*openclaw*", "*moltbot*", "*clawdbot*",
-    #                                    "*nemoclaw*", "*nanoclaw*", "*picoclaw*"))
+    #       )
     #     ) and
     # 
     #   // Sensitive file paths
@@ -69,7 +65,13 @@ detection:
     #                   "azureProfile.json",
     #                   "RDCMan.settings", 
     #                   "known_hosts", 
-    #                   "KeeP
+    #                   "KeePass.config.xml", 
+    #                   "Unattended.xml")
+    #   ) and not (
+    #     host.os.type == "windows" and
+    #     process.name : ("claude.exe", "Claude") and
+    #     file.path : ("?:\\Users\\*\\AppData\\Roaming\\Claude\\Local State",
+    #                  "?:\\Users\\*\\AppDat
     # ... [truncated]
   condition: selection
 level: medium

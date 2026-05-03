@@ -1,11 +1,11 @@
-title: Kaspersky Endpoint Security Stopped Via CommandLine - Linux
-id: 140f40eb-140f-440f-a40f-140f40eb0000
+title: Tampering with RUNNER_TRACKING_ID in GitHub Actions Runners
+id: 34ce2965-34ce-44ce-a4ce-34ce29650000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_av_kaspersky_av_disabled.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_via_github_runner_with_runner_tracking_id_tampering_via_env_vars.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562.001
 logsource:
@@ -13,17 +13,9 @@ logsource:
   service: general
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection:
-    #         Image|endswith:
-    #             # Note: Add the list of shells allowed in your environment that can be used to run init.d scripts.
-    #             - '/systemctl'
-    #             - '/bash'
-    #             - '/sh'
-    #         CommandLine|contains|all:
-    #             - 'stop'
-    #             - 'kesl'
-    #     condition: selection
-    # 
+    # Original elastic detection logic
+    # process where host.os.type in ("linux", "macos") and event.type == "start" and event.action == "exec" and
+    # process.parent.name in ("Runner.Worker", "Runner.Listener") and process.env_vars like~ "RUNNER_TRACKING_ID*" and
+    # not process.env_vars like~ "RUNNER_TRACKING_ID=github_*"
   condition: selection
 level: medium

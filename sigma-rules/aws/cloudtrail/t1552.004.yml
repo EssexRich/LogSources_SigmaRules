@@ -1,0 +1,27 @@
+title: AWS EC2 CreateKeyPair by New Principal from Non-Cloud AS Organization
+id: 73a68619-73a6-43a6-a3a6-73a686190000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_new_terms_ec2_create_keypair_unusual_source_as.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1552.004
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "ec2.amazonaws.com"
+    #     and event.action: "CreateKeyPair"
+    #     and event.outcome: "success"
+    #     and source.as.organization.name: (
+    #         * and not (
+    #             "Amazon.com, Inc." or AMAZ* or "Google LLC" or "Microsoft Corporation"
+    #         )
+    #     )
+  condition: selection
+level: medium

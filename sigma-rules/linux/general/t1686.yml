@@ -1,0 +1,28 @@
+title: Ufw Force Stop Using Ufw-Init
+id: 1c940646-1c94-4c94-ac94-1c9406460000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1686
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_disable_ufw.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1686
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_init:
+    #         CommandLine|contains|all:
+    #             - '-ufw-init'
+    #             - 'force-stop'
+    #     selection_ufw:
+    #         CommandLine|contains|all:
+    #             - 'ufw'
+    #             - 'disable'
+    #     condition: 1 of selection_*
+    # 
+  condition: selection
+level: medium

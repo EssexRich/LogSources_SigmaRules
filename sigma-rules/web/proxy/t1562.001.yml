@@ -1,11 +1,11 @@
-title: Bitbucket Global Secret Scanning Rule Deleted
-id: 2734166c-2734-4734-a734-2734166c0000
+title: ESXi Download Errors
+id: 6ecbe7c4-6ecb-4ecb-aecb-6ecbe7c40000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/application/bitbucket/audit/bitbucket_audit_global_secret_scanning_rule_deleted.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_download_errors.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562.001
 logsource:
@@ -13,11 +13,7 @@ logsource:
   service: proxy
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection:
-    #         auditType.category: 'Global administration'
-    #         auditType.action: 'Global secret scanning rule deleted'
-    #     condition: selection
-    # 
+    # Original splunk detection logic
+    # `esxi_syslog` Message IN ("*Download failed*", "*Failed to download file*", "*File download error*", "*Could not download*") | rex field=_raw "Z (?<dest>[\w\.]*)\s" | stats min(_time) as firstTime max(_time) as lastTime count by dest Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `esxi_download_errors_filter`
   condition: selection
 level: medium

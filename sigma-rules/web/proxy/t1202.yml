@@ -1,11 +1,11 @@
-title: Proxy Execution via Vshadow
-id: 4964f532-4964-4964-a964-4964f5320000
+title: Indirect Command Execution via SFTP ProxyCommand
+id: 038e1341-038e-438e-a38e-038e13410000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1202
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_vshadow_exec.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_sftp_proxy_command_execution.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1202
 logsource:
@@ -14,12 +14,10 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_img:
-    #         - Image|endswith: '\vshadow.exe'
-    #         - OriginalFileName: 'vshadow.exe'
-    #     selection_cli:
-    #         CommandLine|contains: '-exec'
-    #     condition: all of selection_*
+    #     selection:
+    #         Image|endswith: '\sftp.exe'
+    #         CommandLine|contains: 'ProxyCommand='
+    #     condition: selection
     # 
   condition: selection
 level: medium

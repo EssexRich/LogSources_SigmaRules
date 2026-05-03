@@ -1,11 +1,11 @@
-title: Windows Defender Exclusion List Modified
-id: 28ee246b-28ee-48ee-a8ee-28ee246b0000
+title: Windows Defender Threat Detection Service Disabled
+id: 5e86cafa-5e86-4e86-ae86-5e86cafa0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_windows_defender_exclusions_registry_modified.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/system/service_control_manager/win_system_defender_disabled.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1562.001
 logsource:
@@ -15,8 +15,15 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         EventID: 4657 # A registry value was modified.
-    #         ObjectName|contains: '\Microsoft\Windows Defender\Exclusions\'
+    #         EventID: 7036
+    #         Provider_Name: 'Service Control Manager'
+    #         # Note: The service name and messages are localized
+    #         param1:
+    #             - 'Windows Defender Antivirus Service'
+    #             - 'Service antivirus Microsoft Defender' # French OS
+    #         param2:
+    #             - 'stopped'
+    #             - 'arrêté' # French OS
     #     condition: selection
     # 
   condition: selection

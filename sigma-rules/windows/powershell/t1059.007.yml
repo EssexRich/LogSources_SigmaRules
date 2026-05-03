@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1059.007
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_csc_susp_parent.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1059.007
 logsource:
@@ -35,7 +35,7 @@ detection:
     #             - '-Encoded '
     #             - 'FromBase64String'
     #     selection_parent_susp_location:
-    #         - ParentCommandLine|re: '([Pp]rogram[Dd]ata|%([Ll]ocal)?[Aa]pp[Dd]ata%|\\[Aa]pp[Dd]ata\\([Ll]ocal([Ll]ow)?|[Rr]oaming))\\[^\\]{1,256}$'
+    #         - ParentCommandLine|re: '(?:[Pp]rogram[Dd]ata|%(?:[Ll]ocal)?[Aa]pp[Dd]ata%|\\[Aa]pp[Dd]ata\\(?:[Ll]ocal(?:[Ll]ow)?|[Rr]oaming))\\[^\\]{1,256}$'
     #         - ParentCommandLine|contains:
     #               - ':\PerfLogs\'
     #               - ':\Users\Public\'
@@ -61,8 +61,7 @@ detection:
     #     filter_main_sdiagnhost:
     #         ParentImage: 'C:\Windows\System32\sdiagnhost.exe' # https://twitter.com/gN3mes1s/status/1206874118282448897
     #     filter_main_w3p:
-    #         ParentImage: 'C:\Windows\System32\inetsrv\w3wp.exe' # https://twitter.com/gabriele_pippi/status/1206907900268072962
-    #     f
+    #         ParentImage: 'C:\Windows\System32\inetsrv\w3wp.exe' # https://twitter.com/gabriele_pippi/status/12069079002680729
     # ... [truncated]
   condition: selection
 level: medium

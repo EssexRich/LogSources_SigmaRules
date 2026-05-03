@@ -1,0 +1,33 @@
+title: Disable-WindowsOptionalFeature Command PowerShell
+id: 5a51756d-5a51-4a51-aa51-5a51756d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_disable_windows_optional_feature.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1685
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_cmd:
+    #         ScriptBlockText|contains|all:
+    #             - 'Disable-WindowsOptionalFeature'
+    #             - '-Online'
+    #             - '-FeatureName'
+    #     selection_feature:
+    #         # Add any important windows features
+    #         ScriptBlockText|contains:
+    #             - 'Windows-Defender-Gui'
+    #             - 'Windows-Defender-Features'
+    #             - 'Windows-Defender'
+    #             - 'Windows-Defender-ApplicationGuard'
+    #             # - 'Containers-DisposableClientVM' # Windows Sandbox
+    #     condition: all of selection*
+    # 
+  condition: selection
+level: medium

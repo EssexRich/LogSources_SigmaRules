@@ -1,11 +1,11 @@
-title: Security Eventlog Cleared
-id: 0f6fd842-0f6f-4f6f-af6f-0f6fd8420000
+title: Sensitive Audit Policy Sub-Category Disabled
+id: 5ab27f6c-5ab2-4ab2-aab2-5ab27f6c0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1070.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_audit_log_cleared.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_audit_policy_disabled_winlog.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1070.001
 logsource:
@@ -13,14 +13,29 @@ logsource:
   service: security
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection_517:
-    #         EventID: 517
-    #         Provider_Name: Security
-    #     selection_1102:
-    #         EventID: 1102
-    #         Provider_Name: Microsoft-Windows-Eventlog
-    #     condition: 1 of selection_*
+    # Original elastic detection logic
+    # from logs-windows.forwarded*, logs-system.security* metadata _id, _version, _index
+    # | where host.os.type == "windows" and event.code == "4719" and
+    #   winlog.event_data.AuditPolicyChangesDescription in ("Success removed", "Success Added") and
+    #   winlog.event_data.SubCategory in (
+    #     "Logon",
+    #     "Audit Policy Change",
+    #     "Process Creation",
+    #     "Other System Events",
+    #     "Security Group Management",
+    #     "User Account Management"
+    #   )
+    # | eval Esql.time_window = DATE_TRUNC(5m, @timestamp)
     # 
+    # // Aggregate policy changes within each 5m window per host and sub-category,
+    # // then keep only removals that were not re-enabled in the same window
+    # | inline stats
+    #     Esql.winlog_AuditPolicyChangesDescription_values = VALUES(winlog.event_data.AuditPolicyChangesDescription)
+    #   by host.id, winlog.event_data.SubCategory, Esql.time_window
+    # | where winlog.event_data.AuditPolicyChangesDescription == "Success removed" and not MV_CONTAINS(Esql.winlog_AuditPolicyChangesDescription_values, "Success Added")
+    # 
+    # // Wait 5m for a potential "Success Added" to arrive before alerting
+    # | where @timestamp < NOW() - 5m
+    # | keep *
   condition: selection
 level: medium

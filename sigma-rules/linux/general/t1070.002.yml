@@ -1,11 +1,11 @@
-title: Clear Linux Logs
-id: 544c1559-544c-444c-a44c-544c15590000
+title: Linux Logs Clearing Attempts
+id: 1e603189-1e60-4e60-ae60-1e6031890000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1070.002
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_clear_logs.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1070.002
 logsource:
@@ -17,12 +17,19 @@ detection:
     #     selection:
     #         Image|endswith:
     #             - '/rm'    # covers /rmdir as well
+    #             - '/rmdir'
     #             - '/shred'
     #             - '/unlink'
     #         CommandLine|contains:
     #             - '/var/log'
     #             - '/var/spool/mail'
-    #     condition: selection
+    #     filter_main_legit_systat:
+    #         Image|endswith: '/rm'
+    #         CommandLine|startswith: 'rm -f /var/log/sysstat/'
+    #     filter_main_dmseg:
+    #         Image|endswith: '/rm'
+    #         CommandLine|startswith: 'rm -f -- /var/log//dmesg' # // before dmesg is not typo
+    #     condition: selection and not 1 of filter_main_*
     # 
   condition: selection
 level: medium

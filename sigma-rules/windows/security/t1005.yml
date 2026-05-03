@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1005
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_web_config_file_access.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1005
 logsource:
@@ -19,7 +19,8 @@ detection:
     #   not process.executable: (
     #         "C:\Program Files\Microsoft Security Client\MsMpEng.exe" or
     #         "C:\Program Files\Windows Defender Advanced Threat Protection\MsSense.exe" or
-    #         "C:\Windows\System32\MRT.exe"
+    #         "C:\Windows\System32\MRT.exe" or
+    #         "C:\Windows\System32\inetsrv\w3wp.exe"
     #   )
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: New Network ACL Entry Added
-id: 72b893b8-72b8-42b8-a2b8-72b893b80000
+title: ASL AWS Network Access Control List Created with All Open Ports
+id: 04f37d9b-04f3-44f3-a4f3-04f37d9b0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.007
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_new_acl_entries.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/asl_aws_network_access_control_list_created_with_all_open_ports.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562.007
 logsource:
@@ -13,11 +13,24 @@ logsource:
   service: general
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection:
-    #         eventSource: 'ec2.amazonaws.com'
-    #         eventName: 'CreateNetworkAclEntry'
-    #     condition: selection
-    # 
+    # Original splunk detection logic
+    # -
+    #     `amazon_security_lake` api.operation=CreateNetworkAclEntry OR api.operation=ReplaceNetworkAclEntry status=Success
+    #       | spath input=api.request.data path=ruleAction output=ruleAction
+    #       | spath input=api.request.data path=egress output=egress
+    #       | spath input=api.request.data path=aclProtocol output=aclProtocol
+    #       | spath input=api.request.data path=cidrBlock output=cidrBlock
+    #       | spath input=api.request.data path=networkAclId output=networkAclId
+    #       | search ruleAction=allow AND egress=false AND aclProtocol=-1 AND cidrBlock=0.0.0.0/0
+    #       | fillnull
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY actor.user.uid api.operation api.service.name
+    #            http_request.user_agent src_endpoint.ip actor.user.account.uid
+    #            cloud.provider cloud.region networkAclId
+    #            cidrBlock
+    #       | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `asl_aws_network_access_control_list_created_with_all_open_ports_filter`
   condition: selection
 level: medium

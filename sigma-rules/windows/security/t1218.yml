@@ -1,11 +1,11 @@
-title: Persistence via a Windows Installer
-id: 66efa228-66ef-46ef-a6ef-66efa2280000
+title: Sensitive File Dump Via Print.EXE
+id: 5f47a1f4-5f47-4f47-af47-5f47a1f40000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1218
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_msi_installer_task_startup.toml
-author: elastic (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_print_dump_sensitive_files.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1218
 logsource:
@@ -13,41 +13,18 @@ logsource:
   service: security
 detection:
   selection:
-    # Original elastic detection logic
-    # any where host.os.type == "windows" and
-    #   (process.name : "msiexec.exe" or Effective_process.name : "msiexec.exe") and
-    #   (
-    #     (
-    #       event.category == "file" and event.action == "creation" and
-    #       file.path : (
-    #         "?:\\Windows\\System32\\Tasks\\*",
-    #         "?:\\programdata\\microsoft\\windows\\start menu\\programs\\startup\\*",
-    #         "?:\\Users\\*\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*"
-    #       ) and
-    #       not file.path : (
-    #         "?:\\Windows\\System32\\Tasks\\Adobe Acrobat Update Task",
-    #         "?:\\Windows\\System32\\Tasks\\HP\\Sure Click\\Sure Click ?.?.??.????",
-    #         "?:\\Windows\\System32\\Tasks\\HP\\Sure Click\\Sure Click UI ?.?.??.????",
-    #         "?:\\Windows\\System32\\Tasks\\HP\\Sure Click\\Upgrade Repair ?.?.??.????",
-    #         "?:\\Windows\\System32\\Tasks\\IntelSURQC-Upgrade-86621605-2a0b-4128-8ffc-15514c247132",
-    #         "?:\\Windows\\System32\\Tasks\\IntelSURQC-Upgrade-86621605-2a0b-4128-8ffc-15514c247132-Logon"
-    #       )
-    #     ) or
-    #     (
-    #       event.category == "registry" and event.action == "modification" and registry.data.strings != null and
-    #       registry.path : (
-    #         "H*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\*",
-    #         "H*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run\\*",
-    #         "H*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*",
-    #         "H*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*"
-    #       ) and
-    #       not registry.data.strings : (
-    #         "C:\\Program Files (x86)\\Common Files\\Acronis\\TibMounter\\tib_mounter_monitor.exe",
-    #         "C:\\Program Files (x86)\\Common Files\\Java\\Java Update\\jusched.exe",
-    #         "C:\\Program Files\\Citrix\\Secure Access Client\\CtxsDPS.exe --clean-user-installs",
-    #         "C:\\Program Files\\OpenVPN\\bin\\openvpn-gui.exe",
-    #         "C:\\Program Files\\Veeam\\Endpoint Backup\\Veeam.EndPoint.Tray.exe -NoControlPanel -CheckNumberOfRunningAgents",
-    #         "\"C:\\Program Fi
-    # ... [truncated]
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\print.exe'
+    #         - OriginalFileName: 'Print.EXE'
+    #     selection_cli:
+    #         CommandLine|contains|windash: '/D'
+    #         CommandLine|contains:
+    #             - '\config\SAM'
+    #             - '\config\SECURITY'
+    #             - '\config\SYSTEM'
+    #             - '\windows\ntds\ntds.dit'
+    #     condition: all of selection_*
+    # 
   condition: selection
 level: medium

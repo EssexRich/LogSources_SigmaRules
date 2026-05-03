@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1027.004
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_csc_susp_dynamic_compilation.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1027.004
 logsource:
@@ -37,7 +37,7 @@ detection:
     #               - ':\Users\'
     #               - '\Pictures\'
     #     selection_susp_location_3:
-    #         CommandLine|re: '([Pp]rogram[Dd]ata|%([Ll]ocal)?[Aa]pp[Dd]ata%|\\[Aa]pp[Dd]ata\\([Ll]ocal([Ll]ow)?|[Rr]oaming))\\[^\\]{1,256}$'
+    #         CommandLine|re: '(?:[Pp]rogram[Dd]ata|%(?:[Ll]ocal)?[Aa]pp[Dd]ata%|\\[Aa]pp[Dd]ata\\(?:[Ll]ocal(?:[Ll]ow)?|[Rr]oaming))\\[^\\]{1,256}$'
     #     filter_main_programfiles:
     #         # Note: this is a generic filter. You could baseline execution in your env for a more robust rule
     #         ParentImage|startswith:
@@ -55,7 +55,7 @@ detection:
     #         ParentCommandLine|contains: '\ProgramData\Microsoft\Windows Defender Advanced Threat Protection'
     #     filter_optional_ansible:
     #         # Note: As ansible is widely used we exclude it with this generic filter.
-    #         # A better opt
+    #         # A be
     # ... [truncated]
   condition: selection
 level: medium

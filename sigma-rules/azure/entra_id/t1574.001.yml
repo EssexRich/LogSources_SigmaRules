@@ -1,11 +1,11 @@
-title: Untrusted DLL Loaded by Azure AD Sync Service
-id: 274bf5a3-274b-474b-a74b-274bf5a30000
+title: Untrusted DLL Loaded by Azure AD Connect Authentication Agent
+id: 4c99023a-4c99-4c99-ac99-4c99023a0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1574.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_imageload_azureadconnectauthsvc.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1574.001
 logsource:
@@ -14,28 +14,14 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # any where host.os.type == "windows" and process.name : "AzureADConnectAuthenticationAgentService.exe" and
-    # (
-    #  (event.category == "library" and event.action == "load") or
-    #  (event.category == "process" and event.action : "Image loaded*")
-    # ) and
+    # library where host.os.type == "windows" and process.name : "AzureADConnectAuthenticationAgentService.exe" and
     # 
-    # not (?dll.code_signature.trusted == true or file.code_signature.status == "Valid") and not
-    # 
-    #   (
-    #    /* Elastic defend DLL path */
-    #    ?dll.path :
-    #          ("?:\\Windows\\assembly\\NativeImages*",
-    #           "?:\\Windows\\Microsoft.NET\\*",
-    #           "?:\\Windows\\WinSxS\\*",
-    #           "?:\\Windows\\System32\\DriverStore\\FileRepository\\*") or
-    # 
-    #    /* Sysmon DLL path is mapped to file.path */
-    #    file.path :
-    #          ("?:\\Windows\\assembly\\NativeImages*",
-    #           "?:\\Windows\\Microsoft.NET\\*",
-    #           "?:\\Windows\\WinSxS\\*",
-    #           "?:\\Windows\\System32\\DriverStore\\FileRepository\\*")
-    #   )
+    # not dll.code_signature.trusted == true and
+    # not dll.path : (
+    #     "?:\\Windows\\assembly\\NativeImages*",
+    #     "?:\\Windows\\Microsoft.NET\\*",
+    #     "?:\\Windows\\WinSxS\\*",
+    #     "?:\\Windows\\System32\\DriverStore\\FileRepository\\*"
+    # )
   condition: selection
 level: medium

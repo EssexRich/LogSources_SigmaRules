@@ -1,11 +1,11 @@
-title: Google Cloud Firewall Modified or Deleted
-id: 04ee59d4-04ee-44ee-a4ee-04ee59d40000
+title: GCP Firewall Rule Creation
+id: 1b7caaee-1b7c-4b7c-ab7c-1b7caaee0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/gcp/audit/gcp_firewall_rule_modified_or_deleted.yml
-author: sigma (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/defense_evasion_gcp_firewall_rule_created.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1562
 logsource:
@@ -13,14 +13,7 @@ logsource:
   service: audit
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection:
-    #         gcp.audit.method_name:
-    #             - v*.Compute.Firewalls.Delete
-    #             - v*.Compute.Firewalls.Patch
-    #             - v*.Compute.Firewalls.Update
-    #             - v*.Compute.Firewalls.Insert
-    #     condition: selection
-    # 
+    # Original elastic detection logic
+    # data_stream.dataset:gcp.audit and event.action:(*.compute.firewalls.insert or google.appengine.*.Firewall.Create*Rule)
   condition: selection
 level: medium

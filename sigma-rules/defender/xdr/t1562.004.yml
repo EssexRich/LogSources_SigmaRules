@@ -1,11 +1,11 @@
-title: The Windows Defender Firewall Service Failed To Load Group Policy
-id: 0081c4ae-0081-4081-a081-0081c4ae0000
+title: Netsh Allow Group Policy on Microsoft Defender Firewall
+id: 207f17cd-207f-407f-a07f-207f17cd0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.004
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/firewall_as/win_firewall_as_failed_load_gpo.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_netsh_fw_enable_group_rule.yml
 author: sigma (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1562.004
 logsource:
@@ -14,9 +14,19 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection:
-    #         EventID: 2009 # The Windows Defender Firewall service failed to load Group Policy
-    #     condition: selection
+    #     selection_img:
+    #         - Image|endswith: '\netsh.exe'
+    #         - OriginalFileName: 'netsh.exe'
+    #     selection_cli:
+    #         CommandLine|contains|all:
+    #             - 'advfirewall'
+    #             - 'firewall'
+    #             - 'set'
+    #             - 'rule'
+    #             - 'group='
+    #             - 'new'
+    #             - 'enable=Yes'
+    #     condition: all of selection_*
     # 
   condition: selection
 level: medium

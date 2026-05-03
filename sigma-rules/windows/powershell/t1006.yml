@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1006
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_posh_invoke_ninjacopy.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1006
 logsource:
@@ -21,11 +21,9 @@ detection:
     #     "StealthCloseFileDelegate" or
     #     "StealthOpenFile" or
     #     "StealthCloseFile" or
-    #     "StealthReadFile" or
     #     "Invoke-NinjaCopy"
-    #    )
-    #   and not user.id : "S-1-5-18"
-    #   and not powershell.file.script_block_text : (
+    #    ) and
+    #   not powershell.file.script_block_text : (
     #     "sentinelbreakpoints" and "Set-PSBreakpoint" and "PowerSploitIndicators"
     #   )
   condition: selection

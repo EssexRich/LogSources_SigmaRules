@@ -1,11 +1,11 @@
-title: Kill Command Execution
-id: 5af00c24-5af0-4af0-aaf0-5af00c240000
+title: Disable Or Stop Services
+id: 06d75f16-06d7-46d7-a6d7-06d75f160000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1489
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_kill_command_executed.toml
-author: elastic (via IncidentBuddy)
-date: 2026-04-26
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_services_stop_and_disable.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
 tags:
   - attack.t1489
 logsource:
@@ -13,16 +13,33 @@ logsource:
   service: general
 detection:
   selection:
-    # Original elastic detection logic
-    # event.category:process and host.os.type:linux and event.type:start and event.action:exec and
-    # process.name:(kill or pkill or killall) and not (
-    #   process.args:("-HUP" or "-SIGUSR1" or "-USR2" or "-WINCH" or "-USR1") or
-    #   process.parent.command_line:"runc init" or
-    #   process.parent.executable:(
-    #     "/usr/lib/systemd/systemd" or "/usr/local/qualys/cloud-agent/bin/qualys-cloud-agent" or "/bin/xargs" or
-    #     "/usr/bin/xargs" or "/usr/bin/sudo" or "/usr/sbin/safe_asterisk" or "/usr/local/manageengine/uems_agent/bin/dcservice" or
-    #     "/lib/systemd/systemd" or "/opt/nessus_agent/sbin/nessuscli" or "/etc/rubrik/start_stop_bootstrap.sh" or
-    #     "/usr/local/manageengine/uems_agent/bin/dcpatchscan")
-    # )
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '/service'
+    #             - '/systemctl'
+    #             - '/chkconfig'
+    #         CommandLine|contains:
+    #             - ' stop '
+    #             - ' disable '
+    #     filter_main_legit_snapd:
+    #         Image|endswith: '/systemctl'
+    #         CommandLine|contains:
+    #             - '--no-reload disable snap-snapd-'
+    #             - ' stop snap-snapd-'
+    #     filter_main_ssh_preinstall:
+    #         Image|endswith: '/systemctl'
+    #         ParentCommandLine|contains: 'tmp.ci/preinst upgrade'
+    #         CommandLine|contains|all:
+    #             - ' stop '
+    #             - 'ssh.'
+    #     filter_main_ubuntu_upgrade:
+    #         ParentCommandLine|contains: '/dpkg/info/ubuntu-pro-client.prerm upgrade'
+    #         Image|endswith: '/systemctl'
+    #     filter_optional_aws_agent:
+    #         Image|endswith: '/systemctl'
+    #         CommandLine|endswith: 'snap.amazon-ssm-agent.amazon-ssm-agent.service'
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+    # 
   condition: selection
 level: medium

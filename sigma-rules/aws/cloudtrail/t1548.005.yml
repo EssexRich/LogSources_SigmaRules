@@ -1,11 +1,11 @@
-title: AWS IAM Customer-Managed Policy Attached to Role by Rare User
-id: 7aa706bd-7aa7-4aa7-aaa7-7aa706bd0000
+title: AWS EC2 Instance Profile Associated with Running Instance
+id: 50fbdb4f-50fb-40fb-a0fb-50fbdb4f0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1548.005
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/privilege_escalation_iam_customer_managed_policy_attached_to_role.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/privilege_escalation_ec2_instance_profile_associated_with_running_instance.toml
 author: elastic (via IncidentBuddy)
-date: 2026-04-26
+date: 2026-05-03
 tags:
   - attack.t1548.005
 logsource:
@@ -14,10 +14,11 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset: "aws.cloudtrail"
-    #     and event.provider: "iam.amazonaws.com"
-    #     and event.action: "AttachRolePolicy"
+    # event.dataset: "aws.cloudtrail"
+    #     and event.provider: "ec2.amazonaws.com"
+    #     and event.action: ("AssociateIamInstanceProfile" or "ReplaceIamInstanceProfile")
     #     and event.outcome: "success"
-    #     and not related.entity: arn\:aws\:iam\:\:aws\:policy*
+    #     and not aws.cloudtrail.user_identity.type: "AWSService" 
+    #     and not aws.cloudtrail.user_identity.invoked_by: "ssm.amazonaws.com"
   condition: selection
 level: medium

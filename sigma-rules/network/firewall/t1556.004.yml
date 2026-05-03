@@ -1,0 +1,30 @@
+title: Cisco Dot1x Disabled
+id: 4770c573-4770-4770-a770-4770c5730000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1556.004
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/cisco/aaa/cisco_cli_dot1x_disabled.yml
+author: sigma (via IncidentBuddy)
+date: 2026-05-03
+tags:
+  - attack.t1556.004
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original sigma detection logic
+    #     keywords:
+    #         # xxx port-control force-authorized : disables 802.1X authentication and causes the port to change to the authorized state without any authentication exchange required
+    #         # no xxx port-control : causes the port to fallback to the default setting which is "force-authorized", thereby disabling 802.1X
+    #         - 'access-session port-control force-authorized' # Modern IOS-XE
+    #         - 'authentication port-control force-authorized' # Older IOS
+    #         - 'dot1x port-control force-authorized' # Legacy
+    #         - 'no access-session port-control' # Modern IOS-XE
+    #         - 'no authentication port-control' # Older IOS
+    #         - 'no dot1x port-control' # Legacy
+    #         - 'no dot1x system-auth-control' # disables 802.1X globally
+    #     condition: keywords
+    # 
+  condition: selection
+level: medium
