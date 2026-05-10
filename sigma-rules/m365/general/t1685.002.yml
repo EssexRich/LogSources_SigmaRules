@@ -1,0 +1,19 @@
+title: O365 Advanced Audit Disabled
+id: 3ed7dd41-3ed7-4ed7-aed7-3ed7dd410000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_advanced_audit_disabled.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1685.002
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # `o365_management_activity` Operation=\"Change user license.\" | eval property_name = mvindex ('ExtendedProperties{}.Name', 1) | search property_name = \"extendedAuditEventCategory\" | eval additionalDetails = mvindex('ExtendedProperties{}.Value',0) | eval split_value=split(additionalDetails,\"NewValue\") | eval possible_plan=mvindex(split_value, 1) | rex field=\"possible_plan\" \"DisabledPlans=\\[(?P<DisabledPlans>[^\\]]+)\\]\" | search DisabledPlans IN (\"*M365_ADVANCED_AUDITING*\") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product DisabledPlans object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_advanced_audit_disabled_filter`
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1595
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/attacker_tools_on_endpoint.yml
 author: splunk (via IncidentBuddy)
-date: 2026-05-03
+date: 2026-05-10
 tags:
   - attack.t1595
 logsource:
@@ -15,11 +15,29 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process values(Processes.parent_process) as parent_process FROM datamodel=Endpoint.Processes
-    #       WHERE [
-    #     | inputlookup attacker_tools
-    #     | rename attacker_tool_names AS Processes.process_name
-    #     | fields Processes.process_name] AND Processes.dest!=unknown AND Processes.user!=unknown by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    #     | tstats `security_content_summariesonly`
+    #       count min(_time) as firstTime
+    #             max(_time) as lastTime
+    #             values(Processes.process) as process
+    #             values(Processes.parent_process) as parent_process
+    #     FROM datamodel=Endpoint.Processes WHERE [
+    #         | inputlookup attacker_tools
+    #         | rename attacker_tool_names AS Processes.process_name
+    #         | fields Processes.process_name
+    #     ]
+    #     AND
+    #     Processes.dest!=unknown
+    #     Processes.user!=unknown
+    # 
+    #     by Processes.action Processes.dest Processes.original_file_name
+    #        Processes.parent_process Processes.parent_process_exec
+    #        Processes.parent_process_guid Processes.parent_process_id
+    #        Processes.parent_process_name Processes.parent_process_path
+    #        Processes.process Processes.process_exec Processes.process_guid
+    #        Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #        Processes.process_name Processes.process_path Processes.user
+    #        Processes.user_id Processes.vendor_product
+    # 
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
     #     | `drop_dm_object_name(Processes)`

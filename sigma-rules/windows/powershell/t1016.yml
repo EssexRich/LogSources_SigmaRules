@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1016
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_host_public_ip_address_lookup.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-03
+date: 2026-05-10
 tags:
   - attack.t1016
 logsource:
@@ -18,13 +18,16 @@ detection:
     # (
     #   process.name : ("MSBuild.exe", "mshta.exe", "wscript.exe", "powershell.exe", "pwsh.exe", "msiexec.exe", "rundll32.exe",
     #   "bitsadmin.exe", "InstallUtil.exe", "RegAsm.exe", "vbc.exe", "RegSvcs.exe", "python.exe", "regsvr32.exe", "dllhost.exe",
-    #   "node.exe", "javaw.exe", "java.exe", "*.pif", "*.com") or
+    #   "node.exe", "javaw.exe", "java.exe", "*.pif", "*.com", "curl.exe", "bun.exe") or
     # 
     #   (?process.code_signature.trusted == false or ?process.code_signature.exists == false) or
     # 
     #   ?process.code_signature.subject_name : ("AutoIt Consulting Ltd", "OpenJS Foundation", "Python Software Foundation") or
     # 
-    #   ?process.executable : ("?:\\Users\\*.exe", "?:\\ProgramData\\*.exe")
+    #   ?process.executable : (
+    #     "?:\\Users\\Public\\*.exe", "?:\\ProgramData\\*.exe", "?:\\Users\\*\\Downloads\\*.exe",
+    #     "\\Device\\HarddiskVolume*\\Users\\Public\\*.exe", "\\Device\\HarddiskVolume*\\ProgramData\\*.exe", "\\Device\\HarddiskVolume*\\Users\\*\\Downloads\\*.exe"
+    #   )
     #  ) and
     #  dns.question.name :
     #          (
@@ -54,7 +57,6 @@ detection:
     #           "iplogger.*",
     #           "freegeoip.net",
     #           "freegeoip.app",
-    #           "ipinfo.io",
     #           "geoplugin.net",
     #           "myip.dnsomatic.com",
     #           "www.geoplugin.net",
@@ -62,11 +64,13 @@ detection:
     #           "ip4.seeip.org",
     #           "*.geojs.io",
     #           "*portmap.io",
-    #           "api.2ip.ua",
     #           "api.db-ip.com",
     #           "geolocation-db.com",
     #           "httpbin.org",
     #           "myip.opendns.com"
-    #          )
+    #          ) and
+    # not (
+    #   process.executable 
+    # ... [truncated]
   condition: selection
 level: medium

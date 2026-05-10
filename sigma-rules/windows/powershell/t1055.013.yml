@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1055.013
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/powershell_pinvoke_process_injection_api_chain.yml
 author: splunk (via IncidentBuddy)
-date: 2026-05-03
+date: 2026-05-10
 tags:
   - attack.t1055.013
 logsource:
@@ -17,55 +17,47 @@ detection:
     # -
     #     `powershell`
     #     EventCode=4104
-    #     (
-    #         ScriptBlockText = "*add-type*"
-    #         ScriptBlockText="*DllImport*"
+    #     ScriptBlockText="*add-type*"
+    #     ScriptBlockText="*DllImport*"
+    #     ScriptBlockText IN (
+    #         "*extern IntPtr*",
+    #         "*extern bool*",
+    #         "*extern uint*",
+    #         "*extern int*"
+    #     )
+    #     | where
     #         (
-    #             (
-    #                ScriptBlockText="*extern IntPtr VirtualAlloc*"
-    #                ScriptBlockText="*extern bool VirtualProtect*"
-    #                ScriptBlockText="*extern IntPtr CreateThread*"
+    #             match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
+    #             AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][p][r][o][t][e][c][t]")
+    #             AND match(ScriptBlockText, "(?i)[c][r][e][a][t][e][t][h][r][e][a][d]")
+    #         )
+    #         OR
+    #         (
+    #             match(ScriptBlockText, "(?i)[o][p][e][n][p][r][o][c][e][s][s]")
+    #             AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
+    #             AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
+    #             AND (
+    #                 match(ScriptBlockText, "(?i)[c][r][e][a][t][e][r][e][m][o][t][e][t][h][r][e][a][d]")
+    #                 OR
+    #                 match(ScriptBlockText, "(?i)[q][u][e][u][e][u][s][e][r][a][p][c]")
     #             )
-    #             OR
-    #             (
-    #                ScriptBlockText="*extern IntPtr OpenProcess*"
-    #                ScriptBlockText="*extern IntPtr VirtualAlloc*"
-    #                ScriptBlockText="*extern bool WriteProcessMemory*"
-    #                ScriptBlockText="*extern IntPtr CreateRemoteThread*"
-    #             )
-    #             OR
-    #             (
-    #                ScriptBlockText="*extern IntPtr OpenProcess*"
-    #                ScriptBlockText="*extern IntPtr VirtualAlloc*"
-    #                ScriptBlockText="*extern bool WriteProcessMemory*"
-    #                ScriptBlockText="*extern bool QueueUserAPC*"
-    #             )
-    #             OR
-    #             (
-    #                ScriptBlockText="*extern IntPtr OpenThread*"
-    #                ScriptBlockText="*extern uint SuspendThread*"
-    #                ScriptBlockText="*extern bool GetThreadContext*"
-    #                ScriptBlockText="*extern bool WriteProcessMemory*"
-    #                ScriptBlockText="*extern bool SetThreadContext*"
-    #                ScriptBlockText="*extern uint ResumeThread*"
-    #             )
-    #             OR
-    #             (
-    #                ScriptBlockText="*extern bool CreateProcess*"
-    #                ScriptBlockText="*extern IntPtr VirtualAlloc*"
-    #                ScriptBlockText="*extern bool WriteProcessMemory*"
-    #                ScriptBlockText="*extern bool SetThreadContext*"
-    #                ScriptBlockText="*extern uint ResumeThread*"
-    #             )
-    #             OR
-    #             (
-    #                ScriptBlockText="*extern int NtCreateSection*"
-    #                ScriptBlockText="*extern int NtMapViewOfSection*"
-    #                ScriptBlockText="*extern IntPtr CreateRemoteThread*"
-    #             )
-    #             OR
-    #             (
-    #                ScriptB
+    #         )
+    #         OR
+    #         (
+    #             match(ScriptBlockText, "(?i)[o][p][e][n][t][h][r][e][a][d]")
+    #             AND match(ScriptBlockText, "(?i)[s][u][s][p][e][n][d][t][h][r][e][a][d]")
+    #             AND match(ScriptBlockText, "(?i)[g][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
+    #             AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
+    #             AND match(ScriptBlockText, "(?i)[s][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
+    #             AND match(ScriptBlockText, "(?i)[r][e][s][u][m][e][t][h][r][e][a][d]")
+    #         )
+    #         OR
+    #         (
+    #             match(ScriptBlockText, "(?i)[c][r][e][a][t][e][p][r][o][c][e][s][s]")
+    #             AND match(ScriptBlockText, "(?i)[v][i][r][t][u][a][l][a][l][l][o][c]")
+    #             AND match(ScriptBlockText, "(?i)[w][r][i][t][e][p][r][o][c][e][s][s][m][e][m][o][r][y]")
+    #             AND match(ScriptBlockText, "(?i)[s][e][t][t][h][r][e][a][d][c][o][n][t][e][x][t]")
+    #          
     # ... [truncated]
   condition: selection
 level: medium

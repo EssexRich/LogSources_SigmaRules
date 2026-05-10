@@ -1,0 +1,34 @@
+title: Windows Devtunnels Image Loaded
+id: 21e25270-21e2-41e2-a1e2-21e252700000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1090
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_devtunnels_image_loaded.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1090
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `sysmon`
+    #     EventID=7
+    #     ImageLoaded="*\\AppData\\Local\\Temp\\.net\\devtunnel\\*"
+    #     ImageLoaded="*devtunnel.dll"
+    #     | fillnull
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #       by Computer ImageLoaded EventID loaded_file loaded_file_path process_exec process_guid
+    #          process_hash process_id process_name process_path service_dll_signature_exists
+    #          service_dll_signature_verified signature_id user_id vendor_product
+    # 
+    #     | rename Computer as dest
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_devtunnels_image_loaded_filter`
+  condition: selection
+level: medium

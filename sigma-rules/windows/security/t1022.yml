@@ -1,0 +1,38 @@
+title: Windows .Key File Creation in Root Directory
+id: 2698852f-2698-4698-a698-2698852f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1022
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows__key_file_creation_in_root_directory.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1022
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     | tstats `security_content_summariesonly`
+    #     count min(_time) as firstTime
+    #           max(_time) as lastTime
+    # 
+    #     from datamodel=Endpoint.Filesystem where
+    # 
+    #     Filesystem.file_name="*.key"
+    # 
+    #     by Filesystem.dest Filesystem.file_create_time
+    #        Filesystem.process_path Filesystem.process_guid
+    #        Filesystem.process_id Filesystem.file_path
+    #        Filesystem.action Filesystem.file_name
+    #        Filesystem.user Filesystem.vendor_product
+    # 
+    #     | `drop_dm_object_name(Filesystem)`
+    #     | where match(file_path, "^[A-Za-z]:\\\\[^\\\\]+\.key$")
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows__key_file_creation_in_root_directory_filter`
+  condition: selection
+level: medium

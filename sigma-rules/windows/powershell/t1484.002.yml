@@ -1,0 +1,32 @@
+title: Windows ConvertTo-AADIntBackdoor Execution Via PowerShell Script
+id: 7a6fef44-7a6f-4a6f-aa6f-7a6fef440000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1484.002
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_convertto_aadintbackdoor_execution_via_powershell_script.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1484.002
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `powershell`
+    #     EventID="4104"
+    #     ScriptBlockText="*ConvertTo-AADIntBackdoor*"
+    #     | fillnull
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #       by Computer EventID ScriptBlockText signature signature_id user_id vendor_product Guid
+    #          Opcode Name Path ProcessID ScriptBlockId
+    # 
+    #     | rename Computer as dest
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_convertto_aadintbackdoor_execution_via_powershell_script_filter`
+  condition: selection
+level: medium

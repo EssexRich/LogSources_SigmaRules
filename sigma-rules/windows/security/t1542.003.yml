@@ -1,0 +1,38 @@
+title: Windows EFI Bootloader File Modification
+id: 1542f3d8-1542-4542-a542-1542f3d80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1542.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_efi_bootloader_file_modification.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1542.003
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     | tstats `security_content_summariesonly`
+    #       count min(_time) as firstTime
+    #             max(_time) as lastTime
+    # 
+    #     from datamodel=Endpoint.Filesystem where
+    # 
+    #     Filesystem.file_path IN (
+    #         "*\\EFI\\Boot\\bootmgfw.efi",
+    #         "*\\EFI\\Boot\\bootx64.efi"
+    #     )
+    # 
+    #     by Filesystem.dest Filesystem.file_create_time Filesystem.process_path
+    #        Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name
+    #        Filesystem.user Filesystem.vendor_product Filesystem.action
+    # 
+    #     | `drop_dm_object_name(Filesystem)`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_efi_bootloader_file_modification_filter`
+  condition: selection
+level: medium

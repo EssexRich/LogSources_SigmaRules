@@ -1,0 +1,33 @@
+title: Windows Remote Image Load
+id: 283139f3-2831-4831-a831-283139f30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1203
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_remote_image_load.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1203
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `sysmon`
+    #     EventID=7
+    #     ImageLoaded="\\\\*"
+    #     | fillnull
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #       by Computer ImageLoaded EventID dest loaded_file loaded_file_path process_exec
+    #          process_guid process_hash process_id process_name process_path
+    #          service_dll_signature_exists service_dll_signature_verified signature_id user_id
+    #          vendor_product
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_remote_image_load_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,70 @@
+title: Sensitive Identity File Open by Suspicious Process via Auditd
+id: 3a33e323-3a33-4a33-aa33-3a33e3230000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.007
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_auditd_sensitive_cloud_and_host_identity_file_open.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1552.007
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:"linux" and 
+    # data_stream.dataset:"auditd_manager.auditd" and 
+    # event.category:"file" and 
+    # event.action:"opened-file" and 
+    # (
+    #   process.name:(
+    #     cp or mv or ln or cat or head or tail or 
+    #     base64 or xxd or od or 
+    #     curl or wget or 
+    #     tar or zip or gzip or scp or rsync or 
+    #     python* or perl* or ruby* or node or bun or php* or lua* or 
+    #     tee or dd or 
+    #     nc or ncat or netcat or socat or 
+    #     openssl or ssh or sftp or 
+    #     busybox or jq or yq or 
+    #     strings or xargs or sed or awk or grep or find or 
+    #     .*
+    #   ) or 
+    #   process.executable:(/tmp/* or /var/tmp/* or /dev/shm/* or /run/*) or 
+    #   (process.name:(sh or bash or zsh or dash or fish or ksh) and process.args:("-c" or "-i"))
+    # ) and 
+    # file.path:(
+    #   "/var/run/secrets/kubernetes.io/serviceaccount/token" or
+    #   "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt" or 
+    #   "/var/run/secrets/eks.amazonaws.com/serviceaccount/token" or
+    #   "/var/run/secrets/azure/tokens/azure-identity-token" or
+    #   "/var/run/secrets/tokens/azure-identity-token" or
+    #   "/var/lib/kubelet/kubeconfig" or
+    #   "/etc/kubernetes/admin.conf" or
+    #   "/etc/kubernetes/pki/ca.key" or 
+    #   "/etc/kubernetes/pki/apiserver-kubelet-client.key" or 
+    #   "/var/lib/kubelet/pki/kubelet-client-current.pem" or 
+    #   "/etc/rancher/k3s/k3s.yaml" or 
+    #   "/etc/shadow" or
+    #   "/root/.ssh/id_rsa" or
+    #   "/root/.ssh/id_ed25519" or
+    #   "/root/.ssh/id_ecdsa" or
+    #   "/root/.aws/credentials" or
+    #   "/root/.aws/config" or
+    #   "/root/.aws/cli/cache" or
+    #   "/root/.aws/sso/cache" or
+    #   "/root/.azure/accessTokens.json" or
+    #   "/root/.azure/azureProfile.json" or
+    #   "/root/.azure/msal_token_cache.json" or
+    #   "/root/.azure/msal_http_cache.bin" or
+    #   "/root/.config/gcloud/application_default_credentials.json" or
+    #   "/root/.config/gcloud/credentials.db" or
+    #   "/root/.config/gcloud/access_tokens.db" or 
+    #   "/root/.config/gcloud/legacy_credentials" or 
+    #   "/root/.kube/config" or
+    #   "/root/.docker/config.json"
+    # )
+  condition: selection
+level: medium

@@ -1,0 +1,42 @@
+title: Windows SoftEther VPN Masquerading as Legitimate Binary
+id: 05223e12-0522-4522-a522-05223e120000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1572
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_softether_vpn_masquerading_as_legitimate_binary.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1572
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `sysmon`
+    #     EventID=1
+    #     process IN (
+    #         "*conhost.exe*",
+    #         "*dllhost.exe*"
+    #     )
+    #     AND
+    #     (
+    #         Company="*SoftEther*"
+    #         OR
+    #         OriginalFileName="vpnbridge*.exe"
+    #     )
+    #     | fillnull
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #       by Computer EventID Company process action dest original_file_name
+    #          parent_process parent_process_exec parent_process_guid parent_process_id
+    #          parent_process_name parent_process_path process_hash process_integrity_level user
+    #          user_id vendor_product
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_softether_vpn_masquerading_as_legitimate_binary_filter`
+  condition: selection
+level: medium

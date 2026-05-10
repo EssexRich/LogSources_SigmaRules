@@ -1,0 +1,41 @@
+title: Windows Suspicious QEMU Execution
+id: 58e9adb7-58e9-48e9-a8e9-58e9adb70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_suspicious_qemu_execution.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1001
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `sysmon`
+    #     EventID=1
+    #     CommandLine="*-nographic*"
+    #     CommandLine="*.img*"
+    #     (
+    #         Description="*QEMU machine*"
+    #         OR
+    #         Product="QEMU"
+    #         OR
+    #         Company="*qemu*"
+    #     )
+    #     | fillnull
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #       by Computer EventID CommandLine Description Product Company action dest
+    #          original_file_name parent_process parent_process_exec parent_process_guid
+    #          parent_process_id parent_process_name parent_process_path process_hash
+    #          process_integrity_level user user_id vendor_product
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_suspicious_qemu_execution_filter`
+  condition: selection
+level: medium

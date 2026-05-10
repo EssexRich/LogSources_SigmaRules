@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1505.004
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_disable_windows_event_logging_disable_http_logging.yml
 author: splunk (via IncidentBuddy)
-date: 2026-05-03
+date: 2026-05-10
 tags:
   - attack.t1505.004
 logsource:
@@ -16,7 +16,7 @@ detection:
     # Original splunk detection logic
     # -
     #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE NOT (Processes.parent_process_name  IN ("msiexec.exe", "iissetup.exe")) Processes.process_name=appcmd.exe Processes.process IN ("*set config*", "*httplogging*","*dontlog:true*")
+    #       WHERE NOT (Processes.parent_process_name  IN ("msiexec.exe", "iissetup.exe")) Processes.process_name=appcmd.exe Processes.process IN ("*httplogging*","*dontlog:true*")
     #       BY Processes.action Processes.dest Processes.original_file_name
     #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
     #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path

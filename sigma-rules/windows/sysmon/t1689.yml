@@ -1,0 +1,43 @@
+title: Windows Downdate Registry Activity
+id: 6cf4089c-6cf4-4cf4-acf4-6cf4089c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1689
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_downdate_registry_activity.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1689
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `sysmon`
+    #     EventID IN (
+    #         12,
+    #         13,
+    #         14
+    #     )
+    #     TargetObject IN (
+    #         "*PoqexecCmdline",
+    #         "*COMPONENTS\\PendingXmlIdentifier"
+    #     )
+    #     NOT ProcessPath="*:\\Windows\\WinSxS\\*"
+    # 
+    #     | fillnull
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    # 
+    #       by EventID TargetObject ProcessPath Computer action process_guid process_id
+    #          registry_hive registry_path registry_key_name registry_value_data registry_value_name
+    #          status user vendor_product
+    # 
+    #     | rename Computer as dest
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_downdate_registry_activity_filter`
+  condition: selection
+level: medium

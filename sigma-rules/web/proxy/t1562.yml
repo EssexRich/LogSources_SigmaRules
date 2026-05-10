@@ -1,11 +1,11 @@
-title: Cisco ASA - Core Syslog Message Volume Drop
-id: 27c8c238-27c8-47c8-a7c8-27c8c2380000
+title: ESXi Encryption Settings Modified
+id: 5d816bd9-5d81-4d81-ad81-5d816bd90000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/application/cisco_asa___core_syslog_message_volume_drop.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/application/esxi_encryption_settings_modified.yml
 author: splunk (via IncidentBuddy)
-date: 2026-05-03
+date: 2026-05-10
 tags:
   - attack.t1562
 logsource:
@@ -14,19 +14,6 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `cisco_asa`
-    #     message_id IN (302013, 302014, 609002, 710005)
-    #     | eval msg_desc=case(
-    #       message_id="302013","Built inbound TCP connection",
-    #       message_id="302014","Teardown TCP connection",
-    #       message_id="609002","Teardown local-host management",
-    #       message_id="710005","TCP request discarded"
-    #     )
-    #     | bin _time span=15m
-    #     | stats count values(msg_desc) as message_description
-    #                   values(dest) as dest
-    #       by _time message_id
-    #     | xyseries _time message_id count
-    #     | `cisco_asa___core_syslog_message_volume_drop_filter`
+    # `esxi_syslog` Message="*system settings encryption set*" NOT Message="*shell.*" Message IN ("* -s *", "* -e *","*--require-secure-boot*", "*require-exec-installed-only*", "execInstalledOnly") | rex field=_raw "Z (?<dest>[\w\.]*)\s.*\]: \[(?<user>\w+)\]:(?<command>.+)" | stats min(_time) as firstTime max(_time) as lastTime count by dest user command | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `esxi_encryption_settings_modified_filter`
   condition: selection
 level: medium

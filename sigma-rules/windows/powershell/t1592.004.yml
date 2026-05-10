@@ -1,0 +1,37 @@
+title: Windows WinPEAS PowerShell Script Execution
+id: 1559d3ea-1559-4559-a559-1559d3ea0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1592.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_winpeas_powershell_script_execution.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1592.004
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `powershell`
+    #     EventID="4104"
+    #     ScriptBlockText IN (
+    #         "*returnHotFixID*",
+    #         "*Start-ACLCheck*",
+    #         "*UnquotedServicePathCheck*",
+    #         "*Get-ClipBoardText*"
+    #     )
+    #     | fillnull
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #       by Computer EventID ScriptBlockText signature signature_id user_id vendor_product Guid
+    #          Opcode Name Path ProcessID ScriptBlockId
+    # 
+    #     | rename Computer as dest
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_winpeas_powershell_script_execution_filter`
+  condition: selection
+level: medium

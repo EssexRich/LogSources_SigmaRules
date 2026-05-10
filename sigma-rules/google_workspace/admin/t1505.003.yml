@@ -1,0 +1,39 @@
+title: Windows Potential Web Shell Creation For VMware Workspace ONE
+id: 47fb580d-47fb-47fb-a7fb-47fb580d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_potential_web_shell_creation_for_vmware_workspace_one.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1505.003
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     | tstats `security_content_summariesonly`
+    #       count min(_time) as firstTime
+    #             max(_time) as lastTime
+    # 
+    #     from datamodel=Endpoint.Filesystem where
+    # 
+    #     Filesystem.file_path IN (
+    #         "*/vmware/horizon/workspace/webapps/*",
+    #         "*\\vmware\\horizon\\workspace\\webapps\\*"
+    #     )
+    #     Filesystem.file_path="*.jsp"
+    # 
+    #     by Filesystem.dest Filesystem.file_create_time Filesystem.process_path
+    #        Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name
+    #        Filesystem.user Filesystem.vendor_product Filesystem.action
+    # 
+    #     | `drop_dm_object_name(Filesystem)`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_potential_web_shell_creation_for_vmware_workspace_one_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,31 @@
+title: Windows Cobalt Strike PowerShell Loader
+id: 12cc8834-12cc-42cc-a2cc-12cc88340000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1608
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_cobalt_strike_powershell_loader.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1608
+logsource:
+  product: windows
+  service: powershell
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `powershell`
+    #     EventID="4104"
+    #     ScriptBlockText="*));IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream($s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();"
+    #     | fillnull
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #       by Computer EventID ScriptBlockText dest signature signature_id user_id vendor_product
+    #          Guid Opcode Name Path ProcessID ScriptBlockId
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_cobalt_strike_powershell_loader_filter`
+  condition: selection
+level: medium

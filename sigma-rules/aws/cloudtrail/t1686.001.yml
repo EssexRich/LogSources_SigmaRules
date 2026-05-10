@@ -1,0 +1,34 @@
+title: AWS Network Access Control List Created with All Open Ports
+id: 78284ab2-7828-4828-a828-78284ab20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1686.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_network_access_control_list_created_with_all_open_ports.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1686.001
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
+    #       | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol!=-1
+    #       | eval port_range='requestParameters.portRange.to' - 'requestParameters.portRange.from'
+    #       | where port_range>1024]
+    #       | fillnull
+    #       | rename user_name as user
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY signature dest user
+    #            user_agent src vendor_account
+    #            vendor_region vendor_product requestParameters.ruleAction
+    #            requestParameters.egress requestParameters.aclProtocol requestParameters.portRange.to
+    #            requestParameters.portRange.from requestParameters.cidrBlock
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `aws_network_access_control_list_created_with_all_open_ports_filter`
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: Chroot Execution Detected via Defend for Containers
-id: 086da3ca-086d-486d-a86d-086da3ca0000
+title: Suspicious Container Runtime CLI Execution
+id: 2d1af48e-2d1a-4d1a-ad1a-2d1af48e0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1611
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/privilege_escalation_chroot_execution_detected_inside_container.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_container_runtime_cli_suspicious_args.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-03
+date: 2026-05-10
 tags:
   - attack.t1611
 logsource:
@@ -14,22 +14,25 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and (
-    #   process.name == "chroot" or
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
+    # (
     #   (
-    #     /* account for tools that execute utilities as a subprocess, in this case the target utility name will appear as a process arg */
-    #     process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "busybox") and
-    #     process.args in (
-    #       "chroot", "/bin/chroot", "/usr/bin/chroot", "/usr/local/bin/chroot"
-    #     ) and
-    #     /* default exclusion list to not FP on default multi-process commands */
-    #     not process.args in (
-    #       "which", "/bin/which", "/usr/bin/which", "/usr/local/bin/which",
-    #       "man", "/bin/man", "/usr/bin/man", "/usr/local/bin/man",
-    #       "chmod", "/bin/chmod", "/usr/bin/chmod", "/usr/local/bin/chmod",
-    #       "chown", "/bin/chown", "/usr/bin/chown", "/usr/local/bin/chown"
+    #     process.name in ("ctr", "crictl", "nerdctl") and
+    #     (
+    #       (process.args == "tasks" and process.args == "exec") or
+    #       (process.args == "run" and process.args in ("--privileged", "--rm", "--mount", "--net-host", "--pid-host")) or
+    #       (process.args == "snapshots" and process.args == "mount")
     #     )
+    #   ) or
+    #   (
+    #     (process.executable like ("/dev/shm/*", "/tmp/*", "/var/tmp/*") or process.name : ".*") and
+    #     process.args like ("*containerd.sock*", "*k8s.io*")
     #   )
-    # ) and container.id like "?*"
+    # ) and
+    # not process.parent.executable in (
+    #   "/usr/bin/kubelet", "/usr/local/bin/kubelet",
+    #   "/usr/bin/containerd", "/usr/sbin/containerd",
+    #   "/lib/systemd/systemd", "/usr/lib/systemd/systemd", "/sbin/init"
+    # )
   condition: selection
 level: medium

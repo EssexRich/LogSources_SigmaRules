@@ -1,0 +1,27 @@
+title: Linux Auditd Auditd Daemon Abort
+id: 2a269c21-2a26-4a26-aa26-2a269c210000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1685.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_auditd_daemon_abort.yml
+author: splunk (via IncidentBuddy)
+date: 2026-05-10
+tags:
+  - attack.t1685.004
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `linux_auditd` type=DAEMON_ABORT
+    #       | rename host as dest
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY type op res
+    #            uid dest pid
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `linux_auditd_auditd_daemon_abort_filter`
+  condition: selection
+level: medium
