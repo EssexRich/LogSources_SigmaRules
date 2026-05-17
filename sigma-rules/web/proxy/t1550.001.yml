@@ -1,0 +1,28 @@
+title: Kubernetes API Server Proxying Request to Kubelet
+id: 6c30bc3e-6c30-4c30-ac30-6c30bc3e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1550.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/kubernetes/privilege_escalation_api_proxy_to_node.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-17
+tags:
+  - attack.t1550.001
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original elastic detection logic
+    # kubernetes.audit.objectRef.subresource:"proxy" and
+    # kubernetes.audit.objectRef.resource:"nodes" and
+    # not kubernetes.audit.requestURI:(*metrics* or *healthz* or *stats/summary* or *elastic-agent* or *configz*) and
+    # not user.name:(
+    #   system\:kube-controller-manager or
+    #   system\:kube-scheduler or
+    #   system\:serviceaccount\:kube-system\:* or
+    #   system\:node\:* or
+    #   eks\:* or aksService
+    # )
+  condition: selection
+level: medium

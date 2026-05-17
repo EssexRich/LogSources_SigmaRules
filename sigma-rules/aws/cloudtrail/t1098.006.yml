@@ -1,0 +1,22 @@
+title: AWS EKS Access Entry Modified
+id: 6734d332-6734-4734-a734-6734d3320000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_eks_access_entry_modified.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-17
+tags:
+  - attack.t1098.006
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:"aws.cloudtrail" and event.provider:"eks.amazonaws.com" and
+    # event.action:("CreateAccessEntry" or "AssociateAccessPolicy" or "UpdateAccessEntry" or "DisassociateAccessPolicy" or "DeleteAccessEntry") and
+    # event.outcome:"success" and
+    # not aws.cloudtrail.user_identity.arn:(*AWSServiceRoleForAmazonEKS* or *eksctl* or *terraform* or *AWSCloudFormation*)
+  condition: selection
+level: medium

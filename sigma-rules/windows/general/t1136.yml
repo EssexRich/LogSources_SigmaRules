@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1136
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_evasion_hidden_local_account_creation.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-10
+date: 2026-05-17
 tags:
   - attack.t1136
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # registry where host.os.type == "windows" and event.type == "change" and
+    # registry where host.os.type == "windows" and event.type in ("change", "creation") and
     #   registry.path : (
     #     "HKLM\\SAM\\SAM\\Domains\\Account\\Users\\Names\\*$\\",
     #     "\\REGISTRY\\MACHINE\\SAM\\SAM\\Domains\\Account\\Users\\Names\\*$\\",

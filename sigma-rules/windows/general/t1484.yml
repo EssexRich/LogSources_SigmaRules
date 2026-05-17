@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1484
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_sdprop_exclusion_dsheuristics.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-10
+date: 2026-05-17
 tags:
   - attack.t1484
 logsource:
@@ -16,6 +16,7 @@ detection:
     # Original elastic detection logic
     # any where host.os.type == "windows" and event.code == "5136" and
     #   winlog.event_data.AttributeLDAPDisplayName : "dSHeuristics" and
+    #   winlog.event_data.OperationType : "%%14674" and
     #   length(winlog.event_data.AttributeValue) > 15 and
     #   winlog.event_data.AttributeValue regex~ "[0-9]{15}([1-9a-f]).*"
   condition: selection
