@@ -1,0 +1,23 @@
+title: Google Workspace Device Registration After OAuth from Suspicious ASN
+id: 16169f49-1616-4616-a616-16169f490000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/persistence_google_workspace_device_registered_after_oauth_from_suspicious_asn.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-24
+tags:
+  - attack.t1098.005
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by user.name with maxspan=30s
+    #   [iam where data_stream.dataset == "google_workspace.token" and event.action == "authorize" and
+    #       google_workspace.token.client.id == "77185425430.apps.googleusercontent.com" and
+    #       source.as.number in (9009, 45102, 215540, 29802, 62240, 204957, 395092)]
+    #   [any where data_stream.dataset == "google_workspace.device" and google_workspace.device.account_state == "REGISTERED"]
+  condition: selection
+level: medium

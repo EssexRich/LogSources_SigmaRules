@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1218.011
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_rare_webdav_destination.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-17
+date: 2026-05-24
 tags:
   - attack.t1218.011
 logsource:
@@ -16,7 +16,6 @@ detection:
     # Original elastic detection logic
     # from logs-endpoint.events.process-*, logs-windows.sysmon_operational-*, logs-system.security-*, logs-windows.*, winlogbeat-*, logs-crowdstrike.fdr*, logs-m365_defender.event-* METADATA _id, _version, _index
     # | where
-    #     @timestamp > now() - 8 hours and
     #     event.category == "process" and
     #     event.type == "start" and
     #     process.name == "rundll32.exe" and

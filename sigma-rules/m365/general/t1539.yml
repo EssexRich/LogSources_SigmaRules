@@ -1,0 +1,31 @@
+title: M365 Potential AiTM UserLoggedIn via Office App (Tycoon2FA)
+id: 7825ae24-7825-4825-a825-7825ae240000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1539
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/initial_access_tycoon_o365.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-24
+tags:
+  - attack.t1539
+logsource:
+  product: m365
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:"o365.audit" and event.category:"authentication" and event.action:"UserLoggedIn" and
+    # (
+    #     (
+    #         o365.audit.ApplicationId:"29d9ed98-a469-4536-ade2-f981bc1d605e" and
+    #         o365.audit.ObjectId:(
+    #             "00000002-0000-0ff1-ce00-000000000000" or "00000003-0000-0000-c000-000000000000"
+    #         )
+    #     ) or
+    #     (
+    #         o365.audit.ApplicationId:"4765445b-32c6-49b0-83e6-1d93765276ca" and
+    #         o365.audit.ObjectId:"4765445b-32c6-49b0-83e6-1d93765276ca"
+    #     )
+    # ) and user_agent.original:(node or axios* or undici)
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1105
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_auditd_curl_wget_from_container.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-17
+date: 2026-05-24
 tags:
   - attack.t1105
 logsource:
@@ -21,6 +21,7 @@ detection:
     # (
     #   process.name:(curl or wget) or
     #   process.args:(* curl* or */bin/curl* or *wget*)
-    # )
+    # ) and 
+    # not process.args :(*127.0.0.1* or *localhost* or "wget --no-verbose --tries=1 --spider --no-check-certificate http://${WEB_HOST}:${WEB_PORT}/api/ping || exit 1")
   condition: selection
 level: medium

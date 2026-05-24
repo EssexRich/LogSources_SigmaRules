@@ -1,0 +1,86 @@
+title: Microsoft Graph Multi-Category Reconnaissance Burst
+id: 11a22f87-11a2-41a2-a1a2-11a22f870000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/discovery_graph_activity_delegated_user_multi_category_recon.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-24
+tags:
+  - attack.t1087
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-azure.graphactivitylogs-* metadata _id, _version, _index
+    # 
+    # // Graph calls via delegated user tokens (any status, any method)
+    # | where event.dataset == "azure.graphactivitylogs"
+    #   and azure.graphactivitylogs.properties.c_idtyp == "user"
+    #   and azure.graphactivitylogs.properties.client_auth_method == 0
+    # 
+    # // high-value recon endpoints by url.path
+    # | eval Esql.is_role_enum = case(
+    #     url.path like "*roleManagement/directory*"
+    #       or url.path like "*memberOf/microsoft.graph.directoryRole*"
+    #       or url.path like "*transitiveRoleAssignments*",
+    #     true,
+    #     false
+    #   )
+    # | eval Esql.is_cross_tenant_enum = case(
+    #     url.path like "*tenantRelationships*"
+    #       or url.path like "*getResourceTenants*",
+    #     true,
+    #     false
+    #   )
+    # | eval Esql.is_mailbox_recon = case(
+    #     url.path like "*mailboxSettings*"
+    #       or url.path like "*mailFolders*"
+    #       or url.path like "*messages*"
+    #       or url.path like "*inbox*",
+    #     true,
+    #     false
+    #   )
+    # | eval Esql.is_contact_harvest = case(
+    #     url.path like "*contacts*"
+    #       or url.path like "*contactFolders*",
+    #     true,
+    #     false
+    #   )
+    # | eval Esql.is_org_recon = case(
+    #     url.path like "*subscribedSkus*"
+    #       or url.path like "*appRoleAssign*"
+    #       or (
+    #           url.path like "*/organization*"
+    #           and not url.path like "*branding*"
+    #           and not url.path like "*localizations*"
+    #         ),
+    #     true,
+    #     false
+    #   )
+    # 
+    # // Combine: is this request hitting a high-value endpoint?
+    # | eval Esql.is_high_value = case(
+    #     Esql.is_role_enum or Esql.is_cross_tenant_enum or Esql.is_mailbox_recon
+    #       or Esql.is_contact_harvest or Esql.is_org_recon,
+    #     true,
+    #     false
+    #   )
+    # | where Esql.is_high_value == true
+    # 
+    # // Classify each hit into a recon category
+    # | eval Esql.recon_category = case(
+    #     Esql.is_role_enum, "role_discovery",
+    #     Esql.is_cross_tenant_enum, "cross_tenant_recon",
+    #     Esql.is_mailbox_recon, "mailbox_recon",
+    #     Esql.is_contact_harvest, "contact_harvesting",
+    #     Esql.is_org_recon, "org_and_licensing_recon",
+    #     "other"
+    #   )
+    # 
+    # // Flag fail
+    # ... [truncated]
+  condition: selection
+level: medium

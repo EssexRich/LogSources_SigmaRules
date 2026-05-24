@@ -1,0 +1,22 @@
+title: Google Workspace User Login with Unusual ASN
+id: 714fb58a-714f-414f-a14f-714fb58a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1557
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/initial_access_google_workspace_login_from_atypical_asn.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-24
+tags:
+  - attack.t1557
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset: ("google_workspace.login" or "google_workspace.token") and
+    #     event.action: ("login_success" or "authorize") and
+    #     source.as.number: * and
+    #     user.email: *
+  condition: selection
+level: medium
