@@ -1,0 +1,37 @@
+title: Cloud Instance Metadata Credential Path HTTP Request
+id: 6958e85f-6958-4958-a958-6958e85f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/credential_access_cloud_imds_credential_http_request.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-31
+tags:
+  - attack.t1552.005
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # network where event.module == "network_traffic" and destination.ip == "169.254.169.254" and destination.port == 80 and
+    # http.request.method == "GET" and url.path : (
+    #   "/latest/meta-data/iam/security-credentials/*",
+    #   "*computeMetadata/v1/instance/service-accounts/*/oauth2/access_token*",
+    #   "*metadata/identity/oauth2/token*"
+    # ) and (
+    #   ?process.name : (
+    #     "curl", "wget", "python*", "node", "bun", "php*", "ruby", "perl", "bash", "dash", "sh", "tcsh", "tclsh", "wish",
+    #     "csh", "zsh", "ksh", "fish", "mksh", "busybox",
+    #     "bun.exe", "node.exe", "powershell.exe", "cmd.exe", "curl.exe", "wget.exe", "rundll32.exe", "w3wp.exe", "java*", 
+    #     "go", "nc", "netcat", "nginx", "apache*", "httpd", "tomcat*", "catalina", "spring*", "dotnet", "gunicorn", "uwsgi", 
+    #     ".*", "osascript"
+    #   ) or ?process.executable : (
+    #     "/tmp/*", "/var/tmp/*", "/dev/shm/*", "/home/*/*", "/var/run/*", "/run/*", "/boot/*", "/.*", "C:\\Users\\*", "?:\\ProgramData\\*"
+    #   ) or user_agent.original : (
+    #     "curl*", "wget*", "python*", "ruby*", "Go-http-client*", "node*", "axios*", "undici*", "java*", "php*", "Bun*",
+    #     "Apache-HttpClient*", "okhttp*", "RestTemplate*", "*WindowsPowerShell*", "*roadtools*", "*fasthttp*", "*azurehound*", "*bloodhound*", "*aiohttp*"
+    #   )
+    # )
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1114.003
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/collection_exchange_new_inbox_rule.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-24
+date: 2026-05-31
 tags:
   - attack.t1114.003
 logsource:
@@ -16,15 +16,22 @@ detection:
     # Original elastic detection logic
     # web where
     #     event.provider == "Exchange" and
-    #     event.action in ("New-InboxRule", "Set-InboxRule") and
-    #     event.outcome == "success" and
+    #     event.action in (
+    #         "New-InboxRule",
+    #         "Set-InboxRule",
+    #         "Set-Mailbox",
+    #         "Set-TransportRule",
+    #         "New-TransportRule"
+    #     ) and event.outcome == "success" and
     #     (
     #         (?o365.audit.Parameters.ForwardTo != null and not endsWith~(?o365.audit.Parameters.ForwardTo, user.domain)) or
     #         (?o365.audit.Parameters.ForwardAsAttachmentTo != null and not endsWith~(?o365.audit.Parameters.ForwardAsAttachmentTo, user.domain)) or
     #         (?o365.audit.Parameters.ForwardingAddress != null and not endsWith~(?o365.audit.Parameters.ForwardingAddress, user.domain)) or
     #         (?o365.audit.Parameters.ForwardingSmtpAddress != null and not endsWith~(?o365.audit.Parameters.ForwardingSmtpAddress, user.domain)) or
     #         (?o365.audit.Parameters.RedirectTo != null and not endsWith~(?o365.audit.Parameters.RedirectTo, user.domain)) or
-    #         (?o365.audit.Parameters.RedirectToRecipients != null and not endsWith~(?o365.audit.Parameters.RedirectToRecipients, user.domain))
+    #         (?o365.audit.Parameters.RedirectToRecipients != null and not endsWith~(?o365.audit.Parameters.RedirectToRecipients, user.domain)) or
+    #         (?o365.audit.Parameters.RedirectMessageTo != null and not endsWith~(?o365.audit.Parameters.RedirectMessageTo, user.domain)) or
+    #         (?o365.audit.Parameters.BlindCopyTo != null and not endsWith~(?o365.audit.Parameters.BlindCopyTo, user.domain))
     #     )
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1059.002
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/macos/command_and_control_aws_s3_connection_via_script.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-24
+date: 2026-05-31
 tags:
   - attack.t1059.002
 logsource:
@@ -14,18 +14,18 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # FROM logs-endpoint.events.network-*
+    # FROM logs-endpoint.events.network-*  
     # | WHERE host.os.type == "macos" 
-    #     AND event.type == "start"
+    #     AND event.type == "start"  
     #     AND (process.name == "osascript" 
-    #          OR process.name == "node" 
-    #          OR process.name LIKE "python*")
+    #             OR process.name == "node" 
+    #             OR process.name LIKE "python*")  
     #     AND (destination.domain LIKE "s3.*.amazonaws.com" 
-    #          OR destination.domain LIKE "*.s3*.amazonaws.com" 
-    #          OR destination.domain LIKE "*.cloudfront.net")
+    #             OR destination.domain LIKE "*.s3*.amazonaws.com" 
+    #             OR destination.domain LIKE "*.cloudfront.net")  
     # | STATS Esql.connection_count = COUNT(*) 
-    #   BY process.executable, user.name, host.name, destination.domain
-    # | WHERE Esql.connection_count >= 5
-    # | KEEP Esql.*, process.executable, user.name, host.name, destination.domain
+    #     BY process.entity_id, process.executable, user.name, host.name, destination.domain  
+    # | WHERE Esql.connection_count >= 20  
+    # | KEEP Esql.*, process.entity_id, process.executable, user.name, host.name, destination.domain
   condition: selection
 level: medium

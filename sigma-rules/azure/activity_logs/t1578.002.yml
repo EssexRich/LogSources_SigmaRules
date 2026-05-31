@@ -1,0 +1,30 @@
+title: Azure VM Extension Deployment by User
+id: 0ef30c60-0ef3-4ef3-aef3-0ef30c600000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1578.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/persistence_azure_vm_extension_deployment_by_interactive_user.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-31
+tags:
+  - attack.t1578.002
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:azure.activitylogs and
+    # azure.activitylogs.operation_name:"MICROSOFT.COMPUTE/VIRTUALMACHINES/EXTENSIONS/WRITE" and
+    # azure.activitylogs.identity.authorization.evidence.principal_type:User and
+    # event.outcome:(success or Success) and
+    # azure.resource.id:(
+    #     *VMACCESSAGENT* or
+    #     *CUSTOMSCRIPTEXTENSION* or
+    #     *RUNCOMMANDWINDOWS* or
+    #     *RUNCOMMANDLINUX* or
+    #     */DSC/* or
+    #     *MICROSOFTMONITORINGAGENT*
+    # )
+  condition: selection
+level: medium

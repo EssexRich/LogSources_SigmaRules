@@ -1,11 +1,11 @@
-title: Entra ID Potential AiTM Sign-In via OfficeHome (Tycoon2FA)
-id: 184e40d3-184e-484e-a84e-184e40d30000
+title: Entra ID Microsoft Authentication Broker Sign-In with Non-Standard User Agent
+id: 2dbdc43f-2dbd-4dbd-adbd-2dbdc43f0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1539
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_tycoon_entra_id.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_microsoft_auth_broker_nonstandard_user_agent.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-24
+date: 2026-05-31
 tags:
   - attack.t1539
 logsource:
@@ -14,19 +14,9 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset:"azure.signinlogs" and event.category:"authentication" and
-    # event.action:"Sign-in activity" and
-    # (
-    #     (
-    #         azure.signinlogs.properties.app_id:"29d9ed98-a469-4536-ade2-f981bc1d605e" and
-    #         azure.signinlogs.properties.resource_id:(
-    #             "00000002-0000-0ff1-ce00-000000000000" or "00000003-0000-0000-c000-000000000000"
-    #         )
-    #     ) or
-    #     (
-    #         azure.signinlogs.properties.app_id:"4765445b-32c6-49b0-83e6-1d93765276ca" and
-    #         azure.signinlogs.properties.resource_id:"4765445b-32c6-49b0-83e6-1d93765276ca"
-    #     )
-    # ) and user_agent.original:(node or axios* or undici)
+    # data_stream.dataset:"azure.signinlogs" and event.action:"Sign-in activity" and event.outcome:(success or Success) and 
+    # (azure.signinlogs.properties.app_display_name:"Microsoft Authentication Broker" or azure.signinlogs.properties.app_id:"29d9ed98-a469-4536-ade2-f981bc1d605e") and
+    # user_agent.original:(* and not (Mozilla* or Dalvik* or *CFNetwork* or Windows-AzureAD-Authentication-Provider* or Java*ThinkPad*)) and
+    # azure.signinlogs.properties.resource_display_name:*
   condition: selection
 level: medium

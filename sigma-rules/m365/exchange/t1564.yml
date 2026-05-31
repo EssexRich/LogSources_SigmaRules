@@ -1,11 +1,11 @@
-title: M365 Exchange Inbox Phishing Evasion Rule Created
-id: 6ba6213c-6ba6-4ba6-aba6-6ba6213c0000
+title: M365 Exchange Inbox Rule with Obfuscated Name
+id: 0f2eaef6-0f2e-4f2e-af2e-0f2eaef60000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1564
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_exchange_new_inbox_rule_delete_or_move.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_exchange_inbox_rule_obfuscated_name.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-24
+date: 2026-05-31
 tags:
   - attack.t1564
 logsource:
@@ -14,36 +14,33 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset: "o365.audit" and
-    #     event.action: ("New-InboxRule" or "Set-InboxRule") and event.outcome: "success" and
-    #     (
-    #      o365.audit.Parameters.BodyContainsWords: "\u0000" or 
-    #      o365.audit.Parameters.WithinSizeRangeMinimum <= 1023 or 
-    #      o365.audit.Parameters.SubjectContainsWords: (
-    #         *phish* or
-    #         *hack* or
-    #         *alert* or
-    #         *malware* or
-    #         *security* or
-    #         *invoice* or
-    #         *payment* or
-    #         *wire* or
-    #         *transfer* or
-    #         *fraud* or
-    #         *reset* or
-    #         *unusual* or
-    #         *protection* or
-    #         *login* or
-    #         *suspicious*
-    #       )
-    #     ) and (
-    #     o365.audit.Parameters.DeleteMessage: True or
-    #     o365.audit.Parameters.MoveToFolder: (
-    #         *Deleted* or
-    #         *Junk* or
-    #         *RSS* or 
-    #         *Calendar*
-    #     )
-    # )
+    # from logs-o365.audit-* metadata _id, _version, _index
+    # | where
+    #     data_stream.dataset == "o365.audit" and
+    #     event.provider == "Exchange" and
+    #     event.action in ("New-InboxRule", "Set-InboxRule") and
+    #     event.outcome == "success" and
+    #     o365.audit.ObjectId is not null
+    # | grok o365.audit.ObjectId """.*\\\\(?<Esql.inbox_rule_name>.*)$"""
+    # // only special chars in inbox rule name
+    # | where Esql.inbox_rule_name rlike """[!@#$%^&*()_+={[\]|\\:;"'<,>.?/~` \-]+"""
+    # | keep
+    #     @timestamp,
+    #     _id,
+    #     _version,
+    #     _index,
+    #     Esql.inbox_rule_name,
+    #     o365.audit.ObjectId,
+    #     o365.audit.UserId,
+    #     o365.audit.ApplicationId,
+    #     user.name,
+    #     user.domain,
+    #     event.action,
+    #     source.ip,
+    #     source.as.number,
+    #     source.as.organization.name,
+    #     o365.audit.Parameters.ForwardTo,
+    #     o365.audit.Parameters.ForwardAsAttachmentTo,
+    #     o365.audit.Parameters.RedirectTo
   condition: selection
 level: medium

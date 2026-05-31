@@ -1,11 +1,11 @@
-title: Google Drive Ownership Transferred via Google Workspace
-id: 52d1e6dd-52d1-42d1-a2d1-52d1e6dd0000
+title: Google Workspace Drive Data Transfer or Takeout Export Initiated
+id: 66f06c97-66f0-46f0-a6f0-66f06c970000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1074
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/collection_google_drive_ownership_transferred_via_google_workspace.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-24
+date: 2026-05-31
 tags:
   - attack.t1074
 logsource:
@@ -14,7 +14,9 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset:"google_workspace.admin" and event.action:"CREATE_DATA_TRANSFER_REQUEST"
-    #   and event.category:"iam" and google_workspace.admin.application.name:Drive*
+    # data_stream.dataset:"google_workspace.admin" and (
+    #   (event.action:"CREATE_DATA_TRANSFER_REQUEST" and google_workspace.admin.application.name:Drive*) or
+    #   event.action:"CUSTOMER_TAKEOUT_CREATED"
+    # )
   condition: selection
 level: medium

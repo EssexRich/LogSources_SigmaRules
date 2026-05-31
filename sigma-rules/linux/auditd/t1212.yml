@@ -1,0 +1,32 @@
+title: Segfault from Sensitive Process Detected
+id: 0064dd21-0064-4064-a064-0064dd210000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1212
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_segfault_from_sensitive_process.toml
+author: elastic (via IncidentBuddy)
+date: 2026-05-31
+tags:
+  - attack.t1212
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:linux and event.dataset:system.syslog and process.name:kernel and
+    # message:(
+    #   segfault and (
+    #     agetty or apache2 or atd or auditbeat or auditd or beacon-chain or besu or chage or
+    #     chfn or chsh or clef or cron or crond or dbus-broker or dbus-daemon or dnsmasq or
+    #     elastic-agent or erigon or ethrex or ethsigner or geth or getty or gpasswd or
+    #     grandine or httpd or krb5_child or ldap_child or lighthouse or lodestar or login or
+    #     logrotate or named or nethermind or newgrp or nginx or nslcd or op-batcher or
+    #     op-challenger or op-conductor or op-geth or op-node or op-proposer or openvpn or
+    #     osqueryd or passwd or pkexec or polkitd or proftpd or prysm or reth or rsyslogd or
+    #     smbd or ssh or sshd or sssd or sssd_nss or sssd_pam or su or sudo or sudoedit or
+    #     systemd-logind or teku or unix_chkpwd or vsftpd or web3signer
+    #   )
+    # )
+  condition: selection
+level: medium
