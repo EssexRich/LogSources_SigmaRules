@@ -1,11 +1,11 @@
-title: AWS Discovery API Calls via CLI from a Single Resource
-id: 0c18f532-0c18-4c18-ac18-0c18f5320000
+title: AWS Bedrock Foundation Model Enumeration Followed by Invocation via Long-Term Key
+id: 2e01649e-2e01-4e01-ae01-2e01649e0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1526
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_multiple_discovery_api_calls_via_cli.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_bedrock_model_recon_and_invocation_via_long_term_key.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-31
+date: 2026-06-07
 tags:
   - attack.t1526
 logsource:
@@ -14,67 +14,15 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # from logs-aws.cloudtrail-* metadata _id, _version, _index
-    # // create time window buckets of 10 seconds
-    # | eval Esql.time_window_date_trunc = date_trunc(10 seconds, @timestamp)
-    # 
-    # | where
-    #     data_stream.dataset == "aws.cloudtrail"
-    #     
-    #     // exclude service account and console behavior
-    #     and source.ip IS NOT NULL
-    #     and aws.cloudtrail.session_credential_from_console IS NULL
-    #     and event.provider in (
-    #       "iam.amazonaws.com",
-    #       "ec2.amazonaws.com",
-    #       "s3.amazonaws.com",
-    #       "rds.amazonaws.com",
-    #       "lambda.amazonaws.com",
-    #       "dynamodb.amazonaws.com",
-    #       "kms.amazonaws.com",
-    #       "cloudfront.amazonaws.com",
-    #       "elasticloadbalancing.amazonaws.com", 
-    #       "cloudtrail.amazonaws.com",
-    #       "sts.amazonaws.com",
-    #       "ses.amazonaws.com",
-    #       "organizations.amazonaws.com"
-    #     )
-    #     // ignore AWS service actions
-    #     and aws.cloudtrail.user_identity.type != "AWSService"
-    #     // filter for aws-cli specifically
-    #     and user_agent.name == "aws-cli"
-    #     // exclude DescribeCapacityReservations events related to AWS Config
-    #     and event.action != "DescribeCapacityReservations"
-    #     and user.name != "AWSServiceRoleForConfig"
-    # 
-    # // filter for Describe, Get, List, and Generate API calls
-    # | where true in (
-    #     starts_with(event.action, "Describe"),
-    #     starts_with(event.action, "Get"),
-    #     starts_with(event.action, "List"),
-    #     starts_with(event.action, "Generate")
-    # )
-    # 
-    # // keep relevant fields (preserving ECS fields and computed time window)
-    # | keep 
-    #     @timestamp, 
-    #     Esql.time_window_date_trunc, 
-    #     event.action, 
-    #     aws.cloudtrail.user_identity.arn, 
-    #     aws.cloudtrail.user_identity.type, 
-    #     aws.cloudtrail.user_identity.access_key_id, 
-    #     source.ip, 
-    #     cloud.account.id, 
-    #     event.provider, 
-    #     user_agent.name, 
-    #     source.as.organization.name, 
-    #     cloud.region,
-    #     data_stream.namespace
-    # 
-    # // count the number of unique API calls per time window and actor
-    # | stats
-    #     Esql.event_action_count_distinct = count_distinct(event.action),
-    #     Esql.event_action_
-    # ... [truncated]
+    # sequence by aws.cloudtrail.user_identity.access_key_id with maxspan=15m
+    #   [any where data_stream.dataset == "aws.cloudtrail"
+    #     and event.provider == "bedrock.amazonaws.com"
+    #     and event.action == "ListFoundationModels"
+    #     and event.outcome == "success"
+    #     and aws.cloudtrail.user_identity.access_key_id like "AKIA*"]
+    #   [any where data_stream.dataset == "aws.cloudtrail"
+    #     and event.provider == "bedrock.amazonaws.com"
+    #     and event.action : ("InvokeModel", "InvokeModelWithResponseStream", "Converse", "ConverseStream")
+    #     and event.outcome == "success"]
   condition: selection
 level: medium

@@ -1,0 +1,27 @@
+title: AWS Bedrock Untrusted Model Imported or Marketplace Endpoint Registered
+id: 5a5faad1-5a5f-4a5f-aa5f-5a5faad10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1525
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_bedrock_untrusted_model_imported_or_marketplace_endpoint_registered.toml
+author: elastic (via IncidentBuddy)
+date: 2026-06-07
+tags:
+  - attack.t1525
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset: "aws.cloudtrail"
+    #     and event.provider: "bedrock.amazonaws.com"
+    #     and event.action: (
+    #         "CreateModelImportJob" or
+    #         "CreateCustomModelDeployment" or
+    #         "CreateMarketplaceModelEndpoint" or
+    #         "RegisterMarketplaceModelEndpoint"
+    #     )
+    #     and event.outcome: "success"
+  condition: selection
+level: medium

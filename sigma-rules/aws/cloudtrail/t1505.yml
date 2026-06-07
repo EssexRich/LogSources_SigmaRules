@@ -1,0 +1,23 @@
+title: AWS Bedrock Agent Created by IAM User or Root
+id: 090ff69c-090f-490f-a90f-090ff69c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_bedrock_agent_created.toml
+author: elastic (via IncidentBuddy)
+date: 2026-06-07
+tags:
+  - attack.t1505
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset: "aws.cloudtrail"
+    #     and event.provider: "bedrock.amazonaws.com"
+    #     and event.action: "CreateAgent"
+    #     and event.outcome: "success"
+    #     and aws.cloudtrail.user_identity.type: ("IAMUser" or "Root")
+  condition: selection
+level: medium

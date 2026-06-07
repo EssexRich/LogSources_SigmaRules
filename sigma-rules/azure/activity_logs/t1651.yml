@@ -1,11 +1,11 @@
-title: Azure Compute VM Command Executed
-id: 138bbf49-138b-438b-a38b-138bbf490000
+title: Azure Run Command Script Child Process
+id: 3eefe5b1-3eef-4eef-aeef-3eefe5b10000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1651
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/execution_compute_vm_command_executed.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_azure_run_command_script_child_process.toml
 author: elastic (via IncidentBuddy)
-date: 2026-05-31
+date: 2026-06-07
 tags:
   - attack.t1651
 logsource:
@@ -14,6 +14,12 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset:azure.activitylogs and azure.activitylogs.operation_name:"MICROSOFT.COMPUTE/VIRTUALMACHINES/RUNCOMMAND/ACTION" and event.outcome:(Success or success)
+    # process where event.type in ("start", "process_started") and
+    #   (
+    #     (process.parent.name == "powershell.exe" and
+    #       process.parent.command_line like "powershell  -ExecutionPolicy Unrestricted -File script?.ps1") or
+    #     (process.parent.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "mksh", "busybox") and
+    #       process.parent.args like "/var/lib/waagent/run-command/download/*/script.sh")
+    #   )
   condition: selection
 level: medium

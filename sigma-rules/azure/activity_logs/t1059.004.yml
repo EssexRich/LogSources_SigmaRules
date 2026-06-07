@@ -1,0 +1,25 @@
+title: Azure Run Command Script Child Process
+id: 068179f9-0681-4681-a681-068179f90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_azure_run_command_script_child_process.toml
+author: elastic (via IncidentBuddy)
+date: 2026-06-07
+tags:
+  - attack.t1059.004
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where event.type in ("start", "process_started") and
+    #   (
+    #     (process.parent.name == "powershell.exe" and
+    #       process.parent.command_line like "powershell  -ExecutionPolicy Unrestricted -File script?.ps1") or
+    #     (process.parent.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish", "mksh", "busybox") and
+    #       process.parent.args like "/var/lib/waagent/run-command/download/*/script.sh")
+    #   )
+  condition: selection
+level: medium
