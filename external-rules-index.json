@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "generated": "2026-06-07T06:20:30.530Z",
+    "generated": "2026-06-14T06:36:22.614Z",
     "techniques": 552,
-    "totalRules": 13411,
+    "totalRules": 13434,
     "sources": {
       "elastic": 441,
       "sigma": 398,
@@ -4975,6 +4975,16 @@
       },
       {
         "source": "splunk",
+        "name": "Cisco IOS XE Reconnaissance Command Activity",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_reconnaissance_command_activity.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_reconnaissance_command_activity.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"AAA\", \"HA_EM\")\n    mnemonic IN (\"AAA_ACCOUNTING_MESSAGE\", \"LOG\")\n    message_text IN (\n        \"*show running-config*\",\n        \"*show tacacs*\",\n        \"*show cdp neighbors*\",\n        \"*show file systems*\",\n        \"*dir bootflash:*\",\n        \"*show clock*\",\n        \"*show platform software status control-processor brief*\",\n        \"*terminal length 0*\",\n        \"*terminal width 0*\"\n    )\n\n    | rex field=message_text \"^\\w+:(?<aaa_src>[^:@]+)(?:@[^:]*)?:(?<aaa_user>[^:]*):(?<aaa_command>.*?)(?:\\s+\\((?<aaa_result>SUCCESS|FAILURE)\\))?$\"\n    | rex field=message_text \"^(?:[^:]+:\\s+)?(?:catchall:\\s+)?(?<eem_command>.+?)\\s*$\"\n    | eval command=lower(trim(coalesce(aaa_command, eem_command, \"\")))\n\n    | eval command_type=case(\n        like(command, \"show running-config%\"), \"show_conf\",\n        like(command, \"show tacacs%\"), \"show_tacacs\",\n        like(command, \"show cdp neighbors detail%\"), \"show_cdp\",\n        like(command, \"show cdp neighbors%\"), \"show_cdp\",\n        like(command, \"show file systems%\"), \"show_file\",\n        like(command, \"dir bootflash:%\"), \"dir_bootflash\",\n        like(command, \"show clock%\"), \"show_clock\",\n        like(command, \"show platform software status control-processor brief%\"), \"show_platform\",\n        like(command, \"terminal length 0%\"), \"terminal\",\n        like(command, \"terminal width 0%\"), \"terminal\",\n        true(), null())\n    | where isnotnull(command_type)\n    | eval user=coalesce(aaa_user, user, \"unknown\")\n    | eval src_ip=coalesce(aaa_src, src_ip, \"unknown\")\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=5m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  dc(command_type) as unique_recon_commands\n                  values(command_type) as command_types\n                  values(command) as commands\n      by _time dest user src_ip\n    | where unique_recon_commands >= 4\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_reconnaissance_command_activity_filter`"
+      },
+      {
+        "source": "splunk",
         "name": "Cisco NVM - Suspicious Network Connection to IP Lookup Service API",
         "product": "windows",
         "service": null,
@@ -5384,6 +5394,16 @@
         "path": "rules/windows/process_creation/proc_creation_win_webshell_recon_commands_and_processes.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_webshell_recon_commands_and_processes.yml",
         "query": "    selection_webserver_image:\n        ParentImage|endswith:\n            - '\\w3wp.exe'\n            - '\\php-cgi.exe'\n            - '\\nginx.exe'\n            - '\\httpd.exe'\n            - '\\caddy.exe'\n            - '\\ws_tomcatservice.exe'\n    selection_webserver_characteristics_tomcat1:\n        ParentImage|endswith:\n            - '\\java.exe'\n            - '\\javaw.exe'\n        ParentImage|contains:\n            - '-tomcat-'\n            - '\\tomcat'\n    selection_webserver_characteristics_tomcat2:\n        ParentImage|endswith:\n            - '\\java.exe'\n            - '\\javaw.exe'\n        CommandLine|contains:\n            - 'catalina.jar'\n            - 'CATALINA_HOME'\n    selection_susp_net_utility:\n        OriginalFileName:\n            - 'net.exe'\n            - 'net1.exe'\n        CommandLine|contains:\n            - ' user '\n            - ' use '\n            - ' group '\n    selection_susp_ping_utility:\n        OriginalFileName: 'ping.exe'\n        CommandLine|contains: ' -n '\n    selection_susp_change_dir:\n        CommandLine|contains:\n            - '&cd&echo'  # china chopper web shell\n            - 'cd /d '  # https://www.computerhope.com/cdhlp.htm\n    selection_susp_wmic_utility:\n        OriginalFileName: 'wmic.exe'\n        CommandLine|contains: ' /node:'\n    selection_susp_powershell_cli:\n        Image|endswith:\n            - '\\cmd.exe'\n            - '\\powershell.exe'\n            - '\\pwsh.exe'\n        CommandLine|contains:\n            - ' -enc '\n            - ' -EncodedCommand '\n            - ' -w hidden '\n            - ' -windowstyle hidden'\n            - '.WebClient).Download'\n    selection_susp_misc_discovery_binaries:\n        - Image|endswith:\n              - '\\dsquery.exe'\n              - '\\find.exe'\n              - '\\findstr.exe'\n              - '\\ipconfig.exe'\n              - '\\netstat.exe'\n              - '\\nslookup.exe'\n              - '\\pathping.exe'\n              - '\\quser.exe'\n              - '\\schtasks.exe'\n              - '\\systeminfo.exe'\n              - '\\tasklist.exe'\n              - '\\tracert.exe'\n              - '\\ver.exe'\n              - '\\wevtutil.exe'\n              - '\\whoami.exe'\n        - OriginalFileName:\n              - 'dsquery.exe'\n              - 'find.exe'\n              - 'findstr.exe'\n              - 'ipconfig.exe'\n              - 'netstat.exe'\n              - 'nslookup.exe'\n              - 'pathping.exe'\n              - 'quser.exe'\n              - 'schtasks.exe'\n              - 'sysinfo.exe'\n              - 'tasklist.exe'\n              - 'tracert.exe'\n              - 'ver.exe'\n              - 'VSSADMIN.EXE'\n              - 'wevtutil.exe'\n              - 'whoami.exe'\n    selection_susp_misc_discovery_commands:\n        CommandLine|contains:\n            - ' Test-NetConnection '\n            - 'dir \\'  # remote dir: dir \\<redacted IP #3>\\C$:\\windows\\temp\\*.exe\n    condition: 1 of selection_webserver_* and 1 of selection_susp_*\n"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE Remote Access Probe Burst",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_remote_access_probe_burst.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_remote_access_probe_burst.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"AAA\", \"HA_EM\")\n    mnemonic IN (\"AAA_ACCOUNTING_MESSAGE\", \"LOG\")\n    message_text IN (\"*ssh *\", \"*telnet *\", \"*ping *\")\n    | rex field=message_text \"^\\w+:(?<aaa_src>[^:@]+)(?:@[^:]*)?:(?<aaa_user>[^:]*):(?<aaa_command>.*?)(?:\\s+\\((?<aaa_result>SUCCESS|FAILURE)\\))?$\"\n    | rex field=message_text \"^(?:[^:]+:\\s+)?(?:catchall:\\s+)?(?<eem_command>.+?)\\s*$\"\n    | eval command=lower(trim(coalesce(aaa_command, eem_command, \"\")))\n    | where match(command, \"^(ssh|telnet|ping)\\s+\")\n    | rex field=command \"(?i)^(?:ssh(?:\\s+-l\\s+\\S+)?|telnet|ping)\\s+(?<target_ip>\\d{1,3}(?:\\.\\d{1,3}){3})\"\n    | eval command_type=case(match(command, \"^ssh\\s+\"), \"ssh\", match(command, \"^telnet\\s+\"), \"telnet\", match(command, \"^ping\\s+\"), \"ping\")\n    | eval user=coalesce(aaa_user, user, \"unknown\")\n    | eval src_ip=coalesce(aaa_src, src_ip, \"unknown\")\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=10m\n    | stats count as command_count\n            min(_time) as firstTime\n            max(_time) as lastTime\n            dc(target_ip) as distinct_targets\n            values(target_ip) as target_ips\n            values(command_type) as command_types\n            values(command) as commands\n      by _time dest user src_ip\n    | where command_count >= 8 OR distinct_targets >= 5\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_remote_access_probe_burst_filter`"
       },
       {
         "source": "splunk",
@@ -6588,6 +6608,16 @@
         "path": "rules/windows/process_creation/proc_creation_win_sysinternals_psexec_execution.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_sysinternals_psexec_execution.yml",
         "query": "    selection:\n        - Image|endswith: '\\psexec.exe'\n        - OriginalFileName: 'psexec.c'\n    condition: selection\n"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE VTY Access Class Tampering",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_vty_access_class_tampering.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_vty_access_class_tampering.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"HA_EM\", \"PARSER\")\n    mnemonic IN (\"LOG\", \"CFGLOG_LOGGEDCMD\")\n    message_text IN (\n        \"*access-class*\",\n        \"*configure http*\",\n        \"*line vty*\"\n    )\n    | rex field=message_text \"^(?:[^:]+:\\s+)?(?:catchall:\\s+)?(?<eem_command>.+?)\\s*$\"\n    | rex field=message_text \"<enteredCommand><cli>(?<parser_command>.*?)</cli>\"\n    | rex field=message_text \"<user>(?<parser_user>[^<]+)</user>\"\n    | rex field=message_text \"<srcIP>(?<parser_src_ip>[^<]+)</srcIP>\"\n    | eval command=lower(trim(coalesce(parser_command, eem_command, \"\")))\n    | eval event_type=case(\n        like(command, \"configure http%\") OR like(command, \"ip http secure-server%\"), \"http_config\",\n        like(command, \"line vty%\"), \"line_vty\",\n        like(command, \"no access-class%\"), \"remove_access_class\",\n        like(command, \"access-class%\"), \"add_access_class\",\n        true(), null())\n    | where isnotnull(event_type)\n    | eval user=coalesce(parser_user, user, \"unknown\")\n    | eval src_ip=coalesce(parser_src_ip, src_ip, \"unknown\")\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=1m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(event_type) as event_types\n                  values(user) as user\n                  values(src_ip) as src_ip\n                  values(command) as commands\n      by _time dest\n    | where mvfind(event_types, \"line_vty\") >= 0\n            AND\n            mvfind(event_types, \"remove_access_class\") >= 0\n            AND\n            mvfind(event_types, \"add_access_class\") >= 0\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_vty_access_class_tampering_filter`"
       },
       {
         "source": "splunk",
@@ -8438,6 +8468,16 @@
         "path": "rules/windows/process_creation/proc_creation_win_ssh_port_forward.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_ssh_port_forward.yml",
         "query": "    selection:\n        Image|endswith: '\\ssh.exe'\n        CommandLine|contains|windash: ' -R '\n    condition: selection\n"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE Remote Access Probe Burst",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_remote_access_probe_burst.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_remote_access_probe_burst.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"AAA\", \"HA_EM\")\n    mnemonic IN (\"AAA_ACCOUNTING_MESSAGE\", \"LOG\")\n    message_text IN (\"*ssh *\", \"*telnet *\", \"*ping *\")\n    | rex field=message_text \"^\\w+:(?<aaa_src>[^:@]+)(?:@[^:]*)?:(?<aaa_user>[^:]*):(?<aaa_command>.*?)(?:\\s+\\((?<aaa_result>SUCCESS|FAILURE)\\))?$\"\n    | rex field=message_text \"^(?:[^:]+:\\s+)?(?:catchall:\\s+)?(?<eem_command>.+?)\\s*$\"\n    | eval command=lower(trim(coalesce(aaa_command, eem_command, \"\")))\n    | where match(command, \"^(ssh|telnet|ping)\\s+\")\n    | rex field=command \"(?i)^(?:ssh(?:\\s+-l\\s+\\S+)?|telnet|ping)\\s+(?<target_ip>\\d{1,3}(?:\\.\\d{1,3}){3})\"\n    | eval command_type=case(match(command, \"^ssh\\s+\"), \"ssh\", match(command, \"^telnet\\s+\"), \"telnet\", match(command, \"^ping\\s+\"), \"ping\")\n    | eval user=coalesce(aaa_user, user, \"unknown\")\n    | eval src_ip=coalesce(aaa_src, src_ip, \"unknown\")\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=10m\n    | stats count as command_count\n            min(_time) as firstTime\n            max(_time) as lastTime\n            dc(target_ip) as distinct_targets\n            values(target_ip) as target_ips\n            values(command_type) as command_types\n            values(command) as commands\n      by _time dest user src_ip\n    | where command_count >= 8 OR distinct_targets >= 5\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_remote_access_probe_burst_filter`"
       },
       {
         "source": "splunk",
@@ -13111,7 +13151,7 @@
         "category": "process_creation",
         "path": "rules/windows/process_creation/proc_creation_win_renamed_binary.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_renamed_binary.yml",
-        "query": "    selection:\n        OriginalFileName:\n            - 'Cmd.Exe'\n            - 'CONHOST.EXE'\n            - '7z.exe'\n            - '7za.exe'\n            - 'WinRAR.exe'\n            - 'wevtutil.exe'\n            - 'net.exe'\n            - 'net1.exe'\n            - 'netsh.exe'\n            - 'InstallUtil.exe'\n    filter:\n        Image|endswith:\n            - '\\cmd.exe'\n            - '\\conhost.exe'\n            - '\\7z.exe'\n            - '\\7za.exe'\n            - '\\WinRAR.exe'\n            - '\\wevtutil.exe'\n            - '\\net.exe'\n            - '\\net1.exe'\n            - '\\netsh.exe'\n            - '\\InstallUtil.exe'\n    condition: selection and not filter\n"
+        "query": "    selection:\n        OriginalFileName:\n            - 'Cmd.Exe'\n            - 'CONHOST.EXE'\n            - '7z.exe'\n            - '7za.exe'\n            - '7zr.exe'\n            - 'WinRAR.exe'\n            - 'wevtutil.exe'\n            - 'net.exe'\n            - 'net1.exe'\n            - 'netsh.exe'\n            - 'InstallUtil.exe'\n    filter:\n        Image|endswith:\n            - '\\cmd.exe'\n            - '\\conhost.exe'\n            - '\\7z.exe'\n            - '\\7za.exe'\n            - '\\7zr.exe'\n            - '\\WinRAR.exe'\n            - '\\wevtutil.exe'\n            - '\\net.exe'\n            - '\\net1.exe'\n            - '\\netsh.exe'\n            - '\\InstallUtil.exe'\n    condition: selection and not filter\n"
       },
       {
         "source": "sigma",
@@ -15203,6 +15243,16 @@
       },
       {
         "source": "splunk",
+        "name": "Cisco IOS XE Remote Access Probe Burst",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_remote_access_probe_burst.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_remote_access_probe_burst.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"AAA\", \"HA_EM\")\n    mnemonic IN (\"AAA_ACCOUNTING_MESSAGE\", \"LOG\")\n    message_text IN (\"*ssh *\", \"*telnet *\", \"*ping *\")\n    | rex field=message_text \"^\\w+:(?<aaa_src>[^:@]+)(?:@[^:]*)?:(?<aaa_user>[^:]*):(?<aaa_command>.*?)(?:\\s+\\((?<aaa_result>SUCCESS|FAILURE)\\))?$\"\n    | rex field=message_text \"^(?:[^:]+:\\s+)?(?:catchall:\\s+)?(?<eem_command>.+?)\\s*$\"\n    | eval command=lower(trim(coalesce(aaa_command, eem_command, \"\")))\n    | where match(command, \"^(ssh|telnet|ping)\\s+\")\n    | rex field=command \"(?i)^(?:ssh(?:\\s+-l\\s+\\S+)?|telnet|ping)\\s+(?<target_ip>\\d{1,3}(?:\\.\\d{1,3}){3})\"\n    | eval command_type=case(match(command, \"^ssh\\s+\"), \"ssh\", match(command, \"^telnet\\s+\"), \"telnet\", match(command, \"^ping\\s+\"), \"ping\")\n    | eval user=coalesce(aaa_user, user, \"unknown\")\n    | eval src_ip=coalesce(aaa_src, src_ip, \"unknown\")\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=10m\n    | stats count as command_count\n            min(_time) as firstTime\n            max(_time) as lastTime\n            dc(target_ip) as distinct_targets\n            values(target_ip) as target_ips\n            values(command_type) as command_types\n            values(command) as commands\n      by _time dest user src_ip\n    | where command_count >= 8 OR distinct_targets >= 5\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_remote_access_probe_burst_filter`"
+      },
+      {
+        "source": "splunk",
         "name": "Kubernetes Access Scanning",
         "product": "cloud",
         "service": null,
@@ -16279,7 +16329,7 @@
         "product": "unknown",
         "path": "rules/network/initial_access_smb_windows_file_sharing_activity_to_the_internet.toml",
         "url": "https://github.com/elastic/detection-rules/blob/main/rules/network/initial_access_smb_windows_file_sharing_activity_to_the_internet.toml",
-        "query": "(data_stream.dataset:network_traffic.flow or event.category:(network or network_traffic))\n  and network.transport:tcp and destination.port:(139 or 445)\n  and source.ip:(10.0.0.0/8 or 172.16.0.0/12 or 192.168.0.0/16)\n  and not destination.ip:(10.0.0.0/8\n    or 100.64.0.0/10\n    or 127.0.0.0/8\n    or 169.254.0.0/16\n    or 172.16.0.0/12\n    or 192.0.0.0/24\n    or 192.0.0.0/29\n    or 192.0.0.10/32\n    or 192.0.0.170/32\n    or 192.0.0.171/32\n    or 192.0.0.8/32\n    or 192.0.0.9/32\n    or 192.0.2.0/24\n    or 192.168.0.0/16\n    or 192.175.48.0/24\n    or 192.31.196.0/24\n    or 192.52.193.0/24\n    or 192.88.99.0/24\n    or 198.18.0.0/15\n    or 198.51.100.0/24\n    or 203.0.113.0/24\n    or 224.0.0.0/4\n    or 240.0.0.0/4\n    or \"::1\"\n    or \"FE80::/10\"\n    or \"FF00::/8\")"
+        "query": "(data_stream.dataset:(network_traffic.flow or zeek.smb_cmd or zeek.smb_files or zeek.smb_mapping) or event.category:(network or network_traffic))\n  and network.transport:tcp and destination.port:(139 or 445)\n  and source.ip:(10.0.0.0/8 or 172.16.0.0/12 or 192.168.0.0/16)\n  and not destination.ip:(10.0.0.0/8\n    or 100.64.0.0/10\n    or 127.0.0.0/8\n    or 169.254.0.0/16\n    or 172.16.0.0/12\n    or 192.0.0.0/24\n    or 192.0.0.0/29\n    or 192.0.0.10/32\n    or 192.0.0.170/32\n    or 192.0.0.171/32\n    or 192.0.0.8/32\n    or 192.0.0.9/32\n    or 192.0.2.0/24\n    or 192.168.0.0/16\n    or 192.175.48.0/24\n    or 192.31.196.0/24\n    or 192.52.193.0/24\n    or 192.88.99.0/24\n    or 198.18.0.0/15\n    or 198.51.100.0/24\n    or 203.0.113.0/24\n    or 224.0.0.0/4\n    or 240.0.0.0/4\n    or \"::1\"\n    or \"FE80::/10\"\n    or \"FF00::/8\")"
       },
       {
         "source": "elastic",
@@ -23031,6 +23081,16 @@
       },
       {
         "source": "sigma",
+        "name": "Vim GTFOBin Abuse - Linux",
+        "product": "linux",
+        "service": null,
+        "category": "process_creation",
+        "path": "rules/linux/process_creation/proc_creation_lnx_vim_shell_execution.yml",
+        "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_vim_shell_execution.yml",
+        "query": "    selection_img:\n        Image|endswith:\n            - '/rvim'\n            - '/vi'\n            - '/vim'\n            - '/vimdiff'\n        CommandLine|contains:\n            - ' --cmd '\n            - ' -c'\n    selection_cli:\n        CommandLine|contains:\n            - ':!/'\n            - ':!$'\n            - ':!..'\n            - ':lua '\n            - ':py '\n            - ':shell'\n            - '/bin/bash'\n            - '/bin/dash'\n            - '/bin/fish'\n            - '/bin/sh'\n            - '/bin/csh'\n            - '/bin/ksh'\n            - '/bin/zsh'\n            - '/bin/tmux'\n    condition: all of selection_*\n"
+      },
+      {
+        "source": "sigma",
         "name": "Potential Xterm Reverse Shell",
         "product": "linux",
         "service": null,
@@ -23641,6 +23701,26 @@
       },
       {
         "source": "splunk",
+        "name": "Cisco IOS XE Guestshell Activation and Destroy",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_guestshell_activation_and_destroy.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_guestshell_activation_and_destroy.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"HA_EM\", \"VMAN\", \"IM\", \"AAA\")\n    mnemonic IN (\"LOG\", \"ACTIVATION_STATE\", \"IOX_INST_INFO\", \"INSTALL_STATE\", \"AAA_ACCOUNTING_MESSAGE\")\n    message_text IN (\n        \"*guestshell enable*\",\n        \"*guestshell destroy*\",\n        \"*Successfully activated virtual service 'guestshell*\",\n        \"*IOX SERVICE guestshell*\",\n        \"*Destroying virtual service 'guestshell*\",\n        \"*Successfully destroyed virtual service 'guestshell*\"\n    )\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | eval event_type=case(\n        like(message_text, \"%guestshell enable%\"), \"guestshell_enable_command\",\n        like(message_text, \"%guestshell destroy%\"), \"guestshell_destroy_command\",\n        like(message_text, \"%Successfully activated virtual service 'guestshell%\"), \"vman_guestshell_activated\",\n        like(message_text, \"%IOX SERVICE guestshell%\"), \"im_iox_guestshell_activated\",\n        like(message_text, \"%Destroying virtual service 'guestshell%\"), \"vman_guestshell_destroying\",\n        like(message_text, \"%Successfully destroyed virtual service 'guestshell%\"), \"vman_guestshell_destroyed\",\n        true(), \"other\"\n    )\n    | bin _time span=30m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(event_type) as event_types\n                  values(message_text) as message\n    by _time dest\n    | where\n            (\n                mvfind(event_types, \"vman_guestshell_activated\") >= 0\n                OR\n                mvfind(event_types, \"im_iox_guestshell_activated\") >= 0\n                OR\n                mvfind(event_types, \"guestshell_enable_command\") >= 0\n            )\n            AND\n            (\n                mvfind(event_types, \"vman_guestshell_destroying\") >= 0\n                OR\n                mvfind(event_types, \"vman_guestshell_destroyed\") >= 0\n                OR\n                mvfind(event_types, \"guestshell_destroy_command\") >= 0\n            )\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_guestshell_activation_and_destroy_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE Request Platform Package Describe Shell Pattern",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_request_platform_package_describe_shell_pattern.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_request_platform_package_describe_shell_pattern.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"AAA\", \"HA_EM\")\n    mnemonic IN (\"AAA_ACCOUNTING_MESSAGE\", \"LOG\")\n    message_text=\"*request platform software package describe*\"\n    message_text IN (\"*--filename=/(bash)n*\", \"*--filename=$(bash)n*\")\n\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(message_text) as message\n      by dest\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_request_platform_package_describe_shell_pattern_filter`"
+      },
+      {
+        "source": "splunk",
         "name": "ESXi Reverse Shell Patterns",
         "product": "application",
         "service": null,
@@ -23678,16 +23758,6 @@
         "path": "detections/application/ollama_suspicious_prompt_injection_jailbreak.yml",
         "url": "https://github.com/splunk/security_content/blob/develop/detections/application/ollama_suspicious_prompt_injection_jailbreak.yml",
         "query": "`ollama_server` \"GIN\" (\"*/api/generate*\" OR \"*/v1/chat/completions*\") | rex field=_raw \"\\|\\s+(?<status_code>\\d+)\\s+\\|\\s+(?<response_time>[\\d\\.]+[a-z]+)\\s+\\|\\s+(?<src_ip>[\\:\\da-f\\.]+)\\s+\\|\\s+(?<http_method>\\w+)\\s+\\\"(?<uri_path>[^\\\"]+)\\\"\" | rex field=response_time \"^(?:(?<minutes>\\d+)m)?(?<seconds>[\\d\\.]+)s$\" | eval response_time_seconds=if(isnotnull(minutes), tonumber(minutes)*60+tonumber(seconds), tonumber(seconds)) | eval src=src_ip | where response_time_seconds > 30 | bin _time span=10m | stats count as long_request_count, avg(response_time_seconds) as avg_response_time, max(response_time_seconds) as max_response_time, values(uri_path) as uri_path, values(status_code) as status_codes by _time, src, host | where long_request_count > 170 | eval avg_response_time=round(avg_response_time, 2) | eval max_response_time=round(max_response_time, 2) | eval severity=case( long_request_count > 50 OR max_response_time > 55, \"critical\", long_request_count > 20 OR max_response_time > 40, \"high\", 1=1, \"medium\" ) | eval attack_type=\"Potential Prompt Injection / Jailbreak\" | table _time, host, src, uri_path, long_request_count, avg_response_time, max_response_time, status_codes, severity, attack_type | `ollama_suspicious_prompt_injection_jailbreak_filter`"
-      },
-      {
-        "source": "splunk",
-        "name": "CHCP Command Execution",
-        "product": "windows",
-        "service": null,
-        "category": "deprecated",
-        "path": "detections/deprecated/chcp_command_execution.yml",
-        "url": "https://github.com/splunk/security_content/blob/develop/detections/deprecated/chcp_command_execution.yml",
-        "query": "-\n    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes\n      WHERE Processes.process_name=chcp.com\n      BY Processes.action Processes.dest Processes.original_file_name\n         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid\n         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path\n         Processes.process Processes.process_exec Processes.process_guid\n         Processes.process_hash Processes.process_id Processes.process_integrity_level\n         Processes.process_name Processes.process_path Processes.user\n         Processes.user_id Processes.vendor_product\n    | `drop_dm_object_name(Processes)`\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `chcp_command_execution_filter`"
       },
       {
         "source": "splunk",
@@ -26039,7 +26109,7 @@
         "category": "process_creation",
         "path": "rules/windows/process_creation/proc_creation_win_cmd_no_space_execution.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cmd_no_space_execution.yml",
-        "query": "    selection1:  # missing space before the /c\n        CommandLine|contains:\n            - 'cmd.exe/c'\n            - '\\cmd/c'  # just cmd/c would be prone to false positives\n            - '\"cmd/c'\n            - 'cmd.exe/k'\n            - '\\cmd/k'  # just cmd/k would be prone to false positives\n            - '\"cmd/k'\n            - 'cmd.exe/r'\n            - '\\cmd/r'  # just cmd/r would be prone to false positives\n            - '\"cmd/r'\n    selection2: # special cases verified via Virustotal Enterprise search\n        CommandLine|contains:\n            - '/cwhoami'\n            - '/cpowershell'\n            - '/cschtasks'\n            - '/cbitsadmin'\n            - '/ccertutil'\n            - '/kwhoami'\n            - '/kpowershell'\n            - '/kschtasks'\n            - '/kbitsadmin'\n            - '/kcertutil'\n    selection3:  # missing space after the /c\n        CommandLine|contains:\n            - 'cmd.exe /c'\n            - 'cmd /c'\n            - 'cmd.exe /k'\n            - 'cmd /k'\n            - 'cmd.exe /r'\n            - 'cmd /r'\n    filter_generic:\n        CommandLine|contains:\n            - 'cmd.exe /c '\n            - 'cmd /c '\n            - 'cmd.exe /k '\n            - 'cmd /k '\n            - 'cmd.exe /r '\n            - 'cmd /r '\n    filter_fp:\n        - CommandLine|contains: 'AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules'\n        - CommandLine|endswith: 'cmd.exe/c .'\n        - CommandLine: 'cmd.exe /c'\n    condition: 1 of selection* and not 1 of filter_*\n"
+        "query": "    selection1:  # missing space before the /c\n        CommandLine|contains:\n            - 'cmd.exe/c'\n            - '\\cmd/c'  # just cmd/c would be prone to false positives\n            - '\"cmd/c'\n            - 'cmd.exe/k'\n            - '\\cmd/k'  # just cmd/k would be prone to false positives\n            - '\"cmd/k'\n            - 'cmd.exe/r'\n            - '\\cmd/r'  # just cmd/r would be prone to false positives\n            - '\"cmd/r'\n    selection2: # special cases verified via Virustotal Enterprise search\n        CommandLine|contains:\n            - '/cwhoami'\n            - '/cpowershell'\n            - '/cschtasks'\n            - '/cbitsadmin'\n            - '/ccertutil'\n            - '/kwhoami'\n            - '/kpowershell'\n            - '/kschtasks'\n            - '/kbitsadmin'\n            - '/kcertutil'\n    selection3:  # missing space after the /c\n        CommandLine|contains:\n            - 'cmd.exe /c'\n            - 'cmd /c'\n            - 'cmd.exe /k'\n            - 'cmd /k'\n            - 'cmd.exe /r'\n            - 'cmd /r'\n    filter_generic:\n        CommandLine|contains:\n            - 'cmd.exe /c '\n            - 'cmd /c '\n            - 'cmd.exe /k '\n            - 'cmd /k '\n            - 'cmd.exe /r '\n            - 'cmd /r '\n    filter_fp:\n        - CommandLine|contains: 'AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules'\n        - CommandLine|endswith: 'cmd.exe/c .'\n        - CommandLine: 'cmd.exe /c'\n        - CommandLine: 'cmd /c'\n    condition: 1 of selection* and not 1 of filter_*\n"
       },
       {
         "source": "sigma",
@@ -27879,17 +27949,17 @@
         "category": "process_creation",
         "path": "rules/macos/process_creation/proc_creation_macos_applescript.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_applescript.yml",
-        "query": "    selection:\n        Image|endswith: '/osascript'\n        CommandLine|contains:\n            - ' -e '\n            - '.scpt'\n            - '.js'\n    condition: selection\n"
+        "query": "    selection:\n        Image|endswith: '/osascript'\n        CommandLine|contains:\n            - ' -e '\n            - '.scpt'\n            - '.js'\n    filter_optional_opencode:\n        # OpenCode uses osascript to handle copying text from the TUI on MacOS devices. See https://github.com/anomalyco/opencode/blob/ca723f1cbc6fc4244ae57e61e9de8c4e37380ed4/packages/opencode/src/cli/cmd/tui/util/clipboard.ts#L65 for reference.\n        ParentImage|endswith: 'opencode'\n        CommandLine|contains|all:\n            - 'osascript'\n            - ' -e '\n            - 'set imageData to the clipboard'\n            - 'set fileRef'\n    condition: selection and not 1 of filter_optional_*\n"
       },
       {
         "source": "sigma",
-        "name": "Clipboard Data Collection Via OSAScript",
+        "name": "Clipboard Access Via OSAScript",
         "product": "macos",
         "service": null,
         "category": "process_creation",
-        "path": "rules/macos/process_creation/proc_creation_macos_clipboard_data_via_osascript.yml",
-        "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_clipboard_data_via_osascript.yml",
-        "query": "    selection:\n        CommandLine|contains|all:\n            - 'osascript'\n            - ' -e '\n            - 'clipboard'\n    condition: selection\n"
+        "path": "rules/macos/process_creation/proc_creation_macos_clipboard_access_via_osascript.yml",
+        "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_clipboard_access_via_osascript.yml",
+        "query": "    selection:\n        Image|endswith: '/osascript'\n        CommandLine|contains|all:\n            - ' -e '\n            - 'clipboard'\n    filter_optional_opencode:\n        # OpenCode uses osascript to handle copying text from the TUI on MacOS devices. See https://github.com/anomalyco/opencode/blob/ca723f1cbc6fc4244ae57e61e9de8c4e37380ed4/packages/opencode/src/cli/cmd/tui/util/clipboard.ts#L65 for reference.\n        ParentImage|endswith: 'opencode'\n        CommandLine|contains|all:\n            - 'osascript'\n            - ' -e '\n            - 'set imageData to the clipboard'\n            - 'set fileRef'\n    condition: selection and not 1 of filter_optional_*\n"
       },
       {
         "source": "sigma",
@@ -32451,6 +32521,36 @@
       },
       {
         "source": "splunk",
+        "name": "Linux Binary Launched Process with Null Argv",
+        "product": "linux",
+        "service": null,
+        "category": "endpoint",
+        "path": "detections/endpoint/linux_binary_launched_process_with_null_argv.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_binary_launched_process_with_null_argv.yml",
+        "query": "sourcetype=\"linux_messages_syslog\" \"NULL argv\" \"empty string added\"\n    | rex field=_raw \"process '(?<launching_process>[^']+)' launched '(?<launched_process>[^']+)' with NULL argv\"\n    | where isnotnull(launching_process) AND isnotnull(launched_process)\n    | stats\n        count                        AS occurrences,\n        min(_time)                   AS firstTime,\n        max(_time)                   AS lastTime,\n        values(_raw)                 AS message,\n        values(host)                 AS dest\n        by host, launching_process, launched_process\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | table dest, launching_process, launched_process,\n            firstTime, lastTime, occurrences, message\n    | `linux_binary_launched_process_with_null_argv_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Linux Malformed Auth Entry",
+        "product": "linux",
+        "service": null,
+        "category": "endpoint",
+        "path": "detections/endpoint/linux_malformed_auth_entry.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_malformed_auth_entry.yml",
+        "query": "sourcetype=linux_secure process=su\n    | rex \"su:\\s+\\(to\\s+(?<target_user>\\S+)\\)(?<source_user>\\s{2,})on\\s+(?<terminal>\\S+)\"\n    | where len(ltrim(source_user)) == 0\n    | stats\n        count                        as total_attempts,\n        min(_time)                   as firstTime,\n        max(_time)                   as lastTime,\n        values(target_user)          as target_users,\n        values(host)                 as dest\n        by process\n\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `linux_malformed_auth_entry_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Linux PF_ALG Registration Outside of Boot Window",
+        "product": "linux",
+        "service": null,
+        "category": "endpoint",
+        "path": "detections/endpoint/linux_pf_alg_registration_outside_of_boot_window.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_pf_alg_registration_outside_of_boot_window.yml",
+        "query": "sourcetype=\"linux_messages_syslog\" \"NET: Registered PF_ALG protocol family\"\n    | rex field=_raw \"kernel: \\[\\s*(?<uptime_seconds>[\\d\\.]+)\\]\"\n    | eval uptime_seconds=tonumber(uptime_seconds)\n    | where uptime_seconds > 300\n    | eval uptime_readable=tostring(round(uptime_seconds/60,1)) . \" minutes after boot\"\n    | rename host as dest\n    | table _time dest uptime_seconds uptime_readable _raw\n    | sort -uptime_seconds\n    | `linux_pf_alg_registration_outside_of_boot_window_filter`"
+      },
+      {
+        "source": "splunk",
         "name": "Linux pkexec Privilege Escalation",
         "product": "windows",
         "service": null,
@@ -32458,6 +32558,16 @@
         "path": "detections/endpoint/linux_pkexec_privilege_escalation.yml",
         "url": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_pkexec_privilege_escalation.yml",
         "query": "-\n    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes\n      WHERE Processes.process_name=pkexec\n      BY Processes.action Processes.dest Processes.original_file_name\n         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid\n         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path\n         Processes.process Processes.process_exec Processes.process_guid\n         Processes.process_hash Processes.process_id Processes.process_integrity_level\n         Processes.process_name Processes.process_path Processes.user\n         Processes.user_id Processes.vendor_product\n    | `drop_dm_object_name(Processes)`\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | regex process=\"(^.{1}$)\"\n    | `linux_pkexec_privilege_escalation_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Linux Suspicious Namespace Creation",
+        "product": "windows",
+        "service": null,
+        "category": "endpoint",
+        "path": "detections/endpoint/linux_suspicious_namespace_creation.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_suspicious_namespace_creation.yml",
+        "query": "type=SYSCALL SYSCALL=unshare\n    | where uid != \"0\" AND uid != \"4294967295\"\n    | where a0 IN (\"10000000\",\"50000000\",\"70000000\",\"10020000\",\"50020000\",\"70020000\")\n    | eval unshare_time=_time,\n          unshare_pid=pid,\n          unshare_ppid=ppid,\n          trigger_uid=uid,\n          trigger_auid=auid,\n          trigger_exe=exe,\n          ns_flags=a0\n    | table host, unshare_time, comm, syscall, unshare_pid, unshare_ppid,\n            trigger_uid, trigger_auid, trigger_exe, ns_flags\n    | join type=inner host unshare_ppid [\n        search `sysmon` EventID=1 User=root\n        | where match(Image, \"/(su|sudo|pkexec|passwd|chsh|newgrp|doas|run0|sg|dash|sh|bash|zsh|fish|ksh|csh|tcsh|ash|mksh|busybox|tmux|screen|node|python[^/]*|perl[^/]*|ruby[^/]*|php[^/]*|lua[^/]*)$\")\n        | eval root_spawn_time=_time, root_pid=ProcessId,\n              root_exe=Image, root_cmdline=CommandLine, root_parent=ParentProcessId\n        | rename ParentProcessId AS unshare_ppid\n        | table host, unshare_ppid, root_spawn_time, root_pid,\n                root_exe, root_cmdline, root_parent, unshare_time,\n                action, original_file_name, parent_process, parent_process_exec,\n                parent_process_guid, parent_process_id, parent_process_name,\n                parent_process_path, process, process_exec, process_guid,\n                process_hash, process_id, process_integrity_level,\n                process_name, process_path, user, user_id, vendor_product\n    ]\n    | where (root_spawn_time - unshare_time) >= 0\n    | where (root_spawn_time - unshare_time) <= 120\n    | eval elapsed_sec=round(root_spawn_time - unshare_time, 2)\n    | eval ioc_match=case(\n        ns_flags=\"50000000\", \"dirtyfrag (CLONE_NEWUSER|CLONE_NEWNET)\",\n        ns_flags=\"10000000\", \"CLONE_NEWUSER only\",\n        ns_flags=\"70000000\", \"CLONE_NEWUSER|CLONE_NEWNET|CLONE_NEWPID\",\n        1=1, \"namespace flags=\"+ns_flags\n      )\n    | rename host as dest\n    | stats\n        count                              AS count,\n        min(unshare_time)                  AS firstTime,\n        max(unshare_time)                  AS lastTime,\n        values(trigger_uid)                AS trigger_uid,\n        values(trigger_auid)               AS trigger_auid,\n        values(trigger_exe)                AS trigger_exe,\n        values(ns_flags)                   AS ns_flags,\n        values(ioc_match)                  AS ioc_match,\n        values(unshare_pid)                AS unshare_pid,\n        values(unshare_ppid)               AS unshare_ppid,\n        values(root_exe)                   AS root_exe,\n        values(root_cmdline)               AS root_cmdline,\n        values(root_pid)                   AS root_pid,\n        values(elapsed_sec)                AS elapsed_sec,\n        values(process_hash)               AS process_hash,\n        values(vendor_product)             AS vendor_product\n        by dest, comm, syscall\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `linux_suspicious_namespace_creation_filter`"
       },
       {
         "source": "splunk",
@@ -34477,7 +34587,17 @@
         "category": "process_creation",
         "path": "rules/windows/process_creation/proc_creation_win_susp_eventlog_clear.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_eventlog_clear.yml",
-        "query": "    selection_wevtutil_img:\n        - Image|endswith: '\\wevtutil.exe'\n        - OriginalFileName: 'wevtutil.exe'\n    selection_wevtutil_cmd:\n        CommandLine|contains:\n            - 'clear-log '          # clears specified log\n            - ' cl '                # short version of 'clear-log'\n            - 'set-log '            # modifies config of specified log. could be uset to set it to a tiny size\n            - ' sl '                # short version of 'set-log'\n            - 'lfn:'                # change log file location and name\n    selection_other_ps_img:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n    selection_other_ps_cmd:\n        - CommandLine|contains:\n              - 'Clear-EventLog '\n              - 'Remove-EventLog '\n              - 'Limit-EventLog '\n              - 'Clear-WinEvent '\n        - CommandLine|contains|all:\n              - 'Eventing.Reader.EventLogSession' # [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName)\n              - 'ClearLog'\n        - CommandLine|contains|all:\n              - 'Diagnostics.EventLog'\n              - 'Clear'\n    selection_other_wmi:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n            - '\\wmic.exe'\n        CommandLine|contains: 'ClearEventLog'\n    filter_main_msiexec:\n        # Example seen during office update/installation:\n        #   ParentImage: C:\\Windows\\SysWOW64\\msiexec.exe\n        #   CommandLine: \"C:\\WINDOWS\\system32\\wevtutil.exe\" sl Microsoft-RMS-MSIPC/Debug /q:true /e:true /l:4 /rt:false\n        ParentImage:\n            - 'C:\\Windows\\SysWOW64\\msiexec.exe'\n            - 'C:\\Windows\\System32\\msiexec.exe'\n        CommandLine|contains: ' sl '\n    condition: (all of selection_wevtutil_*) or (all of selection_other_ps_*) or (selection_other_wmi) and not 1 of filter_main_*\n"
+        "query": "    selection_wevtutil_img:\n        - Image|endswith: '\\wevtutil.exe'\n        - OriginalFileName: 'wevtutil.exe'\n    selection_wevtutil_cmd:\n        CommandLine|contains:\n            - 'clear-log '          # clears specified log\n            - ' cl '                # short version of 'clear-log'\n            - 'set-log '            # modifies config of specified log. could be used to set it to a tiny size\n            - ' sl '                # short version of 'set-log'\n            - 'lfn:'                # change log file location and name\n    selection_other_ps_img:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n    selection_other_ps_cmd:\n        - CommandLine|contains:\n              - 'Clear-EventLog '\n              - 'Remove-EventLog '\n              - 'Limit-EventLog '\n              - 'Clear-WinEvent '\n        - CommandLine|contains|all:\n              - 'Eventing.Reader.EventLogSession' # [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName)\n              - 'ClearLog'\n        - CommandLine|contains|all:\n              - 'Diagnostics.EventLog'\n              - 'Clear'\n    selection_other_wmi:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n            - '\\wmic.exe'\n        CommandLine|contains: 'ClearEventLog'\n    filter_main_msiexec:\n        # Example seen during office update/installation:\n        #   ParentImage: C:\\Windows\\SysWOW64\\msiexec.exe\n        #   CommandLine: \"C:\\WINDOWS\\system32\\wevtutil.exe\" sl Microsoft-RMS-MSIPC/Debug /q:true /e:true /l:4 /rt:false\n        ParentImage:\n            - 'C:\\Windows\\SysWOW64\\msiexec.exe'\n            - 'C:\\Windows\\System32\\msiexec.exe'\n        CommandLine|contains: ' sl '\n    condition: ((all of selection_wevtutil_*) or (all of selection_other_ps_*) or selection_other_wmi) and not 1 of filter_main_*\n"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE Log Clearing Sequence With Optional Loopback Removal",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_log_clearing_sequence_with_optional_loopback_removal.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_log_clearing_sequence_with_optional_loopback_removal.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"AAA\", \"HA_EM\", \"PARSER\")\n    mnemonic IN (\"AAA_ACCOUNTING_MESSAGE\", \"LOG\", \"CFGLOG_LOGGEDCMD\")\n    message_text IN (\"*show logging*\", \"*clear logging*\", \"*exit*\", \"*no interface Loopback*\")\n\n    | eval cmd=lower(coalesce(command, message_text))\n    | eval event_type=case(\n                like(cmd, \"%show logging%\"), \"show_logging\",\n                like(cmd, \"%clear logging%\"), \"clear_logging\",\n                like(cmd, \"%exit%\"), \"exit\",\n                like(cmd, \"%no interface loopback%\"), \"remove_loopback\"\n            )\n    | where isnotnull(event_type)\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=2m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(event_type) as event_types\n                  values(message_text) as message_text\n                  values(cmd) as cmd\n      by _time dest\n    | where mvfind(event_types, \"clear_logging\") >= 0\n            AND\n            mvfind(event_types, \"exit\") >= 0\n            AND\n            (\n                mvfind(event_types, \"show_logging\") >= 0\n                OR\n                mvfind(event_types, \"remove_loopback\") >= 0\n            )\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_log_clearing_sequence_with_optional_loopback_removal_filter`"
       },
       {
         "source": "splunk",
@@ -39587,6 +39707,26 @@
       },
       {
         "source": "splunk",
+        "name": "Cisco IOS XE WebUI Login From IOSd Local Port",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_webui_login_from_iosd_local_port.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_webui_login_from_iosd_local_port.yml",
+        "query": "-\n    `cisco_ios`\n    facility=\"SEC_LOGIN\"\n    mnemonic IN (\"QUIET_MODE_ON\", \"LOGIN_SUCCESS\", \"LOGIN_FAILED\")\n    message_text=\"*[localport: 21111]*\"\n    | rex field=_raw \"\\[user:\\s*(?<user>[^\\]]+)\\]\"\n    | rex field=_raw \"\\[Source:\\s*(?<src_ip>[^\\]]+)\\]\"\n    | rex field=_raw \"\\[localport:\\s*(?<local_port>[^\\]]+)\\]\"\n    | rex field=_raw \"\\[Reason:\\s*(?<reason>[^\\]]+)\\]\"\n    | rex field=_raw \"\\[ACL:\\s*(?<acl>[^\\]]+)\\]\"\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(local_port) as local_port\n                  values(acl) as acl\n      by dest user src_ip reason\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_webui_login_from_iosd_local_port_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE WebUI Programmatic Configuration",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_webui_programmatic_configuration.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_webui_programmatic_configuration.yml",
+        "query": "-\n    `cisco_ios`\n    facility=\"SYS\"\n    mnemonic=\"CONFIG_P\"\n    message_text=\"*Configured programmatically by process SEP_webui_wsma_http*\"\n    | rex field=_raw \"process\\s(?<process>\\S+)\\sfrom.*as\\s(?<user>\\S+)\\son\\s(?<vty>\\S+)\"\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(process) as process\n                  values(vty) as vty\n      by dest user\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_webui_programmatic_configuration_filter`"
+      },
+      {
+        "source": "splunk",
         "name": "ESXi Account Modified",
         "product": "application",
         "service": null,
@@ -42803,6 +42943,16 @@
       },
       {
         "source": "splunk",
+        "name": "Cisco IOS XE Reconnaissance Command Activity",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_reconnaissance_command_activity.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_reconnaissance_command_activity.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"AAA\", \"HA_EM\")\n    mnemonic IN (\"AAA_ACCOUNTING_MESSAGE\", \"LOG\")\n    message_text IN (\n        \"*show running-config*\",\n        \"*show tacacs*\",\n        \"*show cdp neighbors*\",\n        \"*show file systems*\",\n        \"*dir bootflash:*\",\n        \"*show clock*\",\n        \"*show platform software status control-processor brief*\",\n        \"*terminal length 0*\",\n        \"*terminal width 0*\"\n    )\n\n    | rex field=message_text \"^\\w+:(?<aaa_src>[^:@]+)(?:@[^:]*)?:(?<aaa_user>[^:]*):(?<aaa_command>.*?)(?:\\s+\\((?<aaa_result>SUCCESS|FAILURE)\\))?$\"\n    | rex field=message_text \"^(?:[^:]+:\\s+)?(?:catchall:\\s+)?(?<eem_command>.+?)\\s*$\"\n    | eval command=lower(trim(coalesce(aaa_command, eem_command, \"\")))\n\n    | eval command_type=case(\n        like(command, \"show running-config%\"), \"show_conf\",\n        like(command, \"show tacacs%\"), \"show_tacacs\",\n        like(command, \"show cdp neighbors detail%\"), \"show_cdp\",\n        like(command, \"show cdp neighbors%\"), \"show_cdp\",\n        like(command, \"show file systems%\"), \"show_file\",\n        like(command, \"dir bootflash:%\"), \"dir_bootflash\",\n        like(command, \"show clock%\"), \"show_clock\",\n        like(command, \"show platform software status control-processor brief%\"), \"show_platform\",\n        like(command, \"terminal length 0%\"), \"terminal\",\n        like(command, \"terminal width 0%\"), \"terminal\",\n        true(), null())\n    | where isnotnull(command_type)\n    | eval user=coalesce(aaa_user, user, \"unknown\")\n    | eval src_ip=coalesce(aaa_src, src_ip, \"unknown\")\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=5m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  dc(command_type) as unique_recon_commands\n                  values(command_type) as command_types\n                  values(command) as commands\n      by _time dest user src_ip\n    | where unique_recon_commands >= 4\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_reconnaissance_command_activity_filter`"
+      },
+      {
+        "source": "splunk",
         "name": "ESXi System Information Discovery",
         "product": "application",
         "service": null,
@@ -43255,7 +43405,7 @@
         "category": "process_creation",
         "path": "rules/linux/process_creation/proc_creation_lnx_vim_shell_execution.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_vim_shell_execution.yml",
-        "query": "    selection_img:\n        Image|endswith:\n            - '/rvim'\n            - '/vim'\n            - '/vimdiff'\n        CommandLine|contains:\n            - ' --cmd'\n            - ' -c '\n    selection_cli:\n        CommandLine|contains:\n            - ':!/'\n            - ':lua '\n            - ':py '\n            - '/bin/bash'\n            - '/bin/dash'\n            - '/bin/fish'\n            - '/bin/sh'\n            - '/bin/zsh'\n    condition: all of selection_*\n"
+        "query": "    selection_img:\n        Image|endswith:\n            - '/rvim'\n            - '/vi'\n            - '/vim'\n            - '/vimdiff'\n        CommandLine|contains:\n            - ' --cmd '\n            - ' -c'\n    selection_cli:\n        CommandLine|contains:\n            - ':!/'\n            - ':!$'\n            - ':!..'\n            - ':lua '\n            - ':py '\n            - ':shell'\n            - '/bin/bash'\n            - '/bin/dash'\n            - '/bin/fish'\n            - '/bin/sh'\n            - '/bin/csh'\n            - '/bin/ksh'\n            - '/bin/zsh'\n            - '/bin/tmux'\n    condition: all of selection_*\n"
       },
       {
         "source": "sigma",
@@ -45323,6 +45473,16 @@
       },
       {
         "source": "splunk",
+        "name": "Cisco IOS XE Tunnel Interface Configuration",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_tunnel_interface_configuration.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_tunnel_interface_configuration.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"HA_EM\", \"PARSER\")\n    mnemonic IN (\"LOG\", \"CFGLOG_LOGGEDCMD\")\n    message_text IN (\"*interface Tunnel*\", \"*tunnel source*\", \"*tunnel destination*\", \"*ip address 10.10.12.*\")\n    | rex field=message_text \"^(?:[^:]+:\\s+)?(?:catchall:\\s+)?(?<eem_command>.+?)\\s*$\"\n    | rex field=message_text \"<enteredCommand><cli>(?<parser_command>.*?)</cli>\"\n    | rex field=message_text \"<user>(?<parser_user>[^<]+)</user>\"\n    | rex field=message_text \"<srcIP>(?<parser_src_ip>[^<]+)</srcIP>\"\n    | eval command=lower(trim(coalesce(parser_command, eem_command, \"\")))\n    | eval event_type=case(\n        match(command, \"^interface\\s+tunnel\"), \"interface_tunnel\",\n        match(command, \"^tunnel\\s+source\"), \"tunnel_source\",\n        match(command, \"^tunnel\\s+destination\"), \"tunnel_destination\",\n        match(command, \"^ip\\s+address\\s+10\\.10\\.12\\.\"), \"tunnel_ip_address\",\n        true(), null())\n    | where isnotnull(event_type)\n    | eval user=coalesce(parser_user, user, \"unknown\")\n    | eval src_ip=coalesce(parser_src_ip, src_ip, \"unknown\")\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=15m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(event_type) as event_types\n                  values(user) as user\n                  values(src_ip) as src_ip\n                  values(command) as commands\n      by _time dest\n    | where mvfind(event_types, \"interface_tunnel\") >= 0\n            AND\n            mvfind(event_types, \"tunnel_source\") >= 0\n            AND\n            mvfind(event_types, \"tunnel_destination\") >= 0\n            AND\n            mvfind(event_types, \"tunnel_ip_address\") >= 0\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_tunnel_interface_configuration_filter`"
+      },
+      {
+        "source": "splunk",
         "name": "Okta Non-Standard VPN Usage",
         "product": "cloud",
         "service": null,
@@ -45390,6 +45550,16 @@
         "path": "detections/endpoint/windows_tor_client_execution.yml",
         "url": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_tor_client_execution.yml",
         "query": "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime\n      from datamodel=Endpoint.Processes where\n      (\n        Processes.process_name = \"tor.exe\"\n        OR\n        (\n          Processes.process_path = \"*\\\\BraveSoftware\\\\Brave-Browser*\"\n          Processes.process_path = \"*\\\\tor-*\"\n        )\n      )\n      by Processes.action Processes.dest Processes.original_file_name\n         Processes.parent_process Processes.parent_process_exec\n         Processes.parent_process_guid Processes.parent_process_id\n         Processes.parent_process_name Processes.parent_process_path\n         Processes.process Processes.process_exec Processes.process_guid\n         Processes.process_hash Processes.process_id Processes.process_integrity_level\n         Processes.process_name Processes.process_path Processes.user\n         Processes.user_id Processes.vendor_product\n    | `drop_dm_object_name(Processes)`\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `windows_tor_client_execution_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco SA - Access to Anonymizer Services",
+        "product": "network",
+        "service": null,
+        "category": "network",
+        "path": "detections/network/cisco_sa___access_to_anonymizer_services.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/network/cisco_sa___access_to_anonymizer_services.yml",
+        "query": "-\n    `cisco_secure_access_dns`\n    action = \"allowed\" category= \"*anonymizer*\"\n    | fillnull\n    | stats count min(_time) as firstTime max(_time) as lastTime values(domain) as domain values(query) as query values(reply_code) as reply_code values(record_type) as record_type by src_ip src_external_ip user identity_type action category sourcetype\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_sa___access_to_anonymizer_services_filter`"
       },
       {
         "source": "splunk",
@@ -45620,6 +45790,16 @@
         "path": "detections/endpoint/windows_tor_client_execution.yml",
         "url": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_tor_client_execution.yml",
         "query": "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime\n      from datamodel=Endpoint.Processes where\n      (\n        Processes.process_name = \"tor.exe\"\n        OR\n        (\n          Processes.process_path = \"*\\\\BraveSoftware\\\\Brave-Browser*\"\n          Processes.process_path = \"*\\\\tor-*\"\n        )\n      )\n      by Processes.action Processes.dest Processes.original_file_name\n         Processes.parent_process Processes.parent_process_exec\n         Processes.parent_process_guid Processes.parent_process_id\n         Processes.parent_process_name Processes.parent_process_path\n         Processes.process Processes.process_exec Processes.process_guid\n         Processes.process_hash Processes.process_id Processes.process_integrity_level\n         Processes.process_name Processes.process_path Processes.user\n         Processes.user_id Processes.vendor_product\n    | `drop_dm_object_name(Processes)`\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `windows_tor_client_execution_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco SA - Access to Anonymizer Services",
+        "product": "network",
+        "service": null,
+        "category": "network",
+        "path": "detections/network/cisco_sa___access_to_anonymizer_services.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/network/cisco_sa___access_to_anonymizer_services.yml",
+        "query": "-\n    `cisco_secure_access_dns`\n    action = \"allowed\" category= \"*anonymizer*\"\n    | fillnull\n    | stats count min(_time) as firstTime max(_time) as lastTime values(domain) as domain values(query) as query values(reply_code) as reply_code values(record_type) as record_type by src_ip src_external_ip user identity_type action category sourcetype\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_sa___access_to_anonymizer_services_filter`"
       },
       {
         "source": "splunk",
@@ -47851,7 +48031,7 @@
         "category": "endpoint",
         "path": "detections/endpoint/windows_ad_add_self_to_group.yml",
         "url": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_ad_add_self_to_group.yml",
-        "query": "-\n    `wineventlog_security` EventCode IN (4728)\n      | where user=src_user\n      | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc\n        BY signature, Group_Name, src_user,\n           dest\n      | `windows_ad_add_self_to_group_filter`"
+        "query": "-\n    `wineventlog_security` EventCode IN (4728)\n      | where lower(user)=lower(src_user)\n      | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc\n        BY signature, Group_Name, src_user,\n           dest\n      | `windows_ad_add_self_to_group_filter`"
       },
       {
         "source": "splunk",
@@ -57069,13 +57249,13 @@
       },
       {
         "source": "sigma",
-        "name": "Clipboard Data Collection Via OSAScript",
+        "name": "Clipboard Access Via OSAScript",
         "product": "macos",
         "service": null,
         "category": "process_creation",
-        "path": "rules/macos/process_creation/proc_creation_macos_clipboard_data_via_osascript.yml",
-        "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_clipboard_data_via_osascript.yml",
-        "query": "    selection:\n        CommandLine|contains|all:\n            - 'osascript'\n            - ' -e '\n            - 'clipboard'\n    condition: selection\n"
+        "path": "rules/macos/process_creation/proc_creation_macos_clipboard_access_via_osascript.yml",
+        "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_clipboard_access_via_osascript.yml",
+        "query": "    selection:\n        Image|endswith: '/osascript'\n        CommandLine|contains|all:\n            - ' -e '\n            - 'clipboard'\n    filter_optional_opencode:\n        # OpenCode uses osascript to handle copying text from the TUI on MacOS devices. See https://github.com/anomalyco/opencode/blob/ca723f1cbc6fc4244ae57e61e9de8c4e37380ed4/packages/opencode/src/cli/cmd/tui/util/clipboard.ts#L65 for reference.\n        ParentImage|endswith: 'opencode'\n        CommandLine|contains|all:\n            - 'osascript'\n            - ' -e '\n            - 'set imageData to the clipboard'\n            - 'set fileRef'\n    condition: selection and not 1 of filter_optional_*\n"
       },
       {
         "source": "sigma",
@@ -62191,6 +62371,16 @@
       },
       {
         "source": "sigma",
+        "name": "NTLM Hash Leak Via Curl NTLM Authentication",
+        "product": "windows",
+        "service": null,
+        "category": "process_creation",
+        "path": "rules/windows/process_creation/proc_creation_win_curl_ntlm_hash_leak_attempt.yml",
+        "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_curl_ntlm_hash_leak_attempt.yml",
+        "query": "    selection_img:\n        - Image|endswith: '\\curl.exe'\n        - OriginalFileName: 'curl.exe'\n    selection_ntlm_flag:\n        CommandLine|contains: '--ntlm'\n    selection_empty_creds:\n        CommandLine|re: '(?i)\\s(-u|--user)\\s*:'\n    condition: all of selection_*\n"
+      },
+      {
+        "source": "sigma",
         "name": "Attempts of Kerberos Coercion Via DNS SPN Spoofing",
         "product": "windows",
         "service": null,
@@ -62599,7 +62789,7 @@
         "product": "unknown",
         "path": "rules/network/initial_access_potential_cpanel_whm_crlf_authentication_bypass.toml",
         "url": "https://github.com/elastic/detection-rules/blob/main/rules/network/initial_access_potential_cpanel_whm_crlf_authentication_bypass.toml",
-        "query": "(data_stream.dataset:network_traffic.http OR (event.category:network_traffic AND network.protocol:http)) AND\nhttp.request.method:GET AND\nurl.path:\"/\" AND\ndestination.port:(2087 OR 2086 OR 2083 OR 2082 OR 2095 OR 2096) AND\nhttp.response.status_code>=300 and http.response.status_code < 400 AND\nhttp.request.headers.authorization:Basic* AND\nhttp.response.headers.location:/cpsess*"
+        "query": "(\n  (\n    (data_stream.dataset:network_traffic.http OR (event.category:network_traffic AND network.protocol:http)) AND\n    http.response.status_code:[300 TO 399] AND\n    http.request.headers.authorization:Basic* AND\n    http.response.headers.location:\\/cpsess*\n  )\n  OR\n  (\n    data_stream.dataset:zeek.http AND\n    zeek.http.client_header_names:AUTHORIZATION AND\n    zeek.http.server_header_names:LOCATION\n  )\n) AND\nhttp.request.method:GET AND\nurl.path:\"/\" AND\ndestination.port:(2087 OR 2086 OR 2083 OR 2082 OR 2095 OR 2096)"
       },
       {
         "source": "elastic",
@@ -62639,7 +62829,7 @@
         "product": "unknown",
         "path": "rules/network/initial_access_smb_windows_file_sharing_activity_to_the_internet.toml",
         "url": "https://github.com/elastic/detection-rules/blob/main/rules/network/initial_access_smb_windows_file_sharing_activity_to_the_internet.toml",
-        "query": "(data_stream.dataset:network_traffic.flow or event.category:(network or network_traffic))\n  and network.transport:tcp and destination.port:(139 or 445)\n  and source.ip:(10.0.0.0/8 or 172.16.0.0/12 or 192.168.0.0/16)\n  and not destination.ip:(10.0.0.0/8\n    or 100.64.0.0/10\n    or 127.0.0.0/8\n    or 169.254.0.0/16\n    or 172.16.0.0/12\n    or 192.0.0.0/24\n    or 192.0.0.0/29\n    or 192.0.0.10/32\n    or 192.0.0.170/32\n    or 192.0.0.171/32\n    or 192.0.0.8/32\n    or 192.0.0.9/32\n    or 192.0.2.0/24\n    or 192.168.0.0/16\n    or 192.175.48.0/24\n    or 192.31.196.0/24\n    or 192.52.193.0/24\n    or 192.88.99.0/24\n    or 198.18.0.0/15\n    or 198.51.100.0/24\n    or 203.0.113.0/24\n    or 224.0.0.0/4\n    or 240.0.0.0/4\n    or \"::1\"\n    or \"FE80::/10\"\n    or \"FF00::/8\")"
+        "query": "(data_stream.dataset:(network_traffic.flow or zeek.smb_cmd or zeek.smb_files or zeek.smb_mapping) or event.category:(network or network_traffic))\n  and network.transport:tcp and destination.port:(139 or 445)\n  and source.ip:(10.0.0.0/8 or 172.16.0.0/12 or 192.168.0.0/16)\n  and not destination.ip:(10.0.0.0/8\n    or 100.64.0.0/10\n    or 127.0.0.0/8\n    or 169.254.0.0/16\n    or 172.16.0.0/12\n    or 192.0.0.0/24\n    or 192.0.0.0/29\n    or 192.0.0.10/32\n    or 192.0.0.170/32\n    or 192.0.0.171/32\n    or 192.0.0.8/32\n    or 192.0.0.9/32\n    or 192.0.2.0/24\n    or 192.168.0.0/16\n    or 192.175.48.0/24\n    or 192.31.196.0/24\n    or 192.52.193.0/24\n    or 192.88.99.0/24\n    or 198.18.0.0/15\n    or 198.51.100.0/24\n    or 203.0.113.0/24\n    or 224.0.0.0/4\n    or 240.0.0.0/4\n    or \"::1\"\n    or \"FE80::/10\"\n    or \"FF00::/8\")"
       },
       {
         "source": "elastic",
@@ -63199,6 +63389,36 @@
       },
       {
         "source": "splunk",
+        "name": "Cisco IOS XE Request Platform Package Describe Shell Pattern",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_request_platform_package_describe_shell_pattern.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_request_platform_package_describe_shell_pattern.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"AAA\", \"HA_EM\")\n    mnemonic IN (\"AAA_ACCOUNTING_MESSAGE\", \"LOG\")\n    message_text=\"*request platform software package describe*\"\n    message_text IN (\"*--filename=/(bash)n*\", \"*--filename=$(bash)n*\")\n\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(message_text) as message\n      by dest\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_request_platform_package_describe_shell_pattern_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE WebUI Login From IOSd Local Port",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_webui_login_from_iosd_local_port.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_webui_login_from_iosd_local_port.yml",
+        "query": "-\n    `cisco_ios`\n    facility=\"SEC_LOGIN\"\n    mnemonic IN (\"QUIET_MODE_ON\", \"LOGIN_SUCCESS\", \"LOGIN_FAILED\")\n    message_text=\"*[localport: 21111]*\"\n    | rex field=_raw \"\\[user:\\s*(?<user>[^\\]]+)\\]\"\n    | rex field=_raw \"\\[Source:\\s*(?<src_ip>[^\\]]+)\\]\"\n    | rex field=_raw \"\\[localport:\\s*(?<local_port>[^\\]]+)\\]\"\n    | rex field=_raw \"\\[Reason:\\s*(?<reason>[^\\]]+)\\]\"\n    | rex field=_raw \"\\[ACL:\\s*(?<acl>[^\\]]+)\\]\"\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(local_port) as local_port\n                  values(acl) as acl\n      by dest user src_ip reason\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_webui_login_from_iosd_local_port_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE WebUI Programmatic Configuration",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_webui_programmatic_configuration.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_webui_programmatic_configuration.yml",
+        "query": "-\n    `cisco_ios`\n    facility=\"SYS\"\n    mnemonic=\"CONFIG_P\"\n    message_text=\"*Configured programmatically by process SEP_webui_wsma_http*\"\n    | rex field=_raw \"process\\s(?<process>\\S+)\\sfrom.*as\\s(?<user>\\S+)\\son\\s(?<vty>\\S+)\"\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(process) as process\n                  values(vty) as vty\n      by dest user\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_webui_programmatic_configuration_filter`"
+      },
+      {
+        "source": "splunk",
         "name": "CrushFTP Server Side Template Injection",
         "product": "application",
         "service": null,
@@ -63246,16 +63466,6 @@
         "path": "detections/application/suspicious_java_classes.yml",
         "url": "https://github.com/splunk/security_content/blob/develop/detections/application/suspicious_java_classes.yml",
         "query": "-\n    `stream_http`\n    http_method=POST\n    http_content_length>1\n    | regex form_data=\"(?i)java\\.lang\\.(?:runtime|processbuilder)\"\n    | rename src_ip as src\n    | stats count earliest(_time) as firstTime\n                  latest(_time) as lastTime\n                  values(url) as uri\n                  values(status) as status\n                  values(http_user_agent) as http_user_agent\n      BY src dest\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `suspicious_java_classes_filter`"
-      },
-      {
-        "source": "splunk",
-        "name": "Ivanti Sentry Authentication Bypass",
-        "product": "unknown",
-        "service": null,
-        "category": "deprecated",
-        "path": "detections/deprecated/ivanti_sentry_authentication_bypass.yml",
-        "url": "https://github.com/splunk/security_content/blob/develop/detections/deprecated/ivanti_sentry_authentication_bypass.yml",
-        "query": "-\n    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web\n      WHERE Web.url IN (\"/mics/services/configservice/*\", \"/mics/services/*\",\"/mics/services/MICSLogService*\") Web.status=200\n      BY Web.http_user_agent, Web.status Web.http_method,\n         Web.url, Web.url_length, Web.src,\n         Web.dest, sourcetype\n    | `drop_dm_object_name(\"Web\")`\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `ivanti_sentry_authentication_bypass_filter`"
       },
       {
         "source": "splunk",
@@ -69819,7 +70029,7 @@
         "category": "process_creation",
         "path": "rules/windows/process_creation/proc_creation_win_cmd_dir_execution.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cmd_dir_execution.yml",
-        "query": "    selection_cmd:\n        - Image|endswith: '\\cmd.exe'\n        - OriginalFileName: Cmd.Exe\n    selection_cli:\n        CommandLine|contains|windash: 'dir*-s'\n    condition: all of selection_*\n"
+        "query": "    selection_cmd:\n        - Image|endswith: '\\cmd.exe'\n        - OriginalFileName: Cmd.Exe\n    selection_cli:\n        CommandLine|contains|windash: '-s'\n        CommandLine|contains: 'dir '\n    filter_main_rmdir:\n        CommandLine|contains: 'rmdir'\n    condition: all of selection_* and not 1 of filter_main_*\n"
       },
       {
         "source": "sigma",
@@ -79881,7 +80091,7 @@
         "category": "image_load",
         "path": "rules/windows/image_load/image_load_dll_vssapi_susp_load.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_dll_vssapi_susp_load.yml",
-        "query": "    selection:\n        ImageLoaded|endswith: '\\vssapi.dll'\n    filter_main_windows:\n        - Image:\n              - 'C:\\Windows\\explorer.exe'\n              - 'C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe'\n        - Image|startswith:\n              - 'C:\\Windows\\System32\\'\n              - 'C:\\Windows\\SysWOW64\\'\n              - 'C:\\Windows\\Temp\\{' # Installers\n              - 'C:\\Windows\\WinSxS\\'\n    filter_main_program_files:\n        # When using this rule in your environment replace the \"Program Files\" folder by the exact applications you know use this. Examples would be software such as backup solutions\n        Image|startswith:\n            - 'C:\\Program Files\\'\n            - 'C:\\Program Files (x86)\\'\n    filter_main_null_image:\n        Image: null\n    filter_optional_programdata_packagecache:\n        # The following filter is required because of many FPs cause by:\n        #   C:\\ProgramData\\Package Cache\\{10c6cfdc-27af-43fe-bbd3-bd20aae88451}\\dotnet-sdk-3.1.425-win-x64.exe\n        #   C:\\ProgramData\\Package Cache\\{b9cfa33e-ace4-49f4-8bb4-82ded940990a}\\windowsdesktop-runtime-6.0.11-win-x86.exe\n        #   C:\\ProgramData\\Package Cache\\{50264ff2-ad47-4569-abc4-1c350f285fb9}\\aspnetcore-runtime-6.0.11-win-x86.exe\n        #   C:\\ProgramData\\Package Cache\\{2dcef8c3-1563-4149-a6ec-5b6c98500d7d}\\dotnet-sdk-6.0.306-win-x64.exe\n        #   etc.\n        Image|startswith: 'C:\\ProgramData\\Package Cache\\'\n    filter_optional_avira:\n        Image|contains|all:\n            - '\\temp\\is-'\n            - '\\avira_system_speedup.tmp'\n    condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*\n"
+        "query": "    selection:\n        ImageLoaded|endswith: '\\vssapi.dll'\n    filter_main_windows:\n        - Image:\n              - 'C:\\Windows\\explorer.exe'\n              - 'C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe'\n        - Image|startswith:\n              - 'C:\\Windows\\System32\\'\n              - 'C:\\Windows\\SysWOW64\\'\n              - 'C:\\Windows\\Temp\\{' # Installers\n              - 'C:\\Windows\\WinSxS\\'\n              - 'C:\\$WinREAgent\\Scratch\\'\n    filter_main_program_files:\n        # When using this rule in your environment replace the \"Program Files\" folder by the exact applications you know use this. Examples would be software such as backup solutions\n        Image|startswith:\n            - 'C:\\Program Files\\'\n            - 'C:\\Program Files (x86)\\'\n    filter_main_null_image:\n        Image: null\n    filter_optional_programdata_packagecache:\n        # The following filter is required because of many FPs cause by:\n        #   C:\\ProgramData\\Package Cache\\{10c6cfdc-27af-43fe-bbd3-bd20aae88451}\\dotnet-sdk-3.1.425-win-x64.exe\n        #   C:\\ProgramData\\Package Cache\\{b9cfa33e-ace4-49f4-8bb4-82ded940990a}\\windowsdesktop-runtime-6.0.11-win-x86.exe\n        #   C:\\ProgramData\\Package Cache\\{50264ff2-ad47-4569-abc4-1c350f285fb9}\\aspnetcore-runtime-6.0.11-win-x86.exe\n        #   C:\\ProgramData\\Package Cache\\{2dcef8c3-1563-4149-a6ec-5b6c98500d7d}\\dotnet-sdk-6.0.306-win-x64.exe\n        #   etc.\n        Image|startswith: 'C:\\ProgramData\\Package Cache\\'\n    filter_optional_avira:\n        Image|contains|all:\n            - '\\temp\\is-'\n            - '\\avira_system_speedup.tmp'\n    condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*\n"
       },
       {
         "source": "sigma",
@@ -86244,16 +86454,6 @@
         "path": "rules/windows/registry/registry_set/registry_set_servicedll_hijack.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_servicedll_hijack.yml",
         "query": "    selection:\n        TargetObject|contains|all:\n            - '\\System\\'\n            - 'ControlSet'\n            - '\\Services\\'\n        TargetObject|endswith: '\\Parameters\\ServiceDll'\n    filter_main_printextensionmanger:\n        Details: 'C:\\Windows\\system32\\spool\\drivers\\x64\\3\\PrintConfig.dll'\n    filter_main_domain_controller:\n        Image: 'C:\\Windows\\system32\\lsass.exe'\n        TargetObject|endswith: '\\Services\\NTDS\\Parameters\\ServiceDll'\n        Details: '%%systemroot%%\\system32\\ntdsa.dll'\n    filter_main_poqexec:\n        Image: 'C:\\Windows\\System32\\poqexec.exe'\n    filter_optional_safetica:\n        Image|endswith: '\\regsvr32.exe'\n        Details: 'C:\\Windows\\System32\\STAgent.dll'\n    condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*\n"
-      },
-      {
-        "source": "splunk",
-        "name": "Sc exe Manipulating Windows Services",
-        "product": "windows",
-        "service": null,
-        "category": "deprecated",
-        "path": "detections/deprecated/sc_exe_manipulating_windows_services.yml",
-        "url": "https://github.com/splunk/security_content/blob/develop/detections/deprecated/sc_exe_manipulating_windows_services.yml",
-        "query": "-\n    | tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes\n      WHERE Processes.process_name = sc.exe (Processes.process=\"* create *\"\n        OR\n        Processes.process=\"* config *\")\n      BY Processes.action Processes.dest Processes.original_file_name\n         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid\n         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path\n         Processes.process Processes.process_exec Processes.process_guid\n         Processes.process_hash Processes.process_id Processes.process_integrity_level\n         Processes.process_name Processes.process_path Processes.user\n         Processes.user_id Processes.vendor_product\n    | `drop_dm_object_name(Processes)`\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `sc_exe_manipulating_windows_services_filter`"
       },
       {
         "source": "splunk",
@@ -96789,16 +96989,6 @@
       },
       {
         "source": "splunk",
-        "name": "Attempt To Add Certificate To Untrusted Store",
-        "product": "windows",
-        "service": null,
-        "category": "deprecated",
-        "path": "detections/deprecated/attempt_to_add_certificate_to_untrusted_store.yml",
-        "url": "https://github.com/splunk/security_content/blob/develop/detections/deprecated/attempt_to_add_certificate_to_untrusted_store.yml",
-        "query": "-\n    | tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process) as process max(_time) as lastTime FROM datamodel=Endpoint.Processes\n      WHERE `process_certutil` (Processes.process=*-addstore*)\n      BY Processes.action Processes.dest Processes.original_file_name\n         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid\n         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path\n         Processes.process Processes.process_exec Processes.process_guid\n         Processes.process_hash Processes.process_id Processes.process_integrity_level\n         Processes.process_name Processes.process_path Processes.user\n         Processes.user_id Processes.vendor_product\n    | `drop_dm_object_name(\"Processes\")`\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `attempt_to_add_certificate_to_untrusted_store_filter`"
-      },
-      {
-        "source": "splunk",
         "name": "Windows Export Certificate",
         "product": "windows",
         "service": null,
@@ -100845,7 +101035,7 @@
         "category": "process_creation",
         "path": "rules/windows/process_creation/proc_creation_win_7zip_exfil_dmp_files.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_7zip_exfil_dmp_files.yml",
-        "query": "    selection_img:\n        - Description|contains: '7-Zip'\n        - Image|endswith:\n              - '\\7z.exe'\n              - '\\7zr.exe'\n              - '\\7za.exe'\n        - OriginalFileName:\n              - '7z.exe'\n              - '7za.exe'\n    selection_extension:\n        CommandLine|contains:\n            - '.dmp'\n            - '.dump'\n            - '.hdmp'\n    condition: all of selection_*\n"
+        "query": "    selection_img:\n        - Description|contains: '7-Zip'\n        - Image|endswith:\n              - '\\7z.exe'\n              - '\\7zr.exe'\n              - '\\7za.exe'\n        - OriginalFileName:\n              - '7z.exe'\n              - '7za.exe'\n              - '7zr.exe'\n    selection_extension:\n        CommandLine|contains:\n            - '.dmp'\n            - '.dump'\n            - '.hdmp'\n    condition: all of selection_*\n"
       },
       {
         "source": "sigma",
@@ -100855,7 +101045,7 @@
         "category": "process_creation",
         "path": "rules/windows/process_creation/proc_creation_win_7zip_password_compression.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_7zip_password_compression.yml",
-        "query": "    selection_img:\n        - Description|contains: '7-Zip'\n        - Image|endswith:\n              - '\\7z.exe'\n              - '\\7zr.exe'\n              - '\\7za.exe'\n        - OriginalFileName:\n              - '7z.exe'\n              - '7za.exe'\n    selection_password:\n        CommandLine|contains: ' -p'\n    selection_action:\n        CommandLine|contains:\n            - ' a '\n            - ' u '\n    condition: all of selection_*\n"
+        "query": "    selection_img:\n        - Description|contains: '7-Zip'\n        - Image|endswith:\n              - '\\7z.exe'\n              - '\\7zr.exe'\n              - '\\7za.exe'\n        - OriginalFileName:\n              - '7z.exe'\n              - '7za.exe'\n              - '7zr.exe'\n    selection_password:\n        CommandLine|contains: ' -p'\n    selection_action:\n        CommandLine|contains:\n            - ' a '\n            - ' u '\n    condition: all of selection_*\n"
       },
       {
         "source": "sigma",
@@ -102250,6 +102440,26 @@
         "path": "rules/windows/privilege_escalation_disable_uac_registry.toml",
         "url": "https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_disable_uac_registry.toml",
         "query": "registry where host.os.type == \"windows\" and event.type == \"change\" and\n  registry.value : (\"EnableLUA\", \"ConsentPromptBehaviorAdmin\", \"PromptOnSecureDesktop\") and\n  registry.data.strings : (\"0\", \"0x00000000\")\n\n  /*\n    Full registry key path omitted due to data source variations:\n    HKLM\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Policies\\\\System\\\\EnableLUA\n    HKLM\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Policies\\\\System\\\\ConsentPromptBehaviorAdmin\n    HKLM\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Policies\\\\System\\\\PromptOnSecureDesktop\n  */"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE Log Clearing Sequence With Optional Loopback Removal",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_log_clearing_sequence_with_optional_loopback_removal.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_log_clearing_sequence_with_optional_loopback_removal.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"AAA\", \"HA_EM\", \"PARSER\")\n    mnemonic IN (\"AAA_ACCOUNTING_MESSAGE\", \"LOG\", \"CFGLOG_LOGGEDCMD\")\n    message_text IN (\"*show logging*\", \"*clear logging*\", \"*exit*\", \"*no interface Loopback*\")\n\n    | eval cmd=lower(coalesce(command, message_text))\n    | eval event_type=case(\n                like(cmd, \"%show logging%\"), \"show_logging\",\n                like(cmd, \"%clear logging%\"), \"clear_logging\",\n                like(cmd, \"%exit%\"), \"exit\",\n                like(cmd, \"%no interface loopback%\"), \"remove_loopback\"\n            )\n    | where isnotnull(event_type)\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=2m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(event_type) as event_types\n                  values(message_text) as message_text\n                  values(cmd) as cmd\n      by _time dest\n    | where mvfind(event_types, \"clear_logging\") >= 0\n            AND\n            mvfind(event_types, \"exit\") >= 0\n            AND\n            (\n                mvfind(event_types, \"show_logging\") >= 0\n                OR\n                mvfind(event_types, \"remove_loopback\") >= 0\n            )\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_log_clearing_sequence_with_optional_loopback_removal_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE VTY Access Class Tampering",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_vty_access_class_tampering.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_vty_access_class_tampering.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"HA_EM\", \"PARSER\")\n    mnemonic IN (\"LOG\", \"CFGLOG_LOGGEDCMD\")\n    message_text IN (\n        \"*access-class*\",\n        \"*configure http*\",\n        \"*line vty*\"\n    )\n    | rex field=message_text \"^(?:[^:]+:\\s+)?(?:catchall:\\s+)?(?<eem_command>.+?)\\s*$\"\n    | rex field=message_text \"<enteredCommand><cli>(?<parser_command>.*?)</cli>\"\n    | rex field=message_text \"<user>(?<parser_user>[^<]+)</user>\"\n    | rex field=message_text \"<srcIP>(?<parser_src_ip>[^<]+)</srcIP>\"\n    | eval command=lower(trim(coalesce(parser_command, eem_command, \"\")))\n    | eval event_type=case(\n        like(command, \"configure http%\") OR like(command, \"ip http secure-server%\"), \"http_config\",\n        like(command, \"line vty%\"), \"line_vty\",\n        like(command, \"no access-class%\"), \"remove_access_class\",\n        like(command, \"access-class%\"), \"add_access_class\",\n        true(), null())\n    | where isnotnull(event_type)\n    | eval user=coalesce(parser_user, user, \"unknown\")\n    | eval src_ip=coalesce(parser_src_ip, src_ip, \"unknown\")\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=1m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(event_type) as event_types\n                  values(user) as user\n                  values(src_ip) as src_ip\n                  values(command) as commands\n      by _time dest\n    | where mvfind(event_types, \"line_vty\") >= 0\n            AND\n            mvfind(event_types, \"remove_access_class\") >= 0\n            AND\n            mvfind(event_types, \"add_access_class\") >= 0\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_vty_access_class_tampering_filter`"
       },
       {
         "source": "splunk",
@@ -104645,16 +104855,6 @@
       },
       {
         "source": "splunk",
-        "name": "Processes launching netsh",
-        "product": "windows",
-        "service": null,
-        "category": "deprecated",
-        "path": "detections/deprecated/processes_launching_netsh.yml",
-        "url": "https://github.com/splunk/security_content/blob/develop/detections/deprecated/processes_launching_netsh.yml",
-        "query": "-\n    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes\n      WHERE `process_netsh`\n      BY Processes.action Processes.dest Processes.original_file_name\n         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid\n         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path\n         Processes.process Processes.process_exec Processes.process_guid\n         Processes.process_hash Processes.process_id Processes.process_integrity_level\n         Processes.process_name Processes.process_path Processes.user\n         Processes.user_id Processes.vendor_product\n    | `drop_dm_object_name(\"Processes\")`\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `processes_launching_netsh_filter`"
-      },
-      {
-        "source": "splunk",
         "name": "Linux Auditd Disable Or Modify System Firewall",
         "product": "linux",
         "service": null,
@@ -106771,7 +106971,7 @@
         "category": "endpoint",
         "path": "detections/endpoint/windows_alternate_datastream___process_execution.yml",
         "url": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_alternate_datastream___process_execution.yml",
-        "query": "-\n    | tstats count min(_time) as firstTime max(_time) as lastTime values(Processes.process_current_directory) as directory\n    from datamodel=Endpoint.Processes where\n    Processes.parent_process_name != \"unknown\"\n    Processes.process_name IN (\n        \"appvlp.exe\",\n        \"bitsadmin.exe\",\n        \"control.exe\",\n        \"cscript.exe\",\n        \"forfiles.exe\",\n        \"ftp.exe\",\n        \"mavinject.exe\",\n        \"mshta.exe\",\n        \"powershell_ise.exe\",\n        \"powershell.exe\",\n        \"pwsh.exe\",\n        \"regini.exe\",\n        \"regscr32.exe\",\n        \"rundll32.exe\",\n        \"sc.exe\",\n        \"wmic.exe\",\n        \"wscript.exe\"\n    )\n\n    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process\n       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id\n       Processes.parent_process_name Processes.parent_process_path Processes.process\n       Processes.process_exec Processes.process_guid Processes.process_hash\n       Processes.process_id Processes.process_integrity_level Processes.process_name\n       Processes.process_path Processes.user Processes.user_id Processes.vendor_product\n\n    | `drop_dm_object_name(Processes)`\n    | regex process=\"(\\b)\\w+(\\.\\w+)?:\\w+(\\.\\w{2,4})(?!\\.)(\\b|\\s|&)\"\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `windows_alternate_datastream___process_execution_filter`"
+        "query": "-\n    | tstats count min(_time) as firstTime max(_time) as lastTime values(Processes.process_current_directory) as directory\n    from datamodel=Endpoint.Processes where\n    Processes.parent_process_name != \"unknown\"\n    Processes.process_name IN (\n        \"appvlp.exe\",\n        \"bitsadmin.exe\",\n        \"control.exe\",\n        \"cscript.exe\",\n        \"forfiles.exe\",\n        \"ftp.exe\",\n        \"mavinject.exe\",\n        \"mshta.exe\",\n        \"powershell_ise.exe\",\n        \"powershell.exe\",\n        \"pwsh.exe\",\n        \"regini.exe\",\n        \"regsvr32.exe\",\n        \"rundll32.exe\",\n        \"sc.exe\",\n        \"wmic.exe\",\n        \"wscript.exe\"\n    )\n\n    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process\n       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id\n       Processes.parent_process_name Processes.parent_process_path Processes.process\n       Processes.process_exec Processes.process_guid Processes.process_hash\n       Processes.process_id Processes.process_integrity_level Processes.process_name\n       Processes.process_path Processes.user Processes.user_id Processes.vendor_product\n\n    | `drop_dm_object_name(Processes)`\n    | regex process=\"(\\b)\\w+(\\.\\w+)?:\\w+(\\.\\w{2,4})(?!\\.)(\\b|\\s|&)\"\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `windows_alternate_datastream___process_execution_filter`"
       },
       {
         "source": "splunk",
@@ -111653,6 +111853,16 @@
       },
       {
         "source": "splunk",
+        "name": "Cisco IOS XE Tunnel Interface Configuration",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_tunnel_interface_configuration.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_tunnel_interface_configuration.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"HA_EM\", \"PARSER\")\n    mnemonic IN (\"LOG\", \"CFGLOG_LOGGEDCMD\")\n    message_text IN (\"*interface Tunnel*\", \"*tunnel source*\", \"*tunnel destination*\", \"*ip address 10.10.12.*\")\n    | rex field=message_text \"^(?:[^:]+:\\s+)?(?:catchall:\\s+)?(?<eem_command>.+?)\\s*$\"\n    | rex field=message_text \"<enteredCommand><cli>(?<parser_command>.*?)</cli>\"\n    | rex field=message_text \"<user>(?<parser_user>[^<]+)</user>\"\n    | rex field=message_text \"<srcIP>(?<parser_src_ip>[^<]+)</srcIP>\"\n    | eval command=lower(trim(coalesce(parser_command, eem_command, \"\")))\n    | eval event_type=case(\n        match(command, \"^interface\\s+tunnel\"), \"interface_tunnel\",\n        match(command, \"^tunnel\\s+source\"), \"tunnel_source\",\n        match(command, \"^tunnel\\s+destination\"), \"tunnel_destination\",\n        match(command, \"^ip\\s+address\\s+10\\.10\\.12\\.\"), \"tunnel_ip_address\",\n        true(), null())\n    | where isnotnull(event_type)\n    | eval user=coalesce(parser_user, user, \"unknown\")\n    | eval src_ip=coalesce(parser_src_ip, src_ip, \"unknown\")\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=15m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(event_type) as event_types\n                  values(user) as user\n                  values(src_ip) as src_ip\n                  values(command) as commands\n      by _time dest\n    | where mvfind(event_types, \"interface_tunnel\") >= 0\n            AND\n            mvfind(event_types, \"tunnel_source\") >= 0\n            AND\n            mvfind(event_types, \"tunnel_destination\") >= 0\n            AND\n            mvfind(event_types, \"tunnel_ip_address\") >= 0\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_tunnel_interface_configuration_filter`"
+      },
+      {
+        "source": "splunk",
         "name": "Okta Non-Standard VPN Usage",
         "product": "cloud",
         "service": null,
@@ -112861,7 +113071,7 @@
         "category": "file_event",
         "path": "rules/windows/file/file_event/file_event_win_werfault_dll_hijacking.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_werfault_dll_hijacking.yml",
-        "query": "    selection:\n        TargetFilename|endswith:\n            - '\\WerFault.exe'\n            - '\\wer.dll'\n    filter_main_known_locations:\n        TargetFilename|startswith:\n            - 'C:\\Windows\\SoftwareDistribution\\'\n            - 'C:\\Windows\\System32\\'\n            - 'C:\\Windows\\SysWOW64\\'\n            - 'C:\\Windows\\WinSxS\\'\n            - 'C:\\Windows\\UUS\\arm64\\'\n    condition: selection and not 1 of filter_main_*\n"
+        "query": "    selection:\n        TargetFilename|endswith:\n            - '\\WerFault.exe'\n            - '\\wer.dll'\n    filter_main_known_locations:\n        TargetFilename|startswith:\n            - 'C:\\Windows\\SoftwareDistribution\\'\n            - 'C:\\Windows\\System32\\'\n            - 'C:\\Windows\\SysWOW64\\'\n            - 'C:\\Windows\\WinSxS\\'\n            - 'C:\\Windows\\UUS\\' # covers both C:\\Windows\\UUS\\arm64\\ and C:\\Windows\\UUS\\packages\\\n    filter_main_process:\n        Image|endswith: '\\wuaucltcore.exe'\n    condition: selection and not 1 of filter_main_*\n"
       },
       {
         "source": "sigma",
@@ -113301,7 +113511,7 @@
         "category": "image_load",
         "path": "rules/windows/image_load/image_load_side_load_vcruntime140.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_side_load_vcruntime140.yml",
-        "query": "    selection:\n        ImageLoaded|endswith: '\\vcruntime140.dll'\n    filter_main_legitimate_path:\n        ImageLoaded|startswith:\n            - 'C:\\Windows\\System32\\'\n            - 'C:\\Windows\\SysWOW64\\'\n            - 'C:\\Program Files\\'\n            - 'C:\\Program Files (x86)\\'\n    filter_main_legitimate_signer:\n        Signed: true\n        SignatureStatus: 'Valid'\n        Description: 'Microsoft® C Runtime Library'\n    condition: selection and not 1 of filter_main_*\n"
+        "query": "    selection:\n        ImageLoaded|endswith: '\\vcruntime140.dll'\n    filter_main_legitimate_path:\n        ImageLoaded|startswith:\n            - 'C:\\Windows\\System32\\'\n            - 'C:\\Windows\\SysWOW64\\'\n            - 'C:\\Program Files\\'\n            - 'C:\\Program Files (x86)\\'\n    filter_main_legitimate_signer:\n        Signed: true\n        SignatureStatus: 'Valid'\n        Description|endswith: 'C Runtime Library'\n    filter_optional_onedrive:\n        Image|startswith: 'C:\\Users\\'\n        Image|contains: '\\AppData\\Local\\Microsoft\\OneDrive\\'\n    condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*\n"
       },
       {
         "source": "sigma",
@@ -115925,6 +116135,16 @@
       },
       {
         "source": "splunk",
+        "name": "Cisco IOS XE Reconnaissance Command Activity",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_reconnaissance_command_activity.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_reconnaissance_command_activity.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"AAA\", \"HA_EM\")\n    mnemonic IN (\"AAA_ACCOUNTING_MESSAGE\", \"LOG\")\n    message_text IN (\n        \"*show running-config*\",\n        \"*show tacacs*\",\n        \"*show cdp neighbors*\",\n        \"*show file systems*\",\n        \"*dir bootflash:*\",\n        \"*show clock*\",\n        \"*show platform software status control-processor brief*\",\n        \"*terminal length 0*\",\n        \"*terminal width 0*\"\n    )\n\n    | rex field=message_text \"^\\w+:(?<aaa_src>[^:@]+)(?:@[^:]*)?:(?<aaa_user>[^:]*):(?<aaa_command>.*?)(?:\\s+\\((?<aaa_result>SUCCESS|FAILURE)\\))?$\"\n    | rex field=message_text \"^(?:[^:]+:\\s+)?(?:catchall:\\s+)?(?<eem_command>.+?)\\s*$\"\n    | eval command=lower(trim(coalesce(aaa_command, eem_command, \"\")))\n\n    | eval command_type=case(\n        like(command, \"show running-config%\"), \"show_conf\",\n        like(command, \"show tacacs%\"), \"show_tacacs\",\n        like(command, \"show cdp neighbors detail%\"), \"show_cdp\",\n        like(command, \"show cdp neighbors%\"), \"show_cdp\",\n        like(command, \"show file systems%\"), \"show_file\",\n        like(command, \"dir bootflash:%\"), \"dir_bootflash\",\n        like(command, \"show clock%\"), \"show_clock\",\n        like(command, \"show platform software status control-processor brief%\"), \"show_platform\",\n        like(command, \"terminal length 0%\"), \"terminal\",\n        like(command, \"terminal width 0%\"), \"terminal\",\n        true(), null())\n    | where isnotnull(command_type)\n    | eval user=coalesce(aaa_user, user, \"unknown\")\n    | eval src_ip=coalesce(aaa_src, src_ip, \"unknown\")\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | bin _time span=5m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  dc(command_type) as unique_recon_commands\n                  values(command_type) as command_types\n                  values(command) as commands\n      by _time dest user src_ip\n    | where unique_recon_commands >= 4\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_reconnaissance_command_activity_filter`"
+      },
+      {
+        "source": "splunk",
         "name": "Local LLM Framework DNS Query",
         "product": "windows",
         "service": null,
@@ -116400,6 +116620,16 @@
         "path": "detections/endpoint/windows_netspy_network_scanner_execution.yml",
         "url": "https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_netspy_network_scanner_execution.yml",
         "query": "-\n    | tstats `security_content_summariesonly`\n      count min(_time) as firstTime\n            max(_time) as lastTime\n\n    from datamodel=Endpoint.Processes where\n\n    Processes.process_name=\"netspy.exe\"\n    Processes.process IN (\n        \"*arpspy*\",\n        \"*as*\",\n        \"*icmpspy*\",\n        \"*is*\",\n        \"*pingspy*\",\n        \"*ps*\",\n        \"*tcpspy*\",\n        \"*ts*\",\n        \"*udpspy*\",\n        \"*us*\"\n    )\n\n    by Processes.process Processes.process_name Processes.user_id Processes.process_hash\n       Processes.parent_process_name Processes.parent_process_exec Processes.action\n       Processes.dest Processes.process_current_directory Processes.process_path\n       Processes.process_integrity_level Processes.original_file_name Processes.parent_process\n       Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id\n       Processes.process_guid Processes.process_id Processes.user Processes.vendor_product\n\n    | `drop_dm_object_name(Processes)`\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `windows_netspy_network_scanner_execution_filter`"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco SA - Automated Web Reconnaissance via HTTP Access Errors",
+        "product": "network",
+        "service": null,
+        "category": "network",
+        "path": "detections/network/cisco_sa___automated_web_reconnaissance_via_http_access_errors.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/network/cisco_sa___automated_web_reconnaissance_via_http_access_errors.yml",
+        "query": "-\n    `cisco_secure_access_proxy`\n    | eval src_ip=coalesce(src_ip, src)\n    | eval host=coalesce(hostname, host)\n    | eval user=coalesce(user, identities)\n    | eval status=tonumber(status)\n    | eval domain=replace(url, \"^https?://([^/]+).*$\", \"\\\\1\")\n    | eval user_agent=coalesce(http_user_agent, user_agent)\n    | where status IN (400, 401, 403, 404, 405, 407, 414, 429, 431)\n    | bucket _time span=10m\n    | stats count as errors dc(url) as unique_urls values(status) as statuses values(user_agent) as user_agent values(host) as host values(user) as user by src_ip domain _time\n    | where errors > 100 AND unique_urls > 50\n    | eval firstTime=_time, lastTime=_time\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_sa___automated_web_reconnaissance_via_http_access_errors_filter`"
       },
       {
         "source": "splunk",
@@ -117548,6 +117778,16 @@
         "path": "rules/application/kubernetes/audit/kubernetes_audit_privileged_pod_creation.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/application/kubernetes/audit/kubernetes_audit_privileged_pod_creation.yml",
         "query": "    selection:\n        verb: 'create'\n        objectRef.resource: 'pods'\n        capabilities: '*' # Note: Add the \"exists\" when it's implemented in SigmaHQ/Aurora\n    condition: selection\n"
+      },
+      {
+        "source": "splunk",
+        "name": "Cisco IOS XE Guestshell Activation and Destroy",
+        "product": "application",
+        "service": null,
+        "category": "application",
+        "path": "detections/application/cisco_ios_xe_guestshell_activation_and_destroy.yml",
+        "url": "https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_guestshell_activation_and_destroy.yml",
+        "query": "-\n    `cisco_ios`\n    facility IN (\"HA_EM\", \"VMAN\", \"IM\", \"AAA\")\n    mnemonic IN (\"LOG\", \"ACTIVATION_STATE\", \"IOX_INST_INFO\", \"INSTALL_STATE\", \"AAA_ACCOUNTING_MESSAGE\")\n    message_text IN (\n        \"*guestshell enable*\",\n        \"*guestshell destroy*\",\n        \"*Successfully activated virtual service 'guestshell*\",\n        \"*IOX SERVICE guestshell*\",\n        \"*Destroying virtual service 'guestshell*\",\n        \"*Successfully destroyed virtual service 'guestshell*\"\n    )\n    | eval dest=coalesce(host, dvc, dest, \"unknown\")\n    | eval event_type=case(\n        like(message_text, \"%guestshell enable%\"), \"guestshell_enable_command\",\n        like(message_text, \"%guestshell destroy%\"), \"guestshell_destroy_command\",\n        like(message_text, \"%Successfully activated virtual service 'guestshell%\"), \"vman_guestshell_activated\",\n        like(message_text, \"%IOX SERVICE guestshell%\"), \"im_iox_guestshell_activated\",\n        like(message_text, \"%Destroying virtual service 'guestshell%\"), \"vman_guestshell_destroying\",\n        like(message_text, \"%Successfully destroyed virtual service 'guestshell%\"), \"vman_guestshell_destroyed\",\n        true(), \"other\"\n    )\n    | bin _time span=30m\n    | stats count min(_time) as firstTime\n                  max(_time) as lastTime\n                  values(event_type) as event_types\n                  values(message_text) as message\n    by _time dest\n    | where\n            (\n                mvfind(event_types, \"vman_guestshell_activated\") >= 0\n                OR\n                mvfind(event_types, \"im_iox_guestshell_activated\") >= 0\n                OR\n                mvfind(event_types, \"guestshell_enable_command\") >= 0\n            )\n            AND\n            (\n                mvfind(event_types, \"vman_guestshell_destroying\") >= 0\n                OR\n                mvfind(event_types, \"vman_guestshell_destroyed\") >= 0\n                OR\n                mvfind(event_types, \"guestshell_destroy_command\") >= 0\n            )\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `cisco_ios_xe_guestshell_activation_and_destroy_filter`"
       },
       {
         "source": "splunk",
@@ -121859,7 +122099,7 @@
         "category": "process_creation",
         "path": "rules/windows/process_creation/proc_creation_win_susp_eventlog_clear.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_eventlog_clear.yml",
-        "query": "    selection_wevtutil_img:\n        - Image|endswith: '\\wevtutil.exe'\n        - OriginalFileName: 'wevtutil.exe'\n    selection_wevtutil_cmd:\n        CommandLine|contains:\n            - 'clear-log '          # clears specified log\n            - ' cl '                # short version of 'clear-log'\n            - 'set-log '            # modifies config of specified log. could be uset to set it to a tiny size\n            - ' sl '                # short version of 'set-log'\n            - 'lfn:'                # change log file location and name\n    selection_other_ps_img:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n    selection_other_ps_cmd:\n        - CommandLine|contains:\n              - 'Clear-EventLog '\n              - 'Remove-EventLog '\n              - 'Limit-EventLog '\n              - 'Clear-WinEvent '\n        - CommandLine|contains|all:\n              - 'Eventing.Reader.EventLogSession' # [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName)\n              - 'ClearLog'\n        - CommandLine|contains|all:\n              - 'Diagnostics.EventLog'\n              - 'Clear'\n    selection_other_wmi:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n            - '\\wmic.exe'\n        CommandLine|contains: 'ClearEventLog'\n    filter_main_msiexec:\n        # Example seen during office update/installation:\n        #   ParentImage: C:\\Windows\\SysWOW64\\msiexec.exe\n        #   CommandLine: \"C:\\WINDOWS\\system32\\wevtutil.exe\" sl Microsoft-RMS-MSIPC/Debug /q:true /e:true /l:4 /rt:false\n        ParentImage:\n            - 'C:\\Windows\\SysWOW64\\msiexec.exe'\n            - 'C:\\Windows\\System32\\msiexec.exe'\n        CommandLine|contains: ' sl '\n    condition: (all of selection_wevtutil_*) or (all of selection_other_ps_*) or (selection_other_wmi) and not 1 of filter_main_*\n"
+        "query": "    selection_wevtutil_img:\n        - Image|endswith: '\\wevtutil.exe'\n        - OriginalFileName: 'wevtutil.exe'\n    selection_wevtutil_cmd:\n        CommandLine|contains:\n            - 'clear-log '          # clears specified log\n            - ' cl '                # short version of 'clear-log'\n            - 'set-log '            # modifies config of specified log. could be used to set it to a tiny size\n            - ' sl '                # short version of 'set-log'\n            - 'lfn:'                # change log file location and name\n    selection_other_ps_img:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n    selection_other_ps_cmd:\n        - CommandLine|contains:\n              - 'Clear-EventLog '\n              - 'Remove-EventLog '\n              - 'Limit-EventLog '\n              - 'Clear-WinEvent '\n        - CommandLine|contains|all:\n              - 'Eventing.Reader.EventLogSession' # [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName)\n              - 'ClearLog'\n        - CommandLine|contains|all:\n              - 'Diagnostics.EventLog'\n              - 'Clear'\n    selection_other_wmi:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n            - '\\wmic.exe'\n        CommandLine|contains: 'ClearEventLog'\n    filter_main_msiexec:\n        # Example seen during office update/installation:\n        #   ParentImage: C:\\Windows\\SysWOW64\\msiexec.exe\n        #   CommandLine: \"C:\\WINDOWS\\system32\\wevtutil.exe\" sl Microsoft-RMS-MSIPC/Debug /q:true /e:true /l:4 /rt:false\n        ParentImage:\n            - 'C:\\Windows\\SysWOW64\\msiexec.exe'\n            - 'C:\\Windows\\System32\\msiexec.exe'\n        CommandLine|contains: ' sl '\n    condition: ((all of selection_wevtutil_*) or (all of selection_other_ps_*) or selection_other_wmi) and not 1 of filter_main_*\n"
       },
       {
         "source": "sigma",
@@ -122375,7 +122615,7 @@
         "category": "process_creation",
         "path": "rules/windows/process_creation/proc_creation_win_susp_eventlog_clear.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_eventlog_clear.yml",
-        "query": "    selection_wevtutil_img:\n        - Image|endswith: '\\wevtutil.exe'\n        - OriginalFileName: 'wevtutil.exe'\n    selection_wevtutil_cmd:\n        CommandLine|contains:\n            - 'clear-log '          # clears specified log\n            - ' cl '                # short version of 'clear-log'\n            - 'set-log '            # modifies config of specified log. could be uset to set it to a tiny size\n            - ' sl '                # short version of 'set-log'\n            - 'lfn:'                # change log file location and name\n    selection_other_ps_img:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n    selection_other_ps_cmd:\n        - CommandLine|contains:\n              - 'Clear-EventLog '\n              - 'Remove-EventLog '\n              - 'Limit-EventLog '\n              - 'Clear-WinEvent '\n        - CommandLine|contains|all:\n              - 'Eventing.Reader.EventLogSession' # [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName)\n              - 'ClearLog'\n        - CommandLine|contains|all:\n              - 'Diagnostics.EventLog'\n              - 'Clear'\n    selection_other_wmi:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n            - '\\wmic.exe'\n        CommandLine|contains: 'ClearEventLog'\n    filter_main_msiexec:\n        # Example seen during office update/installation:\n        #   ParentImage: C:\\Windows\\SysWOW64\\msiexec.exe\n        #   CommandLine: \"C:\\WINDOWS\\system32\\wevtutil.exe\" sl Microsoft-RMS-MSIPC/Debug /q:true /e:true /l:4 /rt:false\n        ParentImage:\n            - 'C:\\Windows\\SysWOW64\\msiexec.exe'\n            - 'C:\\Windows\\System32\\msiexec.exe'\n        CommandLine|contains: ' sl '\n    condition: (all of selection_wevtutil_*) or (all of selection_other_ps_*) or (selection_other_wmi) and not 1 of filter_main_*\n"
+        "query": "    selection_wevtutil_img:\n        - Image|endswith: '\\wevtutil.exe'\n        - OriginalFileName: 'wevtutil.exe'\n    selection_wevtutil_cmd:\n        CommandLine|contains:\n            - 'clear-log '          # clears specified log\n            - ' cl '                # short version of 'clear-log'\n            - 'set-log '            # modifies config of specified log. could be used to set it to a tiny size\n            - ' sl '                # short version of 'set-log'\n            - 'lfn:'                # change log file location and name\n    selection_other_ps_img:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n    selection_other_ps_cmd:\n        - CommandLine|contains:\n              - 'Clear-EventLog '\n              - 'Remove-EventLog '\n              - 'Limit-EventLog '\n              - 'Clear-WinEvent '\n        - CommandLine|contains|all:\n              - 'Eventing.Reader.EventLogSession' # [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName)\n              - 'ClearLog'\n        - CommandLine|contains|all:\n              - 'Diagnostics.EventLog'\n              - 'Clear'\n    selection_other_wmi:\n        Image|endswith:\n            - '\\powershell.exe'\n            - '\\powershell_ise.exe'\n            - '\\pwsh.exe'\n            - '\\wmic.exe'\n        CommandLine|contains: 'ClearEventLog'\n    filter_main_msiexec:\n        # Example seen during office update/installation:\n        #   ParentImage: C:\\Windows\\SysWOW64\\msiexec.exe\n        #   CommandLine: \"C:\\WINDOWS\\system32\\wevtutil.exe\" sl Microsoft-RMS-MSIPC/Debug /q:true /e:true /l:4 /rt:false\n        ParentImage:\n            - 'C:\\Windows\\SysWOW64\\msiexec.exe'\n            - 'C:\\Windows\\System32\\msiexec.exe'\n        CommandLine|contains: ' sl '\n    condition: ((all of selection_wevtutil_*) or (all of selection_other_ps_*) or selection_other_wmi) and not 1 of filter_main_*\n"
       },
       {
         "source": "splunk",
@@ -122513,13 +122753,13 @@
       },
       {
         "source": "sigma",
-        "name": "Ufw Force Stop Using Ufw-Init",
+        "name": "UFW Disable Attempt",
         "product": "linux",
         "service": null,
         "category": "process_creation",
         "path": "rules/linux/process_creation/proc_creation_lnx_disable_ufw.yml",
         "url": "https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_disable_ufw.yml",
-        "query": "    selection_init:\n        CommandLine|contains|all:\n            - '-ufw-init'\n            - 'force-stop'\n    selection_ufw:\n        CommandLine|contains|all:\n            - 'ufw'\n            - 'disable'\n    condition: 1 of selection_*\n"
+        "query": "    selection_ufw_init:\n        Image|endswith: '/ufw-init'\n        CommandLine|contains:\n            - ' force-stop' # same as stop, except does not check if the firewall is already loaded\n            - ' stop' # unloads the firewall\n            - ' flush' # flushes the built-in chains, deletes all non-built-in chains and resets the policy to ACCEPT\n    selection_ufw_disable:\n        CommandLine|contains|all:\n            # Covers both ufw disable and systemctl disable ufw\n            # systemctl disable ufw -- prevents UFW starting at boot, but does not stop the currently running instance of UFW\n            # ufw disable -- stops the currently running instance of UFW and prevents it from starting at boot\n            - 'ufw '\n            - 'disable'\n    condition: 1 of selection_*\n"
       },
       {
         "source": "sigma",
@@ -122560,16 +122800,6 @@
         "path": "detections/cloud/microsoft_intune_devicemanagementconfigurationpolicies.yml",
         "url": "https://github.com/splunk/security_content/blob/develop/detections/cloud/microsoft_intune_devicemanagementconfigurationpolicies.yml",
         "query": "-\n    `azure_monitor_activity` operationName=\"*\n    DeviceManagementConfigurationPolicy*\" | rename identity as user,\n    properties.TargetObjectIds{} as TargetObjectId,\n    properties.TargetDisplayNames{} as TargetDisplayName,\n    properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin | eval\n    details=mvzip('properties.Targets{}.ModifiedProperties{}.Name','properties.Targets{}.ModifiedProperties{}.New',\":\n    \") | rex field=\"operationName\" \"^(?P<action>\\w+)\\s\" | replace \"Patch\" with\n    \"updated\", \"Create\" with \"created\", \"Delete\", with \"deleted\", \"assign\", with\n    \"assigned\" IN action | eval action=if(match(operationName\n    ,\"Assignment$\"),\"assigned\",'action') | table _time operationName action user\n    user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId details\n    status tenantId correlationId |\n    `microsoft_intune_devicemanagementconfigurationpolicies_filter`"
-      },
-      {
-        "source": "splunk",
-        "name": "Processes launching netsh",
-        "product": "windows",
-        "service": null,
-        "category": "deprecated",
-        "path": "detections/deprecated/processes_launching_netsh.yml",
-        "url": "https://github.com/splunk/security_content/blob/develop/detections/deprecated/processes_launching_netsh.yml",
-        "query": "-\n    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes\n      WHERE `process_netsh`\n      BY Processes.action Processes.dest Processes.original_file_name\n         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid\n         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path\n         Processes.process Processes.process_exec Processes.process_guid\n         Processes.process_hash Processes.process_id Processes.process_integrity_level\n         Processes.process_name Processes.process_path Processes.user\n         Processes.user_id Processes.vendor_product\n    | `drop_dm_object_name(\"Processes\")`\n    | `security_content_ctime(firstTime)`\n    | `security_content_ctime(lastTime)`\n    | `processes_launching_netsh_filter`"
       },
       {
         "source": "splunk",
