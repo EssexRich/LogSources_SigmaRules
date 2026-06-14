@@ -1,0 +1,45 @@
+title: Cisco IOS XE Remote Access Probe Burst
+id: 43d5cfee-43d5-43d5-a3d5-43d5cfee0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1018
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_remote_access_probe_burst.yml
+author: splunk (via IncidentBuddy)
+date: 2026-06-14
+tags:
+  - attack.t1018
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `cisco_ios`
+    #     facility IN ("AAA", "HA_EM")
+    #     mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG")
+    #     message_text IN ("*ssh *", "*telnet *", "*ping *")
+    #     | rex field=message_text "^\w+:(?<aaa_src>[^:@]+)(?:@[^:]*)?:(?<aaa_user>[^:]*):(?<aaa_command>.*?)(?:\s+\((?<aaa_result>SUCCESS|FAILURE)\))?$"
+    #     | rex field=message_text "^(?:[^:]+:\s+)?(?:catchall:\s+)?(?<eem_command>.+?)\s*$"
+    #     | eval command=lower(trim(coalesce(aaa_command, eem_command, "")))
+    #     | where match(command, "^(ssh|telnet|ping)\s+")
+    #     | rex field=command "(?i)^(?:ssh(?:\s+-l\s+\S+)?|telnet|ping)\s+(?<target_ip>\d{1,3}(?:\.\d{1,3}){3})"
+    #     | eval command_type=case(match(command, "^ssh\s+"), "ssh", match(command, "^telnet\s+"), "telnet", match(command, "^ping\s+"), "ping")
+    #     | eval user=coalesce(aaa_user, user, "unknown")
+    #     | eval src_ip=coalesce(aaa_src, src_ip, "unknown")
+    #     | eval dest=coalesce(host, dvc, dest, "unknown")
+    #     | bin _time span=10m
+    #     | stats count as command_count
+    #             min(_time) as firstTime
+    #             max(_time) as lastTime
+    #             dc(target_ip) as distinct_targets
+    #             values(target_ip) as target_ips
+    #             values(command_type) as command_types
+    #             values(command) as commands
+    #       by _time dest user src_ip
+    #     | where command_count >= 8 OR distinct_targets >= 5
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `cisco_ios_xe_remote_access_probe_burst_filter`
+  condition: selection
+level: medium

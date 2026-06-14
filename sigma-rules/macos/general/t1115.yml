@@ -1,11 +1,11 @@
-title: Clipboard Data Collection Via OSAScript
-id: 5a5ea823-5a5e-4a5e-aa5e-5a5ea8230000
+title: Clipboard Access Via OSAScript
+id: 71940017-7194-4194-a194-719400170000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1115
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_clipboard_data_via_osascript.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_clipboard_access_via_osascript.yml
 author: sigma (via IncidentBuddy)
-date: 2026-06-07
+date: 2026-06-14
 tags:
   - attack.t1115
 logsource:
@@ -15,11 +15,19 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
+    #         Image|endswith: '/osascript'
+    #         CommandLine|contains|all:
+    #             - ' -e '
+    #             - 'clipboard'
+    #     filter_optional_opencode:
+    #         # OpenCode uses osascript to handle copying text from the TUI on MacOS devices. See https://github.com/anomalyco/opencode/blob/ca723f1cbc6fc4244ae57e61e9de8c4e37380ed4/packages/opencode/src/cli/cmd/tui/util/clipboard.ts#L65 for reference.
+    #         ParentImage|endswith: 'opencode'
     #         CommandLine|contains|all:
     #             - 'osascript'
     #             - ' -e '
-    #             - 'clipboard'
-    #     condition: selection
+    #             - 'set imageData to the clipboard'
+    #             - 'set fileRef'
+    #     condition: selection and not 1 of filter_optional_*
     # 
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: TOR Traffic
-id: 38294458-3829-4829-a829-382944580000
+title: Cisco SA - Access to Anonymizer Services
+id: 7e9bc5cb-7e9b-4e9b-ae9b-7e9bc5cb0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1090.003
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/network/tor_traffic.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/network/cisco_sa___access_to_anonymizer_services.yml
 author: splunk (via IncidentBuddy)
-date: 2026-06-07
+date: 2026-06-14
 tags:
   - attack.t1090.003
 logsource:
@@ -15,18 +15,12 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Traffic WHERE
-    #     All_Traffic.app=tor
-    #     All_Traffic.action IN ("allowed", "allow")
-    #     BY All_Traffic.action All_Traffic.app All_Traffic.bytes
-    #        All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest
-    #        All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc
-    #        All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src
-    #        All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport
-    #        All_Traffic.user All_Traffic.vendor_product All_Traffic.rule
+    #     `cisco_secure_access_dns`
+    #     action = "allowed" category= "*anonymizer*"
+    #     | fillnull
+    #     | stats count min(_time) as firstTime max(_time) as lastTime values(domain) as domain values(query) as query values(reply_code) as reply_code values(record_type) as record_type by src_ip src_external_ip user identity_type action category sourcetype
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `drop_dm_object_name("All_Traffic")`
-    #     | `tor_traffic_filter`
+    #     | `cisco_sa___access_to_anonymizer_services_filter`
   condition: selection
 level: medium

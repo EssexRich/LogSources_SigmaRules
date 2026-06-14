@@ -1,0 +1,52 @@
+title: Cisco IOS XE Log Clearing Sequence With Optional Loopback Removal
+id: 53ed21a6-53ed-43ed-a3ed-53ed21a60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/cisco_ios_xe_log_clearing_sequence_with_optional_loopback_removal.yml
+author: splunk (via IncidentBuddy)
+date: 2026-06-14
+tags:
+  - attack.t1070.001
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `cisco_ios`
+    #     facility IN ("AAA", "HA_EM", "PARSER")
+    #     mnemonic IN ("AAA_ACCOUNTING_MESSAGE", "LOG", "CFGLOG_LOGGEDCMD")
+    #     message_text IN ("*show logging*", "*clear logging*", "*exit*", "*no interface Loopback*")
+    # 
+    #     | eval cmd=lower(coalesce(command, message_text))
+    #     | eval event_type=case(
+    #                 like(cmd, "%show logging%"), "show_logging",
+    #                 like(cmd, "%clear logging%"), "clear_logging",
+    #                 like(cmd, "%exit%"), "exit",
+    #                 like(cmd, "%no interface loopback%"), "remove_loopback"
+    #             )
+    #     | where isnotnull(event_type)
+    #     | eval dest=coalesce(host, dvc, dest, "unknown")
+    #     | bin _time span=2m
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #                   values(event_type) as event_types
+    #                   values(message_text) as message_text
+    #                   values(cmd) as cmd
+    #       by _time dest
+    #     | where mvfind(event_types, "clear_logging") >= 0
+    #             AND
+    #             mvfind(event_types, "exit") >= 0
+    #             AND
+    #             (
+    #                 mvfind(event_types, "show_logging") >= 0
+    #                 OR
+    #                 mvfind(event_types, "remove_loopback") >= 0
+    #             )
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `cisco_ios_xe_log_clearing_sequence_with_optional_loopback_removal_filter`
+  condition: selection
+level: medium

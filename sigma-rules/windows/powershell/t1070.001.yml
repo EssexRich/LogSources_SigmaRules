@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1070.001
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_eventlog_clear.yml
 author: sigma (via IncidentBuddy)
-date: 2026-06-07
+date: 2026-06-14
 tags:
   - attack.t1070.001
 logsource:
@@ -21,7 +21,7 @@ detection:
     #         CommandLine|contains:
     #             - 'clear-log '          # clears specified log
     #             - ' cl '                # short version of 'clear-log'
-    #             - 'set-log '            # modifies config of specified log. could be uset to set it to a tiny size
+    #             - 'set-log '            # modifies config of specified log. could be used to set it to a tiny size
     #             - ' sl '                # short version of 'set-log'
     #             - 'lfn:'                # change log file location and name
     #     selection_other_ps_img:
@@ -56,7 +56,7 @@ detection:
     #             - 'C:\Windows\SysWOW64\msiexec.exe'
     #             - 'C:\Windows\System32\msiexec.exe'
     #         CommandLine|contains: ' sl '
-    #     condition: (all of selection_wevtutil_*) or (all of selection_other_ps_*) or (selection_other_wmi) and not 1 of filter_main_*
+    #     condition: ((all of selection_wevtutil_*) or (all of selection_other_ps_*) or selection_other_wmi) and not 1 of filter_main_*
     # 
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: Attempt To Add Certificate To Untrusted Store
-id: 0a26ddfb-0a26-4a26-aa26-0a26ddfb0000
+title: Windows Export Certificate
+id: 21666d47-2166-4166-a166-21666d470000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1553.004
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/attempt_to_add_certificate_to_untrusted_store.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_export_certificate.yml
 author: splunk (via IncidentBuddy)
-date: 2026-06-07
+date: 2026-06-14
 tags:
   - attack.t1553.004
 logsource:
@@ -15,18 +15,13 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process) as process max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE `process_certutil` (Processes.process=*-addstore*)
-    #       BY Processes.action Processes.dest Processes.original_file_name
-    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #          Processes.process Processes.process_exec Processes.process_guid
-    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
-    #          Processes.process_name Processes.process_path Processes.user
-    #          Processes.user_id Processes.vendor_product
-    #     | `drop_dm_object_name("Processes")`
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `attempt_to_add_certificate_to_untrusted_store_filter`
+    #     `certificateservices_lifecycle` EventCode=1007
+    #       | xmlkv UserData_Xml
+    #       | stats count min(_time) as firstTime max(_time) as lastTime
+    #         BY Computer, SubjectName, UserData_Xml
+    #       | rename Computer as dest
+    #       | `security_content_ctime(firstTime)`
+    #       | `security_content_ctime(lastTime)`
+    #       | `windows_export_certificate_filter`
   condition: selection
 level: medium
