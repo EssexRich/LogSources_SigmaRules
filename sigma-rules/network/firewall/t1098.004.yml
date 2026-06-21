@@ -1,0 +1,29 @@
+title: Potential Redis CONFIG SET SSH Authorized Key Injection
+id: 108771af-1087-4087-a087-108771af0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/persistence_potential_redis_config_set_ssh_key_injection.toml
+author: elastic (via IncidentBuddy)
+date: 2026-06-21
+tags:
+  - attack.t1098.004
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # network where data_stream.dataset == "network_traffic.redis" and
+    #   (
+    #     (
+    #       network_traffic.redis.query like~ "*CONFIG SET dir*" and
+    #       network_traffic.redis.query like~ "*/.ssh*"
+    #     ) or
+    #     (
+    #       network_traffic.redis.query like~ "*CONFIG SET dbfilename*" and
+    #       network_traffic.redis.query like~ "*authorized_keys*"
+    #     )
+    #   )
+  condition: selection
+level: medium

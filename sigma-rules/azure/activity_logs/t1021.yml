@@ -1,11 +1,11 @@
-title: Unusual Azure Activity Logs Event for a User
-id: 2834f234-2834-4834-a834-2834f2340000
+title: Azure VM Serial Console Connection with Unusual User and ASN
+id: 5179d5f9-5179-4179-a179-5179d5f90000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1021
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/ml_azure_rare_method_by_user.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/lateral_movement_azure_vm_serial_console_connect.toml
 author: elastic (via IncidentBuddy)
-date: 2026-06-14
+date: 2026-06-21
 tags:
   - attack.t1021
 logsource:
@@ -14,6 +14,10 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # No detection logic available
+    # data_stream.dataset:azure.activitylogs and
+    #   azure.activitylogs.operation_name:"MICROSOFT.SERIALCONSOLE/SERIALPORTS/CONNECT/ACTION" and
+    #   event.outcome:("success" or "Success") and
+    #   azure.activitylogs.identity.authorization.evidence.principal_id:* and
+    #   source.as.number:*
   condition: selection
 level: medium

@@ -1,0 +1,23 @@
+title: Azure VM Serial Console Connection with Unusual User and ASN
+id: 5a6e5091-5a6e-4a6e-aa6e-5a6e50910000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.008
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/lateral_movement_azure_vm_serial_console_connect.toml
+author: elastic (via IncidentBuddy)
+date: 2026-06-21
+tags:
+  - attack.t1021.008
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:azure.activitylogs and
+    #   azure.activitylogs.operation_name:"MICROSOFT.SERIALCONSOLE/SERIALPORTS/CONNECT/ACTION" and
+    #   event.outcome:("success" or "Success") and
+    #   azure.activitylogs.identity.authorization.evidence.principal_id:* and
+    #   source.as.number:*
+  condition: selection
+level: medium

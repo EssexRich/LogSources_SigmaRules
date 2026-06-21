@@ -1,11 +1,11 @@
-title: Entra ID Sign-in BloodHound Suite User-Agent Detected
-id: 26346340-2634-4634-a634-263463400000
+title: Entra ID OAuth Device Code Sign-in to Azure AD Graph Enumeration
+id: 4d710993-4d71-4d71-ad71-4d7109930000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1069
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/discovery_bloodhound_user_agents_detected.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_device_code_signin_aad_graph_enum.toml
 author: elastic (via IncidentBuddy)
-date: 2026-06-14
+date: 2026-06-21
 tags:
   - attack.t1069
 logsource:
@@ -14,12 +14,33 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # any where data_stream.dataset : (
-    #     "azure.activitylogs",
-    #     "azure.graphactivitylogs",
-    #     "azure.auditlogs",
-    #     "azure.signinlogs",
-    #     "o365.audit"
-    # ) and user_agent.original regex~ "(azure|sharp|blood)(hound)/.*"
+    # sequence by user.id, azure.tenant_id with maxspan=5m
+    # [authentication where
+    #     data_stream.dataset == "azure.signinlogs" and
+    #     event.outcome == "success" and
+    #     azure.signinlogs.properties.authentication_protocol == "deviceCode" and
+    #     azure.signinlogs.properties.device_detail.is_managed == false and
+    #     azure.signinlogs.properties.resource_id == "00000002-0000-0000-c000-000000000000"]
+    # [web where
+    #     data_stream.dataset == "azure.aadgraphactivitylogs" and
+    #     url.path : (
+    #         "*/users*",
+    #         "*/groups*",
+    #         "*/servicePrincipals*",
+    #         "*/applications*",
+    #         "*/applicationRefs*",
+    #         "*/devices*",
+    #         "*/directoryRoles*",
+    #         "*/roleAssignments*",
+    #         "*/eligibleRoleAssignments*",
+    #         "*/roleDefinitions*",
+    #         "*/directoryObjects*",
+    #         "*/policies*",
+    #         "*/oauth2PermissionGrants*",
+    #         "*/administrativeUnits*",
+    #         "*/tenantDetails*",
+    #         "*/directorySettingTemplates*",
+    #         "*/me*"
+    #     )]
   condition: selection
 level: medium

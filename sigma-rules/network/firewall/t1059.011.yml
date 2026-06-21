@@ -1,0 +1,22 @@
+title: Potential Redis Lua Use-After-Free RCE Attempt (CVE-2025-49844 / RediShell)
+id: 4bfe7d37-4bfe-4bfe-abfe-4bfe7d370000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.011
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/initial_access_potential_redis_lua_use_after_free_rce_cve_2025_49844.toml
+author: elastic (via IncidentBuddy)
+date: 2026-06-21
+tags:
+  - attack.t1059.011
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # network where data_stream.dataset == "network_traffic.redis" and
+    #   network_traffic.redis.query like~ "*EVAL*" and
+    #   network_traffic.redis.query like~ "*string.rep*" and
+    #   network_traffic.redis.query like~ "*collectgarbage*"
+  condition: selection
+level: medium

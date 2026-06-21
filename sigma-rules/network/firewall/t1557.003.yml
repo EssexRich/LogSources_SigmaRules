@@ -1,0 +1,33 @@
+title: Multiple DHCP Servers Responding to the Same Transaction
+id: 743d4322-743d-443d-a43d-743d43220000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1557.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/credential_access_dhcp_multiple_servers_same_transaction.toml
+author: elastic (via IncidentBuddy)
+date: 2026-06-21
+tags:
+  - attack.t1557.003
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-network_traffic.dhcpv4-*, packetbeat-*
+    # | eval
+    #     message_type = TO_LOWER(COALESCE(network_traffic.dhcpv4.option.message_type, dhcpv4.option.message_type)),
+    #     Esql.transaction_id = COALESCE(network_traffic.dhcpv4.transaction_id, dhcpv4.transaction_id),
+    #     server_identifier = COALESCE(network_traffic.dhcpv4.option.server_identifier, dhcpv4.option.server_identifier)
+    # | where message_type in ("offer", "ack") and Esql.transaction_id is not null and source.ip is not null
+    # | eval Esql.time_window = DATE_TRUNC(30 seconds, @timestamp)
+    # | stats
+    #     Esql.count_distinct_servers = COUNT_DISTINCT(source.ip),
+    #     Esql.values_server_ips = VALUES(source.ip),
+    #     Esql.values_server_identifiers = VALUES(server_identifier),
+    #     Esql.count_replies = COUNT(*)
+    #   by Esql.time_window, Esql.transaction_id
+    # | where Esql.count_distinct_servers >= 2
+    # | keep Esql.transaction_id, Esql.time_window, Esql.count_distinct_servers, Esql.values_server_ips, Esql.values_server_identifiers, Esql.count_replies
+  condition: selection
+level: medium

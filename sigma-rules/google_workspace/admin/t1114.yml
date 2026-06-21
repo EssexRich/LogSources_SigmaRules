@@ -1,11 +1,11 @@
-title: Google Workspace Custom Gmail Route Created or Modified
-id: 2e40dbcc-2e40-4e40-ae40-2e40dbcc0000
+title: Google Workspace Gmail Routing or Forwarding Rule Created or Modified
+id: 58cbe6f2-58cb-48cb-a8cb-58cbe6f20000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1114
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/collection_google_workspace_custom_gmail_route_created_or_modified.toml
 author: elastic (via IncidentBuddy)
-date: 2026-06-14
+date: 2026-06-21
 tags:
   - attack.t1114
 logsource:
@@ -14,7 +14,22 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset:"google_workspace.admin" and event.action:("CREATE_GMAIL_SETTING" or "CHANGE_GMAIL_SETTING")
-    #   and google_workspace.event.type:"EMAIL_SETTINGS" and google_workspace.admin.setting.name:("EMAIL_ROUTE" or "MESSAGE_SECURITY_RULE")
+    # data_stream.dataset:"google_workspace.admin" and event.action:(
+    #   "CREATE_GMAIL_SETTING" or "CHANGE_GMAIL_SETTING"
+    #   or "CREATE_APPLICATION_SETTING" or "CHANGE_APPLICATION_SETTING"
+    # )
+    # and (
+    #   google_workspace.admin.setting.name:(
+    #     "UNIFIED_MAIL_ROUTING"
+    #     or "ALIAS_TABLE"
+    #     or "EMAIL_ROUTE"
+    #     or "MESSAGE_SECURITY_RULE"
+    #   )
+    #   or google_workspace.admin.setting.metadata.rule.type:(
+    #     "UNIFIED_MAIL_ROUTING"
+    #     or "ALIAS_TABLE"
+    #     or "EMAIL_ROUTE"
+    #   )
+    # )
   condition: selection
 level: medium

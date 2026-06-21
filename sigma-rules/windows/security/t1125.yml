@@ -1,0 +1,41 @@
+title: Windows FFmpeg Audio and Video Device Discovery
+id: 5e1efc18-5e1e-4e1e-ae1e-5e1efc180000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1125
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_ffmpeg_audio_and_video_device_discovery.yml
+author: splunk (via IncidentBuddy)
+date: 2026-06-21
+tags:
+  - attack.t1125
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+    #       WHERE (
+    #               (
+    #                 Processes.process_name = ffmpeg.exe OR
+    #                 Processes.original_file_name = ffmpeg.exe
+    #                ) AND
+    # 
+    #               Processes.process_path IN ("*\\temp\\*") AND
+    #               Processes.process = "*-list_devices*" AND
+    #               Processes.process = "*-hide_banner*" AND
+    #               Processes.process = "* dshow *"
+    #             )
+    #       BY Processes.action Processes.dest Processes.original_file_name
+    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    #          Processes.process Processes.process_exec Processes.process_guid
+    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #          Processes.process_name Processes.process_path Processes.user
+    #          Processes.user_id Processes.vendor_product
+    #     | `drop_dm_object_name(Processes)`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_ffmpeg_audio_and_video_device_discovery_filter`
+  condition: selection
+level: medium

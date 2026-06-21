@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1074.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/credential_access_ssh_backdoor_log.toml
 author: elastic (via IncidentBuddy)
-date: 2026-06-14
+date: 2026-06-21
 tags:
   - attack.t1074.001
 logsource:
@@ -39,6 +39,7 @@ detection:
     #       "/var/run/udev/ud.pid",
     #       "/var/run/udevd.pid"
     #     )
-    #   )
+    #   ) and
+    #   not file.path like ("/tmp/krb5cc*", "/tmp/ansible_*", "/storage/*", "/tmp/clearsigned.message.*", "/var/sftp/refinitiv/*", "/tmp/fileutil.message.*")
   condition: selection
 level: medium

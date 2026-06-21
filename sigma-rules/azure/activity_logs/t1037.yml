@@ -1,0 +1,29 @@
+title: Azure VM Extension CRUD Operation with Unusual Source ASN
+id: 09abd306-09ab-49ab-a9ab-09abd3060000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1037
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/execution_azure_vm_extension_crud_unusual_source.toml
+author: elastic (via IncidentBuddy)
+date: 2026-06-21
+tags:
+  - attack.t1037
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:azure.activitylogs and
+    #     event.action:(
+    #         "MICROSOFT.COMPUTE/VIRTUALMACHINES/EXTENSIONS/DELETE" or
+    #         "MICROSOFT.COMPUTE/VIRTUALMACHINES/EXTENSIONS/READ" or
+    #         "MICROSOFT.COMPUTE/VIRTUALMACHINES/EXTENSIONS/WRITE" or
+    #         "MICROSOFT.COMPUTE/VIRTUALMACHINESCALESETS/EXTENSIONS/DELETE" or
+    #         "MICROSOFT.COMPUTE/VIRTUALMACHINESCALESETS/EXTENSIONS/READ" or
+    #         "MICROSOFT.COMPUTE/VIRTUALMACHINESCALESETS/EXTENSIONS/WRITE"
+    #     ) and event.outcome:(Success or success) and
+    #     azure.resource.name:* and
+    #     source.as.number:(* and not (3598 or 8068 or 8069 or 8070 or 8071 or 8072 or 8073 or 8074 or 8075 or 12076))
+  condition: selection
+level: medium
