@@ -1,11 +1,11 @@
-title: Google Workspace Object Copied to External Drive with App Consent
-id: 65e49e39-65e4-45e4-a5e4-65e49e390000
+title: Google Workspace Object Copied from External Drive with App Consent
+id: 29985f6a-2998-4998-a998-29985f6a0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1566
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/initial_access_object_copied_to_external_drive_with_app_consent.toml
 author: elastic (via IncidentBuddy)
-date: 2026-06-21
+date: 2026-06-28
 tags:
   - attack.t1566
 logsource:
@@ -18,7 +18,7 @@ detection:
     # [file where data_stream.dataset == "google_workspace.drive" and event.action == "copy" and
     # 
     #     /* Should only match if the object lives in a Drive that is external to the user's GWS organization */
-    #     google_workspace.drive.owner_is_team_drive == "false" and google_workspace.drive.copy_type == "external" and
+    #     google_workspace.drive.owner_is_team_drive == false and google_workspace.drive.copy_type == "external" and
     # 
     #     /* Google Script, Forms, Sheets and Document can have container-bound scripts */
     #     google_workspace.drive.file.type: ("script", "form", "spreadsheet", "document")]

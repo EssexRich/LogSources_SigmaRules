@@ -1,11 +1,11 @@
-title: AWS IAM Deactivation of MFA Device
-id: 0616d920-0616-4616-a616-0616d9200000
+title: AWS IAM Account Password Policy Deleted
+id: 2704a5df-2704-4704-a704-2704a5df0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1556
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_iam_deactivate_mfa_device.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_iam_account_password_policy_deleted.toml
 author: elastic (via IncidentBuddy)
-date: 2026-06-21
+date: 2026-06-28
 tags:
   - attack.t1556
 logsource:
@@ -14,9 +14,13 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset: aws.cloudtrail 
-    #     and event.provider: iam.amazonaws.com 
-    #     and event.action: DeactivateMFADevice 
-    #     and event.outcome: success
+    # data_stream.dataset: "aws.cloudtrail"
+    #     and event.provider: "iam.amazonaws.com"
+    #     and event.action: "DeleteAccountPasswordPolicy"
+    #     and event.outcome: "success"
+    #     and not aws.cloudtrail.user_identity.type: "AWSService"
+    #     and not user_agent.original: (*terraform* or *pulumi* or *ansible*)
+    #     and not aws.cloudtrail.user_identity.arn: (*terraform* or *pulumi* or *ansible*)
+    #     and not source.address: ("cloudformation.amazonaws.com" or "servicecatalog.amazonaws.com")
   condition: selection
 level: medium

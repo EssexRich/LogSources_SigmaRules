@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1102
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_domain_dead_drop_resolvers.yml
 author: sigma (via IncidentBuddy)
-date: 2026-06-21
+date: 2026-06-28
 tags:
   - attack.t1102
 logsource:
@@ -18,10 +18,13 @@ detection:
     #         Initiated: 'true'
     #         DestinationHostname|endswith:
     #             - '.t.me'
+    #             - '0x0.st'
     #             - '4shared.com'
     #             - 'abuse.ch'
     #             - 'anonfiles.com'
+    #             - 'bashupload.com'
     #             - 'cdn.discordapp.com'
+    #             - 'chunk.io'
     #             - 'cloudflare.com'
     #             - 'ddns.net'
     #             - 'discord.com'
@@ -65,15 +68,14 @@ detection:
     #             - 'w3spaces.com'
     #             - 'wetransfer.com'
     #             - 'workers.dev'
+    #             - 'x0.at'
     #             - 'youtube.com'
     #     # Note: Add/Remove browsers/applications that you don't use or those that have custom install locations
     #     # Note: To avoid complex conditions the filters for some apps are generic by name only. A custom tuning is recommended for best results
     #     filter_main_chrome:
     #         Image:
     #             - 'C:\Program Files\Google\Chrome\Application\chrome.exe'
-    #             - 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
-    #     filter_main_chrome_appdata:
-    #         Imag
+    #             - 'C:\P
     # ... [truncated]
   condition: selection
 level: medium

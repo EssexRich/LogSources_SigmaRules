@@ -1,0 +1,22 @@
+title: Process Execution From Shared Memory Directory
+id: 13b84801-13b8-43b8-a3b8-13b848010000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.011
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_susp_exec_from_dev_shm.yml
+author: sigma (via IncidentBuddy)
+date: 2026-06-28
+tags:
+  - attack.t1027.011
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection:
+    #         Image|startswith: '/dev/shm/'
+    #     condition: selection
+    # 
+  condition: selection
+level: medium

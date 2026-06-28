@@ -1,0 +1,34 @@
+title: Splunk Authentication Token Exposure in Debug Log
+id: 2785bd4e-2785-4785-a785-2785bd4e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1654
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/splunk_authentication_token_exposure_in_debug_log.yml
+author: splunk (via IncidentBuddy)
+date: 2026-06-28
+tags:
+  - attack.t1654
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `splunkd`
+    #     component=JsonWebToken
+    #     log_level=DEBUG
+    #     eventtype="splunkd-log"
+    #     event_message="Validating token:*"
+    #     | rex "Validating token: (?<token>.*)\.$"
+    #     | search token!=None
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #                   values(log_level) as log_level
+    #                   values(event_message) as event_message
+    #       by index, sourcetype, host, token
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `splunk_authentication_token_exposure_in_debug_log_filter`
+  condition: selection
+level: medium

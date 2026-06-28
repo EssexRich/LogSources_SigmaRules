@@ -1,0 +1,32 @@
+title: M365 Teams Rogue Help Desk Chat Created
+id: 5d1c4fda-5d1c-4d1c-ad1c-5d1c4fda0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1566
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/initial_access_teams_rogue_helpdesk_chat.toml
+author: elastic (via IncidentBuddy)
+date: 2026-06-28
+tags:
+  - attack.t1566
+logsource:
+  product: m365
+  service: teams
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:o365.audit and event.action:"ChatCreated" and event.provider:"MicrosoftTeams" and event.outcome:"success" and
+    #   o365.audit.ParticipantInfo.HasOtherGuestUsers:false and o365.audit.ParticipantInfo.HasGuestUsers:false and
+    #   o365.audit.ParticipantInfo.HasForeignTenantUsers:true and o365.audit.CommunicationType:"OneOnOne" and
+    #   (
+    #     o365.audit.Members:(
+    #       "Help Desk" or "Help Desk Team" or "Help Desk IT" or "IT Help Desk" or
+    #       "Microsoft Security" or "Microsoft  Security" or "Microsoft Support"
+    #     ) or
+    #     user.email:(
+    #       *helpdesk* or *help.desk* or *help-desk* or *help_desk* or
+    #       *ithelp* or *it.help* or *itsupport* or *it.support* or *it-support*
+    #     ) or
+    #     user.name:(*helpdesk* or *help-desk* or *ithelp* or *itsupport*)
+    #   )
+  condition: selection
+level: medium

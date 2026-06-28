@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1550
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/defense_evasion_google_workspace_new_oauth_login_from_third_party_application.toml
 author: elastic (via IncidentBuddy)
-date: 2026-06-21
+date: 2026-06-28
 tags:
   - attack.t1550
 logsource:
@@ -14,7 +14,9 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset: "google_workspace.token" and event.action: "authorize" and
-    # google_workspace.token.scope.data: *Login and google_workspace.token.client.id: *apps.googleusercontent.com
+    # data_stream.dataset: "google_workspace.token"
+    #   and event.action: "authorize"
+    #   and google_workspace.token.scope.value: (*openid* or *userinfo.email* or *userinfo.profile* or *Login*)
+    #   and google_workspace.token.client.id: *apps.googleusercontent.com
   condition: selection
 level: medium

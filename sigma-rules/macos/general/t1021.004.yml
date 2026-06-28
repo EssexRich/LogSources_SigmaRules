@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1021.004
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/macos/lateral_movement_remote_ssh_login_enabled.toml
 author: elastic (via IncidentBuddy)
-date: 2026-06-21
+date: 2026-06-28
 tags:
   - attack.t1021.004
 logsource:
@@ -15,10 +15,22 @@ detection:
   selection:
     # Original elastic detection logic
     # process where host.os.type == "macos" and event.type in ("start", "process_started") and
-    #  process.name == "systemsetup" and
-    #  process.args like~ "-setremotelogin" and 
-    #  process.args like~ "on" and
-    #  process.parent.executable != null and
-    #  not process.parent.executable like ("/usr/local/jamf/bin/jamf", "/usr/libexec/xpcproxy", "/usr/bin/sudo")
+    # (
+    #   (
+    #     process.name == "systemsetup" and
+    #     process.args like~ "-setremotelogin" and
+    #     process.args like~ "on"
+    #   ) or
+    #   (
+    #     process.name == "launchctl" and
+    #     process.args in ("load", "bootstrap") and
+    #     (
+    #       process.command_line like~ "*/System/Library/LaunchDaemons/ssh.plist*" or
+    #       process.command_line like~ "*com.openssh.sshd*"
+    #     )
+    #   )
+    # ) and
+    # process.parent.executable != null and
+    # not process.parent.executable like ("/usr/local/jamf/bin/jamf", "/usr/libexec/xpcproxy", "/usr/bin/sudo")
   condition: selection
 level: medium

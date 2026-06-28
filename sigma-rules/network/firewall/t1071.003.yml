@@ -1,11 +1,11 @@
-title: SMTP on Port 26/TCP
-id: 20c0e937-20c0-40c0-a0c0-20c0e9370000
+title: SMTP to the Internet on Port 26/TCP
+id: 65cdef62-65cd-45cd-a5cd-65cdef620000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1071.003
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_port_26_activity.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_smtp_to_the_internet_port_26.toml
 author: elastic (via IncidentBuddy)
-date: 2026-06-21
+date: 2026-06-28
 tags:
   - attack.t1071.003
 logsource:
@@ -14,6 +14,34 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # (data_stream.dataset: (network_traffic.flow or zeek.smtp) or event.category:(network or network_traffic)) and network.transport:tcp and destination.port:26
+    # (data_stream.dataset: (network_traffic.flow or zeek.smtp) or event.category:(network or network_traffic)) and
+    #   network.transport:tcp and destination.port:26 and
+    #   source.ip:(10.0.0.0/8 or 172.16.0.0/12 or 192.168.0.0/16) and
+    #   not destination.ip:(10.0.0.0/8
+    #     or 100.64.0.0/10
+    #     or 127.0.0.0/8
+    #     or 169.254.0.0/16
+    #     or 172.16.0.0/12
+    #     or 192.0.0.0/24
+    #     or 192.0.0.0/29
+    #     or 192.0.0.10/32
+    #     or 192.0.0.170/32
+    #     or 192.0.0.171/32
+    #     or 192.0.0.8/32
+    #     or 192.0.0.9/32
+    #     or 192.0.2.0/24
+    #     or 192.168.0.0/16
+    #     or 192.175.48.0/24
+    #     or 192.31.196.0/24
+    #     or 192.52.193.0/24
+    #     or 192.88.99.0/24
+    #     or 198.18.0.0/15
+    #     or 198.51.100.0/24
+    #     or 203.0.113.0/24
+    #     or 224.0.0.0/4
+    #     or 240.0.0.0/4
+    #     or "::1"
+    #     or "FE80::/10"
+    #     or "FF00::/8")
   condition: selection
 level: medium
