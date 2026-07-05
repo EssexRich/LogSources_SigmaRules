@@ -1,11 +1,11 @@
-title: PowerShell Base64 Encoded Reflective Assembly Load
-id: 165d4f25-165d-465d-a65d-165d4f250000
+title: Potential WinAPI Calls Via PowerShell Scripts
+id: 1eefc574-1eef-4eef-aeef-1eefc5740000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1620
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_base64_reflection_assembly_load.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_win_api_susp_access.yml
 author: sigma (via IncidentBuddy)
-date: 2026-06-28
+date: 2026-07-05
 tags:
   - attack.t1620
 logsource:
@@ -14,25 +14,35 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection:
-    #         CommandLine|contains:
-    #             # [Reflection.Assembly]::Load(
-    #             - 'WwBSAGUAZgBsAGUAYwB0AGkAbwBuAC4AQQBzAHMAZQBtAGIAbAB5AF0AOgA6AEwAbwBhAGQAKA'
-    #             - 'sAUgBlAGYAbABlAGMAdABpAG8AbgAuAEEAcwBzAGUAbQBiAGwAeQBdADoAOgBMAG8AYQBkACgA'
-    #             - 'bAFIAZQBmAGwAZQBjAHQAaQBvAG4ALgBBAHMAcwBlAG0AYgBsAHkAXQA6ADoATABvAGEAZAAoA'
-    #             # [reflection.assembly]::("Load")
-    #             - 'AFsAcgBlAGYAbABlAGMAdABpAG8AbgAuAGEAcwBzAGUAbQBiAGwAeQBdADoAOgAoACIATABvAGEAZAAiAC'
-    #             - 'BbAHIAZQBmAGwAZQBjAHQAaQBvAG4ALgBhAHMAcwBlAG0AYgBsAHkAXQA6ADoAKAAiAEwAbwBhAGQAIgAp'
-    #             - 'AWwByAGUAZgBsAGUAYwB0AGkAbwBuAC4AYQBzAHMAZQBtAGIAbAB5AF0AOgA6ACgAIgBMAG8AYQBkACIAK'
-    #             # [Reflection.Assembly]::("Load")
-    #             - 'WwBSAGUAZgBsAGUAYwB0AGkAbwBuAC4AQQBzAHMAZQBtAGIAbAB5AF0AOgA6ACgAIgBMAG8AYQBkACIAKQ'
-    #             - 'sAUgBlAGYAbABlAGMAdABpAG8AbgAuAEEAcwBzAGUAbQBiAGwAeQBdADoAOgAoACIATABvAGEAZAAiACkA'
-    #             - 'bAFIAZQBmAGwAZQBjAHQAaQBvAG4ALgBBAHMAcwBlAG0AYgBsAHkAXQA6ADoAKAAiAEwAbwBhAGQAIgApA'
-    #             # [reflection.assembly]::Load(
-    #             - 'WwByAGUAZgBsAGUAYwB0AGkAbwBuAC4AYQBzAHMAZQBtAGIAbAB5AF0AOgA6AEwAbwBhAGQAKA'
-    #             - 'sAcgBlAGYAbABlAGMAdABpAG8AbgAuAGEAcwBzAGUAbQBiAGwAeQBdADoAOgBMAG8AYQBkACgA'
-    #             - 'bAHIAZQBmAGwAZQBjAHQAaQBvAG4ALgBhAHMAcwBlAG0AYgBsAHkAXQA6ADoATABvAGEAZAAoA'
-    #     condition: selection
+    #     # Note: Add more suspicious combinations in the form of different selections
+    #     selection_injection:
+    #         ScriptBlockText|contains|all:
+    #             - 'VirtualAlloc'
+    #             - 'OpenProcess'
+    #             - 'WriteProcessMemory'
+    #             - 'CreateRemoteThread'
+    #     selection_token_steal:
+    #         ScriptBlockText|contains|all:
+    #             - 'OpenProcessToken'
+    #             - 'LookupPrivilegeValue'
+    #             - 'AdjustTokenPrivileges'
+    #     selection_duplicate_token:
+    #         ScriptBlockText|contains|all:
+    #             - 'OpenProcessToken'
+    #             - 'DuplicateTokenEx'
+    #             - 'CloseHandle'
+    #     selection_process_write_read:
+    #         ScriptBlockText|contains|all:
+    #             - 'WriteProcessMemory'
+    #             - 'VirtualAlloc'
+    #             - 'ReadProcessMemory'
+    #             - 'VirtualFree'
+    #     selection_local_shellcode_injection:
+    #         ScriptBlockText|contains|all:
+    #             - 'VirtualAlloc'
+    #             - 'GetDelegateForFunctionPointer'
+    #             - 'Marshal.Copy'
+    #     condition: 1 of selection_*
     # 
   condition: selection
 level: medium

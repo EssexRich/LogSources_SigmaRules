@@ -1,11 +1,11 @@
-title: Disabled MFA to Bypass Authentication Mechanisms
-id: 27ce4167-27ce-47ce-a7ce-27ce41670000
+title: CA Policy Removed by Non Approved Actor
+id: 3f955c62-3f95-4f95-af95-3f955c620000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1556
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_mfa_disabled.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_aad_secops_ca_policy_removedby_bad_actor.yml
 author: sigma (via IncidentBuddy)
-date: 2026-06-28
+date: 2026-07-05
 tags:
   - attack.t1556
 logsource:
@@ -15,9 +15,7 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         eventSource: AzureActiveDirectory
-    #         eventName: 'Disable Strong Authentication.'
-    #         status: success
+    #         properties.message: Delete conditional access policy
     #     condition: selection
     # 
   condition: selection

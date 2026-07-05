@@ -1,0 +1,35 @@
+title: Web Server Cloud Metadata SSRF Request
+id: 58f8ed01-58f8-48f8-a8f8-58f8ed010000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_web_server_cloud_imds_ssrf_request.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-05
+tags:
+  - attack.t1552.005
+logsource:
+  product: web
+  service: proxy
+detection:
+  selection:
+    # Original elastic detection logic
+    # web where (
+    #   url.original : (
+    #     "*169.254.169.254*", "*169%2e254%2e169%2e254*", "*0xa9fea9fe*", "*0xa9.0xfe.0xa9.0xfe*", 
+    #     "*2852039166*", "*0251.0376.0251.0376*", "*::ffff:169.254.169.254*", "*::ffff:a9fe:a9fe*", "*fd00:ec2::254*",
+    #     "*100.100.100.200*", "*169.254.170.2*", "*metadata.google.internal*", "*metadata.goog*", "*computeMetadata/v1*",
+    #     "*meta-data/iam/security-credentials*", "*meta-data%2Fiam%2Fsecurity-credentials*",
+    #     "*latest/meta-data*", "*latest/api/token*"
+    #   )
+    #   or
+    #   url.query : (
+    #     "*169.254.169.254*", "*169%2e254%2e169%2e254*", "*0xa9fea9fe*", "*0xa9.0xfe.0xa9.0xfe*", 
+    #     "*2852039166*", "*0251.0376.0251.0376*", "*::ffff:169.254.169.254*", "*::ffff:a9fe:a9fe*", "*fd00:ec2::254*",
+    #     "*100.100.100.200*", "*169.254.170.2*", "*metadata.google.internal*", "*metadata.goog*", "*computeMetadata/v1*",
+    #     "*meta-data/iam/security-credentials*", "*meta-data%2Fiam%2Fsecurity-credentials*",
+    #     "*latest/meta-data*", "*latest/api/token*"
+    #   )
+    # )
+  condition: selection
+level: medium

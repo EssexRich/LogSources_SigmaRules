@@ -1,11 +1,11 @@
-title: Azure Application Deleted
-id: 578bdbfb-578b-478b-a78b-578bdbfb0000
+title: Azure Container Registry Created or Deleted
+id: 2875edb6-2875-4875-a875-2875edb60000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1489
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_application_deleted.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_container_registry_created_or_deleted.yml
 author: sigma (via IncidentBuddy)
-date: 2026-06-28
+date: 2026-07-05
 tags:
   - attack.t1489
 logsource:
@@ -15,9 +15,9 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         properties.message:
-    #             - Delete application
-    #             - Hard Delete application
+    #         operationName:
+    #             - MICROSOFT.CONTAINERREGISTRY/REGISTRIES/WRITE
+    #             - MICROSOFT.CONTAINERREGISTRY/REGISTRIES/DELETE
     #     condition: selection
     # 
   condition: selection

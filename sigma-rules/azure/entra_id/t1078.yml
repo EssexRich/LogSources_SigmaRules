@@ -1,11 +1,11 @@
-title: User Added to an Administrator
-id: 39d33f79-39d3-49d3-a9d3-39d33f790000
+title: Account Created And Deleted Within A Close Time Frame
+id: 50d995fe-50d9-40d9-a0d9-50d995fe0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1078
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/activity_logs/azure_ad_user_added_to_admin_role.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_ad_account_created_deleted.yml
 author: sigma (via IncidentBuddy)
-date: 2026-06-28
+date: 2026-07-05
 tags:
   - attack.t1078
 logsource:
@@ -15,11 +15,10 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         Operation: 'Add member to role.'
-    #         Workload: 'AzureActiveDirectory'
-    #         ModifiedProperties{}.NewValue|endswith:
-    #             - 'Admins'
-    #             - 'Administrator'
+    #         properties.message:
+    #             - Add user
+    #             - Delete user
+    #         Status: Success
     #     condition: selection
     # 
   condition: selection

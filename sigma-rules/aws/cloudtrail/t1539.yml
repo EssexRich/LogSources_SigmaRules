@@ -1,0 +1,34 @@
+title: AWS IAM User Console Login from Multiple Geolocations
+id: 60b45845-60b4-40b4-a0b4-60b458450000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1539
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/initial_access_console_login_iam_user_multiple_geolocations.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-05
+tags:
+  - attack.t1539
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-aws.cloudtrail-*
+    # | WHERE event.provider == "signin.amazonaws.com"
+    #   AND event.action == "ConsoleLogin"
+    #   AND event.outcome == "success"
+    #   AND aws.cloudtrail.user_identity.type == "IAMUser"
+    #   AND source.geo.country_iso_code IS NOT NULL
+    # | STATS
+    #     Esql.source_geo_country_iso_code_count_distinct = COUNT_DISTINCT(source.geo.country_iso_code),
+    #     Esql.source_as_organization_name_count_distinct = COUNT_DISTINCT(source.as.organization.name),
+    #     Esql.source_ip_values = VALUES(source.ip),
+    #     Esql.source_geo_country_iso_code_values = VALUES(source.geo.country_iso_code),
+    #     Esql.timestamp_min = MIN(@timestamp),
+    #     Esql.timestamp_max = MAX(@timestamp)
+    #   BY aws.cloudtrail.user_identity.arn, cloud.account.id
+    # | WHERE Esql.source_geo_country_iso_code_count_distinct >= 2
+    # | KEEP aws.cloudtrail.user_identity.arn, cloud.account.id, Esql.source_geo_country_iso_code_count_distinct, Esql.source_as_organization_name_count_distinct, Esql.source_ip_values, Esql.source_geo_country_iso_code_values, Esql.timestamp_min, Esql.timestamp_max
+  condition: selection
+level: medium

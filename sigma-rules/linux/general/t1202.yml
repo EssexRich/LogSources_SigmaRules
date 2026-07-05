@@ -1,11 +1,11 @@
-title: System Binary Symlink to Suspicious Location
-id: 6890bf62-6890-4890-a890-6890bf620000
+title: Deprecated - Linux Restricted Shell Breakout via Linux Binary(s)
+id: 17d0a3c7-17d0-47d0-a7d0-17d0a3c70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1202
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_symlink_binary_to_writable_dir.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/execution_shell_evasion_linux_binary.toml
 author: elastic (via IncidentBuddy)
-date: 2026-06-28
+date: 2026-07-05
 tags:
   - attack.t1202
 logsource:
@@ -14,21 +14,46 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # host.os.type:linux and event.category:process and event.type:start and event.action:exec and
-    # process.parent.executable:(* and not (/bin/make or /sbin/weak-modules or /usr/bin/make or /usr/sbin/weak-modules)) and
-    # (process.name:ln or process.name:busybox and process.args:ln or process.name:cp and process.args:--symbolic-link) and
-    # process.args:(
-    #   (
-    #     /bin/* or /lib/* or /lib64/* or /sbin/* or /usr/bin/* or /usr/lib/* or /usr/lib64/* or /usr/local/bin/* or
-    #     /usr/local/lib/* or /usr/local/lib64/* or /usr/local/sbin/* or /usr/sbin/*
-    #   ) and (
-    #     /*/.* or /dev/shm/* or /home/* or /root/* or /tmp/* or /var/tmp/*
-    #   ) and
-    #     not (
-    #       /usr/bin/coreutils or /tmp/mkinitcpio* or /var/tmp/dracut* or /var/tmp/mkinitramfs* or /var/tmp/pamac-build* or
-    #       /var/tmp/portage/* or usr/lib/python3/dist-packages/*
+    # process where host.os.type == "linux" and event.type == "start" and process.executable != null and
+    # (
+    #   /* launching shell from capsh */
+    #   (process.name == "capsh" and process.args == "--" and not process.parent.executable == "/usr/bin/log4j-cve-2021-44228-hotpatch") or
+    # 
+    #   /* launching shells from unusual parents or parent+arg combos */
+    #   (process.name in ("bash", "dash", "ash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and (
+    #     (process.parent.name : "*awk" and process.parent.args : "BEGIN {system(*)}") or
+    #     (process.parent.name == "git" and process.parent.args : ("!*sh", "exec *sh") and not process.name == "ssh" ) or
+    #     (process.parent.name : ("byebug", "ftp", "strace", "zip", "tar") and
+    #     (
+    #       process.parent.args : "BEGIN {system(*)}" or
+    #       (
+    #         (process.parent.args : "exec=*sh" or (process.parent.args : "-I" and process.parent.args : "*sh")) or
+    #         (process.args : "exec=*sh" or (process.args : "-I" and process.args : "*sh"))
+    #         )
+    #       )
+    #     ) or
+    # 
+    #     /* shells specified in parent args */
+    #     /* nice rule is broken in 8.2 */
+    #     (process.parent.args : "*sh" and
+    #       (
+    #         (process.parent.name == "nice") or
+    #         (process.parent.name == "cpulimit" and process.parent.args == "-f") or
+    #         (process.parent.name == "find" and process.parent.args == "." and process.parent.args == "-exec" and
+    #          process.parent.args == ";" and process.parent.args : "/bin/*sh") or
+    #         (process.parent.name == "flock" and process.parent.args == "-u" and process.parent.args == "/")
+    #       )
     #     )
-    # ) and not
-    # process.parent.args:(/usr/bin/qemu-aarch64-static or /usr/sbin/weak-modules or /usr/share/initramfs-tools/hooks/ntfs_3g or /var/tmp/rpm-tmp*)
+    #   )) or
+    # 
+    #   /* shells specified in args */
+    #   (process.args : "*sh" and (
+    #     (process.parent.name == "crash" and process.parent.args == "-h") or
+    #     (process.name == "sensible-pager" and process.parent.name in ("apt", "apt-get") and process.parent.args == "changelog")
+    #     /* scope to include more sensible-pager invoked shells with different parent process to reduce noise and remove false positives */
+    # 
+    #   )) or
+    #   (process.name == "busybox" and event.action 
+    # ... [truncated]
   condition: selection
 level: medium

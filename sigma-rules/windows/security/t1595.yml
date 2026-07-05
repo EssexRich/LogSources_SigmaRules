@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1595
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/attacker_tools_on_endpoint.yml
 author: splunk (via IncidentBuddy)
-date: 2026-06-28
+date: 2026-07-05
 tags:
   - attack.t1595
 logsource:
@@ -38,9 +38,9 @@ detection:
     #        Processes.process_name Processes.process_path Processes.user
     #        Processes.user_id Processes.vendor_product
     # 
+    #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `drop_dm_object_name(Processes)`
     #     | lookup attacker_tools attacker_tool_names AS process_name OUTPUT description
     #     | search description !=false
     #     | `attacker_tools_on_endpoint_filter`
