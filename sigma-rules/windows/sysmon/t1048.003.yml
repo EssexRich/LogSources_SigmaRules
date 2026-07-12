@@ -1,0 +1,39 @@
+title: Potential DNS Exfiltration via Excessive Chunked Queries
+id: 606fc0a4-606f-406f-a06f-606fc0a40000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1048.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/exfiltration_excessive_dns_queries_by_process.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-12
+tags:
+  - attack.t1048.003
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-crowdstrike.fdr*, logs-endpoint.events.network-*, logs-windows.sysmon_operational-*
+    # | WHERE host.os.type == "windows"
+    #     AND event.category == "network"
+    #     AND event.action IN ("lookup_requested", "DNSEvent (DNS query)", "DnsRequest")
+    #     AND process.name != "svchost.exe"
+    #     AND dns.question.name RLIKE """[0-9]{1,5}-[A-Za-z0-9+/=]{15,63}\..+"""
+    # | GROK dns.question.name "%{INT:chunk_index}-%{DATA:chunk_payload}\\.%{GREEDYDATA:Esql.base_domain}"
+    # | WHERE chunk_index IS NOT NULL
+    # | EVAL payload_len = LENGTH(chunk_payload)
+    # | STATS
+    #     Esql.occurrences = COUNT(*),
+    #     Esql.unique_chunks = COUNT_DISTINCT(chunk_index),
+    #     Esql.max_index = MAX(TO_INTEGER(chunk_index)),
+    #     Esql.avg_payload_len = AVG(payload_len)
+    #   BY process.name, Esql.base_domain, user.id, user.name, host.id, host.name, data_stream.namespace, DATE_TRUNC(5 minutes, @timestamp)
+    # | WHERE Esql.occurrences >= 30
+    #     AND Esql.unique_chunks >= 30
+    #     AND Esql.avg_payload_len >= 20
+    # | SORT Esql.unique_chunks DESC
+    # | LIMIT 20
+    # | KEEP host.id, host.name, process.name, user.id, user.name, data_stream.namespace, Esql.*
+  condition: selection
+level: medium

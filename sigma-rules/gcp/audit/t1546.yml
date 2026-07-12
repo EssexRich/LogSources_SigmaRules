@@ -1,0 +1,31 @@
+title: GKE Admission Webhook Created or Modified
+id: 50e7a2c0-50e7-40e7-a0e7-50e7a2c00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/persistence_gcp_gke_admission_webhook_created_or_modified.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-12
+tags:
+  - attack.t1546
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:gcp.audit and event.outcome:success and event.action:(
+    #   "io.k8s.admissionregistration.v1.mutatingwebhookconfigurations.create" or
+    #   "io.k8s.admissionregistration.v1.mutatingwebhookconfigurations.update" or
+    #   "io.k8s.admissionregistration.v1.mutatingwebhookconfigurations.patch" or
+    #   "io.k8s.admissionregistration.v1.validatingwebhookconfigurations.create" or
+    #   "io.k8s.admissionregistration.v1.validatingwebhookconfigurations.update" or
+    #   "io.k8s.admissionregistration.v1.validatingwebhookconfigurations.patch"
+    # ) and not user.email:(
+    #   "system:kube-controller-manager" or "system:kube-scheduler" or system\:serviceaccount\:kube-system\:* or
+    #   system\:serviceaccount\:gke-managed-system\:* or system\:serviceaccount\:cert-manager\:* or
+    #   system\:serviceaccount\:gatekeeper-system\:* or system\:serviceaccount\:kyverno\:* or "system:addon-manager" or
+    #   *-operator or *-cainjector or *-webhook or *argocd* or "system:gke-common-webhooks"
+    # )
+  condition: selection
+level: medium

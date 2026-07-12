@@ -1,0 +1,19 @@
+title: GKE Suspicious Self-Subject Review via Service Account
+id: 7df32181-7df3-4df3-adf3-7df321810000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1069.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/discovery_gcp_gke_suspicious_self_subject_review.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-12
+tags:
+  - attack.t1069.003
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:gcp.audit and service.name:k8s.io and event.action:(io.k8s.authorization.v1.selfsubjectaccessreviews.create or io.k8s.authorization.v1.selfsubjectrulesreviews.create) and user.email:((system\:node\:* or system\:serviceaccount\:*) and not ("system:serviceaccount:default:argo-argo-workflows-server" or "system:serviceaccount:default:argo-argo-workflows-workflow-controller" or system\:serviceaccount\:*\:datadog-kube-state-metrics))
+  condition: selection
+level: medium

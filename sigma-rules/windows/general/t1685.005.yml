@@ -1,11 +1,11 @@
-title: Suspicious Eventlog Clear
-id: 0889fff8-0889-4889-a889-0889fff80000
+title: Failed Event Log Clear Via WMI NTEventLogFile ClearEventLog
+id: 78b79508-78b7-48b7-a8b7-78b795080000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1685.005
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_susp_clear_eventlog.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/wmi/win_wmi_activity_nteventlogfile_cleareventlog.yml
 author: sigma (via IncidentBuddy)
-date: 2026-07-05
+date: 2026-07-12
 tags:
   - attack.t1685.005
 logsource:
@@ -15,17 +15,10 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         - ScriptBlockText|contains:
-    #               - 'Clear-EventLog '
-    #               - 'Remove-EventLog '
-    #               - 'Limit-EventLog '
-    #               - 'Clear-WinEvent '
-    #         - ScriptBlockText|contains|all:
-    #               - 'Eventing.Reader.EventLogSession' # [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName)
-    #               - 'ClearLog'
-    #         - ScriptBlockText|contains|all:
-    #               - 'Diagnostics.EventLog'
-    #               - 'Clear'
+    #         EventID: 5858
+    #         Operation|contains|all:
+    #             - 'Win32_NTEventlogFile'
+    #             - 'cleareventlog'
     #     condition: selection
     # 
   condition: selection

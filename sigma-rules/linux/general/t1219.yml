@@ -1,0 +1,22 @@
+title: Shell Execution via Elastic Endpoint
+id: 59682bb2-5968-4968-a968-59682bb20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1219
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_elastic_endpoint_shell_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-12
+tags:
+  - attack.t1219
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "start") and
+    # process.parent.executable == "/opt/Elastic/Endpoint/elastic-endpoint" and
+    # process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and
+    # process.args in ("-c", "-cl", "-lc", "--command")
+  condition: selection
+level: medium

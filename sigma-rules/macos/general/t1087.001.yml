@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1087.001
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/macos/process_creation/proc_creation_macos_local_account.yml
 author: sigma (via IncidentBuddy)
-date: 2026-07-05
+date: 2026-07-12
 tags:
   - attack.t1087.001
 logsource:
@@ -14,28 +14,48 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_1:
+    #     selection_dscl:
     #         Image|endswith: '/dscl'
     #         CommandLine|contains|all:
     #             - 'list'
     #             - '/users'
-    #     selection_2:
+    #     selection_dscacheutil:
     #         Image|endswith: '/dscacheutil'
     #         CommandLine|contains|all:
     #             - '-q'
     #             - 'user'
-    #     selection_3:
-    #         CommandLine|contains: '''x:0:'''
-    #     selection_4:
-    #         Image|endswith: '/cat'
+    #     selection_root:
+    #         CommandLine|contains: '''*:0:'''
+    #     selection_passwd_sudo:
+    #         Image|endswith:
+    #             - '/cat'
+    #             - '/awk'
+    #             - '/grep'
     #         CommandLine|contains:
     #             - '/etc/passwd'
     #             - '/etc/sudoers'
-    #     selection_5:
+    #     selection_id:
     #         Image|endswith: '/id'
-    #     selection_6:
+    #     selection_lsof:
     #         Image|endswith: '/lsof'
     #         CommandLine|contains: '-u'
+    #     selection_logged_in_users:
+    #         Image|endswith:
+    #             - '/who'
+    #             - '/w'
+    #             - '/users'
+    #             - '/last'
+    #     selection_home_dir_listing:
+    #         Image|endswith: '/ls'
+    #         CommandLine|endswith:
+    #             - '/Users'
+    #             - "/Users'"
+    #             - '/Users"'
+    #     selection_loginwindow_prefs:
+    #         Image|endswith:
+    #             - '/defaults' # defaults read /Library/Preferences/com.apple.loginwindow
+    #             - '/plutil' # plutil -p /Library/Preferences/com.apple.loginwindow.plist
+    #         CommandLine|contains: 'com.apple.loginwindow'
     #     condition: 1 of selection*
     # 
   condition: selection

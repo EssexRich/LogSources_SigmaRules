@@ -1,0 +1,23 @@
+title: XDG-Open Command Execution
+id: 03b5de69-03b5-43b5-a3b5-03b5de690000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1204.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_suspicious_xdg_open_command_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-12
+tags:
+  - attack.t1204.004
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "executed", "process_started", "ProcessRollup2") and (
+    #   process.name == "xdg-open" or
+    #   process.args in ("/bin/xdg-open", "/usr/bin/xdg-open", "/usr/local/bin/xdg-open", "xdg-open")
+    # )
+  condition: selection
+level: medium

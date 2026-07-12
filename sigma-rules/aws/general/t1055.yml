@@ -1,0 +1,40 @@
+title: AWS Bedrock Claude excessive use of tokens
+id: 672a28e2-672a-472a-a72a-672a28e20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1055
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/application/aws_bedrock_claude_excessive_use_of_tokens.yml
+author: splunk (via IncidentBuddy)
+date: 2026-07-12
+tags:
+  - attack.t1055
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `aws_bedrock_claude`
+    #     | spath output="out_tokens" path="output.outputBodyJson.usage.output_tokens"
+    #     | eval user = replace('identity.arn', ".*/", "")
+    #     | stats count           AS invocations,
+    #             avg(out_tokens) AS avg_out,
+    #             max(out_tokens) AS max_out,
+    #             stdev(out_tokens) AS stdev_out
+    #       BY user, identity.arn
+    #     | eval stdev_out  = coalesce(stdev_out, 0)
+    #     | eval threshold  = avg_out + (2 * stdev_out)
+    #     | where max_out > threshold
+    #     | table
+    #         user,
+    #         identity.arn,
+    #         invocations,
+    #         avg_out,
+    #         max_out,
+    #         stdev_out,
+    #         threshold
+    #     | sort -max_out
+    #     | `aws_bedrock_claude_excessive_use_of_tokens_filter`
+  condition: selection
+level: medium

@@ -1,0 +1,26 @@
+title: DNS Request to Suspicious Top Level Domain
+id: 4410fad8-4410-4410-a410-4410fad80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_dns_query_to_sus_top_level_domain.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-12
+tags:
+  - attack.t1567.001
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # network where host.os.type == "linux" and dns.question.name != null and process.name != null and
+    # dns.question.name like~ (
+    #   "*.forum", "*.pro", "*.team", "*.lol", "*.kr", "*.ke", "*.nu", "*.space", "*.capital", "*.in", "*.cfd", "*.online",
+    #   "*.ru", "*.info", "*.top", "*.buzz", "*.xyz", "*.rest", "*.ml", "*.cf", "*.gq", "*.ga", "*.onion", "*.network",
+    #   "*.monster", "*.marketing", "*.cyou", "*.quest", "*.cc", "*.bar", "*.click", "*.cam", "*.surf", "*.tk", "*.shop",
+    #   "*.club", "*.icu", "*.pw", "*.ws", "*.fun", "*.life", "*.boats", "*.store", "*.hair", "*.mom",
+    #   "*.beauty", "*.bond", "*.biz", "*.live", "*.zone"
+    # )
+  condition: selection
+level: medium

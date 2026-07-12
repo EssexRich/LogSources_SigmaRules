@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1134.004
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_via_ppid_spoofing.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-05
+date: 2026-07-12
 tags:
   - attack.t1134.004
 logsource:
@@ -19,7 +19,7 @@ detection:
     # process where host.os.type == "windows" and event.action == "start" and
     # 
     #  /* process creation via seclogon */
-    #  process.parent.Ext.real.pid > 0 and
+    #  process.parent.Ext.real.pid > 0 and process.parent.executable != null and
     # 
     #  /* PrivEsc to SYSTEM */
     #  user.id : "S-1-5-18"  and
@@ -49,8 +49,7 @@ detection:
     #  not (process.executable : ("?:\\Windows\\System32\\MpSigStub.exe", "?:\\Windows\\SysWOW64\\MpSigStub.exe") and
     #       process.parent.executable : ("?:\\Windows\\System32\\wuauclt.exe",
     #                                    "?:\\Windows\\SysWOW64\\wuauclt.exe",
-    #                                    "?:\\Windows\\UUS\\Packages\\Preview\\*\\wuaucltcore.exe",
-    #                                  
+    #                                    "?:\\Windows\\UUS\\Packages\\Preview\\*\\wuaucltcore.e
     # ... [truncated]
   condition: selection
 level: medium

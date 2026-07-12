@@ -1,11 +1,11 @@
-title: Entra ID Conditional Access Policy (CAP) Modified
-id: 447ca5dc-447c-447c-a47c-447ca5dc0000
+title: Entra ID Conditional Access MFA Bypass with Unusual User, Client and Source ASN
+id: 06f347b7-06f3-46f3-a6f3-06f347b70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1556.009
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/persistence_entra_id_conditional_access_policy_modified.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/defense_evasion_entra_id_ca_mfa_bypass_first_party_graph.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-05
+date: 2026-07-12
 tags:
   - attack.t1556.009
 logsource:
@@ -14,8 +14,21 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset: "azure.auditlogs"
-    #     and event.action:"Update conditional access policy"
-    #     and event.outcome: "success"
+    # data_stream.dataset: "azure.signinlogs" and
+    # event.outcome: "success" and
+    # azure.signinlogs.properties.user_type: "Member" and
+    # azure.signinlogs.properties.authentication_requirement: "singleFactorAuthentication" and
+    # azure.signinlogs.properties.conditional_access_status: ("success" or "notApplied") and
+    # azure.signinlogs.properties.authentication_details.authentication_method: "Password" and
+    # azure.signinlogs.properties.applied_conditional_access_policies.enforced_grant_controls: "Mfa" and
+    # azure.signinlogs.properties.applied_conditional_access_policies.result: "notApplied" and
+    # (
+    #     azure.signinlogs.properties.resource_id: "00000003-0000-0000-c000-000000000000" or
+    #     azure.signinlogs.properties.resource_display_name: "Microsoft Graph"
+    # ) and
+    # azure.signinlogs.properties.app_owner_tenant_id: "f8cdef31-a31e-4b4a-93e4-5f571e91255a" and
+    # azure.signinlogs.properties.user_principal_name: * and
+    # azure.signinlogs.properties.app_id: * and
+    # source.as.number: *
   condition: selection
 level: medium

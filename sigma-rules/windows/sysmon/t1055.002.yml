@@ -1,11 +1,11 @@
-title: Windows Process Injection into Commonly Abused Processes
-id: 3180e2cc-3180-4180-a180-3180e2cc0000
+title: Windows Process Injection With Public Source Path
+id: 54c12962-54c1-44c1-a4c1-54c129620000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1055.002
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_process_injection_into_commonly_abused_processes.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/windows_process_injection_with_public_source_path.yml
 author: splunk (via IncidentBuddy)
-date: 2026-07-05
+date: 2026-07-12
 tags:
   - attack.t1055.002
 logsource:
@@ -14,54 +14,6 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # -
-    #     `sysmon`
-    #     EventCode=10
-    #     TargetImage IN (
-    #         "*\\backgroundtaskhost.exe",
-    #         "*\\calc.exe",
-    #         "*\\CalculatorApp.exe",
-    #         "*\\chrome.exe",
-    #         "*\\dllhost.exe",
-    #         "*\\edge.exe",
-    #         "*\\firefox.exe",
-    #         "*\\lsass.exe",
-    #         "*\\mspaint.exe",
-    #         "*\\notepad.exe",
-    #         "*\\regsvr32.exe",
-    #         "*\\searchprotocolhost.exe",
-    #         "*\\spoolsv.exe",
-    #         "*\\svchost.exe",
-    #         "*\\werfault.exe",
-    #         "*\\win32calc.exe",
-    #         "*\\wordpad.exe",
-    #         "*\\wuauclt.exe"
-    #     )
-    # 
-    #     NOT SourceImage IN (
-    #         "*:\\Windows\\Program Files (x86)\\*",
-    #         "*:\\Windows\\Program Files\\*",
-    #         "*:\\Windows\\System32\\*",
-    #         "*:\\Windows\\SysWOW64\\*"
-    #     )
-    # 
-    #     GrantedAccess IN (
-    #         "0x1f3fff",
-    #         "0x1fffff",
-    #         "0x40"
-    #     )
-    # 
-    #     | stats values(user) as user
-    #             min(_time) as firstTime
-    #             max(_time) as lastTime count
-    #     by dest user_id parent_process_name parent_process_guid
-    #        process_name process_guid process_id signature SourceImage
-    #        TargetImage GrantedAccess CallTrace
-    # 
-    #     | eval CallTrace=split(CallTrace, "|")
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | table firstTime lastTime dest user_id parent_process_name parent_process_guid process_name process_guid process_id signature SourceImage TargetImage GrantedAccess CallTrace
-    #     | `windows_process_injection_into_commonly_abused_processes_filter`
+    # `sysmon` EventCode=8 TargetImage = "*.exe" AND NOT(SourceImage IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by EventID Guid NewThreadId ProcessID SecurityID SourceImage SourceProcessGuid SourceProcessId StartAddress StartFunction StartModule TargetImage TargetProcessGuid TargetProcessId UserID dest parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_process_injection_with_public_source_path_filter`
   condition: selection
 level: medium

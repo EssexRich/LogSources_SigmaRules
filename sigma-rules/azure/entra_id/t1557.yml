@@ -1,0 +1,54 @@
+title: Microsoft Entra ID Impossible Travel Sign-in
+id: 64d7b0ee-64d7-44d7-a4d7-64d7b0ee0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1557
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/initial_access_entra_id_signin_impossible_travel.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-12
+tags:
+  - attack.t1557
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # // successful interactive sign-ins with country + region populated.
+    # from logs-azure.signinlogs-*
+    # | where data_stream.dataset == "azure.signinlogs"
+    #     and event.outcome == "success"
+    #     and azure.signinlogs.category == "SignInLogs"
+    #     and azure.signinlogs.properties.user_principal_name is not null
+    #     and source.geo.location is not null
+    #     and source.geo.region_name is not null
+    # 
+    # | eval Esql.source_geo_lat = st_y(source.geo.location),
+    #        Esql.source_geo_lon = st_x(source.geo.location)
+    # 
+    # // collapse each (user, country, region) into one centroid + the actual lat/lon
+    # // of the first and last event in that region. FIRST/LAST lock coords to the
+    # // timestamp ordering so we can later build the honest event pair.
+    # | stats
+    #     Esql.region_centroid_lat = avg(Esql.source_geo_lat),
+    #     Esql.region_centroid_lon = avg(Esql.source_geo_lon),
+    #     Esql.region_first_lat    = first(Esql.source_geo_lat, @timestamp),
+    #     Esql.region_first_lon    = first(Esql.source_geo_lon, @timestamp),
+    #     Esql.region_last_lat     = last(Esql.source_geo_lat,  @timestamp),
+    #     Esql.region_last_lon     = last(Esql.source_geo_lon,  @timestamp),
+    #     Esql.region_first_seen   = min(@timestamp),
+    #     Esql.region_last_seen    = max(@timestamp),
+    #     Esql.region_event_count  = count(*),
+    #     Esql.region_city_values   = values(source.geo.city_name),
+    #     Esql.region_asn_values    = values(source.`as`.organization.name),
+    #     Esql.region_ip_values     = values(source.ip),
+    #     Esql.region_ua_values     = values(user_agent.original),
+    #     Esql.region_app_id_values = values(azure.signinlogs.properties.app_id),
+    #     Esql.region_app_display_name_values = values(azure.signinlogs.properties.app_display_name),
+    #     Esql.region_client_app_used_values  = values(azure.signinlogs.properties.client_app_used),
+    #     Esql.region_resource_id_values      = values(azure.signinlogs.properties.resource_id),
+    #     Esql.region_resource_display_name_values = values(azure.signinlogs.properties.resource_display_name),
+    #     Esql.region_browser_valu
+    # ... [truncated]
+  condition: selection
+level: medium

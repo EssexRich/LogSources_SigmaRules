@@ -1,0 +1,19 @@
+title: GKE Secrets List from Unusual Source AS Organization
+id: 69b7b589-69b7-49b7-a9b7-69b7b5890000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1613
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/credential_access_gcp_gke_secrets_list_unusual_source_asn.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-12
+tags:
+  - attack.t1613
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:gcp.audit and service.name:"k8s.io" and event.action:io.k8s.core.v1.secrets.list and gcp.audit.resource_name:(core/v1/namespaces/default/secrets or core/v1/namespaces/kube-system/secrets or core/v1/secrets) and user.email:*@* and source.as.organization.name:(* and not ("Google LLC" or "Microsoft Corporation")) and source.as.number:*
+  condition: selection
+level: medium

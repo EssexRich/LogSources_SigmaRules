@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1037
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_genai_process_sensitive_file_access.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-05
+date: 2026-07-12
 tags:
   - attack.t1037
 logsource:
@@ -69,9 +69,10 @@ detection:
     #                   "Unattended.xml")
     #   ) and not (
     #     host.os.type == "windows" and
-    #     process.name : ("claude.exe", "Claude") and
-    #     file.path : ("?:\\Users\\*\\AppData\\Roaming\\Claude\\Local State",
-    #                  "?:\\Users\\*\\AppDat
+    #     file.name like~ "Local State" and
+    #     file.path : (
+    #       "?:\\Users\\*\\AppData\\Roaming\\*\\Local State",
+    #       "?:\\Users\\*\\AppData\\Local\\Packages\
     # ... [truncated]
   condition: selection
 level: medium

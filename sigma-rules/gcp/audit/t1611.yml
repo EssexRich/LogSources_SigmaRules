@@ -1,0 +1,23 @@
+title: GKE Container Created with Excessive Linux Capabilities
+id: 5cfcd4b5-5cfc-4cfc-acfc-5cfcd4b50000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1611
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/privilege_escalation_gcp_gke_excessive_linux_capabilities.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-12
+tags:
+  - attack.t1611
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:gcp.audit and event.action:"io.k8s.core.v1.pods.create" and event.outcome:success and
+    # gcp.audit.request.spec.containers.securityContext.capabilities.add:(
+    #   "BPF" or "DAC_READ_SEARCH" or "NET_ADMIN" or "SYS_ADMIN" or "SYS_BOOT" or "SYS_MODULE" or "SYS_PTRACE" or "SYS_RAWIO" or
+    #   "SYSLOG"
+    # ) and not gcp.audit.request.metadata.ownerReferences.kind:("ReplicaSet" or "DaemonSet" or "StatefulSet")
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: Linux Telegram API Request
-id: 105e3505-105e-405e-a05e-105e35050000
+title: DNS Request to Suspicious Top Level Domain
+id: 2e3be72a-2e3b-4e3b-ae3b-2e3be72a0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1102.002
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_telegram_api_request.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_dns_query_to_sus_top_level_domain.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-05
+date: 2026-07-12
 tags:
   - attack.t1102.002
 logsource:
@@ -14,8 +14,13 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and
-    # event.action in ("exec", "start", "exec_event", "ProcessRollup2", "executed", "exec_event", "process_started") and
-    # process.name in ("curl", "wget") and process.command_line like "*api.telegram.org*"
+    # network where host.os.type == "linux" and dns.question.name != null and process.name != null and
+    # dns.question.name like~ (
+    #   "*.forum", "*.pro", "*.team", "*.lol", "*.kr", "*.ke", "*.nu", "*.space", "*.capital", "*.in", "*.cfd", "*.online",
+    #   "*.ru", "*.info", "*.top", "*.buzz", "*.xyz", "*.rest", "*.ml", "*.cf", "*.gq", "*.ga", "*.onion", "*.network",
+    #   "*.monster", "*.marketing", "*.cyou", "*.quest", "*.cc", "*.bar", "*.click", "*.cam", "*.surf", "*.tk", "*.shop",
+    #   "*.club", "*.icu", "*.pw", "*.ws", "*.fun", "*.life", "*.boats", "*.store", "*.hair", "*.mom",
+    #   "*.beauty", "*.bond", "*.biz", "*.live", "*.zone"
+    # )
   condition: selection
 level: medium
