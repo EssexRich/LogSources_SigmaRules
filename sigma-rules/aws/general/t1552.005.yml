@@ -1,0 +1,29 @@
+title: AWS Bedrock AgentCore Runtime Prompt Targeting Credentials or Instance Metadata
+id: 04dfef9a-04df-44df-a4df-04dfef9a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws_bedrock_agentcore/credential_access_bedrock_agentcore_runtime_prompt_credential_harvesting.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-19
+tags:
+  - attack.t1552.005
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-aws_bedrock_agentcore.runtime_application_logs-* metadata _id, _version, _index
+    # | eval Esql_priv.aws_bedrock_agentcore_request_payload_prompt_lower = to_lower(aws.bedrock_agentcore.request_payload.prompt)
+    # | where aws.bedrock_agentcore.operation == "InvokeAgentRuntime" and (
+    #     Esql_priv.aws_bedrock_agentcore_request_payload_prompt_lower rlike """.*(169\.254\.169\.254|169\.254\.170\.2|/latest/meta-data|/latest/api/token|security-credentials).*"""
+    #     or Esql_priv.aws_bedrock_agentcore_request_payload_prompt_lower rlike """.*(aws_secret_access_key|aws_access_key_id|secret access key|access key id).*"""
+    #     or (
+    #         Esql_priv.aws_bedrock_agentcore_request_payload_prompt_lower rlike """.*(ignore (all )?(your )?(previous|prior|above) instructions|disregard (your |the )?(previous |above )?instructions|developer mode|do anything now|jailbreak).*"""
+    #         and Esql_priv.aws_bedrock_agentcore_request_payload_prompt_lower rlike """.*(system prompt|reveal|exfiltrate|credential|secret|password|api key|token|send .* to https?://).*"""
+    #     )
+    #   )
+    # | keep _id, _version, _index, @timestamp, aws.*, cloud.*, event.*
+  condition: selection
+level: medium

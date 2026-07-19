@@ -1,0 +1,30 @@
+title: Azure AKS Kubelet Proxy to Command Execution Endpoint
+id: 2214e742-2214-4214-a214-2214e7420000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1210
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/execution_azure_aks_kubelet_proxy_command_endpoint.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-19
+tags:
+  - attack.t1210
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:azure.platformlogs and
+    #   event.action:"Microsoft.ContainerService/managedClusters/diagnosticLogs/Read" and
+    #   azure.platformlogs.category:"kube-audit" and
+    #   azure.platformlogs.properties.log.objectRef.resource:"nodes" and
+    #   azure.platformlogs.properties.log.objectRef.subresource:"proxy" and
+    #   azure.platformlogs.properties.log.requestURI:(
+    #     */proxy/run/* or */proxy/exec* or */proxy/attach* or
+    #     */proxy/portforward* or */proxy/portForward* or */proxy/cri/*
+    #   ) and
+    #   not azure.platformlogs.properties.log.user.username:(
+    #     system\:node\:* or "aksService" or "hcpService" or "readinessChecker"
+    #   )
+  condition: selection
+level: medium

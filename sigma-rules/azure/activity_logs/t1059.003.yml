@@ -1,0 +1,35 @@
+title: Suspicious Child Process via Azure VM CustomScript Extension
+id: 632d00b0-632d-432d-a32d-632d00b00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.003
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_azure_customscript_extension_suspicious_descendant.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-19
+tags:
+  - attack.t1059.003
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id with maxspan=1m
+    #   /* Azure CustomScript extension handler */
+    #   [process where host.os.type == "windows" and event.type == "start" and
+    #      (process.name : "CustomScriptHandler.exe" or
+    #       process.executable : "?:\\Packages\\Plugins\\*CustomScript*\\*\\CustomScriptHandler.exe")] by process.entity_id
+    #   /* Abused LOLBin / suspicious PowerShell anywhere in its tree */
+    #   [process where host.os.type == "windows" and event.type == "start" and
+    #    (
+    #      process.name : ("mshta.exe", "regsvr32.exe", "rundll32.exe", "installutil.exe", "msbuild.exe", "regasm.exe",
+    #                      "regsvcs.exe", "wscript.exe", "cscript.exe", "bitsadmin.exe", "nltest.exe", "whoami.exe",
+    #                      "net.exe", "net1.exe", "wmic.exe", "systeminfo.exe", "quser.exe", "arp.exe", "tasklist.exe") or
+    #      (process.name : "certutil.exe" and process.args : ("*urlcache*", "*-decode*", "*-encode*")) or
+    #      (process.name : ("powershell.exe", "pwsh.exe") and
+    #       process.command_line : ("*-enc*", "*EncodedCommand*", "*FromBase64String*", "*DownloadString*", "*DownloadFile*",
+    #                               "*Invoke-Expression*", "*IEX *", "*IEX(*", "*|IEX*", "*-w hidden*", "*WindowStyle Hidden*",
+    #                               "*Net.WebClient*", "*Invoke-WebRequest*", "*Start-BitsTransfer*"))
+    #    )] by process.Ext.ancestry
+  condition: selection
+level: medium
