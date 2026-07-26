@@ -1,0 +1,61 @@
+title: LLM-Based Curl Activity Triage via Auditd
+id: 4026b270-4026-4026-a026-4026b2700000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_curl_activity_auditd_llm_triage.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-26
+tags:
+  - attack.t1005
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-auditd_manager.auditd-*, auditbeat-* METADATA _id, _version, _index
+    # | WHERE KQL("""event.action:executed and process.name:curl""")
+    #     AND process.args IS NOT NULL
+    # 
+    # // Normalize the arguments and preserve command-line order where possible.
+    # | EVAL Esql.args_str = CONCAT(" ", MV_CONCAT(process.args, " "))
+    # | EVAL Esql.full_command_line = COALESCE(process.title, Esql.args_str)
+    # | EVAL Esql.full_command_line = MV_CONCAT(Esql.full_command_line, " ")
+    # 
+    # // Parse scheme-based destinations, then fall back to the last command-line token for scheme-less curl invocations.
+    # | GROK Esql.args_str "%{URIPROTO:url_protocol}://%{URIHOST:dest_host}"
+    # | EVAL last_token = MV_LAST(SPLIT(Esql.full_command_line, " "))
+    # | GROK last_token "^(?:%{URIPROTO:url_protocol_bare}://)?%{URIHOST:dest_host_bare}(?:/%{GREEDYDATA})?$"
+    # | EVAL Esql.dest_host = COALESCE(dest_host, CASE(STARTS_WITH(last_token, "-") OR last_token == "-", NULL, dest_host_bare))
+    # | WHERE Esql.dest_host IS NOT NULL
+    # | EVAL Esql.dest_host = REPLACE(Esql.dest_host, ":[0-9]+$", "")
+    # 
+    # // Exclude common local, cloud platform, package, artifact, and infrastructure destinations.
+    # | WHERE NOT Esql.dest_host IN (
+    #     "localhost",
+    #     "127.0.0.1",
+    #     "::1",
+    #     "0.0.0.0",
+    #     "169.254.169.254",
+    #     "168.63.129.16",
+    #     "mcr.microsoft.com",
+    #     "acs-mirror.azureedge.net",
+    #     "packages.aks.azure.com",
+    #     "packages.microsoft.com",
+    #     "login.microsoftonline.com",
+    #     "management.azure.com",
+    #     "storage.googleapis.com",
+    #     "api.github.com",
+    #     "artifacts.elastic.co",
+    #     "download.elastic.co"
+    # )
+    # 
+    # // Redact common credentials and tokens before aggregation and COMPLETION.
+    # | EVAL Esql.command_clean = Esql.full_command_line
+    # | EVAL Esql.command_clean = REPLACE(Esql.command_clean, """(?i)(authorization: *[a-z]+ +)[^'" ]+""", "$1<REDACTED>")
+    # | EVAL Esql.command_clean = REPLACE(Esql.command_clean, "(?i)(authorization: *)[a-z0-9._~+/=-]{8,}", "$1<REDACTED>")
+    # | EVAL Esql.command_clean = REPLACE(Esql.command_clean, """(?i)(bearer +)[^'" ]+""", "$1
+    # ... [truncated]
+  condition: selection
+level: medium

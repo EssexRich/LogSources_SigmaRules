@@ -1,11 +1,11 @@
-title: GKE User Exec into Pod
-id: 01e154f5-01e1-41e1-a1e1-01e154f50000
+title: GKE Pod Exec Cloud Instance Metadata Access
+id: 317ea4f3-317e-417e-a17e-317ea4f30000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1609
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/execution_gcp_gke_user_exec_into_pod.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/credential_access_gcp_gke_pod_exec_cloud_instance_metadata.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-19
+date: 2026-07-26
 tags:
   - attack.t1609
 logsource:
@@ -14,7 +14,11 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset:gcp.audit and event.action:("io.k8s.core.v1.pods.exec.create" or "io.k8s.core.v1.pods.exec.get") and
-    # not user.email:system\:*
+    # data_stream.dataset:gcp.audit and service.name:"k8s.io" and
+    # event.outcome:success and event.type:start and
+    # event.action:("io.k8s.core.v1.pods.exec.create" or "io.k8s.core.v1.pods.exec.get") and
+    # gcp.audit.labels.command.gke.io/command:(
+    #   *169.254.169.254* or *metadata.google.internal* or *computeMetadata/v1*
+    # )
   condition: selection
 level: medium

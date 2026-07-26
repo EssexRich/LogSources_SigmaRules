@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1548.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/privilege_escalation_potential_suid_sgid_proxy_execution.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-19
+date: 2026-07-26
 tags:
   - attack.t1548.001
 logsource:
@@ -36,9 +36,12 @@ detection:
     #   "/usr/lib/polkit-1/polkit-agent-helper-1", "/usr/libexec/polkit-agent-helper-1",
     #   "/usr/lib/snapd/snap-confine"
     # ) and process.parent.args_count == 1 and
-    # not process.parent.executable in (
+    # not process.parent.executable like (
     #   "/usr/libexec/oracle-cloud-agent/plugins/unifiedmonitoring/unifiedmonitoring", "/usr/libexec/oracle-cloud-agent/agent",
-    #   "/usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1", "/usr/libexec/xfce-polkit", "/usr/bin/dolphin"
+    #   "/usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1", "/usr/libexec/xfce-polkit", "/usr/bin/dolphin",
+    #   "/usr/libexec/kf6/polkit-kde-authentication-agent-1", "/usr/bin/gnome-shell",
+    #   "/snap/oracle-cloud-agent/*/plugins/unifiedmonitoring/unifiedmonitoring", "/data/oem_agent/agent_*/sbin/nmo",
+    #   "/usr/bin/plasma-discover", "/usr/bin/cosmic-osd", "/usr/bin/update-notifier"
     # )
   condition: selection
 level: medium

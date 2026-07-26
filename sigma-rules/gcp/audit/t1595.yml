@@ -1,0 +1,44 @@
+title: GKE Anonymous Endpoint Permission Enumeration
+id: 30314666-3031-4031-a031-303146660000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1595
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/discovery_gcp_gke_anonymous_endpoint_permission_enumeration.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-26
+tags:
+  - attack.t1595
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-gcp.audit-* metadata _id, _index, _version
+    # | where data_stream.dataset == "gcp.audit"
+    #     and service.name == "k8s.io"
+    #     and (
+    #       client.user.email in ("system:anonymous", "system:unauthenticated")
+    #       or client.user.email is null
+    #     )
+    #     and not gcp.audit.resource_name in ("readyz", "livez", "healthz", "version")
+    # | stats
+    #     Esql.document_count = count(),
+    #     Esql.failure_count = sum(case(event.outcome == "failure", 1, 0)),
+    #     Esql.event_action_count_distinct = count_distinct(event.action),
+    #     Esql.resource_name_count_distinct = count_distinct(gcp.audit.resource_name),
+    #     Esql.event_action_values = values(event.action),
+    #     Esql.resource_name_values = values(gcp.audit.resource_name),
+    #     Esql.event_outcome_values = values(event.outcome),
+    #     Esql.client_user_email_values = values(client.user.email),
+    #     Esql.timestamp = VALUES(@timestamp),
+    #     Esql.data_stream_namespace = VALUES(data_stream.namespace),
+    #     Esql.user_agent_original_values = VALUES(user_agent.original)
+    #   by source.ip
+    # | where Esql.event_action_count_distinct > 5
+    #     and Esql.resource_name_count_distinct > 3
+    #     and Esql.document_count < 50
+    #     and Esql.failure_count >= 1
+    # | keep Esql.*, source.ip
+  condition: selection
+level: medium

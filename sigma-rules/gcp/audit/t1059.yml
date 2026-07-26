@@ -1,0 +1,34 @@
+title: GKE Pod Exec Potential Reverse Shell
+id: 180951dd-1809-4809-a809-180951dd0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/execution_gcp_gke_pod_exec_potential_reverse_shell.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-26
+tags:
+  - attack.t1059
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:gcp.audit and service.name:"k8s.io" and event.outcome:success and
+    # event.type:start and
+    # event.action:("io.k8s.core.v1.pods.exec.create" or "io.k8s.core.v1.pods.exec.get") and
+    # gcp.audit.labels.command.gke.io/command:(
+    #   (
+    #     */dev/tcp/* or */dev/udp/* or */inet/tcp/* or
+    #     *0\\\>&1* or
+    #     *IO*Socket*INET* or *TCPSocket.new* or *bash*-i* or *fsockopen* or
+    #     *import*pty* or *import*socket* or *mkfifo* or
+    #     *nc*-c* or *nc*-e* or *netcat*-e* or
+    #     *socat*exec* or *socat*pty* or *socket.socket* or
+    #     *zsh/net/tcp* or *zsh/net/udp*
+    #   ) and not (
+    #     *127.0.0.1* or *localhost*
+    #   )
+    # )
+  condition: selection
+level: medium

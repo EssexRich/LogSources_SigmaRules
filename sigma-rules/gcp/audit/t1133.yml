@@ -1,0 +1,27 @@
+title: GKE Exposed Service Created With Type NodePort
+id: 39807c30-3980-4980-a980-39807c300000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1133
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/persistence_gcp_gke_exposed_service_created_with_type_nodeport.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-26
+tags:
+  - attack.t1133
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:gcp.audit and service.name:"k8s.io" and event.outcome:success and
+    # event.action:(
+    #   "io.k8s.core.v1.services.create" or
+    #   "io.k8s.core.v1.services.update" or
+    #   "io.k8s.core.v1.services.patch"
+    # ) and gcp.audit.request.spec.type:"NodePort" and not (
+    #   client.user.email:"system:addon-manager" and
+    #   event.action:"io.k8s.core.v1.services.patch"
+    # )
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: GKE Container Created with Excessive Linux Capabilities
-id: 508c58f6-508c-408c-a08c-508c58f60000
+title: GKE Anonymous Pod Create/Update/Patch
+id: 1a11c89b-1a11-4a11-aa11-1a11c89b0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1610
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/privilege_escalation_gcp_gke_excessive_linux_capabilities.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/execution_gcp_gke_anonymous_pod_create_update_patch.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-19
+date: 2026-07-26
 tags:
   - attack.t1610
 logsource:
@@ -14,10 +14,6 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset:gcp.audit and event.action:"io.k8s.core.v1.pods.create" and event.outcome:success and
-    # gcp.audit.request.spec.containers.securityContext.capabilities.add:(
-    #   "BPF" or "DAC_READ_SEARCH" or "NET_ADMIN" or "SYS_ADMIN" or "SYS_BOOT" or "SYS_MODULE" or "SYS_PTRACE" or "SYS_RAWIO" or
-    #   "SYSLOG"
-    # ) and not gcp.audit.request.metadata.ownerReferences.kind:("ReplicaSet" or "DaemonSet" or "StatefulSet")
+    # data_stream.dataset:gcp.audit and service.name:k8s.io and client.user.email:("system:anonymous" or "system:unauthenticated" or not *) and event.action:(io.k8s.core.v1.pods.create or io.k8s.core.v1.pods.patch or io.k8s.core.v1.pods.update)
   condition: selection
 level: medium

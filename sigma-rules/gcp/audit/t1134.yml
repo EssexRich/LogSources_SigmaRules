@@ -1,0 +1,31 @@
+title: GKE API Request Impersonating Privileged Identity
+id: 5b44c63f-5b44-4b44-ab44-5b44c63f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1134
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/privilege_escalation_gcp_gke_api_request_impersonating_privileged_identity.toml
+author: elastic (via IncidentBuddy)
+date: 2026-07-26
+tags:
+  - attack.t1134
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:gcp.audit and service.name:"k8s.io" and event.outcome:success and
+    # gcp.audit.authentication_info.authority_selector:(
+    #   "admin" or "cluster-admin" or "kubernetes-admin" or "system:admin" or "system:anonymous" or
+    #   "system:apiserver" or "system:kube-controller-manager" or "system:kube-proxy" or
+    #   "system:kube-scheduler" or "system:volume-scheduler" or
+    #   system\:node\:* or system\:serviceaccount\:kube-system\:*
+    # ) and
+    # not client.user.email:(
+    #   "system:kube-controller-manager" or
+    #   "system:kube-scheduler" or
+    #   system\:node\:* or
+    #   system\:serviceaccount\:kube-system\:*
+    # )
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1068
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_binary_launched_process_with_null_argv.yml
 author: splunk (via IncidentBuddy)
-date: 2026-07-19
+date: 2026-07-26
 tags:
   - attack.t1068
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # sourcetype="linux_messages_syslog" "NULL argv" "empty string added"
+    # `linux_syslog` "NULL argv" "empty string added"
     #     | rex field=_raw "process '(?<launching_process>[^']+)' launched '(?<launched_process>[^']+)' with NULL argv"
     #     | where isnotnull(launching_process) AND isnotnull(launched_process)
     #     | stats
