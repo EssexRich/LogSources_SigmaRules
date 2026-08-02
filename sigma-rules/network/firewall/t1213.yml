@@ -1,0 +1,22 @@
+title: First Time Seen NFS AUTH_SYS Root UID Access
+id: 1fed05f1-1fed-4fed-afed-1fed05f10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1213
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/collection_nfs_auth_sys_root_uid_access.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-02
+tags:
+  - attack.t1213
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:network_traffic.nfs and
+    # network_traffic.nfs.rpc.cred.uid:0 and
+    # network_traffic.nfs.rpc.auth_flavor:unix and
+    # source.ip:* and destination.ip:*
+  condition: selection
+level: medium

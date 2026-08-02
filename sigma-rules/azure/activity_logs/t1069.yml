@@ -1,0 +1,26 @@
+title: Azure AKS Suspicious Self-Subject Review by Service Account or Node Identity
+id: 29c4e0b9-29c4-49c4-a9c4-29c4e0b90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1069
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/discovery_azure_aks_suspicious_self_subject_review.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-02
+tags:
+  - attack.t1069
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:azure.platformlogs and
+    #   event.action:Microsoft.ContainerService/managedClusters/diagnosticLogs/Read and
+    #   azure.platformlogs.category:(kube-audit or kube-audit-admin) and
+    #   azure.platformlogs.properties.log.stage:ResponseComplete and
+    #   azure.platformlogs.properties.log.verb:create and
+    #   azure.platformlogs.properties.log.objectRef.resource:(selfsubjectaccessreviews or selfsubjectrulesreviews) and
+    #   azure.platformlogs.properties.log.user.username:((system\:node\:* or system\:serviceaccount\:*) and
+    #   not system\:serviceaccount\:azure-arc\:*)
+  condition: selection
+level: medium

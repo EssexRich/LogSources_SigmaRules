@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1114.001
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/application/email_files_written_outside_of_the_outlook_directory.yml
 author: splunk (via IncidentBuddy)
-date: 2026-07-26
+date: 2026-08-02
 tags:
   - attack.t1114.001
 logsource:
@@ -15,18 +15,32 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     | tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-    #       WHERE (
-    #             Filesystem.file_name=*.pst
-    #             OR
-    #             Filesystem.file_name=*.ost
-    #         )
-    #         Filesystem.file_path != "C:\Users\*\My Documents\Outlook Files\*"  Filesystem.file_path!="C:\Users\*\AppData\Local\Microsoft\Outlook*"
-    #       BY Filesystem.action Filesystem.dest Filesystem.file_access_time
-    #          Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
-    #          Filesystem.file_name Filesystem.file_path Filesystem.file_acl
-    #          Filesystem.file_size Filesystem.process_guid Filesystem.process_id
-    #          Filesystem.user Filesystem.vendor_product
+    #     | tstats `security_content_summariesonly`
+    #       count values(Filesystem.file_path) as file_path
+    #             min(_time) as firstTime
+    #             max(_time) as lastTime
+    # 
+    #     FROM datamodel=Endpoint.Filesystem WHERE
+    # 
+    #     Filesystem.action IN (
+    #         "created",
+    #         "modified"
+    #     )
+    #     Filesystem.file_name IN (
+    #         "*.pst",
+    #         "*.ost"
+    #     )
+    #     NOT Filesystem.file_path IN (
+    #         "C:\\Users\\*\\My Documents\\Outlook Files\\*",
+    #         "C:\\Users\\*\\AppData\\Local\\Microsoft\\Outlook*"
+    #     )
+    # 
+    #     BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+    #        Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+    #        Filesystem.file_name Filesystem.file_path Filesystem.file_acl
+    #        Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+    #        Filesystem.user Filesystem.vendor_product
+    # 
     #     | `drop_dm_object_name("Filesystem")`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`

@@ -1,11 +1,11 @@
-title: AWS SecurityHub Findings Evasion
-id: 0cd6cdb2-0cd6-4cd6-acd6-0cd6cdb20000
+title: AWS Bedrock Guardrail Deleted
+id: 60a2cfd8-60a2-40a2-a0a2-60a2cfd80000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1685
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_securityhub_finding_evasion.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_bedrock_guardrail_deleted.yml
 author: sigma (via IncidentBuddy)
-date: 2026-07-26
+date: 2026-08-02
 tags:
   - attack.t1685
 logsource:
@@ -15,12 +15,8 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         eventSource: securityhub.amazonaws.com
-    #         eventName:
-    #             - 'BatchUpdateFindings'
-    #             - 'DeleteInsight'
-    #             - 'UpdateFindings'
-    #             - 'UpdateInsight'
+    #         eventName: 'DeleteGuardrail'
+    #         eventSource: 'bedrock.amazonaws.com'
     #     condition: selection
     # 
   condition: selection

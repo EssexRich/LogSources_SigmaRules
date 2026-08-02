@@ -1,0 +1,29 @@
+title: Azure AKS Ephemeral Container Added to Pod
+id: 279d5f4d-279d-479d-a79d-279d5f4d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1610
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/execution_azure_aks_ephemeral_container_added.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-02
+tags:
+  - attack.t1610
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:azure.platformlogs and
+    #   event.action:"Microsoft.ContainerService/managedClusters/diagnosticLogs/Read" and
+    #   azure.platformlogs.category:("kube-audit" or "kube-audit-admin") and
+    #   azure.platformlogs.properties.log.stage:"ResponseComplete" and
+    #   azure.platformlogs.properties.log.objectRef.resource:"pods" and
+    #   azure.platformlogs.properties.log.objectRef.subresource:"ephemeralcontainers" and
+    #   azure.platformlogs.properties.log.verb:("update" or "patch") and
+    #   not azure.platformlogs.properties.log.user.username:(
+    #     system\:node\:* or "aksService" or "hcpService" or "readinessChecker" or
+    #     system\:serviceaccount\:kube-system\:*
+    #   )
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1218.007
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_msi_rollback_script_deleted_by_non_msiexec_process.yml
 author: splunk (via IncidentBuddy)
-date: 2026-07-26
+date: 2026-08-02
 tags:
   - attack.t1218.007
 logsource:
@@ -16,7 +16,7 @@ detection:
     # Original splunk detection logic
     # -
     #     `sysmon`
-    #     EventID=23
+    #     EventCode IN (23, 26)
     #     TargetFilename="*:\\Config.Msi\\*"
     #     TargetFilename="*.rbs"
     #     NOT ProcessName="msiexec.exe"

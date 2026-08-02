@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1072
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_tool_installation.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-26
+date: 2026-08-02
 tags:
   - attack.t1072
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.interactive == true and (
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and (
     #   (process.name in ("apt", "apt-get", "dnf", "microdnf", "yum", "zypper", "tdnf") and process.args == "install") or
     #   (process.name == "apk" and process.args == "add") or
     #   (process.name == "pacman" and process.args like "-*S*") or

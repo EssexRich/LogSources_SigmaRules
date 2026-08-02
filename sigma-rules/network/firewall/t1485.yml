@@ -1,11 +1,11 @@
-title: Detect DNS Query to Decommissioned S3 Bucket
-id: 2c0e35a5-2c0e-4c0e-ac0e-2c0e35a50000
+title: Successful AMQP Multi-Queue Purge Burst
+id: 5ea275d0-5ea2-4ea2-aea2-5ea275d00000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1485
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/network/detect_dns_query_to_decommissioned_s3_bucket.yml
-author: splunk (via IncidentBuddy)
-date: 2026-07-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/impact_amqp_multi_queue_purge_burst.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-02
 tags:
   - attack.t1485
 logsource:
@@ -13,19 +13,25 @@ logsource:
   service: firewall
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Resolution
-    #       WHERE DNS.message_type=QUERY
-    #       BY DNS.answer DNS.answer_count DNS.query
-    #          DNS.query_count DNS.reply_code_id DNS.src
-    #          DNS.vendor_product
-    #     | `drop_dm_object_name("DNS")`
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | eval bucket_domain = lower(query)
-    #     | lookup decommissioned_buckets bucketName as bucket_domain OUTPUT bucketName as match
-    #     | where isnotnull(match)
-    #     | `detect_dns_query_to_decommissioned_s3_bucket_filter`
+    # Original elastic detection logic
+    # FROM logs-network_traffic.amqp-*
+    # | WHERE
+    #     data_stream.dataset == "network_traffic.amqp" AND
+    #     network_traffic.amqp.method == "queue.purge" AND
+    #     network_traffic.amqp.`no-wait` == false AND
+    #     network_traffic.status == "OK" AND
+    #     client.ip IS NOT NULL AND
+    #     server.ip IS NOT NULL AND
+    #     network_traffic.amqp.queue IS NOT NULL
+    # | STATS
+    #     Esql.purge_count = COUNT(*),
+    #     Esql.queue_count = COUNT_DISTINCT(network_traffic.amqp.queue),
+    #     Esql.queues = VALUES(network_traffic.amqp.queue),
+    #     Esql.first_purge = MIN(@timestamp),
+    #     Esql.last_purge = MAX(@timestamp)
+    #   BY client.ip, server.ip
+    # | WHERE Esql.purge_count >= 3 AND Esql.queue_count >= 3
+    # | SORT Esql.queue_count DESC, Esql.purge_count DESC
+    # | KEEP client.ip, server.ip, Esql.purge_count, Esql.queue_count, Esql.queues, Esql.first_purge, Esql.last_purge
   condition: selection
 level: medium

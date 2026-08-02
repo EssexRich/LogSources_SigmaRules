@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1049
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/discovery_dns_enumeration.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-26
+date: 2026-08-02
 tags:
   - attack.t1049
 logsource:
@@ -15,7 +15,7 @@ detection:
   selection:
     # Original elastic detection logic
     # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
-    # process.interactive == true and container.id like "*" and 
+    # container.id like "*" and 
     # (
     #   /* getent hosts is often used without a target arg */
     #   (process.name == "getent" and process.args == "hosts") or

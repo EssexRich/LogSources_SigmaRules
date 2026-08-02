@@ -1,11 +1,11 @@
-title: Regsvr32 with Known Silent Switch Cmdline
-id: 33913d82-3391-4391-a391-33913d820000
+title: Detect Regsvr32 Application Control Bypass
+id: 5f155dc4-5f15-4f15-af15-5f155dc40000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1218.010
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/regsvr32_with_known_silent_switch_cmdline.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_regsvr32_application_control_bypass.yml
 author: splunk (via IncidentBuddy)
-date: 2026-07-26
+date: 2026-08-02
 tags:
   - attack.t1218.010
 logsource:
@@ -16,7 +16,7 @@ detection:
     # Original splunk detection logic
     # -
     #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE `process_regsvr32`
+    #       WHERE `process_regsvr32` Processes.process=*scrobj*
     #       BY Processes.action Processes.dest Processes.original_file_name
     #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
     #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -27,8 +27,6 @@ detection:
     #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | where match(process,"(?i)[\-
-    #     | \/][Ss]{1}")
-    #     | `regsvr32_with_known_silent_switch_cmdline_filter`
+    #     | `detect_regsvr32_application_control_bypass_filter`
   condition: selection
 level: medium

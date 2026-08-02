@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1059.011
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/execution_suspicious_interactive_interpreter_command_execution.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-26
+date: 2026-08-02
 tags:
   - attack.t1059.011
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and process.interactive == true and
+    # process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
     # process.parent.executable != null and (
     #   (
     #     process.executable like ("/bin/perl*", "/usr/bin/perl*", "/usr/local/bin/perl*") and
@@ -41,7 +41,8 @@ detection:
     #     "*os.execute(*", "*io.popen(*", "*load(*", "*loadstring(*", "*require(*", "*dofile(*",
     #     "*package.loadlib(*", "*base64.decode(*", "*base64.encode(*", "*zlib.inflate(*",
     #     "*zlib.deflate(*", "*zlib.decompress(*", "*zlib.compress(*", "*socket.bind(*",
-    #     "*socket.connect(*", "*socket.receive(*", "*socket.send(*", "*socket.tc
+    #     "*socket.connect(*", "*socket.receive(*", "*socket.send(*", "*socket.tcp(*",
+    #     "*socket.udp(*", "*soc
     # ... [truncated]
   condition: selection
 level: medium

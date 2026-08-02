@@ -1,0 +1,20 @@
+title: MySQL User-Defined Function Injection
+id: 0da60c4b-0da6-4da6-ada6-0da60c4b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1505.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/persistence_mysql_udf_injection.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-02
+tags:
+  - attack.t1505.001
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # any where data_stream.dataset == "network_traffic.mysql" and
+    #     network_traffic.mysql.query like~ "*create*function*soname*"
+  condition: selection
+level: medium

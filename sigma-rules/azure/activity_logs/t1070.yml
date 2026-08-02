@@ -1,0 +1,28 @@
+title: Azure AKS Kubernetes Events Deleted
+id: 68a7bf43-68a7-48a7-a8a7-68a7bf430000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/defense_evasion_azure_aks_events_deleted.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-02
+tags:
+  - attack.t1070
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:azure.platformlogs and
+    #   event.action:"Microsoft.ContainerService/managedClusters/diagnosticLogs/Read" and
+    #   azure.platformlogs.category:("kube-audit" or "kube-audit-admin") and
+    #   azure.platformlogs.properties.log.stage:"ResponseComplete" and
+    #   azure.platformlogs.properties.log.objectRef.resource:"events" and
+    #   azure.platformlogs.properties.log.verb:("delete" or "deletecollection") and
+    #   not azure.platformlogs.properties.log.user.username:(
+    #     system\:node\:* or "aksService" or "hcpService" or "readinessChecker" or
+    #     system\:serviceaccount\:kube-system\:*
+    #   )
+  condition: selection
+level: medium

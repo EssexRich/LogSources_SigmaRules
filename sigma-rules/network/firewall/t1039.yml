@@ -1,11 +1,11 @@
-title: Windows Network Share Interaction Via Net
-id: 1cbf06e9-1cbf-4cbf-acbf-1cbf06e90000
+title: First Time Seen NFS AUTH_SYS Root UID Access
+id: 269b01f3-269b-469b-a69b-269b01f30000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1039
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_network_share_interaction_via_net.yml
-author: splunk (via IncidentBuddy)
-date: 2026-07-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/collection_nfs_auth_sys_root_uid_access.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-02
 tags:
   - attack.t1039
 logsource:
@@ -13,27 +13,10 @@ logsource:
   service: firewall
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE (
-    #             `process_net`
-    #             OR
-    #             (Processes.process_name="net.exe"
-    #             OR
-    #             Processes.original_file_name="net.exe")
-    #         )
-    #         AND Processes.process IN ("*use *", "*view*")
-    #       BY Processes.action Processes.dest Processes.original_file_name
-    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #          Processes.process Processes.process_exec Processes.process_guid
-    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
-    #          Processes.process_name Processes.process_path Processes.user
-    #          Processes.user_id Processes.vendor_product
-    #     | `drop_dm_object_name(Processes)`
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `windows_network_share_interaction_via_net_filter`
+    # Original elastic detection logic
+    # data_stream.dataset:network_traffic.nfs and
+    # network_traffic.nfs.rpc.cred.uid:0 and
+    # network_traffic.nfs.rpc.auth_flavor:unix and
+    # source.ip:* and destination.ip:*
   condition: selection
 level: medium

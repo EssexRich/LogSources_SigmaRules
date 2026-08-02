@@ -1,0 +1,26 @@
+title: First Time Seen Memcached Writer
+id: 5ac59bc0-5ac5-4ac5-aac5-5ac59bc00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1565
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/impact_first_time_seen_memcached_writer.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-02
+tags:
+  - attack.t1565
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:network_traffic.memcached and
+    # client.ip:* and server.ip:* and
+    # network_traffic.memcached.request.command:("set" or "add" or "replace" or "append" or "prepend" or "cas") and
+    # (
+    #   network_traffic.memcached.response.type:("Success" or "success") or
+    #   network_traffic.memcached.response.status_code:0 or
+    #   network_traffic.memcached.request.noreply:true
+    # )
+  condition: selection
+level: medium

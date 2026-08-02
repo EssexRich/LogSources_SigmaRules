@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1098.004
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/cloud_defend/persistence_ssh_authorized_keys_modification_inside_a_container.toml
 author: elastic (via IncidentBuddy)
-date: 2026-07-26
+date: 2026-08-02
 tags:
   - attack.t1098.004
 logsource:
@@ -16,6 +16,6 @@ detection:
     # Original elastic detection logic
     # file where host.os.type == "linux" and event.type in ("change", "creation") and
     # file.name in ("authorized_keys", "authorized_keys2") and
-    # process.interactive == true and container.id like "*"
+    # container.id like "*"
   condition: selection
 level: medium

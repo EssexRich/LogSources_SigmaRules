@@ -1,11 +1,11 @@
-title: Windows Azure PowerShell Module Installation Via PowerShell Script
-id: 19a5734d-19a5-49a5-a9a5-19a5734d0000
+title: Azure AKS Suspicious Self-Subject Review by Service Account or Node Identity
+id: 771b96e2-771b-471b-a71b-771b96e20000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1069.003
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_azure_powershell_module_installation_via_powershell_script.yml
-author: splunk (via IncidentBuddy)
-date: 2026-07-26
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/discovery_azure_aks_suspicious_self_subject_review.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-02
 tags:
   - attack.t1069.003
 logsource:
@@ -13,30 +13,14 @@ logsource:
   service: activity_logs
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     `powershell`
-    #     EventID="4104"
-    #     ScriptBlockText IN (
-    #         "*Install-Module -Name AADInternals*",
-    #         "*Install-Module -Name Az.Resources*",
-    #         "*Install-Module -Name AzureAd*",
-    #         "*Install-Module -Name MSOnline*",
-    #         "*Install-Module AADInternals*",
-    #         "*Install-Module Az.Resources*",
-    #         "*Install-Module AzureAd*",
-    #         "*Install-Module MSOnline*"
-    #     )
-    #     | fillnull
-    #     | stats count min(_time) as firstTime
-    #             max(_time) as lastTime
-    #       by Computer EventID ScriptBlockText signature signature_id
-    #          user_id vendor_product Guid Opcode
-    #          Name Path ProcessID ScriptBlockId
-    # 
-    #     | rename Computer as dest
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `windows_azure_powershell_module_installation_via_powershell_script_filter`
+    # Original elastic detection logic
+    # data_stream.dataset:azure.platformlogs and
+    #   event.action:Microsoft.ContainerService/managedClusters/diagnosticLogs/Read and
+    #   azure.platformlogs.category:(kube-audit or kube-audit-admin) and
+    #   azure.platformlogs.properties.log.stage:ResponseComplete and
+    #   azure.platformlogs.properties.log.verb:create and
+    #   azure.platformlogs.properties.log.objectRef.resource:(selfsubjectaccessreviews or selfsubjectrulesreviews) and
+    #   azure.platformlogs.properties.log.user.username:((system\:node\:* or system\:serviceaccount\:*) and
+    #   not system\:serviceaccount\:azure-arc\:*)
   condition: selection
 level: medium

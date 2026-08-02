@@ -1,0 +1,62 @@
+title: Multiple SonicWall Login Failures Followed by Successful Login
+id: 0afb04fa-0afb-4afb-aafb-0afb04fa0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/credential_access_sonicwall_login_failures_followed_by_success.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-02
+tags:
+  - attack.t1110.004
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-sonicwall_firewall.log-*
+    # | where
+    #     data_stream.dataset == "sonicwall_firewall.log" and
+    #     (
+    #       (
+    #         event.action == "login-failure" and
+    #         event.code in ("30", "32", "33", "200", "243", "329", "745", "749", "1655")
+    #       ) or (
+    #         event.action == "login-success" and
+    #         event.code in ("235", "236", "237", "238", "1080")
+    #       )
+    #     ) and
+    #     source.ip is not null and
+    #     user.name is not null and
+    #     (observer.serial_number is not null or observer.name is not null)
+    # | eval
+    #     Esql.appliance_id = coalesce(observer.serial_number, observer.name),
+    #     Esql.is_failure = case(event.action == "login-failure", 1, 0),
+    #     Esql.is_success = case(event.action == "login-success", 1, 0),
+    #     Esql.failed_user = case(event.action == "login-failure", user.name, null),
+    #     Esql.successful_user = case(event.action == "login-success", user.name, null),
+    #     Esql.failure_event_code = case(event.action == "login-failure", event.code, null),
+    #     Esql.success_event_code = case(event.action == "login-success", event.code, null),
+    #     Esql.failure_timestamp = case(event.action == "login-failure", @timestamp, null),
+    #     Esql.success_timestamp = case(event.action == "login-success", @timestamp, null)
+    # | stats
+    #     Esql.failed_logins = sum(Esql.is_failure),
+    #     Esql.successful_logins = sum(Esql.is_success),
+    #     Esql.failed_user_count = count_distinct(Esql.failed_user),
+    #     Esql.failed_user_names = values(Esql.failed_user),
+    #     Esql.successful_user_names = values(Esql.successful_user),
+    #     Esql.failure_event_codes = values(Esql.failure_event_code),
+    #     Esql.success_event_codes = values(Esql.success_event_code),
+    #     Esql.first_failure = min(Esql.failure_timestamp),
+    #     Esql.last_failure = max(Esql.failure_timestamp),
+    #     Esql.first_success = min(Esql.success_timestamp),
+    #     Esql.last_success = max(Esql.success_timestamp)
+    #   by Esql.appliance_id, source.ip
+    # | where
+    #     Esql.failed_logins >= 5 and
+    #     Esql.failed_user_count >= 3 and
+    #     Esql.successful_logins >= 1 and
+    # 
+    # ... [truncated]
+  condition: selection
+level: medium
