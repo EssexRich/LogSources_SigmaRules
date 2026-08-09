@@ -1,11 +1,11 @@
-title: Windows EFI Volume Mount Attempt Via Mountvol
-id: 1f67253c-1f67-4f67-af67-1f67253c0000
+title: Linux EFI Bootloader File Deletion
+id: 3694bc74-3694-4694-a694-3694bc740000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1542
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_efi_volume_mount_attempt_via_mountvol.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_efi_bootloader_file_deletion.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1542
 logsource:
@@ -19,25 +19,18 @@ detection:
     #       count min(_time) as firstTime
     #             max(_time) as lastTime
     # 
-    #     from datamodel=Endpoint.Processes where
+    #     from datamodel=Endpoint.Filesystem where
     # 
-    #     (
-    #         Processes.process_name="mountvol.exe"
-    #         OR
-    #         Processes.original_file_name="MOUNTVOL.EXE"
-    #     )
-    #     Processes.process IN ("*-S*", "* /S*")
+    #     Filesystem.action="deleted"
+    #     Filesystem.file_path="/boot/efi/EFI/BOOT/*"
+    #     Filesystem.file_name="*.efi*"
     # 
-    #     by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash
-    #        Processes.parent_process_name Processes.parent_process_exec Processes.action
-    #        Processes.dest Processes.process_current_directory Processes.process_path
-    #        Processes.process_integrity_level Processes.original_file_name Processes.parent_process
-    #        Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id
-    #        Processes.process_guid Processes.process_id Processes.user Processes.process_name
+    #     by Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.dest
+    #        Filesystem.action Filesystem.process_guid Filesystem.process_id
     # 
-    #     | `drop_dm_object_name(Processes)`
+    #     | `drop_dm_object_name(Filesystem)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `windows_efi_volume_mount_attempt_via_mountvol_filter`
+    #     | `linux_efi_bootloader_file_deletion_filter`
   condition: selection
 level: medium

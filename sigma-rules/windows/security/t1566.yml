@@ -1,11 +1,11 @@
-title: Process Creating LNK file in Suspicious Location
-id: 7a6dc051-7a6d-4a6d-aa6d-7a6dc0510000
+title: Linux Ghostscript Exploitation
+id: 5a7fa2b7-5a7f-4a7f-aa7f-5a7fa2b70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1566
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/process_creating_lnk_file_in_suspicious_location.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_ghostscript_exploitation.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1566
 logsource:
@@ -14,42 +14,32 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats `security_content_summariesonly`
+    # -
+    #     | tstats `security_content_summariesonly`
     #       count min(_time) as firstTime
     #             max(_time) as lastTime
     # 
-    #     FROM datamodel=Endpoint.Filesystem where
+    #     from datamodel=Endpoint.Processes where
     # 
-    #     Filesystem.action="created"
-    #     Filesystem.file_name="*.lnk"
-    #     Filesystem.file_path IN (
-    #       "*:\\AppData\\Local\\Temp\\*",
-    #       "*:\\Temp\\*",
-    #       "*:\\Users\\*",
-    #       "*:\\Windows\\Temp\\*"
+    #     Processes.parent_process_path IN (
+    #         "*/gs",
+    #         "*/ghostscript"
     #     )
-    #     NOT Filesystem.file_path IN (
-    #       "*\\AppData\\Local\\Microsoft\\Windows\\WinX\\*",
-    #       "*\\AppData\\Roaming\\Microsoft\\Excel\\*",
-    #       "*\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\*",
-    #       "*\\AppData\\Roaming\\Microsoft\\Office\\Recent\\*",
-    #       "*\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\*",
-    #       "*\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\*",
-    #       "*\\AppData\\Roaming\\Microsoft\\Word\\*",
-    #       "*\\Links\\*",
-    #       "*\\OneDrive *"
-    #     )
+    #     Processes.process="sh -c*"
     # 
-    #     by Filesystem.action Filesystem.dest Filesystem.file_access_time
-    #        Filesystem.file_create_time Filesystem.file_hash
-    #        Filesystem.file_modify_time Filesystem.file_name
-    #        Filesystem.file_path Filesystem.file_acl Filesystem.file_size
-    #        Filesystem.process_guid Filesystem.process_id
-    #        Filesystem.user Filesystem.vendor_product
+    #     by Processes.process Processes.vendor_product Processes.user_id
+    #        Processes.process_hash Processes.parent_process_name
+    #        Processes.parent_process_exec Processes.action Processes.dest
+    #        Processes.process_current_directory Processes.process_path
+    #        Processes.process_integrity_level Processes.original_file_name
+    #        Processes.parent_process Processes.parent_process_path
+    #        Processes.parent_process_guid Processes.parent_process_id
+    #        Processes.process_guid Processes.process_id Processes.user
+    #        Processes.process_name
     # 
-    #     | `drop_dm_object_name(Filesystem)`
+    #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `process_creating_lnk_file_in_suspicious_location_filter`
+    #     | `linux_ghostscript_exploitation_filter`
   condition: selection
 level: medium

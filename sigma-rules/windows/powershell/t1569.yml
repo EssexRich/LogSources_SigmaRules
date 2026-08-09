@@ -1,11 +1,11 @@
-title: System Shells via Services
-id: 2cd18922-2cd1-4cd1-acd1-2cd189220000
+title: Suspicious Service was Installed in the System
+id: 1a5d51ac-1a5d-4a5d-aa5d-1a5d51ac0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1569
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_system_shells_via_services.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_service_windows_service_winlog.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1569
 logsource:
@@ -14,11 +14,47 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "windows" and event.type == "start" and
-    #   process.parent.name : "services.exe" and
-    #   process.name : ("cmd.exe", "powershell.exe", "pwsh.exe", "powershell_ise.exe") and
-    # 
-    #   /* Third party FP's */
-    #   not process.args : "NVDisplay.ContainerLocalSystem"
+    # any where host.os.type == "windows" and
+    # (
+    #   (
+    #     event.code : "4697" and
+    #     (
+    #       (
+    #         (
+    #           winlog.event_data.ServiceFileName : (
+    #             "*COMSPEC*", "*\\127.0.0.1*", "*Admin$*", "*powershell*", "*rundll32*", "*cmd.exe*",
+    #             "*echo*", "*RemComSvc*", "*.bat*", "*.cmd*", "*certutil*", "*vssadmin*", "*certmgr*", "*bitsadmin*",
+    #             "*\\Users\\*", "*\\Windows\\Tasks\\*", "*\\PerfLogs\\*", "*\\Windows\\Debug\\*",
+    #             "*regsvr32*", "*msbuild*", "*winexesvc.exe*", "*DumpSvc.exe*", "*pwsh.exe*", "*PAExec*"
+    #           ) or
+    #           winlog.event_data.ServiceFileName regex~ """%systemroot%\\[a-z0-9]+\.exe"""
+    #         ) and
+    #         not winlog.event_data.ServiceFileName: (
+    #               "%SystemRoot%\\PSEXESVC.exe", "%SystemRoot%\\\\RemComSvc.exe",
+    #               "%SystemRoot%\\pbpsdeploy.exe", "%SystemRoot%\\system32\\RemComSvc.exe",
+    #               "\"C:\\Program Files\\Common Files\\Zoom\\Support\\CptService.exe*",
+    #               "\"C:\\Program Files\\Common Files\\ZoomVDIPluginManagement\\Support\\CptService.exe*",
+    #               "\"C:\\Program Files (x86)\\CheckPoint\\Endpoint Security\\EFR\\host\\cpsechost.exe\" service"
+    #         )
+    #       ) or
+    #       winlog.event_data.ServiceName : (
+    #          "mssecsvc2.0", "WCESERVICE*", "WCE SERVICE*", "pwdump*", "gsecdump*", "cachedump*"
+    #       )
+    #     )
+    #   ) or
+    #   (
+    #     event.code : "7045" and
+    #     (
+    #       (
+    #         winlog.event_data.ImagePath : (
+    #           "*COMSPEC*", "*\\127.0.0.1*", "*Admin$*", "*powershell*", "*rundll32*", "*cmd.exe*",
+    #           "*echo*", "*.bat*", "*.cmd*", "*certutil*", "*vssadmin*", "*certmgr*", "*bitsadmin*",
+    #           "*\\Users\\*", "*\\Windows\\Tasks\\*", "*\\PerfLogs\\*", "*\\Windows\\Debug\\*",
+    #           "*regsvr32*", "*msbuild*", "*winexesvc.exe*", "*DumpSvc.exe*", "*pwsh.exe*", "*PAExec*"
+    #         ) and
+    #         not winlog.event_data.ImagePath : (
+    #               "%SystemRoot%\\PSEXESVC.exe", "%SystemRoot%\\\\RemComSvc.exe",
+    #               "%SystemRoot%\\pbpsdeploy.exe", "%System
+    # ... [truncated]
   condition: selection
 level: medium

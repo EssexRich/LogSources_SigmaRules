@@ -1,11 +1,11 @@
-title: Detect Remote Access Software Usage File
-id: 7be056d5-7be0-4be0-abe0-7be056d50000
+title: First Time Seen RMM Signer Across the Environment
+id: 564a6b57-564a-464a-a64a-564a6b570000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1219
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_remote_access_software_usage_file.yml
-author: splunk (via IncidentBuddy)
-date: 2026-08-02
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_new_terms_rmm_signer.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-09
 tags:
   - attack.t1219
 logsource:
@@ -13,33 +13,81 @@ logsource:
   service: security
 detection:
   selection:
-    # Original splunk detection logic
-    # | tstats `security_content_summariesonly`
-    #       count min(_time) as firstTime,
-    #             max(_time) as lastTime
-    #             values(Filesystem.file_path) as file_path
-    #     from datamodel=Endpoint.Filesystem
-    #     where Filesystem.file_name IN (
-    #       "*.app",
-    #       "*.exe",
-    #       "*.msi",
-    #       "*.pkg",
-    #       "*echoware.dll",
-    #       "*Idrive.*",
-    #       "*rdp2tcp.py"
-    #     )
-    #     by Filesystem.action Filesystem.dest Filesystem.file_access_time
-    #        Filesystem.file_create_time Filesystem.file_hash
-    #        Filesystem.file_modify_time Filesystem.file_name
-    #        Filesystem.file_path Filesystem.file_acl Filesystem.file_size
-    #        Filesystem.process_guid Filesystem.process_id
-    #        Filesystem.user Filesystem.vendor_product
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `drop_dm_object_name(Filesystem)`
-    #     | lookup remote_access_software remote_utility AS file_name OUTPUT isutility, description as signature, comment_reference as desc, category
-    #     | search isutility = TRUE
-    #     | `remote_access_software_usage_exceptions`
-    #     | `detect_remote_access_software_usage_file_filter`
+    # Original elastic detection logic
+    # host.os.type: "windows" and
+    # event.category: "process" and event.type: "start" and
+    # process.code_signature.subject_name: (
+    #     "Action1 Corporation" or
+    #     "Aeroadmin LLC" or
+    #     "AeroAdmin LLC" or
+    #     "AmidaWare LLC" or
+    #     "Ammyy LLC" or
+    #     "AnyDesk Software GmbH" or
+    #     "AOMEI International Network Limited" or
+    #     "Atera Networks Ltd" or
+    #     "AWERAY PTE. LTD." or
+    #     "BeamYourScreen GmbH" or
+    #     "Bomgar Corporation" or
+    #     "BreakingSecurity.net" or
+    #     "ConnectWise, Inc." or
+    #     "ConnectWise, LLC" or
+    #     "Connectwise, LLC" or
+    #     "Devolutions Inc" or
+    #     "Devolutions inc." or
+    #     "DOMOTZ INC." or
+    #     "DUC FABULOUS CO.,LTD" or
+    #     "DWSNET OÜ" or
+    #     "DWSNET srl" or
+    #     "Electronic Team, Inc." or
+    #     "Famatech Corp." or
+    #     "FleetDeck Inc" or
+    #     "GlavSoft LLC" or
+    #     "GlavSoft LLC." or
+    #     "GoTo Technologies USA, LLC" or
+    #     "Hefei Pingbo Network Technology Co. Ltd" or
+    #     "IDrive, Inc." or
+    #     "Impero Solutions Limited" or
+    #     "IMPERO SOLUTIONS LIMITED" or
+    #     "Instant Housecall" or
+    #     "ISL Online Ltd." or
+    #     "JumpCloud Inc" or
+    #     "Level Software, Inc." or
+    #     "LogMeIn, Inc." or
+    #     "LUNIXAR SAS DE CV" or
+    #     "MMSOFT Design Ltd." or
+    #     "Monitoring Client" or
+    #     "MSPBytes Corp" or
+    #     "MSPBytes, Corp." or
+    #     "N-ABLE TECHNOLOGIES LTD" or
+    #     "Nanosystems S.r.l." or
+    #     "NetSupport Ltd" or
+    #     "NetSupport Ltd." or
+    #     "NETSUPPORT LTD." or
+    #     "NinjaOne LLC" or
+    #     "NinjaRMM, LLC" or
+    #     "Open Source Developer, Huabing Zhou" or
+    #     "Parallels International GmbH" or
+    #     "philandro Software GmbH" or
+    #     "Pro Softnet Corporation" or
+    #     "PURSLANE" or
+    #     "RealVNC" or
+    #     "RealVNC Limited" or
+    #     "REMOTE UTILITIES PTE. LTD." or
+    #     "Remote Utilities LLC" or
+    #     "Rocket Software, Inc." or
+    #     "Rsupport Co., Ltd." or
+    #     "SAFIB" or
+    #     "ScreenConnect Client" or
+    #     "Servably, Inc." or
+    #     "Servably Inc." or
+    #     "ShowMyPC INC" or
+    #     "SimpleHelp Ltd" or
+    #     "Splashtop Inc." or
+    #     "Superops Inc." or
+    #     "Tailscale Inc." or
+    #     "TeamViewer" or
+    #     "TeamViewer GmbH" or
+    #  
+    # ... [truncated]
   condition: selection
 level: medium

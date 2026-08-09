@@ -1,0 +1,48 @@
+title: Repeated Stalled TLS Handshakes via ALPN acme-tls/1 Extension
+id: 02d35406-02d3-42d3-a2d3-02d354060000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1499.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/impact_tls_alpn_acme_stalled_handshake.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-09
+tags:
+  - attack.t1499.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-network_traffic.tls*
+    # | where source.ip is not null and destination.ip is not null and (
+    #     (
+    #       tls.detailed.client_hello.extensions.application_layer_protocol_negotiation == "acme-tls/1" and
+    #       tls.established == false
+    #     ) or (
+    #       CONTAINS(TO_LOWER(tls.detailed.client_hello.extensions._unparsed_), "alpn") and
+    #       tls.detailed.alert_types in ("decode_error", "illegal_parameter")
+    #     )
+    #   )
+    # | stats
+    #     Esql.event_count = COUNT(*),
+    #     Esql.destination_port_values = MV_SLICE(MV_DEDUPE(TOP(destination.port, 10, "asc")), 0, 10),
+    #     Esql.network_community_id_values = MV_SLICE(MV_DEDUPE(TOP(network.community_id, 10, "asc")), 0, 10),
+    #     Esql.alpn_values = MV_SLICE(
+    #       MV_DEDUPE(TOP(tls.detailed.client_hello.extensions.application_layer_protocol_negotiation, 10, "asc")),
+    #       0,
+    #       10
+    #     ),
+    #     Esql.alert_type_values = MV_SLICE(MV_DEDUPE(TOP(tls.detailed.alert_types, 10, "asc")), 0, 10)
+    #   by source.ip, destination.ip
+    # | where Esql.event_count >= 5
+    # | keep
+    #     source.ip,
+    #     destination.ip,
+    #     Esql.event_count,
+    #     Esql.destination_port_values,
+    #     Esql.network_community_id_values,
+    #     Esql.alpn_values,
+    #     Esql.alert_type_values
+  condition: selection
+level: medium

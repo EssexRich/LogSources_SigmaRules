@@ -1,0 +1,41 @@
+title: Potential NFS Destructive Operation Burst
+id: 43fec7b8-43fe-43fe-a3fe-43fec7b80000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1486
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/impact_potential_nfs_destructive_operation_burst.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-09
+tags:
+  - attack.t1486
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-network_traffic.nfs-*, packetbeat-* metadata _source
+    # | eval
+    #     Esql.opcode = TO_UPPER(COALESCE(
+    #         JSON_EXTRACT(_source, "network_traffic.nfs.opcode"),
+    #         JSON_EXTRACT(_source, "nfs.opcode")
+    #     )),
+    #     Esql.status = TO_UPPER(COALESCE(
+    #         JSON_EXTRACT(_source, "network_traffic.nfs.status"),
+    #         JSON_EXTRACT(_source, "nfs.status")
+    #     ))
+    # | where Esql.opcode in ("WRITE", "REMOVE", "RENAME") and Esql.status == "NFS_OK" and
+    #     source.ip is not null and destination.ip is not null
+    # | eval Esql.time_window = DATE_TRUNC(1 minutes, @timestamp)
+    # | eval Esql.is_write = CASE(Esql.opcode == "WRITE", 1, 0),
+    #     Esql.is_destructive = CASE(Esql.opcode == "REMOVE" or Esql.opcode == "RENAME", 1, 0)
+    # | stats
+    #     Esql.mutating_ops = COUNT(*),
+    #     Esql.write_ops = SUM(Esql.is_write),
+    #     Esql.destructive_ops = SUM(Esql.is_destructive),
+    #     Esql.values_opcodes = VALUES(Esql.opcode)
+    #   by Esql.time_window, source.ip, destination.ip
+    # | where Esql.mutating_ops >= 100 and Esql.write_ops > 0 and Esql.destructive_ops >= 20
+    # | keep source.ip, destination.ip, Esql.*
+  condition: selection
+level: medium

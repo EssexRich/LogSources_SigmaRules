@@ -1,11 +1,11 @@
-title: Windows BootLoader Inventory
-id: 355fbb66-355f-455f-a55f-355fbb660000
+title: Linux EFI Bootloader File Deletion
+id: 277bb5b7-277b-477b-a77b-277bb5b70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1542.001
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_bootloader_inventory.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_efi_bootloader_file_deletion.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1542.001
 logsource:
@@ -15,11 +15,22 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     `bootloader_inventory`
-    #       | stats count min(_time) as firstTime max(_time) as lastTime values(_raw)
-    #         BY host
-    #       | `security_content_ctime(firstTime)`
-    #       | `security_content_ctime(lastTime)`
-    #       | `windows_bootloader_inventory_filter`
+    #     | tstats `security_content_summariesonly`
+    #       count min(_time) as firstTime
+    #             max(_time) as lastTime
+    # 
+    #     from datamodel=Endpoint.Filesystem where
+    # 
+    #     Filesystem.action="deleted"
+    #     Filesystem.file_path="/boot/efi/EFI/BOOT/*"
+    #     Filesystem.file_name="*.efi*"
+    # 
+    #     by Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.dest
+    #        Filesystem.action Filesystem.process_guid Filesystem.process_id
+    # 
+    #     | `drop_dm_object_name(Filesystem)`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `linux_efi_bootloader_file_deletion_filter`
   condition: selection
 level: medium

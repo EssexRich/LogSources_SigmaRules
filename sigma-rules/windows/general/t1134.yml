@@ -1,11 +1,11 @@
-title: Process Creation via Secondary Logon
-id: 1dfd7875-1dfd-4dfd-adfd-1dfd78750000
+title: Suspicious Cross-User Process Spawn
+id: 7d2b61cb-7d2b-4d2b-ad2b-7d2b61cb0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1134
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_create_process_as_different_user.toml
-author: elastic (via IncidentBuddy)
-date: 2026-08-02
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_cross_user_process_spawn.yml
+author: sigma (via IncidentBuddy)
+date: 2026-08-09
 tags:
   - attack.t1134
 logsource:
@@ -13,16 +13,28 @@ logsource:
   service: general
 detection:
   selection:
-    # Original elastic detection logic
-    # sequence by winlog.computer_name with maxspan=1m
+    # Original sigma detection logic
+    #     selection:
+    #         Image|endswith:
+    #             - '\notepad.exe'
+    #             - '\calc.exe'
+    #             - '\mspaint.exe'
+    #             - '\wordpad.exe'
+    #             - '\write.exe'
+    #     filter_main_same_user:
+    #         User|fieldref: ParentUser
+    #     filter_optional_user_null:
+    #         User: null
+    #     filter_optional_parent_null:
+    #         ParentUser: null
+    #     filter_optional_empty_user:
+    #         - ParentUser:
+    #               - ''
+    #               - '-'
+    #         - User:
+    #               - ''
+    #               - '-'
+    #     condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
     # 
-    # [authentication where host.os.type == "windows" and event.action:"logged-in" and
-    #  event.outcome == "success" and user.id : ("S-1-5-21-*", "S-1-12-1-*") and
-    # 
-    #  /* seclogon service */
-    #  process.name == "svchost.exe" and
-    #  winlog.event_data.LogonProcessName : "seclogo*" and source.ip == "::1" ] by winlog.event_data.TargetLogonId
-    # 
-    # [process where host.os.type == "windows" and event.type == "start"] by winlog.event_data.TargetLogonId
   condition: selection
 level: medium

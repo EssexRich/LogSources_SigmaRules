@@ -1,11 +1,11 @@
-title: Windows EFI Bootloader File Modification
-id: 1542f3d8-1542-4542-a542-1542f3d80000
+title: Linux EFI Bootloader File Deletion
+id: 40bc0bb9-40bc-40bc-a0bc-40bc0bb90000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1542.003
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_efi_bootloader_file_modification.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_efi_bootloader_file_deletion.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1542.003
 logsource:
@@ -21,18 +21,16 @@ detection:
     # 
     #     from datamodel=Endpoint.Filesystem where
     # 
-    #     Filesystem.file_path IN (
-    #         "*\\EFI\\Boot\\bootmgfw.efi",
-    #         "*\\EFI\\Boot\\bootx64.efi"
-    #     )
+    #     Filesystem.action="deleted"
+    #     Filesystem.file_path="/boot/efi/EFI/BOOT/*"
+    #     Filesystem.file_name="*.efi*"
     # 
-    #     by Filesystem.dest Filesystem.file_create_time Filesystem.process_path
-    #        Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name
-    #        Filesystem.user Filesystem.vendor_product Filesystem.action
+    #     by Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.dest
+    #        Filesystem.action Filesystem.process_guid Filesystem.process_id
     # 
     #     | `drop_dm_object_name(Filesystem)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `windows_efi_bootloader_file_modification_filter`
+    #     | `linux_efi_bootloader_file_deletion_filter`
   condition: selection
 level: medium

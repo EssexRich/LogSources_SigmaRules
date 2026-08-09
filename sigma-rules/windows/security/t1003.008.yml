@@ -1,11 +1,11 @@
-title: Linux Possible Access To Credential Files
-id: 7f5a54bd-7f5a-4f5a-af5a-7f5a54bd0000
+title: Suspicious Execution via Windows Subsystem for Linux
+id: 348e003d-348e-448e-a48e-348e003d0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1003.008
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_possible_access_to_credential_files.yml
-author: splunk (via IncidentBuddy)
-date: 2026-08-02
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_wsl_bash_exec.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-09
 tags:
   - attack.t1003.008
 logsource:
@@ -13,22 +13,54 @@ logsource:
   service: security
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE Processes.process_name IN("cat", "nano*","vim*", "vi*")
-    #         AND
-    #         Processes.process IN("*/etc/shadow*", "*/etc/passwd*")
-    #       BY Processes.action Processes.dest Processes.original_file_name
-    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #          Processes.process Processes.process_exec Processes.process_guid
-    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
-    #          Processes.process_name Processes.process_path Processes.user
-    #          Processes.user_id Processes.vendor_product
-    #     | `drop_dm_object_name(Processes)`
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `linux_possible_access_to_credential_files_filter`
+    # Original elastic detection logic
+    # process where host.os.type == "windows" and event.type : "start" and
+    #   (
+    #     (
+    #       (process.executable : "?:\\Windows\\System32\\bash.exe" or ?process.pe.original_file_name == "Bash.exe") and
+    #       not process.command_line : ("bash", "bash.exe")
+    #     ) or
+    #     process.executable : "?:\\Users\\*\\AppData\\Local\\Packages\\*\\rootfs\\usr\\bin\\bash" or
+    #     (
+    #       process.parent.name : "wsl.exe" and process.parent.command_line : "bash*" and not process.name : "wslhost.exe"
+    #     ) or
+    #     (
+    #       process.name : "wsl.exe" and
+    #       (
+    #         process.args : "--system" or
+    #         (
+    #           process.args : "--manage" and process.args : "--set-default-user" and process.args : "root"
+    #         ) or
+    #         (
+    #           (process.args : ("curl", "wget") and process.args : ("http://*", "https://*")) or
+    #           process.args : ("*curl*http://*", "*curl*https://*", "*wget*http://*", "*wget*https://*")
+    #         ) or
+    #         (
+    #           (
+    #             process.args like~ ("*/dev/tcp/*", "*/dev/udp/*", "*zsh/net/tcp*") and
+    #             process.args like ("*&>*", "*<>*", "*>&*", "*<&*")
+    #           ) or
+    #           (
+    #             process.args : ("nc", "netcat", "nc.traditional", "ncat", "*/nc", "*/netcat", "*/nc.traditional", "*/ncat") and
+    #             process.args : ("sh", "/bin/sh", "bash", "/bin/bash") and
+    #             process.args : ("-e", "--exec", "-c", "--sh-exec")
+    #           ) or
+    #           (
+    #             process.args like~ "*socat*" and
+    #             process.args like~ ("*exec:*", "*system:*", "*shell:*") and
+    #             process.args like~ ("*tcp*", "*udp*", "*openssl*")
+    #           )
+    #         ) or
+    #         (
+    #           process.args : ("-e", "--exec") and
+    #           process.args : (
+    #             "/mnt/c/*.exe", "/mnt/c/*.ps1", "/mnt/c/*.bat", "/mnt/c/*.cmd", "/mnt/c/*.vbs", "/mnt/c/*.js",
+    #             "/mnt/c/*.hta"
+    #           ) and
+    #           not process.args : "*wslpath*"
+    #         ) or
+    #         process.args : (
+    #           "*/etc/passwd*", "*/etc/shadow*", "*/etc/sudoers*", "*/etc/sudoers.d/*", "*/root/.s
+    # ... [truncated]
   condition: selection
 level: medium

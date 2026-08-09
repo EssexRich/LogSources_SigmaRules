@@ -1,11 +1,11 @@
-title: HackTool - NoFilter Execution
-id: 791d29d1-791d-491d-a91d-791d29d10000
+title: Potentially Suspicious Explicit Credential Local Logon
+id: 57de976d-57de-47de-a7de-57de976d0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1134
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_hktl_nofilter.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_explicit_credential_local_logon.yml
 author: sigma (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1134
 logsource:
@@ -14,13 +14,28 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_5447:
-    #         EventID: 5447
-    #         FilterName|contains: 'RonPolicy'
-    #     selection_5449:
-    #         EventID: 5449
-    #         ProviderContextName|contains: 'RonPolicy'
-    #     condition: 1 of selection_*
+    #     selection_eid:
+    #         EventID: 4648
+    #     selection_localhost:
+    #         - TargetServerName: 'localhost'
+    #         - TargetInfo: 'localhost'
+    #         - IpAddress:
+    #               - '127.0.0.1'
+    #               - '::1'
+    #     filter_main_computer_accounts:
+    #         SubjectUserName|endswith: '$'
+    #     filter_main_system_processes:
+    #         ProcessName|startswith:
+    #             - 'C:\Windows\System32\'
+    #             - 'C:\Windows\SysWOW64\'
+    #             - 'C:\Windows\WinSxS\'
+    #     filter_main_program_files:
+    #         ProcessName|startswith:
+    #             - 'C:\Program Files\'
+    #             - 'C:\Program Files (x86)\'
+    #     filter_main_same_user:
+    #         SubjectUserName|fieldref: TargetUserName
+    #     condition: all of selection_* and not 1 of filter_main_*
     # 
   condition: selection
 level: medium

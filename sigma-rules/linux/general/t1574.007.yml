@@ -1,11 +1,11 @@
-title: Suspicious Path Invocation from Command Line
-id: 642fe1d0-642f-442f-a42f-642fe1d00000
+title: Potential CVE-2025-41244 vmtoolsd LPE Exploitation Attempt
+id: 7cc936bb-7cc9-4cc9-acc9-7cc936bb0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1574.007
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/execution_unusual_path_invocation_from_command_line.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/_deprecated/privilege_escalation_cve_2025_41244_vmtoolsd_lpe.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1574.007
 logsource:
@@ -14,20 +14,35 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.category:process and host.os.type:linux and event.type:start and event.action:exec and
-    # process.name:(bash or csh or dash or fish or ksh or sh or tcsh or zsh) and process.args:-c and
-    # process.command_line:*PATH=* and
-    # not (
-    #   process.command_line:(*_PATH=* or *PYTHONPATH=* or sh*/run/motd.dynamic.new) or
-    #   process.parent.executable:(
-    #     "/opt/puppetlabs/puppet/bin/puppet" or /var/lib/docker/overlay2/* or /vz/root/*/dovecot or
-    #     "/usr/libexec/dovecot/auth" or /home/*/.local/share/containers/* or /vz/root/*/dovecot/auth or
-    #     "/usr/local/bin/ansible-playbook" or "/opt/puppetlabs/puppet/bin/ruby" or /tmp/CVU_19_resource_*/exectask or
-    #     "/opt/ds_agent/ds_agent" or "/usr/lib/systemd/systemd" or "/opt/TrendMicro/vls_agent/vls_agent" or
-    #     "/opt/Tanium/TaniumClient/TaniumCX"
+    # process where host.os.type == "linux" and event.type == "start" and
+    # event.action in ("exec", "exec_event", "start", "executed", "process_started", "ProcessRollup2") and
+    # (
+    #   (
+    #     process.parent.name == "vmtoolsd"
     #   ) or
-    #   process.parent.command_line:"runc init" or
-    #   process.parent.name:(gmake or sshd or sudo or make or ninja or ninja-build or steam or sshd-session)
+    #   (
+    #     process.parent.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish") and
+    #     ?process.parent.args like ("/*/open-vm-tools/serviceDiscovery/scripts/get-versions.sh")
+    #   )
+    # ) and not (
+    #   process.executable == null or
+    #   ?process.parent.args == "--version" or
+    #   process.args like (
+    #     "/etc/vmware-tools/resume-vm-default",
+    #     "/etc/vmware-tools/suspend-vm-default",
+    #     "/sbin/shutdown",
+    #     "/sbin/shutdown*",
+    #     "/etc/vmware-tools/poweroff-vm-default",
+    #     "/etc/vmware-tools/poweroff-vm-default",
+    #     "/bin/touch",
+    #     "/tmp/vmware-administrator_*",
+    #     "/tmp/vmware-root_*",
+    #     "/etc/vmware-tools/scripts/vmware/network",
+    #     "/etc/vmware-tools/poweron-vm-default"
+    #   ) or
+    #   process.executable == "/usr/sbin/unix_chkpwd" or
+    #   ?process.working_directory like ("/var/opt/ds_agent", "/tmp/vmware-root_*/tmpvmware*") or
+    #   process.command_line like ("*/usr/bin/lsb_release*", "*/bin/touch*", "*/tmp/vmware-root_*")
     # )
   condition: selection
 level: medium

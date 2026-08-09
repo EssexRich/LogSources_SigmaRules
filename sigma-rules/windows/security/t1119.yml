@@ -1,11 +1,11 @@
-title: Windows File Collection Via Copy Utilities
-id: 082e52f5-082e-482e-a82e-082e52f50000
+title: Windows Dir Piped to Findstr Activity
+id: 47c4dd29-47c4-47c4-a7c4-47c4dd290000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1119
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_file_collection_via_copy_utilities.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_dir_piped_to_findstr_activity.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1119
 logsource:
@@ -14,41 +14,26 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    # -
+    #     | tstats `security_content_summariesonly`
+    #        count min(_time) as firstTime
+    #              max(_time) as lastTime
+    # 
     #     from datamodel=Endpoint.Processes where
-    #     (
-    #       Processes.process_name IN ("copy.exe", "xcopy.exe")
-    #       OR
-    #       Processes.original_file_name IN ("copy.exe", "xcopy.exe")
-    #     )
-    #     Processes.process IN (
-    #       "*.7z*",
-    #       "*.bmp*",
-    #       "*.db*",
-    #       "*.doc*",
-    #       "*.gif*",
-    #       "*.gz*",
-    #       "*.jpg*",
-    #       "*.log*",
-    #       "*.pdf*",
-    #       "*.png*",
-    #       "*.ppt*",
-    #       "*.rar*",
-    #       "*.rtf*",
-    #       "*.tar*",
-    #       "*.txt*",
-    #       "*.xls*",
-    #       "*.zip*"
-    #     )
-    #     by Processes.action Processes.dest Processes.original_file_name
-    #     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #     Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
-    #     Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-    #     Processes.user Processes.user_id Processes.vendor_product
+    # 
+    #     Processes.process="*dir *|*findstr *"
+    # 
+    #     by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash
+    #        Processes.parent_process_name Processes.parent_process_exec Processes.action
+    #        Processes.dest Processes.process_current_directory Processes.process_path
+    #        Processes.process_integrity_level Processes.original_file_name
+    #        Processes.parent_process Processes.parent_process_path Processes.parent_process_guid
+    #        Processes.parent_process_id Processes.process_guid
+    #        Processes.process_id Processes.user Processes.process_name
+    # 
     #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `windows_file_collection_via_copy_utilities_filter`
+    #     | `windows_dir_piped_to_findstr_activity_filter`
   condition: selection
 level: medium

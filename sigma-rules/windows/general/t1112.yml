@@ -1,11 +1,11 @@
-title: New DNS ServerLevelPluginDll Installed Via Dnscmd.EXE
-id: 34c30454-34c3-44c3-a4c3-34c304540000
+title: Potentially Suspicious Image Load of Offreg.dll
+id: 384e9103-384e-484e-a84e-384e91030000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1112
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_dnscmd_install_new_server_level_plugin_dll.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_susp_offreg_dll_load.yml
 author: sigma (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1112
 logsource:
@@ -15,11 +15,23 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         Image|endswith: '\dnscmd.exe'
-    #         CommandLine|contains|all:
-    #             - '/config'
-    #             - '/serverlevelplugindll'
-    #     condition: selection
+    #         ImageLoaded|endswith: '\offreg.dll'
+    #     filter_main_system32:
+    #         Image|startswith:
+    #             - 'C:\Windows\System32\'
+    #             - 'C:\Windows\SysWOW64\'
+    #             - 'C:\Windows\WinSxS\'
+    #     filter_main_program_files:
+    #         Image|startswith:
+    #             - 'C:\Program Files\'
+    #             - 'C:\Program Files (x86)\'
+    #     filter_main_appdata_local_programs:
+    #         Image|startswith: 'C:\Users\'
+    #         Image|contains: '\AppData\Local\Programs\'
+    #     filter_main_defender:
+    #         Image|startswith: 'C:\ProgramData\Microsoft\Windows Defender\Platform\'
+    #         Image|endswith: '\MsMpEng.exe'
+    #     condition: selection and not 1 of filter_main_*
     # 
   condition: selection
 level: medium

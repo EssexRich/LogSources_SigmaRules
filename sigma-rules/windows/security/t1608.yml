@@ -1,11 +1,11 @@
-title: Windows Metasploit Confluence Plugin Execution
-id: 4c513984-4c51-4c51-ac51-4c5139840000
+title: Linux Suspicious GCC Invocation Building Init Shared Object
+id: 7c2de568-7c2d-4c2d-ac2d-7c2de5680000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1608
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_metasploit_confluence_plugin_execution.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_suspicious_gcc_invocation_building_init_shared_object.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1608
 logsource:
@@ -16,26 +16,32 @@ detection:
     # Original splunk detection logic
     # -
     #     | tstats `security_content_summariesonly`
-    #       count min(_time) as firstTime
-    #             max(_time) as lastTime
+    #       count min(_time) as firstTime max(_time) as lastTime
     # 
-    #     from datamodel=Endpoint.Processes where
+    #     FROM datamodel=Endpoint.Processes WHERE
     # 
-    #     Processes.process_path="*\\Atlassian\\Confluence\\jre\\bin\\java.exe"
-    #     Processes.process="*-classpath *"
-    #     Processes.process="*\\AppData\\Local\\Temp\\~spawn*"
-    #     Processes.process="*.Payload*"
+    #     Processes.process_name IN (
+    #         "*x86_64-linux-gnu-gcc*",
+    #         "cc",
+    #         "g++",
+    #         "gcc-*",
+    #         "gcc"
+    #     )
+    #     Processes.process="*-shared*"
+    #     Processes.process="*-Wl,-init,*"
+    #     Processes.process="*.so*"
     # 
-    #     by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash
-    #        Processes.parent_process_name Processes.parent_process_exec Processes.action
-    #        Processes.dest Processes.process_current_directory Processes.process_path
-    #        Processes.process_integrity_level Processes.original_file_name Processes.parent_process
-    #        Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id
-    #        Processes.process_guid Processes.process_id Processes.user Processes.process_name
+    #     BY Processes.action Processes.dest Processes.original_file_name
+    #        Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+    #        Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    #        Processes.process Processes.process_current_directory Processes.process_exec
+    #        Processes.process_guid Processes.process_hash Processes.process_id
+    #        Processes.process_integrity_level Processes.process_name Processes.process_path
+    #        Processes.user Processes.user_id Processes.vendor_product
     # 
     #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `windows_metasploit_confluence_plugin_execution_filter`
+    #     | `linux_suspicious_gcc_invocation_building_init_shared_object_filter`
   condition: selection
 level: medium

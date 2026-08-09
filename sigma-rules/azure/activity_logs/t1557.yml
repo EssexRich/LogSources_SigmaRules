@@ -1,0 +1,30 @@
+title: Azure AKS CoreDNS or Kube-DNS Configuration Modified
+id: 6baa45f0-6baa-4baa-abaa-6baa45f00000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1557
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_azure_aks_coredns_configmap_modified.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-09
+tags:
+  - attack.t1557
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:azure.platformlogs and
+    #   event.action:"Microsoft.ContainerService/managedClusters/diagnosticLogs/Read" and
+    #   azure.platformlogs.category:("kube-audit" or "kube-audit-admin") and
+    #   azure.platformlogs.properties.log.stage:"ResponseComplete" and
+    #   azure.platformlogs.properties.log.objectRef.resource:"configmaps" and
+    #   azure.platformlogs.properties.log.objectRef.namespace:"kube-system" and
+    #   azure.platformlogs.properties.log.objectRef.name:("coredns" or "kube-dns" or "coredns-custom") and
+    #   azure.platformlogs.properties.log.verb:("create" or "update" or "patch" or "delete") and
+    #   not azure.platformlogs.properties.log.user.username:(
+    #     system\:node\:* or "aksService" or "hcpService" or "readinessChecker" or
+    #     system\:serviceaccount\:kube-system\:*
+    #   )
+  condition: selection
+level: medium

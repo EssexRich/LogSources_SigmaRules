@@ -1,0 +1,41 @@
+title: Potentially Suspicious Explicit Credential Local Logon
+id: 1bc9e788-1bc9-4bc9-abc9-1bc9e7880000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1134.003
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/security/win_security_explicit_credential_local_logon.yml
+author: sigma (via IncidentBuddy)
+date: 2026-08-09
+tags:
+  - attack.t1134.003
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original sigma detection logic
+    #     selection_eid:
+    #         EventID: 4648
+    #     selection_localhost:
+    #         - TargetServerName: 'localhost'
+    #         - TargetInfo: 'localhost'
+    #         - IpAddress:
+    #               - '127.0.0.1'
+    #               - '::1'
+    #     filter_main_computer_accounts:
+    #         SubjectUserName|endswith: '$'
+    #     filter_main_system_processes:
+    #         ProcessName|startswith:
+    #             - 'C:\Windows\System32\'
+    #             - 'C:\Windows\SysWOW64\'
+    #             - 'C:\Windows\WinSxS\'
+    #     filter_main_program_files:
+    #         ProcessName|startswith:
+    #             - 'C:\Program Files\'
+    #             - 'C:\Program Files (x86)\'
+    #     filter_main_same_user:
+    #         SubjectUserName|fieldref: TargetUserName
+    #     condition: all of selection_* and not 1 of filter_main_*
+    # 
+  condition: selection
+level: medium

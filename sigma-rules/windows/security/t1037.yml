@@ -1,11 +1,11 @@
-title: Logon Script Event Trigger Execution
-id: 7956438c-7956-4956-a956-7956438c0000
+title: Linux MOTD Script Added
+id: 2b3ee5a7-2b3e-4b3e-ab3e-2b3ee5a70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1037
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/logon_script_event_trigger_execution.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_motd_script_added.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-02
+date: 2026-08-09
 tags:
   - attack.t1037
 logsource:
@@ -14,6 +14,24 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path IN ("*\\Environment\\UserInitMprLogonScript") by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `logon_script_event_trigger_execution_filter`
+    # -
+    #     | tstats `security_content_summariesonly`
+    #       count min(_time) as firstTime
+    #             max(_time) as lastTime
+    # 
+    #     from datamodel=Endpoint.Filesystem where
+    # 
+    #     Filesystem.file_path="/etc/update-motd.d/*"
+    #     Filesystem.action IN ("created", "modified")
+    # 
+    #     by Filesystem.file_path Filesystem.file_name
+    #        Filesystem.user Filesystem.dest
+    #        Filesystem.action Filesystem.process_guid
+    #        Filesystem.process_id
+    # 
+    #     | `drop_dm_object_name(Filesystem)`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `linux_motd_script_added_filter`
   condition: selection
 level: medium
