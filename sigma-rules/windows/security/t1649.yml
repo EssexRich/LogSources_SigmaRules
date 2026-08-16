@@ -1,11 +1,11 @@
-title: Access to a Sensitive LDAP Attribute
-id: 336e3e82-336e-436e-a36e-336e3e820000
+title: Potential CertiGhost AD CS Machine Identity Mismatch (CVE-2026-54121)
+id: 0ab327fd-0ab3-4ab3-aab3-0ab327fd0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1649
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_ldap_attributes.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_adcs_certificate_identity_transposition.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-09
+date: 2026-08-16
 tags:
   - attack.t1649
 logsource:
@@ -14,29 +14,44 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # any where host.os.type == "windows" and event.code == "4662" and
+    # FROM logs-system.security-* METADATA _id, _index, _version
+    # | WHERE event.code == "4887" AND
+    #     winlog.event_data.Requester LIKE "*$" AND
+    #     winlog.event_data.Attributes IS NOT NULL
     # 
-    #   not winlog.event_data.SubjectUserSid : "S-1-5-18" and
-    # 
-    #   winlog.event_data.Properties : (
-    #    /* unixUserPassword */
-    #   "*612cb747-c0e8-4f92-9221-fdd5f15b550d*",
-    # 
-    #   /* ms-PKI-AccountCredentials */
-    #   "*b8dfa744-31dc-4ef1-ac7c-84baf7ef9da7*",
-    # 
-    #   /*  ms-PKI-DPAPIMasterKeys */
-    #   "*b3f93023-9239-4f7c-b99c-6745d87adbc2*",
-    # 
-    #   /* msPKI-CredentialRoamingTokens */
-    #   "*b7ff5a38-0818-42b0-8110-d3d154c97f24*"
-    #   ) and
-    # 
-    #   /*
-    #    Excluding noisy AccessMasks
-    #    0x0 undefined and 0x100 Control Access
-    #    https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4662
-    #    */
-    #   not winlog.event_data.AccessMask in ("0x0", "0x100")
+    # // Parse Attributes for RMD and CDC, and as a fallback when dedicated template or SAN fields are absent.
+    # // CDC and the effective template are retained for triage purposes
+    # | GROK winlog.event_data.Attributes
+    #     """(?im)^[ \t]*CertificateTemplate[ \t]*:[ \t]*(?<Esql.attributes_certificate_template>[^\r\n]+)\r?$"""
+    # | GROK winlog.event_data.Attributes
+    #     """(?im)^[ \t]*SAN[ \t]*:[ \t]*dns[ \t]*=[ \t]*(?<Esql.attributes_san_value>[^\r\n]+)\r?$"""
+    # | GROK winlog.event_data.SubjectAlternativeName
+    #     """(?im)^[ \t]*DNS[ \t]+Name[ \t]*=[ \t]*(?<Esql.event_san_value>[^\r\n]+)\r?$"""
+    # | GROK winlog.event_data.Attributes
+    #     """(?im)^[ \t]*cdc[ \t]*:[ \t]*(?<Esql.cdc_value>[^\r\n]+)\r?$"""
+    # | GROK winlog.event_data.Attributes
+    #     """(?im)^[ \t]*rmd[ \t]*:[ \t]*(?<Esql.rmd_value>[^\r\n]+)\r?$"""
+    # | EVAL Esql.effective_certificate_template = TRIM(COALESCE(
+    #          winlog.event_data.CertificateTemplate,
+    #          Esql.attributes_certificate_template
+    #        )),
+    #        Esql.san_value = TRIM(COALESCE(Esql.event_san_value, Esql.attributes_san_value)),
+    #        Esql.cdc_value = TRIM(Esql.cdc_value),
+    #        Esql.rmd_value = TRIM(Esql.rmd_value),
+    #        Esql.normalized_requester = TO_LOWER(
+    #          REPLACE(winlog.event_data.Requester, """^.*\\|\$$""", "")
+    #        ),
+    #        Esql.normalized_san_value = TO_LOWER(
+    #          REPLACE(Esql.san_value, """\.$""", "")
+    #        ),
+    #        Esql.normalized_rmd_value = TO_LOWER(
+    #          REPLACE(Esql.rmd_value, """\.$""", "")
+    #        )
+    # // Preserve IP-shaped values; shorten other SAN and RMD values to the first DNS label for machine-account comparison.
+    # | EVAL Esql.san_is_ip_shaped =
+    #           Esql.normalized_san_value RLIKE """[0-9]{1,3}(\.[0-9]{1,3}){3}""" OR Esql.normalized_san_value LIKE "*:*",
+    #        Esql.rmd_is_ip_shaped =
+    #           Esql.normalized_rmd_value RLIKE """[0-9]{
+    # ... [truncated]
   condition: selection
 level: medium
