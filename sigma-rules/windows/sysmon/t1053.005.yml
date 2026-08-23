@@ -1,0 +1,38 @@
+title: Windows Error Report Created in ReportQueue Manually
+id: 23e8bc23-23e8-43e8-a3e8-23e8bc230000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1053.005
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_error_report_created_in_reportqueue_manually.yml
+author: splunk (via IncidentBuddy)
+date: 2026-08-23
+tags:
+  - attack.t1053.005
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `sysmon`
+    #     EventCode=11
+    #     action IN ("created","modified")
+    #     file_name="*.wer"
+    #     file_path="*\\ReportQueue\\*"
+    #     NOT process_path IN (
+    #       "*\\svchost.exe",
+    #       "*\\werfault.exe",
+    #       "*\\werfaultsecure.exe",
+    #       "*\\wermgr.exe"
+    #     )
+    #     | fillnull
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #       by dest file_name file_path file_hash action
+    #          process_name process_path process_id user vendor_product
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_error_report_created_in_reportqueue_manually_filter`
+  condition: selection
+level: medium

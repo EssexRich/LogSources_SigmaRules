@@ -1,0 +1,55 @@
+title: Suspicious Process Execution by Zoom
+id: 001c125a-001c-401c-a01c-001c125a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_suspicious_process_execution_by_zoom.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-23
+tags:
+  - attack.t1059.002
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # process where event.type == "start" and event.action == "exec" and
+    #   (
+    #     (
+    #       host.os.type == "linux" and
+    #       process.previous.executable : "*/zoom" and
+    #       not process.executable : "*/zoom" and
+    #       not process.parent.name : "zoom"
+    #     ) or
+    #     (
+    #       host.os.type in ("macos", "linux") and
+    #       (
+    #         (host.os.type == "macos" and
+    #          process.parent.executable : "*/zoom.us.app/Contents/MacOS/zoom.us") or
+    #         (host.os.type == "linux" and
+    #          process.parent.name : "zoom")
+    #       ) and
+    #       process.name : (
+    #         "sh", "bash", "zsh", "dash", "ksh", "fish", "ash", "mksh", "tsh", "tcsh", "pwsh",
+    #         "python*", "perl*", "ruby*", "php*", "lua*", "node", "nodejs", "osascript",
+    #         "curl", "nscurl", "wget", "nc", "ncat", "netcat", "netcat.openbsd", "netcat.traditional",
+    #         "nc.openbsd", "nc.traditional", "socat", "openssl",
+    #         "chmod", "xattr"
+    #       ) and
+    #       not (
+    #         host.os.type == "linux" and process.name in ("sh", "bash") and
+    #         process.args : (
+    #           "lspci",
+    #           "pacmd --version",
+    #           "pacmd list-sinks |grep 'name:\\|module:'",
+    #           "pipewire --version",
+    #           "ls /usr/share/xdg-desktop-portal/portals/",
+    #           "/usr/libexec/xdg-desktop-portal --version",
+    #           "cat /proc/sys/kernel/pid_max"
+    #         )
+    #       )
+    #     )
+    #   )
+  condition: selection
+level: medium

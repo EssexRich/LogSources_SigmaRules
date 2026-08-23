@@ -1,0 +1,56 @@
+title: Python PYTHONPATH Modification During Package Installation
+id: 293b95ab-293b-493b-a93b-293b95ab0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1574.007
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/python_pythonpath_modification_during_package_installation.yml
+author: splunk (via IncidentBuddy)
+date: 2026-08-23
+tags:
+  - attack.t1574.007
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `sysmon`
+    #     EventID IN (1,13)
+    #     (
+    #         parent_process="*\\site-packages\\pip\\*"
+    #         OR
+    #         (
+    #             registry_path="*PYTHONPATH"
+    #             action="modified"
+    #         )
+    #     )
+    # 
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #                   values(parent_process_id) as parent_process_id
+    #                   values(parent_process_name) as parent_process_name
+    #                   values(parent_process_path) as parent_process_path
+    #                   values(parent_process) as parent_process
+    #                   values(process_path) as process_path
+    #                   values(process_name) as process_name
+    #                   values(process) as process
+    #                   values(registry_path) as registry_path
+    #                   values(registry_value_data) as registry_value_data
+    #                   dc(EventID) as dc_event_id
+    # 
+    #       by dest source process_id
+    # 
+    #     | search dc_event_id>1
+    # 
+    #     | table firstTime lastTime
+    #             parent_process_id parent_process_path parent_process_name parent_process
+    #             process_id process_path process_name process
+    #             registry_path registry_value_data
+    #             dest source
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `python_pythonpath_modification_during_package_installation_filter`
+  condition: selection
+level: medium

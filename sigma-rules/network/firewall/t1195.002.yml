@@ -1,11 +1,11 @@
-title: 3CX Supply Chain Attack Network Indicators
-id: 7fc26af3-7fc2-4fc2-afc2-7fc26af30000
+title: Python Network Traffic During Package Build
+id: 62a30bc3-62a3-42a3-a2a3-62a30bc30000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1195.002
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/network/3cx_supply_chain_attack_network_indicators.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/python_network_traffic_during_package_build.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-16
+date: 2026-08-23
 tags:
   - attack.t1195.002
 logsource:
@@ -14,20 +14,49 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats `security_content_summariesonly`
-    #       count min(_time) as firstTime
-    #             max(_time) as lastTime
-    #     from datamodel=Network_Resolution where
-    #     DNS.query=*
-    #     NOT DNS.query IN ("-", "unknown")
-    #     by DNS.answer DNS.answer_count DNS.query
-    #        DNS.query_count DNS.reply_code_id DNS.src
-    #        DNS.vendor_product
-    #     | `drop_dm_object_name(DNS)`
+    # -
+    #     `sysmon`
+    #     (
+    #         EventID=1
+    #         (
+    #             process="*_in_process.py*"
+    #             OR
+    #             process_name=python.exe
+    #         )
+    #     )
+    #     OR
+    #     (
+    #         EventID=3
+    #         dest_ip!=""
+    #         process_name=python.exe
+    #     )
+    # 
+    #     | eval dest=if(EventID=3, Computer, dest)
+    # 
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #                   values(parent_process_id) as parent_process_id
+    #                   values(parent_process_path) as parent_process_path
+    #                   values(parent_process_name) as parent_process_name
+    #                   values(parent_process) as parent_process
+    #                   values(process_path) as process_path
+    #                   values(process_name) as process_name
+    #                   values(process) as process
+    #                   values(dest_ip) as dest_ip
+    #                   values(dest_host) as dest_host
+    # 
+    #       by dest source process_id
+    # 
+    #     | search process="* build_wheel*"
+    # 
+    #     | table firstTime lastTime
+    #             parent_process_id parent_process_path parent_process_name parent_process
+    #             process_id process_path process_name process
+    #             dest_ip dest_host
+    #             dest source
+    # 
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | lookup 3cx_ioc_domains domain as query OUTPUT Description isIOC
-    #     | search isIOC=true
-    #     | `3cx_supply_chain_attack_network_indicators_filter`
+    #     | `python_network_traffic_during_package_build_filter`
   condition: selection
 level: medium

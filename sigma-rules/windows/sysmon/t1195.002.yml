@@ -1,11 +1,11 @@
-title: Windows Vulnerable 3CX Software
-id: 6685faf7-6685-4685-a685-6685faf70000
+title: Python PTH File Creation During Package Installation
+id: 42e15573-42e1-42e1-a2e1-42e155730000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1195.002
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_vulnerable_3cx_software.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/python_pth_file_creation_during_package_installation.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-16
+date: 2026-08-23
 tags:
   - attack.t1195.002
 logsource:
@@ -15,17 +15,42 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     `sysmon` (process_name=3CXDesktopApp.exe OR OriginalFileName=3CXDesktopApp.exe)  FileVersion=18.12.*
-    #       | stats count min(_time) as firstTime max(_time) as lastTime
-    #         BY action dest original_file_name
-    #            parent_process parent_process_exec parent_process_guid
-    #            parent_process_id parent_process_name parent_process_path
-    #            process process_exec process_guid
-    #            process_hash process_id process_integrity_level
-    #            process_name process_path user
-    #            user_id vendor_product
-    #       | `security_content_ctime(firstTime)`
-    #       | `security_content_ctime(lastTime)`
-    #       | `windows_vulnerable_3cx_software_filter`
+    #     `sysmon`
+    #     EventID IN (1,11)
+    #     process_name="python.exe"
+    #     (
+    #         process="* install *"
+    #         OR
+    #         (
+    #             file_name="*.pth"
+    #             action="created"
+    #         )
+    #     )
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #                   values(parent_process_id) as parent_process_id
+    #                   values(parent_process_path) as parent_process_path
+    #                   values(parent_process_name) as parent_process_name
+    #                   values(parent_process) as parent_process
+    #                   values(process_path) as process_path
+    #                   values(process_name) as process_name
+    #                   values(process) as process
+    #                   values(file_name) as file_name
+    #                   values(file_path) as file_path
+    #                   dc(EventID) as dc_event_id
+    # 
+    #       by dest source process_id
+    # 
+    #     | search dc_event_id>1 AND process!="*-- setuptools*"
+    # 
+    #     | table firstTime lastTime
+    #             parent_process_id parent_process_path parent_process_name parent_process
+    #             process_id process_path process_name process
+    #             file_name file_path
+    #             dest source
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `python_pth_file_creation_during_package_installation_filter`
   condition: selection
 level: medium

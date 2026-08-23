@@ -1,11 +1,11 @@
-title: New User Created Via Net.EXE
-id: 6fd83557-6fd8-4fd8-afd8-6fd835570000
+title: New User Account Creation Attempt Via ADSI
+id: 1ec9d994-1ec9-4ec9-aec9-1ec9d9940000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1136.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_net_user_add.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_adsi_create_user.yml
 author: sigma (via IncidentBuddy)
-date: 2026-08-16
+date: 2026-08-23
 tags:
   - attack.t1136.001
 logsource:
@@ -14,17 +14,20 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_img:
-    #         - Image|endswith:
-    #               - '\net.exe'
-    #               - '\net1.exe'
-    #         - OriginalFileName:
-    #               - 'net.exe'
-    #               - 'net1.exe'
-    #     selection_cli:
-    #         CommandLine|contains|all:
-    #             - 'user'
-    #             - 'add'
+    #     selection_adsi:
+    #         ScriptBlockText|contains: '[ADSI]'
+    #     selection_create_user:
+    #         # Example (WinNT - local user):
+    #         #   $computer = [ADSI]"WinNT://localhost"; $user = $computer.Create("User", "NewUser"); $user.SetPassword("P@ssw0rd!"); $user.SetInfo()
+    #         # Example (LDAP - domain user):
+    #         #   $ou = [ADSI]"LDAP://CN=Users,DC=domain,DC=com"; $user = $ou.Create("user", "CN=NewUser"); $user.Put("sAMAccountName","NewUser"); $user.SetInfo()
+    #         ScriptBlockText|contains:
+    #             - '.create("user'
+    #             - ".create('user"
+    #     selection_adsi_provider:
+    #         ScriptBlockText|contains:
+    #             - 'WinNT://' # Local user creation via WinNT provider
+    #             - 'LDAP://' # Domain user creation via LDAP provider
     #     condition: all of selection_*
     # 
   condition: selection
