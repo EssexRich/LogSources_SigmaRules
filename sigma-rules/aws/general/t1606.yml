@@ -1,0 +1,28 @@
+title: AWS GetFederationToken Followed by Console Login via Federation Exchange
+id: 75b61bde-75b6-45b6-a5b6-75b61bde0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1606
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_get_federation_token_followed_by_console_login_via_federation_exchange.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-30
+tags:
+  - attack.t1606
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by source.ip with maxspan=2m
+    #   [any where event.provider == "sts.amazonaws.com"
+    #    and event.action == "GetFederationToken"
+    #    and event.outcome == "success"]
+    #   [any where event.provider == "signin.amazonaws.com"
+    #    and event.action == "GetSigninToken"
+    #    and event.outcome == "success"]
+    #   [any where event.provider == "signin.amazonaws.com"
+    #    and event.action == "ConsoleLogin"
+    #    and event.outcome == "success"]
+  condition: selection
+level: medium

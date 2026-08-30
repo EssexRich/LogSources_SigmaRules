@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1195.002
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/python_network_traffic_during_package_build.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-23
+date: 2026-08-30
 tags:
   - attack.t1195.002
 logsource:
@@ -47,7 +47,7 @@ detection:
     # 
     #       by dest source process_id
     # 
-    #     | search process="* build_wheel*"
+    #     | search process="* build_wheel*" dest_ip=*
     # 
     #     | table firstTime lastTime
     #             parent_process_id parent_process_path parent_process_name parent_process

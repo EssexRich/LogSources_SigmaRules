@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1485.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_s3_bucket_lifecycle_expiration_added.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-23
+date: 2026-08-30
 tags:
   - attack.t1485.001
 logsource:
@@ -18,5 +18,6 @@ detection:
     #    and event.action == "PutBucketLifecycle"
     #    and event.outcome == "success"
     #    and stringContains(aws.cloudtrail.request_parameters, "Expiration=")
+    #    and not user_agent.original like~ ("*Terraform*", "*Pulumi*")
   condition: selection
 level: medium

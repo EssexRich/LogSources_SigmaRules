@@ -1,11 +1,11 @@
-title: Detect hosts connecting to dynamic domain providers
-id: 60fdd564-60fd-40fd-a0fd-60fdd5640000
+title: Potential DNS Rebinding from Public to Private Address
+id: 64e7f6a6-64e7-44e7-a4e7-64e7f6a60000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1189
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/network/detect_hosts_connecting_to_dynamic_domain_providers.yml
-author: splunk (via IncidentBuddy)
-date: 2026-08-23
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/initial_access_dns_rebinding_private_ip_answer.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-30
 tags:
   - attack.t1189
 logsource:
@@ -13,19 +13,56 @@ logsource:
   service: firewall
 detection:
   selection:
-    # Original splunk detection logic
-    # | tstats `security_content_summariesonly` count min(_time) as firstTime
-    #       from datamodel=Network_Resolution where
-    #       DNS.query=*
-    #       NOT DNS.query IN ("-", "unknown")
-    #       by DNS.answer DNS.answer_count DNS.query DNS.query_count
-    #          DNS.reply_code_id DNS.src DNS.vendor_product
-    #     | `drop_dm_object_name("DNS")`
-    #     | `security_content_ctime(firstTime)`
-    #     | lookup update=true dynamic_dns_providers_default dynamic_dns_domains as query OUTPUTNEW isDynDNS_default
-    #     | lookup update=true dynamic_dns_providers_local dynamic_dns_domains as query OUTPUTNEW isDynDNS_local
-    #     | eval isDynDNS = coalesce(isDynDNS_local,isDynDNS_default)
-    #     |fields - isDynDNS_default, isDynDNS_local| search isDynDNS=True
-    #     | `detect_hosts_connecting_to_dynamic_domain_providers_filter`
+    # Original elastic detection logic
+    # from logs-network_traffic.dns-*, logs-zeek.dns-*, packetbeat-*
+    # | where
+    #     (
+    #       data_stream.dataset in ("network_traffic.dns", "zeek.dns") or
+    #       event.dataset == "dns"
+    #     ) and
+    #     dns.question.name is not null and
+    #     dns.question.registered_domain is not null and
+    #     dns.resolved_ip is not null and
+    #     TO_UPPER(dns.response_code) == "NOERROR" and
+    #     TO_UPPER(dns.question.type) in ("A", "AAAA")
+    # | eval
+    #     Esql.client_ip = COALESCE(client.ip, source.ip),
+    #     Esql.dataset = COALESCE(data_stream.dataset, event.dataset)
+    # | where Esql.client_ip is not null
+    # | mv_expand dns.resolved_ip
+    # | eval Esql.is_private = CIDR_MATCH(
+    #     dns.resolved_ip,
+    #     "0.0.0.0/32",
+    #     "10.0.0.0/8",
+    #     "100.64.0.0/10",
+    #     "127.0.0.0/8",
+    #     "169.254.0.0/16",
+    #     "172.16.0.0/12",
+    #     "192.168.0.0/16",
+    #     "::1/128",
+    #     "fc00::/7",
+    #     "fe80::/10"
+    #   )
+    # | eval
+    #     Esql.private_time = CASE(Esql.is_private, @timestamp, null),
+    #     Esql.public_time = CASE(not Esql.is_private, @timestamp, null),
+    #     Esql.private_event_ttl = CASE(Esql.is_private, MV_MIN(dns.answers.ttl), null),
+    #     Esql.private_ip = CASE(Esql.is_private, dns.resolved_ip, null),
+    #     Esql.public_ip = CASE(not Esql.is_private, dns.resolved_ip, null)
+    # | stats
+    #     Esql.resolved_ip_observation_count = COUNT(*),
+    #     Esql.resolved_ip_count = COUNT_DISTINCT(dns.resolved_ip),
+    #     Esql.first_public_answer = MIN(Esql.public_time),
+    #     Esql.first_private_answer = MIN(Esql.private_time),
+    #     Esql.min_private_event_ttl = MIN(Esql.private_event_ttl),
+    #     Esql.public_ips = MV_SLICE(VALUES(Esql.public_ip), 0, 100),
+    #     Esql.private_ips = MV_SLICE(VALUES(Esql.private_ip), 0, 100),
+    #     Esql.dataset_values = MV_SLICE(VALUES(Esql.dataset), 0, 10),
+    #     Esql.observer_name_values = MV_SLICE(VALUES(observer.name), 0, 20)
+    #   by Esql.client_ip, dns.question.name, dns.question.registered_domain
+    # | eval
+    #     Esql.same_timestamp = Esql.first_public_answer == Esql.first_private_answer,
+    #     Esql.transition_seconds = DATE_DIFF("seconds", Esql.first_public_answer, 
+    # ... [truncated]
   condition: selection
 level: medium

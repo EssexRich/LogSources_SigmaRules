@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1070
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_s3_bucket_configuration_deletion.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-23
+date: 2026-08-30
 tags:
   - attack.t1070
 logsource:
@@ -22,5 +22,6 @@ detection:
     #                     DeleteBucketEncryption or 
     #                     DeleteBucketLifecycle) and 
     #     event.outcome:success
+    #     and not user_agent.original: (*Terraform* or *Pulumi*)
   condition: selection
 level: medium

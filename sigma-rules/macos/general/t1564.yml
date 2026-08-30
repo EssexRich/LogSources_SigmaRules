@@ -1,11 +1,11 @@
-title: Potential Hidden Local User Account Creation
-id: 599d20e1-599d-499d-a99d-599d20e10000
+title: Claude Cowork VM Boot Image Tamper
+id: 7f11e1d7-7f11-4f11-af11-7f11e1d70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1564
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_account_creation_hide_at_logon.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_claude_cowork_vm_boot_image_tamper.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-23
+date: 2026-08-30
 tags:
   - attack.t1564
 logsource:
@@ -14,8 +14,26 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
-    #  process.name == "dscl" and process.args like~ "IsHidden" and process.args like~ "create" and 
-    #  process.args like~ ("true", "1", "yes")
+    # file where host.os.type in ("windows", "macos") and
+    #   event.action in ("creation", "modification", "overwrite", "rename") and
+    #   event.outcome == "success" and
+    #   file.path : (
+    #     "/Users/*/Library/Application Support/Claude/vm_bundles/claudevm.bundle/initrd",
+    #     "/Users/*/Library/Application Support/Claude/vm_bundles/claudevm.bundle/initrd.zst",
+    #     "/Users/*/Library/Application Support/Claude/vm_bundles/claudevm.bundle/vmlinuz",
+    #     "/Users/*/Library/Application Support/Claude/vm_bundles/claudevm.bundle/vmlinuz.zst",
+    #     "/Users/*/Library/Application Support/Claude/vm_bundles/claudevm.bundle/rootfs.img",
+    #     "?:\\Users\\*\\AppData\\Local\\Packages\\Claude_*\\LocalCache\\Roaming\\Claude\\vm_bundles\\claudevm.bundle\\initrd",
+    #     "?:\\Users\\*\\AppData\\Local\\Packages\\Claude_*\\LocalCache\\Roaming\\Claude\\vm_bundles\\claudevm.bundle\\initrd.zst",
+    #     "?:\\Users\\*\\AppData\\Local\\Packages\\Claude_*\\LocalCache\\Roaming\\Claude\\vm_bundles\\claudevm.bundle\\vmlinuz",
+    #     "?:\\Users\\*\\AppData\\Local\\Packages\\Claude_*\\LocalCache\\Roaming\\Claude\\vm_bundles\\claudevm.bundle\\rootfs.vhdx",
+    #     "?:\\Users\\*\\AppData\\Local\\Packages\\Claude_*\\LocalCache\\Roaming\\Claude\\vm_bundles\\claudevm.bundle\\smol-bin.vhdx"
+    #   ) and
+    #   not (
+    #     (process.name : "claude.exe" and
+    #      process.executable : "?:\\Program Files\\WindowsApps\\Claude_*\\app\\claude.exe") or
+    #     (process.name : ("Claude", "Claude Helper") and
+    #      process.executable like "/Applications/Claude.app/*")
+    #   )
   condition: selection
 level: medium

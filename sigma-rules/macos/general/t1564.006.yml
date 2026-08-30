@@ -1,0 +1,39 @@
+title: Claude Cowork VM Boot Image Tamper
+id: 549a3a8f-549a-449a-a49a-549a3a8f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1564.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_claude_cowork_vm_boot_image_tamper.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-30
+tags:
+  - attack.t1564.006
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type in ("windows", "macos") and
+    #   event.action in ("creation", "modification", "overwrite", "rename") and
+    #   event.outcome == "success" and
+    #   file.path : (
+    #     "/Users/*/Library/Application Support/Claude/vm_bundles/claudevm.bundle/initrd",
+    #     "/Users/*/Library/Application Support/Claude/vm_bundles/claudevm.bundle/initrd.zst",
+    #     "/Users/*/Library/Application Support/Claude/vm_bundles/claudevm.bundle/vmlinuz",
+    #     "/Users/*/Library/Application Support/Claude/vm_bundles/claudevm.bundle/vmlinuz.zst",
+    #     "/Users/*/Library/Application Support/Claude/vm_bundles/claudevm.bundle/rootfs.img",
+    #     "?:\\Users\\*\\AppData\\Local\\Packages\\Claude_*\\LocalCache\\Roaming\\Claude\\vm_bundles\\claudevm.bundle\\initrd",
+    #     "?:\\Users\\*\\AppData\\Local\\Packages\\Claude_*\\LocalCache\\Roaming\\Claude\\vm_bundles\\claudevm.bundle\\initrd.zst",
+    #     "?:\\Users\\*\\AppData\\Local\\Packages\\Claude_*\\LocalCache\\Roaming\\Claude\\vm_bundles\\claudevm.bundle\\vmlinuz",
+    #     "?:\\Users\\*\\AppData\\Local\\Packages\\Claude_*\\LocalCache\\Roaming\\Claude\\vm_bundles\\claudevm.bundle\\rootfs.vhdx",
+    #     "?:\\Users\\*\\AppData\\Local\\Packages\\Claude_*\\LocalCache\\Roaming\\Claude\\vm_bundles\\claudevm.bundle\\smol-bin.vhdx"
+    #   ) and
+    #   not (
+    #     (process.name : "claude.exe" and
+    #      process.executable : "?:\\Program Files\\WindowsApps\\Claude_*\\app\\claude.exe") or
+    #     (process.name : ("Claude", "Claude Helper") and
+    #      process.executable like "/Applications/Claude.app/*")
+    #   )
+  condition: selection
+level: medium

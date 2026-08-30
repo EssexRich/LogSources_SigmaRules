@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1213.002
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/collection_entra_id_sharepoint_access_from_unusual_application.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-23
+date: 2026-08-30
 tags:
   - attack.t1213.002
 logsource:
@@ -14,19 +14,25 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset:azure.signinlogs
-    #     and azure.signinlogs.properties.resource_id: (
-    #         00000003-0000-0ff1-ce00-000000000000 or
-    #         6a9b9266-8161-4a7b-913a-a9eda19da220
-    #     ) and azure.signinlogs.properties.app_id: ( *
-    #         and not (
-    #             00000003-0000-0ff1-ce00-000000000000 or
-    #             08e18876-6177-487e-b8b5-cf950c1e598c or
-    #             ab9b8c07-8f02-4f72-87fa-80105867a763 or
-    #             af124e86-4e96-495a-b70a-90f90ab96707
-    #         )
-    #     )
-    #     and azure.signinlogs.properties.tenant_id:*
-    #     and event.outcome:success
+    # data_stream.dataset:azure.signinlogs and
+    # azure.signinlogs.properties.resource_id:(
+    #     00000003-0000-0ff1-ce00-000000000000 or
+    #     6a9b9266-8161-4a7b-913a-a9eda19da220
+    # ) and
+    # azure.signinlogs.properties.app_id:(* and not (
+    #     00000003-0000-0ff1-ce00-000000000000 or
+    #     08e18876-6177-487e-b8b5-cf950c1e598c or
+    #     5e3ce6c0-2b1f-4285-8d4b-75ee78787346 or
+    #     9199bf20-a13f-4107-85dc-02114787ef48 or
+    #     ab9b8c07-8f02-4f72-87fa-80105867a763 or
+    #     af124e86-4e96-495a-b70a-90f90ab96707 or
+    #     cc15fd57-2c6c-4117-a88c-83b1d56b4bbe
+    # )) and
+    # not (
+    #     azure.signinlogs.properties.app_owner_tenant_id:f8cdef31-a31e-4b4a-93e4-5f571e91255a and
+    #     azure.signinlogs.category:MicrosoftServicePrincipalSignInLogs
+    # ) and
+    # azure.signinlogs.properties.tenant_id:* and
+    # event.outcome:success
   condition: selection
 level: medium

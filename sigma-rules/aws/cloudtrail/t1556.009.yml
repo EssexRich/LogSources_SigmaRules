@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1556.009
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_rds_instance_made_public.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-23
+date: 2026-08-30
 tags:
   - attack.t1556.009
 logsource:
@@ -22,5 +22,6 @@ detection:
     #         or
     #         (event.action in ("CreateDBInstance", "CreateDBCluster") and stringContains(aws.cloudtrail.request_parameters, "publiclyAccessible=true"))
     #     )
+    #     and not user_agent.original like~ ("*Terraform*",  "*Pulumi*")
   condition: selection
 level: medium

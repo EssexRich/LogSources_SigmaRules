@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1496
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/exfiltration_sns_rare_protocol_subscription_by_user.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-23
+date: 2026-08-30
 tags:
   - attack.t1496
 logsource:
@@ -18,5 +18,6 @@ detection:
     #     and event.provider: "sns.amazonaws.com"
     #     and event.action: "Subscribe"
     #     and event.outcome: "success"
+    #     and not user_agent.original: (*Terraform*)
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1648
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/execution_lambda_external_layer_added_to_function.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-23
+date: 2026-08-30
 tags:
   - attack.t1648
 logsource:
@@ -18,5 +18,6 @@ detection:
     #     and event.provider: lambda.amazonaws.com
     #     and event.outcome: success
     #     and event.action: (PublishLayerVersion* or UpdateFunctionConfiguration*)
+    #     and not user_agent.original: (*Terraform* or *Pulumi*)
   condition: selection
 level: medium

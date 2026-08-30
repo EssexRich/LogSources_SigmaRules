@@ -1,11 +1,11 @@
-title: Spike in GCP Audit Failed Messages
-id: 663d4004-663d-463d-a63d-663d40040000
+title: GCP Secret Manager ListSecrets Across Multiple Projects
+id: 277b2c76-277b-477b-a77b-277b2c760000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1526
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/ml_gcp_error_message_spike.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/discovery_gcp_secret_manager_listsecrets_across_multiple_projects.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-23
+date: 2026-08-30
 tags:
   - attack.t1526
 logsource:
@@ -14,6 +14,34 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # No detection logic available
+    # from logs-gcp.audit-* metadata _id, _version, _index
+    # | where data_stream.dataset == "gcp.audit"
+    #     and event.action == "google.cloud.secretmanager.v1.SecretManagerService.ListSecrets"
+    #     and cloud.project.id is not null
+    #     and client.user.email is not null
+    #     and source.ip is not null
+    # | stats
+    #     Esql.cloud_project_id_count_distinct = count_distinct(cloud.project.id),
+    #     Esql.cloud_project_id_values = values(cloud.project.id),
+    #     Esql.event_count = count(*),
+    #     Esql.event_outcome_values = values(event.outcome),
+    #     Esql.client_user_id_values = values(client.user.id),
+    #     Esql.user_agent_original_values = values(user_agent.original),
+    #     Esql.earliest_timestamp = min(@timestamp),
+    #     Esql.latest_timestamp = max(@timestamp)
+    #   by client.user.email, source.ip, data_stream.namespace
+    # | where Esql.cloud_project_id_count_distinct >= 10
+    # | keep
+    #     client.user.email,
+    #     source.ip,
+    #     Esql.cloud_project_id_count_distinct,
+    #     Esql.cloud_project_id_values,
+    #     Esql.event_count,
+    #     Esql.event_outcome_values,
+    #     Esql.client_user_id_values,
+    #     Esql.user_agent_original_values,
+    #     Esql.earliest_timestamp,
+    #     Esql.latest_timestamp, 
+    #     data_stream.namespace
   condition: selection
 level: medium

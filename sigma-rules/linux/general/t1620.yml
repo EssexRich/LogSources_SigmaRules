@@ -1,0 +1,28 @@
+title: Suspicious Java Class File Created in PaperCut Server Library
+id: 550cafba-550c-450c-a50c-550cafba0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1620
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/initial_access_papercut_java_class_file.toml
+author: elastic (via IncidentBuddy)
+date: 2026-08-30
+tags:
+  - attack.t1620
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # file where host.os.type in ("windows", "linux", "macos") and
+    #   event.action in ("creation", "overwrite") and
+    #   file.extension : "class" and
+    #   file.path : (
+    #     "?:\\Program Files\\PaperCut*\\server\\lib\\*",
+    #     "?:\\Program Files (x86)\\PaperCut*\\server\\lib\\*",
+    #     "/opt/papercut/server/lib/*",
+    #     "/usr/local/papercut/server/lib/*",
+    #     "/Applications/PaperCut*/server/lib/*"
+    #   )
+  condition: selection
+level: medium

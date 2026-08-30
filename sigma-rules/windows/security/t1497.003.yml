@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1497.003
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/ping_sleep_batch_command.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-23
+date: 2026-08-30
 tags:
   - attack.t1497.003
 logsource:
@@ -22,13 +22,17 @@ detection:
     #     FROM datamodel=Endpoint.Processes WHERE
     #     (
     #         Processes.parent_process= "*ping*"
-    #         Processes.parent_process = *-n*
+    #         Processes.parent_process IN (
+    #             "*-n*",
+    #             "*/n*"
+    #         )
     #         Processes.parent_process IN (
     #             "*& *",
     #             "*&amp;*",
     #             "*&C:*",
     #             "*&gt;*",
-    #             "*>*"
+    #             "*>*",
+    #             "*||*"
     #         )
     #     )
     #     OR
@@ -38,13 +42,17 @@ detection:
     #             OR
     #             Processes.original_file_name= "ping.exe"
     #         )
-    #         Processes.process = *-n*
+    #         Processes.process IN (
+    #             "*-n*",
+    #             "*/n*"
+    #         )
     #         Processes.process IN (
     #             "*& *",
     #             "*&amp;*",
     #             "*&C:*",
     #             "*&gt;*",
-    #             "*>*"
+    #             "*>*",
+    #             "*||*"
     #         )
     #     )
     # 
