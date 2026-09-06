@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1546.011
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_app_compat_shim.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1546.011
 logsource:
@@ -29,6 +29,8 @@ detection:
     #         "\\Device\\HarddiskVolume*\\Program Files (x86)\\SAP\\SAPsetup\\setup\\NwSapSetup.exe",
     #         "\\Device\\HarddiskVolume*\\Program Files (x86)\\SAP\\SapSetup\\OnRebootSvc\\NWSAPSetupOnRebootInstSvc.exe",
     #         "\\Device\\HarddiskVolume*\\Program Files (x86)\\Kaspersky Lab\\Kaspersky Security for Windows Server\\kavfs.exe"
-    #   )
+    #   ) and
+    #   /* Microsoft Cloud AppCompat SDB test registrations */
+    #   not registry.path : "*\\AppCompatFlags\\Custom\\*\\{22221111-1111-1111-1111-111111111111}.sdb"
   condition: selection
 level: medium

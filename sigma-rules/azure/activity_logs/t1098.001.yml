@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1098.001
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_app_credential_added.yml
 author: sigma (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1098.001
 logsource:
@@ -16,8 +16,8 @@ detection:
     # Original sigma detection logic
     #     selection:
     #         properties.message:
-    #             - Update application – Certificates and secrets management
-    #             - Update Service principal/Update Application
+    #             - 'Update application - Certificates and secrets management' # See https://github.com/SigmaHQ/sigma/pull/6247#issuecomment-5463002942
+    #             - 'Update Service principal/Update Application'
     #     condition: selection
     # 
   condition: selection

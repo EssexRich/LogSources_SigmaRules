@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1098
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_iam_backdoor_users_keys.yml
 author: sigma (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1098
 logsource:
@@ -14,12 +14,12 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_source:
+    #     selection:
     #         eventSource: iam.amazonaws.com
     #         eventName: CreateAccessKey
-    #     filter:
-    #         userIdentity.arn|contains: responseElements.accessKey.userName
-    #     condition: selection_source and not filter
+    #     filter_main_same_user:
+    #         userIdentity.arn|fieldref|contains: responseElements.accessKey.userName
+    #     condition: selection and not 1 of filter_main_*
     # 
   condition: selection
 level: medium

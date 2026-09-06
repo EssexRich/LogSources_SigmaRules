@@ -1,11 +1,11 @@
-title: Suspicious Child Process of Adobe Acrobat Reader Update Service
-id: 5278845b-5278-4278-a278-5278845b0000
+title: SSFileCopySender Executed as Root
+id: 5353cb4f-5353-4353-a353-5353cb4f0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1068
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/privilege_escalation_exploit_adobe_acrobat_updater.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/initial_access_ssfilecopysender_root_execution.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1068
 logsource:
@@ -14,17 +14,23 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
-    #   process.parent.name like "com.adobe.ARMDC.SMJobBlessHelper" and
-    #   user.name == "root" and
-    #   not process.executable like ("/Library/PrivilegedHelperTools/com.adobe.ARMDC.SMJobBlessHelper",
-    #                                "/usr/bin/codesign",
-    #                                "/private/var/folders/zz/*/T/download/ARMDCHammer",
-    #                                "/usr/sbin/pkgutil",
-    #                                "/usr/bin/shasum",
-    #                                "/usr/bin/perl*",
-    #                                "/usr/sbin/spctl",
-    #                                "/usr/sbin/installer",
-    #                                "/usr/bin/csrutil")
+    # from logs-endpoint.events.process-* METADATA _id, _index, _version
+    # | WHERE host.os.type == "macos"
+    #     AND event.type == "start"
+    #     AND process.name == "SSFileCopySender"
+    #     AND KQL(""" process.args : "0" AND process.args : "80" """)
+    # | KEEP _id, _version, _index,
+    #     @timestamp,
+    #     data_stream.namespace,
+    #     host.name,
+    #     host.id,
+    #     user.id,
+    #     user.name,
+    #     process.name,
+    #     process.entity_id,
+    #     process.parent.name,
+    #     process.command_line
+    # | SORT @timestamp DESC
+    # | LIMIT 100
   condition: selection
 level: medium

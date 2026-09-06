@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1129
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/image_load/image_load_dll_unsigned_node_load.yml
 author: sigma (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1129
 logsource:
@@ -25,6 +25,16 @@ detection:
     #         ImageLoaded|endswith:
     #             - '\electron.napi.node'
     #             - '\node.napi.glibc.node'
+    #     filter_optional_vscode_core:
+    #         Image|contains: '\Microsoft VS Code\Code.exe'
+    #         ImageLoaded|contains: '\Microsoft VS Code\resources\app\node_modules'
+    #     filter_optional_evernote:
+    #         Image|contains:
+    #             - 'C:\Program Files (x86)\'
+    #             - 'C:\Program Files\'
+    #             - '\AppData\Local\Programs\'
+    #         Image|endswith: '\Evernote\Evernote.exe'
+    #         ImageLoaded|contains: '\Evernote\resources\app'
     #     condition: all of selection_* and not 1 of filter_optional_*
     # 
   condition: selection

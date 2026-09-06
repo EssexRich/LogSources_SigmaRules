@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1021.005
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_vnc_virtual_network_computing_to_the_internet.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1021.005
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # (data_stream.dataset: network_traffic.flow  or (event.category: (network or network_traffic))) and
+    # (data_stream.dataset:(fortinet_fortigate.log or network_traffic.flow) or event.category:(network or network_traffic)) and
     #   network.transport:tcp and destination.port >= 5800 and destination.port <= 5810 and
     #   source.ip:(
     #     10.0.0.0/8 or

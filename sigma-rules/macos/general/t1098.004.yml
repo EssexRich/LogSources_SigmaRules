@@ -1,0 +1,41 @@
+title: SSFileCopyReceiver Writing to Common Persistence Locations
+id: 1baf158c-1baf-4baf-abaf-1baf158c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_ssfilecopyreceiver_file_writes.toml
+author: elastic (via IncidentBuddy)
+date: 2026-09-06
+tags:
+  - attack.t1098.004
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-endpoint.events.file-* METADATA _id, _index, _version
+    # | WHERE host.os.type == "macos"
+    #     AND event.type != "deletion"
+    #     AND process.name == "SSFileCopyReceiver"
+    #     AND (
+    #         file.path LIKE "/Library/LaunchDaemons/*.plist"
+    #         OR file.path LIKE "/Library/LaunchAgents/*.plist"
+    #         OR file.path LIKE "/Users/*/Library/LaunchAgents/*.plist"
+    #         OR file.path LIKE "/private/var/*/Library/LaunchAgents/*.plist"
+    #         OR file.name IN (".zshenv", ".zshrc", ".zprofile", ".zlogin", ".bashrc", ".bash_profile", ".bash_login", ".profile", "config.fish", "environment.plist")
+    #         OR file.path LIKE "/Users/*/.ssh/authorized_keys"
+    #         OR file.path LIKE "/private/var/root/.ssh/authorized_keys"
+    #         OR file.path LIKE "/private/etc/ssh/sshd_config*"
+    #         OR file.path LIKE "/private/var/at/tabs/*"
+    #         OR file.path LIKE "/var/at/tabs/*"
+    #         OR file.path LIKE "/private/var/root/.*/*"
+    #         OR file.path LIKE "/var/root/.*/*"
+    #         OR file.path LIKE "/private/var/root/.*"
+    #         OR file.path LIKE "/var/root/.*"
+    #     )
+    # | KEEP _id, _index, _version, 
+    #     @timestamp, host.name, host.id, user.id, user.name, process.name, 
+    #     event.action, event.type, file.path, file.name, data_stream.namespace
+  condition: selection
+level: medium

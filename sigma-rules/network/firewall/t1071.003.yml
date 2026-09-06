@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1071.003
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_smtp_to_the_internet_port_26.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1071.003
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # (data_stream.dataset: (network_traffic.flow or zeek.smtp) or event.category:(network or network_traffic)) and
+    # (data_stream.dataset: (fortinet_fortigate.log or network_traffic.flow or zeek.smtp) or event.category:(network or network_traffic)) and
     #   network.transport:tcp and destination.port:26 and
     #   source.ip:(10.0.0.0/8 or 172.16.0.0/12 or 192.168.0.0/16) and
     #   not destination.ip:(10.0.0.0/8

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1686.003
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/firewall_as/win_firewall_as_add_rule.yml
 author: sigma (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1686.003
 logsource:
@@ -38,9 +38,15 @@ detection:
     #             - 'C:\Windows\Tasks\'
     #             - 'C:\Windows\Temp\'
     #             - '\AppData\Local\Temp\'
-    #     filter_main_system_dllhost:
-    #         ApplicationPath: 'System'
-    #         ModifyingApplication: 'C:\Windows\System32\dllhost.exe'
+    #     filter_main_system:
+    #         ApplicationPath: 'SYSTEM'
+    #         ModifyingApplication:
+    #             - 'C:\Windows\System32\dllhost.exe'
+    #             - 'C:\Windows\System32\oobe\Setup.exe'
+    #             - 'C:\Windows\System32\svchost.exe'
+    #     filter_main_ehome:
+    #         ApplicationPath|startswith: 'C:\Windows\ehome\'
+    #         ModifyingApplication: 'C:\Windows\System32\oobe\Setup.exe'
     #     filter_main_tiworker:
     #         ModifyingApplication|startswith: 'C:\Windows\WinSxS\'
     #         ModifyingApplication|endswith: '\TiWorker.exe'
@@ -56,13 +62,7 @@ detection:
     #         - ModifyingApplication|startswith:
     #               - 'C:\ProgramData\Microsoft\Windows Defender\Platform\'
     #               - 'C:\Program Files\Windows Defender\'
-    #           ModifyingApplication|endswith: '\MsMpEng.exe'
-    #         - ApplicationPath|startswith:
-    #               - 'C:\ProgramData\Microsoft\Windows Defender\Platform\'
-    #               - 'C:\Program Files\Windows Defender\'
-    #           ApplicationPath|endswith: '\MsMpEng.exe'
-    #     filter_optional_systemApps:
-    #      
+    #           ModifyingApplication|endswith: '\MsMpEng.exe
     # ... [truncated]
   condition: selection
 level: medium

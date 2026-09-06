@@ -1,11 +1,11 @@
-title: Cisco Isovalent - Cron Job Creation
-id: 14beaeea-14be-44be-a4be-14beaeea0000
+title: Linux Adding Crontab Using List Parameter
+id: 206451bc-2064-4064-a064-206451bc0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1053.003
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/cisco_isovalent___cron_job_creation.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/linux_adding_crontab_using_list_parameter.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1053.003
 logsource:
@@ -14,15 +14,19 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `cisco_isovalent_process_exec` process_name IN ("crond","cron","crontab")
-    #     | search pod_name!=""
-    #     | stats count
-    #             min(_time) as firstTime
-    #             max(_time) as lastTime
-    #             values(process) as process
-    #         by cluster_name pod_name parent_process_name process_name process_exec process_id node_name
+    # -
+    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+    #       WHERE Processes.process_name = "crontab" Processes.process= "* -l*"
+    #       BY Processes.action Processes.dest Processes.original_file_name
+    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    #          Processes.process Processes.process_exec Processes.process_guid
+    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #          Processes.process_name Processes.process_path Processes.user
+    #          Processes.user_id Processes.vendor_product
+    #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `cisco_isovalent___cron_job_creation_filter`
+    #     | `linux_adding_crontab_using_list_parameter_filter`
   condition: selection
 level: medium

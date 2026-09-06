@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1036.009
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/privilege_escalation_unusual_parentchild_relationship.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1036.009
 logsource:
@@ -24,19 +24,19 @@ detection:
     #    (process.name:"SearchIndexer.exe" and not process.parent.name:"services.exe") or
     #    (process.name:"SearchProtocolHost.exe" and not process.parent.name:("SearchIndexer.exe", "dllhost.exe")) or
     #    (process.name:"dllhost.exe" and not process.parent.name:("services.exe", "svchost.exe")) or
-    #    (process.name:"smss.exe" and not process.parent.name:("System", "smss.exe")) or
+    #    (process.name:"smss.exe" and not process.parent.name:"System") or
     #    (process.name:"csrss.exe" and not process.parent.name:("smss.exe", "svchost.exe")) or
     #    (process.name:"wininit.exe" and not process.parent.name:"smss.exe") or
     #    (process.name:"winlogon.exe" and not process.parent.name:"smss.exe") or
     #    (process.name:("lsass.exe", "LsaIso.exe") and not process.parent.name:"wininit.exe") or
     #    (process.name:"LogonUI.exe" and not process.parent.name:("wininit.exe", "winlogon.exe")) or
     #    (process.name:"services.exe" and not process.parent.name:"wininit.exe") or
-    #    (process.name:"svchost.exe" and not process.parent.name:("MsMpEng.exe", "services.exe", "svchost.exe")) or
+    #    (process.name:"svchost.exe" and not process.parent.name:("MsMpEng.exe", "services.exe")) or
     #    (process.name:"spoolsv.exe" and not process.parent.name:("services.exe", "Workplace Starter.exe")) or
     #    (process.name:"taskhost.exe" and not process.parent.name:("services.exe", "svchost.exe", "ngentask.exe")) or
     #    (process.name:"taskhostw.exe" and not process.parent.name:("services.exe", "svchost.exe")) or
     #    (process.name:"userinit.exe" and not process.parent.name:("dwm.exe", "winlogon.exe", "KUsrInit.exe")) or
-    #    (process.name:("wmiprvse.exe", "wsmprov
+    #    (process.name:("wmiprvse.exe", "wsmprovhost.exe", "winrshost.exe") a
     # ... [truncated]
   condition: selection
 level: medium

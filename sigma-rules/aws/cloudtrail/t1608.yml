@@ -1,11 +1,11 @@
-title: AWS SNS Topic Created by Rare User
-id: 51425600-5142-4142-a142-514256000000
+title: AWS SES Full Access Policy Attached to IAM Entity by Unusual User
+id: 6c28486d-6c28-4c28-ac28-6c28486d0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1608
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/resource_development_sns_topic_created_by_rare_user.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_iam_ses_fullaccess_policy_attached_by_unusual_user.toml
 author: elastic (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1608
 logsource:
@@ -15,8 +15,9 @@ detection:
   selection:
     # Original elastic detection logic
     # data_stream.dataset: "aws.cloudtrail"
-    #     and event.provider: "sns.amazonaws.com"
-    #     and event.action: "CreateTopic"
+    #     and event.provider: "iam.amazonaws.com"
+    #     and event.action: ("AttachUserPolicy" or "AttachRolePolicy" or "AttachGroupPolicy")
     #     and event.outcome: "success"
+    #     and aws.cloudtrail.flattened.request_parameters.policyArn: "arn:aws:iam::aws:policy/AmazonSESFullAccess"
   condition: selection
 level: medium

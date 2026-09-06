@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1059.007
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/jscript_execution_using_cscript_app.yml
 author: splunk (via IncidentBuddy)
-date: 2026-08-30
+date: 2026-09-06
 tags:
   - attack.t1059.007
 logsource:
@@ -15,20 +15,34 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE (
+    #     | tstats `security_content_summariesonly`
+    #       count min(_time) as firstTime
+    #             max(_time) as lastTime
+    # 
+    #     FROM datamodel=Endpoint.Processes WHERE
+    #     (
+    #         (
     #             Processes.parent_process_name = "cscript.exe"
-    #             AND
     #             Processes.parent_process = "*//e:jscript*"
     #         )
-    #         OR (Processes.process_name = "cscript.exe" AND Processes.process = "*//e:jscript*")
-    #       BY Processes.action Processes.dest Processes.original_file_name
-    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #          Processes.process Processes.process_exec Processes.process_guid
-    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
-    #          Processes.process_name Processes.process_path Processes.user
-    #          Processes.user_id Processes.vendor_product
+    #         OR
+    #         (
+    #             Processes.process_name = "cscript.exe"
+    #             Processes.process = "*//e:jscript*"
+    #         )
+    #     )
+    # 
+    #     NOT Processes.process="*/Job:AgentHIScript*"
+    #     NOT Processes.parent_process="*/Job:AgentHIScript*"
+    # 
+    #     BY Processes.action Processes.dest Processes.original_file_name
+    #        Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+    #        Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    #        Processes.process Processes.process_exec Processes.process_guid
+    #        Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #        Processes.process_name Processes.process_path Processes.user
+    #        Processes.user_id Processes.vendor_product
+    # 
     #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
