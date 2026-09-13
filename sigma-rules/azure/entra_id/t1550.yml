@@ -1,11 +1,11 @@
-title: Entra ID Concurrent Sign-in with Suspicious Properties
-id: 0780552f-0780-4780-a780-0780552f0000
+title: Entra ID Device-Bound PRT Replay via First-Party App from Unusual IP
+id: 761e9247-761e-461e-a61e-761e92470000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1550
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_entra_id_suspicious_signin.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_entra_id_prt_cookie_replay_unusual_ip.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-06
+date: 2026-09-13
 tags:
   - attack.t1550
 logsource:
@@ -14,53 +14,45 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # from logs-azure.signinlogs-* metadata _id, _version, _index
+    # from logs-azure.signinlogs-*
+    # // find successful sign-in events where a managed device exists
+    # | where event.dataset == "azure.signinlogs"
+    #     and azure.signinlogs.properties.status.error_code == 0
+    #     and azure.signinlogs.properties.device_detail.device_id is not null
     # 
-    # // Scheduled to run every hour, reviewing events from past hour
-    # | where
-    #   @timestamp > now() - 1 hours
-    #   and data_stream.dataset == "azure.signinlogs"
-    #   and source.ip is not null
-    #   and azure.signinlogs.identity is not null
-    #   and to_lower(event.outcome) == "success"
+    # // filter for device sign-in events from Windows Sign-In or WAM (login session)
+    # | eval Esql.is_device_session = azure.signinlogs.properties.app_display_name == "Windows Sign In"
+    #     or user_agent.original == "Windows-AzureAD-Authentication-Provider/1.0"
     # 
-    # // keep relevant raw fields
-    # | keep
-    #   @timestamp,
-    #   azure.signinlogs.identity,
-    #   source.ip,
-    #   azure.signinlogs.properties.authentication_requirement,
-    #   azure.signinlogs.properties.app_id,
-    #   azure.signinlogs.properties.resource_display_name,
-    #   azure.signinlogs.properties.authentication_protocol,
-    #   azure.signinlogs.properties.app_display_name
+    # // filter for tooling FOCI clients that can redeem a PRT (replay)
+    # | eval Esql.is_prt_replay = azure.signinlogs.properties.app_id in (
+    #         "04b07795-8ddb-461a-bbee-02f9e1bf7b46",  // Microsoft Azure CLI
+    #         "1950a258-227b-4e31-a9cf-717495945fc2",  // Microsoft Azure PowerShell
+    #         "aebc6443-996d-45c2-90f0-388ff96faa56",  // Visual Studio Code
+    #         "14d82eec-204b-4c2f-b7e8-296a70dab67e",  // Microsoft Graph Command Line Tools
+    #         "1b730954-1685-4b74-9bfd-dac224a7b894",  // Azure Active Directory PowerShell
+    #         "872cd9fa-d31f-45e0-9eab-6e460a02d1f1"   // Visual Studio
+    #     )
     # 
-    # // case classifications for identity usage
-    # | eval
-    #       Esql.azure_signinlogs_properties_authentication_device_code_case = case(
-    #       azure.signinlogs.properties.authentication_protocol == "deviceCode"
-    #       and azure.signinlogs.properties.authentication_requirement != "multiFactorAuthentication",
-    #       azure.signinlogs.identity,
-    #       null),
+    #     // target resource are common adversary targets for access
+    #     and azure.signinlogs.properties.resource_id in (
+    #         "00000003-0000-0000-c000-000000000000",  // Microsoft Graph
+    #         "00000003-0000-0ff1-ce00-000000000000",  // Office 365 SharePoint Online
+    #         "6a9b9266-8161-4a7b-913a-a9eda19da220",  // OneDrive for Business
+    #         "00000002-0000-0ff1-ce00-000000000000"   // Office 365 Exchange Online
+    #     )
+    #     and azure.signinlogs.properties.incoming_token_type == "primaryRefreshToken"
+    #     and (
+    #         azure.signinlogs.properties.device_detail.is_compliant == true
+    #         or azure.signinlogs.properties.device_detail.is_managed == true
+    #     )
     # 
-    #     Esql.azure_signinlogs_auth_visual_studio_case = case(
-    #       azure.signinlogs.properties.app_id == "aebc6443-996d-45c2-90f0-388ff96faa56"
-    #       and azure.signinlogs.properties.resource_display_name == "Microsoft Graph",
-    #       azure.signinlogs.identity,
-    #       null),
+    # // device session or PRT replay event have to exist
+    # | where Esql.is_device_session or Esql.is_prt_replay
     # 
-    #     Esql.azure_signinlogs_auth_other_case = case(
-    #       azure.signinlogs.properties.authentication_protocol != "deviceCode"
-    #       and azure.signinlogs.properties.app_id != "aebc6443-996d-45c2-90f0-388ff96faa56",
-    #       azure.signinlogs.identity,
-    #       null)
-    # 
-    # // Aggregate metrics by user identity
-    # | stats
-    #     Esql.event_count = count(*),
-    #     Esql.azure_signinlogs_properties_authentication_device_code_case_count_distinct = count_distinct(Esql.azure_signinlogs_properties_authentication_device_code_case),
-    #     Esql.azure_signinlogs_properties_auth_visual_studio_count_distinct = count_distinct(Esql.azure_signinlogs_auth_visual_studio_case),
-    #     Esql.azure_signinlogs_properties_auth_other_count_distinct = count_
+    # // aggregate entities for both device session and PRT replay events
+    # // aggregate by user and device
+    # | s
     # ... [truncated]
   condition: selection
 level: medium

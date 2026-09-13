@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1071
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_suricata_elastic_defend_c2.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-06
+date: 2026-09-13
 tags:
   - attack.t1071
 logsource:
@@ -17,7 +17,6 @@ detection:
     # sequence by source.port, source.ip, destination.ip with maxspan=5s
     #  [network where data_stream.dataset == "suricata.eve" and event.kind == "alert" and
     #   event.severity != 3 and source.ip != null and destination.ip != null and
-    #   not source.domain : ("*nessusscan*", "SCCMPS*") and
     #   not rule.name in ("ET INFO SMB2 NT Create AndX Request For a Powershell .ps1 File", "ET SCAN MS Terminal Server Traffic on Non-standard Port")]
     #  [network where event.module == "endpoint" and event.action in ("disconnect_received", "connection_attempted") and
     #   not process.executable in ("System", "C:\\Program Files (x86)\\Admin Arsenal\\PDQ Inventory\\PDQInventoryService.exe") and 

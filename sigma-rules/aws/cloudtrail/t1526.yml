@@ -1,11 +1,11 @@
-title: AWS Bedrock Foundation Model Enumeration Followed by Invocation via Long-Term Key
-id: 2e01649e-2e01-4e01-ae01-2e01649e0000
+title: AWS Backup Resource Enumeration via Long-Term Access Key
+id: 6da81711-6da8-4da8-ada8-6da817110000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1526
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_bedrock_model_recon_and_invocation_via_long_term_key.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_backup_enumeration_via_long_term_access_key.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-06
+date: 2026-09-13
 tags:
   - attack.t1526
 logsource:
@@ -14,15 +14,20 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by aws.cloudtrail.user_identity.access_key_id with maxspan=15m
-    #   [any where data_stream.dataset == "aws.cloudtrail"
-    #     and event.provider == "bedrock.amazonaws.com"
-    #     and event.action == "ListFoundationModels"
-    #     and event.outcome == "success"
-    #     and aws.cloudtrail.user_identity.access_key_id like "AKIA*"]
-    #   [any where data_stream.dataset == "aws.cloudtrail"
-    #     and event.provider == "bedrock.amazonaws.com"
-    #     and event.action : ("InvokeModel", "InvokeModelWithResponseStream", "Converse", "ConverseStream")
-    #     and event.outcome == "success"]
+    # data_stream.dataset: "aws.cloudtrail"
+    #     and event.provider: "backup.amazonaws.com"
+    #     and event.action: (
+    #         "ListBackupVaults" or
+    #         "ListBackupJobs" or
+    #         "ListBackupPlans" or
+    #         "ListProtectedResources" or
+    #         "ListRecoveryPointsByBackupVault" or
+    #         "GetBackupPlan" or
+    #         "GetBackupVaultAccessPolicy" or
+    #         "DescribeBackupJob" or
+    #         "DescribeRecoveryPoint"
+    #     )
+    #     and event.outcome: "success"
+    #     and aws.cloudtrail.user_identity.access_key_id: AKIA*
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1127.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/command_and_control_dns_susp_tld.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-06
+date: 2026-09-13
 tags:
   - attack.t1127.001
 logsource:
@@ -30,7 +30,9 @@ detection:
     # 
     # not process.executable : (
     #     "?:\\ProgramData\\Microsoft\\Windows Defender\\platform\\*\\*.exe",
-    #     "\\Device\\HarddiskVolume*\\ProgramData\\Microsoft\\Windows Defender\\platform\\*\\*.exe"
+    #     "\\Device\\HarddiskVolume*\\ProgramData\\Microsoft\\Windows Defender\\platform\\*\\*.exe",
+    #     "?:\\ProgramData\\Microsoft\\Windows Defender Advanced Threat Protection\\Platform\\Versions\\*\\*.exe",
+    #     "\\Device\\HarddiskVolume*\\ProgramData\\Microsoft\\Windows Defender Advanced Threat Protection\\Platform\\Versions\\*\\*.exe"
     # )
   condition: selection
 level: medium

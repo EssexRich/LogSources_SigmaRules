@@ -1,0 +1,33 @@
+title: Windows Builtin Account Name Was Changed
+id: 2140d811-2140-4140-a140-2140d8110000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1036.010
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_builtin_account_name_was_changed.yml
+author: splunk (via IncidentBuddy)
+date: 2026-09-13
+tags:
+  - attack.t1036.010
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `wineventlog_security`
+    #     EventCode=4781
+    #     TargetSid="S-1-5-21-*"
+    # 
+    #     | where match(TargetSid, "S-1-5-21-.*-50[0-4]$")
+    # 
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #       by dest OldTargetUserName NewTargetUserName
+    #          TargetSid SubjectLogonId
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_builtin_account_name_was_changed_filter`
+  condition: selection
+level: medium

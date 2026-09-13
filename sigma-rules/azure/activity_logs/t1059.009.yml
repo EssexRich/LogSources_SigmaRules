@@ -1,0 +1,27 @@
+title: AzCopy or Azure Storage Explorer Usage on Unusual Host
+id: 7356016e-7356-4356-a356-7356016e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.009
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/exfiltration_azcopy_storageexplorer.toml
+author: elastic (via IncidentBuddy)
+date: 2026-09-13
+tags:
+  - attack.t1059.009
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # host.os.type:windows and event.category:process and event.type:start and
+    # (
+    #   (
+    #     (process.name:"azcopy.exe" or process.pe.original_file_name:"azcopy.exe") and
+    #     process.args:("copy" or "sync") and
+    #     process.command_line:(*blob.core.windows.net* or *dfs.core.windows.net* or *file.core.windows.net* or *blob.storage.azure.net*)
+    #   ) or
+    #   process.name:("StorageExplorer.exe" or "StorageExplorer-windows-x64.exe" or "StorageExplorer-windows-arm64.exe" or "StorageExplorer-windowsx64.exe")
+    # )
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1020
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/collection_onedrive_excessive_file_downloads.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-06
+date: 2026-09-13
 tags:
   - attack.t1020
 logsource:
@@ -30,12 +30,14 @@ detection:
     # | eval session.id = coalesce(o365.audit.AppAccessContext.AADSessionId, session.id, null)
     # | where session.id is not null
     # | eval Esql.time_window_date_trunc = date_trunc(3 minutes, @timestamp)
+    # // file.size is dynamically mapped in o365.audit and can be keyword or long across backing indices
+    # | eval Esql.file_size_bytes = to_long(file.size)
     # | stats
     #     Esql.file_directory_values = values(file.directory),
     #     Esql.file_extension_values = values(file.extension),
     #     Esql.application_name_values = values(application.name),
     #     Esql.file_name_count_distinct = count_distinct(file.name),
-    #     Esql.total_file_size_mb = round((mv_sum(values(file.size))) / 1048576.0, 2),
+    #     Esql.total_file_size_mb = round((mv_sum(values(Esql.file_size_bytes))) / 1048576.0, 2),
     #     Esql.o365_audit_Site_values = values(o365.audit.Site),
     #     Esql.o365_audit_SiteUrl_values = values(o365.audit.SiteUrl),
     #     Esql.user_domain_values = values(user.domain),
@@ -47,14 +49,7 @@ detection:
     #     Esql.platform_values = values(o365.audit.Platform),
     #     Esql.user_agent_values = values(user_agent.name),
     #     Esql.source_asn_org_values = values(source.as.organization.name),
-    #     Esql.geo_country_values = values(source.geo.country_name),
-    #     Esql.event_count = count(*)
-    #     by
-    #     Esql.time_window_date_trunc,
-    #     user.id,
-    #     session.id,
-    #     source.ip,
-    #     o365.audit.Applic
+    #     Esql.geo_country_values = values(sour
     # ... [truncated]
   condition: selection
 level: medium

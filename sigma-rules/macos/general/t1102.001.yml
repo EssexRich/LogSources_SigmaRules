@@ -1,11 +1,11 @@
-title: Potential Etherhiding C2 via Blockchain Connection
-id: 0c56cd78-0c56-4c56-ac56-0c56cd780000
+title: Potential EtherHiding C2 via Curl JSON-RPC Request
+id: 5302b961-5302-4302-a302-5302b9610000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1102.001
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/command_and_control_potential_etherhiding_c2.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/command_and_control_etherhiding_c2_via_blockchain_rpc_request.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-06
+date: 2026-09-13
 tags:
   - attack.t1102.001
 logsource:
@@ -14,11 +14,9 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by process.entity_id with maxspan=15s
-    #   [network where host.os.type == "macos" and event.type == "start" and
-    #     (process.name in ("bash", "sh", "zsh", "osascript", "node", "Cursor") or
-    #     process.name like ("python*", "ruby*", "perl*", "tclsh*")) and
-    #     destination.domain like ("eth-mainnet*", "ethereum*", "eth.*.com")]
-    #   [file where host.os.type == "macos" and event.action == "modification" and file.extension in ("js", "py", "sh")]
+    # process where host.os.type == "macos" and event.type == "start" and event.action == "exec" and
+    #   process.name in ("curl", "nscurl") and
+    #   process.parent.name in ("osascript", "bash", "sh", "zsh") and
+    #   process.command_line like~ ("*eth_call*", "*\"jsonrpc\"*")
   condition: selection
 level: medium

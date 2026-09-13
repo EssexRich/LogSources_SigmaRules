@@ -1,11 +1,11 @@
-title: Spike in Azure Activity Logs Failed Messages
-id: 677747e8-6777-4777-a777-677747e80000
+title: Azure WireServer Unusual Process Connection
+id: 6a5764b8-6a57-4a57-aa57-6a5764b80000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1580
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/ml_azure_event_failures.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_azure_wireserver_unusual_process_connection.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-06
+date: 2026-09-13
 tags:
   - attack.t1580
 logsource:
@@ -14,6 +14,31 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # No detection logic available
+    # event.category: network and host.os.type: (linux or windows) and
+    #  destination.ip: "168.63.129.16" and destination.port: (80 or 32526) and
+    #  (
+    #    process.name: (
+    #      bash or dash or sh or tcsh or csh or zsh or ksh or fish or mksh or busybox or
+    #      bun or bun.exe or node or node.exe or nodejs or deno or deno.exe or
+    #      java or java.exe or javaw or javaw.exe or
+    #      curl or curl.exe or wget or wget.exe or
+    #      powershell.exe or pwsh.exe or pwsh or cmd.exe or
+    #      certutil.exe or bitsadmin.exe or mshta.exe or rundll32.exe or
+    #      wscript.exe or cscript.exe or regsvr32.exe or
+    #      openssl or openssl.exe or nc or ncat or netcat or socat or
+    #      python.exe or pythonw.exe or perl or perl.exe or ruby or ruby.exe or
+    #      php or php.exe or lua or lua.exe
+    #    ) or
+    #    process.executable: (
+    #      ./* or /tmp/* or /var/tmp/* or /dev/shm/* or /run/* or /var/run/* or
+    #      /home/*/* or /root/* or *\:\\Users\\* or *\:\\ProgramData\\*
+    #    )
+    #  ) and
+    #  not process.executable: (
+    #    /usr/sbin/waagent or /usr/bin/waagent or /usr/bin/python3* or
+    #    /usr/lib/systemd/systemd-resolved or /lib/systemd/systemd-resolved or
+    #    *\:\\WindowsAzure\\Packages\\* or *\:\\WindowsAzure\\GuestAgent*\\* or
+    #    *\:\\WindowsAzure\\SecAgent\\*
+    #  )
   condition: selection
 level: medium
