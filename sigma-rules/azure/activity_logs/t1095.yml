@@ -1,0 +1,50 @@
+title: Azure AKS Pod Exec Potential Reverse Shell
+id: 128118be-1281-4281-a281-128118be0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1095
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/execution_azure_aks_pod_exec_potential_reverse_shell.toml
+author: elastic (via IncidentBuddy)
+date: 2026-09-20
+tags:
+  - attack.t1095
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-azure.platformlogs-* METADATA _id, _index, _version
+    # | WHERE data_stream.dataset == "azure.platformlogs"
+    #     AND event.action == "Microsoft.ContainerService/managedClusters/diagnosticLogs/Read"
+    #     AND azure.platformlogs.category == "kube-audit"
+    # | EVAL Esql.stage = FIELD_EXTRACT(azure.platformlogs.properties, "log.stage"),
+    #     Esql.resource = FIELD_EXTRACT(azure.platformlogs.properties, "log.objectRef.resource"),
+    #     Esql.subresource = FIELD_EXTRACT(azure.platformlogs.properties, "log.objectRef.subresource"),
+    #     Esql.verb = FIELD_EXTRACT(azure.platformlogs.properties, "log.verb"),
+    #     Esql.requestURI = FIELD_EXTRACT(azure.platformlogs.properties, "log.requestURI"),
+    #     Esql.namespace = FIELD_EXTRACT(azure.platformlogs.properties, "log.objectRef.namespace"),
+    #     Esql.pod_name = FIELD_EXTRACT(azure.platformlogs.properties, "log.objectRef.name"),
+    #     Esql.username = FIELD_EXTRACT(azure.platformlogs.properties, "log.user.username"),
+    #     Esql.user_agent = FIELD_EXTRACT(azure.platformlogs.properties, "log.userAgent"),
+    #     Esql.source_ips = FIELD_EXTRACT(azure.platformlogs.properties, "log.sourceIPs"),
+    #     Esql.response_code = FIELD_EXTRACT(azure.platformlogs.properties, "log.responseStatus.code")
+    # | WHERE Esql.stage == "ResponseComplete"
+    #     AND Esql.resource == "pods"
+    #     AND Esql.subresource == "exec"
+    #     AND Esql.verb IN ("create", "get")
+    #     AND Esql.requestURI LIKE "*command=*"
+    #     AND Esql.response_code == "101"
+    #     AND Esql.username IS NOT NULL
+    #     AND NOT Esql.username RLIKE "system:node:.*|system:serviceaccount:kube-system:.*"
+    #     AND NOT Esql.username IN ("aksService", "hcpService", "readinessChecker", "system:apiserver", "system:kube-controller-manager", "system:kube-scheduler")
+    # | EVAL Esql.executed_command = TRIM(REPLACE(REPLACE(REPLACE(
+    #     URL_DECODE(Esql.requestURI),
+    #     """^[^?]*\?""", ""),
+    #     """&?(container|stderr|stdin|stdout|tty)=[^&]*""", ""),
+    #     """&?command=""", " "))
+    # | WHERE Esql.executed_command IS NOT NULL
+    #     // Split across several R
+    # ... [truncated]
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1566
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/initial_access_teams_rogue_helpdesk_chat.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-13
+date: 2026-09-20
 tags:
   - attack.t1566
 logsource:
@@ -26,7 +26,10 @@ detection:
     #       *helpdesk* or *help.desk* or *help-desk* or *help_desk* or
     #       *ithelp* or *it.help* or *itsupport* or *it.support* or *it-support*
     #     ) or
-    #     user.name:(*helpdesk* or *help-desk* or *ithelp* or *itsupport*)
+    #     user.name:(*helpdesk* or *help-desk* or *ithelp* or *itsupport* or support or itassistant or ithelp or it or it_* or itadmin or it-*) or 
+    # 
+    #     (o365.audit.Members: *.onmicrosoft.com and 
+    #      o365.audit.Members: (*helpdesk* or *help* or *support* or *protection* or *monitoring* or *security* or *department* or *mandatory* or *network* or *systems*))
     #   )
   condition: selection
 level: medium

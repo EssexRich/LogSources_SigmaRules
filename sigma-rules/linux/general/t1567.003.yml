@@ -1,11 +1,11 @@
-title: DNS Request to Suspicious Top Level Domain
-id: 60bdae9a-60bd-40bd-a0bd-60bdae9a0000
+title: Unusual DNS Request to Suspicious Top Level Domain
+id: 0482cfef-0482-4482-a482-0482cfef0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1567.003
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_dns_query_to_sus_top_level_domain.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-13
+date: 2026-09-20
 tags:
   - attack.t1567.003
 logsource:
@@ -14,13 +14,29 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # network where host.os.type == "linux" and dns.question.name != null and process.name != null and
-    # dns.question.name like~ (
-    #   "*.forum", "*.pro", "*.team", "*.lol", "*.kr", "*.ke", "*.nu", "*.space", "*.capital", "*.in", "*.cfd", "*.online",
-    #   "*.ru", "*.info", "*.top", "*.buzz", "*.xyz", "*.rest", "*.ml", "*.cf", "*.gq", "*.ga", "*.onion", "*.network",
-    #   "*.monster", "*.marketing", "*.cyou", "*.quest", "*.cc", "*.bar", "*.click", "*.cam", "*.surf", "*.tk", "*.shop",
-    #   "*.club", "*.icu", "*.pw", "*.ws", "*.fun", "*.life", "*.boats", "*.store", "*.hair", "*.mom",
-    #   "*.beauty", "*.bond", "*.biz", "*.live", "*.zone"
-    # )
+    # FROM logs-endpoint.events.network-*
+    # | WHERE host.os.type == "linux"
+    #     AND event.action == "lookup_requested"
+    #     AND host.id IS NOT NULL
+    #     AND host.name IS NOT NULL
+    #     AND user.name IS NOT NULL
+    #     AND user.id IS NOT NULL
+    #     AND process.executable IS NOT NULL
+    #     AND dns.question.name LIKE "*.*"
+    #     AND process.executable != "/usr/lib/systemd/systemd-resolved"
+    # | EVAL Esql.dns_tld = MV_LAST(SPLIT(TO_LOWER(dns.question.name), "."))
+    # | WHERE Esql.dns_tld IN (
+    #     "forum", "pro", "team", "lol", "kr", "ke", "nu", "space", "capital", "in", "cfd", "online",
+    #     "ru", "info", "top", "buzz", "xyz", "rest", "ml", "cf", "gq", "ga", "onion", "network",
+    #     "monster", "marketing", "cyou", "quest", "cc", "bar", "click", "cam", "surf", "tk", "shop",
+    #     "club", "icu", "pw", "ws", "fun", "life", "boats", "store", "hair", "mom", "beauty", "bond",
+    #     "biz", "live", "zone"
+    #   )
+    # | STATS Esql.first_time_seen = MIN(@timestamp)
+    #   BY host.id, host.name, user.name, user.id, process.executable, dns.question.name, data_stream.namespace
+    # // New terms emulation: alert when the tuple was first seen recently within the 5-day history.
+    # | EVAL Esql.recent_minutes = DATE_DIFF("minute", Esql.first_time_seen, NOW())
+    # | WHERE Esql.recent_minutes <= 6
+    # | KEEP host.id, host.name, user.name, user.id, process.executable, dns.question.name, data_stream.namespace
   condition: selection
 level: medium

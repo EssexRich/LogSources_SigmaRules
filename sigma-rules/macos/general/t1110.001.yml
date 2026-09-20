@@ -1,0 +1,38 @@
+title: Potential SSH Brute Force Detected via macOS Security Events
+id: 622f8b56-622f-422f-a22f-622f8b560000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1110.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/macos/credential_access_potential_macos_ssh_bruteforce_via_security_events.toml
+author: elastic (via IncidentBuddy)
+date: 2026-09-20
+tags:
+  - attack.t1110.001
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-macos.authentication-*
+    # | WHERE data_stream.dataset == "macos.authentication" and (
+    #     macos.event.message.description LIKE "Failed password for*" or
+    #     macos.event.message.description LIKE "Failed keyboard-interactive/pam for*" or
+    #     macos.event.message.description LIKE "error: PAM: authentication error for*" or
+    #     macos.event.message.description LIKE "Connection closed by invalid user*"
+    #   )
+    # | GROK macos.event.message.description "for (invalid user )?%{NOTSPACE:Esql.user_name_attempt} from %{IP:Esql.source_ip_attempt}"
+    # | GROK macos.event.message.description "closed by invalid user %{NOTSPACE:Esql.user_name_probe} %{IP:Esql.source_ip_probe}"
+    # | EVAL Esql.user_name = COALESCE(Esql.user_name_attempt, Esql.user_name_probe),
+    #         Esql.source_ip = COALESCE(Esql.source_ip_attempt, Esql.source_ip_probe)
+    # | STATS
+    #     Esql.event_count = COUNT(*),
+    #     Esql.user_name_values = VALUES(Esql.user_name),
+    #     Esql.user_name_count = COUNT_DISTINCT(Esql.user_name),
+    #     Esql.source_ip_values = VALUES(Esql.source_ip),
+    #     Esql.source_ip_count = COUNT_DISTINCT(Esql.source_ip)
+    #   BY host.id, host.name
+    # | WHERE Esql.event_count >= 20
+    # | KEEP host.id, host.name, Esql.event_count, Esql.user_name_values, Esql.user_name_count, Esql.source_ip_values, Esql.source_ip_count
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1552.005
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_web_server_cloud_imds_ssrf_request.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-13
+date: 2026-09-20
 tags:
   - attack.t1552.005
 logsource:
@@ -30,6 +30,10 @@ detection:
     #     "*meta-data/iam/security-credentials*", "*meta-data%2Fiam%2Fsecurity-credentials*",
     #     "*latest/meta-data*", "*latest/api/token*"
     #   )
+    # ) and source.as.number != 396982  
+    # and not (
+    #   user_agent.original : ("*ChatGPT-User*", "*GPTBot*", "*ClaudeBot*", "*anthropic-ai*", "*OAI-SearchBot*", "*perplexity.ai*", "*claude-searchbot*", "*anthropic.com*", "*google.com/bot.html*", "*TelegramBot*", "*openai.com/searchbot*", "*LinkedInBot*", "*x.ai/grokbot*", "*Discordbot*", "*Amazonbot*", "*amazonbot*", "*Applebot*", "*Slackbot*", "*Twitterbot*", "*Bytespider*")
+    #   and http.response.status_code in (401, 403, 404, 429)
     # )
   condition: selection
 level: medium
