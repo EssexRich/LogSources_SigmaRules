@@ -1,11 +1,11 @@
-title: Windows Process Injection into Commonly Abused Processes
-id: 3180e2cc-3180-4180-a180-3180e2cc0000
+title: Windows Process Injection into Notepad
+id: 26a19612-26a1-46a1-a6a1-26a196120000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1055.002
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_process_injection_into_commonly_abused_processes.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/windows_process_injection_into_notepad.yml
 author: splunk (via IncidentBuddy)
-date: 2026-09-20
+date: 2026-09-27
 tags:
   - attack.t1055.002
 logsource:
@@ -14,54 +14,6 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # -
-    #     `sysmon`
-    #     EventCode=10
-    #     TargetImage IN (
-    #         "*\\backgroundtaskhost.exe",
-    #         "*\\calc.exe",
-    #         "*\\CalculatorApp.exe",
-    #         "*\\chrome.exe",
-    #         "*\\dllhost.exe",
-    #         "*\\edge.exe",
-    #         "*\\firefox.exe",
-    #         "*\\lsass.exe",
-    #         "*\\mspaint.exe",
-    #         "*\\notepad.exe",
-    #         "*\\regsvr32.exe",
-    #         "*\\searchprotocolhost.exe",
-    #         "*\\spoolsv.exe",
-    #         "*\\svchost.exe",
-    #         "*\\werfault.exe",
-    #         "*\\win32calc.exe",
-    #         "*\\wordpad.exe",
-    #         "*\\wuauclt.exe"
-    #     )
-    # 
-    #     NOT SourceImage IN (
-    #         "*:\\Windows\\Program Files (x86)\\*",
-    #         "*:\\Windows\\Program Files\\*",
-    #         "*:\\Windows\\System32\\*",
-    #         "*:\\Windows\\SysWOW64\\*"
-    #     )
-    # 
-    #     GrantedAccess IN (
-    #         "0x1f3fff",
-    #         "0x1fffff",
-    #         "0x40"
-    #     )
-    # 
-    #     | stats values(user) as user
-    #             min(_time) as firstTime
-    #             max(_time) as lastTime count
-    #     by dest user_id parent_process_name parent_process_guid
-    #        process_name process_guid process_id signature SourceImage
-    #        TargetImage GrantedAccess CallTrace
-    # 
-    #     | eval CallTrace=split(CallTrace, "|")
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | table firstTime lastTime dest user_id parent_process_name parent_process_guid process_name process_guid process_id signature SourceImage TargetImage GrantedAccess CallTrace
-    #     | `windows_process_injection_into_commonly_abused_processes_filter`
+    # `sysmon` EventCode=10 TargetImage IN (*\\notepad.exe) NOT (SourceImage IN ("*\\system32\\*","*\\syswow64\\*","*\\Program Files\\*")) GrantedAccess IN ("0x40","0x1fffff") | stats count min(_time) as firstTime max(_time) as lastTime by CallTrace EventID GrantedAccess Guid Opcode ProcessID SecurityID SourceImage SourceProcessGUID SourceProcessId TargetImage TargetProcessGUID TargetProcessId UserID dest granted_access parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_process_injection_into_notepad_filter`
   condition: selection
 level: medium

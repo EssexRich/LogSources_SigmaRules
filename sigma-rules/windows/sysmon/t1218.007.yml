@@ -1,11 +1,11 @@
-title: Windows MSI Rollback Script Deleted By Non-Msiexec Process
-id: 08912524-0891-4891-a891-089125240000
+title: Potential ClickFix Command via Windows Run Dialog
+id: 31411fe8-3141-4141-a141-31411fe80000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1218.007
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_msi_rollback_script_deleted_by_non_msiexec_process.yml
-author: splunk (via IncidentBuddy)
-date: 2026-09-20
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_windows_clickfix_runmru.toml
+author: elastic (via IncidentBuddy)
+date: 2026-09-27
 tags:
   - attack.t1218.007
 logsource:
@@ -13,22 +13,42 @@ logsource:
   service: sysmon
 detection:
   selection:
-    # Original splunk detection logic
-    # -
-    #     `sysmon`
-    #     EventCode IN (23, 26)
-    #     TargetFilename="*:\\Config.Msi\\*"
-    #     TargetFilename="*.rbs"
-    #     NOT ProcessName="msiexec.exe"
-    #     | fillnull
-    #     | stats count min(_time) as firstTime
-    #                   max(_time) as lastTime
-    #       by Computer ProcessName TargetFilename EventID action dest dvc file_path file_hash
-    #          file_name file_modify_time process_exec process_guid process_id process_name
-    #          process_path signature signature_id user user_id vendor_product
-    # 
-    #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `windows_msi_rollback_script_deleted_by_non_msiexec_process_filter`
+    # Original elastic detection logic
+    # from logs-endpoint.events.registry-*, logs-windows.sysmon_operational-*, winlogbeat-*,
+    #   logs-windows.forwarded-*, logs-m365_defender.event-*, logs-sentinel_one_cloud_funnel.*,
+    #   logs-crowdstrike.fdr* metadata _id, _version, _index
+    # | where KQL(""" host.os.type : "windows" AND event.category:"registry" AND process.name:explorer.exe AND event.type : ("creation" or "change") """)
+    #   and registry.data.strings is not null
+    #   and (
+    #     to_lower(registry.path) like """hkey_users\\*\\software\\microsoft\\windows\\currentversion\\explorer\\runmru\\*"""
+    #     or to_lower(registry.path) like """\\registry\\user\\*\\software\\microsoft\\windows\\currentversion\\explorer\\runmru\\*"""
+    #     or to_lower(registry.path) like """hku\\*\\software\\microsoft\\windows\\currentversion\\explorer\\runmru\\*"""
+    #     or to_lower(registry.path) like """hkcu\\software\\microsoft\\windows\\currentversion\\explorer\\runmru\\*"""
+    #     or to_lower(registry.path) like """hkey_current_user\\software\\microsoft\\windows\\currentversion\\explorer\\runmru\\*"""
+    #   )
+    #   and not to_lower(registry.path) like """*\\runmru\\mrulist"""
+    # | eval registry_data = to_lower(mv_concat(registry.data.strings, " "))
+    # | where
+    #   // PowerShell / PowerShell 7 with suspicious arguments or content
+    #   (
+    #     (registry_data like "*powershell*" or registry_data like "*pwsh*") and
+    #     (
+    #       registry_data like "* -e *" or
+    #       registry_data like "* -ec *" or
+    #       registry_data like "* -en*" or
+    #       registry_data like "*irm *" or
+    #       registry_data like "*iwr *" or
+    #       registry_data like "*iex *" or
+    #       registry_data like "*iex(*" or
+    #       registry_data like "*invoke-restmethod*" or
+    #       registry_data like "*invoke-webrequest*" or
+    #       registry_data like "*invoke-expression*" or
+    #       registry_data like "*invoke-command*" or
+    #       registry_data like "*$executioncontext.invokecommand*" or
+    #       registry_data like "*webclient*" or
+    #       registry_data like "*downloadstring*" or
+    #       registry_data like "*downloadfile*" or
+    #       regis
+    # ... [truncated]
   condition: selection
 level: medium

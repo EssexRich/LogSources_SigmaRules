@@ -1,11 +1,11 @@
-title: Network Connection by Cups or Foomatic-rip Child
-id: 707541a9-7075-4075-a075-707541a90000
+title: Network Connection to OAST Domain via Script Interpreter
+id: 4b8c5943-4b8c-4b8c-ab8c-4b8c59430000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1059
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_cupsd_foomatic_rip_netcon.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_network_connection_to_oast_domain.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-20
+date: 2026-09-27
 tags:
   - attack.t1059
 logsource:
@@ -14,11 +14,9 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by host.id with maxspan=10s
-    #   [process where host.os.type == "linux" and event.type == "start" and event.action == "exec" and
-    #    process.parent.name == "foomatic-rip" and
-    #    process.name in ("bash", "dash", "sh", "tcsh", "csh", "zsh", "ksh", "fish")] by process.entity_id
-    #   [network where host.os.type == "linux" and event.type == "start" and
-    #    event.action == "connection_attempted"] by process.parent.entity_id
+    # sequence by process.entity_id with maxspan=1m
+    #   [process where event.type == "start" and event.action in ("exec", "start") and
+    #     (process.name : ("node", "node.exe", "bun", "bun.exe", "osascript", "powershell.exe") or process.name : ("python*", "ruby*", "perl*"))]
+    #   [network where (destination.domain like "*.oast*" or dns.question.name like "*.oast*")]
   condition: selection
 level: medium

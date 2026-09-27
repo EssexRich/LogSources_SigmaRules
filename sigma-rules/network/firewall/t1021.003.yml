@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1021.003
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/network/initial_access_rpc_remote_procedure_call_to_the_internet.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-20
+date: 2026-09-27
 tags:
   - attack.t1021.003
 logsource:
@@ -48,6 +48,10 @@ detection:
     #     "::1" or
     #     "FE80::/10" or
     #     "FF00::/8"
+    #   ) and
+    #   not (
+    #     data_stream.dataset:panw.panos and
+    #     network.application:("incomplete" or "insufficient-data" or "not-applicable")
     #   )
   condition: selection
 level: medium

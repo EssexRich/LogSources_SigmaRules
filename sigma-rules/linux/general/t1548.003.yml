@@ -1,11 +1,11 @@
-title: Persistence Via Sudoers.d Files
-id: 37cff1b3-37cf-47cf-a7cf-37cff1b30000
+title: Persistence Via Sudoers Files
+id: 28aac7d7-28aa-48aa-a8aa-28aac7d70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1548.003
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/file_event/file_event_lnx_persistence_sudoers_files.yml
 author: sigma (via IncidentBuddy)
-date: 2026-09-20
+date: 2026-09-27
 tags:
   - attack.t1548.003
 logsource:
@@ -15,7 +15,8 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection:
-    #         TargetFilename|startswith: '/etc/sudoers.d/'
+    #         - TargetFilename: '/etc/sudoers'
+    #         - TargetFilename|startswith: '/etc/sudoers.d/'
     #     filter_main_dpkg:
     #         Image|endswith: '/usr/bin/dpkg'
     #         TargetFilename: '/etc/sudoers.d/README.dpkg-new'
