@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1114.001
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/o365_email_password_and_payroll_compromise_behavior.yml
 author: splunk (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1114.001
 logsource:
@@ -18,8 +18,8 @@ detection:
     #     `o365_messagetrace` subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*")
     #     | eval mailtime = _time
     #     | bin _time span=4hr
-    #     | eval user = lower(RecipientAddress)
-    #     | eval InternetMessageId = lower(MessageId)
+    #     | eval user = lower(recipient)
+    #     | eval InternetMessageId = lower(message_id)
     #     | join InternetMessageId, user max=0
     #       [
     #       | search `o365_management_activity` Workload=Exchange Operation IN ("SoftDelete","HardDelete")

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1218.007
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_windows_clickfix_runmru.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1218.007
 logsource:
@@ -33,6 +33,7 @@ detection:
     #   (
     #     (registry_data like "*powershell*" or registry_data like "*pwsh*") and
     #     (
+    #       registry_data like "*-nop *" or 
     #       registry_data like "* -e *" or
     #       registry_data like "* -ec *" or
     #       registry_data like "* -en*" or
@@ -47,8 +48,7 @@ detection:
     #       registry_data like "*$executioncontext.invokecommand*" or
     #       registry_data like "*webclient*" or
     #       registry_data like "*downloadstring*" or
-    #       registry_data like "*downloadfile*" or
-    #       regis
+    #       registry_da
     # ... [truncated]
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: AWS S3 Bucket Configuration Deletion
-id: 423a3b28-423a-423a-a23a-423a3b280000
+title: AWS Audit or Security Service Tampering via CLI
+id: 7e7bd39c-7e7b-4e7b-ae7b-7e7bd39c0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1070
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_s3_bucket_configuration_deletion.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_aws_audit_and_security_service_tampering_via_cli.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1070
 logsource:
@@ -14,14 +14,36 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset:aws.cloudtrail and 
-    #     event.provider:s3.amazonaws.com and
-    #     event.action:(DeleteBucketPolicy or 
-    #                     DeleteBucketReplication or 
-    #                     DeleteBucketCors or 
-    #                     DeleteBucketEncryption or 
-    #                     DeleteBucketLifecycle) and 
-    #     event.outcome:success
-    #     and not user_agent.original: (*Terraform* or *Pulumi*)
+    # event.category : "process" and event.type : "start" and event.action:(start or exec) and 
+    # process.name : (aws or aws-cli or aws.exe or aws2) and
+    # (
+    #   process.command_line : (
+    #   *accessanalyzer delete-analyzer* or
+    #   *cloudtrail delete-event-data-store* or
+    #   *cloudtrail delete-trail* or
+    #   *cloudtrail put-event-selectors*IncludeManagementEvents*false* or
+    #   *cloudtrail put-event-selectors*ReadWriteType*ReadOnly* or
+    #   *cloudtrail stop-logging* or
+    #   *cloudtrail update-trail*--no-include-global-service-events* or
+    #   *cloudtrail update-trail*--no-is-multi-region-trail* or
+    #   *configservice delete-configuration-recorder* or
+    #   *configservice delete-delivery-channel* or
+    #   *configservice stop-configuration-recorder* or
+    #   *detective delete-graph* or
+    #   *guardduty create-filter*ARCHIVE* or
+    #   *guardduty delete-detector* or
+    #   *guardduty delete-publishing-destination* or
+    #   *guardduty update-detector*--no-enable* or
+    #   *inspector2 disable* or
+    #   *logs delete-log-group* or
+    #   *logs delete-log-stream* or
+    #   *macie2 disable-macie* or
+    #   *s3api put-bucket-logging*--bucket-logging-status*\{\}* or
+    #   *securityhub batch-disable-standards* or
+    #   *securityhub disable-security-hub*
+    # ) or
+    #   process.args : ("put-retention-policy" and ("--retention-in-days=1" or "1"))
+    # ) and
+    # not process.args : "help"
   condition: selection
 level: medium

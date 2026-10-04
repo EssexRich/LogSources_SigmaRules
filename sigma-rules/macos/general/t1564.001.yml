@@ -1,11 +1,11 @@
-title: Suspicious Hidden Child Process of Launchd
-id: 161650cc-1616-4616-a616-161650cc0000
+title: Persistence via a Hidden Plist Filename via macOS Security Events
+id: 72b14e97-72b1-42b1-a2b1-72b14e970000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1564.001
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/persistence_defense_evasion_hidden_launch_agent_deamon_logonitem_process.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/macos/persistence_hidden_plist_filename_via_security_events.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1564.001
 logsource:
@@ -14,7 +14,15 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
-    #  process.name like~ ".*" and process.parent.name == "launchd"
+    # FROM logs-macos.process_execution_monitoring-* metadata _id, _version, _index
+    # | WHERE data_stream.dataset == "macos.process_execution_monitoring" and
+    #     macos.event.message.description LIKE "*effectiveItemDisposition*" and
+    #     (macos.event.message.description LIKE "*url=file://*/Library/LaunchAgents/.*" or
+    #         macos.event.message.description LIKE "*url=file://*/Library/LaunchDaemons/.*")
+    # | GROK macos.event.message.description "url=file://%{DATA:Esql.plist_path}, config"
+    # | GROK macos.event.message.description "type=%{DATA:Esql.item_type},"
+    # | GROK macos.event.message.description "BTMConfigExecutablePath = \"%{DATA:Esql.executable}\""
+    # | WHERE Esql.plist_path RLIKE ".*/Library/Launch(Agents|Daemons)/\\..*\\.plist"
+    # | KEEP _id, _version, _index, @timestamp, host.name, Esql.plist_path, Esql.item_type, Esql.executable, macos.event.message.description
   condition: selection
 level: medium

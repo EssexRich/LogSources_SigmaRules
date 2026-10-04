@@ -1,11 +1,11 @@
-title: Attempt to Unload Elastic Endpoint Security Kernel Extension
-id: 60ac23b1-60ac-40ac-a0ac-60ac23b10000
+title: Persistence via a Hidden Plist Filename via macOS Security Events
+id: 7bebfbe7-7beb-4beb-abeb-7bebfbe70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1547
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_unload_endpointsecurity_kext.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/macos/persistence_hidden_plist_filename_via_security_events.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1547
 logsource:
@@ -14,7 +14,15 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "macos" and event.type in ("start", "process_started") and
-    #  process.name == "kextunload" and process.args like~ ("*.EndpointSecurity", "/System/Library/Extensions/EndpointSecurity.kext", "EndpointSecurity.kext")
+    # FROM logs-macos.process_execution_monitoring-* metadata _id, _version, _index
+    # | WHERE data_stream.dataset == "macos.process_execution_monitoring" and
+    #     macos.event.message.description LIKE "*effectiveItemDisposition*" and
+    #     (macos.event.message.description LIKE "*url=file://*/Library/LaunchAgents/.*" or
+    #         macos.event.message.description LIKE "*url=file://*/Library/LaunchDaemons/.*")
+    # | GROK macos.event.message.description "url=file://%{DATA:Esql.plist_path}, config"
+    # | GROK macos.event.message.description "type=%{DATA:Esql.item_type},"
+    # | GROK macos.event.message.description "BTMConfigExecutablePath = \"%{DATA:Esql.executable}\""
+    # | WHERE Esql.plist_path RLIKE ".*/Library/Launch(Agents|Daemons)/\\..*\\.plist"
+    # | KEEP _id, _version, _index, @timestamp, host.name, Esql.plist_path, Esql.item_type, Esql.executable, macos.event.message.description
   condition: selection
 level: medium

@@ -1,11 +1,11 @@
-title: Drop IcedID License dat
-id: 154d9723-154d-454d-a54d-154d97230000
+title: Potential FileFix Command via Windows Explorer Address Bar
+id: 54baaca5-54ba-44ba-a4ba-54baaca50000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1204.002
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/drop_icedid_license_dat.yml
-author: splunk (via IncidentBuddy)
-date: 2026-09-27
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_windows_filefix_typedpaths.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-04
 tags:
   - attack.t1204.002
 logsource:
@@ -13,7 +13,42 @@ logsource:
   service: sysmon
 detection:
   selection:
-    # Original splunk detection logic
-    # `sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*" OR TargetFilename="*\\programdata\\*") |stats count min(_time) as firstTime max(_time) as lastTime by TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_icedid_license_dat_filter`
+    # Original elastic detection logic
+    # from logs-endpoint.events.registry-*, logs-windows.sysmon_operational-*, winlogbeat-*,
+    #   logs-windows.forwarded-*, logs-m365_defender.event-*, logs-sentinel_one_cloud_funnel.*,
+    #   logs-crowdstrike.fdr* metadata _id, _version, _index
+    # | where KQL(""" host.os.type : "windows" AND event.category:"registry" AND event.type : ("creation" or "change") """)
+    #   and registry.data.strings is not null
+    #   and (
+    #     to_lower(registry.path) like """hkey_users\\*\\software\\microsoft\\windows\\currentversion\\explorer\\typedpaths\\*"""
+    #     or to_lower(registry.path) like """\\registry\\user\\*\\software\\microsoft\\windows\\currentversion\\explorer\\typedpaths\\*"""
+    #     or to_lower(registry.path) like """hku\\*\\software\\microsoft\\windows\\currentversion\\explorer\\typedpaths\\*"""
+    #     or to_lower(registry.path) like """hkcu\\software\\microsoft\\windows\\currentversion\\explorer\\typedpaths\\*"""
+    #     or to_lower(registry.path) like """hkey_current_user\\software\\microsoft\\windows\\currentversion\\explorer\\typedpaths\\*"""
+    #   )
+    # | eval registry_data = to_lower(mv_concat(registry.data.strings, " "))
+    # | where
+    #   // Command form only. A bare path to the binary, such as ...\\powershell.exe, does not match.
+    #   // PowerShell / PowerShell 7
+    #   registry_data like "*powershell *" or
+    #   registry_data like "*powershell.exe *" or
+    #   registry_data like "*powershell.exe\" *" or
+    #   registry_data like "*pwsh *" or
+    #   registry_data like "*pwsh.exe *" or
+    #   registry_data like "*pwsh.exe\" *" or
+    #   // Mshta
+    #   registry_data like "*mshta *" or
+    #   registry_data like "*mshta.exe *" or
+    #   registry_data like "*mshta.exe\" *" or
+    #   // Msiexec, including a quiet local package such as msiexec /i "\\users\\...\\file.msi" /qb
+    #   registry_data like "*msiexec *" or
+    #   registry_data like "*msiexec.exe *" or
+    #   registry_data like "*msiexec.exe\" *" or
+    #   // Rundll32
+    #   registry_data like "*rundll32 *" or
+    #   registry_data like "*rundll32.exe *" or
+    #   registry_data like "*rundll32.exe\" *" or
+    #   // Cmd. Require /c, /k, cmd.exe, or comspec
+    # ... [truncated]
   condition: selection
 level: medium

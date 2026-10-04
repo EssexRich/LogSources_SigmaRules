@@ -1,11 +1,11 @@
-title: Node.js Pre or Post-Install Script Execution
-id: 27d90582-27d9-47d9-a7d9-27d905820000
+title: Curl Download Activity from npm Package Install
+id: 684c5085-684c-484c-a84c-684c50850000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1195.001
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/execution_nodejs_pre_or_post_install_script_execution.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_curl_download_from_npm_install.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1195.001
 logsource:
@@ -14,8 +14,59 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by host.id with maxspan=10s
-    #   [process where host.os.type in ("linux", "macos") and event.type == "start" and event.action in ("exec", "ProcessRollup2", "start") and process.name == "node" and process.args == "install"] by process.entity_id
-    #   [process where host.os.type in ("linux", "macos") and event.type == "start" and event.action in ("exec", "ProcessRollup2", "start") and process.parent.name == "node"] by process.parent.entity_id
+    # FROM logs-endpoint.events.process-* METADATA _id, _version, _index
+    # 
+    # | WHERE KQL(""" host.os.type:("linux" or "macos") AND event.action:exec """)
+    # 
+    # | EVAL is_pkg_install = CASE(
+    #     // npm
+    #     process.parent.name == "node" AND (
+    #       process.parent.command_line LIKE "*npx-cli.js*" OR
+    #       process.parent.command_line LIKE "*npm-cli.js*" OR
+    #       process.parent.command_line LIKE "*/.npm/_npx/*" OR
+    #       process.parent.command_line LIKE "*/npm-cache/*"
+    #     ), true,
+    #     false
+    #   )
+    # 
+    # | EVAL cmdline_lower = TO_LOWER(process.command_line)
+    # | EVAL parent_cmdline_lower = TO_LOWER(process.parent.command_line)
+    # 
+    # | EVAL is_curl_download = CASE(
+    #     process.name == "curl" AND
+    #     cmdline_lower LIKE "*http*" AND
+    #     process.args_count <= 5 AND
+    #     (
+    #       cmdline_lower LIKE "* -o*" OR 
+    # 	  cmdline_lower LIKE "* --output*" OR 
+    #       parent_cmdline_lower LIKE "*zsh" OR
+    #       parent_cmdline_lower LIKE "*sh" OR
+    #       parent_cmdline_lower LIKE "*bash" OR
+    #       parent_cmdline_lower LIKE "*dash"
+    #     ) AND
+    #     NOT (
+    #       cmdline_lower LIKE "*169.254.169.254*" OR
+    #       cmdline_lower LIKE "*localhost*" OR
+    #       cmdline_lower LIKE "*127.0.0.1*"
+    #     ),
+    #     true, false
+    #   )
+    # 
+    # | WHERE process.Ext.ancestry IS NOT NULL AND (is_curl_download OR is_pkg_install)
+    # 
+    # // Capture entity_ids for package install parent processes
+    # | EVAL all_entity_id = CASE(is_pkg_install, process.parent.entity_id, "null")
+    # 
+    # // Collect all package install entity_ids globally
+    # | INLINE STATS all_pkg_entity_ids = VALUES(all_entity_id), all_pkg_cmdline = VALUES(process.parent.command_line) WHERE all_entity_id != "null" by host.id
+    # 
+    # // Find which package install entity_ids appear in this process's ancestry
+    # | EVAL Esql.pkg_ancestor_ids = MV_INTERSECTION(all_pkg_entity_ids, process.Ext.ancestry)
+    # 
+    # // curl download descended from an npm package install process
+    # | WHERE Esql.pkg_ancestor_ids IS NOT NULL AND is_curl_download
+    # 
+    # | KEEP _id, _version, _index, data_stream.namespace, host.id, host.name, user.name, process.entity_id, process.executab
+    # ... [truncated]
   condition: selection
 level: medium

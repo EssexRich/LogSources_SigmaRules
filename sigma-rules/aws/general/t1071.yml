@@ -1,0 +1,57 @@
+title: Potential Tunneling via AWS IoT Secure Tunneling Localproxy
+id: 396635a1-3966-4966-a966-396635a10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/command_and_control_aws_iot_secure_tunneling_localproxy.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-04
+tags:
+  - attack.t1071
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=5m
+    #   [process where event.type == "start" and event.action in ("exec", "exec_event", "start") and
+    #     (
+    #       process.args in ("-d", "--destination-app") or
+    #       (process.args in ("-m", "--mode") and process.args in ("dst", "destination")) or
+    #       process.args like ("--mode=dst", "--mode=destination")
+    #     ) and
+    #     (
+    #       /* Official binary, container image path, or Windows original filename */
+    #       (
+    #         process.name like~ ("localproxy", "localproxy.exe") or
+    #         ?process.pe.original_file_name like~ "localproxy.exe" or
+    #         process.executable like~ "*aws-iot-securetunneling-localproxy*"
+    #       ) or
+    #       /* Renamed binary: dest mode plus AWS region or tunneling endpoint */
+    #       (
+    #         (
+    #           process.args regex """[a-z]{2}(-[a-z]+)+-[0-9]+""" or
+    #           process.args in ("-e", "--proxy-endpoint", "-r", "--region") or
+    #           process.args like~ "*tunneling.iot*"
+    #         ) and
+    #         process.args in (
+    #           "-t", "--access-token",
+    #           "-c", "--capath",
+    #           "-b", "--local-bind-address",
+    #           "-m", "--mode"
+    #         ) and
+    #         not process.name like~ (
+    #           "timeout", "time", "env", "nice", "nohup", "stdbuf",
+    #           "bash", "dash", "sh", "zsh", "sudo", "sshd", "useradd"
+    #         )
+    #       )
+    #     )]
+    #   [network where event.action in ("lookup_requested", "lookup_result") and
+    #     dns.question.name like~ (
+    #       "data.tunneling.iot.*.amazonaws.com",
+    #       "data.tunneling.iot.*.amazonaws.com.cn"
+    #     )]
+    #   [network where event.action == "connection_attempted" and destination.port == 443]
+  condition: selection
+level: medium

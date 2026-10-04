@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1566.002
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/execution_windows_phish_clickfix.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1566.002
 logsource:
@@ -20,6 +20,20 @@ detection:
     #   process.name : ("pwsh.exe", "powershell.exe", "curl.exe", "msiexec.exe", "mshta.exe", "wscript.exe", "cscript.exe", "rundll32.exe", "certutil.exe", "certreq.exe") or
     #   process.executable : "?:\\Users\\*\\Downloads\\*"
     #   ) and
-    # not (process.name : "rundll32.exe" and process.args : ("ndfapi.dll,NdfRunDllDiagnoseWithAnswerFile", "shwebsvc.dll,AddNetPlaceRunDll"))
+    # not (
+    #     process.name : "rundll32.exe" and
+    #     process.args : (
+    #       "ndfapi.dll,NdfRunDllDiagnoseWithAnswerFile",
+    #       "shwebsvc.dll,AddNetPlaceRunDll",
+    #       "?:\\WINDOWS\\Installer\\MSI*.tmp,zzzzInvokeManagedCustomActionOutOfProc",
+    #       "*cryptext.dll,CryptExtOpenCER",
+    #       "*cryptext.dll,CryptExtOpenCRL",
+    #       "*cryptext.dll,CryptExtOpenPKCS7",
+    #       "*cryptext.dll,CryptExtAddPFX",
+    #       "?:\\Program Files\\Windows Photo Viewer\\PhotoViewer.dll,*",
+    #       "?:\\WINDOWS\\*\\hotplug.dll,HotPlugSafeRemovalDriveNotification"
+    #     )
+    #   ) and
+    #   not (process.name : "certutil.exe" and process.args : "-hashfile")
   condition: selection
 level: medium

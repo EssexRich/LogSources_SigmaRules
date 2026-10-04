@@ -1,0 +1,28 @@
+title: Privilege Escalation via Parallels Appliance Extract Argument Injection
+id: 109458bc-1094-4094-a094-109458bc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1202
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/macos/privilege_escalation_parallels_appliance_tar_arg_injection_esql.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-04
+tags:
+  - attack.t1202
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-endpoint.events.process-* METADATA _id, _index, _version
+    # | WHERE host.os.type == "macos"
+    #     AND process.parent.name == "prl_disp_service"
+    #     AND process.name IN ("tar", "bsdtar")
+    #     AND process.args_count > 5
+    #     AND KQL("""process.args : "-xf" AND event.type : "start" """)
+    # | EVAL process_args_joined = MV_CONCAT(process.args, " ")
+    # | KEEP _id, _index, _version, @timestamp, data_stream.namespace, host.id, host.name, user.id, user.name,
+    #     process.entity_id, process.parent.name, process.parent.entity_id, process.name, process.executable,
+    #     process.args_count, process_args_joined
+  condition: selection
+level: medium

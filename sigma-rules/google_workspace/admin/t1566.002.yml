@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1566.002
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/google_workspace/initial_access_object_copied_to_external_drive_with_app_consent.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1566.002
 logsource:
@@ -14,18 +14,43 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # sequence by source.user.email with maxspan=3m
+    # sequence by source.user.email, source.ip with maxspan=3m
     # [file where data_stream.dataset == "google_workspace.drive" and event.action == "copy" and
     # 
-    #     /* Should only match if the object lives in a Drive that is external to the user's GWS organization */
-    #     google_workspace.drive.owner_is_team_drive == false and google_workspace.drive.copy_type == "external" and
+    #     /* External My Drive replica by a domain user, not a collaborator account or shared drive */
+    #     google_workspace.drive.owner_is_team_drive == false and
+    #     google_workspace.drive.actor_is_collaborator_account == false and
+    #     google_workspace.drive.primary_event == true and
+    #     google_workspace.drive.copy_type == "external" and
     # 
-    #     /* Google Script, Forms, Sheets and Document can have container-bound scripts */
-    #     google_workspace.drive.file.type: ("script", "form", "spreadsheet", "document")]
+    #     /* Google Script, Forms, Sheets, and Documents can carry container-bound scripts */
+    #     google_workspace.drive.file.type : ("script", "form", "spreadsheet", "document") and
+    # 
+    #     /* /copy links name the replica with this English prefix */
+    #     file.name : "Copy of*"]
     # 
     # [any where data_stream.dataset == "google_workspace.token" and event.action == "authorize" and
     # 
-    #     /* Ensures application ID references custom app in Google Workspace and not GCP */
-    #     google_workspace.token.client.id : "*apps.googleusercontent.com"]
+    #     /* Custom web OAuth client, not a numeric GCP service-account client */
+    #     google_workspace.token.client.type == "WEB" and
+    #     google_workspace.token.client.id : "*apps.googleusercontent.com" and
+    # 
+    #     /* Client IDs are {cloud_project_number}-{oauth_client}.apps.googleusercontent.com. */
+    #     not google_workspace.token.client.id : (
+    #         "77185425430*.apps.googleusercontent.com",
+    #         "32555940559*.apps.googleusercontent.com",
+    #         "764086051850*.apps.googleusercontent.com",
+    #         "407408718192*.apps.googleusercontent.com",
+    #         "857627895310*.apps.googleusercontent.com"
+    #     ) and
+    # 
+    #     /* script.container is the sidebar or dialog. Also match other script.* scopes,
+    #        container-bound *.currentonly, or a scope containing scripts or container */
+    #     google_workspace.token.scope.value : (
+    #         "*script.*",
+    #         "*.currentonly",
+    #         "*scripts*",
+    #         "*container*"
+    #     )]
   condition: selection
 level: medium

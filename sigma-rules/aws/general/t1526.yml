@@ -1,11 +1,11 @@
-title: Spike in AWS Error Messages
-id: 5aa38229-5aa3-4aa3-aaa3-5aa382290000
+title: AWS Control Plane Access by Suspicious Process
+id: 4ab2c28a-4ab2-4ab2-aab2-4ab2c28a0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1526
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/ml_cloudtrail_error_message_spike.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/discovery_aws_control_plane_access_by_suspicious_process.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1526
 logsource:
@@ -14,6 +14,19 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # No detection logic available
+    # event.category : network and host.os.type : (linux or macos or windows) and
+    # dns.question.name : (
+    #   iam.amazonaws.com or sts.amazonaws.com or bedrock*.amazonaws.com or kms.*.amazonaws.com or organizations.*.amazonaws.com or
+    #   portal.sso.*.amazonaws.com or secretsmanager.*.amazonaws.com or ssm.*.amazonaws.com or sso.*.amazonaws.com or
+    #   sts.*.amazonaws.com
+    # ) and
+    # process.executable : (
+    #   (
+    #     *\\ProgramData\\* or *\\Users\\*\\AppData\\Local\\Temp\\* or *\\Users\\Public\\* or *\\Windows\\Temp\\* or
+    #     /Users/*/Public/* or /Users/Shared/* or /dev/shm/* or /private/tmp/* or /run/* or /tmp/* or /var/run/* or
+    #     /var/tmp/* or /var/www/*
+    #   ) and
+    #   not (/opt/actions-runner/* or /tmp/cargo-install* or /tmp/go-build* or /tmp/pytest-*)
+    # )
   condition: selection
 level: medium

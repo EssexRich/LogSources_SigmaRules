@@ -1,0 +1,45 @@
+title: First Seen External MQTT Broker Connection
+id: 2fa3c778-2fa3-4fa3-afa3-2fa3c7780000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_first_seen_external_mqtt_broker.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-04
+tags:
+  - attack.t1071.005
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # (
+    #   data_stream.dataset:suricata.eve and
+    #   suricata.eve.event_type:mqtt and
+    #   network.protocol:mqtt or
+    #   data_stream.dataset:zeek.connection and
+    #   network.protocol:mqtt or
+    #   data_stream.dataset:panw.panos and
+    #   network.application:mqtt-base
+    # ) and
+    #   network.transport:tcp and
+    #   source.ip:(10.0.0.0/8 or 172.16.0.0/12 or 192.168.0.0/16 or "FC00::/7") and
+    #   destination.ip:(
+    #     * and not (
+    #       10.0.0.0/8 or 100.64.0.0/10 or 127.0.0.0/8 or 169.254.0.0/16 or 172.16.0.0/12 or
+    #       192.0.0.0/24 or 192.0.0.0/29 or 192.0.0.10/32 or 192.0.0.170/32 or 192.0.0.171/32 or
+    #       192.0.0.8/32 or 192.0.0.9/32 or 192.0.2.0/24 or 192.168.0.0/16 or 192.175.48.0/24 or
+    #       192.31.196.0/24 or 192.52.193.0/24 or 192.88.99.0/24 or 198.18.0.0/15 or
+    #       198.51.100.0/24 or 203.0.113.0/24 or 224.0.0.0/4 or 240.0.0.0/4 or "::1" or
+    #       "FC00::/7" or "FE80::/10" or "FF00::/8"
+    #     )
+    #   ) and
+    #   not (
+    #     data_stream.dataset:panw.panos and (
+    #       event.action:(flow_denied or flow_dropped) or
+    #       network.application:(incomplete or insufficient-data or not-applicable)
+    #     )
+    #   )
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: AWS S3 Unauthenticated Bucket Access by Rare Source
-id: 62e08214-62e0-42e0-a2e0-62e082140000
+title: Potential Destructive AWS CLI Command Executed by GenAI Agent
+id: 0942793c-0942-4942-a942-0942793c0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1485
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/collection_s3_unauthenticated_bucket_access_by_rare_source.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/impact_destructive_aws_cli_execution_by_genai_agent.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1485
 logsource:
@@ -14,16 +14,47 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset: "aws.cloudtrail"
-    #     and event.provider: "s3.amazonaws.com"
-    #     and event.action: (
-    #         "GetObject" or
-    #         "PutObject" or
-    #         "ListObjects" or
-    #         "DeleteObject" or
-    #         "ListBucket")
-    #     and event.outcome: "success"
-    #     and aws.cloudtrail.user_identity.type: ("AWSAccount" or "Unknown")
-    #     and cloud.account.id: "anonymous"
+    # event.category : "process" and event.type : "start" and event.action : (start or exec) and
+    # (
+    #   process.parent.name : (
+    #     qterm or qterm.exe or qchat or qchat.exe or
+    #     kiro or "kiro-cli" or "kiro-cli-chat" or "kiro-cli-term" or
+    #     kiro.exe or "kiro-cli.exe" or "kiro-cli-chat.exe" or "kiro-cli-term.exe" or
+    #     claude or "claude-bin" or claude.exe or codex or codex.exe or
+    #     copilot or copilot.exe or cursor or cursor.exe or "Cursor Helper (Plugin)" or "Cursor Helper" or
+    #     "gemini-cli" or "gemini-cli.exe" or windsurf or windsurf.exe or
+    #     aider or aider.exe or cline or goose or goose.exe or opencode or opencode.exe
+    #   ) or
+    #   process.parent.executable : (
+    #     */.local/bin/q or */usr/local/bin/q or
+    #     *\\Users\\*\\AppData\\Local\\Programs\\Amazon Q\\q.exe or
+    #     *\\Users\\*\\AppData\\Local\\Programs\\Amazon Q\\*\\q.exe or
+    #     *\\Program Files\\Amazon Q\\q.exe or
+    #     *\\Program Files\\Amazon Q\\*\\q.exe
+    #   ) or
+    #   (
+    #     process.parent.name : (bash or zsh or sh or dash or cmd.exe or powershell.exe or pwsh or pwsh.exe) and
+    #     process.parent.command_line : (
+    #       */.claude/shell-snapshots/* or *\\.claude\\shell-snapshots\\* or
+    #       */.codex/* or *\\.codex\\* or
+    #       */.kiro/* or *\\.kiro\\* or
+    #       */.aws/amazonq/* or *\\.aws\\amazonq\\* or
+    #       */.goose/* or */.opencode/* or */.aider*
+    #     )
+    #   )
+    # ) and
+    # (
+    #   (
+    #     process.name : (aws or aws.exe) and
+    #     process.command_line : (
+    #       *ec2 terminate-instances* or *ec2 delete-volume* or *ec2 delete-snapshot* or
+    #       *s3 rb* or *s3 rm*--recursive* or *s3api delete-bucket* or *s3api delete-objects* or
+    #       *iam delete-user* or *iam delete-role* or *iam delete-login-profile* or *iam delete-access-key* or
+    #       *rds delete-db-instance* or *rds delete-db-cluster* or *dynamodb delete-table* or
+    #       *efs delete-file-system* or *eks delete-cluster* or *ecs delete-cluster* or
+    #       *lambda delete-function* or *kms schedule-key-deletion* or
+    #       *cloudformation delete-stack* or
+    #       *cloudtrail delete-trail* or *cloudtrail
+    # ... [truncated]
   condition: selection
 level: medium

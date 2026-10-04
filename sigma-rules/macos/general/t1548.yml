@@ -1,11 +1,11 @@
-title: Potential Privacy Control Bypass via TCCDB Modification
-id: 3170dc66-3170-4170-a170-3170dc660000
+title: Excessive Sudo Authentication Failures via macOS Security Events
+id: 68f7dec4-68f7-48f7-a8f7-68f7dec40000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1548
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/macos/defense_evasion_privacy_controls_tcc_database_modification.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/macos/privilege_escalation_excessive_sudo_failures_macos_security_events.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1548
 logsource:
@@ -14,8 +14,20 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "macos" and event.type in ("start", "process_started") and process.name like~ "sqlite*" and
-    #  process.args like "/*/Application Support/com.apple.TCC/TCC.db" and
-    #  (process.parent.name like~ ("osascript", "bash", "sh", "zsh", "Terminal", "Python*") or (process.parent.code_signature.exists == false or process.parent.code_signature.trusted == false))
+    # FROM logs-macos.authentication-*
+    # | WHERE data_stream.dataset == "macos.authentication" and
+    #     macos.process.image_path LIKE "*/sudo" and
+    #     macos.event.message.description LIKE "*incorrect password attempt*"
+    # | GROK macos.event.message.description "%{NOTSPACE:user_name} : %{NUMBER:attempt_count:int} incorrect password attempt%{DATA} ; TTY=%{NOTSPACE:tty} ; PWD=%{DATA:pwd} ; USER=%{NOTSPACE:target_user} ; COMMAND=%{GREEDYDATA:command}"
+    # | STATS
+    #     Esql.failure_event_count = COUNT(*),
+    #     Esql.attempt_total = SUM(attempt_count),
+    #     Esql.user_name_values = VALUES(user_name),
+    #     Esql.target_user_values = VALUES(target_user),
+    #     Esql.tty_values = VALUES(tty),
+    #     Esql.command_values = VALUES(command)
+    #   BY host.id, host.name
+    # | WHERE Esql.attempt_total >= 10
+    # | KEEP host.id, host.name, Esql.failure_event_count, Esql.attempt_total, Esql.user_name_values, Esql.target_user_values, Esql.tty_values, Esql.command_values
   condition: selection
 level: medium

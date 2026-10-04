@@ -1,11 +1,11 @@
-title: Windows Defender MpClient.dll Loaded by Non-Defender Process
-id: 1cc4bfd4-1cc4-4cc4-acc4-1cc4bfd40000
+title: Windows Defender Intermediary Artifact Was Observed
+id: 4b247b96-4b24-4b24-ab24-4b247b960000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1068
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_defender_mpclient_dll_loaded_by_non_defender_process.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_defender_intermediary_artifact_was_observed.yml
 author: splunk (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1068
 logsource:
@@ -15,32 +15,34 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     | tstats `security_content_summariesonly`
-    #       count min(_time) as firstTime
-    #             max(_time) as lastTime
-    #     from datamodel=Endpoint.Processes where
-    # 
-    #     Processes.loaded_file="mpclient.dll"
-    #     NOT Processes.user IN ("* SERVICE", "SYSTEM")
-    #     NOT Processes.process_path="*\MpCmdRun.exe"
-    #     Processes.process_path IN (
-    #         "*:\\AppData\\Local\\Temp\\*",
-    #         "*:\\Perflogs\\*",
-    #         "*:\\ProgramData\\*",
-    #         "*:\\Temp\\*",
-    #         "*:\\Users\\*",
-    #         "*:\\Windows\\Tasks\\*"
+    #     `sysmon`
+    #     EventID IN (11, 15, 23)
+    #     process_name IN (
+    #         "System",
+    #         "msmpeng.exe"
     #     )
-    #     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-    #        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-    #        Processes.parent_process_name Processes.parent_process_path Processes.loaded_file Processes.process
-    #        Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
-    #        Processes.process_integrity_level Processes.process_name Processes.process_path
-    #        Processes.user Processes.user_id Processes.vendor_product
+    #     user=SYSTEM
+    #     NOT TargetFilename IN (
+    #         "C:\\Windows\\Temp\\*",
+    #         "*:Zone.Identifier",
+    #         "*:SmartScreen"
+    #     )
     # 
-    #     | `drop_dm_object_name(Processes)`
+    #     | regex TargetFilename!="(?i)\.\w{1,10}$"
+    # 
+    #     | stats count values(EventID) as EventID
+    #                   values(TargetFilename) as TargetFilename
+    #                   dc(EventID) as dc_EventID
+    #                   dc(TargetFilename) as dc_TargetFilename
+    #                   min(_time) as firstTime
+    #                   max(_time) as lastTime
+    # 
+    #       by dest process_id process_name user
+    # 
+    #     | search dc_TargetFilename>1 dc_EventID>1
+    # 
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `windows_defender_mpclient_dll_loaded_by_non_defender_process_filter`
+    #     | `windows_defender_intermediary_artifact_was_observed_filter`
   condition: selection
 level: medium

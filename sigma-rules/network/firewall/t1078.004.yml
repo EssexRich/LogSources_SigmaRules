@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1078.004
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/network/initial_access_fortigate_sso_login_from_unusual_source.toml
 author: elastic (via IncidentBuddy)
-date: 2026-09-27
+date: 2026-10-04
 tags:
   - attack.t1078.004
 logsource:
@@ -29,7 +29,7 @@ detection:
     # 
     # // first time seen is within 6m of the rule execution time and for the last 5d of events history
     # | EVAL Esql.recent = DATE_DIFF("minute", Esql.first_time_seen, now())
-    # | WHERE Esql.recent <= 6 AND Esql.logon_count == 1
+    # | WHERE Esql.recent <= 6
     # 
     # // move dynamic fields to ECS equivalent for rule exceptions
     # | EVAL source.user.name = MV_FIRST(Esql.user_values)
