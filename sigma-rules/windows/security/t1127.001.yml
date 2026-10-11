@@ -1,11 +1,11 @@
-title: MSBuild Suspicious Spawned By Script Process
-id: 3c9ed2cf-3c9e-4c9e-ac9e-3c9ed2cf0000
+title: Suspicious MSBuild Rename
+id: 57a43e40-57a4-47a4-a7a4-57a43e400000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1127.001
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/msbuild_suspicious_spawned_by_script_process.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/suspicious_msbuild_rename.yml
 author: splunk (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1127.001
 logsource:
@@ -15,10 +15,10 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     | tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE Processes.parent_process_name IN ("wscript.exe", "cscript.exe")
+    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+    #       WHERE Processes.process_name!=msbuild.exe
     #         AND
-    #         `process_msbuild`
+    #         Processes.original_file_name=MSBuild.exe
     #       BY Processes.action Processes.dest Processes.original_file_name
     #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
     #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -29,6 +29,6 @@ detection:
     #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `msbuild_suspicious_spawned_by_script_process_filter`
+    #     | `suspicious_msbuild_rename_filter`
   condition: selection
 level: medium

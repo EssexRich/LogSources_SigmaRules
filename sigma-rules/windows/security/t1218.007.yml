@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1218.007
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_msi_installer_task_startup.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1218.007
 logsource:
@@ -29,8 +29,7 @@ detection:
     #         "?:\\Windows\\System32\\Tasks\\HP\\Sure Click\\Sure Click ?.?.??.????",
     #         "?:\\Windows\\System32\\Tasks\\HP\\Sure Click\\Sure Click UI ?.?.??.????",
     #         "?:\\Windows\\System32\\Tasks\\HP\\Sure Click\\Upgrade Repair ?.?.??.????",
-    #         "?:\\Windows\\System32\\Tasks\\IntelSURQC-Upgrade-86621605-2a0b-4128-8ffc-15514c247132",
-    #         "?:\\Windows\\System32\\Tasks\\IntelSURQC-Upgrade-86621605-2a0b-4128-8ffc-15514c247132-Logon"
+    #         "?:\\Windows\\System32\\Tasks\\IntelSURQC-Upgrade-*"
     #       )
     #     ) or
     #     (
@@ -47,7 +46,8 @@ detection:
     #         "C:\\Program Files\\Citrix\\Secure Access Client\\CtxsDPS.exe --clean-user-installs",
     #         "C:\\Program Files\\OpenVPN\\bin\\openvpn-gui.exe",
     #         "C:\\Program Files\\Veeam\\Endpoint Backup\\Veeam.EndPoint.Tray.exe -NoControlPanel -CheckNumberOfRunningAgents",
-    #         "\"C:\\Program Fi
+    #         "\"C:\\Program Files (x86)\\Cisco\\Cisco Secure Client\\UI\\csc_ui.exe\" -minimized",
+    #         "\"C:\\Program Files (x86)\\Citrix\\ICA Client\\concentr.exe\
     # ... [truncated]
   condition: selection
 level: medium

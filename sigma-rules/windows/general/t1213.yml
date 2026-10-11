@@ -1,11 +1,11 @@
-title: Potential Veeam Credential Access Command
-id: 5cad5974-5cad-4cad-acad-5cad59740000
+title: Access to a Sensitive LDAP Attribute
+id: 13dcb7b7-13dc-43dc-a3dc-13dcb7b70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1213
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_veeam_commands.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_ldap_attributes.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1213
 logsource:
@@ -14,11 +14,21 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # process where host.os.type == "windows" and event.type == "start" and
-    #   (
-    #     (process.name : "sqlcmd.exe" or ?process.pe.original_file_name : "sqlcmd.exe") or
-    #     process.args : ("Invoke-Sqlcmd", "Invoke-SqlExecute", "Invoke-DbaQuery", "Invoke-SqlQuery")
-    #   ) and
-    #   process.args : "*[VeeamBackup].[dbo].[Credentials]*"
+    # any where host.os.type == "windows" and event.code == "4662" and
+    # 
+    #   winlog.event_data.AccessMask in ("0x10") and
+    # 
+    #   not winlog.event_data.SubjectUserSid : "S-1-5-18" and
+    # 
+    #   winlog.event_data.Properties : (
+    #   /* ms-PKI-AccountCredentials */
+    #   "*b8dfa744-31dc-4ef1-ac7c-84baf7ef9da7*",
+    # 
+    #   /* ms-PKI-DPAPIMasterKeys */
+    #   "*b3f93023-9239-4f7c-b99c-6745d87adbc2*",
+    # 
+    #   /* msPKI-CredentialRoamingTokens */
+    #   "*b7ff5a38-0818-42b0-8110-d3d154c97f24*"
+    #   )
   condition: selection
 level: medium

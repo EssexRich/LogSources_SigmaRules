@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1219
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/web/detect_remote_access_software_usage_url.yml
 author: splunk (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1219
 logsource:
@@ -36,7 +36,7 @@ detection:
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
     #     | `drop_dm_object_name("Web")`
-    #     | lookup remote_access_software remote_domain AS url_domain OUTPUT isutility, description as signature, comment_reference
+    #     | lookup local=t remote_access_software remote_domain AS url_domain OUTPUT isutility, description as signature, comment_reference
     #     as desc, category
     #     | search isutility = True
     #     | `remote_access_software_usage_exceptions`

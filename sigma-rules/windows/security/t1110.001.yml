@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1110.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/credential_access_bruteforce_admin_account.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1110.001
 logsource:
@@ -32,7 +32,7 @@ detection:
     # | eval Esql.time_window = date_trunc(60 seconds, @timestamp)
     # | stats Esql.failed_auth_count = COUNT(*),
     #         Esql.target_user_name_values = VALUES(winlog.event_data.TargetUserName),
-    #         Esql.count_distinct_user_name = count_distinct(winlog.event_data.TargetUserName),
+    #         Esql.count_distinct_user_name = count_distinct(to_lower(winlog.event_data.TargetUserName)),
     #         Esql.user_domain_values = VALUES(user.domain),
     #         Esql.error_codes = VALUES(winlog.event_data.Status),
     #         Esql.data_stream_namespace.values = VALUES(data_stream.namespace) by winlog.computer_name, source.ip, Esql.time_window, winlog.logon.type

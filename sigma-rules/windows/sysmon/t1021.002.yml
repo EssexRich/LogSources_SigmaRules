@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1021.002
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_pua_named_pipe.yml
 author: splunk (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1021.002
 logsource:
@@ -38,7 +38,7 @@ detection:
     #     count by dest dvc process_exec process_guid process_id process_path signature signature_id
     #     vendor_product pipe_name user_id Image process_name
     # 
-    #     | lookup pua_named_pipes pua_pipe_name AS pipe_name OUTPUT tool, description
+    #     | lookup local=t pua_named_pipes pua_pipe_name AS pipe_name OUTPUT tool, description
     #     | where isnotnull(tool)
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`

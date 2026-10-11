@@ -1,0 +1,35 @@
+title: GCP Vertex AI Publisher Model Config Modified
+id: 70ea5d8f-70ea-40ea-a0ea-70ea5d8f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.008
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp_vertexai/defense_evasion_gcp_vertexai_publisher_model_config_modified.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-11
+tags:
+  - attack.t1562.008
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-gcp_vertexai.auditlogs-* metadata _id, _version, _index
+    # | where
+    #     data_stream.dataset == "gcp_vertexai.auditlogs" and
+    #     event.action like "*SetPublisherModelConfig*" and
+    #     (gcp.vertexai.audit.status.code is null or gcp.vertexai.audit.status.code == 0)
+    # | keep
+    #     _id,
+    #     _version,
+    #     _index,
+    #     @timestamp,
+    #     event.action,
+    #     cloud.project.id,
+    #     source.ip,
+    #     gcp.vertexai.audit.service_name,
+    #     gcp.vertexai.audit.resource_name,
+    #     client.user.email,
+    #     user_agent.original
+  condition: selection
+level: medium

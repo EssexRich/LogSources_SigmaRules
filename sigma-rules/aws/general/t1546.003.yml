@@ -1,0 +1,46 @@
+title: WMI Permanent Event Subscription
+id: 1abd7cdc-1abd-4abd-aabd-1abd7cdc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546.003
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/wmi_permanent_event_subscription.yml
+author: splunk (via IncidentBuddy)
+date: 2026-10-11
+tags:
+  - attack.t1546.003
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `wmi`
+    #     EventCode=5861
+    #     | spath input=_raw output=possible_cause path=Event.UserData.Operation_ESStoConsumerBinding.PossibleCause
+    #     | spath input=_raw output=consumer_xml path=Event.UserData.Operation_ESStoConsumerBinding.CONSUMER
+    #     | eval possible_cause=coalesce(possible_cause, Message)
+    #     | rex field=Message "(?i)Consumer\s*=\s*(?<consumer_message>[^;\r\n]+)"
+    #     | eval consumer=coalesce(consumer_xml, consumer_message)
+    #     | where isnull(consumer) OR consumer!="NTEventLogEventConsumer=\"SCM Event Log Consumer\""
+    #     | rex field=possible_cause "(?ms)instance of __EventFilter\s+\{(?<event_filter>.*?)\};\s*Perm\. Consumer:"
+    #     | rex field=event_filter "(?m)^\s*Name\s*=\s*\"(?<filter_name>[^\"]*)\"\s*;"
+    #     | rex field=event_filter "(?m)^\s*Query\s*=\s*\"(?<filter_query>.*?)\"\s*;"
+    #     | rex field=event_filter "(?m)^\s*EventNamespace\s*=\s*\"(?<filter_event_namespace>[^\"]*)\"\s*;"
+    #     | rex field=event_filter "(?m)^\s*QueryLanguage\s*=\s*\"(?<filter_query_language>[^\"]*)\"\s*;"
+    #     | rex field=possible_cause "(?s)Perm\. Consumer:\s+instance of (?<consumer_type>[A-Za-z0-9_]+)\s+\{(?<consumer_properties>.*?)\};\s*\Z"
+    #     | rex field=consumer_properties "(?m)^\s*Name\s*=\s*\"(?<consumer_name>[^\"]*)\"\s*;"
+    #     | rex field=consumer_properties "(?m)^\s*CommandLineTemplate\s*=\s*\"(?<command_line_template>.*?)\"\s*;"
+    #     | rex field=consumer_properties "(?m)^\s*RunInteractively\s*=\s*(?<run_interactively>[^;]+)\s*;"
+    #     | rex field=consumer_properties "(?m)^\s*ScriptingEngine\s*=\s*\"(?<scripting_engine>[^\"]*)\"\s*;"
+    #     | rex field=consumer_properties "(?ms)^\s*ScriptText\s*=\s*\"(?<script_text>.*?)\"\s*;\s*$"
+    #     | where consumer_type IN ("CommandLineEventConsumer", "ActiveScriptEventConsumer")
+    #     | eval command=coalesce(command_line_template, script_text)
+    #     | fillnull value=NULL
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #                   values(consumer) as consumer
+    #                   values(consumer_type) as
+    # ... [truncated]
+  condition: selection
+level: medium

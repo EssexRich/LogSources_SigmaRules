@@ -1,0 +1,48 @@
+title: Windows AD Computer SPN Modified By User Account
+id: 716dce36-716d-416d-a16d-716dce360000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1562.010
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_ad_computer_spn_modified_by_user_account.yml
+author: splunk (via IncidentBuddy)
+date: 2026-10-11
+tags:
+  - attack.t1562.010
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `wineventlog_security`
+    #     EventCode=5136
+    #     AttributeLDAPDisplayName=servicePrincipalName
+    #     ObjectClass=computer
+    #     NOT SubjectUserName="*$"
+    #     NOT SubjectUserSid IN (
+    #         "S-1-5-18",
+    #         "S-1-5-19",
+    #         "S-1-5-20"
+    #     )
+    #     NOT SubjectUserName IN (
+    #         "*ANONYMOUS*",
+    #         "*NT AUTHORITY*",
+    #         "*SYSTEM"
+    #     )
+    # 
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #                   values(AttributeValue) as spn_values
+    #                   values(OperationType) as operation_types
+    #       by Computer SubjectUserName SubjectDomainName SubjectUserSid ObjectDN
+    # 
+    #     | eval operation_types=mvmap(operation_types, case(operation_types="%%14675", "Deleted", operation_types="%%14674", "Added", true(), operation_types))
+    # 
+    #     | rename Computer as dest
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_ad_computer_spn_modified_by_user_account_filter`
+  condition: selection
+level: medium

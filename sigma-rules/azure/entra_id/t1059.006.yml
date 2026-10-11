@@ -1,0 +1,19 @@
+title: First Time GCP Vertex AI Agent Engine Sandbox Code Execution by User and Source ASN
+id: 28c89bc2-28c8-48c8-a8c8-28c89bc20000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1059.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp_vertexai/execution_gcp_vertexai_agent_engine_sandbox_code_execution.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-11
+tags:
+  - attack.t1059.006
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:gcp_vertexai.auditlogs and event.action:*SandboxEnvironmentExecutionService.ExecuteSandboxEnvironment* and gcp.vertexai.audit.resource_name:*/sandboxEnvironments/* and gcp.vertexai.audit.service_name:aiplatform.googleapis.com and client.user.email:* and source.as.number:* and gcp.vertexai.audit.status.code:(0 or not *)
+  condition: selection
+level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1535
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/cloud_compute_instance_created_in_previously_unused_region.yml
 author: splunk (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1535
 logsource:
@@ -19,7 +19,7 @@ detection:
     #       WHERE All_Changes.action=created
     #       BY All_Changes.vendor_region, All_Changes.user
     #     | `drop_dm_object_name("All_Changes")`
-    #     | lookup previously_seen_cloud_regions vendor_region as vendor_region OUTPUTNEW firstTimeSeen, enough_data
+    #     | lookup local=t previously_seen_cloud_regions vendor_region as vendor_region OUTPUTNEW firstTimeSeen, enough_data
     #     | eventstats max(enough_data) as enough_data
     #     | where enough_data=1
     #     | eval firstTimeSeenRegion=min(firstTimeSeen)

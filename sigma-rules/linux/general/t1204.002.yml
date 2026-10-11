@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1204.002
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/defense_evasion_masquerading_space_after_filename.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1204.002
 logsource:
@@ -17,7 +17,7 @@ detection:
     # process where host.os.type:("linux","macos") and event.type == "start" and
     # process.executable regex~ """/[a-z0-9\s_\-\\./]+\s""" and not (
     #   process.name in ("ls", "find", "grep", "xkbcomp") or
-    #   process.executable like ("/opt/nessus_agent/*", "/opt/gitlab/sv/gitlab-exporter/*", "/tmp/ansible-admin/*") or
+    #   process.executable like ("/opt/nessus_agent/*", "/opt/gitlab/sv/gitlab-exporter/*") or
     #   process.parent.args in (
     #     "./check_rubrik", "/usr/bin/check_mk_agent", "/etc/rubrik/start_stop_bootstrap.sh", "/etc/rubrik/start_stop_agent.sh"
     #   ) or

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1526
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/discovery_aws_control_plane_access_by_suspicious_process.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1526
 logsource:
@@ -27,6 +27,10 @@ detection:
     #     /var/tmp/* or /var/www/*
     #   ) and
     #   not (/opt/actions-runner/* or /tmp/cargo-install* or /tmp/go-build* or /tmp/pytest-*)
+    # ) and
+    # not (
+    #   process.name: "MsSense.exe" and
+    #   process.code_signature.subject_name : "Microsoft Windows Publisher" and process.code_signature.trusted : true
     # )
   condition: selection
 level: medium

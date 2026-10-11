@@ -1,11 +1,11 @@
-title: ETW Registry Disabled
-id: 726aa7b1-726a-426a-a26a-726aa7b10000
+title: Suspicious microsoft workflow compiler rename
+id: 252b32c3-252b-452b-a52b-252b32c30000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1127
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/etw_registry_disabled.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/suspicious_microsoft_workflow_compiler_rename.yml
 author: splunk (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1127
 logsource:
@@ -14,6 +14,21 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path="*\\SOFTWARE\\Microsoft\\.NETFramework*" Registry.registry_value_name = ETWEnabled Registry.registry_value_data=0x00000000) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `etw_registry_disabled_filter`
+    # -
+    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+    #       WHERE Processes.process_name!=microsoft.workflow.compiler.exe
+    #         AND
+    #         Processes.original_file_name=Microsoft.Workflow.Compiler.exe
+    #       BY Processes.action Processes.dest Processes.original_file_name
+    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    #          Processes.process Processes.process_exec Processes.process_guid
+    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #          Processes.process_name Processes.process_path Processes.user
+    #          Processes.user_id Processes.vendor_product
+    #     | `drop_dm_object_name(Processes)`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `suspicious_microsoft_workflow_compiler_rename_filter`
   condition: selection
 level: medium

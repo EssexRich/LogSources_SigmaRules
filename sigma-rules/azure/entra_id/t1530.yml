@@ -1,0 +1,45 @@
+title: GCP Vertex AI High GenerateContent Volume From Single IP
+id: 79da05a3-79da-49da-a9da-79da05a30000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1530
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp_vertexai/collection_gcp_vertexai_high_generatecontent_volume_from_single_ip.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-11
+tags:
+  - attack.t1530
+logsource:
+  product: azure
+  service: entra_id
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-gcp_vertexai.auditlogs-*
+    # | where
+    #     data_stream.dataset == "gcp_vertexai.auditlogs" and
+    #     source.ip is not null and
+    #     (
+    #         event.action like "*PredictionService.GenerateContent*" or
+    #         event.action like "*PredictionService.StreamGenerateContent*"
+    #     ) and
+    #     (gcp.vertexai.audit.status.code is null or gcp.vertexai.audit.status.code == 0)
+    # | stats
+    #     Esql.event_count = count(*),
+    #     Esql.timestamp_first_seen = min(@timestamp),
+    #     Esql.timestamp_last_seen = max(@timestamp),
+    #     Esql.event_action_values = values(event.action)
+    #   by
+    #     source.ip,
+    #     gcp.vertexai.audit.resource_name,
+    #     cloud.project.id
+    # | where Esql.event_count >= 100
+    # | keep
+    #     source.ip,
+    #     gcp.vertexai.audit.resource_name,
+    #     cloud.project.id,
+    #     Esql.event_count,
+    #     Esql.timestamp_first_seen,
+    #     Esql.timestamp_last_seen,
+    #     Esql.event_action_values
+  condition: selection
+level: medium

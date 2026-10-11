@@ -1,11 +1,11 @@
-title: Entra ID Federated Identity Credential Issuer Modified
-id: 5af45e30-5af4-4af4-aaf4-5af45e300000
+title: Entra ID Federated Identity Credential Modified
+id: 0dcd6c81-0dcd-4dcd-adcd-0dcd6c810000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1484.002
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/persistence_entra_id_service_principal_federated_issuer_modified.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/persistence_entra_id_federated_identity_credential_modified.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1484.002
 logsource:
@@ -17,12 +17,31 @@ detection:
     # from logs-azure.auditlogs-* metadata _id, _version, _index
     # | where event.action == "Update application"
     # | where `azure.auditlogs.properties.target_resources.0.modified_properties.0.display_name` == "FederatedIdentityCredentials"
-    # | eval Esql.target_resources_old_value_clean = replace(`azure.auditlogs.properties.target_resources.0.modified_properties.0.old_value`, "\\\\", "")
-    # | eval Esql.target_resources_new_value_clean = replace(`azure.auditlogs.properties.target_resources.0.modified_properties.0.new_value`, "\\\\", "")
-    # | dissect Esql.target_resources_old_value_clean "%{}\"Issuer\":\"%{Esql.external_idp_old_issuer}\"%{}"
-    # | dissect Esql.target_resources_new_value_clean "%{}\"Issuer\":\"%{Esql.external_idp_new_issuer}\"%{}"
-    # | where Esql.external_idp_old_issuer is not null and Esql.external_idp_new_issuer is not null
-    # | where Esql.external_idp_old_issuer != Esql.external_idp_new_issuer
-    # | keep @timestamp, Esql.*, azure.*, event.*, cloud.*, related.*, tags, source.*, agent.*, client.*, _id, _version, _index, data_stream.namespace
+    # | eval Esql.fic_old_value = `azure.auditlogs.properties.target_resources.0.modified_properties.0.old_value`
+    # | eval Esql.fic_new_value = `azure.auditlogs.properties.target_resources.0.modified_properties.0.new_value`
+    # // each credential is one JSON object, so the number of "{" is the credential count
+    # | eval Esql.fic_old_count = mv_count(split(Esql.fic_old_value, "{")) - 1
+    # | eval Esql.fic_new_count = mv_count(split(Esql.fic_new_value, "{")) - 1
+    # // removals never alert
+    # | where Esql.fic_new_count > 0 and Esql.fic_new_count >= Esql.fic_old_count
+    # // strip the outer brackets and expand the new array into one row per credential object
+    # | eval Esql.fic_object = split(replace(substring(Esql.fic_new_value, 2, length(Esql.fic_new_value) - 2), "\\},\\{", "}\n{"), "\n")
+    # | mv_expand Esql.fic_object
+    # | eval Esql.fic_id = json_extract(Esql.fic_object, "Id"),
+    #        Esql.fic_new_issuer = json_extract(Esql.fic_object, "Issuer"),
+    #        Esql.fic_new_subject = json_extract(Esql.fic_object, "Subject")
+    # // locate the same credential Id in the old array and rebuild that object to read its previous issuer and subject
+    # | eval Esql.fic_old_id_pos = locate(Esql.fic_old_value, concat("\"Id\":\"", Esql.fic_id, "\""))
+    # | eval Esql.fic_old_object = case(
+    #     Esql.fic_old_id_pos > 0,
+    #     concat("{", mv_last(split(substring(Esql.fic_old_value, 1, Esql.fic_old_id_pos - 1), "{")), mv_first(split(substring(Esql.fic_old_value, Esql.fic_old_id_pos), "}")), "}"),
+    #     null
+    #   )
+    # | eval Esql.fic_old_issuer = json_extract(Esql.fic_old_object, "Issuer"),
+    #        Esql.fic_old_subject = json_extract(Esql.fic_old_object, "Subject")
+    # // subject is null on flexible credentials that use a claims matching expression, so coalesce before comparing
+    # | eval Esql.fic_change = case(
+    #     Esql.fic_old_count ==
+    # ... [truncated]
   condition: selection
 level: medium

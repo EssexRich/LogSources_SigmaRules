@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1578.002
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/cloud/cloud_compute_instance_created_with_previously_unseen_instance_type.yml
 author: splunk (via IncidentBuddy)
-date: 2026-10-04
+date: 2026-10-11
 tags:
   - attack.t1578.002
 logsource:
@@ -27,7 +27,7 @@ detection:
     #     | `drop_dm_object_name("All_Changes")`
     #     | `drop_dm_object_name("Instance_Changes")`
     #     | where instance_type != "unknown"
-    #     | lookup previously_seen_cloud_compute_instance_types instance_type as instance_type OUTPUTNEW firstTimeSeen, enough_data
+    #     | lookup local=t previously_seen_cloud_compute_instance_types instance_type as instance_type OUTPUTNEW firstTimeSeen, enough_data
     #     | eventstats max(enough_data) as enough_data
     #     | where enough_data=1
     #     | eval firstTimeSeenInstanceType=min(firstTimeSeen)
