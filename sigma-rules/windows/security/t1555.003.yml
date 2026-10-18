@@ -1,11 +1,11 @@
-title: Non Chrome Process Accessing Chrome Default Dir
-id: 57559b14-5755-4755-a755-57559b140000
+title: Possible Browser Pass View Parameter
+id: 053f39ea-053f-453f-a53f-053f39ea0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1555.003
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/non_chrome_process_accessing_chrome_default_dir.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/possible_browser_pass_view_parameter.yml
 author: splunk (via IncidentBuddy)
-date: 2026-10-11
+date: 2026-10-18
 tags:
   - attack.t1555.003
 logsource:
@@ -14,6 +14,6 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # `wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\chrome.exe", "*\\explorer.exe", "*sql*", "*\\dllhost.exe")) ObjectName="*\\Google\\Chrome\\User Data\\Default*" | stats count min(_time) as firstTime max(_time) as lastTime by ObjectName ObjectType ProcessName AccessMask EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `non_chrome_process_accessing_chrome_default_dir_filter`
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process  IN ("*/stext *", "*/shtml *", "*/LoadPasswordsIE*", "*/LoadPasswordsFirefox*", "*/LoadPasswordsChrome*", "*/LoadPasswordsOpera*", "*/LoadPasswordsSafari*" , "*/UseOperaPasswordFile*", "*/OperaPasswordFile*","*/stab*", "*/scomma*", "*/stabular*", "*/shtml*", "*/sverhtml*", "*/sxml*", "*/skeepass*" ) AND Processes.process IN ("*\\temp\\*", "*\\users\\public\\*", "*\\programdata\\*") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `possible_browser_pass_view_parameter_filter`
   condition: selection
 level: medium

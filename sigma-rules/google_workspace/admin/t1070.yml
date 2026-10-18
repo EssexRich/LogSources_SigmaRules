@@ -1,0 +1,29 @@
+title: OpenAI ChatGPT Enterprise Workspace Log File Deleted
+id: 5c7e8e69-5c7e-4c7e-ac7e-5c7e8e690000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/openai_chatgpt_enterprise/defense_evasion_openai_chatgpt_enterprise_workspace_log_file_deleted.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-18
+tags:
+  - attack.t1070
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-openai_chatgpt_enterprise.audit_log-* metadata _id, _version, _index
+    # | where
+    #     data_stream.dataset == "openai_chatgpt_enterprise.audit_log" and
+    #     event.action == "delete_workspace_log_file" and
+    #     openai_chatgpt_enterprise.audit_log.actor.type == "ACCOUNT_USER"
+    # | keep
+    #     _id, _version, _index, @timestamp, event.action, user.id, user.email, source.ip,
+    #     openai_chatgpt_enterprise.audit_log.action_data.event_type,
+    #     openai_chatgpt_enterprise.audit_log.action_data.log_file_id,
+    #     openai_chatgpt_enterprise.audit_log.action_privilege,
+    #     openai_chatgpt_enterprise.audit_log.actor.type, data_stream.*
+  condition: selection
+level: medium

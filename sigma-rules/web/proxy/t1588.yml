@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1588
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/builtin/application/Other/win_av_relevant_match.yml
 author: sigma (via IncidentBuddy)
-date: 2026-10-11
+date: 2026-10-18
 tags:
   - attack.t1588
 logsource:
@@ -14,7 +14,7 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     keywords:
+    #     keywords_generic:
     #         - 'Adfind'
     #         - 'ASP/BackDoor '
     #         - 'ATK/'
@@ -38,10 +38,22 @@ detection:
     #         - 'Filecoder'
     #         - 'GrandCrab '
     #         - 'HackTool'
-    #         - 'HKTL'
+    #         - '_HKTL'
+    #         - '-HKTL'
+    #         - '.HKTL'
+    #         - '/HKTL'
+    #         - 'HKTL_'
+    #         - 'HKTL-'
+    #         - 'HKTL.'
+    #         - 'HKTL/'
     #         - 'HTool-'
+    #         - 'HTool.'
+    #         - 'HTool/'
+    #         - 'HTool_'
+    #         - '-HTool'
     #         - '/HTool'
     #         - '.HTool'
+    #         - '_HTool'
     #         - 'IISExchgSpawnCMD'
     #         - 'Impacket'
     #         - 'JSP/BackDoor '
@@ -90,18 +102,10 @@ detection:
     #         # - 'PWSX'
     #         # - 'Razy'
     #         # - 'Ryuk'
+    #     keywords_re:
+    #         '|re': '\bHKTL\b'  # also matches case-sensitively
     #     filter_optional_generic:
-    #         - 'anti_ransomware_service.exe'
-    #         - 'Anti-Ransomware'
-    #         - 'Crack'
-    #         - 'cyber-protect-service.exe'
-    #         - 'encryptor'
-    #         - 'Keygen'
-    #     filter_optional_information:
-    #         Level: 4  # Information level
-    #     filter_optional_restartmanager:
-    #         Provider_Name: 'Microsoft-Windows-RestartManager'
-    #     condit
+    #         - 'anti_ransomware_service
     # ... [truncated]
   condition: selection
 level: medium

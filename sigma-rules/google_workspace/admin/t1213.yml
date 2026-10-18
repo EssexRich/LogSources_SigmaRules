@@ -1,0 +1,74 @@
+title: OpenAI ChatGPT Enterprise Google Drive Sensitive Query Burst
+id: 6010e7f9-6010-4010-a010-6010e7f90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1213
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/openai_chatgpt_enterprise/collection_openai_chatgpt_enterprise_google_drive_sensitive_query_burst.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-18
+tags:
+  - attack.t1213
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-openai_chatgpt_enterprise.app_log-*
+    # | where
+    #     data_stream.dataset == "openai_chatgpt_enterprise.app_log" and
+    #     openai_chatgpt_enterprise.app_log.app_name == "Google Drive" and
+    #     openai_chatgpt_enterprise.app_log.log_type == "request" and
+    #     openai_chatgpt_enterprise.app_log.query is not null and
+    #     user.email is not null
+    # | eval Esql.query_text = to_lower(openai_chatgpt_enterprise.app_log.query)
+    # | eval Esql.is_sensitive = case(
+    #     Esql.query_text like "*payslip*" or
+    #     Esql.query_text like "*payroll*" or
+    #     Esql.query_text like "*salary*" or
+    #     Esql.query_text like "*compensation*" or
+    #     Esql.query_text like "*confidential*" or
+    #     Esql.query_text like "*privileged*" or
+    #     Esql.query_text like "*payment*" or
+    #     Esql.query_text like "*ssn*" or
+    #     Esql.query_text like "*social security*" or
+    #     Esql.query_text like "*passport*" or
+    #     Esql.query_text like "*bank account*" or
+    #     Esql.query_text like "*w2*" or
+    #     Esql.query_text like "*w-2*" or
+    #     Esql.query_text like "*tax return*" or
+    #     Esql.query_text like "*offer letter*" or
+    #     Esql.query_text like "*nda*" or
+    #     Esql.query_text like "*secret*" or
+    #     Esql.query_text like "*password*" or
+    #     Esql.query_text like "*api key*" or
+    #     Esql.query_text like "*credential*",
+    #     1,
+    #     0
+    # )
+    # | eval Esql.time_bucket = date_trunc(5 minutes, @timestamp)
+    # | stats
+    #     Esql.query_count_distinct = count_distinct(openai_chatgpt_enterprise.app_log.query),
+    #     Esql.event_count = count(*),
+    #     Esql.sensitive_query_count = sum(Esql.is_sensitive),
+    #     Esql.query_values = values(openai_chatgpt_enterprise.app_log.query),
+    #     Esql.timestamp_first_seen = min(@timestamp),
+    #     Esql.timestamp_last_seen = max(@timestamp)
+    #   by
+    #     user.email,
+    #     organization.id,
+    #     Esql.time_bucket
+    # | where
+    #     Esql.query_count_distinct >= 5 and
+    #     Esql.sensitive_query_count >= 1
+    # | keep
+    #     user.email,
+    #     organization.id,
+    #     Esql.time_bucket,
+    #     Esql.query_count_distinct,
+    #     Esql.sensitive_query_count,
+    #     Esql.event_count,
+    #     E
+    # ... [truncated]
+  condition: selection
+level: medium

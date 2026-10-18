@@ -1,11 +1,11 @@
-title: Windows Export Certificate
-id: 0dbe99c6-0dbe-4dbe-adbe-0dbe99c60000
+title: Steal or Forge Authentication Certificates Behavior Identified
+id: 55362826-5536-4536-a536-553628260000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1552.004
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_export_certificate.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/steal_or_forge_authentication_certificates_behavior_identified.yml
 author: splunk (via IncidentBuddy)
-date: 2026-10-11
+date: 2026-10-18
 tags:
   - attack.t1552.004
 logsource:
@@ -15,13 +15,13 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     `certificateservices_lifecycle` EventCode=1007
-    #       | xmlkv UserData_Xml
-    #       | stats count min(_time) as firstTime max(_time) as lastTime
-    #         BY Computer, SubjectName, UserData_Xml
-    #       | rename Computer as dest
-    #       | `security_content_ctime(firstTime)`
-    #       | `security_content_ctime(lastTime)`
-    #       | `windows_export_certificate_filter`
+    #     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score) as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count, values(All_Risk.tag) as tag, values(source) as source, dc(source) as source_count FROM datamodel=Risk.All_Risk
+    #       WHERE All_Risk.analyticstories="Windows Certificate Services" All_Risk.risk_object_type="system"
+    #       BY All_Risk.risk_object All_Risk.risk_object_type All_Risk.annotations.mitre_attack.mitre_tactic
+    #     | `drop_dm_object_name(All_Risk)`
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | where source_count >= 5
+    #     | `steal_or_forge_authentication_certificates_behavior_identified_filter`
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1562.001
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_service_tamper.yml
 author: sigma (via IncidentBuddy)
-date: 2026-10-11
+date: 2026-10-18
 tags:
   - attack.t1562.001
 logsource:
@@ -48,8 +48,11 @@ detection:
     #     selection_services:
     #         CommandLine|contains:
     #             - '143Svc'
+    #             - 'aakore'
     #             - 'Acronis VSS Provider'
+    #             - 'AcronisActiveProtectionService'
     #             - 'AcronisAgent'
+    #             - 'AcronisCyberProtectionService'
     #             - 'AcrSch2Svc'
     #             - 'AdobeARMservice'
     #             - 'AHS Service'
@@ -70,10 +73,7 @@ detection:
     #             - 'BrokerInfrastructure'
     #             - 'CASLicenceServer'
     #             - 'CASWebServer'
-    #             - 'Client Agent 7.60'
-    #             - 'Core Browsing Protection'
-    #             - 'Core Mail Protection'
-    #            
+    #        
     # ... [truncated]
   condition: selection
 level: medium

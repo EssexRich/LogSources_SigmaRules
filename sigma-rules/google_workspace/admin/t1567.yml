@@ -1,0 +1,34 @@
+title: OpenAI ChatGPT Enterprise Gmail Message Sent via Connector
+id: 73a3926a-73a3-43a3-a3a3-73a3926a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1567
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/openai_chatgpt_enterprise/exfiltration_openai_chatgpt_enterprise_gmail_message_sent.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-18
+tags:
+  - attack.t1567
+logsource:
+  product: google_workspace
+  service: admin
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-openai_chatgpt_enterprise.app_log-* metadata _id, _version, _index
+    # | where
+    #     data_stream.dataset == "openai_chatgpt_enterprise.app_log" and
+    #     openai_chatgpt_enterprise.app_log.app_name == "Gmail" and
+    #     openai_chatgpt_enterprise.app_log.app_type == "SERVICE" and
+    #     openai_chatgpt_enterprise.app_log.output is not null
+    # | eval Esql.gmail_action = field_extract(openai_chatgpt_enterprise.app_log.output, "response.action_name")
+    # | where Esql.gmail_action == "send_email"
+    # | keep
+    #     _id, _version, _index, @timestamp, user.id, user.email,
+    #     Esql.gmail_action,
+    #     openai_chatgpt_enterprise.app_log.app_name,
+    #     openai_chatgpt_enterprise.app_log.app_type,
+    #     openai_chatgpt_enterprise.app_log.log_type,
+    #     openai_chatgpt_enterprise.app_log.output,
+    #     data_stream.*
+  condition: selection
+level: medium

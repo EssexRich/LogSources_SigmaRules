@@ -1,11 +1,11 @@
-title: System Public IP Discovery via DNS Query
-id: 5e8c2586-5e8c-4e8c-ae8c-5e8c25860000
+title: Nslookup PowerShell Download Cradle - ProcessCreation
+id: 10bdc0ce-10bd-40bd-a0bd-10bdc0ce0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1071.004
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/windows/discovery_host_public_ip_address_lookup.toml
-author: elastic (via IncidentBuddy)
-date: 2026-10-11
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_nslookup_poweshell_download.yml
+author: sigma (via IncidentBuddy)
+date: 2026-10-18
 tags:
   - attack.t1071.004
 logsource:
@@ -13,64 +13,19 @@ logsource:
   service: powershell
 detection:
   selection:
-    # Original elastic detection logic
-    # network where host.os.type == "windows" and dns.question.name != null and process.name != null and
-    # (
-    #   process.name : ("MSBuild.exe", "mshta.exe", "wscript.exe", "powershell.exe", "pwsh.exe", "msiexec.exe", "rundll32.exe",
-    #   "bitsadmin.exe", "InstallUtil.exe", "RegAsm.exe", "vbc.exe", "RegSvcs.exe", "python.exe", "regsvr32.exe", "dllhost.exe",
-    #   "node.exe", "javaw.exe", "java.exe", "*.pif", "*.com", "curl.exe", "bun.exe") or
+    # Original sigma detection logic
+    #     selection_img:
+    #         - Image|endswith: '\nslookup.exe'
+    #         - OriginalFileName: 'nslookup.exe'
+    #     selection_cmd:
+    #         ParentImage|endswith:
+    #             - '\powershell.exe'
+    #             - '\pwsh.exe'
+    #         CommandLine|contains:
+    #             - ' -q=txt '
+    #             - ' -querytype=txt '
+    #             - ' -type=txt'
+    #     condition: all of selection_*
     # 
-    #   (?process.code_signature.trusted == false or ?process.code_signature.exists == false) or
-    # 
-    #   ?process.code_signature.subject_name : ("AutoIt Consulting Ltd", "OpenJS Foundation", "Python Software Foundation") or
-    # 
-    #   ?process.executable : (
-    #     "?:\\Users\\Public\\*.exe", "?:\\ProgramData\\*.exe", "?:\\Users\\*\\Downloads\\*.exe",
-    #     "\\Device\\HarddiskVolume*\\Users\\Public\\*.exe", "\\Device\\HarddiskVolume*\\ProgramData\\*.exe", "\\Device\\HarddiskVolume*\\Users\\*\\Downloads\\*.exe"
-    #   )
-    #  ) and
-    #  dns.question.name :
-    #          (
-    #           "ip-api.com",
-    #           "checkip.dyndns.org",
-    #           "api.ipify.org",
-    #           "api.ipify.com",
-    #           "whatismyip.akamai.com",
-    #           "bot.whatismyipaddress.com",
-    #           "ifcfg.me",
-    #           "ident.me",
-    #           "ipof.in",
-    #           "ip.tyk.nu",
-    #           "icanhazip.com",
-    #           "curlmyip.com",
-    #           "wgetip.com",
-    #           "eth0.me",
-    #           "ipecho.net",
-    #           "ip.appspot.com",
-    #           "api.myip.com",
-    #           "geoiptool.com",
-    #           "api.2ip.ua",
-    #           "api.ip.sb",
-    #           "ipinfo.io",
-    #           "checkip.amazonaws.com",
-    #           "wtfismyip.com",
-    #           "iplogger.*",
-    #           "freegeoip.net",
-    #           "freegeoip.app",
-    #           "geoplugin.net",
-    #           "myip.dnsomatic.com",
-    #           "www.geoplugin.net",
-    #           "api64.ipify.org",
-    #           "ip4.seeip.org",
-    #           "*.geojs.io",
-    #           "*portmap.io",
-    #           "api.db-ip.com",
-    #           "geolocation-db.com",
-    #           "httpbin.org",
-    #           "myip.opendns.com"
-    #          ) and
-    # not (
-    #   process.executable 
-    # ... [truncated]
   condition: selection
 level: medium

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1036.007
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/file/file_event/file_event_win_susp_double_extension.yml
 author: sigma (via IncidentBuddy)
-date: 2026-10-11
+date: 2026-10-18
 tags:
   - attack.t1036.007
 logsource:
@@ -15,30 +15,7 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection_gen:
-    #         TargetFilename|endswith:
-    #             - '.exe'
-    #             - '.iso'
-    #             - '.rar'
-    #             - '.svg'
-    #             - '.zip'
-    #             # - '.lnk'  # legitimate links can happen just anywhere
-    #         TargetFilename|contains:
-    #             - '.doc.'
-    #             - '.docx.'
-    #             - '.gif.'
-    #             - '.jpeg.'
-    #             - '.jpg.'
-    #             - '.mp3.'
-    #             - '.mp4.'
-    #             - '.pdf.'
-    #             - '.png.'
-    #             - '.ppt.'
-    #             - '.pptx.'
-    #             - '.rtf.'
-    #             - '.svg.'
-    #             - '.txt.'
-    #             - '.xls.'
-    #             - '.xlsx.'
+    #         TargetFilename|re|i: '\.(docx?|gif|jpe?g|mp3|mp4|pdf|png|pptx?|rtf|svg|txt|xlsx?)\.(bat|exe|iso|rar|svg|vbe|vbs|zip)$'
     #     selection_exe:
     #         TargetFilename|endswith:
     #             - '.rar.exe'
@@ -48,9 +25,15 @@ detection:
     #     #     TargetFilename|contains:
     #     #         - '\AppData\Roaming\Microsoft\Office\Recent\'
     #     #         - '\AppData\Roaming\Microsoft\Windows\Recent\'
-    #     filter_icons_linux:
+    #     filter_main_legitimate_extensions:
+    #         TargetFilename|endswith:
+    #             - '.svg.svg'
+    #             - '.png.svg'
+    #             - '.jpg.svg'
+    #             - '.jpeg.svg'
+    #     filter_optional_icons_linux:
     #         TargetFilename|startswith: '/usr/share/icons/'
-    #     condition: 1 of selection_* and not 1 of filter_*
+    #     condition: 1 of selection_* and not 1 of filter_main_* and not 1 of filter_optional_*
     # 
   condition: selection
 level: medium

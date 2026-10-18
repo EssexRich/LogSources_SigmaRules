@@ -1,0 +1,44 @@
+title: HTTP POST Request with Encoded Payload
+id: 2e1a952f-2e1a-4e1a-ae1a-2e1a952f0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1132
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/network/http_post_request_with_encoded_payload.yml
+author: splunk (via IncidentBuddy)
+date: 2026-10-18
+tags:
+  - attack.t1132
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `zeek_http`
+    #     method="POST"
+    #     post_body="*"
+    # 
+    #     | eval dest_port=coalesce(dest_port, 'id.resp_p'),
+    #            dest=coalesce(dest, dest_ip, 'id.resp_h'),
+    #            src=coalesce(src, src_ip, 'id.orig_h')
+    # 
+    #     | eval _hex=if(match(post_body, "(?:\\\\x[0-9a-fA-F]{2}){8,}|(?:%[0-9a-fA-F]{2}){8,}"), 1, 0)
+    #     | eval _b64=if(match(post_body, "(?:[A-Za-z0-9+/]{4}){16,}={0,2}"), 1, 0)
+    # 
+    #     | where _hex=1 OR _b64=1
+    # 
+    #     | eval encoding_type=case(_hex=1 AND _b64=1, "Hexadecimal + Base64", _hex=1, "Hexadecimal", _b64=1, "Base64")
+    # 
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    #                   values(encoding_type) as encoding_type
+    #                   values(post_body) as post_body
+    # 
+    #       by src dest dest_port uri method status_code
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `http_post_request_with_encoded_payload_filter`
+  condition: selection
+level: medium
