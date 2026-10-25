@@ -1,0 +1,30 @@
+title: AWS EKS Pod Exec with Curl or Wget to HTTPS
+id: 5d83de2c-5d83-4d83-ad83-5d83de2c0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1105
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/execution_kubernetes_pod_exec_curl_wget_https_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1105
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-aws.eks_audit-* metadata _id, _index, _version
+    # | WHERE aws.eks.audit.objectRef.subresource == "exec"
+    #   AND aws.eks.audit.requestURI LIKE "*command=*"
+    # | EVAL decoded_uri = URL_DECODE(aws.eks.audit.requestURI)
+    # | GROK decoded_uri "%{DATA}/exec\\?%{DATA:raw_commands}&(?:container|stdin|stdout|stderr)=%{GREEDYDATA}"
+    # | EVAL command = REPLACE(raw_commands, "command=", "")
+    # | EVAL command = REPLACE(command, "&", " ")
+    # | EVAL Esql.executed_command = REPLACE(command, "\\+", " ")
+    # | WHERE Esql.executed_command IS NOT NULL
+    #   AND Esql.executed_command RLIKE """.*(curl.*https|wget.*https).*"""
+    #   AND NOT Esql.executed_command RLIKE """.*(/api/v1/health|/healthz|/readyz|/livez|127\.0\.0\.1|localhost|/openid/v1/jwks|/openid-connect/certs|/.well-known/openid-configuration|/.well-known/jwks\.json|kubernetes\.default\.svc).*"""
+    # | KEEP Esql.*, @timestamp, user.name, source.ip, user_agent.original, event.action, aws.eks.audit.objectRef.namespace, aws.eks.audit.objectRef.name, aws.eks.audit.requestURI, aws.eks.audit.user.username, data_stream.namespace, _id, _index, _version
+  condition: selection
+level: medium

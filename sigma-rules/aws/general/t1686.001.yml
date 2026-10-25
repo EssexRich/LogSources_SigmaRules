@@ -1,11 +1,11 @@
-title: New Network ACL Entry Added
-id: 59efaa35-59ef-49ef-a9ef-59efaa350000
+title: AWS Bucket Block Public Access Weakened
+id: 4c50a234-4c50-4c50-ac50-4c50a2340000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1686.001
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_new_acl_entries.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_bucket_block_public_access_weakened.yml
 author: sigma (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1686.001
 logsource:
@@ -14,10 +14,22 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection:
-    #         eventSource: 'ec2.amazonaws.com'
-    #         eventName: 'CreateNetworkAclEntry'
-    #     condition: selection
+    #     selection_event_name:
+    #         eventSource: 's3.amazonaws.com'
+    #         eventName: 'PutBucketPublicAccessBlock'
+    #     selection_weaken_restrict_public_buckets:
+    #         requestParameters.PublicAccessBlockConfiguration.RestrictPublicBuckets: 'false'
+    #     selection_weaken_block_public_acls:
+    #         requestParameters.PublicAccessBlockConfiguration.BlockPublicAcls: 'false'
+    #     selection_weaken_block_public_policy:
+    #         requestParameters.PublicAccessBlockConfiguration.BlockPublicPolicy: 'false'
+    #     selection_weaken_ignore_public_acls:
+    #         requestParameters.PublicAccessBlockConfiguration.IgnorePublicAcls: 'false'
+    #     selection_status_success:
+    #         errorCode: 'Success'
+    #     selection_status_null:
+    #         errorCode: null
+    #     condition: selection_event_name and 1 of selection_weaken_* and 1 of selection_status_*
     # 
   condition: selection
 level: medium

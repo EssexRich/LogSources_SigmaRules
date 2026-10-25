@@ -1,0 +1,25 @@
+title: AWS EKS Anonymous User Create/Update/Patch Pods Request
+id: 606738c7-6067-4067-a067-606738c70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1610
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/execution_anonymous_create_update_patch_pod_request_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1610
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # any where data_stream.dataset == "aws.eks_audit" and (
+    #     aws.eks.audit.user.username in ("system:anonymous", "system:unauthenticated") or
+    #     aws.eks.audit.impersonatedUser.username in ("system:anonymous", "system:unauthenticated") or
+    #     aws.eks.audit.user.username == null or
+    #     aws.eks.audit.user.username == ""
+    #   ) and aws.eks.audit.level in ("RequestResponse", "ResponseComplete", "Request") and aws.eks.audit.verb in ("create", "update", "patch") and
+    # aws.eks.audit.objectRef.resource == "pods"
+  condition: selection
+level: medium

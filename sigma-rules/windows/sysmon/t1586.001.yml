@@ -1,0 +1,68 @@
+title: Windows Process Outbound Connection To Social Media Domain
+id: 74f803d6-74f8-44f8-a4f8-74f803d60000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1586.001
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_process_outbound_connection_to_social_media_domain.yml
+author: splunk (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1586.001
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `sysmon`
+    #     EventCode=3
+    #     Image IN (
+    #         "*:\\$Recycle.Bin\\*",
+    #         "*:\\PerfLogs\\*",
+    #         "*:\\Users\\Administrator\\Music\\*",
+    #         "*:\\Users\\Public\\*",
+    #         "*:\\Windows\\Cursors\\*",
+    #         "*:\\Windows\\debug\\*",
+    #         "*:\\Windows\\fonts\\*",
+    #         "*:\\Windows\\INF\\*",
+    #         "*:\\Windows\\Media\\*",
+    #         "*:\\Windows\\Prefetch\\*",
+    #         "*\\Windows\\repair\\*"
+    #     )
+    # 
+    #     process_name IN (
+    #         "py.exe",
+    #         "pypy.exe",
+    #         "python.exe",
+    #         "python2*.exe",
+    #         "python3*.exe",
+    #         "pythonw.exe"
+    #     )
+    # 
+    #     dest IN (
+    #         "*.facebook.com",
+    #         "*.facebook.net",
+    #         "*.facebook.org",
+    #         "*.fb.com",
+    #         "*.fbcd.net",
+    #         "*.fbsbx.com",
+    #         "*.fbstatic-a.akamaihd.net",
+    #         "*.tfbw.net"
+    #     )
+    #     direction = outbound
+    # 
+    #     | rename Image as process_path
+    # 
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    # 
+    #       by action app dest dest_ip dest_port direction dvc protocol protocol_version
+    #          process_path process_name process_guid process_id
+    #          src src_ip src_port transport user vendor_product
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `windows_process_outbound_connection_to_social_media_domain_filter`
+  condition: selection
+level: medium

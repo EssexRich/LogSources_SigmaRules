@@ -1,11 +1,11 @@
-title: Detect Renamed RClone
-id: 7c5e4e6c-7c5e-4c5e-ac5e-7c5e4e6c0000
+title: Detect RClone Command-Line Usage
+id: 77bd5d23-77bd-47bd-a7bd-77bd5d230000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1020
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/detect_renamed_rclone.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_rclone_command_line_usage.yml
 author: splunk (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1020
 logsource:
@@ -14,23 +14,23 @@ logsource:
 detection:
   selection:
     # Original splunk detection logic
-    # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE (
-    #             Processes.original_file_name=rclone.exe
-    #             AND
-    #             Processes.process_name!=rclone.exe
-    #         )
-    #       BY Processes.action Processes.dest Processes.original_file_name
-    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #          Processes.process Processes.process_exec Processes.process_guid
-    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
-    #          Processes.process_name Processes.process_path Processes.user
-    #          Processes.user_id Processes.vendor_product
+    # | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    #     as lastTime from datamodel=Endpoint.Processes where
+    #     (Processes.original_file_name="rclone.exe" OR Processes.process_name="rclone.exe")
+    #     Processes.process IN (
+    #             "*copy*", "*mega*", "*pcloud*", "*ftp*",
+    #             "*--config*", "*--progress*", "*--no-check-certificate*",
+    #             "*--ignore-existing*", "*--auto-confirm*", "*--transfers*",
+    #             "*--multi-thread-streams*"
+    #             )
+    #     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+    #     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+    #     Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+    #     Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #     Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
     #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
-    #     | `security_content_ctime(lastTime)`
-    #     | `detect_renamed_rclone_filter`
+    #     |  `security_content_ctime(lastTime)`
+    #     | `detect_rclone_command_line_usage_filter`
   condition: selection
 level: medium

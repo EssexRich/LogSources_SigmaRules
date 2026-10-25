@@ -1,11 +1,11 @@
-title: Potential In-Memory Execution Using Reflection.Assembly
-id: 1799aa30-1799-4799-a799-1799aa300000
+title: Suspicious Managed Code Hosting Process
+id: 0dcb41d2-0dcb-4dcb-adcb-0dcb41d20000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1620
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_dotnet_assembly_from_file.yml
-author: sigma (via IncidentBuddy)
-date: 2026-10-18
+  - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_suspicious_managedcode_host_process.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
 tags:
   - attack.t1620
 logsource:
@@ -13,10 +13,15 @@ logsource:
   service: general
 detection:
   selection:
-    # Original sigma detection logic
-    #     selection:
-    #         ScriptBlockText|contains: '[Reflection.Assembly]::load'
-    #     condition: selection
-    # 
+    # Original elastic detection logic
+    # file where host.os.type == "windows" and event.type != "deletion" and
+    #   file.name : ("wscript.exe.log",
+    #                "cscript.exe.log",
+    #                "mshta.exe.log",
+    #                "wmic.exe.log",
+    #                "svchost.exe.log",
+    #                "dllhost.exe.log",
+    #                "cmstp.exe.log",
+    #                "regsvr32.exe.log")
   condition: selection
 level: medium

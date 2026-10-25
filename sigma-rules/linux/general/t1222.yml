@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1222
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_acl_modification_via_setfacl.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1222
 logsource:
@@ -16,14 +16,15 @@ detection:
     # Original elastic detection logic
     # process where host.os.type == "linux" and event.type == "start" and
     # event.action in ("exec", "exec_event", "start", "ProcessRollup2", "executed", "process_started") and
-    # process.name == "setfacl" and not (
+    # process.name == "setfacl" and
+    # not (
     #   ?process.parent.executable in (
     #     "/opt/puppetlabs/puppet/bin/ruby", "/usr/libexec/dirsrv/ds_systemd_ask_password_acl", "/usr/lib/systemd/systemd-udevd",
     #     "/usr/bin/udevadm", "/usr/sbin/ds_systemd_ask_password_acl", "/usr/bin/su", "/bin/su"
     #   ) or
     #   process.command_line == "/bin/setfacl --restore=-" or
     #   process.args == "/var/log/journal/" or
-    #   ?process.parent.name in ("stats.pl", "perl", "find") or
+    #   process.parent.name in ("stats.pl", "perl", "find") or
     #   ?process.parent.command_line like~ "*ansible*" or
     #   ?process.parent.args == "/opt/audit-log-acl.sh"
     # )

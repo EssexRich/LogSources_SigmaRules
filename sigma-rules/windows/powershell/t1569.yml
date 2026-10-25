@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1569
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/persistence_service_windows_service_winlog.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1569
 logsource:
@@ -30,11 +30,14 @@ detection:
     #           winlog.event_data.ServiceFileName regex~ """%systemroot%\\[a-z0-9]+\.exe"""
     #         ) and
     #         not winlog.event_data.ServiceFileName: (
-    #               "%SystemRoot%\\PSEXESVC.exe", "%SystemRoot%\\\\RemComSvc.exe",
+    #               "%SystemRoot%\\PSEXESVC.exe", "C:\\WINDOWS\\PSEXESVC.exe", "%SystemRoot%\\\\RemComSvc.exe",
     #               "%SystemRoot%\\pbpsdeploy.exe", "%SystemRoot%\\system32\\RemComSvc.exe",
     #               "\"C:\\Program Files\\Common Files\\Zoom\\Support\\CptService.exe*",
     #               "\"C:\\Program Files\\Common Files\\ZoomVDIPluginManagement\\Support\\CptService.exe*",
-    #               "\"C:\\Program Files (x86)\\CheckPoint\\Endpoint Security\\EFR\\host\\cpsechost.exe\" service"
+    #               "\"C:\\Program Files (x86)\\Common Files\\Zoom\\Support\\CptService.exe*",
+    #               "\"C:\\Program Files (x86)\\CheckPoint\\Endpoint Security\\EFR\\host\\cpsechost.exe\" service",
+    #               "C:\\Users\\*\\AppData\\Local\\Temp\\VeeamVssSupport\\VeeamGuestHelper.exe*",
+    #               "C:\\WINDOWS\\TEMP\\\\TdkLimit64.sys", "C:\\WINDOWS\\TEMP\\\\oraremservicev2\\RemoteExecService.exe"
     #         )
     #       ) or
     #       winlog.event_data.ServiceName : (
@@ -49,12 +52,7 @@ detection:
     #         winlog.event_data.ImagePath : (
     #           "*COMSPEC*", "*\\127.0.0.1*", "*Admin$*", "*powershell*", "*rundll32*", "*cmd.exe*",
     #           "*echo*", "*.bat*", "*.cmd*", "*certutil*", "*vssadmin*", "*certmgr*", "*bitsadmin*",
-    #           "*\\Users\\*", "*\\Windows\\Tasks\\*", "*\\PerfLogs\\*", "*\\Windows\\Debug\\*",
-    #           "*regsvr32*", "*msbuild*", "*winexesvc.exe*", "*DumpSvc.exe*", "*pwsh.exe*", "*PAExec*"
-    #         ) and
-    #         not winlog.event_data.ImagePath : (
-    #               "%SystemRoot%\\PSEXESVC.exe", "%SystemRoot%\\\\RemComSvc.exe",
-    #               "%SystemRoot%\\pbpsdeploy.exe", "%System
+    #           "*\\Users\\*", "*\\Windows\\Tasks\\*", "*\
     # ... [truncated]
   condition: selection
 level: medium

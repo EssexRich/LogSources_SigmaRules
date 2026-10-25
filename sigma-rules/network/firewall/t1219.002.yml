@@ -1,0 +1,74 @@
+title: First Time Seen RMM Service Hostname from Network DNS
+id: 3c71ac5d-3c71-4c71-ac71-3c71ac5d0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1219.002
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_first_seen_rmm_network_domain.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1219.002
+logsource:
+  product: network
+  service: firewall
+detection:
+  selection:
+    # Original elastic detection logic
+    # (
+    #   data_stream.dataset:(fortinet_fortigate.log or network_traffic.dns or suricata.eve or zeek.dns)
+    #   or event.dataset:dns
+    # )
+    #   and source.ip:*
+    #   and dns.question.registered_domain:*
+    #   and (
+    #     dns.question.name:(
+    #       *-relay.screenconnect.com or
+    #       *-relay.screenconnect.com. or
+    #       "agent-api.atera.com" or
+    #       "agent-api.atera.com." or
+    #       "agenthb.atera.com" or
+    #       "agenthb.atera.com." or
+    #       "agentreporting.atera.com" or
+    #       "agentreporting.atera.com." or
+    #       "agents.level.io" or
+    #       "agents.level.io." or
+    #       "api.rustdesk.com" or
+    #       "api.rustdesk.com." or
+    #       "assist.zoho.com" or
+    #       "assist.zoho.com." or
+    #       "boot.net.anydesk.com" or
+    #       "boot.net.anydesk.com." or
+    #       "cc.centrastage.net" or
+    #       "cc.centrastage.net." or
+    #       "client.teamviewer.com" or
+    #       "client.teamviewer.com." or
+    #       "control.connectwise.com" or
+    #       "control.connectwise.com." or
+    #       "deploy01.kaseya.com" or
+    #       "deploy01.kaseya.com." or
+    #       "gateway.zohoassist.com" or
+    #       "gateway.zohoassist.com." or
+    #       "geo.netsupportsoftware.com" or
+    #       "geo.netsupportsoftware.com." or
+    #       "ld.aurelius.host" or
+    #       "ld.aurelius.host." or
+    #       "managedsupport.kaseya.net" or
+    #       "managedsupport.kaseya.net." or
+    #       "ps.atera.com" or
+    #       "ps.atera.com." or
+    #       "pubsub.atera.com" or
+    #       "pubsub.atera.com." or
+    #       "rescue-data-center.logmein-gateway.com" or
+    #       "rescue-data-center.logmein-gateway.com." or
+    #       "router15.teamviewer.com" or
+    #       "router15.teamviewer.com." or
+    #       "rs-ny.rustdesk.com" or
+    #       "rs-ny.rustdesk.com." or
+    #       "serv.superopsalpha.com" or
+    #       "serv.superopsalpha.com." or
+    #       "taf.teamviewer.com" or
+    #       "taf.teamviewer.com."
+    #     )
+    #   )
+  condition: selection
+level: medium

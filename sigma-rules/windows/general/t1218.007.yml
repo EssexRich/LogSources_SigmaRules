@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1218.007
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msiexec_dll.yml
 author: sigma (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1218.007
 logsource:
@@ -17,11 +17,12 @@ detection:
     #     selection_img:
     #         - Image|endswith: '\msiexec.exe'
     #         - OriginalFileName: '\msiexec.exe'
-    #     selection_flag:
+    #     selection_cli:
     #         CommandLine|contains|windash: ' -z '
-    #     selection_dll:
     #         CommandLine|contains: '.dll'
-    #     condition: all of selection_*
+    #     filter_optional_msihandler:
+    #         CommandLine|endswith: '\MsiExec.exe" /Z "C:\Windows\CCM\MsiHandler.dll"'
+    #     condition: all of selection_* and not 1 of filter_optional_*
     # 
   condition: selection
 level: medium

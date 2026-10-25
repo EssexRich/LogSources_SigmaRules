@@ -1,0 +1,42 @@
+title: AWS EC2 Multiple SSH Public Keys Uploaded by a Single Identity
+id: 0e020ec1-0e02-4e02-ae02-0e020ec10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1021.008
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/cloud/aws_ec2_multiple_ssh_public_keys_uploaded_by_a_single_identity.yml
+author: splunk (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1021.008
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `cloudtrail`
+    #     eventSource="ec2-instance-connect.amazonaws.com"
+    #     eventName="SendSSHPublicKey"
+    #     responseElements.success=true
+    # 
+    #     | stats dc('requestParameters.instanceId') as unique_instances
+    #             dc(eventID) as event_count
+    #             earliest(_time) as firstTime
+    #             latest(_time) as lastTime
+    #             values('requestParameters.instanceId') as targeted_instances
+    #             values('requestParameters.instanceOSUser') as targeted_users
+    #             values(src) as src
+    #             values(user_agent) as user_agent
+    #             values(vendor_region) as vendor_region
+    #       by user_arn
+    # 
+    #     | where event_count >= 10
+    # 
+    #     | eval duration_seconds=lastTime-firstTime
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `aws_ec2_multiple_ssh_public_keys_uploaded_by_a_single_identity_filter`
+  condition: selection
+level: medium

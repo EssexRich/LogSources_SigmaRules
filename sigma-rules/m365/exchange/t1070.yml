@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1070
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/integrations/o365/defense_evasion_mfa_notification_email_deleted.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1070
 logsource:
@@ -18,6 +18,12 @@ detection:
     #     event.provider == "Exchange" and
     #     event.action in ("SoftDelete", "HardDelete", "MoveToDeletedItems") and
     #     event.outcome == "success" and
+    # 
+    #     /* Exclude server-side and automated Exchange processing */
+    #     o365.audit.ClientInfoString != null and
+    #     not o365.audit.ClientInfoString like~ "Client=OwsBackground*" and
+    #     not (o365.audit.ClientInfoString == "Client=MSExchangeRPC" and ?o365.audit.AppId == null) and
+    # 
     #     (
     #         o365.audit.AffectedItems.Subject like~ (
     #             /* new + (mfa|multi-|factor|method|device|security) */
@@ -39,10 +45,7 @@ detection:
     #             /* security + action verbs */
     #             "*security enroll*", "*security register*", "*security added*", "*security change*",
     #             "*security verify*", "*security update*", "*security activate*", "*security configure*", "*security setup*",
-    #             /* Additional security notifications */
-    #             "*authenticator*", "*verification code*", "*security info*", "*security alert*"
-    #         ) and not
-    #         o365.audit.AffectedItems.Subject like~ ("*sign-in*", "*sign in*", "*log-in*", "*log in*", "*logon*")
-    #     )
+    #             /* Additional security notifi
+    # ... [truncated]
   condition: selection
 level: medium

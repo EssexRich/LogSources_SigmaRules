@@ -1,0 +1,24 @@
+title: AWS EKS API Request Impersonating Privileged Identity
+id: 24c20d6a-24c2-44c2-a4c2-24c20d6a0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1134
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/privilege_escalation_kubernetes_api_request_impersonating_privileged_identity_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1134
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:aws.eks_audit and
+    # aws.eks.audit.impersonatedUser.username:(* and not ("eks-event-service:event-controller" or eks\:*)) and
+    # aws.eks.audit.annotations.authorization_k8s_io/decision:allow and
+    # aws.eks.audit.verb:(create or delete or get or list or patch or update) and
+    # (aws.eks.audit.impersonatedUser.username:(admin or cluster-admin or kubernetes-admin or "system:admin" or "system:anonymous" or "system:apiserver" or "system:kube-controller-manager" or "system:kube-proxy" or "system:kube-scheduler" or "system:volume-scheduler" or system\:node\:* or system\:serviceaccount\:kube-system\:*) or aws.eks.audit.impersonatedUser.groups:(cluster-admin or "system:cluster-admins" or "system:masters")) and
+    # not user.name:("system:kube-controller-manager" or "system:kube-scheduler" or arn\:aws\:iam\:*\:role/aws-service-role* or arn\:aws\:sts\:*\:assumed-role/AWSServiceRoleForAmazonEKS* or arn\:aws\:sts\:*\:assumed-role/AWSServiceRoleForAmazonEKSNodegroup* or eks\:* or system\:node\:* or system\:serviceaccount\:kube-system\:*)
+  condition: selection
+level: medium

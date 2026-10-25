@@ -1,11 +1,11 @@
-title: AWS SSM Agent Registered via Hybrid Activation
-id: 42fd639a-42fd-42fd-a2fd-42fd639a0000
+title: AWS EKS Exposed Service Created With Type NodePort
+id: 3b2709a7-3b27-4b27-ab27-3b2709a70000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1133
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_aws_ssm_agent_registered_via_hybrid_activation.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_exposed_service_created_with_type_nodeport_aws_eks.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1133
 logsource:
@@ -14,20 +14,10 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # event.category : process and host.os.type : linux and event.type : start and
-    # event.action : (ProcessRollup2 or exec or exec_event or start) and
-    # (
-    #   process.name : (amazon-ssm-agent or ssm-agent-worker or ssm-setup-cli) or
-    #   process.executable : (/snap/amazon-ssm-agent/*/amazon-ssm-agent or /usr/bin/amazon-ssm-agent or /usr/bin/ssm-setup-cli)
-    # ) and
-    # process.args : (
-    #   (-register or --register) and
-    #   (
-    #     -activation-code or -activation-code=* or --activation-code or --activation-code=* or
-    #     -activation-id or -activation-id=* or --activation-id or --activation-id=* or
-    #     -code or -code=* or --code or --code=* or
-    #     -id or -id=* or --id or --id=*
-    #   )
-    # )
+    # data_stream.dataset : "aws.eks_audit"
+    #   and aws.eks.audit.annotations.authorization_k8s_io/decision:"allow"
+    #   and aws.eks.audit.objectRef.resource:"services"
+    #   and aws.eks.audit.verb:("create" or "update" or "patch")
+    #   and aws.eks.audit.requestObject.spec.type:"NodePort"
   condition: selection
 level: medium

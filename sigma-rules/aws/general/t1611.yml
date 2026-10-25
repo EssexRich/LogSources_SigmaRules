@@ -1,0 +1,29 @@
+title: AWS EKS API Server Proxying Request to Kubelet
+id: 186f7389-186f-486f-a86f-186f73890000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1611
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/privilege_escalation_api_proxy_to_node_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1611
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:"aws.eks_audit" and
+    # aws.eks.audit.objectRef.subresource:"proxy" and
+    # aws.eks.audit.objectRef.resource:"nodes" and
+    # not aws.eks.audit.requestURI:(*metrics* or *healthz* or *stats/summary* or *elastic-agent* or *configz*) and
+    # not user.name:(
+    #   system\:kube-controller-manager or
+    #   system\:kube-scheduler or
+    #   system\:serviceaccount\:kube-system\:* or
+    #   system\:node\:* or
+    #   eks\:*
+    # )
+  condition: selection
+level: medium

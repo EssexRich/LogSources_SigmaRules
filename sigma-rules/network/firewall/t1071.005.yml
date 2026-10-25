@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1071.005
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_first_seen_external_mqtt_broker.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1071.005
 logsource:
@@ -21,7 +21,21 @@ detection:
     #   data_stream.dataset:zeek.connection and
     #   network.protocol:mqtt or
     #   data_stream.dataset:panw.panos and
-    #   network.application:mqtt-base
+    #   network.application:mqtt-base or
+    #   data_stream.dataset:network_traffic.tls and
+    #   tls.established:true and
+    #   tls.client.server_name:* and
+    #   (
+    #     destination.port:443 and
+    #     tls.detailed.client_hello.extensions.application_layer_protocol_negotiation:"x-amzn-mqtt-ca" or
+    #     destination.port:8883 and
+    #     tls.client.server_name:(
+    #       *-ats.iot.*.amazonaws.com or
+    #       *-ats.iot.*.amazonaws.com. or
+    #       *-ats.iot.*.amazonaws.com.cn or
+    #       *-ats.iot.*.amazonaws.com.cn.
+    #     )
+    #   )
     # ) and
     #   network.transport:tcp and
     #   source.ip:(10.0.0.0/8 or 172.16.0.0/12 or 192.168.0.0/16 or "FC00::/7") and

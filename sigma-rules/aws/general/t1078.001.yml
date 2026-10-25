@@ -1,0 +1,24 @@
+title: AWS EKS Anonymous Request Authorized by Unusual User Agent
+id: 364727c7-3647-4647-a647-364727c70000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1078.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/initial_access_anonymous_request_authorized_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1078.001
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:"aws.eks_audit" and
+    # aws.eks.audit.annotations.authorization_k8s_io/decision:"allow" and
+    # (aws.eks.audit.user.username:("system:anonymous" or "system:unauthenticated") or
+    # aws.eks.audit.impersonatedUser.username:("system:anonymous" or "system:unauthenticated")) and
+    # user_agent.original:(* and not (*kubernetes/$Format)) and
+    # not aws.eks.audit.requestURI:(/healthz* or /livez* or /readyz* or /version)
+  condition: selection
+level: medium

@@ -1,0 +1,22 @@
+title: AWS EKS Cluster-Admin Role Binding Created
+id: 6dd7cd7e-6dd7-4dd7-add7-6dd7cd7e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1098.006
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_cluster_admin_rolebinding_created_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1098.006
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset: "aws.eks_audit" and aws.eks.audit.objectRef.resource:("clusterrolebindings" or "rolebindings") and
+    # aws.eks.audit.verb:"create" and aws.eks.audit.requestObject.roleRef.name:"cluster-admin" and
+    # aws.eks.audit.annotations.authorization_k8s_io/decision:"allow" and
+    # aws.eks.audit.level:"RequestResponse" and aws.eks.audit.stage:"ResponseComplete"
+  condition: selection
+level: medium

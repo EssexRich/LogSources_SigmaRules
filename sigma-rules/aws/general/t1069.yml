@@ -1,0 +1,25 @@
+title: AWS EKS Suspicious Self-Subject Review via Unusual User Agent
+id: 03f49052-03f4-43f4-a3f4-03f490520000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1069
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_suspicious_self_subject_review_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1069
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset : "aws.eks_audit" and
+    # aws.eks.audit.annotations.authorization_k8s_io/decision:"allow" and
+    # aws.eks.audit.verb:"create" and
+    # aws.eks.audit.objectRef.resource:("selfsubjectaccessreviews" or "selfsubjectrulesreviews") and (
+    #   aws.eks.audit.user.username:(system\:serviceaccount\:* or system\:node\:*) or
+    #   aws.eks.audit.impersonatedUser.username:(system\:serviceaccount\:* or system\:node\:*)
+    # ) and user_agent.original:(* and not (*kubernetes/$Format))
+  condition: selection
+level: medium

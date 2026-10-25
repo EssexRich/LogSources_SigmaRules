@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1083
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_sensitive_file_discovery.yml
 author: sigma (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1083
 logsource:
@@ -15,10 +15,8 @@ detection:
   selection:
     # Original sigma detection logic
     #     selection_action:
-    #         ScriptBlockText|contains:
-    #             - ls
-    #             - get-childitem
-    #             - gci
+    #         # Whole words only: as plain substrings, 'ls' and 'gci' also match words such as 'false' or 'credentials'
+    #         ScriptBlockText|re|i: '\b(?:get-childitem|gci|ls|dir)\b'
     #     selection_recurse:
     #         ScriptBlockText|contains: '-recurse'
     #     selection_file:

@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1562.006
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/windows/defense_evasion_audit_policy_disabled_winlog.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1562.006
 logsource:
@@ -16,7 +16,11 @@ detection:
     # Original elastic detection logic
     # from logs-windows.forwarded*, logs-system.security* metadata _id, _version, _index
     # | where host.os.type == "windows" and event.code == "4719" and
-    #   winlog.event_data.AuditPolicyChangesDescription in ("Success removed", "Success Added") and
+    #   // The description field is multi-valued when success and failure change together
+    #   (
+    #     MV_CONTAINS(winlog.event_data.AuditPolicyChangesDescription, "Success removed") or
+    #     MV_CONTAINS(winlog.event_data.AuditPolicyChangesDescription, "Success Added")
+    #   ) and
     #   winlog.event_data.SubCategory in (
     #     "Logon",
     #     "Audit Policy Change",
@@ -25,17 +29,21 @@ detection:
     #     "Security Group Management",
     #     "User Account Management"
     #   )
-    # | eval Esql.time_window = DATE_TRUNC(5m, @timestamp)
     # 
-    # // Aggregate policy changes within each 5m window per host and sub-category,
-    # // then keep only removals that were not re-enabled in the same window
+    # // Latest "Success Added" for this computer and subcategory in the lookback.
+    # | eval Esql.is_restore = MV_CONTAINS(winlog.event_data.AuditPolicyChangesDescription, "Success Added")
     # | inline stats
-    #     Esql.winlog_AuditPolicyChangesDescription_values = VALUES(winlog.event_data.AuditPolicyChangesDescription)
-    #   by host.id, winlog.event_data.SubCategory, Esql.time_window
-    # | where winlog.event_data.AuditPolicyChangesDescription == "Success removed" and not MV_CONTAINS(Esql.winlog_AuditPolicyChangesDescription_values, "Success Added")
+    #     Esql.restore_at = MAX(@timestamp) where Esql.is_restore
+    #   by winlog.computer_name, winlog.event_data.SubCategory
     # 
-    # // Wait 5m for a potential "Success Added" to arrive before alerting
-    # | where @timestamp < NOW() - 5m
+    # // Keep a removal that was ingested at least 5 minutes ago and has no later restore.
+    # // The same timestamp counts as restored.
+    # | where MV_CONTAINS(winlog.event_data.AuditPolicyChangesDescription, "Success removed") and
+    #   event.ingested < NOW() - 5m and
+    #   (
+    #     Esql.restore_at is null or
+    #     Esql.restore_at < @timestamp
+    #   )
     # | keep *
   condition: selection
 level: medium

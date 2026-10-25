@@ -1,0 +1,40 @@
+title: AWS EKS Pod Exec Cloud Instance Metadata Access
+id: 28e009dc-28e0-48e0-a8e0-28e009dc0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1609
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_kubernetes_pod_exec_cloud_instance_metadata_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1609
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-aws.eks_audit-* metadata _id, _index, _version
+    # | WHERE aws.eks.audit.objectRef.subresource == "exec"
+    #   AND aws.eks.audit.requestURI LIKE "*command=*"
+    # | EVAL decoded_uri = URL_DECODE(aws.eks.audit.requestURI)
+    # | GROK decoded_uri "%{DATA}/exec\\?%{DATA:raw_commands}&(?:container|stdin|stdout|stderr)=%{GREEDYDATA}"
+    # | EVAL command = REPLACE(raw_commands, "command=", "")
+    # | EVAL command = REPLACE(command, "&", " ")
+    # | EVAL Esql.executed_command = REPLACE(command, "\\+", " ")
+    # | WHERE Esql.executed_command IS NOT NULL
+    #   AND Esql.executed_command RLIKE """.*(169\.254\.169\.254|2852039166|0xa9fea9fe|/latest/api/token|/latest/meta-data|/latest/user-data|/latest/dynamic/instance-identity|fd00:ec2::254|169\.254\.170\.23|fd00:ec2::23|/v1/credentials|computeMetadata/v1|metadata\.google\.internal|metadata/identity/oauth2/token|metadata/instance).*"""
+    # | EVAL Esql.cloud_target = CASE(
+    #     Esql.executed_command RLIKE """.*(169\.254\.170\.23|fd00:ec2::23|/v1/credentials).*""", "AWS_POD_IDENTITY",
+    #     Esql.executed_command RLIKE """.*(169\.254\.169\.254|2852039166|0xa9fea9fe|/latest/meta-data|/latest/api/token|/latest/user-data|/latest/dynamic|fd00:ec2::254).*""", "AWS_IMDS",
+    #     Esql.executed_command RLIKE """.*(computeMetadata/v1|metadata\.google\.internal).*""", "GCP_METADATA",
+    #     Esql.executed_command RLIKE """.*metadata/identity/oauth2/token.*""", "AZURE_IMDS",
+    #     "UNKNOWN"
+    #   )
+    # | EVAL Esql.is_credential_theft = CASE(
+    #     Esql.executed_command RLIKE """.*(security-credentials|/api/token|oauth2/token|service-accounts/.*/token|/v1/credentials).*""", "true",
+    #     "false"
+    #   )
+    # | KEEP Esql.*, @timestamp, user.name, source.ip, user_agent.original, event.action, aws.eks.audit.objectRef.namespace, aws.eks.audit.objectRef.name, aws.eks.audit.requestURI, aws.eks.audit.user.username, data_stream.namespace, _id, _index, _version
+  condition: selection
+level: medium

@@ -1,0 +1,81 @@
+title: Suspicious Linux Process Connection to AWS IoT Core MQTT
+id: 77509554-7750-4750-a750-775095540000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1071.005
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_suspicious_linux_process_aws_iot_mqtt.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1071.005
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by host.id, process.entity_id with maxspan=1m
+    #   [network where host.os.type == "linux" and
+    #     event.action == "lookup_result" and
+    #     dns.question.name regex~ (
+    #       """[^.]+-ats\.iot\.[^.]+\.amazonaws\.com""",
+    #       """[^.]+\.iot\.[^.]+\.amazonaws\.com""",
+    #       """[^.]+-ats\.iot\.[^.]+\.amazonaws\.com\.cn""",
+    #       """[^.]+\.ats\.iot\.[^.]+\.amazonaws\.com\.cn""",
+    #       """[^.]+\.iot\.[^.]+\.amazonaws\.com\.cn"""
+    #     ) and
+    #     (
+    #       process.executable like (
+    #         "/boot/*",
+    #         "/dev/shm/*",
+    #         "/tmp/*",
+    #         "/var/tmp/*",
+    #         "/var/log/*",
+    #         "/var/run/user/*",
+    #         "/run/user/*",
+    #         "/home/*/.*",
+    #         "/root/.*"
+    #       ) or
+    #       process.name like ".*"
+    #     )] by dns.resolved_ip
+    #   [network where host.os.type == "linux" and
+    #     event.action == "connection_attempted" and
+    #     network.direction in ("egress", "outbound") and
+    #     network.transport == "tcp" and
+    #     destination.port in (443, 8883) and
+    #     not (
+    #       destination.ip == null or
+    #       destination.ip == "0.0.0.0" or
+    #       cidrmatch(
+    #         destination.ip,
+    #         "10.0.0.0/8",
+    #         "100.64.0.0/10",
+    #         "127.0.0.0/8",
+    #         "169.254.0.0/16",
+    #         "172.16.0.0/12",
+    #         "192.0.0.0/24",
+    #         "192.0.0.0/29",
+    #         "192.0.0.8/32",
+    #         "192.0.0.9/32",
+    #         "192.0.0.10/32",
+    #         "192.0.0.170/32",
+    #         "192.0.0.171/32",
+    #         "192.0.2.0/24",
+    #         "192.31.196.0/24",
+    #         "192.52.193.0/24",
+    #         "192.88.99.0/24",
+    #         "192.168.0.0/16",
+    #         "192.175.48.0/24",
+    #         "198.18.0.0/15",
+    #         "198.51.100.0/24",
+    #         "203.0.113.0/24",
+    #         "224.0.0.0/4",
+    #         "240.0.0.0/4",
+    #         "::1",
+    #         "FC00::/7",
+    #         "FE80::/10",
+    #         "FF00::/8"
+    #       )
+    #     )] by destination.ip
+  condition: selection
+level: medium

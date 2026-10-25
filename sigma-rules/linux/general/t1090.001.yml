@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1090.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/command_and_control_ip_forwarding_activity.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1090.001
 logsource:
@@ -15,7 +15,7 @@ detection:
   selection:
     # Original elastic detection logic
     # process where host.os.type == "linux" and event.type == "start" and event.action in ("exec", "start", "exec_event", "ProcessRollup2") and
-    # ?process.parent.executable != null and process.command_line like (
+    # process.parent.name != null and process.command_line like (
     #   "*net.ipv4.ip_forward*", "*/proc/sys/net/ipv4/ip_forward*", "*net.ipv6.conf.all.forwarding*",
     #   "*/proc/sys/net/ipv6/conf/all/forwarding*"
     # ) and (

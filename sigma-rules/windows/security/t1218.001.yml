@@ -1,11 +1,11 @@
-title: Detect HTML Help Renamed
-id: 3d8a9e41-3d8a-4d8a-ad8a-3d8a9e410000
+title: Detect HTML Help URL in Command Line
+id: 4cc8d9ee-4cc8-4cc8-acc8-4cc8d9ee0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1218.001
 references:
-  - https://github.com/splunk/security_content/blob/develop/detections/deprecated/detect_html_help_renamed.yml
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/detect_html_help_url_in_command_line.yml
 author: splunk (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1218.001
 logsource:
@@ -16,9 +16,7 @@ detection:
     # Original splunk detection logic
     # -
     #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE Processes.process_name!=hh.exe
-    #         AND
-    #         Processes.original_file_name=HH.EXE
+    #       WHERE `process_hh` Processes.process=*http*
     #       BY Processes.action Processes.dest Processes.original_file_name
     #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
     #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -29,6 +27,6 @@ detection:
     #     | `drop_dm_object_name(Processes)`
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
-    #     | `detect_html_help_renamed_filter`
+    #     | `detect_html_help_url_in_command_line_filter`
   condition: selection
 level: medium

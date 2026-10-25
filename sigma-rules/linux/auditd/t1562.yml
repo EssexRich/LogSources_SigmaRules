@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1562
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/linux/defense_evasion_attempt_to_disable_auditd_service.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1562
 logsource:
@@ -21,6 +21,6 @@ detection:
     #   (process.name == "systemctl" and process.args in ("disable", "stop", "kill", "mask"))
     # ) and
     # process.args in ("auditd", "auditd.service") and 
-    # not ?process.parent.name == "auditd.prerm"
+    # not process.parent.name == "auditd.prerm"
   condition: selection
 level: medium

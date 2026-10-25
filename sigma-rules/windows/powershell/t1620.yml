@@ -1,11 +1,11 @@
-title: Potential WinAPI Calls Via PowerShell Scripts
-id: 1eefc574-1eef-4eef-aeef-1eefc5740000
+title: Potential In-Memory Execution Using Reflection.Assembly
+id: 1799aa30-1799-4799-a799-1799aa300000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1620
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_win_api_susp_access.yml
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_script/posh_ps_dotnet_assembly_from_file.yml
 author: sigma (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1620
 logsource:
@@ -14,35 +14,15 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     # Note: Add more suspicious combinations in the form of different selections
-    #     selection_injection:
-    #         ScriptBlockText|contains|all:
-    #             - 'VirtualAlloc'
-    #             - 'OpenProcess'
-    #             - 'WriteProcessMemory'
-    #             - 'CreateRemoteThread'
-    #     selection_token_steal:
-    #         ScriptBlockText|contains|all:
-    #             - 'OpenProcessToken'
-    #             - 'LookupPrivilegeValue'
-    #             - 'AdjustTokenPrivileges'
-    #     selection_duplicate_token:
-    #         ScriptBlockText|contains|all:
-    #             - 'OpenProcessToken'
-    #             - 'DuplicateTokenEx'
-    #             - 'CloseHandle'
-    #     selection_process_write_read:
-    #         ScriptBlockText|contains|all:
-    #             - 'WriteProcessMemory'
-    #             - 'VirtualAlloc'
-    #             - 'ReadProcessMemory'
-    #             - 'VirtualFree'
-    #     selection_local_shellcode_injection:
-    #         ScriptBlockText|contains|all:
-    #             - 'VirtualAlloc'
-    #             - 'GetDelegateForFunctionPointer'
-    #             - 'Marshal.Copy'
-    #     condition: 1 of selection_*
+    #     selection:
+    #         ScriptBlockText|contains: '[Reflection.Assembly]::load'
+    #     filter_optional_sqlserver:
+    #         Path|startswith:
+    #             - 'C:\Program Files (x86)\Microsoft SQL Server\'
+    #             - 'C:\Program Files\Microsoft SQL Server\'
+    #         Path|endswith: '\Tools\PowerShell\Modules\SQLPS\SqlPsPostScript.ps1'
+    #         ScriptBlockText|contains: 'SQLSERVER: { Set-Location'
+    #     condition: selection and not 1 of filter_optional_*
     # 
   condition: selection
 level: medium

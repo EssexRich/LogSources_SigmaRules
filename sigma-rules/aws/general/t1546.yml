@@ -1,0 +1,34 @@
+title: AWS EKS Admission Webhook Created or Modified
+id: 04bafb97-04ba-44ba-a4ba-04bafb970000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1546
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/persistence_kubernetes_admission_webhook_created_or_modified_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1546
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:"aws.eks_audit" and
+    # aws.eks.audit.objectRef.resource:("mutatingwebhookconfigurations" or "validatingwebhookconfigurations") and
+    # aws.eks.audit.verb:("create" or "update" or "patch" or "delete") and
+    # aws.eks.audit.annotations.authorization_k8s_io/decision:"allow" and
+    # user.name:(* and not
+    #   (system\:kube-controller-manager or
+    #   system\:kube-scheduler or
+    #   system\:serviceaccount\:kube-system\:* or
+    #   eks\:* or
+    #   system\:serviceaccount\:cert-manager\:* or
+    #   system\:serviceaccount\:gatekeeper-system\:* or
+    #   system\:serviceaccount\:kyverno\:* or
+    #   system\:serviceaccount\:*\:*-operator)
+    # ) and
+    # aws.eks.audit.objectRef.name:(* and not (pod-identity-webhook or vpc-resource-mutating-webhook)) and
+    # not (aws.eks.audit.user.groups:"system:serviceaccounts:flux-system" and aws.eks.audit.objectRef.name:"k8tz")
+  condition: selection
+level: medium

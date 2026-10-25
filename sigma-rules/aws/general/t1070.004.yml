@@ -1,0 +1,23 @@
+title: AWS EKS Events Deleted
+id: 12877ffb-1287-4287-a287-12877ffb0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1070.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/defense_evasion_events_deleted_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1070.004
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:"aws.eks_audit" and
+    # aws.eks.audit.verb:("delete" or "deletecollection") and
+    # aws.eks.audit.objectRef.resource:"events" and
+    # aws.eks.audit.stage:"ResponseComplete" and
+    # not user.name:"system:serviceaccount:kube-system:namespace-controller"
+  condition: selection
+level: medium

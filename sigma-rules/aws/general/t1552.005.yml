@@ -1,11 +1,11 @@
-title: AWS Bedrock AgentCore Runtime Prompt Targeting Credentials or Instance Metadata
-id: 04dfef9a-04df-44df-a4df-04dfef9a0000
+title: AWS EKS Pod Exec Cloud Instance Metadata Access
+id: 6a67f3c2-6a67-4a67-aa67-6a67f3c20000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1552.005
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws_bedrock_agentcore/credential_access_bedrock_agentcore_runtime_prompt_credential_harvesting.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_kubernetes_pod_exec_cloud_instance_metadata_aws_eks.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-18
+date: 2026-10-25
 tags:
   - attack.t1552.005
 logsource:
@@ -14,16 +14,27 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # from logs-aws_bedrock_agentcore.runtime_application_logs-* metadata _id, _version, _index
-    # | eval Esql_priv.aws_bedrock_agentcore_request_payload_prompt_lower = to_lower(aws.bedrock_agentcore.request_payload.prompt)
-    # | where aws.bedrock_agentcore.operation == "InvokeAgentRuntime" and (
-    #     Esql_priv.aws_bedrock_agentcore_request_payload_prompt_lower rlike """.*(169\.254\.169\.254|169\.254\.170\.2|/latest/meta-data|/latest/api/token|security-credentials).*"""
-    #     or Esql_priv.aws_bedrock_agentcore_request_payload_prompt_lower rlike """.*(aws_secret_access_key|aws_access_key_id|secret access key|access key id).*"""
-    #     or (
-    #         Esql_priv.aws_bedrock_agentcore_request_payload_prompt_lower rlike """.*(ignore (all )?(your )?(previous|prior|above) instructions|disregard (your |the )?(previous |above )?instructions|developer mode|do anything now|jailbreak).*"""
-    #         and Esql_priv.aws_bedrock_agentcore_request_payload_prompt_lower rlike """.*(system prompt|reveal|exfiltrate|credential|secret|password|api key|token|send .* to https?://).*"""
-    #     )
+    # FROM logs-aws.eks_audit-* metadata _id, _index, _version
+    # | WHERE aws.eks.audit.objectRef.subresource == "exec"
+    #   AND aws.eks.audit.requestURI LIKE "*command=*"
+    # | EVAL decoded_uri = URL_DECODE(aws.eks.audit.requestURI)
+    # | GROK decoded_uri "%{DATA}/exec\\?%{DATA:raw_commands}&(?:container|stdin|stdout|stderr)=%{GREEDYDATA}"
+    # | EVAL command = REPLACE(raw_commands, "command=", "")
+    # | EVAL command = REPLACE(command, "&", " ")
+    # | EVAL Esql.executed_command = REPLACE(command, "\\+", " ")
+    # | WHERE Esql.executed_command IS NOT NULL
+    #   AND Esql.executed_command RLIKE """.*(169\.254\.169\.254|2852039166|0xa9fea9fe|/latest/api/token|/latest/meta-data|/latest/user-data|/latest/dynamic/instance-identity|fd00:ec2::254|169\.254\.170\.23|fd00:ec2::23|/v1/credentials|computeMetadata/v1|metadata\.google\.internal|metadata/identity/oauth2/token|metadata/instance).*"""
+    # | EVAL Esql.cloud_target = CASE(
+    #     Esql.executed_command RLIKE """.*(169\.254\.170\.23|fd00:ec2::23|/v1/credentials).*""", "AWS_POD_IDENTITY",
+    #     Esql.executed_command RLIKE """.*(169\.254\.169\.254|2852039166|0xa9fea9fe|/latest/meta-data|/latest/api/token|/latest/user-data|/latest/dynamic|fd00:ec2::254).*""", "AWS_IMDS",
+    #     Esql.executed_command RLIKE """.*(computeMetadata/v1|metadata\.google\.internal).*""", "GCP_METADATA",
+    #     Esql.executed_command RLIKE """.*metadata/identity/oauth2/token.*""", "AZURE_IMDS",
+    #     "UNKNOWN"
     #   )
-    # | keep _id, _version, _index, @timestamp, aws.*, cloud.*, event.*
+    # | EVAL Esql.is_credential_theft = CASE(
+    #     Esql.executed_command RLIKE """.*(security-credentials|/api/token|oauth2/token|service-accounts/.*/token|/v1/credentials).*""", "true",
+    #     "false"
+    #   )
+    # | KEEP Esql.*, @timestamp, user.name, source.ip, user_agent.original, event.action, aws.eks.audit.objectRef.namespace, aws.eks.audit.objectRef.name, aws.eks.audit.requestURI, aws.eks.audit.user.username, data_stream.namespace, _id, _index, _version
   condition: selection
 level: medium

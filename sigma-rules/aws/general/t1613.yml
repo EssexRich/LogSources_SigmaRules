@@ -1,0 +1,29 @@
+title: AWS EKS Secrets List Across Cluster or Sensitive Namespaces
+id: 12482577-1248-4248-a248-124825770000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1613
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_kubernetes_secrets_list_cluster_and_sensitive_namespaces_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1613
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:"aws.eks_audit" and event.action:list and
+    # aws.eks.audit.objectRef.resource:secrets and
+    # aws.eks.audit.requestURI :(/api/v1/secrets or /api/v1/secrets?limit* or /api/v1/namespaces/kube-system/secrets or /api/v1/namespaces/kube-system/secrets?limit* or /api/v1/namespaces/default/secrets or /api/v1/namespaces/default/secrets?limit*) and
+    # source.ip:(* and not ("::1" or "127.0.0.1")) and
+    # not user.name: (system\:kube-controller-manager or eks\:cloud-controller-manager or eks\:kms-storage-migrator or
+    #   "system:serviceaccount:argocd:argocd-application-controller" or
+    #   "system:serviceaccount:elastic:kube-state-metrics" or
+    #   "system:serviceaccount:cert-manager:cert-manager-cainjector" or
+    #   "system:serviceaccount:elastic-system:elastic-agent" or
+    #   "system:serviceaccount:longhorn-system:longhorn-service-account") and
+    # not aws.eks.audit.user.groups:("system:serviceaccounts:ibm-csi" or "system:serviceaccounts:argocd" or "system:serviceaccounts:elastic")
+  condition: selection
+level: medium

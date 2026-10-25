@@ -1,0 +1,29 @@
+title: AWS EKS CoreDNS or Kube-DNS Configuration Modified
+id: 432d745e-432d-432d-a32d-432d745e0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1565.001
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/impact_kubernetes_coredns_or_kube_dns_configuration_modified_aws_eks.toml
+author: elastic (via IncidentBuddy)
+date: 2026-10-25
+tags:
+  - attack.t1565.001
+logsource:
+  product: aws
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # data_stream.dataset:"aws.eks_audit" and
+    # aws.eks.audit.objectRef.resource:"configmaps" and
+    # aws.eks.audit.objectRef.name:"coredns" and
+    # aws.eks.audit.objectRef.namespace:"kube-system" and
+    # aws.eks.audit.verb:("update" or "patch" or "delete") and
+    # aws.eks.audit.annotations.authorization_k8s_io/decision:"allow" and
+    # not user.name:(
+    #   system\:serviceaccount\:kube-system\:coredns or
+    #   system\:node\:* or
+    #   eks\:*
+    # )
+  condition: selection
+level: medium
