@@ -1,11 +1,11 @@
-title: Azure Diagnostic Settings Deleted
-id: 6c3280a8-6c32-4c32-ac32-6c3280a80000
+title: Microsoft Foundry Content Filter Modified or Deleted
+id: 2fe2783d-2fe2-4fe2-afe2-2fe2783d0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1562.001
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/defense_evasion_insights_diagnostic_settings_deletion.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/defense_evasion_azure_ai_foundry_content_filter_modified_or_deleted.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-25
+date: 2026-11-01
 tags:
   - attack.t1562.001
 logsource:
@@ -14,8 +14,12 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset:azure.activitylogs
-    #     and azure.activitylogs.operation_name:"MICROSOFT.INSIGHTS/DIAGNOSTICSETTINGS/DELETE"
-    #     and event.outcome:(Success or success)
+    # data_stream.dataset: "azure.activitylogs" and
+    # azure.activitylogs.operation_name: (
+    #     "MICROSOFT.COGNITIVESERVICES/ACCOUNTS/RAIPOLICIES/WRITE" or
+    #     "MICROSOFT.COGNITIVESERVICES/ACCOUNTS/RAIPOLICIES/DELETE" or
+    #     "MICROSOFT.COGNITIVESERVICES/ACCOUNTS/RAIBLOCKLISTS/WRITE" or
+    #     "MICROSOFT.COGNITIVESERVICES/ACCOUNTS/RAIBLOCKLISTS/DELETE"
+    # ) and event.outcome: "success"
   condition: selection
 level: medium

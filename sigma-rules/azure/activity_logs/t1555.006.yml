@@ -1,11 +1,11 @@
-title: Azure Storage Account Keys Accessed by Privileged User
-id: 5ad2bbac-5ad2-4ad2-aad2-5ad2bbac0000
+title: Microsoft Foundry Keys or Connection Secrets Accessed by New Principal
+id: 5bd8cac8-5bd8-4bd8-abd8-5bd8cac80000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1555.006
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_azure_storage_account_keys_accessed.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/credential_access_azure_ai_foundry_keys_or_connection_secrets_accessed.toml
 author: elastic (via IncidentBuddy)
-date: 2026-10-25
+date: 2026-11-01
 tags:
   - attack.t1555.006
 logsource:
@@ -15,12 +15,17 @@ detection:
   selection:
     # Original elastic detection logic
     # data_stream.dataset: "azure.activitylogs" and
-    # azure.activitylogs.operation_name: "MICROSOFT.STORAGE/STORAGEACCOUNTS/LISTKEYS/ACTION" and
-    # azure.activitylogs.identity.authorization.evidence.principal_type: "User" and
+    # azure.activitylogs.operation_name: (
+    #     "MICROSOFT.COGNITIVESERVICES/ACCOUNTS/LISTKEYS/ACTION" or
+    #     "MICROSOFT.COGNITIVESERVICES/ACCOUNTS/REGENERATEKEY/ACTION" or
+    #     "MICROSOFT.COGNITIVESERVICES/ACCOUNTS/CONNECTIONS/LISTSECRETS/ACTION" or
+    #     "MICROSOFT.COGNITIVESERVICES/ACCOUNTS/PROJECTS/CONNECTIONS/LISTSECRETS/ACTION"
+    # ) and
     # azure.activitylogs.identity.authorization.evidence.role: (
     #     "Owner" or
     #     "Contributor" or
-    #     "Storage Account Contributor" or
+    #     "Cognitive Services Contributor" or
+    #     "Cognitive Services OpenAI Contributor" or
     #     "User Access Administrator"
     # ) and event.outcome: "success"
   condition: selection

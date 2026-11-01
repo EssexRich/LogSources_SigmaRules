@@ -1,0 +1,77 @@
+title: Suspicious IDE Extension Installation from VSIX
+id: 269ad152-269a-469a-a69a-269ad1520000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1176
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/persistence_suspicious_ide_extension_vsix_install.toml
+author: elastic (via IncidentBuddy)
+date: 2026-11-01
+tags:
+  - attack.t1176
+logsource:
+  product: linux
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # FROM logs-endpoint.events.process-* METADATA _id, _version, _index
+    # | WHERE MV_CONTAINS(event.category, "process")
+    #   AND MV_CONTAINS(event.type, "start")
+    #   AND TO_LOWER(process.command_line) LIKE "*--install-extension*"
+    #   AND TO_LOWER(process.command_line) LIKE "*.vsix*"
+    #   AND (
+    #     (
+    #       host.os.type == "windows"
+    #       AND (
+    #         TO_LOWER(process.command_line) RLIKE
+    #           """.*\\users\\public\\.*|.*\\appdata\\local\\temp\\.*|.*/users/public/.*|.*/appdata/local/temp/.*"""
+    #         OR TO_LOWER(process.parent.name) IN (
+    #           "mshta.exe",
+    #           "wscript.exe",
+    #           "cscript.exe",
+    #           "powershell.exe",
+    #           "msiexec.exe",
+    #           "pwsh.exe",
+    #           "node.exe",
+    #           "bun.exe",
+    #           "py.exe"
+    #         )
+    #         OR TO_LOWER(process.parent.name) LIKE "python*"
+    #       )
+    #     )
+    #     OR
+    #     (
+    #       host.os.type IN ("macos", "linux")
+    #       AND (
+    #         TO_LOWER(process.command_line) LIKE (
+    #           "*/tmp/*",
+    #           "*/var/tmp/*",
+    #           "*/private/tmp/*",
+    #           "*/dev/shm/*",
+    #           "*/users/shared/*"
+    #         )
+    #         OR TO_LOWER(process.parent.name) IN (
+    #           "osascript", "node", "bun"
+    #         )
+    #         OR TO_LOWER(process.parent.name) LIKE "python*"
+    #       )
+    #     )
+    #   )
+    # | KEEP
+    #     _id,
+    #     _version,
+    #     _index,
+    # 	data_stream.namespace,
+    #     @timestamp,
+    #     host.name,
+    # 	host.id,
+    # 	agent.id,
+    #     host.os.type,
+    #     user.name,
+    # 	user.domain,
+    #     process.name,
+    #     process.parent.name,
+    #     process.command_line,
+    #     process.parent.command_line
+  condition: selection
+level: medium

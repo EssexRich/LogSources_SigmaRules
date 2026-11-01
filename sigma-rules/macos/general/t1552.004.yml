@@ -1,0 +1,49 @@
+title: Package Runtime Secret File Access Followed by IMDS Request
+id: 1db51df1-1db5-4db5-adb5-1db51df10000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1552.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/cross-platform/credential_access_secret_file_access_followed_by_imds_request.toml
+author: elastic (via IncidentBuddy)
+date: 2026-11-01
+tags:
+  - attack.t1552.004
+logsource:
+  product: macos
+  service: general
+detection:
+  selection:
+    # Original elastic detection logic
+    # sequence by process.entity_id with maxspan=1m
+    #   [file where event.action == "open" and host.os.type in ("macos", "windows") and
+    #     file.path like~ (
+    #       /* SSH private keys */
+    #       "/Users/*/.ssh/id_*", "?:\\Users\\*\\.ssh\\id_*",
+    # 
+    #       /* Package registry, source control and secrets manager tokens */
+    #       "/Users/*/.npmrc", "?:\\Users\\*\\.npmrc",
+    #       "/Users/*/.pypirc", "?:\\Users\\*\\.pypirc",
+    #       "/Users/*/.git-credentials", "?:\\Users\\*\\.git-credentials",
+    #       "/Users/*/.config/git/credentials", "?:\\Users\\*\\.config\\git\\credentials",
+    #       "/Users/*/.config/gh/hosts.yml", "?:\\Users\\*\\AppData\\Roaming\\GitHub CLI\\hosts.yml",
+    #       "/Users/*/.vault-token", "?:\\Users\\*\\.vault-token",
+    #       "/Users/*/.terraform.d/credentials.tfrc.json", "?:\\Users\\*\\AppData\\Roaming\\terraform.d\\credentials.tfrc.json",
+    # 
+    #       /* Additional package registry and AI/ML platform tokens */
+    #       "/Users/*/.yarnrc.yml", "?:\\Users\\*\\.yarnrc.yml",
+    #       "/Users/*/.gem/credentials", "?:\\Users\\*\\.gem\\credentials",
+    #       "/Users/*/.cargo/credentials.toml", "?:\\Users\\*\\.cargo\\credentials.toml",
+    #       "/Users/*/.composer/auth.json", "/Users/*/.config/composer/auth.json", "?:\\Users\\*\\AppData\\Roaming\\Composer\\auth.json",
+    #       "/Users/*/.cache/huggingface/token", "/Users/*/.huggingface/token", "?:\\Users\\*\\.cache\\huggingface\\token", "?:\\Users\\*\\.huggingface\\token",
+    #       "/Users/*/.config/github-copilot/apps.json", "/Users/*/.config/github-copilot/hosts.json",
+    #       "?:\\Users\\*\\AppData\\Local\\github-copilot\\apps.json", "?:\\Users\\*\\AppData\\Local\\github-copilot\\hosts.json",
+    #       "/Users/*/.ollama/id_ed25519", "?:\\Users\\*\\.ollama\\id_ed25519",
+    # 
+    #       /* AI coding assistant credentials */
+    #       "/Users/*/.claude/.credentials.json", "?:\\Users\\*\\.claude\\.credentials.json",
+    #       "/Users/*/.codex/auth.json", "?:\\Users\\*\\.codex\\auth.json",
+    #       "/Users/*/.codex/.credentials.json", "?:\\Users\\*\\.codex\\.credentials.json",
+    #       
+    # ... [truncated]
+  condition: selection
+level: medium

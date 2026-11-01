@@ -1,0 +1,66 @@
+title: AWS Bedrock Model Invocation From High Number of Countries
+id: 1fa57487-1fa5-4fa5-afa5-1fa574870000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1528
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/credential_access_bedrock_invocation_high_number_of_countries.toml
+author: elastic (via IncidentBuddy)
+date: 2026-11-01
+tags:
+  - attack.t1528
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-aws.cloudtrail-*
+    # | where
+    #     data_stream.dataset == "aws.cloudtrail" and
+    #     event.provider == "bedrock.amazonaws.com" and
+    #     event.action in ("InvokeModel", "InvokeModelWithResponseStream", "Converse", "ConverseStream") and
+    #     event.outcome == "success" and
+    #     aws.cloudtrail.user_identity.arn is not null and
+    #     source.ip is not null and
+    #     source.geo.country_name is not null
+    # | eval
+    #     Esql.identity = coalesce(
+    #         aws.cloudtrail.user_identity.session_context.session_issuer.arn,
+    #         aws.cloudtrail.user_identity.arn
+    #     )
+    # | stats
+    #     Esql.country_count = count_distinct(source.geo.country_name),
+    #     Esql.source_ip_count = count_distinct(source.ip),
+    #     Esql.user_agent_count = count_distinct(user_agent.original),
+    #     Esql.event_count = count(*),
+    #     Esql.event_action_values = values(event.action),
+    #     Esql.source_ip_values = values(source.ip),
+    #     Esql.source_geo_country_name_values = values(source.geo.country_name),
+    #     Esql.source_geo_city_name_values = values(source.geo.city_name),
+    #     Esql.source_as_organization_name_values = values(source.as.organization.name),
+    #     Esql.user_agent_original_values = values(user_agent.original),
+    #     Esql.aws_cloudtrail_user_identity_arn_values = values(aws.cloudtrail.user_identity.arn),
+    #     Esql.aws_cloudtrail_user_identity_type_values = values(aws.cloudtrail.user_identity.type),
+    #     Esql.aws_cloudtrail_user_identity_access_key_id_values = values(aws.cloudtrail.user_identity.access_key_id),
+    #     Esql.cloud_region_values = values(cloud.region),
+    #     Esql.timestamp_first_seen = min(@timestamp),
+    #     Esql.timestamp_last_seen = max(@timestamp)
+    #   by
+    #     Esql.identity,
+    #     cloud.account.id
+    # | where Esql.country_count >= 3 and Esql.source_ip_count >= 3
+    # | eval source.ip = mv_first(Esql.source_ip_values)
+    # | keep
+    #     Esql.identity,
+    #     cloud.account.id,
+    #     source.ip,
+    #     Esql.country_count,
+    #     Esql.source_ip_count,
+    #     Esql.user_agent_count,
+    #     Esql.event_count,
+    #     Esql.event_action_values,
+    #     Esql.source_ip_values,
+    #   
+    # ... [truncated]
+  condition: selection
+level: medium
