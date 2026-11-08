@@ -1,11 +1,11 @@
-title: Cobalt Strike Command and Control Beacon
-id: 05fce8b5-05fc-45fc-a5fc-05fce8b50000
+title: DNS Query to Wildcard DNS Services - Network
+id: 77792435-7779-4779-a779-777924350000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1568
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/network/command_and_control_cobalt_strike_beacon.toml
-author: elastic (via IncidentBuddy)
-date: 2026-11-01
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/network/dns/net_dns_wildcard_dns_service.yml
+author: sigma (via IncidentBuddy)
+date: 2026-11-08
 tags:
   - attack.t1568
 logsource:
@@ -13,14 +13,17 @@ logsource:
   service: firewall
 detection:
   selection:
-    # Original elastic detection logic
-    # from packetbeat-*, filebeat-*, logs-network_traffic.*, logs-panw.panos*, logs-fortinet_fortigate.log-* metadata _id, _version, _index
-    # | where (
-    #     (event.category in ("network", "network_traffic") and network.protocol in ("tls", "http")) or
-    #     (data_stream.dataset == "panw.panos" and network.application in ("ssl", "web-browsing")) or
-    #     data_stream.dataset in ("network_traffic.tls", "network_traffic.http", "fortinet_fortigate.log")
-    #   )
-    # | where destination.domain RLIKE "[a-z]{3}\\.stage\\.[0-9]{8}\\..*"
-    # | keep @timestamp, destination.domain, source.ip, destination.ip, network.protocol, data_stream.dataset, _id, _version, _index
+    # Original sigma detection logic
+    #     selection:
+    #         query|endswith:
+    #             # IP-embedding services (subdomain encodes an arbitrary IP)
+    #             - '.1u.ms'
+    #             - '.backname.io'
+    #             - '.nip.io'
+    #             - '.sslip.io'
+    #             - '.traefik.me'
+    #             - '.xip.io'
+    #     condition: selection
+    # 
   condition: selection
 level: medium

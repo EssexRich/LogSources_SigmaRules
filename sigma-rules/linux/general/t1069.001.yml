@@ -1,11 +1,11 @@
-title: Local Groups Discovery - Linux
-id: 140d988e-140d-440d-a40d-140d988e0000
+title: Local Groups Discovery Attempt - Linux
+id: 5e265ffb-5e26-4e26-ae26-5e265ffb0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1069.001
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_local_groups.yml
 author: sigma (via IncidentBuddy)
-date: 2026-11-01
+date: 2026-11-08
 tags:
   - attack.t1069.001
 logsource:
@@ -14,20 +14,33 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_1:
+    #     selection_groups:
     #         Image|endswith: '/groups'
-    #     selection_2:
+    #     selection_read_utilities:
     #         Image|endswith:
     #             - '/cat'
     #             - '/ed'
+    #             - '/emacs'
     #             - '/head'
     #             - '/less'
+    #             - '/makemap'
     #             - '/more'
     #             - '/nano'
+    #             - '/sqlite3'
     #             - '/tail'
     #             - '/vi'
     #             - '/vim'
-    #         CommandLine|contains: '/etc/group'
+    #         CommandLine|contains:
+    #             - 'group'
+    #             - 'gshadow'
+    #     selection_getent:
+    #         Image|endswith: '/getent'
+    #         CommandLine|contains:
+    #             - ' group'
+    #             - ' gshadow'
+    #     selection_ypcat:
+    #         Image|endswith: '/ypcat'
+    #         CommandLine|contains: 'group'
     #     condition: 1 of selection_*
     # 
   condition: selection

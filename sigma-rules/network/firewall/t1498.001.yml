@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1498.001
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/network/impact_dhcp_starvation_high_client_mac_cardinality.toml
 author: elastic (via IncidentBuddy)
-date: 2026-11-01
+date: 2026-11-08
 tags:
   - attack.t1498.001
 logsource:
@@ -14,10 +14,16 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # from logs-network_traffic.dhcpv4-*, packetbeat-*
+    # from logs-network_traffic.dhcpv4-*, packetbeat-* metadata _source
     # | eval
-    #     Esql.message_type = TO_LOWER(COALESCE(network_traffic.dhcpv4.option.message_type, dhcpv4.option.message_type)),
-    #     Esql.client_mac = COALESCE(network_traffic.dhcpv4.client_mac, dhcpv4.client_mac),
+    #     Esql.message_type = TO_LOWER(COALESCE(
+    #         JSON_EXTRACT(_source, "network_traffic.dhcpv4.option.message_type"),
+    #         JSON_EXTRACT(_source, "dhcpv4.option.message_type")
+    #     )),
+    #     Esql.client_mac = COALESCE(
+    #         JSON_EXTRACT(_source, "network_traffic.dhcpv4.client_mac"),
+    #         JSON_EXTRACT(_source, "dhcpv4.client_mac")
+    #     ),
     #     Esql.observer_hostname = COALESCE(host.name, observer.hostname)
     # | where Esql.message_type == "discover" and Esql.client_mac is not null and Esql.observer_hostname is not null
     # | eval Esql.time_window = DATE_TRUNC(1 minute, @timestamp)

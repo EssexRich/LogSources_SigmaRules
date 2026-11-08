@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1102
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_ngrok_reverse_proxy_usage.yml
 author: splunk (via IncidentBuddy)
-date: 2026-11-01
+date: 2026-11-08
 tags:
   - attack.t1102
 logsource:
@@ -16,7 +16,7 @@ detection:
     # Original splunk detection logic
     # -
     #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE Processes.process_name=ngrok Processes.process IN ("*start*", "*--config*","*http*","*authtoken*", "*http*", "*tcp*")
+    #       WHERE Processes.process_name=ngrok Processes.process IN ("*start*", "*--config*","*http*","*authtoken*", "*tcp*")
     #       BY Processes.action Processes.dest Processes.original_file_name
     #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
     #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path

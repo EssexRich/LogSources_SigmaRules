@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1087
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_adws_unusual_connection.yml
 author: sigma (via IncidentBuddy)
-date: 2026-11-01
+date: 2026-11-08
 tags:
   - attack.t1087
 logsource:
@@ -20,13 +20,20 @@ detection:
     #     filter_main_dsac:
     #         Image: 'C:\Windows\system32\dsac.exe'
     #     filter_main_ms_monitoring_agent:
-    #         Image: 'C:\Program Files\Microsoft Monitoring Agent\'
+    #         Image|startswith: 'C:\Program Files\Microsoft Monitoring Agent\'
     #     filter_main_powershell:
-    #         Image|startswith:
+    #         Image:
+    #             - 'C:\Program Files\PowerShell\7-preview\pwsh.exe'
     #             - 'C:\Program Files\PowerShell\7\pwsh.exe'
-    #             - 'C:\Program Files\PowerShell\7-preview\pwsh.ex'
-    #             - 'C:\Windows\System32\WindowsPowerShell\'
-    #             - 'C:\Windows\SysWOW64\WindowsPowerShell\'
+    #             - 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe'
+    #             - 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
+    #             - 'C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell_ise.exe'
+    #             - 'C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe'
+    #     filter_main_pwsh_preview:
+    #         Image|contains:
+    #             - 'C:\Program Files\WindowsApps\Microsoft.PowerShellPreview'
+    #             - '\AppData\Local\Microsoft\WindowsApps\Microsoft.PowerShellPreview'
+    #         Image|endswith: '\pwsh.exe'
     #     condition: selection and not 1 of filter_main_*
     # 
   condition: selection

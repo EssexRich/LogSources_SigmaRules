@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1557.003
 references:
   - https://github.com/elastic/detection-rules/blob/main/rules/network/credential_access_dhcp_multiple_servers_same_transaction.toml
 author: elastic (via IncidentBuddy)
-date: 2026-11-01
+date: 2026-11-08
 tags:
   - attack.t1557.003
 logsource:
@@ -14,11 +14,20 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # from logs-network_traffic.dhcpv4-*, packetbeat-*
+    # from logs-network_traffic.dhcpv4-*, packetbeat-* metadata _source
     # | eval
-    #     message_type = TO_LOWER(COALESCE(network_traffic.dhcpv4.option.message_type, dhcpv4.option.message_type)),
-    #     Esql.transaction_id = COALESCE(network_traffic.dhcpv4.transaction_id, dhcpv4.transaction_id),
-    #     server_identifier = COALESCE(network_traffic.dhcpv4.option.server_identifier, dhcpv4.option.server_identifier)
+    #     message_type = TO_LOWER(COALESCE(
+    #         JSON_EXTRACT(_source, "network_traffic.dhcpv4.option.message_type"),
+    #         JSON_EXTRACT(_source, "dhcpv4.option.message_type")
+    #     )),
+    #     Esql.transaction_id = COALESCE(
+    #         JSON_EXTRACT(_source, "network_traffic.dhcpv4.transaction_id"),
+    #         JSON_EXTRACT(_source, "dhcpv4.transaction_id")
+    #     ),
+    #     server_identifier = COALESCE(
+    #         JSON_EXTRACT(_source, "network_traffic.dhcpv4.option.server_identifier"),
+    #         JSON_EXTRACT(_source, "dhcpv4.option.server_identifier")
+    #     )
     # | where message_type in ("offer", "ack") and Esql.transaction_id is not null and source.ip is not null
     # | eval Esql.time_window = DATE_TRUNC(30 seconds, @timestamp)
     # | stats

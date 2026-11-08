@@ -1,0 +1,49 @@
+title: Microsoft Graph Application Directory Reconnaissance with Denied Requests
+id: 62bc693b-62bc-42bc-a2bc-62bc693b0000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1087.004
+references:
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/azure/discovery_graph_application_directory_reconnaissance.toml
+author: elastic (via IncidentBuddy)
+date: 2026-11-08
+tags:
+  - attack.t1087.004
+logsource:
+  product: azure
+  service: activity_logs
+detection:
+  selection:
+    # Original elastic detection logic
+    # from logs-azure.graphactivitylogs-* metadata _id, _index
+    # | where data_stream.dataset == "azure.graphactivitylogs"
+    #   and azure.graphactivitylogs.properties.c_idtyp == "app"
+    #   and azure.tenant_id is not null and azure.tenant_id != ""
+    #   and azure.graphactivitylogs.properties.service_principal_id is not null
+    #   and azure.graphactivitylogs.properties.service_principal_id != ""
+    #   and http.request.method == "GET"
+    #   and http.response.status_code in (200, 403)
+    #   and url.path in (
+    #       "/v1.0/applications",
+    #       "/v1.0/servicePrincipals",
+    #       "/v1.0/users",
+    #       "/v1.0/groups",
+    #       "/v1.0/directoryRoles",
+    #       "/v1.0/roleManagement/directory/roleAssignments",
+    #       "/v1.0/oauth2PermissionGrants"
+    # )
+    # | eval Esql.time_window = date_trunc(15 minutes, @timestamp)
+    # | stats
+    #     Esql.request_count = count(*),
+    #     Esql.category_count = count_distinct(url.path),
+    #     Esql.denied_count = sum(case(http.response.status_code == 403, 1, 0)),
+    #     Esql.paths = values(url.path),
+    #     Esql.status_codes = values(http.response.status_code),
+    #     Esql.app_ids = values(azure.graphactivitylogs.properties.app_id),
+    #     Esql.source_ips = values(source.ip),
+    #     Esql.first_seen = min(@timestamp),
+    #     Esql.last_seen = max(@timestamp)
+    #   by Esql.time_window, azure.tenant_id, azure.graphactivitylogs.properties.service_principal_id
+    # | where Esql.category_count >= 3 and Esql.denied_count >= 1
+    # | keep azure.tenant_id, azure.graphactivitylogs.properties.service_principal_id, Esql.*
+  condition: selection
+level: medium

@@ -1,11 +1,11 @@
-title: Local System Accounts Discovery - Linux
-id: 3e4bc359-3e4b-4e4b-ae4b-3e4bc3590000
+title: Local System Accounts Discovery Attempt - Linux
+id: 36de8fc6-36de-46de-a6de-36de8fc60000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1087.001
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_local_account.yml
 author: sigma (via IncidentBuddy)
-date: 2026-11-01
+date: 2026-11-08
 tags:
   - attack.t1087.001
 logsource:
@@ -14,37 +14,56 @@ logsource:
 detection:
   selection:
     # Original sigma detection logic
-    #     selection_1:
-    #         Image|endswith: '/lastlog'
-    #     selection_2:
-    #         CommandLine|contains: '''x:0:'''
-    #     selection_3:
+    #     selection_lastlog:
+    #         Image|endswith:
+    #             - '/lastlog'
+    #             - '/last'
+    #             - '/lastb'
+    #     selection_root_string:
+    #         CommandLine|contains: 'x:0:'
+    #     selection_read_utilities:
     #         Image|endswith:
     #             - '/cat'
     #             - '/ed'
+    #             - '/emacs'
     #             - '/head'
+    #             - '/less'
+    #             - '/makemap'
     #             - '/more'
     #             - '/nano'
+    #             - '/sqlite3'
     #             - '/tail'
     #             - '/vi'
     #             - '/vim'
-    #             - '/less'
-    #             - '/emacs'
-    #             - '/sqlite3'
-    #             - '/makemap'
     #         CommandLine|contains:
     #             - '/etc/passwd'
     #             - '/etc/shadow'
     #             - '/etc/sudoers'
-    #             - '/etc/spwd.db'
-    #             - '/etc/pwd.db'
-    #             - '/etc/master.passwd'
-    #     selection_4:
+    #             - 'master.passwd'
+    #             - 'pwd.db'
+    #     selection_id:
     #         Image|endswith: '/id'
-    #     selection_5:
+    #     selection_lsof:
     #         Image|endswith: '/lsof'
     #         CommandLine|contains: '-u'
-    #     condition: 1 of selection*
+    #     selection_getent:
+    #         Image|endswith: '/getent'
+    #         CommandLine|contains:
+    #             - ' passwd'
+    #             - ' shadow'
+    #     selection_who:
+    #         Image|endswith:
+    #             - '/finger'
+    #             - '/users'
+    #             - '/w'
+    #             - '/who'
+    #     selection_ypcat:
+    #         Image|endswith: '/ypcat'
+    #         CommandLine|contains: 'passwd'
+    #     filter_optional_landscape_sysinfo:
+    #         ParentCommandLine|contains: '/usr/bin/landscape-sysinfo'
+    #         Image|endswith: '/who'
+    #     condition: 1 of selection_* and not 1 of filter_optional_*
     # 
   condition: selection
 level: medium

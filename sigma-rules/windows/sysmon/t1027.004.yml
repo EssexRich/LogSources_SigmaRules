@@ -1,0 +1,55 @@
+title: Linux Compiled C Source To Tmp
+id: 3b1bcf98-3b1b-4b1b-ab1b-3b1bcf980000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1027.004
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_compiled_c_source_to_tmp.yml
+author: splunk (via IncidentBuddy)
+date: 2026-11-08
+tags:
+  - attack.t1027.004
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `sysmon`
+    #     EventID=1
+    #     process_name IN (
+    #         "*clang*",
+    #         "*g++*",
+    #         "*gcc*",
+    #         "cc",
+    #         "cc1",
+    #         "cc1plus",
+    #         "tcc"
+    #     )
+    #     process IN (
+    #         "*.c *",
+    #         "*.c",
+    #         "*.c++",
+    #         "*.cc*",
+    #         "*.cpp*",
+    #         "*.cxx*"
+    #     )
+    # 
+    #     User!="root"
+    # 
+    #     | regex process="(?i)(?:^|\s)(?:-o|--output)(?:\s+|\=)[\x22\x27]?(?:\/tmp|\/var\/tmp|\/dev\/shm)(?:\/[^\/\\\s\x00\x22\x27\>\<\|\:\&]+){0,}\/[^\/\\\s\x00\x22\x27\>\<\|\:\&\.]+(?:\s|\x22|\;|\x27|$)"
+    # 
+    #     | fillnull
+    # 
+    #     | stats count min(_time) as firstTime
+    #                   max(_time) as lastTime
+    # 
+    #       BY process_name process User dest
+    # 
+    #     | rename User as user
+    # 
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `linux_compiled_c_source_to_tmp_filter`
+  condition: selection
+level: medium

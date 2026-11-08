@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1518.001
 references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_findstr_security_keyword_lookup.yml
 author: sigma (via IncidentBuddy)
-date: 2026-11-01
+date: 2026-11-08
 tags:
   - attack.t1518.001
 logsource:
@@ -21,36 +21,65 @@ detection:
     #         - OriginalFileName:
     #               - 'FIND.EXE'
     #               - 'FINDSTR.EXE'
-    #     selection_cli:
-    #         CommandLine|endswith:
+    #     selection_cli_contains:
+    #         CommandLine|contains:
     #             # Note: Add additional keywords to increase and enhance coverage
     #             # Note:
     #             #   We use the double quote variation because in cases of where the command is executed through cmd for example:
     #             #       cmd /c "tasklist | findstr virus"
-    #             #   Logging utilties such as Sysmon would capture the end quote as part of findstr execution
-    #             - ' avira'
+    #             #   Logging utilities such as Sysmon would capture the end quote as part of findstr execution
+    #             - ' aswidsagent '
+    #             - ' aswidsagent"'
+    #             - ' avast '
+    #             - ' avast"'
+    #             - ' avastui '
+    #             - ' avastui"'
+    #             - ' avg '
+    #             - ' avg"'
+    #             - ' avgui '
+    #             - ' avgui"'
+    #             - ' avira '
     #             - ' avira"'
-    #             - ' cb'
+    #             - ' avp '
+    #             - ' avp"'
+    #             - ' bdagent '
+    #             - ' bdagent"'
+    #             - ' bdservicehost '
+    #             - ' bdservicehost"'
+    #             - ' bitdefender '
+    #             - ' bitdefender"'
+    #             - ' cb '
     #             - ' cb"'
-    #             - ' cylance'
+    #             - ' cbdefense '
+    #             - ' cbdefense"'
+    #             - ' ccsvchst '
+    #             - ' ccsvchst"'
+    #             - ' carbonblack '
+    #             - ' carbonblack"'
+    #             - ' checkpoint '
+    #             - ' checkpoint"'
+    #             - ' cisco '
+    #             - ' cisco"'
+    #             - ' coreframeworkhost '
+    #             - ' coreframeworkhost"'
+    #             - ' cortex '
+    #             - ' cortex"'
+    #             - ' crow '
+    #             - ' crow"'
+    #             - ' csagent '
+    #             - ' csagent"'
+    #             - ' csfalcon '
+    #             - ' csfalcon"'
+    #             - ' cylance '
     #             - ' cylance"'
-    #             - ' defender'
-    #             - ' defender"'
-    #             - ' kaspersky'
-    #             - ' kaspersky"'
-    #             - ' kes'
-    #             - ' kes"'
-    #             - ' mc'
-    #             - ' mc"'
-    #             - ' sec'
-    #             - ' sec"'
-    #             - ' sentinel'
-    #             - ' sentinel"'
-    #             - ' symantec'
-    #             - ' symantec"'
-    #             - ' virus'
-    #             - ' virus"'
-    #     condition: all of selection_*
-    # 
+    #             - ' cylancesvc '
+    #             - ' cylancesvc"'
+    #             - ' cylanceui '
+    #             - ' cylanceui"'
+    #             - ' cyserver '
+    #             - ' cyserver"'
+    #             - ' cytray '
+    #             - 
+    # ... [truncated]
   condition: selection
 level: medium

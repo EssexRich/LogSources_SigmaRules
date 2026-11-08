@@ -1,11 +1,11 @@
-title: AWS EC2 Deprecated AMI Discovery
-id: 4c674a96-4c67-4c67-ac67-4c674a960000
+title: AWS EC2 Bulk User Data Enumeration
+id: 7d4a009e-7d4a-4d4a-ad4a-7d4a009e0000
 status: stable
 description: Detection rule for MITRE ATT&CK technique T1580
 references:
-  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_ec2_deprecated_ami_discovery.toml
+  - https://github.com/elastic/detection-rules/blob/main/rules/integrations/aws/discovery_ec2_bulk_user_data_enumeration.toml
 author: elastic (via IncidentBuddy)
-date: 2026-11-01
+date: 2026-11-08
 tags:
   - attack.t1580
 logsource:
@@ -14,10 +14,41 @@ logsource:
 detection:
   selection:
     # Original elastic detection logic
-    # data_stream.dataset: "aws.cloudtrail"
-    #     and event.provider: "ec2.amazonaws.com"
-    #     and event.action: "DescribeImages"
-    #     and event.outcome: "success"
-    #     and aws.cloudtrail.flattened.request_parameters.includeDeprecated: "true"
+    # from logs-aws.cloudtrail-*
+    # | where KQL("""event.provider: "ec2.amazonaws.com" and event.action: "DescribeInstanceAttribute" and event.outcome: "success" and aws.cloudtrail.flattened.request_parameters.attribute: "userData" and source.ip: * and source.as.organization.name: * and not user.name: (*CrowdStrikeCSPMReader* or *OrcaSecurityRole* or *AikidoSecurityRole* or *streamsec-*) and not aws.cloudtrail.user_identity.invoked_by: ("AWS Internal" or "cloudformation.amazonaws.com" or "aidevops.amazonaws.com" or "elasticmapreduce.amazonaws.com" or "aiops.amazonaws.com")""")
+    #   and not (
+    #     user_agent.original like "*Terraform*"
+    #     and source.as.organization.name in (
+    #       "Amazon.com, Inc.",
+    #       "Google LLC",
+    #       "Microsoft Corporation",
+    #       "Verizon Business",
+    #       "AT&T Enterprises, LLC"
+    #     )
+    #   )
+    # | grok aws.cloudtrail.request_parameters """instanceId=(?<Esql.instance_id>[^,}\]]+)"""
+    # | where Esql.instance_id is not null
+    # | stats
+    #     Esql.count_distinct_instance_id = count_distinct(Esql.instance_id),
+    #     Esql.aws_request_parameters_values = values(aws.cloudtrail.request_parameters),
+    #     Esql.user_agent_values = values(user_agent.original)
+    #   by
+    #     data_stream.namespace,
+    #     aws.cloudtrail.user_identity.arn,
+    #     aws.cloudtrail.user_identity.type,
+    #     source.as.organization.name,
+    #     source.ip, 
+    # 	source.`as`.number
+    # | where Esql.count_distinct_instance_id > 20
+    # | keep
+    #     Esql.count_distinct_instance_id,
+    #     data_stream.namespace,
+    #     aws.cloudtrail.user_identity.arn,
+    #     aws.cloudtrail.user_identity.type,
+    #     source.ip,
+    # 	source.`as`.number,
+    #     source.as.organization.name,
+    #     Esql.aws_request_parameters_values,
+    #     Esql.user_agent_values
   condition: selection
 level: medium

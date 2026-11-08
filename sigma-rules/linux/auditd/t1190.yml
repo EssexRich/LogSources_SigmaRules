@@ -1,0 +1,68 @@
+title: Linux Auditd Web or Application Server Spawning a Shell
+id: 6512d1e9-6512-4512-a512-6512d1e90000
+status: stable
+description: Detection rule for MITRE ATT&CK technique T1190
+references:
+  - https://github.com/splunk/security_content/blob/develop/detections/endpoint/linux_auditd_web_or_application_server_spawning_a_shell.yml
+author: splunk (via IncidentBuddy)
+date: 2026-11-08
+tags:
+  - attack.t1190
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    # Original splunk detection logic
+    # -
+    #     `linux_auditd`
+    #     type=SYSCALL
+    #     comm IN (
+    #         "apache*",
+    #         "bash",
+    #         "caddy",
+    #         "csh",
+    #         "dash",
+    #         "eshell",
+    #         "fish",
+    #         "httpd",
+    #         "ion",
+    #         "java",
+    #         "ksh",
+    #         "lighttpd",
+    #         "nginx",
+    #         "php*",
+    #         "rbash",
+    #         "sh",
+    #         "tcsh",
+    #         "tomcat*",
+    #         "zsh"
+    #     )
+    # 
+    #     | eval web_process=if(match(comm, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$"),exe,null())
+    #     | eval shell_process=if(match(comm, "^(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$"),exe,null())
+    # 
+    #     | eval web_process_name=if(match(comm, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$"),comm,null())
+    #     | eval shell_process_name=if(match(comm, "^(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$"),comm,null())
+    # 
+    #     | eval web_pid=if(match(comm, "^(apache.*|caddy|httpd|java|lighttpd|nginx|php.*|tomcat.*)$"),pid,null())
+    #     | eval shell_ppid=if(match(comm, "^(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$"),ppid,null())
+    #     | eval shell_pid=if(match(comm, "^(sh|ksh|zsh|bash|dash|rbash|fish|csh|tcsh|ion|eshell)$"),pid,null())
+    #     | eval parent_pid=coalesce(web_pid, shell_ppid)
+    # 
+    #     | stats count min(_time) as firstTime last(_time) as lastTime
+    #         values(web_process_name) as parent_process_name
+    #         values(web_process) as parent_process
+    #         values(shell_pid) as pid
+    #         values(shell_process_name) as process_name
+    #         values(shell_process) as process
+    #         by host parent_pid
+    # 
+    #     | rename host as dest
+    # 
+    #     | where isnotnull(parent_process) AND isnotnull(process)
+    #     | `security_content_ctime(firstTime)`
+    #     | `security_content_ctime(lastTime)`
+    #     | `linux_auditd_web_or_application_server_spawning_a_shell_filter`
+  condition: selection
+level: medium
