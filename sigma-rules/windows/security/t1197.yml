@@ -5,7 +5,7 @@ description: Detection rule for MITRE ATT&CK technique T1197
 references:
   - https://github.com/splunk/security_content/blob/develop/detections/endpoint/bits_job_persistence.yml
 author: splunk (via IncidentBuddy)
-date: 2026-11-08
+date: 2026-11-15
 tags:
   - attack.t1197
 logsource:
@@ -15,16 +15,31 @@ detection:
   selection:
     # Original splunk detection logic
     # -
-    #     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-    #       WHERE `process_bitsadmin` Processes.process IN (*create*, *addfile*, *setnotifyflags*, *setnotifycmdline*, *setminretrydelay*, *setcustomheaders*, *resume* )
-    #       BY Processes.action Processes.dest Processes.original_file_name
-    #          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-    #          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-    #          Processes.process Processes.process_exec Processes.process_guid
-    #          Processes.process_hash Processes.process_id Processes.process_integrity_level
-    #          Processes.process_name Processes.process_path Processes.user
-    #          Processes.user_id Processes.vendor_product
+    #     | tstats `security_content_summariesonly`
+    #       count min(_time) as firstTime
+    #             max(_time) as lastTime
+    # 
+    #     FROM datamodel=Endpoint.Processes WHERE
+    # 
+    #     `process_bitsadmin`
+    #     Processes.process="*/setnotifycmdline*"
+    # 
+    #     BY Processes.action Processes.dest Processes.original_file_name
+    #        Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+    #        Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    #        Processes.process Processes.process_exec Processes.process_guid
+    #        Processes.process_hash Processes.process_id Processes.process_integrity_level
+    #        Processes.process_name Processes.process_path Processes.user
+    #        Processes.user_id Processes.vendor_product
+    # 
     #     | `drop_dm_object_name(Processes)`
+    # 
+    #     | rex field=process "(?i)(?:^|\s)/setnotifycmdline[ \t]+(?<bits_job>\"[^\"]*\"|[^\s\"]+)[ \t]+(?<bits_notify_program>\"[^\"]*\"|[^\s\"]+)(?:[ \t]+(?<bits_notify_parameters>[^\r\n]*))?$"
+    # 
+    #     | where isnotnull(bits_notify_program)
+    #             AND
+    #             NOT match(bits_notify_program, "(?i)^(?:\"\"|\"?NULL\"?)$")
+    # 
     #     | `security_content_ctime(firstTime)`
     #     | `security_content_ctime(lastTime)`
     #     | `bits_job_persistence_filter`
